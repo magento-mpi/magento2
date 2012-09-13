@@ -61,11 +61,11 @@ class Mage_Api2_Controller_Router_Rest
         foreach ($this->getRoutes() as $route) {
             $params = $route->match($request);
             if ($params !== false) {
-                // TODO: Remove params set to $request
+                // TODO: Try to remove params set to $request
                 $request->setParams($params);
                 return $route;
             }
         }
-        throw new Mage_Api2_Exception('Request does not match any route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+        throw new Mage_Api2_Exception('Request does not match any route.', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 }

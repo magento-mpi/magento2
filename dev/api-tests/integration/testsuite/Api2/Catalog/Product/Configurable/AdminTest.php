@@ -44,7 +44,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         $configurable = $this->getFixture('product_configurable');
         $this->assertNotEmpty($configurable->getId(), "Configurable product fixture is invalid.");
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Response status is invalid.");
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Response status is invalid.");
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $configurable->getData();
@@ -91,7 +91,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
             'filter[0][eq][0]' => $configurable->getId(),
         );
         $restResponse = $this->callGet($this->_getResourcePath(), $requestParams);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $resultProducts = $restResponse->getBody();
         $this->assertEquals(1, count($resultProducts), "Invalid products quantity in response.");
         $responseData = reset($resultProducts);
@@ -409,7 +409,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         $response = $this->_tryToCreateProductWithApi($productData);
 
         // Validate outcome
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_CREATED, $response->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_CREATED, $response->getStatus(),
             'Unexpected HTTP Satus Code while creating configurable product.');
         $productId = $this->_getProductIdFromResponse($response);
 
@@ -426,7 +426,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
 
         $this->_checkSuccessMessagesInResponse($response, 'Subresource created.');
         $this->_checkErrorMessagesInResponse($response, 'configurable_associated_product: The product to be associated'
-            .' must have the same attribute set as the configurable one.', Mage_Api2_Model_Server::HTTP_CREATED);
+            .' must have the same attribute set as the configurable one.', Mage_Api2_Controller_Front_Rest::HTTP_CREATED);
 
         $this->assertNull(Mage::getModel('Mage_Catalog_Model_Product')->load($newSimpleProductData['sku'])->getId(),
             'Simple product should be deleted when assiging failed.');
@@ -642,7 +642,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
     protected function _testGetOnStore($configurable, $store)
     {
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId(), $store->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Response status is invalid.");
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Response status is invalid.");
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $configurable = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId($store->getId())

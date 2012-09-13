@@ -43,7 +43,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     public function testPost()
     {
         $restResponse = $this->callPost($this->_getResourcePath(), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -54,7 +54,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     public function testPut()
     {
         $restResponse = $this->callPut($this->_getResourcePath(Mage_Catalog_Model_Category::TREE_ROOT_ID), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -65,7 +65,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     public function testDelete()
     {
         $restResponse = $this->callDelete($this->_getResourcePath(Mage_Catalog_Model_Category::TREE_ROOT_ID), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -79,7 +79,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $category->getData();
@@ -103,7 +103,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $category = $this->getFixture('category_disabled');
 
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -119,7 +119,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $storeId = Mage::app()->getDefaultStoreView()->getId();
         // we are requesting category on the store that it's not assigned to
         $restResponse = $this->callGet($this->_getResourcePath($category->getId(), $storeId));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -136,7 +136,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $storeGroup = $this->getFixture('store_group');
         $storeId = reset($storeGroup->getStoreIds());
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeId));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $treeRootCategory = reset($responseData);
@@ -156,7 +156,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         /** @var $parentCategory Mage_Catalog_Model_Category */
         $parentCategory = reset($categoryTree);
         $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
@@ -182,7 +182,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         $categoryRoot = $this->getFixture('category_disabled');
 
         $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $categoryRoot->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -199,7 +199,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
         // we are requesting category tree on the store that it's not assigned to
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeId),
             array('root' => $categoryRoot->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**

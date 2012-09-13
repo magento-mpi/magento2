@@ -57,7 +57,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         $restResponse = $this->callGet($this->_getResourcePath(Mage_Catalog_Model_Category::TREE_ROOT_ID, 'product'));
         $expectedErrorMessage = "Request does not match any route.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -94,7 +94,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
     public function testListInvalidCategory()
     {
         $restResponse = $this->callGet($this->_getResourcePath('invalid_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -121,7 +121,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
 
         foreach ($assignedProducts as $assignedProduct) {
             $restResponse = $this->callPost($this->_getResourcePath($category->getId()), $assignedProduct);
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(),
+            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
                 "Invalid response code received.");
         }
 
@@ -169,7 +169,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
     {
         $assignedProduct = array('product_id' => 1);
         $restResponse = $this->callPost($this->_getResourcePath('invalid_id'), $assignedProduct);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -220,7 +220,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         $assignedProduct = array('product_id' => $product->getId(), 'position' => "999.9");
         $storeId = Mage::app()->getDefaultStoreView()->getId();
         $restResponse = $this->callPost($this->_getResourcePath($category->getId(), null, $storeId), $assignedProduct);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
             "Invalid response code received.");
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->setStoreId($storeId)->load($category->getId());
@@ -272,7 +272,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         );
         $restResponse = $this->callPost($this->_getResourcePath($categoryOnNewWebsite->getId(), null,
             Mage::app()->getDefaultStoreView()->getId()), reset($assignedProducts));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -293,7 +293,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         $dataForUpdate = array('position' => $updatedPosition);
 
         $restResponse = $this->callPut($this->_getResourcePath($category->getId(), $updatedProductId), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
@@ -313,7 +313,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         $product = $this->getFixture('product_simple');
         $assignedProducts = array('position' => 1);
         $restResponse = $this->callPut($this->_getResourcePath('invalid_id', $product->getId()), $assignedProducts);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -395,7 +395,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         unset($assignedProducts[$deletedProductId]);
 
         $restResponse = $this->callDelete($this->_getResourcePath($category->getId(), $deletedProductId));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
@@ -414,7 +414,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath('invalid_id', $product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -512,7 +512,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
         $assignedProducts = $category->getProductsPosition();
 
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $assignedProductsFromResponse = $restResponse->getBody();
         $this->assertInternalType('array', $assignedProductsFromResponse, 'Response has invalid format.');

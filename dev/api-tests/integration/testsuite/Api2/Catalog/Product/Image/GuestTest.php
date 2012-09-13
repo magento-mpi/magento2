@@ -61,7 +61,7 @@ class Api2_Catalog_Product_Image_GuestTest extends Magento_Test_Webservice_Rest_
         }
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         foreach ($fileNames as $index => $fileName) {
             $found = false;
@@ -121,7 +121,7 @@ class Api2_Catalog_Product_Image_GuestTest extends Magento_Test_Webservice_Rest_
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
         $body = $restResponse->getBody();
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $this->assertTrue(isset($body['label']));
         $this->assertTrue(isset($body['position']));
@@ -180,6 +180,6 @@ class Api2_Catalog_Product_Image_GuestTest extends Magento_Test_Webservice_Rest_
         $imageId = $gallery['images'][0]['value_id'];
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

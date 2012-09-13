@@ -38,7 +38,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getData();
@@ -59,7 +59,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $params = array('attrs' => implode(',', $attributesToGet));
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertEquals(count($attributesToGet), count($responseData));
         $originalData = $product->getData();
@@ -78,7 +78,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     public function testGetWithInvalidId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -97,7 +97,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $store = $this->getFixture('store_on_new_website');
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), $store->getCode()));
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -111,7 +111,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), 'INVALID_STORE'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -180,7 +180,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     {
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_invalid_data');
         $restResponse = $this->_tryToCreateProductWithApi($productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $expectedErrors = array(
             'SKU length should be 64 characters maximum.',
@@ -425,7 +425,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         // check if product was really deleted
         $deletedProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
         $this->assertEmpty($deletedProduct->getId());
@@ -439,7 +439,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     public function testDeleteWithInvalidId()
     {
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -500,16 +500,16 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $priceScope = array('global' => Mage_Catalog_Helper_Data::PRICE_SCOPE_GLOBAL,
             'website' => Mage_Catalog_Helper_Data::PRICE_SCOPE_WEBSITE);
         $priceDataSets = array(
-            array($allWebsitesId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_OK, true,
+            array($allWebsitesId, $priceScope['global'], Mage_Api2_Controller_Front_Rest::HTTP_OK, true,
                 'Data set: All websites, global scope'),
-            array($defaultWebsiteId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST, false,
+            array($defaultWebsiteId, $priceScope['global'], Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, false,
                 'Data set: Default website, global scope'),
-            array($invalidWebsiteId, $priceScope['global'], Mage_Api2_Model_Server::HTTP_BAD_REQUEST, false,
+            array($invalidWebsiteId, $priceScope['global'], Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, false,
                 'Data set: Invalid website, global scope'),
-            array($allWebsitesId, $priceScope['website'], Mage_Api2_Model_Server::HTTP_OK, true,
+            array($allWebsitesId, $priceScope['website'], Mage_Api2_Controller_Front_Rest::HTTP_OK, true,
                 'Data set: All websites, website scope'),
             // we can not check data as more than only Mage_Catalog_Helper_Data::XML_PATH_PRICE_SCOPE should be changed
-            array($defaultWebsiteId, $priceScope['website'], Mage_Api2_Model_Server::HTTP_OK, false,
+            array($defaultWebsiteId, $priceScope['website'], Mage_Api2_Controller_Front_Rest::HTTP_OK, false,
                 'Data set: Default website, website scope'),
         );
         $data = array();
@@ -536,7 +536,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $productDataForUpdate = array($attributeName => $attributeValue);
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         $this->assertEquals($expectedResponseCode, $restResponse->getStatus());
-        if ($expectedResponseCode == Mage_Api2_Model_Server::HTTP_OK) {
+        if ($expectedResponseCode == Mage_Api2_Controller_Front_Rest::HTTP_OK) {
             /** @var $updatedProduct Mage_Catalog_Model_Product */
             $updatedProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
             $this->assertEquals($attributeValue, $updatedProduct->getData($attributeName),
@@ -552,8 +552,8 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      */
     public function dataProviderTestUpdateAttributeWithSource()
     {
-        $statuses = array('bad_request' => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            'ok' => Mage_Api2_Model_Server::HTTP_OK);
+        $statuses = array('bad_request' => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            'ok' => Mage_Api2_Controller_Front_Rest::HTTP_OK);
         return array(
             array('visibility', (int)1, $statuses['ok']),
             array('visibility', (string)1, $statuses['ok']),
@@ -590,7 +590,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
             $productDataForUpdate[$attributeName] = $attributeValue;
         }
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         /** @var $updatedProduct Mage_Catalog_Model_Product */
         $updatedProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
         $this->assertTrue($expectedValue === $updatedProduct->getData($attributeName),
@@ -637,7 +637,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         unset($productDataForUpdate['attribute_set_id']);
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         /** @var $updatedProduct Mage_Catalog_Model_Product */
         $updatedProduct = Mage::getModel('Mage_Catalog_Model_Product')
             ->load($product->getId())
@@ -782,7 +782,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $testStore = $this->getFixture('store_on_new_website');
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), $testStore->getCode()),
             $productDataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         // Check if product data was updated on specified store
         /** @var $updatedProduct Mage_Catalog_Model_Product */
@@ -850,7 +850,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), 'INVALID_STORE'),
             $productDataForUpdate);
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -1041,7 +1041,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     public function testCollectionGetFromInvalidStore()
     {
         $restResponse = $this->callGet($this->_getResourcePath(null, 'INVALID_STORE'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -1053,7 +1053,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     {
         $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $location = $restResponse->getHeader('Location');
         list($productId) = array_reverse(explode('/', $location));

@@ -26,7 +26,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_CustomerTest extends M
     public function testList()
     {
         $restResponse = $this->callGet($this->_getResourcePath('configurable_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -37,7 +37,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_CustomerTest extends M
     public function testPost()
     {
         $restResponse = $this->callPost($this->_getResourcePath('configurable_id'), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -48,7 +48,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_CustomerTest extends M
     public function testDelete()
     {
         $restResponse = $this->callDelete($this->_getResourcePath('configurable_id', 'simple_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**

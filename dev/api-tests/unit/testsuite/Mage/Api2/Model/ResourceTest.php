@@ -172,8 +172,8 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testCriticalWithPredefinedMessage()
     {
-        $message = Mage_Api2_Model_Resource::RESOURCE_METHOD_NOT_ALLOWED;
-        $this->setExpectedException('Mage_Api2_Exception', $message, Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED);
+        $message = Mage_Api2_Controller_Front_Rest::RESOURCE_METHOD_NOT_ALLOWED;
+        $this->setExpectedException('Mage_Api2_Exception', $message, Mage_Api2_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED);
         $this->_resource->_critical($message);
     }
 
@@ -185,7 +185,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         try {
             $this->_resource->_critical('Unknown error message');
         } catch (Exception $e) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR, $e->getCode());
             return;
         }
         $this->fail('An expected exception has not been raised');

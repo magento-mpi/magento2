@@ -138,7 +138,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
         $this->setExpectedException(
             'Mage_Api2_Exception',
             sprintf('API type "%s" is not supported', $wrongApiType),
-            Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
         );
 
         $this->_config->getRoutes($wrongApiType);

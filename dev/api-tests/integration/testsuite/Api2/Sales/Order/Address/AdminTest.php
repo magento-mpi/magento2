@@ -44,7 +44,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
 
         //test billing
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses/billing');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -56,7 +56,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
 
         //test shipping
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses/shipping');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -75,10 +75,10 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
     public function testGetAddressForUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/invalid_id/addresses/billing');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $restResponse = $this->callGet('orders/invalid_id/addresses/shipping');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -93,7 +93,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
         $order = $this->getFixture('order');
 
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -128,6 +128,6 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
     {
         $restResponse = $this->callGet('orders/invalid_id/addresses');
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

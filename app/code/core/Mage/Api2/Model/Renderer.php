@@ -53,7 +53,7 @@ abstract class Mage_Api2_Model_Renderer
         if (null === $adapterPath) {
             throw new Mage_Api2_Exception(
                 'Server can not understand Accept HTTP header media type.',
-                Mage_Api2_Model_Server::HTTP_NOT_ACCEPTABLE
+                Mage_Api2_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
             );
         }
 

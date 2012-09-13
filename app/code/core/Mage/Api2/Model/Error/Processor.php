@@ -15,6 +15,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Refactor this class (it came from Magento 1)
 class Mage_Api2_Model_Error_Processor
 {
     /**

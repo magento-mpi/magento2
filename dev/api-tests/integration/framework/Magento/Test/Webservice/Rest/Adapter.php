@@ -237,12 +237,12 @@ class Magento_Test_Webservice_Rest_Adapter
                 'oauth_signature_method' => self::OAUTH_SIGNATURE_METHOD,
                 'oauth_timestamp'        => $utility->generateTimestamp(),
                 'oauth_version'          => self::OAUTH_VERSION,
-                'oauth_token'            => $this->_token->getToken(),
+//                'oauth_token'            => $this->_token->getToken(),
             );
             $oauthParams['oauth_signature'] = $utility->sign($params + $oauthParams,
                 self::OAUTH_SIGNATURE_METHOD,
                 $this->_consumer->getSecret(),
-                $this->_token->getSecret(),
+//                $this->_token->getSecret(),
                 $requestMethod,
                 $resourceUri
             );

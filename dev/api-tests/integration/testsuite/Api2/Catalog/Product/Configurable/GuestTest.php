@@ -38,7 +38,7 @@ class Api2_Catalog_Product_Configurable_GuestTest extends Api2_Catalog_Product_G
                 true, true, true);
         }
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
             "Response status is invalid.");
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);

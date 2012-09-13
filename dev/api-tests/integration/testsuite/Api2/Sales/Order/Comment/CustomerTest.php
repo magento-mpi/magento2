@@ -78,7 +78,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     public function testCreate()
     {
         $response = $this->callPost('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -97,7 +97,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
 
         $response = $this->callGet("orders/{$order->getId()}/comments");
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $response->getStatus());
         $this->assertCount(self::HISTORY_COUNT, $response->getBody());
     }
 
@@ -118,7 +118,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
 
         $response = $this->callGet("orders/{$order->getId()}/comments");
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $response->getStatus());
         $this->assertCount(self::HISTORY_COUNT, $response->getBody());
     }
 
@@ -133,7 +133,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
         $restResponse = $this->callGet("orders/{$fixtureOrder->getId()}/comments");
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -144,7 +144,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     public function testUpdate()
     {
         $response = $this->callPut('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -155,6 +155,6 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     public function testDelete()
     {
         $response = $this->callDelete('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

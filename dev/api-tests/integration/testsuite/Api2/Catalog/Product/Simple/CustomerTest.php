@@ -31,7 +31,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         $product = $this->getFixture('product_simple');
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getData();
@@ -127,7 +127,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         $params = array('attrs' => implode(',', $attributesToGet));
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertEquals(count($attributesToGet), count($responseData));
         $originalData = $product->getData();
@@ -146,7 +146,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     public function testGetWithInvalidId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -167,7 +167,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         Magento_Test_Webservice::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -186,7 +186,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         $stockItem->save();
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -205,7 +205,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         $store = $this->getFixture('store_on_new_website');
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), $store->getCode()));
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -221,7 +221,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), 'INVALID_STORE'));
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -235,7 +235,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -247,7 +247,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     {
         $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -335,6 +335,6 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     public function testCollectionGetFromInvalidStore()
     {
         $restResponse = $this->callGet($this->_getResourcePath(null, 'INVALID_STORE'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 }

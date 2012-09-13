@@ -67,7 +67,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     public function testMultiGetInvalidConfigurable()
     {
         $restResponse = $this->callGet($this->_getResourcePath('invalid_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -215,7 +215,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     {
         $associated = array('product_id' => 1);
         $restResponse = $this->callPost($this->_getResourcePath('invalid_id'), $associated);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -286,7 +286,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
         $associatedIds = $configurableType->getUsedProductIds($configurable);
         $associatedToBeUnassigned = reset($associatedIds);
         $restResponse = $this->callDelete($this->_getResourcePath($configurable->getId(), $associatedToBeUnassigned));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         /** @var $updatedConfigurable Mage_Catalog_Model_Product */
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());
         $configurableType = $updatedConfigurable->getTypeInstance();
@@ -325,7 +325,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath('invalid_id', $product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -376,7 +376,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
         $expectedIds = $configurableType->getUsedProductIds($configurable);
 
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $assignedProductsFromResponse = $restResponse->getBody();
         $assignedIds = array();
@@ -397,7 +397,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     protected function _assignSuccessful($configurable, $associatedData)
     {
         $restResponse = $this->callPost($this->_getResourcePath($configurable->getId()), $associatedData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
             "Invalid response code received.");
         /** @var $updatedConfigurable Mage_Catalog_Model_Product */
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());

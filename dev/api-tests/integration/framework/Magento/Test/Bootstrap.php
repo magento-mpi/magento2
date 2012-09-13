@@ -498,9 +498,6 @@ class Magento_Test_Bootstrap
         }
         file_put_contents($targetLocalXml, $localXml, LOCK_EX);
 
-        /* Add predefined admin user to the system */
-        $this->_createAdminUser();
-
         /* Make a database backup to be able to restore it to initial state any time */
         $this->_db->createBackup(self::DB_BACKUP_NAME);
 
@@ -538,40 +535,6 @@ class Magento_Test_Bootstrap
             $result = array_merge($result, $files);
         }
         return $result;
-    }
-
-    /**
-     * Creates predefined admin user to be used by tests, where admin session is required
-     */
-    protected function _createAdminUser()
-    {
-        $user = new Mage_User_Model_User();
-        $user->loadByUsername(self::ADMIN_NAME);
-        if ($user->getId()) {
-            return;
-        }
-        $user->setData(array(
-            'firstname' => 'firstname',
-            'lastname'  => 'lastname',
-            'email'     => 'admin@example.com',
-            'username'  => self::ADMIN_NAME,
-            'password'  => self::ADMIN_PASSWORD,
-            'is_active' => 1
-        ));
-        $user->save();
-
-        $roleAdmin = new Mage_User_Model_Role();
-        $roleAdmin->load('Administrators', 'role_name');
-
-        $roleUser = new Mage_User_Model_Role();
-        $roleUser->setData(array(
-            'parent_id'  => $roleAdmin->getId(),
-            'tree_level' => $roleAdmin->getTreeLevel() + 1,
-            'role_type'  => Mage_User_Model_Acl_Role_User::ROLE_TYPE,
-            'user_id'    => $user->getId(),
-            'role_name'  => $user->getFirstname(),
-        ));
-        $roleUser->save();
     }
 
     /**

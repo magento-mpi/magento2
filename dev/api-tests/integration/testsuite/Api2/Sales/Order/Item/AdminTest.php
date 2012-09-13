@@ -47,7 +47,7 @@ class Api2_Sales_Order_Item_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureOrder = $this->getFixture('order');
 
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/items');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -71,6 +71,6 @@ class Api2_Sales_Order_Item_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testGetItemsForUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/invalid_id/items');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

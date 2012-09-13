@@ -56,7 +56,7 @@ class Mage_Api2_Helper_Rest extends Mage_Core_Helper_Abstract
             if (!isset($errors[$message])) {
                 throw new Exception(
                     sprintf('Invalid error "%s" or error code missed.', $message),
-                    Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+                    Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
                 );
             }
             $code = $errors[$message];
@@ -72,19 +72,19 @@ class Mage_Api2_Helper_Rest extends Mage_Core_Helper_Abstract
     protected function _getCriticalErrors()
     {
         return array(
-            '' => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_NOT_FOUND => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
-            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
+            '' => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_NOT_FOUND => Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND,
+            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR,
+            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST,
         );
     }
 }

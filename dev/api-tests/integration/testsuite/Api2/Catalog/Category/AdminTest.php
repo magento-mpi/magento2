@@ -58,7 +58,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $category->getData();
@@ -83,7 +83,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId(), $store->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $inequalFields = array('custom_design_apply', 'path_ids');
@@ -101,7 +101,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testGetInvalidId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -116,7 +116,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $parentCategory Mage_Catalog_Model_Category */
         $parentCategory = reset($categoryTree);
         $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
@@ -174,7 +174,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testPostInvalidData($testData)
     {
         $restResponse = $this->callPost($this->_getResourcePath(), $testData['data']);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -250,7 +250,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $categoryData = $this->_getValidCategoryData();
         $categoryData['parent_id'] = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callPost($this->_getResourcePath(null, $store->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
 
         $body = $restResponse->getBody();
@@ -364,7 +364,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callPut($this->_getResourcePath($category->getId()), $testData['data']);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -592,7 +592,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $restResponse = $this->callPut($this->_getResourcePath('INVALID_ID'), array('parent_id' => 1));
         $expectedErrorMessage = "Resource not found.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -666,7 +666,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID'));
         $expectedErrorMessage = "Resource not found.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -677,7 +677,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     protected function _deleteCategoryViaRest($categoryId)
     {
         $restResponse = $this->callDelete($this->_getResourcePath($categoryId));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
         $deletedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
         $this->assertNull($deletedCategory->getId(), "Category was not deleted.");
     }
@@ -1084,7 +1084,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     protected function _createCategoryWithPost($categoryData, $storeId = null)
     {
         $restResponse = $this->callPost($this->_getResourcePath(null, $storeId), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
         /** @var $createdCategory Mage_Catalog_Model_Category */
         $createdCategory = Mage::getModel('Mage_Catalog_Model_Category');
         if (!is_null($storeId)) {
@@ -1107,7 +1107,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     protected function _updateCategoryWithPut($categoryId, $categoryData, $storeId = null)
     {
         $restResponse = $this->callPut($this->_getResourcePath($categoryId, $storeId), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
     }
 
     /**

@@ -15,6 +15,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Try to merge API2 response with Mage_Core_Controller_Response_Http to have the single class
 class Mage_Api2_Model_Response extends Zend_Controller_Response_Http
 {
     /**

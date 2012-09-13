@@ -58,7 +58,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -84,7 +84,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
@@ -209,7 +209,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
         unset($imageData['file_content']);
@@ -371,7 +371,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         list($file, $fileFixture) = $this->_getImageFixture();
         $imageId = $this->_addImage($product, $fileFixture, $imageData);
         $restResponse = $this->callPut('products/' . $product->getId() . '/images/' . $imageId, $updateImageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
@@ -398,7 +398,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         list($file, $fileFixture) = $this->_getImageFixture();
         $imageId = $this->_addImage($product, $fileFixture, $createImageData);
         $restResponse = $this->callPut('products/' . $product->getId() . '/images/' . $imageId, $updateImageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
@@ -530,7 +530,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $imageId = $this->_addImage($product, $fileFixture, $imageData);
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/' . $store->getId();
         $restResponse = $this->callPut($resourceUri, $updateImageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
@@ -590,7 +590,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         }
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $body = $restResponse->getBody();
         foreach ($fileNames as $key => $fileName) {
             $found = false;
@@ -624,7 +624,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
         $body = $restResponse->getBody();
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $this->_checkImageData($imageData, $body);
     }
@@ -647,7 +647,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $imageId = $this->_addImage($product, $fileFixture, $imageData);
 
         $restResponse = $this->callDelete('products/' . $product->getId() . '/images/' . $imageId);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($product->getId());
@@ -706,7 +706,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $store = self::getFixture('store');
         $resourceUri = 'products/' . $product->getId() . '/images/store/' . $store->getId();
         $restResponse = $this->callPost($resourceUri, $imageData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         // check image data on defined store
         /* @var $product Mage_Catalog_Model_Product */
@@ -759,7 +759,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/0';
         $restResponse = $this->callGet($resourceUri);
         $body = $restResponse->getBody();
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $this->_checkImageData($imageData, $body);
 
@@ -767,7 +767,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/' . $store->getId();
         $restResponse = $this->callGet($resourceUri);
         $body = $restResponse->getBody();
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         // types in non admin store are equal to admin store by default
         // so if we set to non admin store some type, result will be merged with types of admin store
@@ -784,7 +784,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
     {
         $resourceUri = 'products/12099999/images/';
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -806,7 +806,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
 
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/12099999';
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -831,7 +831,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
 
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/' . $store->getId();
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
 

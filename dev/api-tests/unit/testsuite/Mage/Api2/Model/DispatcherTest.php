@@ -147,7 +147,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $this->setExpectedException(
             'Mage_Api2_Exception',
             sprintf('Invalid version "%s" requested.', $invalidVersion),
-            Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+            Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
         );
 
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);

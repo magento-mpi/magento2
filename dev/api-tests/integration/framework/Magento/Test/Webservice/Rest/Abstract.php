@@ -169,7 +169,7 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
     protected function _checkErrorMessagesInResponse($restResponse, $expectedMessages, $expectedCode = null)
     {
         $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
-        $expectedCode = $expectedCode ? $expectedCode : Mage_Api2_Model_Server::HTTP_BAD_REQUEST;
+        $expectedCode = $expectedCode ? $expectedCode : Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST;
         $this->assertEquals($expectedCode, $restResponse->getStatus(),
             "Invalid response code");
         $body = $restResponse->getBody();

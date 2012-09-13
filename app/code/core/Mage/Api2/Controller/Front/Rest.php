@@ -17,6 +17,28 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     const BASE_ACTION_CONTROLLER = 'Mage_Api2_Controller_Rest_ActionAbstract';
 
     /**#@+
+     * Version limits
+     */
+    const VERSION_MIN = 1;
+    const VERSION_MAX = 200;
+    /**#@-*/
+
+    /**#@+
+     * HTTP Response Codes
+     */
+    const HTTP_OK                 = 200;
+    const HTTP_CREATED            = 201;
+    const HTTP_MULTI_STATUS       = 207;
+    const HTTP_BAD_REQUEST        = 400;
+    const HTTP_UNAUTHORIZED       = 401;
+    const HTTP_FORBIDDEN          = 403;
+    const HTTP_NOT_FOUND          = 404;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_NOT_ACCEPTABLE     = 406;
+    const HTTP_INTERNAL_ERROR     = 500;
+    /**#@- */
+
+    /**#@+
      * Resource types
      */
     const RESOURCE_TYPE_ITEM = 'item';
@@ -32,17 +54,40 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     const HTTP_METHOD_DELETE = 'delete';
     /**#@-*/
 
-    const DEFAULT_METHOD_VERSION = 1;
+    /**#@+
+     *  Default error messages
+     */
+    const RESOURCE_NOT_FOUND = 'Resource not found.';
+    const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
+    const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
+    const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
+    const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
+    const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
+    const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
+    const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
+    /**#@-*/
+
+    /**#@+
+     *  Default collection resources error messages
+     */
+    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
+    /**#@-*/
+
+    /**#@+
+     *  Default success messages
+     */
+    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
+    /**#@-*/
+
 
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
     /** @var string */
     protected $_baseActionController;
-
-    /**
-     * @var Mage_Api2_Model_Auth_User_Abstract
-     */
-    protected $_authUser;
 
     /**
      * @var Mage_Api2_Model_Renderer_Interface
@@ -51,6 +96,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
     /** @var Mage_Api2_Model_Config_Rest */
     protected $_restConfig;
+
+    /** @var Mage_Api2_Controller_Front_Rest_Presentation */
+    protected $_presentation;
 
     /**
      * Extend parent with REST specific config initialization and server errors processing mechanism initialization
@@ -67,6 +115,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
+        $this->_presentation = Mage::getModel('Mage_Api2_Controller_Front_Rest_Presentation', $this);
         return $this;
     }
 
@@ -76,20 +125,24 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     public function dispatch()
     {
         try {
-            $role = $this->_authenticate($this->getRequest());
+        // TODO: Introduce Authentication and Authorization
+//            $role = $this->_authenticate($this->getRequest());
 
             $route = $this->_matchRoute($this->getRequest());
-            $this->_checkResourceAcl($role, $route->getResourceName());
+            $this->getRequest()->setResourceName($route->getResourceName());
+            $this->getRequest()->setResourceType($route->getResourceType());
+//            $this->_checkResourceAcl($role, $route->getResourceName());
 
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $action = $this->_getActionName($route->getResourceType());
-            if (!$controllerInstance->hasAction($action)) {
-                // TODO: Think about better messages
-                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
-            }
+            $method = $this->_getMethodName($route->getResourceType());
             // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $controllerInstance->$action();
+            $action = $method . $this->_getAvailableMethodSuffix($method, $controllerInstance);
+
+            $inputData = $this->_presentation->fetchRequestData($method);
+//            $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
+            $outputData = $controllerInstance->$action($inputData);
+            $this->_presentation->prepareResponse($method, $outputData);
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_addException($e);
@@ -122,7 +175,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      * @param string $resourceType
      * @return string
      */
-    protected function _getActionName($resourceType)
+    protected function _getMethodName($resourceType)
     {
         $restMethodsMap = array(
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
@@ -140,8 +193,32 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
-        $methodVersion = ($this->_getVersion() != self::DEFAULT_METHOD_VERSION) ? $this->_getVersion() : '';
-        return $methodName . $methodVersion;
+        return $methodName;
+    }
+
+    /**
+     * Find the most appropriate version suffix for the requested action.
+     *
+     * If there is no action with requested version, fallback mechanism is used.
+     * If there is no appropriate action found after fallback - exception is thrown.
+     *
+     * @param string $methodName
+     * @param Mage_Api2_Controller_Rest_ActionAbstract $controllerInstance
+     * @return string
+     * @throws Mage_Api2_Exception|Exception
+     */
+    protected function _getAvailableMethodSuffix($methodName, $controllerInstance)
+    {
+        $methodVersion = $this->_getVersion();
+        while ($methodVersion >= self::VERSION_MIN) {
+            $methodSuffix = 'V' . $methodVersion;
+            if ($controllerInstance->hasAction($methodName . $methodSuffix)) {
+                return $methodSuffix;
+            }
+            $methodVersion--;
+        }
+        // TODO: Think about better messages
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
     }
 
     /**
@@ -152,17 +229,24 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getVersion()
     {
-        /** @var Mage_Api2_Model_Request $request */
-        $request = $this->getRequest();
-        $requestedVersion = $request->getVersion();
-        if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
-            throw new Mage_Api2_Exception(
-                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+//        /** @var Mage_Api2_Model_Request $request */
+//        $request = $this->getRequest();
+//        $requestedVersion = $request->getVersion();
+//        if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
+//            throw new Mage_Api2_Exception(
+//                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
+//                Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
+//            );
+//        }
+        // TODO: Implement versioning
+        $version = 1;
+        if ($version > self::VERSION_MAX) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(
+                Mage::helper('Mage_Api2_Helper_Data')->__("Resource version cannot exceed %s", self::VERSION_MAX),
+                Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
             );
         }
-        // TODO: Implement versioning
-        return '';
+        return (int)$version;
     }
 
     /**
@@ -192,7 +276,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      *
      * @throws Mage_Api2_Exception
      * @param Mage_Api2_Model_Request $request
-     * @return Mage_Api2_Model_Auth_User_Abstract
+     * @return string
      */
     protected function _authenticate(Mage_Api2_Model_Request $request)
     {
@@ -201,37 +285,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
             $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
             $consumerKey = $oauthServer->authenticateTwoLeggedRest();
         } catch (Exception $e) {
-            throw new Mage_Api2_Exception($oauthServer->reportProblem($e), Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
+            throw new Mage_Api2_Exception($oauthServer->reportProblem($e), Mage_Api2_Controller_Front_Rest::HTTP_UNAUTHORIZED);
         }
         // TODO: implement consumer role loading
         return $consumerKey;
-    }
-
-    /**
-     * Set auth user
-     *
-     * @throws Exception
-     * @param Mage_Api2_Model_Auth_User_Abstract $authUser
-     * @return Mage_Api2_Controller_Front_Rest
-     */
-    protected function _setAuthUser(Mage_Api2_Model_Auth_User_Abstract $authUser)
-    {
-        $this->_authUser = $authUser;
-        return $this;
-    }
-
-    /**
-     * Retrieve existing auth user
-     *
-     * @throws Exception
-     * @return Mage_Api2_Model_Auth_User_Abstract
-     */
-    protected function _getAuthUser()
-    {
-        if (!$this->_authUser) {
-            throw new Exception("Auth User is not initialized.");
-        }
-        return $this->_authUser;
     }
 
     /**
@@ -259,9 +316,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
         } catch (Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
             // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
-            $httpCode = $e->getCode() == Mage_Api2_Model_Server::HTTP_NOT_ACCEPTABLE
-                ? Mage_Api2_Model_Server::HTTP_NOT_ACCEPTABLE
-                : Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR;
+            $httpCode = $e->getCode() == Mage_Api2_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
+                ? Mage_Api2_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
+                : Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
 
             //if error appeared in "error rendering" process then use error renderer
             $this->_renderInternalError($e->getMessage() . PHP_EOL . $e->getTraceAsString(), $httpCode);
@@ -302,8 +359,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
                 $message = $exception->getMessage();
                 $trace = $exception->getTraceAsString();
             } else {
-                $code = Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR;
-                $message = Mage_Api2_Model_Resource::RESOURCE_INTERNAL_ERROR;
+                $code = Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
+                $message = Mage_Api2_Controller_Front_Rest::RESOURCE_INTERNAL_ERROR;
                 $trace = $exception->getMessage() . PHP_EOL . $exception->getTraceAsString();
             }
             $messageData = array('code' => $code, 'message' => $message);
@@ -334,19 +391,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
             $this->_renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
         }
         return $this->_renderer;
-    }
-
-    /**
-     * Make internal call to api
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @param Mage_Api2_Model_Response $response
-     * @return Mage_Api2_Model_Response
-     */
-    // TODO: Think how to implement internal call according to the new architecture
-    // TODO: Currently is used in Mage_Api2_Model_Multicall::_internalCall()
-    public function internalCall(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
-    {
     }
 
     /**

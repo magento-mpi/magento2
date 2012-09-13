@@ -48,7 +48,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -91,14 +91,14 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForCreate[$attributeCode]);
 
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
 
         foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $error['code']);
         }
     }
 
@@ -120,14 +120,14 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate[$attributeCode] = NULL;
 
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
 
         foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $error['code']);
         }
     }
 
@@ -146,7 +146,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForCreate['country_id'] = array('testsdata');
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -168,7 +168,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForCreate['country_id'] = '   ';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -190,7 +190,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForCreate['country_id'] = '_C';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -213,7 +213,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate['country_id'] = 'US'; // for US region is required
         unset($dataForCreate['region']);
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -236,7 +236,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate['country_id'] = 'US'; // for US region is required
         $dataForCreate['region'] = 123;
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -259,7 +259,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate['country_id'] = 'US'; // for US region is required
         $dataForCreate['region'] = 'INVALID_REGION';
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -282,7 +282,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate['country_id'] = 'UA'; // for UA region is not required
         $dataForCreate['region'] = 123;
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -311,7 +311,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForCreate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -336,7 +336,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -362,7 +362,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureCustomer = $this->getFixture('customer');
 
         $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -393,7 +393,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -434,7 +434,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -476,7 +476,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'US'; // for US region is required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -497,7 +497,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -518,7 +518,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -541,7 +541,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -563,7 +563,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
         unset($dataForUpdate['region']);
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -586,14 +586,14 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate[$attributeCode] = NULL;
 
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
         $this->assertGreaterThanOrEqual(1, count($responseData['messages']['error']));
 
         foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $error['code']);
+            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $error['code']);
         }
     }
 
@@ -614,7 +614,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForUpdate['country_id'] = array('testsdata');
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -638,7 +638,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForUpdate['country_id'] = '   ';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -662,7 +662,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         $dataForUpdate['country_id'] = '_C';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -688,7 +688,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'US'; // for US region is required
         unset($dataForUpdate['region']);
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -713,7 +713,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'US'; // for US region is required
         $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -738,7 +738,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
         $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -763,7 +763,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'US'; // for US region is required
         $dataForUpdate['region'] = 'INVALID_REGION';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -788,7 +788,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
         $dataForUpdate['region'] = 'INVALID_REGION';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -813,7 +813,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
         $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -839,7 +839,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
         $dataForUpdate['region'] = 123;
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -870,7 +870,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $dataForUpdate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -894,7 +894,7 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($fixtureCustomerAddress->getId());
@@ -914,15 +914,15 @@ class Api2_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Admin
 
         // get
         $restResponse = $this->callGet('customers/addresses/invalid_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         // put
         $restResponse = $this->callPut('customers/addresses/invalid_id', $data);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         // delete
         $restResponse = $this->callDelete('customers/addresses/invalid_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**

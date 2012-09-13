@@ -100,10 +100,10 @@ class Mage_Api2_Model_Request_Uploader_File
             $this->_filesystemAdapter->write($this->_uploadedFileName, $fileContent, self::CREATED_FILE_PERMISSIONS);
             unset($fileContent);
         } catch (Mage_Core_Exception $e) {
-            throw new Mage_Api2_Exception($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            throw new Mage_Api2_Exception($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             Mage::logException($e);
-            throw new Mage_Api2_Exception('Resource unknown error.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            throw new Mage_Api2_Exception('Resource unknown error.', Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         }
         $this->_uploadedFilePath = $this->_uploadDirectory . DS . $this->_uploadedFileName;
         return $this->_uploadedFilePath;
@@ -193,21 +193,21 @@ class Mage_Api2_Model_Request_Uploader_File
     {
         if (!is_array($fileData)) {
             throw new Mage_Api2_Exception("File data is expected to be an array.",
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         if (!isset($fileData['file_content']) || empty($fileData['file_content'])) {
-            throw new Mage_Api2_Exception("'file_content' is not specified.", Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception("'file_content' is not specified.", Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         if (!isset($fileData['file_mime_type']) || empty($fileData['file_mime_type'])) {
             throw new Mage_Api2_Exception("'file_mime_type' is not specified.",
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         // if MIME type is invalid exception will be thrown
         $this->_getExtensionByMimeType($fileData['file_mime_type']);
         $fileContent = @base64_decode($fileData['file_content'], true);
         if (!$fileContent) {
             throw new Mage_Api2_Exception('File content must be base64 encoded.',
-                Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
     }
 
@@ -242,7 +242,7 @@ class Mage_Api2_Model_Request_Uploader_File
     protected function _getExtensionByMimeType($mimeType)
     {
         if (!is_string($mimeType) || !array_key_exists($mimeType, $this->_mimeTypes)) {
-            throw new Mage_Api2_Exception('Unsuppoted file MIME type', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Unsuppoted file MIME type', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         return '.' . $this->_mimeTypes[$mimeType];
     }

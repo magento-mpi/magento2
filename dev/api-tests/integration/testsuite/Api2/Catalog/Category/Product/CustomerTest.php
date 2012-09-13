@@ -26,7 +26,7 @@ class Api2_Catalog_Category_Product_CustomerTest extends Magento_Test_Webservice
     public function testGet()
     {
         $restResponse = $this->callGet($this->_getResourcePath(Mage_Catalog_Model_Category::TREE_ROOT_ID, 'product'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -38,7 +38,7 @@ class Api2_Catalog_Category_Product_CustomerTest extends Magento_Test_Webservice
     {
         $categoryId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callGet($this->_getResourcePath($categoryId));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -50,7 +50,7 @@ class Api2_Catalog_Category_Product_CustomerTest extends Magento_Test_Webservice
     {
         $categoryId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callPost($this->_getResourcePath($categoryId), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -62,7 +62,7 @@ class Api2_Catalog_Category_Product_CustomerTest extends Magento_Test_Webservice
     {
         $categoryId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callPut($this->_getResourcePath($categoryId, 'product_id'), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -74,7 +74,7 @@ class Api2_Catalog_Category_Product_CustomerTest extends Magento_Test_Webservice
     {
         $categoryId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callDelete($this->_getResourcePath($categoryId, 'product_id'));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**

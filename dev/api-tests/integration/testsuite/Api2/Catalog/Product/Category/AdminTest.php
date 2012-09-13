@@ -54,7 +54,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -78,10 +78,10 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $restResponse2 = $this->callPost($this->_getResourcePath($product->getId()), $categoryCreatedData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse2->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse2->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -148,7 +148,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -162,7 +162,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
 
         $restResponse = $this->callPost($this->_getResourcePath('INVALID_PRODUCT'), $categoryData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -221,7 +221,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
         self::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getCategoryIds();
@@ -239,7 +239,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -259,7 +259,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
             ->save();
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -279,7 +279,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
         $categoryData = $this->_loadCategoryFixtureData('product_category_data');
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID', $categoryData['category_id']));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -297,7 +297,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
         $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**

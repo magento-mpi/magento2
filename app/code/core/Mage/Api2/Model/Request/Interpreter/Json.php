@@ -33,10 +33,10 @@ class Mage_Api2_Model_Request_Interpreter_Json implements Mage_Api2_Model_Reques
         try {
             $decoded = Zend_Json::decode($body);
         } catch (Zend_Json_Exception $e) {
-            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         if ($body != 'null' && $decoded === null) {
-            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Decoding error.', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
 
         return $decoded;

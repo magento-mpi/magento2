@@ -98,7 +98,7 @@ abstract class Api2_Catalog_Product_Abstract extends Magento_Test_Webservice_Res
         }
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
@@ -165,7 +165,7 @@ abstract class Api2_Catalog_Product_Abstract extends Magento_Test_Webservice_Res
         $storeCode = null)
     {
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeCode));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $resultProducts = $restResponse->getBody();
         $this->assertGreaterThanOrEqual($expectedProductsCount, count($resultProducts),
             "Not all products were found in response");

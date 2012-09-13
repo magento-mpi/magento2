@@ -59,7 +59,7 @@ class Api2_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservice
         self::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getCategoryIds();
@@ -77,7 +77,7 @@ class Api2_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservice
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Api2_Model_Server::HTTP_NOT_FOUND);
+            Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND);
     }
 
     /**
@@ -105,7 +105,7 @@ class Api2_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservice
 
         $category->setStoreId(0)->setData('is_active', 1)->save();
 
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
@@ -126,7 +126,7 @@ class Api2_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservice
     public function testDelete()
     {
         $restResponse = $this->callDelete($this->_getResourcePath(1, 1));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -137,7 +137,7 @@ class Api2_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservice
     public function testCreate()
     {
         $restResponse = $this->callPost($this->_getResourcePath(1), array());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**

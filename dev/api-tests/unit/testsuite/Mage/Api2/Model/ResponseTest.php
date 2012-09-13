@@ -16,7 +16,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
 {
     protected $_messageFixture = array(
         'message' => 'test message',
-        'code'    => Mage_Api2_Model_Server::HTTP_OK,
+        'code'    => Mage_Api2_Controller_Front_Rest::HTTP_OK,
         'param1'  => 'param1',
         'param2'  => 'param2'
     );

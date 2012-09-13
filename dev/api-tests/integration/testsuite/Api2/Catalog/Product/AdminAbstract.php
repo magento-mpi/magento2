@@ -22,26 +22,6 @@ abstract class Api2_Catalog_Product_AdminAbstract extends Api2_Catalog_Product_A
     protected $_userType = 'admin';
 
     /**
-     * Prepare ACL
-     */
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        require TEST_FIXTURE_DIR . '/Acl/admin_acl.php';
-    }
-
-    /**
-     * Delete acl fixture after test case
-     */
-    public static function tearDownAfterClass()
-    {
-        Magento_Test_Webservice::setFixture('admin_acl_is_prepared', false);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Create product with API
      *
      * @param array $productData
@@ -50,7 +30,7 @@ abstract class Api2_Catalog_Product_AdminAbstract extends Api2_Catalog_Product_A
     protected function _createProductWithApi($productData)
     {
         $restResponse = $this->_tryToCreateProductWithApi($productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), 'Could not create product.');
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not create product.');
 
         return $this->_getProductIdFromResponse($restResponse);
     }
@@ -91,7 +71,7 @@ abstract class Api2_Catalog_Product_AdminAbstract extends Api2_Catalog_Product_A
     protected function _updateProductWithApi($productId, $productData, $store = null)
     {
         $restResponse = $this->_tryToUpdateProductWithApi($productId, $productData, $store);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), 'Could not update product.');
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not update product.');
 
         return $restResponse;
     }
@@ -155,7 +135,7 @@ abstract class Api2_Catalog_Product_AdminAbstract extends Api2_Catalog_Product_A
             'filter[0][gteq][0]' => $firstProductExpectedData['entity_id'],
         );
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeCode), $requestParams);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
         $resultProducts = $restResponse->getBody();
         $this->assertEquals(count($products), count($resultProducts), "Invalid products number in response");
 

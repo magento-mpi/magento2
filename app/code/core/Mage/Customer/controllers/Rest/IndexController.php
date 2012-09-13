@@ -34,21 +34,10 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      * Create customer
      *
      * @param array $data
-     * @return string
+     * @return Mage_Customer_Model_Customer
      */
-    protected function _create(array $data)
+    public function createV1(array $data)
     {
-        /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array('resource' => $this));
-
-        $data = $validator->filter($data);
-        if (!$validator->isValidData($data)) {
-            foreach ($validator->getErrors() as $error) {
-                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setData($data);
@@ -56,12 +45,12 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         try {
             $customer->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            $this->_error($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
 
-        return $this->_getLocation($customer);
+        return $customer;
     }
 
     /**
@@ -69,7 +58,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      *
      * @return array
      */
-    protected function _retrieveCollection()
+    public function multiGetV1()
     {
         $data = $this->_getCollectionForRetrieve()->load()->toArray();
         return isset($data['items']) ? $data['items'] : $data;
@@ -81,30 +70,58 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      * @param array $data
      * @throws Mage_Api2_Exception
      */
-    protected function _update(array $data)
+    public function updateV1(array $data)
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
-        /** @var $validator Mage_Api2_Model_Resource_Validator_Eav */
-        $validator = Mage::getResourceModel('Mage_Api2_Model_Resource_Validator_Eav', array('resource' => $this));
-
-        $data = $validator->filter($data);
-
-        unset($data['website_id']); // website is not allowed to change
-
-        if (!$validator->isValidData($data, true)) {
-            foreach ($validator->getErrors() as $error) {
-                $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
-            }
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_DATA_PRE_VALIDATION_ERROR);
-        }
-
         $customer->addData($data);
-
         try {
             $customer->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            $this->_error($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
+        } catch (Exception $e) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
+        }
+    }
+
+
+    /**
+     * Retrieve information about customer
+     * Add last logged in datetime
+     *
+     * @throws Mage_Api2_Exception
+     * @return array
+     */
+    public function getV1($customerId)
+    {
+        /** @var $log Mage_Log_Model_Customer */
+        $log = Mage::getModel('Mage_Log_Model_Customer');
+        $log->loadByCustomer($customerId);
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($customerId);
+        $data = $customer->getData();
+        $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
+
+        $lastLoginAt = $log->getLoginAt();
+        if (null !== $lastLoginAt) {
+            $data['last_logged_in'] = $lastLoginAt;
+        }
+        return $data;
+    }
+
+    /**
+     * Delete customer
+     */
+    public function deleteV1()
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+
+        try {
+            $customer->delete();
+        } catch (Mage_Core_Exception $e) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
@@ -136,53 +153,10 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        $collection->addAttributeToSelect(array_keys(
-            $this->getAvailableAttributes($this->getUserType(), Mage_Api2_Model_Resource::OPERATION_ATTRIBUTE_READ)
-        ));
+        // TODO: Implement attributes list fetch based on specified action
+//        $collection->addAttributeToSelect();
 
         $this->_applyCollectionModifiers($collection);
         return $collection;
-    }
-
-    /**
-     * Retrieve information about customer
-     * Add last logged in datetime
-     *
-     * @throws Mage_Api2_Exception
-     * @return array
-     */
-    protected function _retrieve()
-    {
-        /** @var $log Mage_Log_Model_Customer */
-        $log = Mage::getModel('Mage_Log_Model_Customer');
-        $log->loadByCustomer($this->getRequest()->getParam('id'));
-
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
-        $data = $customer->getData();
-        $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
-
-        $lastLoginAt = $log->getLoginAt();
-        if (null !== $lastLoginAt) {
-            $data['last_logged_in'] = $lastLoginAt;
-        }
-        return $data;
-    }
-
-    /**
-     * Delete customer
-     */
-    protected function _delete()
-    {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
-
-        try {
-            $customer->delete();
-        } catch (Mage_Core_Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
-        }
     }
 }

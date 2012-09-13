@@ -15,6 +15,7 @@
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Try to merge API2 request with Mage_Core_Controller_Request_Http to have the single class
 class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
 {
     /**
@@ -39,6 +40,12 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      * @var Mage_Api2_Model_Request_Interpreter_Interface
      */
     protected $_interpreter;
+
+    /** @var string */
+    protected $_resourceName;
+
+    /** @var string */
+    protected $_resourceType;
 
     /**
      * Body params
@@ -146,15 +153,15 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Mage_Api2_Exception('Content-Type header is empty', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Content-Type header is empty', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Mage_Api2_Exception('Invalid Content-Type header', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Invalid Content-Type header', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
             throw new Mage_Api2_Exception(
-                'UTF-8 is the only supported charset', Mage_Api2_Model_Server::HTTP_BAD_REQUEST
+                'UTF-8 is the only supported charset', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
             );
         }
         return $matches[1];
@@ -190,14 +197,14 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Mage_Api2_Exception('Invalid request method', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+            throw new Mage_Api2_Exception('Invalid request method', Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
-            'GET'    => Mage_Api2_Model_Resource::OPERATION_RETRIEVE,
-            'POST'   => Mage_Api2_Model_Resource::OPERATION_CREATE,
-            'PUT'    => Mage_Api2_Model_Resource::OPERATION_UPDATE,
-            'DELETE' => Mage_Api2_Model_Resource::OPERATION_DELETE
+            'GET'    => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_RETRIEVE,
+            'POST'   => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_CREATE,
+            'PUT'    => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_UPDATE,
+            'DELETE' => Mage_Api2_Controller_Front_Rest::HTTP_METHOD_DELETE
         );
 
         return $operationByMethod[$this->getMethod()];
@@ -266,8 +273,27 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      */
     public function getResourceName()
     {
-        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['resource_name']) ? $this->_params['resource_name'] : null;
+        return $this->_resourceName;
+    }
+
+    public function setResourceName($resourceName)
+    {
+        $this->_resourceName = $resourceName;
+    }
+
+    /**
+     * Retrieve action type
+     *
+     * @return string|null
+     */
+    public function getResourceType()
+    {
+        return $this->_resourceType;
+    }
+
+    public function setResourceType($resourceType)
+    {
+        $this->_resourceType = $resourceType;
     }
 
     /**
@@ -278,17 +304,6 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
     public function getVersion()
     {
         return $this->getHeader('Version');
-    }
-
-    /**
-     * Retrieve action type
-     *
-     * @return string|null
-     */
-    public function getResourceType()
-    {
-        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['resource_type']) ? $this->_params['resource_type'] : null;
     }
 
     /**

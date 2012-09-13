@@ -75,7 +75,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     public function testRouteNotMatched()
     {
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Request does not match any route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND
+            'Mage_Api2_Exception', 'Request does not match any route.', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND
         );
 
         $this->_router->match($this->_request);
@@ -111,7 +111,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
 
         $this->assertNull($this->_request->getParam('type'));
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('type' => self::RESOURCE_TYPE))))
@@ -129,7 +129,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
 
         $this->assertNull($this->_request->getParam('model'));
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
+            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('model' => self::RESOURCE_MODEL))))
@@ -190,7 +190,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(false));
 
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Request does not match type route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND
+            'Mage_Api2_Exception', 'Request does not match type route.', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND
         );
 
         $this->_router->routeApiType($this->_request);

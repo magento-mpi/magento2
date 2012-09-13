@@ -54,7 +54,7 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
         $fixtureOrder = $this->getFixture('order');
 
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId());
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -75,7 +75,7 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testGetUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/invalid_id');
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -87,7 +87,7 @@ class Api2_Sales_Order_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testGetOrders()
     {
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
 
         $orders = $restResponse->getBody();
         $this->assertNotEmpty($orders);
