@@ -43,6 +43,9 @@ admin_header:
                             qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
+                            store_view_hint: "/../../td[@class='scope-label'][contains(.,'[STORE VIEW]')]"
+                            global_view_hint: "/../../td[@class='scope-label'][contains(.,'[GLOBAL]')]"
+                            website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"

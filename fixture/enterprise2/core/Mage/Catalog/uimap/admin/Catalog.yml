@@ -44,4 +44,4 @@ google_content_manage_items:
 google_sitemap:
     mca: sitemap/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sitemap/')]
-    title: Google Sitemaps / Catalog / Magento Admin
+    title: XML Sitemaps / Catalog / Magento Admin

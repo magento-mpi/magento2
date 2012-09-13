@@ -114,10 +114,10 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('template_name'),
-            array('template_subject'),
-            array('sender_name'),
-            array('sender_email')
+            array('newsletter_template_name'),
+            array('newsletter_template_subject'),
+            array('newsletter_template_sender_name'),
+            array('newsletter_template_sender_email')
             );
     }
 

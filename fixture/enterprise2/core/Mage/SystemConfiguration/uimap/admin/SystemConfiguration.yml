@@ -43,6 +43,11 @@ system_configuration:
                                         startup_page: //*[@id='general_restriction_http_redirect']
                                         landing_page_restriction: //*[@id='general_restriction_cms_page']
                                         http_response: //*[@id='general_restriction_http_status']
+                            -
+                                single_store_mode:
+                                    xpath: //fieldset[@id='general_single_store_mode']
+                                    dropdowns:
+                                        enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
                 -
                     general_content_management:
                         fieldsets:
