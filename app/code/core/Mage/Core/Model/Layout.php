@@ -460,47 +460,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $arguments;
     }
 
-//    public function _readArgument(Mage_Core_Model_Layout_Element $node)
-//    {
-//        $argument = array();
-//        $type = $node->getAttribute('type');
-//        if (null !== $type) {
-//            $argument['type'] = $type;
-//        }
-//
-//        if ($node->hasChildren()) {
-//            $value = $node->asArray();
-//            if (isset($value['updater'])) {
-//                unset($value['updater']);
-//            }
-//
-//            $updaters = $this->_readArgumentUpdaters($node);
-//            if (false === empty($updaters)) {
-//                $arguments[$node->getName()]['updater'] = $updaters;
-//            }
-//        } else {
-//            $value = trim((string)$node);
-//        }
-//
-//        if (false === empty($value)) {
-//            $argument['value'] = $value;
-//        }
-//
-//        return $argument;
-//    }
-//
-//    public function _readArgumentUpdaters(Mage_Core_Model_Layout_Element $node)
-//    {
-//        $updaters = array();
-//        foreach ($node->children() as $child) {
-//            /** @var $child Mage_Core_Model_Layout_Element */
-//            if ('updater' == $child->getName()) {
-//                $updaters[uniqid()] = trim((string)$child);
-//            }
-//        }
-//        return $updaters;
-//    }
-
     /**
      * Schedule structural changes for move directive
      *
