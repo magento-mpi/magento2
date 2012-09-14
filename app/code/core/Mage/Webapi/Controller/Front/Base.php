@@ -57,12 +57,10 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         ini_set('display_errors', 0);
 
         // TODO: Implement error handling on this stage
-        $concreteFrontController = $this->_getConcreteFrontController();
-
-        $concreteFrontController->setRequest($this->_request)
+        $this->_getConcreteFrontController()
+            ->setRequest($this->_request)
             ->setResponse($this->_response)
             ->init();
-
         return $this;
     }
 

@@ -44,8 +44,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-        $this->_initResourceConfig($this->_getRequestedModules());
-
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
             $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
@@ -105,18 +103,18 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function dispatch()
     {
+        $this->_setResponseContentType('application/soap+xml');
         try {
-            $requestedModules = $this->_getRequestedModules();
-            $this->_initResourceConfig($requestedModules);
-
+            $this->_initResourceConfig($this->_getRequestedModules());
             if ($this->getRequest()->getParam('wsdl') !== null) {
-                $this->_setResponseContentType('text/xml');
+                // TODO: Check if PHP SOAP client can handle soap fault when requesting WSDL
                 $responseBody = $this->_getWsdlContent();
+                /** set content type to text/xml in case when WSDL was generated successfully */
+                $this->_setResponseContentType('text/xml');
             } else {
-                $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_getSoapServer()->handle();
             }
-        } catch (InvalidArgumentException $e) {
+        } catch (RuntimeException $e) {
             $responseBody = $this->_getSoapFaultMessage($e->getMessage(), self::FAULT_CODE_SENDER);
         } catch (Exception $e) {
             $responseBody = $this->_getSoapFaultMessage();
@@ -156,12 +154,17 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         return $wsdlContent;
     }
 
+    /**
+     * Identify versions of modules that should be used for API configuration file generation.
+     *
+     * @return array
+     * @throws RuntimeException
+     */
     protected function _getRequestedModules()
     {
         $requestedModules = $this->getRequest()->getParam('modules');
         if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            $helper = Mage::helper('Mage_Webapi_Helper_Data');
-            throw new InvalidArgumentException($helper->__('Invalid requested modules.'));
+            throw new RuntimeException($this->_helper->__('Invalid requested modules.'));
         }
         return $requestedModules;
     }
