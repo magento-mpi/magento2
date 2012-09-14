@@ -19,6 +19,16 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
         $this->loginAdminUser();
         $this->admin('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $config = $this->loadDataSet('SingleStoreMode', 'enable_single_store_mode');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $config = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
@@ -33,11 +43,13 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6180
+     * @author Tatyana_Gonchar
      */
     function verificationScopeSelector()
     {
         $this->admin('system_configuration');
-        $this->assertElementNotPresent('current_configuration_scope', "Scope Selector is present");
+        $this->assertFalse($this->controlIsPresent('fieldset', 'current_configuration_scope'),
+               "Scope Selector is present on the page");
     }
 
     /**
@@ -53,13 +65,14 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6181
+     * @author Tatyana_Gonchar
      */
     function verificationTableRatesExport()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('sales_shipping_methods');
-        $button = 'table_rates_export_csv';
-        $this->assertTrue($this->buttonIsPresent('table_rates_export_csv'), "Button $button is not present on the page");
+        $this->assertTrue($this->buttonIsPresent('table_rates_export_csv'),
+               "Button Export CSV is not present on the page");
     }
 
     /**
@@ -75,13 +88,14 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6182
+     * @author Tatyana_Gonchar
      */
     function verificationAccountSharingOptions()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
         $fieldset = 'account_sharing_options';
-        $this->assertTrue($this->controlIsPresent('fieldset', $fieldset), "Fieldset $fieldset is not present on the page");
+        $this->assertFalse($this->controlIsPresent('fieldset', $fieldset), "Fieldset $fieldset is present on the page");
     }
 
     /**
@@ -97,13 +111,13 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6183
+     * @author Tatyana_Gonchar
      */
     function verificationCatalogPrice()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
-        $fieldset = 'price';
-        $this->assertTrue($this->controlIsPresent('fieldset', $fieldset), "Fieldset $fieldset is not present on the page");
+        $this->assertFalse($this->controlIsPresent('fieldset','price'), "Fieldset Price is not present on the page");
     }
 
     /**
@@ -119,13 +133,13 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6184
+     * @author Tatyana_Gonchar
      */
     function verificationDebugOptions()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('advanced_developer');
-        $fieldset = 'debug';
-        $this->assertTrue($this->controlIsPresent('fieldset', $fieldset), "Fieldset $fieldset is not present on the page");
+        $this->assertTrue($this->controlIsPresent('fieldset', 'debug'), "Fieldset Debug is not present on the page");
     }
 
     /**
@@ -141,6 +155,7 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-6185
+     * @author Tatyana_Gonchar
      */
     function verificationHints()
     {
