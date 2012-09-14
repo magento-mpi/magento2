@@ -135,6 +135,18 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
+        } catch (RuntimeException $e) {
+            switch ($e->getCode()) {
+                case self::EXCEPTION_CODE_RESOURCE_NOT_FOUND:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_NOT_FOUND));
+                    break;
+                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
+                    break;
+                default:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_BAD_REQUEST));
+                    break;
+            }
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_addException($e);
@@ -282,8 +294,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Generate and set HTTP response code, error messages to Response object
-     *
-     * @return Mage_Webapi_Model_Server
      */
     protected function _renderMessages()
     {

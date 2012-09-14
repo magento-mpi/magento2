@@ -23,14 +23,6 @@ class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
      */
     const RESPONSE_CHARSET = 'utf-8';
 
-    /**#@+
-     * Default message types
-     */
-    const MESSAGE_TYPE_SUCCESS = 'success';
-    const MESSAGE_TYPE_ERROR   = 'error';
-    const MESSAGE_TYPE_WARNING = 'warning';
-    /**#@- */
-
     /**
      * Messages
      *

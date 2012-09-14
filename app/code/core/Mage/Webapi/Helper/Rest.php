@@ -11,6 +11,7 @@
 /**
  * REST API helper
  */
+// TODO: Get rid of this class
 class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
 {
     /**#@+
@@ -24,16 +25,6 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
     const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
-    /**#@-*/
-
-    /**#@+
-     *  Default collection resources error messages
-     */
-    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
     /**#@-*/
 
     /**#@+
@@ -80,11 +71,6 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
             self::RESOURCE_INTERNAL_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR,
             self::RESOURCE_UNKNOWN_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
             self::RESOURCE_REQUEST_DATA_INVALID => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
         );
     }
 }

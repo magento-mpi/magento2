@@ -14,7 +14,6 @@
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbstract
 {
-    // TODO: Change base controller to Generic controller for SOAP API
     const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
     const FAULT_CODE_SENDER = 'Sender';

@@ -13,6 +13,9 @@
  */
 abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
 {
+    const EXCEPTION_CODE_RESOURCE_NOT_FOUND = 404;
+    const EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED = 405;
+
     /**#@+
      * Version limits
      */
@@ -42,7 +45,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      *
      * @var string
      */
-    // TODO: Think about more elegant solution
+    // TODO: Initialize base action controller with value from config (currently there is single action controller for all API types)
     protected $_baseActionController = '';
 
     abstract public function init();
@@ -262,7 +265,8 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _getAvailableMethodSuffix($methodName, $controllerInstance)
     {
-        $methodVersion = $this->_getVersion();
+        $originalVersion = $this->_getVersion();
+        $methodVersion = $originalVersion;
         while ($methodVersion >= self::VERSION_MIN) {
             $methodSuffix = 'V' . $methodVersion;
             if ($controllerInstance->hasAction($methodName . $methodSuffix)) {
@@ -270,8 +274,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             }
             $methodVersion--;
         }
-        throw new RuntimeException($this->_helper
-            ->__('The "%s" method is not implemented in version %s', $methodName, $methodVersion));
+        throw new RuntimeException(
+            $this->_helper->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
+            self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
     }
 
     /**

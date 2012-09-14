@@ -9,17 +9,23 @@
  */
 
 /**
- * Customer REST API controller
+ * Customer REST API controller.
  *
  * @category   Mage
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-// TODO: Change base class
 class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_ActionAbstract
 {
+    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response,
+        Mage_Core_Helper_Abstract $translationHelper
+    ) {
+        $translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Customer_Helper_Data');
+        parent::__construct($request, $response, $translationHelper);
+    }
+
     /**
-     * Create customer
+     * Create customer.
      *
      * @param array $data
      * @return Mage_Customer_Model_Customer
@@ -29,20 +35,12 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setData($data);
-
-        try {
-            $customer->save();
-        } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
-        }
-
+        $customer->save();
         return $customer;
     }
 
     /**
-     * Get customers list
+     * Get customers list.
      *
      * @return array
      */
@@ -53,7 +51,7 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
     }
 
     /**
-     * Update customer
+     * Update customer.
      *
      * @param string $id
      * @param array $data
@@ -64,18 +62,11 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($id);
         $customer->addData($data);
-        try {
-            $customer->save();
-        } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
-        }
+        $customer->save();
     }
 
     /**
-     * Retrieve information about customer
-     * Add last logged in datetime
+     * Retrieve information about customer. Add last logged in datetime.
      *
      * @param string $id
      * @throws Mage_Webapi_Exception
@@ -100,7 +91,7 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
     }
 
     /**
-     * Delete customer
+     * Delete customer.
      *
      * @param string $id
      */
@@ -108,29 +99,24 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->_loadCustomerById($id);
-
-        try {
-            $customer->delete();
-        } catch (Mage_Core_Exception $e) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
-        }
+        $customer->delete();
     }
 
     /**
-     * Load customer by id
+     * Load customer by id.
      *
      * @param int $id
      * @throws Mage_Webapi_Exception
      * @return Mage_Customer_Model_Customer
+     * @throws RuntimeException
      */
     protected function _loadCustomerById($id)
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_NOT_FOUND);
+            throw new RuntimeException($this->_translationHelper->__("Customer with id %s does not exist.", $id),
+                Mage_Webapi_Controller_FrontAbstract::EXCEPTION_CODE_RESOURCE_NOT_FOUND);
         }
         return $customer;
     }
@@ -144,9 +130,6 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        // TODO: Implement attributes list fetch based on specified action
-//        $collection->addAttributeToSelect();
-
         $this->_applyCollectionModifiers($collection);
         return $collection;
     }
