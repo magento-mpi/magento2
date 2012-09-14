@@ -71,16 +71,34 @@ class Enterprise2_Mage_Store_Helper extends Core_Mage_Store_Helper
     {
         $tableXpath = $this->_getControlXpath('pageelement', 'stores_table');
         $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
-        $columnId = $this->getColumnIdByName('Store View Name') - 1;
+        $columnStoreNameId = $this->getColumnIdByName('Store Name') - 1;
+        $columnStoreViewId = $this->getColumnIdByName('Store View Name') - 1;
         $storeViews = array();
+        $stores = array();
         for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
-            $storeView = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
-            if (!in_array($storeView, $excludeList)) {
-                $storeViews[] = $storeView;
+            $store = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnStoreNameId);
+            if (!in_array($store, array('Main Website Store'))) {
+                if (!in_array($store, $stores)){
+                    $stores[] = $store;
+                }
+            } else {
+                $storeView = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnStoreViewId);
+                if (!in_array($storeView, $excludeList)) {
+                    if (!in_array($storeView,$storeViews)){
+                        $storeViews[] = $storeView;
+                    }
+                }
             }
         }
-        foreach ($storeViews as $storeView) {
-            $this->storeHelper()->deleteStore(array('store_view_name' => $storeView));
+        if (!empty($stores)) {
+            foreach ($stores as $store) {
+                $this->storeHelper()->deleteStore(array('store_name' => $store));
+            }
+        }
+        if (!empty($storeViews)) {
+            foreach ($storeViews as $storeView) {
+                $this->storeHelper()->deleteStore(array('store_view_name' => $storeView));
+            }
         }
     }
 }

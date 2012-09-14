@@ -1,3 +1,4 @@
+#
 # {license_notice}
 #
 # @category    Magento
@@ -6,13 +7,11 @@
 # @copyright   {copyright}
 # @license     {license_link}
 #
----
 enabled_single_store_mode:
     tab_1:
         tab_name: general_general
         configuration:
             enable_single_store_mode: Yes
-
 disabled_single_store_mode:
     tab_1:
         tab_name: general_general
