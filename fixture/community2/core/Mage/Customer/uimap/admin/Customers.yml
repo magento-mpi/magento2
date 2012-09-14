@@ -68,10 +68,20 @@ online_customers:
                         pageelements:
                             online_grid_head:  //table[@id='onlineGrid_table']/thead/tr[@class='headings']
 
-
-
-
-
-
-
-
+# 'Edit Customer' Page
+edit_customer:
+    uimap:
+        form:
+            tabs:
+                -
+                    customer_view:
+                        fieldsets:
+                            -
+                                content_customer_view:
+                                    xpath: //*[@id='tab_content_customerViewAccordion']
+                                    links:
+                                       view_recent_orders: //*[@id='dt-lastOrders']/a
+                                       view_shopping_cart: //*[@id='dt-shopingCart%websiteId%']/a
+                                       view_wishlist: //*[@id='dt-wishlist']/a
+                                    pageelements:
+                                        products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
