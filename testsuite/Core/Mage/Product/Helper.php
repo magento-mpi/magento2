@@ -522,8 +522,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 unset($productData[$key]);
             }
         }
-        //@TODO selenium2
-        $this->verifyForm($productData, null, $skipElements);
+        $productTabNames = array('general', 'prices', 'meta_information', 'recurring_profile',
+                                 'design', 'gift_options', 'inventory');
+        foreach ($productTabNames as $tabName) {
+            $verifyData = array();
+            foreach ($productData as $fieldName => $fieldValue) {
+                if (preg_match('/^' . $tabName . '/', $fieldName)) {
+                    $verifyData[$fieldName] = $fieldValue;
+                    unset($productData[$fieldName]);
+                }
+            }
+            if ($verifyData) {
+                $this->verifyForm($verifyData, $tabName, $skipElements);
+            }
+        }
         // Verify tier prices
         if (array_key_exists('prices_tier_price_data', $nestedArrays)) {
             $this->verifyTierPrices($nestedArrays['prices_tier_price_data']);
