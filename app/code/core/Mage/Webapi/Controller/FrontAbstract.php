@@ -166,11 +166,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _getActionControllerInstance($className)
     {
-        if (!$this->_validateControllerClassName($className)) {
-            throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('Specified action controller is not found.'));
-        }
-
+        Magento_Autoload::getInstance()->addFilesMap(array(
+            $className => $this->_getControllerFileName($className)
+        ));
         $controllerInstance = new $className($this->getRequest(), $this->getResponse());
         if (!($controllerInstance instanceof $this->_baseActionController)) {
             throw Mage::exception('Mage_Core',
@@ -181,75 +179,23 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Generating and validating class file name and include it if everything is OK.
-     *
-     * @param string $controllerClassName
-     * @return bool
-     */
-    protected function _validateControllerClassName($controllerClassName)
-    {
-        $controllerFileName = $this->_getControllerFileName($controllerClassName);
-        if (!$this->_validateControllerFileName($controllerFileName)) {
-            return false;
-        }
-
-        // include controller file if needed
-        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Include the file containing controller class if this class is not defined yet
-     *
-     * @param string $controllerFileName
-     * @param string $controllerClassName
-     * @return bool
-     * @throws Mage_Core_Exception
-     */
-    protected function _includeControllerClass($controllerFileName, $controllerClassName)
-    {
-        if (!class_exists($controllerClassName, false)) {
-            if (!file_exists($controllerFileName)) {
-                return false;
-            }
-            include $controllerFileName;
-
-            if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if controller file name is valid
-     *
-     * @param string $fileName
-     * @return bool
-     */
-    protected function _validateControllerFileName($fileName)
-    {
-        if ($fileName && is_readable($fileName) && false === strpos($fileName, '//')) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Identify controller file name by its class name
      *
      * @param string $controllerClassName
      * @return string
+     * @throws Mage_Core_Exception
      */
     protected function _getControllerFileName($controllerClassName)
     {
         $parts = explode('_', $controllerClassName);
         $realModule = implode('_', array_splice($parts, 0, 2));
         $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
-        return $file;
+        if (!file_exists($file)) {
+            throw Mage::exception('Mage_Core',
+                Mage::helper('Mage_Core_Helper_Data')->__('Action controller "%s" could not be loaded.', $controllerClassName));
+        }
+
+        return str_replace(Mage::getBaseDir(), '', $file);
     }
 
     /**
