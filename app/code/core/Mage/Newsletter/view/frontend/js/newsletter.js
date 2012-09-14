@@ -14,6 +14,7 @@
         placeholder: 'Enter your email address',
         errorClass: 'mage-error'
     };
+    var hasError;
     // Overwrite default showLabel method from jQuery validator to have fadeIn effect on error messages
     var extensionMethods = {
         showLabel: function (element, message) {

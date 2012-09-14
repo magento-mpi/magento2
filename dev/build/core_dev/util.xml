@@ -14,10 +14,25 @@
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
 
+    <target name="_init" if="env.build_customization_dir">
+        <copy todir="${basedir}" failonerror="true" overwrite="true">
+            <fileset dir="${basedir}/${env.build_customization_dir}"/>
+        </copy>
+    </target>
+
+    <target name="_jshint-path-substitution" depends="_init">
+        <replace file="${basedir}/dev/tests/static/phpunit.xml">
+            <replacefilter token="{{tests_jshint_path}}" value="${env.JsHintPath}"/>
+        </replace>
+    </target>
+
     <target name="_product_location" description="Detection of a product source code root directory">
         <condition property="product_root_dir" value="${basedir}">
             <not><isset property="product_root_dir"/></not>
         </condition>
+        <antcall>
+            <target name="_jshint-path-substitution"/>
+        </antcall>
     </target>
 
     <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition">
