@@ -15,7 +15,7 @@
 class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbstract
 {
     // TODO: Change base controller to Generic controller for SOAP API
-    const BASE_ACTION_CONTROLLER = 'Mage_Core_Controller_Varien_Action';
+    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
     const FAULT_CODE_SENDER = 'Sender';
     const FAULT_CODE_RECEIVER = 'Receiver';
@@ -48,35 +48,39 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-        $this->_authenticate($operation);
+//        $this->_authenticate($operation);
+
+        $this->_initResourceConfig($this->_getRequestedModules());
 
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
             $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
         }
         $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
-        $controller = $this->_getActionControllerInstance($controllerClass);
-        $action = $this->getResourceConfig()->getMethodNameByOperation($operation);
-        if (!$controller->hasAction($action)) {
-            $this->_soapFault();
-        }
-        // TODO: ACL check is not implemented yet
-        $this->_checkResourceAcl();
-
-        // TODO: Think about the best format for method parameters (objects, arrays)
-        $arguments = $arguments[0];
-        /** @var Mage_Api_Helper_Data $helper */
-        $helper = Mage::helper('Mage_Api_Helper_Data');
-        // TODO: Move wsiArrayUnpacker from helper to this class
-        $helper->wsiArrayUnpacker($arguments);
-        $arguments = get_object_vars($arguments);
-
-        $actionParams = $this->_fetchMethodParams($controllerClass, $action);
-        $arguments = $this->_prepareMethodParams($actionParams, $arguments);
+        $controllerInstance = $this->_getActionControllerInstance($controllerClass);
+        $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
         try {
-            $result = $controller->$action($arguments);
+            $methodSuffix = $this->_getAvailableMethodSuffix($method, $controllerInstance);
+
+            // TODO: ACL check is not implemented yet
+            $this->_checkResourceAcl();
+
+            // TODO: Think about the best format for method parameters (objects, arrays)
+            $arguments = $arguments[0];
+            /** @var Mage_Api_Helper_Data $helper */
+            $helper = Mage::helper('Mage_Api_Helper_Data');
+            // TODO: Move wsiArrayUnpacker from helper to this class
+            $helper->wsiArrayUnpacker($arguments);
+            $arguments = get_object_vars($arguments);
+
+            $action = $method . $methodSuffix;
+            $arguments = $this->getReflectionHelper()->prepareMethodParams($controllerClass, $action, $arguments);
+//            $result = $controllerInstance->$action($arguments);
+//            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
+            $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
+//            $this->_presentation->prepareResponse($operation, $outputData);
             // TODO: Move wsiArrayPacker from helper to this class
-            $obj = $helper->wsiArrayPacker($result);
+            $obj = $helper->wsiArrayPacker($outputData);
             $stdObj = new stdClass();
             $stdObj->result = $obj;
             return $stdObj;
@@ -85,7 +89,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $this->_soapFault($e->getCustomMessage(), self::FAULT_CODE_RECEIVER, $e);
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_soapFault();
+            $this->_soapFault($e->getMessage());
         }
     }
 
@@ -170,11 +174,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getWsdlContent()
     {
         try {
-            $requestedModules = $this->getRequest()->getParam('modules');
-            if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-                $helper = Mage::helper('Mage_Webapi_Helper_Data');
-                throw new InvalidArgumentException($helper->__('Invalid requested modules.'));
-            }
+            $requestedModules = $this->_getRequestedModules();
             $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
             if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
                 $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
@@ -187,7 +187,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
             $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
                 'resource_config' => $this->getResourceConfig(),
-                'endpoint_url' => $this->_getEndpointUrl(),
+                // TODO: Temporary workaround
+                'endpoint_url' => $this->_getEndpointUrl() . "?modules[Mage_Customer]=v1",
             ));
             $wsdlContent = $wsdlConfig->generate();
 
@@ -201,48 +202,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         return $wsdlContent;
     }
 
-    /**
-     * Identify parameters for the specified method
-     *
-     * @param string $className
-     * @param string $methodName
-     * @return array
-     */
-    protected function _fetchMethodParams($className, $methodName)
+    protected function _getRequestedModules()
     {
-
-        $method = new ReflectionMethod($className, $methodName);
-        return $method->getParameters();
-    }
-
-    /**
-     * Prepares SOAP operation arguments for passing to controller action method: <br/>
-     * - sort in correct order <br/>
-     * - set default values for omitted arguments
-     *
-     * @param array $actionParams Action parameters
-     * @param array $soapArguments SOAP operation arguments
-     * @return array
-     */
-    public function _prepareMethodParams($actionParams, $soapArguments)
-    {
-        $preparedParams = array();
-        /** @var $parameter ReflectionParameter */
-        foreach ($actionParams as $parameter) {
-            $parameterName = $parameter->getName();
-            if (isset($soapArguments[$parameterName])) {
-                $preparedParams[$parameterName] = $soapArguments[$parameterName];
-            } else {
-                if ($parameter->isOptional()) {
-                    $preparedParams[$parameterName] = $parameter->getDefaultValue();
-                } else {
-                    $errorMessage = "Required parameter \"$parameterName\" is missing.";
-                    Mage::logException(new Exception($errorMessage, 0));
-                    $this->_soapFault($errorMessage, self::FAULT_CODE_SENDER);
-                }
-            }
+        $requestedModules = $this->getRequest()->getParam('modules');
+        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
+            $helper = Mage::helper('Mage_Webapi_Helper_Data');
+            throw new InvalidArgumentException($helper->__('Invalid requested modules.'));
         }
-        return $preparedParams;
+        return $requestedModules;
     }
 
     /**
@@ -341,7 +308,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlUrl()
     {
-        return $this->_getEndpointUrl() . '?wsdl';
+        return $this->_getEndpointUrl() . '?wsdl=1&modules[Mage_Customer]=v1';
     }
 
     /**

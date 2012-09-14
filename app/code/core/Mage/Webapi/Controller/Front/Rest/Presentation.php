@@ -29,41 +29,14 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     // TODO: Think about interface refactoring
     public function fetchRequestData($methodName, $controllerInstance, $action)
     {
-        $methodReflection = new ReflectionMethod($controllerInstance, $action);
         // TODO: Refactor this and take param initialized with post data from anotations
         $parameters = array_merge(
             $this->getRequest()->getParams(),
             array('data' => $this->_getRequestData($methodName))
         );
-        $actionArguments = $this->_prepareMethodArguments($methodReflection->getParameters(), $parameters);
+        $actionArguments = $this->_frontController->getReflectionHelper()
+            ->prepareMethodParams($controllerInstance, $action, $parameters);
         return $actionArguments;
-    }
-
-    /**
-     * Convert request data into method arguments list.
-     * Sort in correct order, set default values for omitted parameters.
-     *
-     * @param ReflectionParameter[] $reflectionParameters
-     * @param array $requestData
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function _prepareMethodArguments($reflectionParameters, $requestData) {
-
-        $methodArguments = array();
-        foreach($reflectionParameters as $parameter){
-            $parameterName = $parameter->getName();
-            if( isset( $requestData[$parameterName] ) ){
-                $methodArguments[$parameterName] = $requestData[$parameterName];
-            } else {
-                if($parameter->isOptional()){
-                    $methodArguments[$parameterName] = $parameter->getDefaultValue();
-                } else {
-                    throw new InvalidArgumentException("Required parameter \"$parameterName\" is missing.", 0);
-                }
-            }
-        }
-        return $methodArguments;
     }
 
     /**

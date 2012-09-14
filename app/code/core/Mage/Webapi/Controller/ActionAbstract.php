@@ -9,10 +9,9 @@
  */
 
 /**
- * Generic REST controller
+ * Generic API action controller.
  */
-// TODO: Remove inheritance if possible
-abstract class Mage_Webapi_Controller_Rest_ActionAbstract
+abstract class Mage_Webapi_Controller_ActionAbstract
 {
     /**#@+
      * Collection page sizes
@@ -42,22 +41,8 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
      */
     protected $_response;
 
-    /**
-     * Renderer
-     *
-     * @var Mage_Webapi_Model_Renderer_Interface
-     */
-    protected $_renderer;
-
-    /**
-     * If TRUE - no rendering will be done and dispatch will return data. Otherwise, by default
-     *
-     * @var bool
-     */
-    protected $_returnData = false;
-
-    /** @var Mage_Webapi_Helper_Rest */
-    protected $_restHelper;
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_translateHelper;
 
     /**
      * Call action without excessive checks for REST
@@ -73,7 +58,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
     public function __construct(Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
     ) {
-        $this->_restHelper = Mage::helper('Mage_Webapi_Helper_Rest');
+        $this->_translateHelper = Mage::helper('Mage_Webapi_Helper_Data');
         $this->_request = $request;
         $this->_response = $response;
     }
@@ -81,39 +66,12 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
      * Set request
      *
      * @param Mage_Webapi_Model_Request $request
-     * @return Mage_Webapi_Controller_Rest_ActionAbstract
+     * @return Mage_Webapi_Controller_ActionAbstract
      */
     public function setRequest(Mage_Webapi_Model_Request $request)
     {
         $this->_request = $request;
         return $this;
-    }
-
-    /**
-     * Determine version from class name
-     *
-     * @return int
-     */
-    public function getVersion()
-    {
-        if (null === $this->_version) {
-            if (preg_match('/^.+([1-9]\d*)$/', get_class($this), $matches) ) {
-                $this->setVersion($matches[1]);
-            } else {
-                throw new Exception('Can not determine version from class name');
-            }
-        }
-        return $this->_version;
-    }
-
-    /**
-     * Set API version
-     *
-     * @param int $version
-     */
-    public function setVersion($version)
-    {
-        $this->_version = (int)$version;
     }
 
     /**
@@ -127,47 +85,11 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
     }
 
     /**
-     * Get renderer if not exists create
-     *
-     * @return Mage_Webapi_Model_Renderer_Interface
-     */
-    public function getRenderer()
-    {
-        if (!$this->_renderer) {
-            $renderer = Mage_Webapi_Model_Renderer::factory($this->getRequest()->getAcceptTypes());
-            $this->setRenderer($renderer);
-        }
-
-        return $this->_renderer;
-    }
-
-    /**
-     * Set renderer
-     *
-     * @param Mage_Webapi_Model_Renderer_Interface $renderer
-     */
-    public function setRenderer(Mage_Webapi_Model_Renderer_Interface $renderer)
-    {
-        $this->_renderer = $renderer;
-    }
-
-    /**
-     * Render data using registered Renderer
-     *
-     * @param mixed $data
-     */
-    protected function _render($data)
-    {
-        $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
-            ->setBody($this->getRenderer()->render($data));
-    }
-
-    /**
      * Add non-critical error
      *
      * @param string $message
      * @param int $code
-     * @return Mage_Webapi_Controller_Rest_ActionAbstract
+     * @return Mage_Webapi_Controller_ActionAbstract
      */
     protected function _error($message, $code)
     {
@@ -181,7 +103,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
      * @param string $message
      * @param int $code
      * @param array $params
-     * @return Mage_Webapi_Controller_Rest_ActionAbstract
+     * @return Mage_Webapi_Controller_ActionAbstract
      */
     protected function _successMessage($message, $code, $params = array())
     {
@@ -195,7 +117,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
      * @param string $message
      * @param int $code
      * @param array $params
-     * @return Mage_Webapi_Controller_Rest_ActionAbstract
+     * @return Mage_Webapi_Controller_ActionAbstract
      */
     protected function _errorMessage($message, $code, $params = array())
     {
@@ -207,13 +129,13 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
      * Set navigation parameters and apply filters from URL params
      *
      * @param Varien_Data_Collection_Db $collection
-     * @return Mage_Webapi_Controller_Rest_ActionAbstract
+     * @return Mage_Webapi_Controller_ActionAbstract
      */
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
-            $this->_restHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_PAGING_ERROR);
+            $this->_translateHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_PAGING_ERROR);
         }
 
         $pageSize = $this->getRequest()->getPageSize();
@@ -221,7 +143,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
             $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
-                $this->_restHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR);
+                $this->_translateHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR);
             }
         }
 
@@ -231,7 +153,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract
             if (!is_string($orderField)
             // TODO: Check if order field is allowed for specified entity
         ) {
-                $this->_restHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_ORDERING_ERROR);
+                $this->_translateHelper->critical(Mage_Webapi_Helper_Rest::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
             $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());
         }

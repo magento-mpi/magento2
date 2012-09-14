@@ -13,6 +13,13 @@
  */
 abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
 {
+    /**#@+
+     * Version limits
+     */
+    const VERSION_MIN = 1;
+    const VERSION_MAX = 200;
+    /**#@-*/
+
     /** @var Mage_Webapi_Model_Request */
     protected $_request;
 
@@ -21,6 +28,19 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
 
     /** @var Mage_Webapi_Model_Config_Resource */
     protected $_resourceConfig;
+
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_translationHelper;
+
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_reflectionHelper;
+
+    function __construct(Mage_Webapi_Helper_Data $translationHelper = null,
+                         Mage_Webapi_Helper_Data $reflectionHelper = null
+    ) {
+        $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_reflectionHelper = $reflectionHelper ? $reflectionHelper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
 
     /**
      * Generic action controller for all controllers in current area
@@ -232,5 +252,66 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         $realModule = implode('_', array_splice($parts, 0, 2));
         $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
         return $file;
+    }
+
+    /**
+     * Find the most appropriate version suffix for the requested action.
+     *
+     * If there is no action with requested version, fallback mechanism is used.
+     * If there is no appropriate action found after fallback - exception is thrown.
+     *
+     * @param string $methodName
+     * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function _getAvailableMethodSuffix($methodName, $controllerInstance)
+    {
+        $methodVersion = $this->_getVersion();
+        while ($methodVersion >= self::VERSION_MIN) {
+            $methodSuffix = 'V' . $methodVersion;
+            if ($controllerInstance->hasAction($methodName . $methodSuffix)) {
+                return $methodSuffix;
+            }
+            $methodVersion--;
+        }
+        throw new RuntimeException($this->_translationHelper
+            ->__('The "%s" method is not implemented in version %s', $methodName, $methodVersion));
+    }
+
+    /**
+     * Get correct version of the resource model
+     *
+     * @return int
+     * @throws RuntimeException
+     */
+    protected function _getVersion()
+    {
+//        /** @var Mage_Webapi_Model_Request $request */
+//        $request = $this->getRequest();
+//        $requestedVersion = $request->getVersion();
+//        if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
+//            throw new Mage_Webapi_Exception(
+//                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
+//                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
+//            );
+//        }
+        // TODO: Implement versioning
+        $version = 1;
+        if ($version > self::VERSION_MAX) {
+            throw new HttpInvalidParamException($this->_translationHelper
+                ->__("Resource version cannot be greater than %s.", self::VERSION_MAX));
+        }
+        return (int)$version;
+    }
+
+    /**
+     * Retrieve reflection helper.
+     *
+     * @return Mage_Webapi_Helper_Data
+     */
+    public function getReflectionHelper()
+    {
+        return $this->_reflectionHelper;
     }
 }

@@ -14,14 +14,7 @@
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
 {
-    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_Rest_ActionAbstract';
-
-    /**#@+
-     * Version limits
-     */
-    const VERSION_MIN = 1;
-    const VERSION_MAX = 200;
-    /**#@-*/
+    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
     /**#@+
      * HTTP Response Codes
@@ -193,59 +186,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
         return $methodName;
-    }
-
-    /**
-     * Find the most appropriate version suffix for the requested action.
-     *
-     * If there is no action with requested version, fallback mechanism is used.
-     * If there is no appropriate action found after fallback - exception is thrown.
-     *
-     * @param string $methodName
-     * @param Mage_Webapi_Controller_Rest_ActionAbstract $controllerInstance
-     * @return string
-     * @throws Mage_Webapi_Exception|Exception
-     */
-    protected function _getAvailableMethodSuffix($methodName, $controllerInstance)
-    {
-        $methodVersion = $this->_getVersion();
-        while ($methodVersion >= self::VERSION_MIN) {
-            $methodSuffix = 'V' . $methodVersion;
-            if ($controllerInstance->hasAction($methodName . $methodSuffix)) {
-                return $methodSuffix;
-            }
-            $methodVersion--;
-        }
-        // TODO: Think about better messages
-        Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Get correct version of the resource model
-     *
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getVersion()
-    {
-//        /** @var Mage_Webapi_Model_Request $request */
-//        $request = $this->getRequest();
-//        $requestedVersion = $request->getVersion();
-//        if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
-//            throw new Mage_Webapi_Exception(
-//                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
-//                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
-//            );
-//        }
-        // TODO: Implement versioning
-        $version = 1;
-        if ($version > self::VERSION_MAX) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(
-                Mage::helper('Mage_Webapi_Helper_Data')->__("Resource version cannot exceed %s", self::VERSION_MAX),
-                Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR
-            );
-        }
-        return (int)$version;
     }
 
     /**

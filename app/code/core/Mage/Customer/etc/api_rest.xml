@@ -11,7 +11,7 @@
 -->
 <config>
     <resource name="customer">
-        <controller>Mage_Customer_Rest_IndexController</controller>
+        <controller>Mage_Customer_Webapi_IndexController</controller>
         <routes>
             <route resource_type="item">/customers/:id</route>
             <route resource_type="collection">/customers</route>

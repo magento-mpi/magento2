@@ -16,9 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 // TODO: Change base class
-class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_ActionAbstract
+class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_ActionAbstract
 {
-
     /**
      * Create customer
      *

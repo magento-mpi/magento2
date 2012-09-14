@@ -46,4 +46,36 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_Webapi_RESPONSE_RENDERS);
     }
+
+    /**
+     * Reformat request data to be compatible with method specified interface: <br/>
+     * - sort arguments in correct order <br/>
+     * - set default values for omitted arguments
+     *
+     * @param string|object $class
+     * @param string $methodName
+     * @param array $requestData Data to be passed to method
+     * @return array Array of prepared method arguments
+     * @throws RuntimeException
+     */
+    public function prepareMethodParams($class, $methodName, $requestData)
+    {
+        $method = new ReflectionMethod($class, $methodName);
+        $reflectionParameters = $method->getParameters();
+        $preparedParams = array();
+        /** @var $parameter ReflectionParameter */
+        foreach ($reflectionParameters as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($requestData[$parameterName])) {
+                $preparedParams[$parameterName] = $requestData[$parameterName];
+            } else {
+                if ($parameter->isOptional()) {
+                    $preparedParams[$parameterName] = $parameter->getDefaultValue();
+                } else {
+                    throw new RuntimeException($this->__('Required parameter "%s" is missing.', $parameterName));
+                }
+            }
+        }
+        return $preparedParams;
+    }
 }

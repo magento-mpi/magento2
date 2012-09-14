@@ -80,9 +80,8 @@ class Mage_Webapi_Model_Config_Wsdl
 
             foreach ($methods as $methodName => $methodData) {
                 $input = $output = array('use' => 'literal');
-                $inputHeader = array('message' => 'AuthorizationHeader', 'part' => 'Authorization', 'use' => 'literal');
                 $operation = $this->_addBindingOperation($binding, $resourceName . ucfirst($methodName), $input,
-                    $inputHeader, $output);
+                    false, $output);
                 $this->_addSoapOperation($operation, $resourceName . ucfirst($methodName));
                 // @TODO: implement faults binding
             }
