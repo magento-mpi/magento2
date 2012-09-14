@@ -106,18 +106,39 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $html = $this->_block->toHtml();
 
         $this->assertRegExp('#<div id="([\w\d_]+)_massaction">#', $html);
-        $this->assertRegExp('#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectAll\(\)">Select All</a>#', $html);
-        $this->assertRegExp('#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectAll\(\)">Unselect All</a>#', $html);
-        $this->assertRegExp('#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectVisible\(\)">Select Visible</a>#', $html);
-        $this->assertRegExp('#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectVisible\(\)">Unselect Visible</a>#', $html);
+        $this->assertRegExp(
+            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectAll\(\)">Select All</a>#',
+            $html
+        );
+        $this->assertRegExp(
+            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectAll\(\)">Unselect All</a>#',
+            $html
+        );
+        $this->assertRegExp(
+            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectVisible\(\)">Select Visible</a>#',
+            $html
+        );
+        $this->assertRegExp(
+            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectVisible\(\)">Unselect Visible</a>#',
+            $html
+        );
         $this->assertRegExp('#<strong id="([\w\d_]+)_massaction-count">0</strong> items selected    </td>#', $html);
         $this->assertRegExp('#<form action="" id="([\w\d_]+)_massaction-form" method="post">#', $html);
-        $this->assertRegExp('#<select id="([\w\d_]+)_massaction-select" class="required-entry select absolute-advice local-validation">#', $html);
+        $this->assertRegExp(
+            '#<select id="([\w\d_]+)_massaction-select" '
+                . 'class="required-entry select absolute-advice local-validation">#',
+            $html
+        );
         $this->assertRegExp('#<option value="option_id1">Option One</option>#', $html);
         $this->assertRegExp('#<option value="option_id2">Option Two</option>#', $html);
         $this->assertRegExp('#<span class="outer-span" id="([\w\d_]+)_massaction-form-hiddens"></span>#', $html);
         $this->assertRegExp('#<span class="outer-span" id="([\w\d_]+)_massaction-form-additional"></span>#', $html);
-        $this->assertRegExp('#<button  id="([\w\d_]+)" title="Submit" type="button" class="scalable " onclick="([\w\d_]+)_massactionJsObject.apply\(\)" style=""><span><span><span>Submit</span></span></span></button>                        </span>#', $html);
+        $this->assertRegExp(
+            '#<button  id="([\w\d_]+)" title="Submit" type="button" class="scalable " '
+                . 'onclick="([\w\d_]+)_massactionJsObject.apply\(\)" style=""><span><span>
+                . <span>Submit</span></span></span></button>                        </span>#',
+            $html
+        );
         $this->assertRegExp('#<div id="([\w\d_]+)_massaction-item-option_id1-block">#', $html);
         $this->assertRegExp('#<div id="([\w\d_]+)_massaction-item-option_id2-block">#', $html);
     }
