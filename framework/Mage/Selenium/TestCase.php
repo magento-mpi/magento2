@@ -893,7 +893,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 }
                 $fieldName = $this->elementIsPresent("//*[@id='$fieldId']/../..//label");
                 $fieldName = ($fieldName) ? trim($fieldName->text(), " *\t\n\r") : $fieldId;
-                $messages[] = "'" . $fieldName . "': " . $message->text();
+                $messages[] = '"' . $fieldName . '": ' . $message->text();
             }
         } else {
             foreach ($tabsWithErrors as $tab) {
@@ -921,7 +921,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     //$fieldNameLocator = "//tr[td//@id='$fieldId']//label";
                     $fieldName = $this->elementIsPresent("//*[@id='$fieldId']/../..//label");
                     $fieldName = ($fieldName) ? trim($fieldName->text(), " *\t\n\r") : $fieldId;
-                    $messages[] = "'" . $fieldName . "': " . $message->text();
+                    $messages[] = '"' . $fieldName . '": ' . $message->text();
                 }
             }
         }
@@ -1708,6 +1708,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     $elementValue = $this->select($element)->selectedValue();
                 } elseif ($controlType == 'multiselect') {
                     $elementValue = $this->select($element)->selectedValues();
+                } elseif ($controlType == 'radiobutton' || $controlType == 'checkbox') {
+                    $elementValue = $element->selected();
                 } else {
                     $elementValue = $element->attribute('value');
                 }
@@ -1750,7 +1752,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         if (is_array($elementValue)) {
             $elementValue = array_map('trim', $elementValue);
-        } else {
+        } elseif (!is_bool($elementValue)) {
             $elementValue = trim($elementValue);
         }
         return $elementValue;

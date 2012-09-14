@@ -135,7 +135,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     public function emptyRequiredFieldsInBillingAddress($field, $message, $simpleSku)
     {
         //Data
-        if ($field != 'billing_city') {
+        if ($field != 'billing_country') {
             $override = array('general_name' => $simpleSku, $field => '');
         } else {
             $override = array('general_name' => $simpleSku, $field => '', 'billing_state' => '%noValue%');
@@ -336,7 +336,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     public function emptyRequiredFieldsInShippingAddress($field, $message, $simpleSku)
     {
         //Data
-        if ($field != 'shipping_city') {
+        if ($field != 'shipping_country') {
             $override = array('general_name' => $simpleSku, $field => '');
         } else {
             $override = array('general_name' => $simpleSku, $field => '', 'shipping_state' => '%noValue%');
