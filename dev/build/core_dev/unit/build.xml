@@ -39,6 +39,19 @@
             <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
         </exec>
     </target>
+    <target name="_unit_tests_javascript" depends="_product_location" description="Javascript unit tests">
+        <condition property="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist">
+            <not><isset property="jstestdriver_config_file"/></not>
+        </condition>
+        <copy file="${jstestdriver_config_file}" tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
+        <antcall target="_jstestdriver_path_substitution">
+            <param name="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php"/>
+        </antcall>
+        <exec executable="php" failonerror="true">
+            <arg value="${product_root_dir}/dev/tests/js/run_js_tests.php"/>
+        </exec>
+    </target>
+
     <target name="_unit_tests_all" description="All unit tests">
         <antcall>
             <target name="_unit_tests_magento"/>
@@ -46,6 +59,7 @@
             <target name="_unit_tests_performance_framework"/>
             <target name="_unit_tests_static_framework"/>
             <target name="_unit_tests_unit_framework"/>
+            <target name="_unit_tests_javascript"/>
         </antcall>
     </target>
 

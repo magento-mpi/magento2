@@ -26,14 +26,14 @@ TreeTest.prototype.testDefaultOptions = function() {
     tree.vde_page('destroy');
 };
 var TreeTestAsync = AsyncTestCase('TreeTestAsync');
-TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
+/*TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
     /*:DOC +=
     <div id="tree" data-selected="li[rel='tree_element']">
         <ul>
             <li rel="tree_element"><a href="#">All Pages</a></li>
         </ul>
     </div>
-    */
+    */ /*
     var tree = jQuery('#tree');
     var selectNodeEventIsTriggered = false;
     queue.call('Step 1: Bind callback on "select_node" event and initialize tree widget', function(callbacks) {
@@ -51,7 +51,7 @@ TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
         assertEquals(true, selectNodeEventIsTriggered);
     });
     tree.vde_page('destroy');
-};
+};*/
 TreeTestAsync.prototype.testTreeLoadWithoutInitialSelect = function(queue) {
     /*:DOC +=
     <div id="tree">
@@ -78,14 +78,14 @@ TreeTestAsync.prototype.testTreeLoadWithoutInitialSelect = function(queue) {
     });
     tree.vde_page('destroy');
 };
-TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
+/*TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
     /*:DOC +=
     <div id="tree" data-selected="li[rel='tree_element']">
         <ul>
             <li rel="tree_element"><a href="#link">All Pages</a></li>
         </ul>
     </div>
-    */
+    */ /*
     var tree = jQuery('#tree');
     var linkSelectedEventIsTriggered = false;
     var locationIsChanged = false;
@@ -107,7 +107,7 @@ TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
         assertEquals(false, locationIsChanged);
     });
     tree.vde_page('destroy');
-};
+};*/
 TreeTestAsync.prototype.testTreeSelectNode = function(queue) {
     /*:DOC +=
     <div id="tree">

@@ -86,10 +86,12 @@ $fh = fopen($jsTestDriverConf, 'w');
 
 fwrite($fh, "server: $server" . PHP_EOL);
 
-fwrite($fh, "proxy:" . PHP_EOL);
-foreach ($proxies as $proxy) {
-    $proxyServer = sprintf($proxy['server'], $server, str_replace("\\", "/", realpath(__DIR__ . '/../../..')));
-    fwrite($fh, '  - {matcher: "' . $proxy['matcher'] . '", server: "' . $proxyServer . '"}' . PHP_EOL);
+if (count($proxies) > 0) {
+    fwrite($fh, "proxy:" . PHP_EOL);
+    foreach ($proxies as $proxy) {
+        $proxyServer = sprintf($proxy['server'], $server, str_replace("\\", "/", realpath(__DIR__ . '/../../..')));
+        fwrite($fh, '  - {matcher: "' . $proxy['matcher'] . '", server: "' . $proxyServer . '"}' . PHP_EOL);
+    }
 }
 
 fwrite($fh, "load:" . PHP_EOL);
@@ -104,9 +106,11 @@ foreach ($testFiles as $file) {
     fwrite($fh, "  - " . $file . PHP_EOL);
 }
 
-fwrite($fh, "serve:" . PHP_EOL);
-foreach ($serveFiles as $file) {
-    fwrite($fh, "  - " . $file . PHP_EOL);
+if (count($serveFiles) > 0) {
+    fwrite($fh, "serve:" . PHP_EOL);
+    foreach ($serveFiles as $file) {
+        fwrite($fh, "  - " . $file . PHP_EOL);
+    }
 }
 
 fclose($fh);
@@ -202,10 +206,14 @@ function listFiles($dirs)
     $result = array();
     foreach ($dirs as $dir) {
         $path = $baseDir . $dir;
-        $result = array_merge(
-            $result, listFiles(str_replace($baseDir, '', glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT)))
-        );
-        $result = array_merge($result, glob($path . '/*.js'));
+        if (is_file($path)) {
+            array_push($result, $path);
+        } else {
+            $result = array_merge(
+                $result, listFiles(str_replace($baseDir, '', glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT)))
+            );
+            $result = array_merge($result, glob($path . '/*.js', GLOB_NOSORT));
+        }
     }
     return str_replace($baseDir, '../../..', $result);
 }
