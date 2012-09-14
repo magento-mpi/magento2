@@ -27,6 +27,13 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     protected $_columns = array();
 
     /**
+     * Export flag
+     *
+     * @var bool
+     */
+    protected $_isExport = false;
+
+    /**
      * Grid export types
      *
      * @var array
