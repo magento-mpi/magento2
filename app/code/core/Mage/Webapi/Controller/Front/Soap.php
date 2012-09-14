@@ -30,9 +30,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected $_soapServer;
 
     /** @var string */
-    protected $_oauthHeader;
-
-    /** @var string */
     protected $_baseActionController;
 
     /** @var Mage_Webapi_Model_Config_Soap */
@@ -48,8 +45,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-//        $this->_authenticate($operation);
-
         $this->_initResourceConfig($this->_getRequestedModules());
 
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
@@ -90,40 +85,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Handler method for "Authorization" SOAP header.
-     * It is invoked before the action method call if such header is present in the request.
-     *
-     * @param string $header
-     */
-    public function Authorization($header)
-    {
-        $this->_oauthHeader = $header;
-    }
-
-    /**
-     * Authenticate SOAP operation call.
-     *
-     * @param $operation
-     * @return string
-     */
-    protected function _authenticate($operation)
-    {
-        if (!$this->_oauthHeader) {
-            $this->_soapFault('Authentication required.', self::FAULT_CODE_SENDER);
-        }
-
-        try {
-            /** @var $oauthServer Mage_Oauth_Model_Server */
-            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $this->getRequest());
-            $consumerKey = $oauthServer->authenticateTwoLeggedSoap($this->_oauthHeader, $operation);
-        } catch (Exception $e) {
-            $this->_soapFault($oauthServer->reportProblem($e), self::FAULT_CODE_RECEIVER, $e);
-        }
-        // TODO: implement consumer role loading
-        return $consumerKey;
-    }
-
-    /**
      * Extend parent with SOAP specific config initialization
      *
      * @return Mage_Webapi_Controller_Front_Soap|Mage_Core_Controller_FrontInterface
@@ -146,6 +107,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
+            $requestedModules = $this->_getRequestedModules();
+            $this->_initResourceConfig($requestedModules);
+
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
@@ -153,6 +117,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_getSoapServer()->handle();
             }
+        } catch (InvalidArgumentException $e) {
+            $responseBody = $this->_getSoapFaultMessage($e->getMessage(), self::FAULT_CODE_SENDER);
         } catch (Exception $e) {
             $responseBody = $this->_getSoapFaultMessage();
         }
@@ -164,35 +130,28 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /**
      * Generate WSDL content based on resource config.
      *
-     * @throws InvalidArgumentException
      * @return string
      */
     protected function _getWsdlContent()
     {
-        try {
-            $requestedModules = $this->_getRequestedModules();
-            $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
-            if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
-                $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
-                if ($cachedWsdlContent !== false) {
-                    return $cachedWsdlContent;
-                }
+        $requestedModules = $this->_getRequestedModules();
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
+        if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
+            $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
+            if ($cachedWsdlContent !== false) {
+                return $cachedWsdlContent;
             }
+        }
 
-            $this->_initResourceConfig($requestedModules);
-            /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
-            $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
-                'resource_config' => $this->getResourceConfig(),
-                // TODO: Temporary workaround
-                'endpoint_url' => $this->_getEndpointUrl() . "?modules[Mage_Customer]=v1",
-            ));
-            $wsdlContent = $wsdlConfig->generate();
+        /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
+        $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
+            'resource_config' => $this->getResourceConfig(),
+            'endpoint_url' => $this->_getEndpointUrl(),
+        ));
+        $wsdlContent = $wsdlConfig->generate();
 
-            if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
-                Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
-            }
-        } catch (InvalidArgumentException $e) {
-            $wsdlContent = $this->_getSoapFaultMessage($e->getMessage(), self::FAULT_CODE_SENDER);
+        if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
+            Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;
@@ -304,18 +263,26 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlUrl()
     {
-        return $this->_getEndpointUrl() . '?wsdl=1&modules[Mage_Customer]=v1';
+        return $this->_getEndpointUrl(true);
     }
 
     /**
      * Get SOAP endpoint URL
      *
+     * @param bool $isWsdl
      * @return string
      */
-    protected function _getEndpointUrl()
+    protected function _getEndpointUrl($isWsdl = false)
     {
+        $params = array(
+            'modules' => $this->_getRequestedModules()
+        );
+        if ($isWsdl) {
+            $params['wsdl'] = true;
+        }
+        $query = http_build_query($params, '', '&');
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap?' . $query;
     }
 
     /**
