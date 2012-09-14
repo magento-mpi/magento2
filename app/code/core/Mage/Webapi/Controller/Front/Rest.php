@@ -136,6 +136,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
         } catch (RuntimeException $e) {
+            // TODO: Implement proper error handling
             switch ($e->getCode()) {
                 case self::EXCEPTION_CODE_RESOURCE_NOT_FOUND:
                     $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_NOT_FOUND));
@@ -149,7 +150,14 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             }
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_addException($e);
+            switch ($e->getCode()) {
+                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
+                    break;
+                default:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_INTERNAL_ERROR));
+                    break;
+            }
         }
 
         Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));

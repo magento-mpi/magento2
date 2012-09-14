@@ -17,7 +17,7 @@
  */
 class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_ActionAbstract
 {
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response,
+    public function __construct(Mage_Webapi_Model_Request $request, Mage_Webapi_Model_Response $response,
         Mage_Core_Helper_Abstract $translationHelper
     ) {
         $translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Customer_Helper_Data');

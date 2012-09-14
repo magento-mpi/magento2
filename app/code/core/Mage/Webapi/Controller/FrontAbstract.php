@@ -161,7 +161,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Instantiate and validate action controller
      *
      * @param string $className
-     * @return Mage_Core_Controller_Varien_Action
+     * @return Mage_Webapi_Controller_ActionAbstract
      * @throws Mage_Core_Exception
      */
     protected function _getActionControllerInstance($className)
