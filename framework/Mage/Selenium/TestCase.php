@@ -2348,7 +2348,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($availableElement) {
                 return $availableElement;
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
@@ -2378,7 +2378,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->elementIsPresent($locator)) {
                 return true;
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
@@ -2402,11 +2402,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            $availableElement = $this->elementIsPresent($locator);
-            if ($availableElement && $availableElement->displayed()) {
-                return $availableElement;
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
+             */
+            $availableElements = $this->getElements($locator, false);
+            foreach ($availableElements as $availableElement) {
+                if ($availableElement->displayed()) {
+                    return $availableElement;
+                }
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException(
             'Timeout after ' . $timeout . ' seconds. Element(s) not visible [locator = ' . $locator . ']');
@@ -2431,11 +2436,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            $availableElement = $this->elementIsPresent($locator);
-            if ($availableElement && $availableElement->enabled()) {
-                return $availableElement;
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
+             */
+            $availableElements = $this->getElements($locator, false);
+            foreach ($availableElements as $availableElement) {
+                if ($availableElement->enabled()) {
+                    return $availableElement;
+                }
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
@@ -2461,7 +2471,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($ajaxResult == 0 || $ajaxResult == null) {
                 return;
             }
-            sleep(1);
+            usleep(500000);
         }
     }
 
@@ -3499,7 +3509,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($result === 'complete') {
                 return true;
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Time is out for waitForPageToLoad');
     }
@@ -3550,7 +3560,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->textIsPresent($pageText)) {
                 return;
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
@@ -3571,7 +3581,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if (!$this->textIsPresent($pageText)) {
                 return;
             }
-            sleep(1);
+            usleep(500000);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
