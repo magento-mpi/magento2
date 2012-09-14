@@ -135,15 +135,19 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     public function emptyRequiredFieldsInBillingAddress($field, $message, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name' => $simpleSku,
-                                                $field          => ''));
+        if ($field != 'billing_city') {
+            $override = array('general_name' => $simpleSku, $field => '');
+        } else {
+            $override = array('general_name' => $simpleSku, $field => '', 'billing_state' => '%noValue%');
+        }
+        $checkout = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
+            $override);
         if ($field == 'billing_password') {
             $message .= "\n" . '"Confirm Password": Please make sure your passwords match.';
         }
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkout);
     }
 
     public function emptyRequiredFieldsInBillingAddressDataProvider()
@@ -332,11 +336,15 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     public function emptyRequiredFieldsInShippingAddress($field, $message, $simpleSku)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name' => $simpleSku,
-                                                $field          => ''));
+        if ($field != 'shipping_city') {
+            $override = array('general_name' => $simpleSku, $field => '');
+        } else {
+            $override = array('general_name' => $simpleSku, $field => '', 'shipping_state' => '%noValue%');
+        }
+        $checkout = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
+            $override);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkout);
     }
 
     public function emptyRequiredFieldsInShippingAddressDataProvider()

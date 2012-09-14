@@ -390,9 +390,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->assertOnePageCheckoutTabOpened('billing_information');
         $this->frontFillOnePageAddress($addressData, 'billing');
-        if ($this->controlIsPresent('radiobutton', 'ship_to_this_address')) {
-            $isChecked = $this->getControlAttribute('radiobutton', 'ship_to_this_address', 'value');
-            $fillShipping = ($isChecked == 'off') ? true : false;
+        if ($this->controlIsPresent('radiobutton', 'ship_to_different_address')) {
+            $fillShipping = $this->getControlAttribute('radiobutton', 'ship_to_different_address', 'selectedValue');
         } else {
             $fillShipping = false;
         }
