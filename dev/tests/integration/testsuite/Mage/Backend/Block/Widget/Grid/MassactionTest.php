@@ -135,8 +135,8 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertRegExp('#<span class="outer-span" id="([\w\d_]+)_massaction-form-additional"></span>#', $html);
         $this->assertRegExp(
             '#<button  id="([\w\d_]+)" title="Submit" type="button" class="scalable " '
-                . 'onclick="([\w\d_]+)_massactionJsObject.apply\(\)" style=""><span><span>
-                . <span>Submit</span></span></span></button>                        </span>#',
+                . 'onclick="([\w\d_]+)_massactionJsObject.apply\(\)" style=""><span><span>'
+                . '<span>Submit</span></span></span></button>                        </span>#',
             $html
         );
         $this->assertRegExp('#<div id="([\w\d_]+)_massaction-item-option_id1-block">#', $html);
