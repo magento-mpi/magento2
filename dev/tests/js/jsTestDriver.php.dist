@@ -17,10 +17,11 @@ return array(
     'proxy' => array(array('matcher' => '/pub/lib/*', 'server' => '%s/test/%s/pub/lib/')),
     'load' => array(
         '/pub/lib/globalize',
-        '/pub/lib/jquery/ui',
+        '/pub/lib/jquery/ui/i18n',
         '/pub/lib/mage/localization',
         '/pub/lib/mage/validation',
-        '/pub/lib/mage/components'),
+        '/app/code/core/Mage/DesignEditor/view/frontend/js',
+        '/app/code/core/Mage/Page/view/frontend/js'),
     'test' => array('/dev/tests/js/testsuite'),
     'serve' => array('/pub/lib/mage/calendar'),
     'JsTestDriver' => 'path_to_jstestdriver_jar'
