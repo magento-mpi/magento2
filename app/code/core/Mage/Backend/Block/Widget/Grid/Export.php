@@ -25,11 +25,26 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
     protected $_exportPageSize = 1000;
 
     /**
+     * Template file name
+     *
+     * @var string
+     */
+    protected $_template = "Mage_Backend::widget/grid/export.phtml";
+
+    /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
-        $this->_exportTypes = isset($data['exportTypes']) ? $data['exportTypes'] : array();
+        if (isset($data['exportTypes'])) {
+            foreach ($data['exportTypes'] as $type) {
+                if (!isset($type['urlPath']) || !isset($type['label'])) {
+                    Mage::throwException('Invalid export type supplied for grid export block');
+                }
+                $this->addExportType($type['urlPath'], $type['label']);
+            }
+        }
+        parent::__construct($data);
     }
 
     /**
@@ -80,6 +95,44 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
     public function getExportTypes()
     {
         return empty($this->_exportTypes) ? false : $this->_exportTypes;
+    }
+
+    /**
+     * Retrieve grid id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+       return $this->getParentBlock()->getId();
+    }
+
+    /**
+     * Prepare export button
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _prepareLayout()
+    {
+        $this->setChild('export_button',
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
+                ->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
+                'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',
+                'class'   => 'task'
+            ))
+        );
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Render export button
+     *
+     * @return string
+     */
+    public function getExportButtonHtml()
+    {
+        return $this->getChildHtml('export_button');
     }
 
     /**
