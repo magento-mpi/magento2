@@ -138,6 +138,20 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve export block
+     *
+     * @throws Mage_Core_Exception
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getExportBlock()
+    {
+        if (!$this->getChildBlock('grid.export')) {
+            Mage::throwException('Eport block for grid ' . $this->getNameInLayout() . ' is not defined');
+        }
+        return $this->getChildBlock('grid.export');
+    }
+
+    /**
      * Retrieve list of grid columns
      *
      * @return array
@@ -145,6 +159,24 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getColumns()
     {
         return $this->getColumnSet()->getColumns();
+    }
+
+    /**
+     * Check whether should render cell
+     *
+     * @param Varien_Object $item
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
+     * @return boolean
+     */
+    public function shouldRenderCell($item, $column)
+    {
+        if ($this->isColumnGrouped($column) && $item->getIsEmpty()) {
+            return true;
+        }
+        if (!$item->getIsEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -603,16 +635,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 
     /**
      * Grid url getter
-     *
-     * @return string current grid url
-     */
-    public function getGridUrl()
-    {
-        return $this->getCurrentUrl();
-    }
-
-    /**
-     * Grid url getter
      * Version of getGridUrl() but with parameters
      *
      * @param array $params url parameters
@@ -633,7 +655,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getParam($paramName, $default=null)
     {
         $session = Mage::getSingleton('Mage_Backend_Model_Session');
-        $sessionParamName = $this->getId().$paramName;
+        $sessionParamName = $this->getId() . $paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
             if ($this->_saveParametersInSession) {
@@ -668,7 +690,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getJsObjectName()
     {
-        return $this->getId().'JsObject';
+        return $this->getId() . 'JsObject';
     }
 
     /**

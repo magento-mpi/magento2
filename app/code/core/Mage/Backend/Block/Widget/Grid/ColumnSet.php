@@ -76,50 +76,34 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
             throw new InvalidArgumentException('Passed wrong parameters');
         }
 
-        if (isset($data['rowUrlGenerator'])) {
-            $this->_rowUrlGenerator = $data['rowUrlGenerator'];
-        } elseif (isset($data['rowUrlPath'])) {
-            $generatorClassName = 'Mage_Backend_Model_Widget_Grid_Row_UrlGenerator';
-            if (isset($data['rowUrlGeneratorClass'])) {
-                $generatorClassName = $data['rowUrlGeneratorClass'];
-                unset($data['rowUrlGeneratorClass']);
+        if (isset($data['rowUrl'])) {
+            $rowUrlParams = $data['rowUrl'];
+            if (isset($data['generator'])) {
+                $this->_rowUrlGenerator = $rowUrlParams['generator'];
+            } else {
+                $generatorClassName = 'Mage_Backend_Model_Widget_Grid_Row_UrlGenerator';
+                if (isset($data['generatorClass'])) {
+                    $generatorClassName = $rowUrlParams['generatorClass'];
+                }
+                $objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::app()->getConfig();
+                if (false === ($objectFactory instanceof Mage_Core_Model_Config)) {
+                    throw new InvalidArgumentException('Passed wrong parameters');
+                }
+                unset($data['objectFactory']);
+
+                $this->_rowUrlGenerator = $objectFactory->getModelInstance($generatorClassName, $rowUrlParams);
             }
-
-            $arguments = array(
-                'path' => $data['rowUrlPath'],
-            );
-
-            if (isset($data['rowUrlParams'])) {
-                $arguments = array_merge($arguments, array('params' => $data['rowUrlParams']));
-                unset($data['rowUrlParams']);
-            }
-
-            if (isset($data['rowUrlExtraParamsTemplate'])) {
-                $arguments = array_merge($arguments, array('extraParamsTemplate' => $data['rowUrlExtraParamsTemplate']));
-                unset($data['rowUrlExtraParamsTemplate']);
-            }
-
-            $objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::app()->getConfig();
-            if (false === ($objectFactory instanceof Mage_Core_Model_Config)) {
-                throw new InvalidArgumentException('Passed wrong parameters');
-            }
-            unset($data['objectFactory']);
-
-            $this->_rowUrlGenerator = $objectFactory->getModelInstance($generatorClassName, $arguments);
         }
-        unset($data['rowUrlPath']);
-        unset($data['rowUrlGenerator']);
 
         if (null !== $this->_rowUrlGenerator
             && false === ($this->_rowUrlGenerator instanceof Mage_Backend_Model_Widget_Grid_Row_UrlGenerator)
         ) {
             throw new InvalidArgumentException('Passed wrong parameters');
         }
+        $this->setEmptyText($this->_helper->__('No records found.'));
 
         parent::__construct($data);
         $this->setTemplate('Mage_Backend::widget/grid/column_set.phtml');
-
-        $this->_emptyText = $this->_helper->__('No records found.');
     }
 
 
@@ -197,11 +181,14 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected function _beforeToHtml()
     {
         $columns = $this->getColumns();
-        foreach ($columns as $column) {
+        foreach ($columns as $columnId => $column) {
+            $column->setId($columnId);
             $column->setGrid($this->getGrid());
         }
         $last = array_pop($columns);
-        $last->addHeaderCssClass('last');
+        if ($last) {
+            $last->addHeaderCssClass('last');
+        }
     }
 
     /**
@@ -392,28 +379,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getFilterVisibility()
     {
         return $this->_filterVisibility;
-    }
-
-    /**
-     * Set empty text for grid
-     *
-     * @param string $text
-     * @return Mage_Backend_Block_Widget_Grid
-     */
-    public function setEmptyText($text)
-    {
-        $this->_emptyText = $text;
-        return $this;
-    }
-
-    /**
-     * Return empty text for grid
-     *
-     * @return string
-     */
-    public function getEmptyText()
-    {
-        return $this->_emptyText;
     }
 
     /**

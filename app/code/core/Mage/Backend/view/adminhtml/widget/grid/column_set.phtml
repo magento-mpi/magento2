@@ -12,9 +12,6 @@
 $numColumns = sizeof($this->getColumns());
 ?>
 <?php if($this->getCollection()): ?>
-<div class="grid">
-    <div class="hor-scroll">
-        <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
         <?php foreach ($this->getColumns() as $_column): ?>
             <col <?php echo $_column->getHtmlProperty() ?> />
         <?php endforeach; ?>
@@ -53,7 +50,7 @@ $numColumns = sizeof($this->getColumns());
             <?php $i=0;foreach ($this->getColumns() as $_column): ?>
 
                 <?php if ($this->shouldRenderCell($_item, $_column)):?>
-                    <?php $_rowspan = $this->getRowspan($_item, $_column);?>ad columns rendering
+                    <?php $_rowspan = $this->getRowspan($_item, $_column);?>
                     <td <?php echo ($_rowspan ? 'rowspan="' . $_rowspan . '" ' : '') ?>class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i==$numColumns?'last':'' ?>">
                         <?php echo (($_html = $_column->getRowField($_item)) != '' ? $_html : '&nbsp;') ?>
                     </td>
@@ -96,8 +93,5 @@ $numColumns = sizeof($this->getColumns());
         <?php endif; ?>
         </tbody>
 
-    </table>
-    </div>
-</div>
 
 <?php endif ?>

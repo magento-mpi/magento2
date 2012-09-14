@@ -13,7 +13,7 @@
 <layout>
     <adminhtml_customer_edit>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Customer_Edit" name="customer_edit"></block>
+            <block type="Mage_Adminhtml_Block_Customer_Edit" name="customer_edit"/>
         </reference>
         <reference name="head">
             <block type="Mage_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
@@ -39,7 +39,115 @@
         </reference>
     </adminhtml_customer_group_index>
     <adminhtml_customer_wishlist>
-        <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="1" />
+        <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="1">
+            <arguments>
+                <dataSource type="object">Mage_Adminhtml_Model_Wishlist_Item_Collection</dataSource>
+                <id>wishlistGrid</id>
+                <use_ajax>true</use_ajax>
+                <template>Mage_Adminhtml::customer/tab/wishlist.phtml</template>
+                <grid_url type="url">
+                    <path>*/*/wishlist</path>,
+                    <params>
+                        <_current>1</_current>
+                    </params>)
+                </grid_url>
+            </arguments>
+            <block type="Mage_Backend_Block_Widget_Grid_Export" as="grid.export">
+                <arguments>
+                    <exportTypes>
+                        <csv>
+                            <urlPath>*/*/exportCsv</urlPath>
+                            <label>CSV</label>
+                        </csv>
+                        <excel>
+                            <urlPath>*/*/exportXml</urlPath>
+                            <label>Excel XML</label>
+                        </excel>
+                    </exportTypes>
+                </arguments>
+            </block>
+            <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
+                <arguments>
+                    <rowUrl>
+                        <path>*/catalog_product/edit</path>
+                        <extraParamsTemplate>
+                            <id>getProductId</id>;
+                        </extraParamsTemplate>
+                    </rowUrl>
+                    <empty_text>No Items Found</empty_text>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="product_name">
+                    <arguments>
+                        <header>Product name</header>
+                        <id>product_name</id>
+                        <index>product_name</index>
+                        <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="description">
+                    <arguments>
+                        <header>User description</header>
+                        <index>description</index>
+                        <id>description</id>
+                        <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
+                    <arguments>
+                        <header>Qty</header>
+                        <index>qty</index>
+                        <type>number</type>
+                        <width>60px</width>
+                        <id>qty</id>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_at">
+                    <arguments>
+                        <header>Date Added</header>
+                        <index>added_at</index>
+                        <gmtoffset>1</gmtoffset>
+                        <type>date</type>
+                        <id>added_at</id>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="days">
+                    <arguments>
+                        <header>Days in Wishlist</header>
+                        <index>days_in_wishlist</index>
+                        <type>number</type>
+                        <id>days</id>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                    <arguments>
+                        <header>Action</header>
+                        <index>wishlist_item_id</index>
+                        <renderer>Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction</renderer>
+                        <id>days</id>
+                        <sortable>0</sortable>
+                        <filter>0</filter>
+                        <actions>
+                            <action>
+                                <caption>Configure</caption>
+                                <url>javascript:void(0)</url>
+                                <process>configurable</process>
+                                <controlObject>wishlistControl</controlObject>
+                            </action>
+                            <action>
+                                <caption>Delete</caption>
+                                <url>#</url>
+                                <onclick>return wishlistControl.removeItem($wishlist_item_id);</onclick>
+                            </action>
+                        </actions>
+                    </arguments>
+                </block>
+            </block>
+            <block type="Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Js" as="grid.js">
+                <arguments>
+                    <template>Mage_Adminhtml::customer/tab/wishlist.phtml</template>
+                </arguments>
+            </block>
+        </block>
     </adminhtml_customer_wishlist>
 
     <adminhtml_customer_orders>

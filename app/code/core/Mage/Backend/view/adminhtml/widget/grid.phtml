@@ -18,6 +18,7 @@
  *  getPagerVisibility()
  *  getVarNamePage()
  */
+$numColumns = sizeof($this->getColumns());
 ?>
 <?php if($this->getCollection()): ?>
     <?php if($this->canDisplayContainer()): ?>
@@ -78,15 +79,9 @@
             <?php endif; ?>
         </td>
     <?php endif ?>
-    <?php if($this->getExportTypes()): ?>
+    <?php if($this->getChildBlock('grid.export')): ?>
         <td class="export a-right">
-            <img src="<?php echo $this->getSkinUrl('images/icon_export.gif') ?>" alt="" class="v-middle"/>&nbsp; <?php echo $this->__('Export to:') ?>
-            <select name="<?php echo $this->getId() ?>_export" id="<?php echo $this->getId() ?>_export" style="width:8em;">
-            <?php foreach ($this->getExportTypes() as $_type): ?>
-                <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
-            <?php endforeach; ?>
-            </select>
-            <?php echo $this->getExportButtonHtml() ?>
+            <?php echo $this->getChildHtml('grid.export');?>
         </td>
     <?php endif; ?>
         <td class="filter-actions a-right">
@@ -95,12 +90,18 @@
         </tr>
     </table>
 <?php endif; ?>
-<?php if($this->getChildBlock('grid.massaction')->isAvailable()): ?>
-<?php echo $this->getChildHtml('grid.massaction') ?>
+<?php if($this->getChildBlock('grid.massaction') && $this->getChildBlock('grid.massaction')->isAvailable()): ?>
+    <?php echo $this->getChildHtml('grid.massaction') ?>
 <?php endif ?>
 <div class="grid">
-    <!-- Rendering column set -->
-    <?php echo $this->getChildHtml('grid.columnSet'); ?>
+    <div class="grid">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
+                <!-- Rendering column set -->
+                <?php echo $this->getChildHtml('grid.columnSet'); ?>
+            </table>
+        </div>
+    </div>
 </div>
 <?php if($this->canDisplayContainer()): ?>
 </div>
@@ -118,11 +119,14 @@
         <?php echo $this->getJsObjectName() ?>.initRowCallback = <?php echo $this->getRowInitCallback() ?>;
         <?php echo $this->getJsObjectName() ?>.initGridRows();
     <?php endif; ?>
-    <?php if($this->getChildBlock('grid.massaction')->isAvailable()): ?>
+    <?php if($this->getChildBlock('grid.massaction') && $this->getChildBlock('grid.massaction')->isAvailable()): ?>
     <?php echo $this->getChildBlock('grid.massaction')->getJavaScript() ?>
     <?php endif ?>
     <?php echo $this->getAdditionalJavaScript(); ?>
 //]]>
 </script>
 <?php endif; ?>
+<?php if($this->getChildBlock('grid.js')): ?>
+    <?php echo $this->getChildHtml('grid.js');?>
+<?php endif;?>
 <?php endif ?>

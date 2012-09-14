@@ -31,7 +31,7 @@ class Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
     /**
      * @var array
      */
-    protected $_params;
+    protected $_params = array();
 
     /**
      * @var array
@@ -40,13 +40,10 @@ class Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
 
     public function __construct(array $args = array())
     {
-        if (!isset($args['urlModel']) || !isset($args['path'])) {
+        if (!isset($args['path'])) {
             throw new InvalidArgumentException('Not all required parameters passed');
         }
-        $this->_urlModel = $args['urlModel'];
-        if (false === ($this->_urlModel instanceof Mage_Backend_Model_Url)) {
-            throw new InvalidArgumentException('Passed incorrect parameters');
-        }
+        $this->_urlModel = isset($args['urlModel']) ? $args['urlModel'] : Mage::getSingleton('Mage_Backend_Model_Url');
         $this->_path = (string) $args['path'];
         if (isset($args['params'])) {
             $this->_params = (array) $args['params'];

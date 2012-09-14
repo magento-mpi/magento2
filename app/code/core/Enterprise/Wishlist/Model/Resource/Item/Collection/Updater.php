@@ -15,27 +15,26 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Model_Resource_Item_Collection extends Mage_Wishlist_Model_Resource_Item_Collection
+class Enterprise_Wishlist_Model_Resource_Item_Collection_Updater
+    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Add filtration by customer id
      *
-     * @param int $customerId
-     * @return Enterprise_Wishlist_Model_Resource_Item_Collection
+     * @param Varien_Data_Collection_Db $argument
+     * @return mixed
      */
-    public function addCustomerIdFilter($customerId)
+    public function update($argument)
     {
-        parent::addCustomerIdFilter($customerId);
-
-        $adapter = $this->getConnection();
+        $adapter = $argument->getConnection();
         $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
-        $this->getSelect()->columns(
+        $argument->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );
 
-        $this->addFilterToMap(
+        $argument->addFilterToMap(
             'wishlist_name', $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
         );
-        return $this;
+        return $argument;
     }
 }
