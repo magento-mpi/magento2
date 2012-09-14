@@ -538,7 +538,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         // Verify tier prices
         if (array_key_exists('prices_tier_price_data', $nestedArrays)) {
-            $this->openTab('prices');
             $this->verifyTierPrices($nestedArrays['prices_tier_price_data']);
         }
         //Verify selected websites

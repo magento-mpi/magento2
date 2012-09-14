@@ -2875,6 +2875,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $resultFlag = false;
                 continue;
             }
+            $this->focusOnElement($availableElement);
             switch ($formField['type']) {
                 case self::FIELD_TYPE_INPUT:
                     $actualValue = $availableElement->value();
