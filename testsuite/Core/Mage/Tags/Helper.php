@@ -174,7 +174,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         $prodTagAdmin =
             (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : array();
         // Fill general options
-        $this->fillFieldset($tagData, 'general_info');
+        $this->fillForm($tagData);
         if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getControlAttribute('field', 'tag_name', 'value');

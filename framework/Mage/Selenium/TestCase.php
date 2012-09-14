@@ -854,9 +854,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $page = $this->getCurrentUimapPage();
         if ($area == 'admin' || $area == 'frontend') {
             self::$_messages['notice'] = $this->getElementsValue($page->findMessage('general_notice'), 'text');
-            //@TODO add field name to validation messages
-            //$fieldNameWithMessage = $page->findPageelement('fieldNameWithValidationMessage');
-            self::$_messages['validation'] = $this->getElementsValue($page->findMessage('general_validation'), 'text');
+            self::$_messages['validation'] = $this->parseValidationMessages();
         } else {
             self::$_messages['validation'] = $this->getElementsValue($page->findMessage('general_validation'), 'text');
         }
@@ -865,6 +863,69 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         foreach (self::$_messages as $messageType => $messages) {
             self::$_messages[$messageType] = array_diff($messages, array(''));
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function parseValidationMessages()
+    {
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $tab
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $message
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $field
+         */
+        $messageLocator = $this->getCurrentUimapPage()->findMessage('general_validation');
+        $tabsWithErrors = $this->getElements("//a[contains(@class,'error')]", false);
+        $messages = array();
+        if (empty($tabsWithErrors)) {
+            //$validationMessages = $this->elements($this->using('class name')->value('validation-advice'));
+            $validationMessages = $this->getElements($messageLocator, false);
+            foreach ($validationMessages as $message) {
+                $locator = 'preceding-sibling::*[@name][not(@type="hidden")]';
+                $field = $message->elements($this->using('xpath')->value($locator));
+                if (empty($field)) {
+                    $fieldId = explode('-', $message->attribute('id'));
+                    $fieldId = end($fieldId);
+                } else {
+                    list($field) = $field;
+                    $fieldId = $field->attribute('id');
+                }
+                $fieldName = $this->elementIsPresent("//*[@id='$fieldId']/../..//label");
+                $fieldName = ($fieldName) ? trim($fieldName->text(), " *\t\n\r") : $fieldId;
+                $messages[] = "'" . $fieldName . "': " . $message->text();
+            }
+        } else {
+            foreach ($tabsWithErrors as $tab) {
+                $isTabOpened = $tab->attribute('class');
+                if (!preg_match('/active/', $isTabOpened)) {
+                    $waitAjax = preg_match('/ajax/', $isTabOpened);
+                    $this->focusOnElement($tab);
+                    $tab->click();
+                    if ($waitAjax) {
+                        $this->pleaseWait();
+                    }
+                }
+                $displayedForm = $this->byId($tab->attribute('id') . '_content');
+                $validationMessages = $displayedForm->elements($this->using('xpath')->value('.' . $messageLocator));
+                foreach ($validationMessages as $message) {
+                    $locator = 'preceding-sibling::*[@name][not(@type="hidden")]';
+                    $field = $message->elements($this->using('xpath')->value($locator));
+                    if (empty($field)) {
+                        $fieldId = explode('-', $message->attribute('id'));
+                        $fieldId = end($fieldId);
+                    } else {
+                        list($field) = $field;
+                        $fieldId = $field->attribute('id');
+                    }
+                    //$fieldNameLocator = "//tr[td//@id='$fieldId']//label";
+                    $fieldName = $this->elementIsPresent("//*[@id='$fieldId']/../..//label");
+                    $fieldName = ($fieldName) ? trim($fieldName->text(), " *\t\n\r") : $fieldId;
+                    $messages[] = "'" . $fieldName . "': " . $message->text();
+                }
+            }
+        }
+        return $messages;
     }
 
     /**
