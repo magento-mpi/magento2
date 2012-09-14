@@ -40,7 +40,7 @@ return array(
             'fixture_files' => array(
                 'testsuite/fixtures/catalog_100k_products.php',
                 'testsuite/fixtures/customer_100k_customers.php',
-                'testsuite/fixtures/customer_100k_orders.php',
+                'testsuite/fixtures/sales_100k_orders.php',
             ),
         ),
     ),
