@@ -65,19 +65,15 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             // TODO: ACL check is not implemented yet
             $this->_checkResourceAcl();
 
-            // TODO: Think about the best format for method parameters (objects, arrays)
-            $arguments = $arguments[0];
+            $arguments = reset($arguments);
             /** @var Mage_Api_Helper_Data $helper */
             $helper = Mage::helper('Mage_Api_Helper_Data');
-            // TODO: Move wsiArrayUnpacker from helper to this class
-            $helper->wsiArrayUnpacker($arguments);
-            $arguments = get_object_vars($arguments);
-
+            $this->getHelper()->toArray($arguments);
             $action = $method . $methodSuffix;
-            $arguments = $this->getReflectionHelper()->prepareMethodParams($controllerClass, $action, $arguments);
-//            $result = $controllerInstance->$action($arguments);
+            $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
+            // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
             // TODO: Move wsiArrayPacker from helper to this class
             $obj = $helper->wsiArrayPacker($outputData);

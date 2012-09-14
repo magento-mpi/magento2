@@ -30,16 +30,11 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     protected $_resourceConfig;
 
     /** @var Mage_Webapi_Helper_Data */
-    protected $_translationHelper;
+    protected $_helper;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_reflectionHelper;
-
-    function __construct(Mage_Webapi_Helper_Data $translationHelper = null,
-                         Mage_Webapi_Helper_Data $reflectionHelper = null
-    ) {
-        $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
-        $this->_reflectionHelper = $reflectionHelper ? $reflectionHelper : Mage::helper('Mage_Webapi_Helper_Data');
+    function __construct(Mage_Webapi_Helper_Data $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
     }
 
     /**
@@ -275,7 +270,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             }
             $methodVersion--;
         }
-        throw new RuntimeException($this->_translationHelper
+        throw new RuntimeException($this->_helper
             ->__('The "%s" method is not implemented in version %s', $methodName, $methodVersion));
     }
 
@@ -299,7 +294,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         // TODO: Implement versioning
         $version = 1;
         if ($version > self::VERSION_MAX) {
-            throw new HttpInvalidParamException($this->_translationHelper
+            throw new HttpInvalidParamException($this->_helper
                 ->__("Resource version cannot be greater than %s.", self::VERSION_MAX));
         }
         return (int)$version;
@@ -310,8 +305,8 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      *
      * @return Mage_Webapi_Helper_Data
      */
-    public function getReflectionHelper()
+    public function getHelper()
     {
-        return $this->_reflectionHelper;
+        return $this->_helper;
     }
 }

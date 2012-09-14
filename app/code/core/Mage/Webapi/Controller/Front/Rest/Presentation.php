@@ -34,7 +34,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
             $this->getRequest()->getParams(),
             array('data' => $this->_getRequestData($methodName))
         );
-        $actionArguments = $this->_frontController->getReflectionHelper()
+        $actionArguments = $this->_frontController->getHelper()
             ->prepareMethodParams($controllerInstance, $action, $parameters);
         return $actionArguments;
     }
