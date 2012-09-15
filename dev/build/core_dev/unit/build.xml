@@ -40,10 +40,8 @@
         </exec>
     </target>
     <target name="_unit_tests_javascript" depends="_product_location" description="Javascript unit tests">
-        <condition property="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist">
-            <not><isset property="jstestdriver_config_file"/></not>
-        </condition>
-        <copy file="${jstestdriver_config_file}" tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
+        <copy file="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist"
+              tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
         <antcall target="_jstestdriver_path_substitution">
             <param name="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php"/>
         </antcall>

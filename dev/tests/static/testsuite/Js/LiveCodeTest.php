@@ -31,7 +31,6 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     /**
      * @static Return all files under a path
      * @param string $path
-     * @param array $name
      * @return array
      */
     protected static function _scanJsFile($path)
@@ -77,16 +76,24 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         self::$_whiteListJsFiles = array_filter(self::$_whiteListJsFiles, $filter);
     }
 
-    protected function _verifyTestRunnable($filename){
+    /**
+     * @param $filename
+     *
+     * @throws Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    protected function _verifyTestRunnable($filename)
+    {
         $command = 'which rhino';
         if ($this->_isOsWin()) {
             $command = 'cscript';
         }
         exec($command, $output, $retVal);
-        if ($retVal != 0){
+        if ($retVal != 0) {
             throw new Exception($command . ' does not exist.');
         }
-        if (!file_exists($filename)){
+        if (!file_exists($filename)) {
             throw new Exception($filename . ' does not exist.');
         }
     }
@@ -134,21 +141,20 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function _isOsWin(){
+    protected function _isOsWin()
+    {
         return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
     /**
      * Run jsHint against js file; if failed output error to report file
-     * @param $command - OS specific command
      * @param $filename - js file name with full path
-     * @param $option - jsHint option
      * @return bool
      */
     protected function _executeJsHint($filename)
     {
         exec($this->_getCommand() . ' ' . $filename . ' ' . TESTS_JSHINT_OPTIONS, $output, $retVal);
-        if ($retVal == 0){
+        if ($retVal == 0) {
             return true;
         }
         if ($this->_isOsWin()) {

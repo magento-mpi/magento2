@@ -14,15 +14,11 @@
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
 
-    <target name="_init" if="env.build_customization_dir">
-        <copy todir="${basedir}" failonerror="true" overwrite="true">
-            <fileset dir="${basedir}/${env.build_customization_dir}"/>
-        </copy>
-    </target>
-
-    <target name="_jshint-path-substitution" depends="_init">
-        <replace file="${basedir}/dev/tests/static/phpunit.xml">
-            <replacefilter token="{{tests_jshint_path}}" value="${env.JsHintPath}"/>
+    <target name="_jshint_path_substitution" description="JsHint Javascript file path substitution from environment variable">
+        <fail unless="phpunit_config_file" message="Property 'phpunit_config_file' must be defined"/>
+        <fail unless="env.JsHintPath" message="Environment variable 'JsHintPath' must be defined"/>
+        <replace file="${phpunit_config_file}">
+            <replacefilter token="path_to_jshint_javascript" value="${env.JsHintPath}"/>
         </replace>
     </target>
 
@@ -30,9 +26,6 @@
         <condition property="product_root_dir" value="${basedir}">
             <not><isset property="product_root_dir"/></not>
         </condition>
-        <antcall>
-            <target name="_jshint-path-substitution"/>
-        </antcall>
     </target>
 
     <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition">

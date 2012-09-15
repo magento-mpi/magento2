@@ -15,6 +15,11 @@
     <import file="../util.xml"/>
 
     <target name="_static_tests_all" depends="_product_location" description="All static tests">
+        <copy file="${product_root_dir}/dev/tests/static/phpunit.xml.dist"
+              tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
+        <antcall target="_jshint_path_substitution">
+            <param name="phpunit_config_file" value="${product_root_dir}/dev/tests/static/phpunit.xml"/>
+        </antcall>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
         </exec>
