@@ -81,7 +81,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         curl_setopt($chr, CURLOPT_TIMEOUT, 120);
         $data = curl_exec($chr);
         //Get form_key
-        $formKey = $this->_getFromKey($data);
+        $formKey = $this->_getFormKey($data);
         //Prepare export request
         curl_setopt($chr, CURLOPT_URL, $url);
         curl_setopt($chr, CURLOPT_FOLLOWLOCATION, 120);
@@ -113,7 +113,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @param string $pageHTML HTML response from the server
      * @return string
      */
-    protected function _getFromKey($pageHTML)
+    protected function _getFormKey($pageHTML)
     {
         $formKey = '';
         //Load page HTML to Dom model
@@ -122,7 +122,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Find form key
         $domXPath = new DOMXPath($dom);
         $formKeyFilter = $domXPath->query("//div/input[@name='form_key' and @type='hidden']");
-        if ($formKeyFilter) {
+        if (!is_null($formKeyFilter->item(0))) {
             //Get first found form key
             $formKey = $formKeyFilter->item(0)->getAttribute('value');
         }
@@ -284,7 +284,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         curl_setopt($chr, CURLOPT_TIMEOUT, 120);
         $data = curl_exec($chr);
         //Get form key from the page
-        $formKey = $this->_getFromKey($data);
+        $formKey = $this->_getFormKey($data);
         //Add request parameters
         $parameters['form_key'] = $formKey;
         //Make tmp file
