@@ -102,9 +102,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'      => $data['sku'],
-                                                'billing_' . $field  => ''));
+        $override = array('general_name' => $data['sku'], 'billing_' . $field  => '');
+        if ($field == 'country') {
+            $override['billing_state'] = '%noValue%';
+        }
+        $checkoutData =
+            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -138,9 +141,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'       => $data['sku'],
-                                                'shipping_' . $field  => ''));
+        $override = array('general_name' => $data['sku'], 'shipping_' . $field  => '');
+        if ($field == 'country') {
+            $override['shipping_state'] = '%noValue%';
+        }
+        $checkoutData =
+            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
