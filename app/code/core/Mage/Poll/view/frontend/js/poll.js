@@ -19,7 +19,7 @@
     $(document).ready(function () {
         // Trigger initalize event
         mage.event.trigger("mage.poll.initialize", pollInit);
-        mage.decorator.list(pollInit.pollAnswersId);
+        jQuery.mage.decorator.list(pollInit.pollAnswersId);
         $(pollInit.formId).on('submit', function () {
             return $(pollInit.pollCheckedOption).length > 0;
         });

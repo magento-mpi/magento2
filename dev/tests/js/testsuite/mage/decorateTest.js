@@ -17,7 +17,7 @@ DecoratorTest.prototype.testDecoratorList = function () {
      */
     var listId = '#list';
     assertNotNull($(listId));
-    mage.decorator.list(listId);
+    jQuery.mage.decorator.list(listId);
     assertTrue($($(listId).find('li')[0]).hasClass('odd'));
     assertFalse($($(listId).find('li')[0]).hasClass('even'));
     assertTrue($($(listId).find('li')[1]).hasClass('even'));
@@ -38,7 +38,7 @@ DecoratorTest.prototype.testDecoratorGeneral = function () {
      </div>
      */
     var itemClass = '.item';
-    mage.decorator.general($(itemClass));
+    jQuery.mage.decorator.general($(itemClass));
     assertTrue($($(itemClass)[0]).hasClass('odd'));
     assertFalse($($(itemClass)[0]).hasClass('even'));
     assertTrue($($(itemClass)[0]).hasClass('first'));

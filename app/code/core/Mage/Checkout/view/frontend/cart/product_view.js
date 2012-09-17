@@ -16,6 +16,6 @@
         };
         // Trigger initialize event
         mage.event.trigger('mage.productView.initialize', productView);
-        mage.decorator.list(productView.recentlyViewedItemSelector);
+        jQuery.mage.decorator.list(productView.recentlyViewedItemSelector);
     });
 }(jQuery));

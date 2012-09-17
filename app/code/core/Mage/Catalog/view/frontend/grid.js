@@ -21,14 +21,14 @@
         mage.event.trigger("mage.grid.initialize", gridInit);
 
         if (gridInit.listId) {
-            mage.decorator.list(gridInit.listId);
+            jQuery.mage.decorator.list(gridInit.listId);
         }
         if (gridInit.genericSelector) {
             if (gridInit.decoratorParams) {
-                mage.decorator.general($(gridInit.genericSelector), gridInit.decoratorParams);
+                jQuery.mage.decorator.general($(gridInit.genericSelector), gridInit.decoratorParams);
             }
             else {
-                mage.decorator.general($(gridInit.genericSelector));
+                jQuery.mage.decorator.general($(gridInit.genericSelector));
             }
         }
     });
