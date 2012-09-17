@@ -127,13 +127,13 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
          */
-        $nameCells = $table->elements($this->using('xpath')->value('//th'));
+        $nameCells = $table->elements($this->using('xpath')->value('.//th'));
         $productCount = count($table->elements($this->using('xpath')->value('tbody[1]/tr/*'))) - 1;
         foreach ($nameCells as $cellData) {
             $names[] = trim($cellData->text());
         }
         for ($i = 1; $i <= $productCount; $i++) {
-            $columnData = $table->elements($this->using('xpath')->value("//td[$i]"));
+            $columnData = $table->elements($this->using('xpath')->value(".//td[$i]"));
             foreach ($columnData as $cellData) {
                 $data[$i][] = $cellData->text();
             }
