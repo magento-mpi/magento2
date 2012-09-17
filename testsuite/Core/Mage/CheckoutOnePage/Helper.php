@@ -288,7 +288,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
                 $this->fillRadiobutton('check_payment_method', 'Yes');
                 if ($card) {
-                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'selectedValue');
+                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
                     $this->addParameter('paymentId', $paymentId);
                     $this->fillForm($card);
                 }

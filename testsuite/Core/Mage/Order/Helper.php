@@ -405,7 +405,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillRadiobutton('check_payment_method', 'Yes');
                 $this->pleaseWait();
                 if ($card) {
-                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'selectedValue');
+                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
                     $this->addParameter('paymentId', $paymentId);
                     $this->fillFieldset($card, 'order_payment_method');
                     $this->validate3dSecure();
