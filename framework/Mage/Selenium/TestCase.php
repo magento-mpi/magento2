@@ -1122,7 +1122,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if (is_null($message)) {
                 $error = '"' . $type . '" message(s) is on the page:';
             } else {
-                $error = '"' . $message . '" message(s) is on the page:';
+                $error = '"' . $message . '" message(s) is on the page.';
             }
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             if ($messagesOnPage) {
@@ -2441,7 +2441,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
              */
             $availableElements = $this->getElements($locator, false);
             foreach ($availableElements as $availableElement) {
-                if ($availableElement->enabled()) {
+                if ($availableElement->enabled() && $availableElement->displayed()) {
                     return $availableElement;
                 }
             }
@@ -3063,10 +3063,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $locator = $this->_getControlXpath('dropdown', $name);
         }
         $element = $this->waitForElementEditable($locator);
-        $defaultValue = trim($this->select($element)->selectedLabel(), chr(0xC2) . chr(0xA0));
-        if ($defaultValue == $value) {
-            return;
-        }
         $optionLocators = array("//option[normalize-space(text())='$value']",
                                 "//option[normalize-space(@value)='$value']",
                                 "//option[contains(text(),'$value')]");
@@ -3326,8 +3322,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
+            $this->validatePage('home_page');
         }
-        $this->validatePage('home_page');
 
         return $this;
     }

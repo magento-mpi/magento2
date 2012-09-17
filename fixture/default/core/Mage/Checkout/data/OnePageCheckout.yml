@@ -76,13 +76,13 @@ billing_exist_signedin_req_physical_withshipping:
 
 billing_new_signedin_long_values: &newBillingSignedInLongValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %longValue255%
     billing_last_name: %longValue255%
     billing_company: %longValue255%
     billing_street_address_1: %longValue255%
     billing_street_address_2: %longValue255%
     billing_city: %longValue255%
-    billing_country: Ukraine
     billing_region: %longValue255%
     billing_zip_code: %longValue255%
     billing_telephone: %longValue255%
@@ -93,13 +93,13 @@ billing_new_signedin_long_values: &newBillingSignedInLongValues
 
 billing_new_signedin_special_values: &newBillingSignedInSpecialValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %specialValue32%
     billing_last_name: %specialValue32%
     billing_company: %specialValue32%
     billing_street_address_1: %specialValue32%
     billing_street_address_2: %specialValue32%
     billing_city: %specialValue32%
-    billing_country: Ukraine
     billing_region: %specialValue32%
     billing_zip_code: %specialValue32%
     billing_telephone: %specialValue32%
@@ -239,6 +239,7 @@ billing_with_register_req_virtual: &billingWithRegisterReqVirtual
 
 billing_with_register_long_values: &billingWithRegisterLongValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %longValue255%
     billing_last_name: %longValue255%
     billing_company: %longValue255%
@@ -246,7 +247,6 @@ billing_with_register_long_values: &billingWithRegisterLongValues
     billing_street_address_1: %longValue255%
     billing_street_address_2: %longValue255%
     billing_city: %longValue255%
-    billing_country: Ukraine
     billing_region: %longValue255%
     billing_zip_code: %longValue255%
     billing_telephone: %longValue255%
@@ -258,6 +258,7 @@ billing_with_register_long_values: &billingWithRegisterLongValues
 
 billing_with_register_long_values: &billingWithRegisterSpecialValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %specialValue32%
     billing_last_name: %specialValue32%
     billing_company: %specialValue32%
@@ -265,7 +266,6 @@ billing_with_register_long_values: &billingWithRegisterSpecialValues
     billing_street_address_1: %specialValue32%
     billing_street_address_2: %specialValue32%
     billing_city: %specialValue32%
-    billing_country: Ukraine
     billing_region: %specialValue32%
     billing_zip_code: %specialValue32%
     billing_telephone: %specialValue32%
@@ -411,13 +411,13 @@ shipping_new_signedin_req: &newShippingSignedInReq
 
 shipping_new_signedin_long_values: &newShippingSignedInLongValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %longValue255%
     shipping_last_name: %longValue255%
     shipping_company: %longValue255%
     shipping_street_address_1: %longValue255%
     shipping_street_address_2: %longValue255%
     shipping_city: %longValue255%
-    shipping_country: Ukraine
     shipping_region: %longValue255%
     shipping_zip_code: %longValue255%
     shipping_telephone: %longValue255%
@@ -427,13 +427,13 @@ shipping_new_signedin_long_values: &newShippingSignedInLongValues
 
 shipping_new_signedin_special_values: &newShippingSignedInSpecialValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %specialValue32%
     shipping_last_name: %specialValue32%
     shipping_company: %specialValue32%
     shipping_street_address_1: %specialValue32%
     shipping_street_address_2: %specialValue32%
     shipping_city: %specialValue32%
-    shipping_country: Ukraine
     shipping_region: %specialValue32%
     shipping_zip_code: %specialValue32%
     shipping_telephone: %specialValue32%
@@ -444,13 +444,13 @@ shipping_new_signedin_special_values: &newShippingSignedInSpecialValues
 #<--------------With Registration---------------->
 shipping_with_register_long_values: &shippingWithRegisterLongValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %longValue255%
     shipping_last_name: %longValue255%
     shipping_company: %longValue255%
     shipping_street_address_1: %longValue255%
     shipping_street_address_2: %longValue255%
     shipping_city: %longValue255%
-    shipping_country: Ukraine
     shipping_region: %longValue255%
     shipping_zip_code: %longValue255%
     shipping_telephone: %longValue255%
@@ -459,13 +459,13 @@ shipping_with_register_long_values: &shippingWithRegisterLongValues
 
 shipping_with_register_long_values: &shippingWithRegisterSpecialValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %specialValue32%
     shipping_last_name: %specialValue32%
     shipping_company: %specialValue32%
     shipping_street_address_1: %specialValue32%
     shipping_street_address_2: %specialValue32%
     shipping_city: %specialValue32%
-    shipping_country: Ukraine
     shipping_region: %specialValue32%
     shipping_zip_code: %specialValue32%
     shipping_telephone: %specialValue32%

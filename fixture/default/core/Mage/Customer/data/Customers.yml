@@ -104,6 +104,7 @@ generic_address:
     default_shipping_address: %noValue%
 
 long_values_address:
+    country: Ukraine
     prefix: %longValue255%
     first_name: %longValue255%
     middle_name: %longValue255%
@@ -113,13 +114,13 @@ long_values_address:
     street_address_line_1: %longValue255%
     street_address_line_2: %longValue255%
     city: %longValue255%
-    country: Ukraine
     region: %longValue255%
     zip_code: %longValue255%
     telephone: %longValue255%
     fax: %longValue255%
 
 special_char_address:
+    country: Ukraine
     prefix: %specialValue32%
     first_name: %specialValue32%
     middle_name: %specialValue32%
@@ -129,7 +130,6 @@ special_char_address:
     street_address_line_1: %specialValue32%
     street_address_line_2: %specialValue32%
     city: %specialValue32%
-    country: Ukraine
     region: %specialValue32%
     zip_code: %specialValue32%
     telephone: %specialValue32%

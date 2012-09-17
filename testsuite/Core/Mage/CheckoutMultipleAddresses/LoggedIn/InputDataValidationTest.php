@@ -359,7 +359,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                                    "'shopping_cart_is_empty' message is on the page.");
+                                    '"shopping_cart_is_empty" message(s) is on the page.');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
