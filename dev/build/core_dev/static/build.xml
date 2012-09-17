@@ -14,8 +14,16 @@
 <project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">
     <import file="../util.xml"/>
 
+    <target name="_jshint_path_substitution" description="JsHint Javascript file path substitution from environment variable">
+        <fail unless="phpunit_config_file" message="Property 'phpunit_config_file' must be defined"/>
+        <fail unless="env.JsHintPath" message="Environment variable 'JsHintPath' must be defined"/>
+        <replace file="${phpunit_config_file}">
+            <replacefilter token="{{tests_jshint_path}}" value="${env.JsHintPath}"/>
+        </replace>
+    </target>
+
     <target name="_static_tests_all" depends="_product_location" description="All static tests">
-        <copy file="${product_root_dir}/dev/tests/static/phpunit.xml.dist"
+        <copy file="${product_root_dir}/dev/build/customization/static/dev/tests/static/phpunit.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <antcall target="_jshint_path_substitution">
             <param name="phpunit_config_file" value="${product_root_dir}/dev/tests/static/phpunit.xml"/>

@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    frontend calendar
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 .ui-datepicker {
     position: relative;
     display: none;

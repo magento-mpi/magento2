@@ -14,14 +14,6 @@
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
 
-    <target name="_jshint_path_substitution" description="JsHint Javascript file path substitution from environment variable">
-        <fail unless="phpunit_config_file" message="Property 'phpunit_config_file' must be defined"/>
-        <fail unless="env.JsHintPath" message="Environment variable 'JsHintPath' must be defined"/>
-        <replace file="${phpunit_config_file}">
-            <replacefilter token="path_to_jshint_javascript" value="${env.JsHintPath}"/>
-        </replace>
-    </target>
-
     <target name="_product_location" description="Detection of a product source code root directory">
         <condition property="product_root_dir" value="${basedir}">
             <not><isset property="product_root_dir"/></not>

@@ -1,10 +1,8 @@
 /**
- * Animated mini-shopping cart block
- *
  * {license_notice}
  *
- * @category    design
- * @package     enterprise_default
+ * @category    mage product view
+ * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
