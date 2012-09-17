@@ -36,8 +36,10 @@ browsers:
          browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         seleniumServerRequestsTimeout: 45
-         sessionStrategy: isolated
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
 ################################################################################
 #                                                                              #
 #                     Framework configuration                                  #
@@ -92,5 +94,5 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'emaksimenko@ebay.com'
-                password: 'koloboc1234'
+                login: 'qa14@varien.com'
+                password: 'magento1234'
