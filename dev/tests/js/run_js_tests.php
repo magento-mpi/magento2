@@ -144,7 +144,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             exit 1
         fi
 
-        $XVFB :99 -screen 0 1024x768x24 -ac &  # launch virtual frame buffer into the background
+        $XVFB :99 -nolisten inet6 -screen 0 1024x768x24 -ac &
         PID_XVFB="$!"         # take the process ID
         export DISPLAY=:99.0  # set display to use that of the Xvfb
 
