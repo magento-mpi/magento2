@@ -40,7 +40,7 @@
  * @method Core_Mage_CmsPages_Helper cmsPagesHelper()
  * @method Core_Mage_CmsPolls_Helper cmsPollsHelper()
  * @method Core_Mage_CmsStaticBlocks_Helper cmsStaticBlocksHelper()
- * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper|Community2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Core_Mage_CompareProducts_Helper compareProductsHelper()
  * @method Core_Mage_CustomerGroups_Helper customerGroupsHelper()
  * @method Core_Mage_Customer_Helper customerHelper()
@@ -56,15 +56,15 @@
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper productHelper()
  * @method Core_Mage_Rating_Helper ratingHelper()
  * @method Core_Mage_Review_Helper reviewHelper()
- * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper shoppingCartHelper()
+ * @method Core_Mage_ShoppingCart_Helper|Community17_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper shoppingCartHelper()
  * @method Core_Mage_Store_Helper storeHelper()
- * @method Core_Mage_SystemConfiguration_Helper systemConfigurationHelper()
+ * @method Core_Mage_SystemConfiguration_Helper|Community1701_Mage_SystemConfiguration_Helper systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper tagsHelper()
  * @method Core_Mage_Tax_Helper taxHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper wishlistHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
+ * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
