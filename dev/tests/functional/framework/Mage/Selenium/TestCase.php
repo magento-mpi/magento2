@@ -2998,10 +2998,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $cellNum = $this->getXpathCount($tableXpath . '/tbody/tr');
         //Get columns value
         $tableValues = array();
-        for ($row = 1; $row <= $cellNum; $row++) {
+        for ($row = 0; $row < $cellNum; $row++) {
             $rowValues = array();
             foreach ($columnsId as $columnName => $columnIndex) {
-                $rowValues[$columnName] = $this->getTable($tableXpath . '.' . $row . '.' . $columnIndex);
+                $rowValues[$columnName] = $this->getTable($tableXpath . '/tbody' . '.' . $row . '.' . $columnIndex);
             }
             $tableValues[] = $rowValues;
         }
