@@ -290,6 +290,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $browsers = $this->_configHelper->getConfigBrowsers();
         $this->setupSpecificBrowser($browsers['default']);
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
+        if (array_key_exists('seleniumServerRequestsTimeout', $browsers['default'])) {
+            $timeout = $browsers['default']['seleniumServerRequestsTimeout'];
+            if (!is_int($timeout)) {
+                throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
+            }
+            $this->_browserTimeoutPeriod = $timeout;
+        }
         //$this->setLogHandle($this->_testConfig->getLogFile());
         $this->prepareSession();
     }
@@ -2084,7 +2091,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->focusOnElement($availableElement);
         $availableElement->click();
         if ($willChangePage) {
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
             $this->validatePage();
         }
@@ -2127,7 +2134,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($actualText == $confirmation) {
                 $this->acceptAlert();
                 if ($willChangePage) {
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->waitForPageToLoad();
                     $this->validatePage();
                 }
             } else {
@@ -2573,7 +2580,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $itemId = $this->defineIdFromTitle($trLocator);
                 $this->addParameter('id', $itemId);
                 $element->click();
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->waitForPageToLoad();
                 $this->validatePage();
             } else {
                 $element->click();
@@ -2646,7 +2653,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (!$pageToLoad) {
             $this->pleaseWait();
         } else {
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
             $this->validatePage();
         }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
@@ -3183,7 +3190,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($availableElement) {
             $this->focusOnElement($availableElement);
             $availableElement->click();
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
         }
         $this->validatePage('log_in_to_admin');
 
@@ -3286,7 +3293,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         while ($notLoaded) {
             try {
                 $retries++;
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->waitForPageToLoad();
                 $notLoaded = false;
             } catch (RuntimeException $e) {
                 //$availableElement = $this->elementIsPresent("//*[@id='errorPageContainer']");
