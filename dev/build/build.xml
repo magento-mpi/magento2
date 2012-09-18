@@ -58,7 +58,7 @@
         <fail unless="env.JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
         <copy file="${basedir}/dev/tests/js/jsTestDriver.php.dist" tofile="${basedir}/dev/tests/js/jsTestDriver.php"/>
         <replace file="${basedir}/dev/tests/js/jsTestDriver.php">
-            <replacefilter token="path_to_jstestdriver_jar" value="${env.JsTestDriver}"/>
+            <replacefilter token="{{path_to_jstestdriver_jar}}" value="${env.JsTestDriver}"/>
         </replace>
     </target>
 

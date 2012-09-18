@@ -31,5 +31,5 @@ return array(
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'serve' => array('/pub/lib/mage/calendar'),
-    'JsTestDriver' => 'path_to_jstestdriver_jar'
+    'JsTestDriver' => '{{path_to_jstestdriver_jar}}'
 );

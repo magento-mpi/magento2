@@ -67,14 +67,6 @@
         </replace>
     </target>
 
-    <target name="_jstestdriver_path_substitution" description="JsTestDriver JAR file path substitution in configuration file from environment variable">
-        <fail unless="jstestdriver_config_file" message="Property 'jstestdriver_config_file' must be defined"/>
-        <fail unless="env.JsTestDriver" message="Environment variable 'JsTestDriver' must be defined"/>
-        <replace file="${jstestdriver_config_file}">
-            <replacefilter token="path_to_jstestdriver_jar" value="${env.JsTestDriver}"/>
-        </replace>
-    </target>
-
     <target name="_installation_requirements" depends="_product_location" description="Environment setup for product installation">
         <chmod perm="a+w">
             <dirset dir="${product_root_dir}/app/etc"/>
