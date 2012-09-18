@@ -106,7 +106,7 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function getId()
     {
-       return $this->getParentBlock()->getId();
+        return $this->getParentBlock()->getId();
     }
 
     /**
@@ -163,10 +163,10 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     protected function _getFileContainerContent(array $fileData)
     {
-        $io = new Varien_Io_File();
-        $path = $io->dirname($fileData['value']);
-        $io->open(array('path' => $path));
-        return $io->read($fileData['value']);
+        $ioFile = new Varien_Io_File();
+        $path = $ioFile->dirname($fileData['value']);
+        $ioFile->open(array('path' => $path));
+        return $ioFile->read($fileData['value']);
     }
 
     /**
@@ -264,26 +264,26 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function getCsvFile()
     {
-        $io = new Varien_Io_File();
+        $ioFile = new Varien_Io_File();
 
         $path = Mage::getBaseDir('var') . DS . 'export' . DS;
         $name = md5(microtime());
         $file = $path . DS . $name . '.csv';
 
-        $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
-        $io->streamWriteCsv($this->_getExportHeaders());
+        $ioFile->setAllowCreateFolders(true);
+        $ioFile->open(array('path' => $path));
+        $ioFile->streamOpen($file, 'w+');
+        $ioFile->streamLock(true);
+        $ioFile->streamWriteCsv($this->_getExportHeaders());
 
-        $this->_exportIterateCollection('_exportCsvItem', array($io));
+        $this->_exportIterateCollection('_exportCsvItem', array($ioFile));
 
         if ($this->getCountTotals()) {
-            $io->streamWriteCsv($this->_getExportTotals());
+            $ioFile->streamWriteCsv($this->_getExportTotals());
         }
 
-        $io->streamUnlock();
-        $io->streamClose();
+        $ioFile->streamUnlock();
+        $ioFile->streamClose();
 
         return array(
             'type'  => 'filename',
@@ -324,8 +324,7 @@ class Mage_Backend_Block_Widget_Grid_Export
             $csv .= implode(',', $data)."\n";
         }
 
-        if ($this->getCountTotals())
-        {
+        if ($this->getCountTotals()) {
             $data = array();
             foreach ($this->_getColumns() as $column) {
                 if (!$column->getIsSystem()) {
@@ -362,8 +361,7 @@ class Mage_Backend_Block_Widget_Grid_Export
         foreach ($collection as $item) {
             $xml .= $item->toXml($indexes);
         }
-        if ($this->getCountTotals())
-        {
+        if ($this->getCountTotals()) {
             $xml .= $this->_getTotals()->toXml($indexes);
         }
         $xml .= '</items>';
@@ -400,25 +398,25 @@ class Mage_Backend_Block_Widget_Grid_Export
         $collection = $this->getParentBlock()->getPreparedCollection();
 
         $convert = new Magento_Convert_Excel($collection->getIterator(), array($this, 'getRowRecord'));
-        $io = new Varien_Io_File();
+        $ioFile = new Varien_Io_File();
 
         $path = Mage::getBaseDir('var') . DS . 'export' . DS;
         $name = md5(microtime());
         $file = $path . DS . $name . '.xml';
 
-        $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
+        $ioFile->setAllowCreateFolders(true);
+        $ioFile->open(array('path' => $path));
+        $ioFile->streamOpen($file, 'w+');
+        $ioFile->streamLock(true);
 
         $convert->setDataHeader($this->_getExportHeaders());
         if ($this->getCountTotals()) {
             $convert->setDataFooter($this->_getExportTotals());
         }
 
-        $convert->write($io, $sheetName);
-        $io->streamUnlock();
-        $io->streamClose();
+        $convert->write($ioFile, $sheetName);
+        $ioFile->streamUnlock();
+        $ioFile->streamClose();
 
         return array(
             'type'  => 'filename',
@@ -458,8 +456,7 @@ class Mage_Backend_Block_Widget_Grid_Export
             $data[] = $row;
         }
 
-        if ($this->getCountTotals())
-        {
+        if ($this->getCountTotals()) {
             $row = array();
             foreach ($this->_getColumns() as $column) {
                 if (!$column->getIsSystem()) {
