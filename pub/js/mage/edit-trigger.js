@@ -9,10 +9,11 @@
 (function($){
     $.widget("mage.editTrigger", {
         options: {
-            img: 'http://magentojs.lo/pub/media/skin/adminhtml/default/default/enterprise/en_US/Mage_Core/fam_book_open.png',
+            img: '',
             alt: '[TR]',
             template: '<img alt="${alt}" src="${img}">',
             zIndex: 2000,
+            editSelector: '[translate]',
             delay: 2000
         },
         /**
@@ -39,15 +40,18 @@
          * Show editTriger
          */
         show: function() {
-            this.trigger.show();
+            if (this.trigger.is(':hidden')) {
+                this.trigger.show();
+            }
         },
         /**
          * Hide editTriger
          */
         hide: function() {
-            this.trigger.hide();
-            this._clearTimer();
             this.currentTarget = null;
+            if (this.trigger.is(':visible')) {
+                this.trigger.hide();
+            }
         },
         /**
          * Set editTriger position
@@ -62,39 +66,24 @@
             });
         },
         /**
-         * Clear timer
-         * @protected
-         */
-        _clearTimer: function() {
-            if (this.timer) {
-                clearTimeout(this.timer);
-                this.timer = null;
-            }
-        },
-        /**
          * Show/hide trigger on mouse move
          * @param {Object} event object
          * @protected
          */
         _onMouseMove: function(e) {
             var target = $(e.target);
-            target = target.is(this.trigger) || target.is('[translate]') ?
+            target = target.is(this.trigger) || target.is(this.options.editSelector) ?
                 target :
-                target.parents('[translate]').first();
+                target.parents(this.options.editSelector).first();
 
             if (target.size()) {
-                this._clearTimer();
                 if (!target.is(this.trigger)) {
                     this._setPosition(target);
                     this.currentTarget = target;
                 }
-                if (this.trigger.is(':hidden')) {
-                    this.show();
-                }
+                this.show();
             } else {
-                if (this.trigger.is(':visible') && !this.timer) {
-                    this.timer = setTimeout($.proxy(this.hide, this), this.options.delay);
-                }
+                this.hide();
             }
         },
         /**
@@ -105,7 +94,7 @@
         _onClick: function(e) {
             e.stopImmediatePropagation();
             $(this.currentTarget).trigger('edit.' + this.widgetName);
-            this.hide();
+            this.trigger.hide();
         },
         /**
          * Destroy editTriger
@@ -118,4 +107,45 @@
             return $.Widget.prototype.destroy.call(this);
         }
     });
+
+    /**
+     * Extention for widget editTrigger - hide trigger with delay
+     */
+    var editTriggerPrototype = $.mage.editTrigger.prototype;
+    $.widget("mage.editTrigger", $.extend({}, editTriggerPrototype, {
+        /**
+         * Added clear timeout on trigger show
+         */
+        show: function() {
+            editTriggerPrototype.show.apply(this, arguments);
+            if(this.options.delay){
+                this._clearTimer();
+            }
+        },
+        /**
+         * Added setTimeout on trigger hide
+         */
+        hide: function() {
+            if(this.options.delay){
+                if(!this.timer){
+                    this.timer = setTimeout($.proxy(function() {
+                        editTriggerPrototype.hide.apply(this, arguments);
+                        this._clearTimer();
+                    }, this), this.options.delay);
+                }
+            } else {
+                editTriggerPrototype.hide.apply(this, arguments);
+            }
+        },
+        /**
+         * Clear timer
+         * @protected
+         */
+        _clearTimer: function() {
+            if (this.timer) {
+                clearTimeout(this.timer);
+                this.timer = null;
+            }
+        }
+    }));
 })(jQuery);
