@@ -39,19 +39,3 @@ LocalizeTest.prototype.testCurrency = function () {
     mage.locale();
     assertEquals('$0.00', mage.localize.currency('0'));
 };
-
-LocalizeTest.prototype.testTranslate = function () {
-    mage.locale();
-    assertEquals('Dieses Feld ist ein Pflichtfeld.', mage.localize.translate('This is a required field.'));
-    assertEquals('Invalid Entry.', mage.localize.translate('Invalid Entry.'));
-};
-
-LocalizeTest.prototype.testTranslateEvent = function () {
-    mage.locale('de');
-    assertEquals("Dieses Feld ist ein Pflichtfeld.", mage.localize.translate('This is a required field.'));
-    mage.event.observe('mage.translate', function (e, o) {
-        assertEquals('Dieses Feld ist ein Pflichtfeld.', o.translatedMessage);
-        o.translatedMessage = "test";
-    });
-    assertEquals("test", mage.localize.translate('This is a required field.'));
-};

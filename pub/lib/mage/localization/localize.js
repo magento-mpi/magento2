@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-/*global mage:true Globalize:true translateJson:true */
+/*global mage:true Globalize:true */
 (function ($) {
     //closure localize object
     var localize = function (locale) {
@@ -61,14 +61,6 @@
         } else {
             return this.localize.format(num, 'c');
         }
-    };
-
-    localize.prototype.translate = function (value) {
-        var translatorData = {};
-        translatorData.message = value;
-        translatorData.translatedMessage = translateJson.hasOwnProperty(value) ? translateJson[value] : value;
-        mage.event.trigger("mage.translate", translatorData);
-        return translatorData.translatedMessage;
     };
 
     mage.locale = function (locale) {

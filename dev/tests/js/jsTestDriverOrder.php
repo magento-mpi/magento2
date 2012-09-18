@@ -22,5 +22,6 @@ return array(
     '/pub/lib/jquery/jquery.validate.js',
     '/pub/lib/jquery/jquery.metadata.js',
     '/pub/lib/jquery/additional-methods.js',
-    '/pub/lib/jquery/jquery.hook.js'
+    '/pub/lib/jquery/jquery.hook.js',
+    '/pub/lib/mage/translate.js'
 );
