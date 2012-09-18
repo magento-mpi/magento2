@@ -38,6 +38,7 @@ product_1: &product1
 root_category_required:
     name: Root Category Required(%randomize%)
     is_active: Yes
+    is_anchor: %noValue%
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 
@@ -45,6 +46,7 @@ sub_category_required:
     parent_category: Default Category
     name: Sub Category Required(%randomize%)
     is_active: Yes
+    is_anchor: %noValue%
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 

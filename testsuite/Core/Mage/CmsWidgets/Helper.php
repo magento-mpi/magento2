@@ -59,8 +59,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         ) {
             unset($frontProperties['assign_to_store_views']);
         }
-        $this->fillForm($frontProperties, 'frontend_properties');
-
+        $this->fillFieldset($frontProperties, 'frontend_properties_fieldset');
         if ($layoutUpdates) {
             $this->fillLayoutUpdates($layoutUpdates);
         }
@@ -85,7 +84,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
             $this->addParameter('package', $packageTheme[0]);
             $this->addParameter('theme', $packageTheme[1]);
-            $this->fillForm($settings);
+            $this->fillFieldset($settings, 'settings_fieldset');
         }
         $this->clickButton('continue', false);
         $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
@@ -100,28 +99,27 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillLayoutUpdates(array $layoutData)
     {
-        $count = 0;
         foreach ($layoutData as $value) {
-            $this->addParameter('layoutIndex', $count);
+            $displayOn = (array_key_exists('select_display_on', $value))
+                ? $value['select_display_on']
+                : '-- Please Select --';
+            $chooseOptions = (array_key_exists('choose_options', $value)) ? $value['choose_options'] : array();
+            $layoutIndex = $this->getControlCount('pageelement', 'layout_updates_option_boxes');
+            $this->addParameter('layoutIndex', $layoutIndex);
             $this->clickButton('add_layout_update', false);
             $this->waitForElement($this->_getControlXpath('pageelement', 'layout_updates_option_box'));
-            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'select_display_on'));
-            $this->addParameter('optionText', $value['select_display_on']);
-            $layoutName = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
+            $this->fillDropdown('select_display_on', $displayOn);
+            $element = $this->getElement($this->_getControlXpath('dropdown', 'select_display_on'));
+            $layoutName = $this->select($element)->selectedValue();
             $this->addParameter('layout', $layoutName);
-            $this->addParameter('widgetParam', "//div[@id='" . $layoutName . '_ids_' . $count++ . "']");
-            $this->fillForm($value);
-            if (array_key_exists('choose_options', $value)) {
-                if (preg_match('/anchor_categories/', $layoutName)) {
-                    $this->chooseLayoutOptions($value['choose_options'], 'categories');
-                } else {
-                    $this->chooseLayoutOptions($value['choose_options']);
-                }
-            } else {
-                if ($this->controlIsPresent('radiobutton', 'all_categories_products_radio')) {
-                    $this->fillRadiobutton('all_categories_products_radio', 'Yes');
-                }
+            $this->addParameter('widgetParam', "//div[@id='" . $layoutName . '_ids_' . $layoutIndex . "']");
+            if (!empty($chooseOptions)) {
+                $layout = (preg_match('/anchor_categories/', $layoutName)) ? 'categories' : 'products';
+                $this->chooseLayoutOptions($value['choose_options'], $layout);
+            } elseif ($this->controlIsPresent('radiobutton', 'all_categories_products_radio')) {
+                $this->fillRadiobutton('all_categories_products_radio', 'Yes');
             }
+            $this->fillFieldset($value, 'layout_updates_body');
         }
     }
 
@@ -133,21 +131,22 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
      */
     public function chooseLayoutOptions(array $layoutOptions, $layoutName = 'products')
     {
-        $this->clickControl('radiobutton', 'specific_categories_products_radio', false);
+        $this->fillRadiobutton('specific_categories_products_radio', 'Yes');
         $this->clickControl('link', 'open_chooser', false);
-        $this->pleaseWait();
-        if ($layoutName == 'categories') {
-            foreach ($layoutOptions as $value) {
+        $this->waitForElementEditable("//div[@class='chooser']/div");
+        foreach ($layoutOptions as $value) {
+            if ($layoutName == 'categories') {
                 $this->categoryHelper()->selectCategory($value, 'layout_updates_body');
             }
-        } elseif ($layoutName == 'products') {
-            foreach ($layoutOptions as $value) {
+            if ($layoutName == 'products') {
                 $this->searchAndChoose($value, 'layout_products_fieldset');
             }
-        } else {
-            return;
         }
         $this->clickControl('link', 'apply', false);
+        $selectedIds = explode(',', $this->getControlAttribute('field', 'specific_category', 'value'));
+        $selectedIds = array_diff($selectedIds, array(''));
+        $this->assertEquals(count($layoutOptions), count($selectedIds),
+            'Selected number of items does not match expected');
     }
 
     /**
@@ -172,7 +171,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     public function openWidget(array $searchWidget)
     {
         $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Widget is not found');
+        $this->assertNotNull($xpathTR, 'Widget is not found');
         $cellId = $this->getColumnIdByName('Widget Instance Title');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);

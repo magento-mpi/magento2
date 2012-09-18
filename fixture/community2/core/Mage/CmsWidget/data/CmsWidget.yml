@@ -41,13 +41,13 @@ cms_page_link_widget:
             select_block_reference: Right Column
             select_template: CMS Page Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: CMS Page Link Inline Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -136,12 +136,12 @@ cms_static_block_widget:
             select_display_on: Anchor Categories
             select_block_reference: Left Column
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -220,13 +220,13 @@ catalog_category_link_widget:
             select_block_reference: Right Column
             select_template: Category Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: Category Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -299,7 +299,7 @@ catalog_category_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path: %noValue%
+            category_path: %not_anchor%
 
 #<-------------------------Catalog New Products List--------------------------->
 catalog_new_products_list_widget:
@@ -316,13 +316,13 @@ catalog_new_products_list_widget:
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -410,13 +410,13 @@ catalog_product_link_widget:
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -489,7 +489,7 @@ catalog_product_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path: %noValue%
+            category_path: %not_anchor%
             filter_sku: %product_1%
 
 #<-------------------------Orders and Returns---------------------------------->
@@ -506,12 +506,12 @@ orders_and_returns_widget:
             select_display_on: Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -588,13 +588,13 @@ recently_compared_products_widget:
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -682,13 +682,13 @@ recently_viewed_products_widget:
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column

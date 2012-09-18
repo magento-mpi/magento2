@@ -123,8 +123,8 @@ add_widget_options:
                                         filter_sku: //div[@id='%layout%_%layoutIndex%']//input[@name='chooser_sku']
                                         filter_product_name: //div[@id='%layout%_%layoutIndex%']//input[@name='chooser_name']
                                     radiobuttons:
-                                        all_categories_products_radio: //input[@name='widget_instance[%layoutIndex%][%layout%][for]' and @value='all']
-                                        specific_categories_products_radio: //input[@name='widget_instance[%layoutIndex%][%layout%][for]' and @value='specific']
+                                        all_categories_products_radio: //input[@name='widget_instance[%layoutIndex%][%layout%][for]'][@value='all'][not(@type='hidden')]
+                                        specific_categories_products_radio: //input[@name='widget_instance[%layoutIndex%][%layout%][for]'][@value='specific'][not(@type='hidden')]
                                     links:
                                         open_chooser: //div[@id='%layout%_ids_%layoutIndex%']//a[@title='Open Chooser']
                                         apply: //div[@id='%layout%_ids_%layoutIndex%']//a[@title='Apply']
@@ -137,6 +137,7 @@ add_widget_options:
                                         layout_updates_body_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         layout_updates_body_category_index_link: %categoryXpath%[%index%]/div/a
                                         layout_updates_option_box: //div[@id='page_group_container_%layoutIndex%']
+                                        layout_updates_option_boxes: //div[@class='options-box page_group_container']
 #                                    checkboxes:
 #                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
                                     buttons:
