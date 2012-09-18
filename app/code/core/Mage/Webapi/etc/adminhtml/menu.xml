@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Webapi::system_webapi" title="Web Api" module="Mage_Webapi" sortOrder="25" parent="Mage_Adminhtml::system" resource="Mage_Webapi::api"/>
+        <add id="Mage_Webapi::system_webapi_users" title="Web Api - Users" module="Mage_Webapi" sortOrder="10" parent="Mage_Webapi::system_webapi" action="adminhtml/Webapi_user" resource="Mage_Webapi::users"/>
+        <add id="Mage_Webapi::system_webapi_roles" title="Web Api - Roles" module="Mage_Webapi" sortOrder="20" parent="Mage_Webapi::system_webapi" action="adminhtml/Webapi_role" resource="Mage_Webapi::roles"/>
+    </menu>
+</config>
