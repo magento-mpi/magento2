@@ -15,19 +15,19 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Webapi_Model_Request_Interpreter
+abstract class Mage_Webapi_Model_Rest_Request_Interpreter
 {
     /**
      * Request body interpreters factory
      *
      * @param string $type
-     * @return Mage_Webapi_Model_Request_Interpreter_Interface
+     * @return Mage_Webapi_Model_Rest_Request_Interpreter_Interface
      * @throws Exception|Mage_Webapi_Exception
      */
     public static function factory($type)
     {
-        /** @var $helper Mage_Webapi_Helper_Data */
-        $helper = Mage::helper('Mage_Webapi_Helper_Data');
+        /** @var $helper Mage_Webapi_Helper_Rest */
+        $helper = Mage::helper('Mage_Webapi_Helper_Rest');
         $adapters = $helper->getRequestInterpreterAdapters();
 
         if (empty($adapters) || !is_array($adapters)) {

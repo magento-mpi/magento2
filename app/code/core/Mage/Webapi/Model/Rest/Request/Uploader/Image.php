@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Request_Uploader_Image extends Mage_Webapi_Model_Request_Uploader_File
+class Mage_Webapi_Model_Rest_Request_Uploader_Image extends Mage_Webapi_Model_Rest_Request_Uploader_File
 {
     /**
      * List of MIME types allowed for image

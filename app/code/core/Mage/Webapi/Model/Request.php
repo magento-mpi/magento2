@@ -15,14 +15,8 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-// TODO: Try to merge Webapi request with Mage_Core_Controller_Request_Http to have the single class
 class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
 {
-    /**
-     * Character set which must be used in request
-     */
-    const REQUEST_CHARSET = 'utf-8';
-
     /**#@+
      * Name of query ($_GET) parameters to use in navigation and so on
      */
@@ -33,26 +27,6 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
     const QUERY_PARAM_ORDER_DIR   = 'dir';
     const QUERY_PARAM_FILTER      = 'filter';
     /**#@- */
-
-    /**
-     * Interpreter adapter
-     *
-     * @var Mage_Webapi_Model_Request_Interpreter_Interface
-     */
-    protected $_interpreter;
-
-    /** @var string */
-    protected $_resourceName;
-
-    /** @var string */
-    protected $_resourceType;
-
-    /**
-     * Body params
-     *
-     * @var array
-     */
-    protected $_bodyParams;
 
     /**
      * Constructor
@@ -69,56 +43,6 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get request interpreter
-     *
-     * @return Mage_Webapi_Model_Request_Interpreter_Interface
-     */
-    protected function _getInterpreter()
-    {
-        if (null === $this->_interpreter) {
-            $this->_interpreter = Mage_Webapi_Model_Request_Interpreter::factory($this->getContentType());
-        }
-        return $this->_interpreter;
-    }
-
-    /**
-     * Retrieve accept types understandable by requester in a form of array sorted by quality descending
-     *
-     * @return array
-     */
-    public function getAcceptTypes()
-    {
-        $qualityToTypes = array();
-        $orderedTypes   = array();
-
-        foreach (preg_split('/,\s*/', $this->getHeader('Accept')) as $definition) {
-            $typeWithQ = explode(';', $definition);
-            $mimeType  = trim(array_shift($typeWithQ));
-
-            // check MIME type validity
-            if (!preg_match('~^([0-9a-z*+\-]+)(?:/([0-9a-z*+\-\.]+))?$~i', $mimeType)) {
-                continue;
-            }
-            $quality = '1.0'; // default value for quality
-
-            if ($typeWithQ) {
-                $qAndValue = explode('=', $typeWithQ[0]);
-
-                if (2 == count($qAndValue)) {
-                    $quality = $qAndValue[1];
-                }
-            }
-            $qualityToTypes[$quality][$mimeType] = true;
-        }
-        krsort($qualityToTypes);
-
-        foreach ($qualityToTypes as $typeList) {
-            $orderedTypes += $typeList;
-        }
-        return array_keys($orderedTypes);
-    }
-
-    /**
      * Get api type from Request
      *
      * @return string
@@ -130,44 +54,6 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Fetch data from HTTP Request body
-     *
-     * @return array
-     */
-    public function getBodyParams()
-    {
-        if (null == $this->_bodyParams) {
-            $this->_bodyParams = $this->_getInterpreter()->interpret((string)$this->getRawBody());
-        }
-        return $this->_bodyParams;
-    }
-
-    /**
-     * Get Content-Type of request
-     *
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getContentType()
-    {
-        $headerValue = $this->getHeader('Content-Type');
-
-        if (!$headerValue) {
-            throw new Mage_Webapi_Exception('Content-Type header is empty', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
-        }
-        if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Mage_Webapi_Exception('Invalid Content-Type header', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
-        }
-        // request encoding check if it is specified in header
-        if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Mage_Webapi_Exception(
-                'UTF-8 is the only supported charset', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
-            );
-        }
-        return $matches[1];
-    }
-
-    /**
      * Get filter settings passed by API user
      *
      * @return mixed
@@ -175,39 +61,6 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
     public function getFilter()
     {
         return $this->getQuery(self::QUERY_PARAM_FILTER);
-    }
-
-    /**
-     * Get resource model class name
-     *
-     * @return string|null
-     */
-    public function getModel()
-    {
-        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['model']) ? $this->_params['model'] : null;
-    }
-
-    /**
-     * Retrieve one of CRUD operation dependent on HTTP method
-     *
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getHttpMethod()
-    {
-        if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Mage_Webapi_Exception('Invalid request method', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
-        }
-        // Map HTTP methods to classic CRUD verbs
-        $operationByMethod = array(
-            'GET'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_GET,
-            'POST'   => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_CREATE,
-            'PUT'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_UPDATE,
-            'DELETE' => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_DELETE
-        );
-
-        return $operationByMethod[$this->getMethod()];
     }
 
     /**
@@ -264,51 +117,5 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
             $include = explode(',', $include);
         }
         return array_map('trim', $include);
-    }
-
-    /**
-     * Retrieve resource type
-     *
-     * @return string
-     */
-    public function getResourceName()
-    {
-        return $this->_resourceName;
-    }
-
-    public function setResourceName($resourceName)
-    {
-        $this->_resourceName = $resourceName;
-    }
-
-    /**
-     * Retrieve action type
-     *
-     * @return string|null
-     */
-    public function getResourceType()
-    {
-        return $this->_resourceType;
-    }
-
-    public function setResourceType($resourceType)
-    {
-        $this->_resourceType = $resourceType;
-    }
-
-    /**
-     * It checks if the array in the request body is an associative one.
-     * It is required for definition of the dynamic aaction type (multi or single)
-     *
-     * @return bool
-     */
-    public function isAssocArrayInRequestBody()
-    {
-        $params = $this->getBodyParams();
-        if (count($params)) {
-            $keys = array_keys($params);
-            return !is_numeric($keys[0]);
-        }
-        return false;
     }
 }

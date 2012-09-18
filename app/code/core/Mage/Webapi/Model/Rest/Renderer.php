@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Webapi_Model_Renderer
+abstract class Mage_Webapi_Model_Rest_Renderer
 {
     /**
      * Get Renderer of given type
@@ -23,12 +23,12 @@ abstract class Mage_Webapi_Model_Renderer
      * @param array|string $acceptTypes
      * @throws Mage_Webapi_Exception
      * @throws Exception
-     * @return Mage_Webapi_Model_Renderer_Interface
+     * @return Mage_Webapi_Model_Rest_Renderer_Interface
      */
     public static function factory($acceptTypes)
     {
-        /** @var $helper Mage_Webapi_Helper_Data */
-        $helper   = Mage::helper('Mage_Webapi_Helper_Data');
+        /** @var $helper Mage_Webapi_Helper_Rest */
+        $helper   = Mage::helper('Mage_Webapi_Helper_Rest');
         $adapters = $helper->getResponseRenderAdapters();
 
         if (!is_array($acceptTypes)) {

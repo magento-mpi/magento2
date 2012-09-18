@@ -83,7 +83,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected $_baseActionController;
 
     /**
-     * @var Mage_Webapi_Model_Renderer_Interface
+     * @var Mage_Webapi_Model_Rest_Renderer_Interface
      */
     protected $_renderer;
 
@@ -92,6 +92,28 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /** @var Mage_Webapi_Controller_Front_Rest_Presentation */
     protected $_presentation;
+
+    /**
+     * Decorate request object.
+     *
+     * @param Mage_Webapi_Model_Request $request
+     * @return Mage_Webapi_Controller_FrontAbstract
+     */
+    public function setRequest(Mage_Webapi_Model_Request $request)
+    {
+        $this->_request = new Mage_Webapi_Model_Rest_Request_Decorator($request);
+        return $this;
+    }
+
+    /**
+     * Return decorated request
+     *
+     * @return Mage_Webapi_Model_Rest_Request_Decorator
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
 
     /**
      * Extend parent with REST specific config initialization and server errors processing mechanism initialization
@@ -197,10 +219,10 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Model_Rest_Request_Decorator $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _matchRoute(Mage_Webapi_Model_Request $request)
+    protected function _matchRoute(Mage_Webapi_Model_Rest_Request_Decorator $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
         $router->setRoutes($this->getRestConfig()->getRoutes());
@@ -224,9 +246,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
-        /** @var Mage_Webapi_Model_Request $request */
-        $request = $this->getRequest();
-        $httpMethod = $request->getHttpMethod();
+        $httpMethod = $this->getRequest()->getHttpMethod();
         $resourceType = $this->getRequest()->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
@@ -321,7 +341,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
     {
-        $processor = new Mage_Webapi_Model_Error_Processor();
+        $processor = new Mage_Webapi_Model_Rest_Error_Processor();
         if (!Mage::getIsDeveloperMode()) {
             $processor->saveReport($detailedErrorMessage);
         }
@@ -366,14 +386,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Model_Renderer_Interface
+     * @return Mage_Webapi_Model_Rest_Renderer_Interface
      */
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            /** @var $request Mage_Webapi_Model_Request */
-            $request = $this->getRequest();
-            $this->_renderer = Mage_Webapi_Model_Renderer::factory($request->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

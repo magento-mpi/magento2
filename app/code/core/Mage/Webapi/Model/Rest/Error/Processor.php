@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 // TODO: Refactor this class (it came from Magento 1)
-class Mage_Webapi_Model_Error_Processor
+class Mage_Webapi_Model_Rest_Error_Processor
 {
     /**
      * Default http response code

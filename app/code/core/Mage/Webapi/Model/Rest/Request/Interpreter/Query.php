@@ -15,7 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Request_Interpreter_Query implements Mage_Webapi_Model_Request_Interpreter_Interface
+class Mage_Webapi_Model_Rest_Request_Interpreter_Query implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
 {
     /**
      * URI validate pattern

@@ -173,12 +173,12 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Get renderer if not exists create
      *
-     * @return Mage_Webapi_Model_Renderer_Interface
+     * @return Mage_Webapi_Model_Rest_Renderer_Interface
      */
     public function getRenderer()
     {
         if (!$this->_renderer) {
-            $renderer = Mage_Webapi_Model_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
             $this->setRenderer($renderer);
         }
 
@@ -188,9 +188,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Set renderer
      *
-     * @param Mage_Webapi_Model_Renderer_Interface $renderer
+     * @param Mage_Webapi_Model_Rest_Renderer_Interface $renderer
      */
-    public function setRenderer(Mage_Webapi_Model_Renderer_Interface $renderer)
+    public function setRenderer(Mage_Webapi_Model_Rest_Renderer_Interface $renderer)
     {
         $this->_renderer = $renderer;
     }

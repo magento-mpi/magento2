@@ -18,36 +18,6 @@
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Request interpret adapters
-     */
-    const XML_PATH_Webapi_REQUEST_INTERPRETERS = 'global/webapi/request/interpreters';
-
-    /**
-     * Response render adapters
-     */
-    const XML_PATH_Webapi_RESPONSE_RENDERS     = 'global/webapi/response/renders';
-
-    /**
-     * Get interpreter type for Request body according to Content-type HTTP header
-     *
-     * @return array
-     */
-    public function getRequestInterpreterAdapters()
-    {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_Webapi_REQUEST_INTERPRETERS);
-    }
-
-    /**
-     * Get interpreter type for Request body according to Content-type HTTP header
-     *
-     * @return array
-     */
-    public function getResponseRenderAdapters()
-    {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_Webapi_RESPONSE_RENDERS);
-    }
-
-    /**
      * Reformat request data to be compatible with method specified interface: <br/>
      * - sort arguments in correct order <br/>
      * - set default values for omitted arguments

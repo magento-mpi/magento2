@@ -34,6 +34,36 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
+     * Request interpret adapters
+     */
+    const XML_PATH_WEBAPI_REQUEST_INTERPRETERS = 'global/webapi/rest/request/interpreters';
+
+    /**
+     * Response render adapters
+     */
+    const XML_PATH_WEBAPI_RESPONSE_RENDERS     = 'global/webapi/rest/response/renders';
+
+    /**
+     * Get interpreter type for Request body according to Content-type HTTP header
+     *
+     * @return array
+     */
+    public function getRequestInterpreterAdapters()
+    {
+        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
+    }
+
+    /**
+     * Get interpreter type for Request body according to Content-type HTTP header
+     *
+     * @return array
+     */
+    public function getResponseRenderAdapters()
+    {
+        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
+    }
+
+    /**
      * Throw exception to stop execution
      *
      * @param string $message

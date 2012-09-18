@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Renderer_Query implements Mage_Webapi_Model_Renderer_Interface
+class Mage_Webapi_Model_Rest_Renderer_Query implements Mage_Webapi_Model_Rest_Renderer_Interface
 {
     /**
      * Adapter mime type
