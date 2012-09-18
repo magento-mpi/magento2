@@ -38,7 +38,6 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
     {
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
-        $collection->joinRoles();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -63,9 +62,13 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
             'index' => 'user_name'
         ));
 
+        /** @var $roleSourceModel Mage_Webapi_Model_Source_Acl_Role */
+        $roleSourceModel = Mage::getModel('Mage_Webapi_Model_Source_Acl_Role');
         $this->addColumn('role_name', array(
             'header' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role'),
-            'index' => 'role_name'
+            'index' => 'role_id',
+            'type' => 'options',
+            'options' => $roleSourceModel->toOptionHash(false)
         ));
 
         return parent::_prepareColumns();
@@ -89,7 +92,7 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/roles', array());
+        return $this->getUrl('*/*/grid', array());
     }
 
 }

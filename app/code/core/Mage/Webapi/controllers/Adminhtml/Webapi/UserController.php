@@ -69,10 +69,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
              ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
-
         /** @var $user Mage_Webapi_Model_Acl_User */
         $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
-
         if ($userId) {
             $user->load($userId);
             if (!$user->getId()) {
@@ -101,11 +99,6 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
-        /** @var $tabsBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tabs */
-        $tabsBlock = $this->getLayout()->getBlock('webapi.user.edit.tabs');
-        if ($tabsBlock) {
-            $tabsBlock->setApiUser($user);
-        }
         $this->renderLayout();
     }
 
@@ -133,8 +126,10 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
                 $this->_getSession()->setWebapiUserData(false);
-                $this->_redirect('*/*/edit', array('user_id' => $user->getId()));
-                return;
+                if ($this->getRequest()->getParam('back')) {
+                    $this->_redirect('*/*/edit', array('user_id' => $user->getId()));
+                    return;
+                }
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setWebapiUserData($data);
@@ -173,23 +168,11 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Web API User Roles grid
+     * AJAX Web API Users grid
      */
-    public function rolesAction()
+    public function gridAction()
     {
-        $userId = (int)$this->getRequest()->getParam('user_id');
-        /** @var $user Mage_Webapi_Model_Acl_User */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
-        if ($userId) {
-            $user->load($userId);
-        }
-
         $this->loadLayout();
-        /** @var $gridBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles */
-        $gridBlock = $this->getLayout()->getBlock('root');
-        if ($gridBlock) {
-            $gridBlock->setApiUser($user);
-        }
         $this->renderLayout();
     }
 

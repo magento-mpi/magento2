@@ -31,8 +31,31 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API User'));
+        $this->_addButton('save_and_continue', array(
+            'label'     => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
+            'onclick'   => 'saveAndContinueEdit()',
+            'class' => 'save'
+        ), 100);
+
+        $this->_formScripts[] = "function saveAndContinueEdit()" .
+        "{editForm.submit($('edit_form').action + 'back/edit/')}";
+
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save'));
+        $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API User'));
+    }
+
+    /**
+     * Set Web API User to child form block
+     *
+     * @return Mage_Webapi_Block_Adminhtml_User_Edit
+     */
+    protected function _beforeToHtml()
+    {
+        /** @var $formBlock Mage_Webapi_Block_Adminhtml_User_Edit_Form */
+        $formBlock = $this->getChildBlock('form');
+        $formBlock->setApiUser($this->getApiUser());
+        return parent::_beforeToHtml();
     }
 
     /**
