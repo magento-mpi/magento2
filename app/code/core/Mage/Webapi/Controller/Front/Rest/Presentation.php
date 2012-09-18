@@ -129,9 +129,10 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      */
     protected function _getRequestData($method)
     {
-        $processedInputData = $this->getRequest()->getBodyParams();
+        $processedInputData = null;
         switch ($method) {
             case 'create':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // request data must be checked before the create type identification
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
@@ -141,9 +142,11 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 }
                 break;
             case 'update':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // TODO: Implement data filtration
                 break;
             case 'multiUpdate':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // TODO: Implement fields filtration
                 break;
             case 'multiDelete':

@@ -19,16 +19,16 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      * HTTP Response Codes
      */
-    const HTTP_OK                 = 200;
-    const HTTP_CREATED            = 201;
-    const HTTP_MULTI_STATUS       = 207;
-    const HTTP_BAD_REQUEST        = 400;
-    const HTTP_UNAUTHORIZED       = 401;
-    const HTTP_FORBIDDEN          = 403;
-    const HTTP_NOT_FOUND          = 404;
+    const HTTP_OK = 200;
+    const HTTP_CREATED = 201;
+    const HTTP_MULTI_STATUS = 207;
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_FORBIDDEN = 403;
+    const HTTP_NOT_FOUND = 404;
     const HTTP_METHOD_NOT_ALLOWED = 405;
-    const HTTP_NOT_ACCEPTABLE     = 406;
-    const HTTP_INTERNAL_ERROR     = 500;
+    const HTTP_NOT_ACCEPTABLE = 406;
+    const HTTP_INTERNAL_ERROR = 500;
     /**#@- */
 
     /**#@+
@@ -42,7 +42,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * HTTP methods supported by REST
      */
     const HTTP_METHOD_CREATE = 'create';
-    const HTTP_METHOD_RETRIEVE = 'retrieve';
+    const HTTP_METHOD_GET = 'get';
     const HTTP_METHOD_UPDATE = 'update';
     const HTTP_METHOD_DELETE = 'delete';
     /**#@-*/
@@ -55,7 +55,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
     const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
     const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
-    const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
+    const RESOURCE_DATA_INVALID = 'Resource data invalid.';
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
     /**#@-*/
@@ -63,11 +63,11 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      *  Default collection resources error messages
      */
-    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_PAGING_ERROR = 'Resource collection paging error.';
     const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
     /**#@-*/
 
     /**#@+
@@ -118,19 +118,20 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-        // TODO: Introduce Authentication and Authorization
+            // TODO: Introduce Authentication and Authorization
 //            $role = $this->_authenticate($this->getRequest());
 
             $route = $this->_matchRoute($this->getRequest());
             $this->getRequest()->setResourceName($route->getResourceName());
             $this->getRequest()->setResourceType($route->getResourceType());
 //            $this->_checkResourceAcl($role, $route->getResourceName());
-
+            $this->_initResourceConfig($this->_getRequestedModules());
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $method = $this->_getMethodName($route->getResourceType());
+            $operation = $this->_getOperationName();
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
             // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $action = $method . $this->_getAvailableMethodSuffix($method, $controllerInstance);
+            $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
 
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
@@ -168,6 +169,31 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
+     * Identify versions of modules that should be used for API configuration file generation.
+     *
+     * @return array
+     * @throws RuntimeException
+     */
+    protected function _getRequestedModules()
+    {
+        $versionHeader = $this->getRequest()->getHeader('Modules');
+        /**
+         * Match a 'Mage_Customer=v1' and 'Enterprise_Customer=v2' from the following Modules header value:
+         * Modules='Mage_Customer=v1;Enterprise_Customer=v2'
+         */
+        preg_match_all('/\w+\=(v|V)\d+/', $versionHeader, $moduleMatches);
+        $requestedModules = array();
+        foreach ($moduleMatches[0] as $moduleVersion) {
+            $moduleVersion = explode('=', $moduleVersion);
+            $requestedModules[reset($moduleVersion)] = end($moduleVersion);
+        }
+        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
+            throw new RuntimeException($this->_helper->__('Invalid "Modules" header value.'));
+        }
+        return $requestedModules;
+    }
+
+    /**
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
@@ -182,30 +208,32 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Identify required action name based on HTTP request parameters
+     * Identify operation name according to HTTP request parameters
      *
-     * @param string $resourceType
      * @return string
      */
-    protected function _getMethodName($resourceType)
+    protected function _getOperationName()
     {
+        // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_RETRIEVE => 'multiGet',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'multiGet',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_RETRIEVE => 'get',
+            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
         /** @var Mage_Webapi_Model_Request $request */
         $request = $this->getRequest();
         $httpMethod = $request->getHttpMethod();
+        $resourceType = $this->getRequest()->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
-        return $methodName;
+        $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
+        return $operationName;
     }
 
     /**

@@ -17,6 +17,9 @@
  */
 class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
 {
+
+    const MAGENTO_NAMESPACE = 'tns';
+
     /**
      * List of all defined custom data types
      */
@@ -106,6 +109,19 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Identify module name by operation name.
+     *
+     * @param string $operationName
+     * @return string|bool Module name on success; false on failure
+     */
+    public function getModuleNameByOperation($operationName)
+    {
+        return isset($this->_data['operations'][$operationName])
+            ? $this->_data['operations'][$operationName]['module_name']
+            : false;
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom
@@ -126,6 +142,7 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
         /** @var DOMElement $portType */
         foreach ($dom->getElementsByTagName('portType') as $portType) {
             $resourceName = $portType->getAttribute('name');
+            $moduleName = $portType->getAttribute(self::MAGENTO_NAMESPACE . ':moduleName');
             /** @var DOMElement $operation */
             foreach ($portType->getElementsByTagName('operation') as $operation) {
                 $operationName = $operation->getAttribute('name');
@@ -138,7 +155,8 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
                 $result['resources'][$resourceName][$methodName] = $this->_getOperationData($operation);
                 $result['operations'][$operationName] = array(
                     'resource_name' => $resourceName,
-                    'method_name' => $methodName
+                    'method_name' => $methodName,
+                    'module_name' => $moduleName
                 );
             }
         }
@@ -345,10 +363,52 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     {
         return '<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="Magento"
               xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-              xmlns:tns="urn:Magento"
+              xmlns:' . self::MAGENTO_NAMESPACE . '="urn:Magento"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
               xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
               targetNamespace="urn:Magento"></wsdl:definitions>';
+    }
+
+    /**
+     * Merge the config XML-files.
+     * Additionally, moduleName attribute is dynamically added to all portType nodes.
+     *
+     * @param array $configFiles
+     * @return DOMDocument
+     * @throws Magento_Exception if a non-existing or invalid XML-file passed
+     */
+    protected function _merge($configFiles)
+    {
+        foreach ($configFiles as $configPath) {
+            if (!file_exists($configPath)) {
+                throw new Magento_Exception("File does not exist: {$configPath}");
+            }
+            $moduleConfigDom = new DOMDocument();
+            $moduleConfigDom->loadXML(file_get_contents($configPath));
+            $this->_addModuleNameToPortType($moduleConfigDom, $configPath);
+            $this->_getDomConfigModel()->merge($moduleConfigDom->saveXML());
+            if ($this->_isRuntimeValidated()) {
+                $this->_performValidate($configPath);
+            }
+        }
+        return $this->_getDomConfigModel()->getDom();
+    }
+
+    /**
+     * Dynamically add 'moduleName' attribute to 'portType' node of $moduleConfigDom
+     *
+     * @param DOMDocument $moduleConfigDom
+     * @param string $configPath
+     */
+    protected function _addModuleNameToPortType(&$moduleConfigDom, $configPath)
+    {
+        $configPathWithoutCodeDir = str_replace(Mage::getConfig()->getOptions()->getCodeDir(), '', $configPath);
+        list($codePool, $namespace, $moduleName) = explode(DS, trim($configPathWithoutCodeDir, DS));
+        $configModuleIdentifier = "{$namespace}_{$moduleName}";
+        /** @var DOMElement $portType */
+        foreach ($moduleConfigDom->getElementsByTagName('portType') as $portType) {
+            $portType->setAttribute(self::MAGENTO_NAMESPACE . ':moduleName', $configModuleIdentifier);
+        }
     }
 
     /**

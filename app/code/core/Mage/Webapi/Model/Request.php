@@ -201,7 +201,7 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
-            'GET'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_RETRIEVE,
+            'GET'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_GET,
             'POST'   => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_CREATE,
             'PUT'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_UPDATE,
             'DELETE' => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_DELETE
@@ -294,16 +294,6 @@ class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
     public function setResourceType($resourceType)
     {
         $this->_resourceType = $resourceType;
-    }
-
-    /**
-     * Get Version header from headers
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->getHeader('Version');
     }
 
     /**

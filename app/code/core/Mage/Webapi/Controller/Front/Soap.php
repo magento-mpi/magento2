@@ -46,29 +46,27 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
-            $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
+            $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
         }
         $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
         $controllerInstance = $this->_getActionControllerInstance($controllerClass);
         $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
         try {
-            $methodSuffix = $this->_getAvailableMethodSuffix($method, $controllerInstance);
-
             // TODO: ACL check is not implemented yet
             $this->_checkResourceAcl();
 
             $arguments = reset($arguments);
-            /** @var Mage_Api_Helper_Data $helper */
-            $helper = Mage::helper('Mage_Api_Helper_Data');
+            /** @var Mage_Api_Helper_Data $apiHelper */
+            $apiHelper = Mage::helper('Mage_Api_Helper_Data');
             $this->getHelper()->toArray($arguments);
-            $action = $method . $methodSuffix;
+            $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
             $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
             // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
             // TODO: Move wsiArrayPacker from helper to this class
-            $obj = $helper->wsiArrayPacker($outputData);
+            $obj = $apiHelper->wsiArrayPacker($outputData);
             $stdObj = new stdClass();
             $stdObj->result = $obj;
             return $stdObj;
