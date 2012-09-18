@@ -240,7 +240,8 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
         if (!isset($requestedModules[$moduleName])) {
             throw new RuntimeException(
-                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName));
+                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
+                self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
         }
         $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
         if ($version > self::VERSION_MAX) {

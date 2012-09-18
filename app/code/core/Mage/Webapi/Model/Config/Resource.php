@@ -47,8 +47,8 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     public function __construct(array $configFiles, Mage_Core_Model_Config $magentoConfig = null)
     {
-        parent::__construct($configFiles);
         $this->_magentoConfig = $magentoConfig ? $magentoConfig : Mage::getConfig();
+        parent::__construct($configFiles);
     }
 
 

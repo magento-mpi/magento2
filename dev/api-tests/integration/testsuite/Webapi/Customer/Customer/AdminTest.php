@@ -17,6 +17,8 @@
  */
 class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
+    const CUSTOMER_MODULES = 'Mage_Customer=v1';
+
     /**
      * Customer model instance
      *
@@ -44,6 +46,7 @@ class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Ad
     public function setUp()
     {
         parent::setUp();
+        $this->getWebService()->getClient()->setHeaders(self::MODULES_HEADER, self::CUSTOMER_MODULES);
 
         $this->_initCustomer();
     }
