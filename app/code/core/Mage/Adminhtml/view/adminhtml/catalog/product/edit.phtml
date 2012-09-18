@@ -154,7 +154,6 @@ Event.observe(window, 'load', function() {
                         });
                     };
                     $field.bind(events || 'keyup change blur click', filler);
-                    filler.call($field);
                 });
             },
             _buildReverseIndex: function(masks) {
