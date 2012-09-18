@@ -30,14 +30,14 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Empty grid text
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyText;
 
     /**
      * Empty grid text CSS class
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyTextCss    = 'a-center';
 
@@ -118,7 +118,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * get collection object
+     * Get collection object
      *
      * @return Varien_Data_Collection
      */
@@ -233,9 +233,9 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             if ($column->getFilterConditionCallback()) {
                 call_user_func($column->getFilterConditionCallback(), $this->getCollection(), $column);
             } else {
-                $cond = $column->getFilter()->getCondition();
-                if ($field && isset($cond)) {
-                    $this->getCollection()->addFieldToFilter($field, $cond);
+                $condition = $column->getFilter()->getCondition();
+                if ($field && isset($condition)) {
+                    $this->getCollection()->addFieldToFilter($field, $condition);
                 }
             }
         }
@@ -259,6 +259,11 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         return $this;
     }
 
+    /**
+     * Get prepared collection
+     *
+     * @return Varien_Data_Collection
+     */
     public function getPreparedCollection()
     {
         $this->_prepareCollection();

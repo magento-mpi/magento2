@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
+class Mage_Backend_Block_Widget_Grid_Export
+    extends Mage_Backend_Block_Widget
+    implements Mage_Backend_Block_Widget_Grid_ExportInterface
 {
     /**
      * Grid export types
@@ -72,7 +74,7 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
      *
      * @return bool
      */
-    protected function getCountTotals()
+    public function getCountTotals()
     {
         return $this->getParentBlock()->getCountTotals();
     }
@@ -306,10 +308,10 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
         $data = array();
         foreach ($this->_getColumns() as $column) {
             if (!$column->getIsSystem()) {
-                $data[] = '"'.$column->getExportHeader().'"';
+                $data[] = '"' . $column->getExportHeader() . '"';
             }
         }
-        $csv.= implode(',', $data)."\n";
+        $csv .= implode(',', $data) . "\n";
 
         foreach ($collection as $item) {
             $data = array();

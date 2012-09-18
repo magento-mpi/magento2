@@ -95,7 +95,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         $model = new Mage_Backend_Block_Widget_Grid_ColumnSet(array(
             'layout' => $this->_layoutMock,
             'helper' => $this->_helperMock,
-            'rowUrlGenerator' => $rowUrlGenerator
+            'rowUrl' => array('generator' => $rowUrlGenerator),
         ));
 
         $url = $model->getRowUrl($itemMock);

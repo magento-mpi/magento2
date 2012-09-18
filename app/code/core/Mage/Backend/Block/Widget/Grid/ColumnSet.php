@@ -37,14 +37,14 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     /**
      * Empty grid text
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyText;
 
     /****
      * Empty grid text CSS class
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyTextCss    = 'a-center';
 
@@ -78,7 +78,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
         if (isset($data['rowUrl'])) {
             $rowUrlParams = $data['rowUrl'];
-            if (isset($data['generator'])) {
+            if (isset($rowUrlParams['generator'])) {
                 $this->_rowUrlGenerator = $rowUrlParams['generator'];
             } else {
                 $generatorClassName = 'Mage_Backend_Model_Widget_Grid_Row_UrlGenerator';
@@ -237,7 +237,10 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @return boolean
      */
     public function shouldRenderSubTotal($item) {
-        return ($this->_countSubTotals && count($this->_subtotals) > 0 && count($this->getMultipleRows($item)) > 0);
+        return ($this->getGrid()->getCountSubTotals() &&
+            count($this->getGrid()->getSubTotals()) > 0 &&
+            count($this->getMultipleRows($item)) > 0
+        );
     }
 
     /**
@@ -304,7 +307,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function getSubTotalItem($item)
     {
-        foreach ($this->_subtotals as $subtotalItem) {
+        foreach ($this->getGrid()->getSubTotals() as $subtotalItem) {
             foreach ($this->_groupedColumn as $groupedColumn) {
                 if ($subtotalItem->getData($groupedColumn) == $item->getData($groupedColumn)) {
                     return $subtotalItem;

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_Grid
+class Mage_Backend_Block_Widget_Grid_Extended
+    extends Mage_Backend_Block_Widget_Grid
+    implements Mage_Backend_Block_Widget_Grid_ExportInterface
 {
     /**
      * Columns array
@@ -113,14 +115,14 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     /**
      * Empty grid text
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyText;
 
     /**
      * Empty grid text CSS class
      *
-     * @var sting|null
+     * @var string|null
      */
     protected $_emptyTextCss    = 'a-center';
 
@@ -1171,5 +1173,15 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
 
         $convert = new Magento_Convert_Excel(new ArrayIterator($data));
         return $convert->convert('single_sheet');
+    }
+
+    /**
+     * Retrieve grid export types
+     *
+     * @return array|bool
+     */
+    public function getExportTypes()
+    {
+        return empty($this->_exportTypes) ? false : $this->_exportTypes;
     }
 }
