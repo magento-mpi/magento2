@@ -243,7 +243,39 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         }
         return $version;
     }
-
+    
+    /**
+     * Check if operation is deprecated or removed. Throw exception when necessary.
+     *
+     * @param string $operationName
+     * @throws RuntimeException
+     * @throws LogicException
+     */
+    protected function _checkOperationDeprecation($operationName)
+    {
+        if ($deprecationPolicy = $this->getResourceConfig()->getOperationDeprecationPolicy($operationName)) {
+            $operationToBeUsed = isset($deprecationPolicy['use_operation'])
+                ? $deprecationPolicy['use_operation']
+                : $operationName;
+            if (!isset($deprecationPolicy['use_version']) || empty($deprecationPolicy['use_version'])) {
+                throw new LogicException($this->_helper
+                    ->__('The "%s" operation was marked as deprecated but "use_version" attribute was not specified.',
+                    $operationName));
+            } else {
+                $versionToBeUsed = $deprecationPolicy['use_version'];
+            }
+            if (isset($deprecationPolicy['removed'])) {
+                throw new RuntimeException($this->_helper
+                        ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
+                        $operationName, $versionToBeUsed , $operationToBeUsed));
+            } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
+                throw new RuntimeException($this->_helper
+                        ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
+                        $operationName, $versionToBeUsed , $operationToBeUsed));
+            }
+        }
+    }
+    
     /**
      * Retrieve reflection helper.
      *

@@ -139,6 +139,29 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Identify deprecation policy for the specified operation.
+     *
+     * Return result in the following format:<pre>
+     * array(
+     *     'deprecated' => true,              // either 'deprecated' or 'removed' item must be specified
+     *     'removed' => true,
+     *     'use_version' => N,                // version of operation to be used instead
+     *     'use_operation' => 'operationName' // operation to be used instead
+     * )
+     * </pre>
+     *
+     * @param string $operationName
+     * @return array|bool
+     */
+    public function getOperationDeprecationPolicy($operationName)
+    {
+        return isset($this->_data['operations'][$operationName])
+            && isset($this->_data['operations'][$operationName]['deprecation_policy'])
+            ? $this->_data['operations'][$operationName]['deprecation_policy']
+            : false;
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom

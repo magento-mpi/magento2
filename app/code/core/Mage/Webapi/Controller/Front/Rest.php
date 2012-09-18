@@ -151,6 +151,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $operation = $this->_getOperationName();
+            $this->_checkOperationDeprecation($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
             // TODO: Think about passing parameters if they will be available and valid in the resource action
             $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);

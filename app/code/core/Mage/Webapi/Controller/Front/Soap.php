@@ -44,6 +44,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
+        $this->_checkOperationDeprecation($operation);
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
             $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
