@@ -30,12 +30,12 @@
 #*********************************************
 #<------------Saved CC------------>
 saved_empty_all:
-    name_on_card: ' '
-    card_type: ' '
-    card_number: ' '
-    expiration_month: ' '
-    expiration_year: ' '
-    card_verification_number: ' '
+    name_on_card:
+    card_type:
+    card_number:
+    expiration_month: 'Month'
+    expiration_year: 'Year'
+    card_verification_number:
 
 saved_american_express:
     name_on_card: 'Test Account'

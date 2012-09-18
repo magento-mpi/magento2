@@ -61,7 +61,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         ) {
             throw new Exception('Incorrect parameters');
         }
-        $return = array();
+        $return['address_choice'] = 'new';
+        $return[$addressType . '_country'] = 'Ukraine';
         $page = $this->getUimapPage('admin', 'create_order_for_existing_customer');
         $fieldset = $page->findFieldset('order_' . $addressType . '_address');
         $fields = $fieldset->getAllFields();
@@ -83,8 +84,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                 $return[$fieldsKey] = $this->generate('string', $symNum, $charsType);
             }
         }
-        $return[$addressType . '_country'] = 'Ukraine';
-        $return['address_choice'] = 'new';
+
         return $return;
     }
 
@@ -423,8 +423,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     {
         if ($this->controlIsPresent('button', 'start_reset_validation')) {
             $this->clickButton('start_reset_validation', false);
-            $this->pleaseWait();
             $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
+            $this->pleaseWait();
             $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
             if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
                 $waitCondition = array($this->_getControlXpath('button', '3d_continue'),
