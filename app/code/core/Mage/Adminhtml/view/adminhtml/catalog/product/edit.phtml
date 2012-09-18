@@ -141,19 +141,24 @@ Event.observe(window, 'load', function() {
 
                 $.each(self._fieldReverseIndex, function(field) {
                     var fields = this, $field = $('#' + field);
-                    var filler = function() {
+                    var filler = function(onlyText) {
                         $.each(fields, function() {
                             var $el = $('#' + this);
                             if ($el.data(self.data.disabled)) {
+                                return;
+                            }
+                            if (onlyText === true && self.varsRegexp.test(self._masks[this])) {
                                 return;
                             }
                             var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
                                 return $('#' + maskfieldName.slice(2, -2)).val();
                             });
                             $el.val(value);
+
                         });
                     };
                     $field.bind(events || 'keyup change blur click', filler);
+                    filler.call($field, true);
                 });
             },
             _buildReverseIndex: function(masks) {
