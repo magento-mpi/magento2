@@ -2726,8 +2726,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->fail($message);
         }
 
-        foreach ($fillData['isPresent'] as $fieldData) {
-            $this->_fill($fieldData);
+        if (isset($fillData['isPresent'])) {
+            foreach ($fillData['isPresent'] as $fieldData) {
+                $this->_fill($fieldData);
+            }
         }
         return true;
     }
@@ -2756,9 +2758,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->fail($message);
         }
 
-        $this->openTab($tabId);
-        foreach ($fillData['isPresent'] as $fieldData) {
-            $this->_fill($fieldData);
+        if (isset($fillData['isPresent'])) {
+            $this->openTab($tabId);
+            foreach ($fillData['isPresent'] as $fieldData) {
+                $this->_fill($fieldData);
+            }
         }
         return true;
     }
