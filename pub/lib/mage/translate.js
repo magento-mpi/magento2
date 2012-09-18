@@ -6,11 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint browser:true jquery:true*/
 (function($) {
     $.extend(true, $, {
         mage: {
-            translate: new function() {
+            translate: (function() {
                 /**
                  * Key-value translations storage
                  * @type {Object}
@@ -21,12 +21,12 @@
                 /**
                  * Add new translation (two string parameters) or several translations (object)
                  * @param {(Object.<string>|string)}
-                 * @param {string=}
+                 * @param {string}
                  */
                 this.add = function() {
                     if (arguments.length > 1) {
                         _data[arguments[0]] = arguments[1];
-                    } else if (typeof arguments[0] == 'object') {
+                    } else if (typeof arguments[0] === 'object') {
                         $.extend(_data, arguments[0]);
                     }
                 };
@@ -38,8 +38,10 @@
                  */
                 this.translate = function(text) {
                     return _data[text] ? _data[text] : text;
-                }
-            }
+                };
+
+                return this;
+            }())
         }
     });
     /**

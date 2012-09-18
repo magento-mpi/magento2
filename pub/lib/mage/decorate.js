@@ -11,6 +11,11 @@
     $.extend(true, $, {
         mage: {
             decorator: (function() {
+                /**
+                 * Decorate a list (e.g. a <ul> containing <li>) recursively if specified.
+                 * @param {string} list
+                 * @param {boolean} isRecursive
+                 */
                 this.list = function (list, isRecursive) {
                     var items;
                     if ($(list).length > 0) {
@@ -23,6 +28,11 @@
                     }
                 };
 
+                /**
+                 * Annotate a set of DOM elements with decorator classes.
+                 * @param {Object} elements
+                 * @param {array} decoratorParams
+                 */
                 this.general = function (elements, decoratorParams) {
                     var allSupportedParams = {
                         even: 'odd', // Flip jQuery odd/even so that index 0 is odd.
@@ -43,6 +53,7 @@
                         });
                     }
                 };
+
                 return this;
             }())
         }
