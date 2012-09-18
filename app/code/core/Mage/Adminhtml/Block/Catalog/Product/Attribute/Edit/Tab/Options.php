@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
                 ->getAllOptions(true);
             return array_reverse($options);
         } else {
-            parent::_getOptionValuesCollection($attribute);
+            return parent::_getOptionValuesCollection($attribute);
         }
     }
 }
