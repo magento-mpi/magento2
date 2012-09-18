@@ -48,13 +48,6 @@
                 </xs:sequence>
             </xs:complexType>
 
-            <xs:element name="customerCreateRequestParam">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element minOccurs="1" maxOccurs="1" name="customerData" type="tns:customerEntityCreate" />
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
             <xs:element name="customerCreateResponseParam">
                 <xs:complexType>
                     <xs:sequence>
@@ -107,6 +100,9 @@
         </xs:schema>
     </wsdl:types>
 
+    <wsdl:message name="customerCreateRequest">
+        <wsdl:part name="parameters" element="tns:customerCreateRequestParam" />
+    </wsdl:message>
     <wsdl:message name="customerCreateResponse">
         <wsdl:part name="parameters" element="tns:customerCreateResponseParam" />
     </wsdl:message>

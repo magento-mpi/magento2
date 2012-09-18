@@ -16,10 +16,32 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     protected static $_model = null;
 
-    public static function setUpBeforeClass()
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_magentoConfigMock;
+
+    protected function setUp()
     {
-        // correct config
-        self::$_model = new Mage_Webapi_Model_Config_Resource(glob(__DIR__ . '/_files/positive/*/resource.xml'));
+        $optionsMock = $this->getMockBuilder('Mage_Core_Model_Config_Options')
+            ->setMethods(array('getCodeDir'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $optionsMock->expects($this->any())
+            ->method('getCodeDir')
+            ->will($this->returnValue(''));
+        $magentoConfigMock = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->setMethods(array('getOptions'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $magentoConfigMock->expects($this->any())
+            ->method('getOptions')
+            ->will($this->returnValue($optionsMock));
+        $this->_magentoConfigMock = $magentoConfigMock;
+
+        /** @var Mage_Core_Model_Config $magentoConfigMock */
+        self::$_model = new Mage_Webapi_Model_Config_Resource(glob(__DIR__ . '/_files/positive/*/resource.xml'),
+            $magentoConfigMock);
     }
 
     public function testGetSchemaFile()
@@ -137,7 +159,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testInvalidOperationName()
     {
         new Mage_Webapi_Model_Config_Resource(
-            array(__DIR__ . '/_files/negative/resource_with_incorrect_operation_name.xml'));
+            array(__DIR__ . '/_files/negative/resource_with_incorrect_operation_name.xml'), $this->_magentoConfigMock);
     }
 
     /**
@@ -147,7 +169,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testInvalidMissingParams()
     {
         new Mage_Webapi_Model_Config_Resource(
-            array(__DIR__ . '/_files/negative/resource_missing_element_with_parameters.xml'));
+            array(__DIR__ . '/_files/negative/resource_missing_element_with_parameters.xml'),
+            $this->_magentoConfigMock);
     }
 
     /**
@@ -157,7 +180,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testInvalidMissingParams2()
     {
         new Mage_Webapi_Model_Config_Resource(
-            array(__DIR__ . '/_files/negative/resource_missing_proper_message_node.xml'));
+            array(__DIR__ . '/_files/negative/resource_missing_proper_message_node.xml'), $this->_magentoConfigMock);
     }
 
     /**

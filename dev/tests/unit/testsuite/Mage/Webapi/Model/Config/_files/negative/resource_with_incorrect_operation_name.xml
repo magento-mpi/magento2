@@ -48,6 +48,13 @@
                 </xs:sequence>
             </xs:complexType>
 
+            <xs:element name="customerCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="customerData" type="tns:customerEntityCreate" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="customerCreateResponseParam">
                 <xs:complexType>
                     <xs:sequence>
@@ -138,7 +145,7 @@
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:portType name="product">
-        <wsdl:operation name="productCreate">
+        <wsdl:operation name="catalogProductCreate">
             <wsdl:documentation>Create product</wsdl:documentation>
             <wsdl:input message="tns:productCreateRequest" />
             <wsdl:output message="tns:productCreateResponse" />
