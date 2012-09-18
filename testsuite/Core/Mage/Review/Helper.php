@@ -250,19 +250,13 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
             if ($this->controlIsPresent('pageelement', 'review_details_ratings')) {
                 $text = preg_quote($this->getControlAttribute('pageelement', 'review_details_ratings', 'text'));
                 $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
-                $elements =
-                    $this->getElements($this->_getControlXpath('pageelement', 'review_details_ratings_line'), false);
+                $elements = $this->getElements($this->_getControlXpath('pageelement', 'review_details_ratings'), false);
                 /**
                  * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
                  */
                 foreach ($elements as $element) {
-                    $actualRatings[] = trim($element->element($this->using('xpath')->value('td[1]'))->text());
+                    $actualRatings[] = trim($element->element($this->using('xpath')->value('.//tr[1]'))->text());
                 }
-                //@TODO Verify
-                //$ratingsCount = $this->getControlCount('pageelement', 'review_details_ratings_line');
-                //for ($i = 0; $i < $ratingsCount; $i++) {
-                //    $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
-                //}
             }
             //Verification on product page
             $this->assertEquals($summary, $actualSummary,
