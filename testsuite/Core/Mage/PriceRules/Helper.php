@@ -288,24 +288,29 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $simpleVerify = array();
-        $specialVerify = array();
-        foreach ($ruleData as $tabData) {
-            if (is_array($tabData)) {
-                foreach ($tabData as $fieldKey => $fieldValue) {
-                    if (is_array($fieldValue)) {
-                        $specialVerify[$fieldKey] = $fieldValue;
-                    } else {
-                        $simpleVerify[$fieldKey] = $fieldValue;
+        foreach ($ruleData as $tabName => $tabData) {
+            switch ($tabName) {
+                case 'info':
+                    if (array_key_exists('websites', $tabData) && !$this->controlIsPresent('multiselect', 'websites')) {
+                        unset($tabData['websites']);
                     }
-                }
+                    $this->verifyForm($tabData, 'rule_information');
+                    break;
+                case 'conditions':
+                    //@TODO verify Conditions
+                    break;
+                case 'actions':
+                    $this->verifyForm($tabData, 'rule_actions');
+                    //@TODO verify action conditions for Shopping Cart Price Rule
+                    break;
+                case 'labels':
+                    //@TODO verify Store Labels for Shopping Cart Price Rule
+                    break;
+                default:
+                    break;
             }
         }
-        if (array_key_exists('websites', $simpleVerify) && !$this->controlIsPresent('multiselect', 'websites')) {
-            unset($simpleVerify['websites']);
-        }
-        $this->assertTrue($this->verifyForm($simpleVerify), $this->getParsedMessages());
-        //@TODO verify Conditions and storeView titles
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
