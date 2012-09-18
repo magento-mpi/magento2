@@ -74,7 +74,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             $this->_block->addItem($input['id'], $input);
         }
         $javascript = $this->_block->getJavaScript();
-        $this->assertContains($expected, $javascript);
+        $this->assertRegExp($expected, $javascript);
     }
 
     public function javascriptDataProvider()
@@ -82,11 +82,15 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         return array(
             array(
                 null,
-                '"option_id1":{"label":"Option One","url":"*\/*\/option1","complete":"Test","id":"option_id1"}',
+                '#"option_id1":{"label":"Option One",'
+                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+                . '"complete":"Test","id":"option_id1"}#',
             ),
             array(
                 null,
-                '"option_id2":{"label":"Option Two","url":"*\/*\/option2","confirm":"Are you sure?","id":"option_id2"}',
+                '#"option_id2":{"label":"Option Two",'
+                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+                . '"confirm":"Are you sure\?","id":"option_id2"}#',
             ),
             array(
                 array(
@@ -95,8 +99,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
                     'url' => '*/*/option3',
                     'block_name' => 'admin.test.grid.massaction.option3'
                 ),
-                '"option_id3":{"id":"option_id3",'
-                    . '"label":"Option Three","url":"*\/*\/option3","block_name":"admin.test.grid.massaction.option3"}'
+                '#"option_id3":{"id":"option_id3","label":"Option Three",'
+                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+                . '"block_name":"admin.test.grid.massaction.option3"}#'
             )
         );
     }

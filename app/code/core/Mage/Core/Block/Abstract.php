@@ -72,7 +72,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @var Mage_Core_Model_Url
      */
-    protected static $_urlModel;
+    protected $_urlModel;
 
     /**
      * @var Mage_Core_Model_Event_Manager
@@ -93,6 +93,14 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         parent::__construct($data);
         if (isset($data['layout'])) {
             $this->_layout = $data['layout'];
+        }
+
+        if (isset($data['urlModel'])) {
+            $this->_urlModel = $data['urlModel'];
+        }
+
+        if (isset($data['request'])) {
+            $this->_request = $data['request'];
         }
         $this->_construct();
     }
@@ -131,11 +139,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getRequest()
     {
-        $controller = Mage::app()->getFrontController();
-        if ($controller) {
-            $this->_request = $controller->getRequest();
-        } else {
-            throw new Exception(Mage::helper('Mage_Core_Helper_Data')->__("Can't retrieve request object"));
+        if (null === $this->_request) {
+            $controller = Mage::app()->getFrontController();
+            if ($controller) {
+                $this->_request = $controller->getRequest();
+            } else {
+                throw new Exception(Mage::helper('Mage_Core_Helper_Data')->__("Can't retrieve request object"));
+            }
         }
         return $this->_request;
     }
@@ -662,7 +672,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _getUrlModel()
     {
-        return Mage::getModel($this->_getUrlModelClass());
+        if (null === $this->_urlModel) {
+            $this->_urlModel = Mage::getModel($this->_getUrlModelClass());
+        }
+
+        return $this->_urlModel;
     }
 
     /**

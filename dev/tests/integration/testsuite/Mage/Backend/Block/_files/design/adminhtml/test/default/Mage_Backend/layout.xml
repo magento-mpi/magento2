@@ -54,7 +54,7 @@
                         <massaction_id_field>test_id</massaction_id_field>
                         <massaction_id_filter>test_id</massaction_id_filter>
                         <form_field_name>test</form_field_name>
-                        <use_select_all>true</use_select_all>
+                        <use_select_all>1</use_select_all>
                         <options>
                             <option_id1>
                                 <label>Option One</label>
@@ -68,7 +68,6 @@
                             </option_id2>
                         </options>
                     </arguments>
-
                 </block>
             </block>
         </reference>

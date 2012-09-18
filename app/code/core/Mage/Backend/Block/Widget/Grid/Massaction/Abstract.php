@@ -46,12 +46,13 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
             throw new InvalidArgumentException('Helper must be instance of Mage_Backend_Helper_Data');
         }
         $this->setErrorText($this->_helper->jsQuoteEscape($this->_helper->__('Please select items.')));
-    }
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_prepareMassaction();
+        if (null !== $this->getOptions()) {
+            foreach ($this->getOptions() as $optionId => $option) {
+                $this->addItem($optionId, $option);
+            }
+            $this->unsetData('options');
+        }
     }
 
     /**
@@ -72,9 +73,17 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     public function addItem($itemId, $item)
     {
         if (is_array($item)) {
-            $item['id'] = $itemId;
-            $this->_items[$itemId] = new Varien_Object($item);
-        } elseif($item instanceof Varien_Object) {
+            $item = new Varien_Object($item);
+        }
+
+        if ($item instanceof Varien_Object) {
+            $item->setId($itemId);
+
+            $itemUrl = $item->getUrl();
+            if (strpos($itemUrl, $this->getBaseUrl()) === false) {
+                $item->setUrl($this->getUrl($itemUrl));
+            }
+
             $this->_items[$itemId] = $item;
         }
 
@@ -286,23 +295,6 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     public function setUseSelectAll($flag)
     {
         $this->setData('use_select_all', (bool) $flag);
-        return $this;
-    }
-
-    /**
-     * Prepare grid massaction actions
-     *
-     * @return Mage_Backend_Block_Widget_Grid_Massaction
-     */
-    protected function _prepareMassaction()
-    {
-        $options = $this->getOptions();
-        if (null !== $options) {
-            foreach ($this->getOptions() as $optionId => $option) {
-                $this->addItem($optionId, $option);
-            }
-        }
-
         return $this;
     }
 

@@ -29,6 +29,13 @@ class Mage_Backend_Block_Widget_Grid_Extended
     protected $_columns = array();
 
     /**
+     * Collection object
+     *
+     * @var Varien_Data_Collection
+     */
+    protected $_collection = null;
+
+    /**
      * Export flag
      *
      * @var bool
@@ -1183,5 +1190,24 @@ class Mage_Backend_Block_Widget_Grid_Extended
     public function getExportTypes()
     {
         return empty($this->_exportTypes) ? false : $this->_exportTypes;
+    }
+    /**
+     * Set collection object
+     *
+     * @param Varien_Data_Collection $collection
+     */
+    public function setCollection($collection)
+    {
+        $this->_collection = $collection;
+    }
+
+    /**
+     * get collection object
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getCollection()
+    {
+        return $this->_collection;
     }
 }

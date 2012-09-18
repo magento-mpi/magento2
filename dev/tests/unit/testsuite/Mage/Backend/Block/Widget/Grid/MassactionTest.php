@@ -22,7 +22,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     /**
      * @var Mage_Backend_Helper_Data
      */
-    protected $_backendHelper;
+    protected $_backendHelperMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -42,113 +42,142 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_gridColumnSetMock;
+    protected $_eventManagerMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventManagerMock;
+    protected $_urlModelMock;
 
     protected function setUp()
     {
         $this->_gridMock = $this->getMockBuilder('Mage_Backend_Block_Widget_Grid')
-            ->disableOriginalConstructor()
             ->setMethods(array('getId'))
             ->getMock();
         $this->_gridMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('test_grid'));
 
-        $this->_backendHelper = $this->getMock(
-            'Mage_Backend_Helper_Data', array('jsQuoteEscape', '__'), array(), '', false, false
-        );
-
-        $this->_blockMock = $this->getMockBuilder('Mage_Backend_Block_Widget_Grid_Massaction')
-            ->setConstructorArgs(array(array('helper' => $this->_backendHelper)))
-            ->setMethods(array('getParentBlock', 'getRequest'))
+        $this->_layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getParentName', 'getBlock'))
             ->getMock();
-        $this->_blockMock->expects($this->any())
-            ->method('getParentBlock')
+        $this->_layoutMock->expects($this->any())
+            ->method('getParentName')
+            ->with('test_grid_massaction')
+            ->will($this->returnValue('test_grid'));
+        $this->_layoutMock->expects($this->any())
+            ->method('getBlock')
+            ->with('test_grid')
             ->will($this->returnValue($this->_gridMock));
+
+        $this->_eventManagerMock = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_urlModelMock = $this->getMockBuilder('Mage_Backend_Model_Url')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getUrl', 'getBaseUrl'))
+            ->getMock();
+
+        $this->_requestMock = $this->getMockBuilder('Zend_Controller_Request_Http')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getParam'))
+            ->getMock();
+
+        $this->_backendHelperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('jsQuoteEscape', '__'))
+            ->getMock();
+
+        $this->_block = new Mage_Backend_Block_Widget_Grid_Massaction(
+            array(
+                'eventManager' => $this->_eventManagerMock,
+                'layout' => $this->_layoutMock,
+                'urlModel' => $this->_urlModelMock,
+                'helper' => $this->_backendHelperMock,
+                'request' => $this->_requestMock,
+                'massaction_id_field' => 'test_id',
+                'massaction_id_filter' => 'test_id'
+            )
+        );
+        $this->_block->setNameInLayout('test_grid_massaction');
     }
 
     protected function tearDown()
     {
         unset($this->_gridMock);
         unset($this->_blockMock);
-        unset($this->_backendHelper);
+        unset($this->_urlModelMock);
+        unset($this->_layoutMock);
+        unset($this->_eventManagerMock);
+        unset($this->_backendHelperMock);
     }
 
     public function testMassactionDefaultValues()
     {
-        $block = new Mage_Backend_Block_Widget_Grid_Massaction(
-            array(
-                'helper' => $this->_backendHelper
-            )
-        );
-        $this->assertEquals(0, $block->getCount());
-        $this->assertFalse($block->isAvailable());
+        $this->assertEquals(0, $this->_block->getCount());
+        $this->assertFalse($this->_block->isAvailable());
 
-        $this->assertEquals('massaction', $block->getFormFieldName());
-        $this->assertEquals('internal_massaction', $block->getFormFieldNameInternal());
+        $this->assertEquals('massaction', $this->_block->getFormFieldName());
+        $this->assertEquals('internal_massaction', $this->_block->getFormFieldNameInternal());
+
+        $this->assertEquals('test_grid_massactionJsObject', $this->_block->getJsObjectName());
+        $this->assertEquals('test_gridJsObject', $this->_block->getGridJsObjectName());
+
+        $this->assertEquals('test_grid_massaction', $this->_block->getHtmlId());
+        $this->assertTrue($this->_block->getUseSelectAll());
     }
 
     public function testItemsProcessing()
     {
-        /** @var $block Mage_Backend_Block_Widget_Grid_Massaction */
-        $this->_block = new Mage_Backend_Block_Widget_Grid_Massaction(
+        $this->_urlModelMock->expects($this->any())
+            ->method('getBaseUrl')
+            ->will($this->returnValue('http://localhost/index.php'));
+
+        $urlReturnValueMap = array(
+            array('*/*/test1', 'http://localhost/index.php/backend/admin/test/test1'),
+            array('*/*/test2', 'http://localhost/index.php/backend/admin/test/test2')
+        );
+        $this->_urlModelMock->expects($this->any())
+            ->method('getUrl')
+            ->will($this->returnValueMap($urlReturnValueMap));
+
+        $item1 = array("label" => "Test Item One", "url" => "*/*/test1");
+        $this->_block->addItem("test_id1", $item1);
+        $this->assertEquals(1, $this->_block->getCount());
+
+        $expectedItem1 = new Varien_Object(
             array(
-                'helper' => $this->_backendHelper,
-                'massaction_id_field' => 'test_id',
-                'massaction_id_filter' => 'test_id',
-                'form_field_name' => 'test_form',
-                'use_select_all' => true,
-                'options' => array(
-                    'test_id1' => array(
-                        'label' => 'Test One',
-                        'url' => '*/*/test1'
-                    ),
-                    'test_id2' => array(
-                        'label' => 'Test Two',
-                        'url' => '*/*/test2'
-                    ),
-                )
+                "label" => "Test Item One",
+                "url" => "*/*/test1",
+                "id" => 'test_id1',
             )
         );
+        $expectedItem1->setUrl($this->_block->getUrl($expectedItem1->getUrl()));
 
-        $item = array( "label" => "Test Item", "url" => "*/*/test");
+        $actualItem1 = $this->_block->getItem('test_id1');
+        $this->assertInstanceOf('Varien_Object', $actualItem1);
+        $this->assertEquals($expectedItem1, $actualItem1);
 
-        $this->_block->addItem("test_id3", $item);
-        $item['id'] = 'test_id4';
-        $this->_block->addItem("test_id4", new Varien_Object($item));
+        $item2 = new Varien_Object(array("label" => "Test Item Two", "url" => "*/*/test2"));
+        $this->_block->addItem("test_id2", $item2);
 
-        $this->assertEquals(4, $this->_block->getCount());
-        $this->assertInstanceOf('Varien_Object', $this->_block->getItem('test_id3'));
-
-        $item['id'] = 'test_id3';
-        $itemExpected = new Varien_Object($item);
-        $this->assertEquals($itemExpected, $this->_block->getItem('test_id3'));
-
-        $this->_block->removeItem('test_id4');
-        $this->assertEquals(3, $this->_block->getCount());
-
-        $this->_block->removeItem('test_id3');
         $this->assertEquals(2, $this->_block->getCount());
-    }
+        $this->assertInstanceOf('Varien_Object', $this->_block->getItem('test_id2'));
 
-    public function testHtmlId()
-    {
-        $this->assertEquals('test_grid_massaction', $this->_blockMock->getHtmlId());
-    }
+        $expectedItem2 = $item2;
+        $expectedItem2->setId('test_id2')->setUrl($this->_block->getUrl('*/*/test2'));
+        $this->assertEquals($expectedItem2, $this->_block->getItem('test_id2'));
 
-    public function testJsObjectName()
-    {
-        $this->assertEquals('test_grid_massactionJsObject', $this->_blockMock->getJsObjectName());
-    }
+        $items = array('test_id1' => $expectedItem1, 'test_id2' => $expectedItem2);
+        $this->assertEquals($items, $this->_block->getItems());
 
-    public function testGridJsObjectName()
-    {
-        $this->assertEquals('test_gridJsObject', $this->_blockMock->getGridJsObjectName());
+        $this->_block->removeItem('test_id2');
+        $this->assertEquals(1, $this->_block->getCount());
+
+        $this->_block->removeItem('test_id1');
+        $this->assertEquals(0, $this->_block->getCount());
     }
 
     /**
@@ -159,21 +188,13 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      */
     public function testSelected($param, $expectedJson, $expected)
     {
-        $requestMock = $this->getMockBuilder('Magento_Test_Request')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
-            ->getMock();
-        $requestMock->expects($this->any())
+        $this->_requestMock->expects($this->any())
             ->method('getParam')
-            ->with($this->_blockMock->getFormFieldNameInternal())
+            ->with($this->_block->getFormFieldNameInternal())
             ->will($this->returnValue($param));
 
-        $this->_blockMock->expects($this->any())
-            ->method('getRequest')
-            ->will($this->returnValue($requestMock));
-
-        $this->assertEquals($expectedJson, $this->_blockMock->getSelectedJson());
-        $this->assertEquals($expected, $this->_blockMock->getSelected());
+        $this->assertEquals($expectedJson, $this->_block->getSelectedJson());
+        $this->assertEquals($expected, $this->_block->getSelected());
     }
 
     public function selectedDataProvider()
@@ -194,12 +215,10 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     public function testUseSelectAll()
     {
-        $this->assertTrue($this->_blockMock->getUseSelectAll());
+        $this->_block->setUseSelectAll(false);
+        $this->assertFalse($this->_block->getUseSelectAll());
 
-        $this->_blockMock->setUseSelectAll(false);
-        $this->assertFalse($this->_blockMock->getUseSelectAll());
-
-        $this->_blockMock->setUseSelectAll(true);
-        $this->assertTrue($this->_blockMock->getUseSelectAll());
+        $this->_block->setUseSelectAll(true);
+        $this->assertTrue($this->_block->getUseSelectAll());
     }
 }
