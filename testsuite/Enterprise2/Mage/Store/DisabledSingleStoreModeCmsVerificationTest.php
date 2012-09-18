@@ -5,55 +5,55 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Store
+ * @package     Mage_DisableSingleStoreMode
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_DisabledSingleStoreModeCmsVerificationTest extends Mage_Selenium_TestCase
 {
 
     protected function assertPreconditions()
-    {
-        $this->loginAdminUser();
-        $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
-        $config = $this->loadDataSet('SingleStoreMode', 'enabled_single_store_mode');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
-    }
+{
+    $this->loginAdminUser();
+    $this->admin('manage_stores');
+    $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+    $config = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+    $this->navigate('system_configuration');
+    $this->systemConfigurationHelper()->configure($config);
+}
 
     /**
-     * <p>Choose Scope selector does not displayed on the Manage Page Hierarchy page</p>
+     * <p>Choose Scope selector is displayed on the Manage Page Hierarchy page</p>
      * <p>Steps:</p>
-     * <p>Navigate to Manage Pages Hierarchy page.</p>
+     * <p>1. Navigate to Manage Pages Hierarchy page</p>
      * <p>Expected result:</p>
-     * <p>There is no "Choose Scope" selector  on the page</p>
+     * <p>There is "Choose Scope" selector  on the page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6166
+     * @TestlinkId TL-MAGE-6217
      * @author Nataliya_Kolenko
      */
     public function verificationScopeSelector()
     {
         $this->navigate('manage_pages_hierarchy');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_scope'),
-            'There is "Choose Scope" selector on the page');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'choose_scope'),
+            'There is no "Choose Scope" selector on the page');
     }
 
     /**
-     * <p>All references to Website-Store-Store View do not displayed in the Manage Content area</p>
-     * <p>Steps:<p/>
+     * <p>All references to Website-Store-Store View are displayed in the Manage Content area</p>
+     * <p>Steps:</p>
      * <p>1. Navigate to Manage Pages page</p>
      * <p>2. Click "Add Mew Page" button</p>
      * <p>3. Click "Back" button</p>
      * <p>Expected result:</p>
-     * <p>There is no "Store View" selector on the page</p>
-     * <p>There is no "Store View" column on the page</p>
+     * <p>There is "Store View" selector on the page</p>
+     * <p>There is "Store View" column on the page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6167
+     * @TestlinkId TL-MAGE-6218
      * @author Nataliya_Kolenko
      */
     public function verificationManageContent()
@@ -62,25 +62,25 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');
         $this->clickButton('add_new_page');
-        $this->assertFalse($this->controlIsPresent('multiselect', 'store_view'),
-            'There is "Store View" selector on the page');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'store_view'),
+            'There is no "Store View" selector on the page');
         $this->clickButton('back');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store_view'),
-            'There is "Store View" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_store_view'),
+            'There is no "Store View" dropdown on the page');
     }
 
     /**
-     * <p>All references to Website-Store-Store View do not displayed in the Static Blocks area</p>
+     * <p>All references to Website-Store-Store View are displayed in the Static Blocks area</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Static Blocks  page</p>
      * <p>2. Click "Add Mew Block" button</p>
      * <p>3. Click "Back" button</p>
      * <p>Expected result:</p>
-     * <p>There is no "Store View" selector on the page</p>
-     * <p>There is no "Store View" column on the page</p>
+     * <p>There is "Store View" selector on the page</p>
+     * <p>There is "Store View" column on the page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6168
+     * @TestlinkId TL-MAGE-6219
      * @author Nataliya_Kolenko
      */
     public function verificationStaticBlocks()
@@ -89,29 +89,29 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
         $this->assertTrue($this->controlIsPresent('button', 'add_new_block'),
             'There is no "Add New Block" button on the page');
         $this->clickButton('add_new_block');
-        $this->assertFalse($this->controlIsPresent('multiselect', 'store_view'),
-            'There is "Store View" selector on the page');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'store_view'),
+            'There is no "Store View" selector on the page');
         $this->clickButton('back');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store_view'),
-            'There is "Store View" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_store_view'),
+            'There is no "Store View" dropdown on the page');
     }
 
     /**
-     * <p>Assign to Store Views selector does not displayed in the New Widget Instance page</p>
+     * <p>All references to Website-Store-Store View are displayed in the Widget area</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Manage Widget Instances page</p>
      * <p>2. Click "Add New Widget Instance" button</p>
      * <p>3. Fill Settings fields</p>
      * <p>4. Click "Continue"</p>
      * <p>Expected result:</p>
-     * <p>There is no "Assign to Store Views" selector in the Frontend Properties tab</p>
+     * <p>There is "Assign to Store Views" selector in the Frontend Properties tab</p>
      *
      * @param string $dataWidgetType
      *
      * @dataProvider widgetTypesDataProvider
      *
      * @test
-     * @TestlinkId TL-MAGE-6169
+     * @TestlinkId TL-MAGE-6220
      * @author Nataliya_Kolenko
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
@@ -120,8 +120,8 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
         $this->navigate('manage_cms_widgets');
         $this->clickButton('add_new_widget_instance');
         $this->cmsWidgetsHelper()->fillWidgetSettings($widgetData['settings']);
-        $this->assertFalse($this->controlIsPresent('multiselect', 'assign_to_store_views'),
-            'There is "Store View" selector on the page');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'assign_to_store_views'),
+            'There is no "Store View" selector on the page');
     }
 
     public function widgetTypesDataProvider()
@@ -145,18 +145,18 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
     }
 
     /**
-     * <p>All references to Website-Store-Store View do not displayed in the Banner area</p>
+     * <p>All references to Website-Store-Store View are displayed in the Banner area</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Manage Banners page</p>
      * <p>2. Click "Add Banner" button</p>
      * <p>3. Choose Content tab</p>
-     * <p>4. Click "Back" button</p>
+     * <p>4. Click "Back" button
      * <p>Expected result:</p>
-     * <p>There is no "Store View Specific Content" fieldset in the Content tab</p>
-     * <p>There is no "Visible In" column on the page
+     * <p>There is "Store View Specific Content" fieldset in the Content tab</p>
+     * <p>There is "Visible In" column on the page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6170
+     * @TestlinkId TL-MAGE-6221
      * @author Nataliya_Kolenko
      */
     public function verificationBanners()
@@ -175,17 +175,17 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
     }
 
     /**
-     * <p>All references to Website-Store-Store View do not displayed in the Polls area</p>
+     * <p>All references to Website-Store-Store View are displayed in the Polls area</p>
      * <p>Steps:</p>
      * <p>1. Navigate to Poll Manager page</p>
      * <p>2. Click "Add Mew Poll" button</p>
      * <p>2. Click "Back" button</p>
      * <p>Expected result:</p>
-     * <p>There is no "Visible In" selector on the page</p>
-     * <p>There is no "Visible In" column on the page</p>
+     * <p>There is "Visible In" selector on the page</p>
+     * <p>There is "Visible In" column on the page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6171
+     * @TestlinkId TL-MAGE-6222
      * @author Nataliya_Kolenko
      */
     public function verificationPolls()
@@ -194,10 +194,10 @@ class Enterprise2_Mage_Store_SingleStoreModeVerificationCmsAreaTest extends Mage
         $this->assertTrue($this->controlIsPresent('button', 'add_new_poll'),
             'There is no "Add New Poll" button on the page');
         $this->clickButton('add_new_poll');
-        $this->assertFalse($this->controlIsPresent('multiselect', 'visible_in'),
-            'There is "Visible In" selector on the page');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'visible_in'),
+            'There is no "Visible In" selector on the page');
         $this->clickButton('back');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
-            'There is "Visible In" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_visible_in'),
+            'There is no "Visible In" dropdown on the page');
     }
 }
