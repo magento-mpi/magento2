@@ -1,16 +1,16 @@
 <?php
-    /**
-     * Magento
-     *
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_SystemConfiguration
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     *
-     */
+/**
+ * Magento
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_SystemConfiguration
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ */
 
 class Community2_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCase
 {
@@ -33,13 +33,14 @@ class Community2_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_
      * @dataProvider diffConfigScopeDataProvider
      *
      * @test
+     * @TestlinkId TL-MAGE-6236
      * @author Tatyana_Gonchar
      */
     function verificationCheckoutTab($diffScope)
     {
         $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
         $this->assertTrue($this->controlIsPresent('tab', 'sales_checkout'),
-            '"Checkout" tab is not present on the page if Scope is $diffScope');
+            "'Checkout' tab is not present on the page if Scope is $diffScope");
     }
 
     public function diffConfigScopeDataProvider()
