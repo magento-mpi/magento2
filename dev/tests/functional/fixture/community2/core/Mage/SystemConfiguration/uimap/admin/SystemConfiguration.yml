@@ -48,6 +48,11 @@ system_configuration:
                                         vat_number_is_invalid: //button[span='VAT Number is Invalid']
                                     link:
                                         store_information_tab: //a[@id='general_store_information-head']
+                            -
+                                single_store_mode:
+                                    xpath: //fieldset[@id='general_single_store_mode']
+                                    dropdowns:
+                                        enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
                 -
                     customers_customer_configuration:
                         fieldsets:

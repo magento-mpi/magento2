@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selenium_TestCase
+class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -24,24 +24,6 @@ class Enterprise2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Sele
             $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
             $this->storeHelper()->createStore($storeViewData, 'store_view');
         }
-    }
-
-    /**
-     * <p>Choose Scope selector is displayed on the Manage Page Hierarchy page</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages Hierarchy page</p>
-     * <p>Expected result:</p>
-     * <p>There is "Choose Scope" selector  on the page</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6195
-     * @author Nataliya_Kolenko
-     */
-    public function verificationScopeSelector()
-    {
-        $this->navigate('manage_pages_hierarchy');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'choose_scope'),
-            'There is no "Choose Scope" selector on the page');
     }
 
     /**
@@ -128,51 +110,15 @@ class Enterprise2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Sele
     public function widgetTypesDataProvider()
     {
         return array(
-            array('banner_rotator'),
-            array('cms_hierarchy_node_link'),
             array('cms_page_link'),
             array('cms_static_block'),
             array('catalog_category_link'),
-            array('catalog_events_carousel'),
             array('catalog_new_products_list'),
             array('catalog_product_link'),
-            array('gift_registry_search'),
-            array('order_by_sku'),
             array('orders_and_returns'),
             array('recently_compared_products'),
             array('recently_viewed_products'),
-            array('wishlist_search'),
         );
-    }
-
-    /**
-     * <p>All references to Website-Store-Store View are displayed in the Banner area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Banners page</p>
-     * <p>2. Click "Add Banner" button</p>
-     * <p>3. Choose Content tab</p>
-     * <p>4. Click "Back" button</p>
-     * <p>Expected result:</p>
-     * <p>There is "Store View Specific Content" fieldset in the Content tab</p>
-     * <p>There is "Visible In" column on the page</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6199
-     * @author Nataliya_Kolenko
-     */
-    public function verificationBanners()
-    {
-        $this->navigate('manage_cms_banners');
-        $this->assertTrue($this->controlIsPresent('button', 'add_banner'),
-            'There is no "Add Banner" button on the page');
-        $this->clickButton('add_banner');
-        $this->assertTrue($this->controlIsPresent('tab', 'content'), 'There is Content tab on the page');
-        $this->openTab('content');
-        $this->assertFalse($this->controlIsPresent('fieldset', 'specific_content'),
-            'There is "Store View Specific Content" selector on the page');
-        $this->clickButton('back');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
-            'There is "Visible In" dropdown on the page');
     }
 
     /**

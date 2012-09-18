@@ -70,7 +70,7 @@ create_cms_banner:
 
                 -
                     content:
-                        xpath: //a[@title='Content']
+                        xpath: //a[@title='Content']/span
                         fieldsets:
                             -
                                 default_content:
