@@ -212,6 +212,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'downloadable_information':
                 $arrayKey = $tabName . '_data';
                 if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    if (!$this->controlIsPresent('pageelement', 'opened_downloadable_sample')) {
+                        $this->clickControl('link', 'downloadable_sample', false);
+                    }
+                    if (!$this->controlIsPresent('pageelement', 'opened_downloadable_link')) {
+                        $this->clickControl('link', 'downloadable_link', false);
+                    }
                     foreach ($tabData[$arrayKey] as $key => $value) {
                         if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
                             $this->addDownloadableOption($value, 'sample');
@@ -220,8 +226,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                             $this->addDownloadableOption($value, 'link');
                         }
                     }
+                    $this->fillTab($tabData[$arrayKey], $tabName);
                 }
-                $this->fillForm($tabData[$arrayKey], $tabName);
                 break;
             default:
                 $this->fillForm($tabData, $tabName);
@@ -380,9 +386,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function addDownloadableOption(array $optionData, $type)
     {
-        if (!$this->controlIsPresent('pageelement', 'opened_downloadable_' . $type)) {
-            $this->clickControl('link', 'downloadable_' . $type, false);
-        }
         $rowNumber = $this->getControlCount('pageelement', 'added_downloadable_' . $type);
         $this->addParameter('rowId', $rowNumber);
         $this->clickButton('downloadable_' . $type . '_add_new_row', false);
