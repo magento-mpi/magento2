@@ -164,7 +164,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $requestedModules = $this->getRequest()->getParam('modules');
         if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            throw new RuntimeException($this->_helper->__('Invalid requested modules.'));
+            $message = $this->_helper->__('Missing requested modules.') . "\n"
+                . $this->_helper->__('Example: http://magentohost/api/soap?wsdl&modules[Mage_Customer]=v1');
+            throw new RuntimeException($message);
         }
         return $requestedModules;
     }

@@ -14,7 +14,7 @@
 abstract class Mage_Webapi_Controller_ActionAbstract
 {
     /**#@+
-26     * Collection page sizes.
+     * Collection page sizes.
      */
     const PAGE_SIZE_DEFAULT = 10;
     const PAGE_SIZE_MAX = 100;
