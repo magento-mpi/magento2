@@ -119,7 +119,7 @@ class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Ad
         $responseData = $response->getBody();
         $this->assertNotEmpty($responseData);
 
-        $this->assertCount(22, $responseData, 'Invalid fields quantity in response.');
+        $this->assertCount(23, $responseData, 'Invalid fields quantity in response.');
 //        foreach ($responseData as $field => $value) {
 //            $message = '';
 //            try {

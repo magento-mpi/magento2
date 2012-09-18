@@ -77,16 +77,40 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
         /** @var $log Mage_Log_Model_Customer */
         $log = Mage::getModel('Mage_Log_Model_Customer');
         $log->loadByCustomer($id);
-
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($id);
-        $data = $customer->getData();
-        $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
-
+        $data = $this->_get($id);
         $lastLoginAt = $log->getLoginAt();
         if (null !== $lastLoginAt) {
             $data['last_logged_in'] = $lastLoginAt;
         }
+        $data['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+        return $data;
+    }
+
+    /**
+     * Method for versioning testing purposes.
+     *
+     * @param string $id
+     * @return array
+     */
+    public function getV2($id)
+    {
+        $customerData = $this->_get($id);
+        $customerData['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+        return $customerData;
+    }
+
+    /**
+     * Retrieve customer data by ID
+     *
+     * @param string $id
+     * @return mixed
+     */
+    protected function _get($id)
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->_loadCustomerById($id);
+        $data = $customer->getData();
+        $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
         return $data;
     }
 
