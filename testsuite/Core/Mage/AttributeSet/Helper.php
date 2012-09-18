@@ -119,6 +119,8 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                 $availableElement = $this->elementIsPresent("//li[div[./a/span='$groupName']]//li/div");
                 if ($availableElement) {
                     $this->moveto($availableElement);
+                } else {
+                    $this->moveto($this->getElement("//*[a/span='$groupName']"));
                 }
                 $this->buttonup();
                 $this->assertTrue($this->controlIsPresent('link', 'attribute_in_group'),
