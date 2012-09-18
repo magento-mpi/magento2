@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <adminhtml_webapi_user_index>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_User" name="webapi.user" />
+        </reference>
+    </adminhtml_webapi_user_index>
+
+    <adminhtml_webapi_user_edit>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit" />
+        </reference>
+    </adminhtml_webapi_user_edit>
+
+    <adminhtml_webapi_user_grid>
+        <block type="Mage_Webapi_Block_Adminhtml_User_Grid" name="root" output="toHtml" />
+    </adminhtml_webapi_user_grid>
+</layout>

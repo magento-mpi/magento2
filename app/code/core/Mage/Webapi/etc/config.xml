@@ -12,12 +12,13 @@
 <config>
     <modules>
         <Mage_Webapi>
-            <version>1.0.0.0</version>
+            <version>1.0.0.1</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
                 <Mage_Core />
                 <Mage_Oauth />
+                <Mage_Backend />
             </depends>
         </Mage_Webapi>
     </modules>
@@ -116,4 +117,24 @@
             </response>
         </webapi>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Webapi before="Mage_Backend">Mage_Webapi_Adminhtml</Mage_Webapi>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <webapi_permissions module="Mage_Webapi">
+                    <file>layout.xml</file>
+                </webapi_permissions>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
