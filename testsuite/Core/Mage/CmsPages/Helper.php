@@ -124,7 +124,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('submit_widget_insert', false);
         //@TODO wait for widget_insertion pop-up disappear or validation message appear
         sleep(3);
-        return $this->elementIsPresent($this->_getControlXpath('fieldset', 'widget_insertion')) ? false : true;
+        return !$this->elementIsPresent($this->_getControlXpath('fieldset', 'widget_insertion'));
     }
 
     /**

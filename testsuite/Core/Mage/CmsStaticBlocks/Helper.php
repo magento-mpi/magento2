@@ -59,7 +59,7 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
             $variableData = (isset($content['variables'])) ? $content['variables'] : array();
 
             foreach ($widgetsData as $widget) {
-                if ($this->cmsPagesHelper()->insertWidget($widget)) {
+                if (!$this->cmsPagesHelper()->insertWidget($widget)) {
                     //skip next steps, because widget insertion pop-up is opened
                     return;
                 }
