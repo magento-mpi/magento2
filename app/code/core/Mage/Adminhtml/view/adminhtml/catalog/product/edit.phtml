@@ -129,7 +129,7 @@ Event.observe(window, 'load', function() {
 
                 $.each(self._masks, function(field, mask) {
                     var disabler = function() {
-                        $(this).data(self.data.disabled, $(this).val() != '');
+                        $(this).data(self.data.disabled, $(this).val().replace(/\s/g, '') != '');
                     };
                     var $field = $('#' + field);
                     if (mask.length > 0 && !self.varRegexp.test(mask)) {
