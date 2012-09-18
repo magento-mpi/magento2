@@ -35,6 +35,23 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     protected $_paramsElementNameByMessageName = array();
 
+    /** @var Mage_Core_Model_Config */
+    protected $_magentoConfig;
+
+
+    /**
+     * Initialize Magento config.
+     *
+     * @param array $configFiles
+     * @param Mage_Core_Model_Config $magentoConfig
+     */
+    public function __construct(array $configFiles, Mage_Core_Model_Config $magentoConfig = null)
+    {
+        parent::__construct($configFiles);
+        $this->_magentoConfig = $magentoConfig ? $magentoConfig : Mage::getConfig();
+    }
+
+
     /**
      * Retrieve method data for given resource name and method name.
      *
@@ -402,7 +419,7 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     protected function _addModuleNameToPortType(&$moduleConfigDom, $configPath)
     {
-        $configPathWithoutCodeDir = str_replace(Mage::getConfig()->getOptions()->getCodeDir(), '', $configPath);
+        $configPathWithoutCodeDir = str_replace($this->_magentoConfig->getOptions()->getCodeDir(), '', $configPath);
         list($codePool, $namespace, $moduleName) = explode(DS, trim($configPathWithoutCodeDir, DS));
         $configModuleIdentifier = "{$namespace}_{$moduleName}";
         /** @var DOMElement $portType */

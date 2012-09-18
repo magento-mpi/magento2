@@ -55,6 +55,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                     $createdItem = $outputData;
                     $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 } else {
+                    // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
                     $this->getResponse()->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
                 }
                 if ($this->getResponse()->getMessages()) {
