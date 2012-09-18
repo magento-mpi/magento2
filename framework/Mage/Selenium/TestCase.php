@@ -3002,7 +3002,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('field', $name);
         }
-        $element = $this->waitForElementEditable($locator);
+        $element = $this->waitForElementEditable($locator, 10);
         $currentValue = $element->value();
         if ($currentValue != $value) {
             $this->focusOnElement($element);
@@ -3027,7 +3027,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('multiselect', $name);
         }
-        $element = $this->waitForElementEditable($locator);
+        $element = $this->waitForElementEditable($locator, 10);
         $this->focusOnElement($element);
         if (strtolower($value) == 'all') {
             $options = $this->select($element)->selectOptionValues();
@@ -3069,7 +3069,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('dropdown', $name);
         }
-        $element = $this->waitForElementEditable($locator);
+        $element = $this->waitForElementEditable($locator, 10);
         $optionLocators = array("//option[normalize-space(text())='$value']",
                                 "//option[normalize-space(@value)='$value']",
                                 "//option[contains(text(),'$value')]");
@@ -3098,7 +3098,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('checkbox', $name);
         }
-        $element = $this->getElement($locator);
+        $element = $this->waitForElementEditable($locator, 10);
         $isSelected = $element->selected();
         $value = strtolower($value);
         if (($value == 'yes' && !$isSelected) || ($value == 'no' && $isSelected)) {
@@ -3122,7 +3122,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('radiobutton', $name);
         }
-        $element = $this->getElement($locator);
+        $element = $this->waitForElementEditable($locator, 10);
         $isSelected = $element->selected();
         $value = strtolower($value);
         if (($value == 'yes' && !$isSelected) || ($value == 'no' && $isSelected)) {
