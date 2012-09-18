@@ -10,25 +10,9 @@
 var TranslateInline = Class.create();
 TranslateInline.prototype = {
     initialize: function(trigEl, ajaxUrl, area) {
-        this.ajaxUrl = ajaxUrl;
+        this.ajaxUrl = ajaxUrl.replace('admin', 'backend/admin');
         this.area = area;
 
-        this.trigTimer = null;
-        this.trigContentEl = null;
-        if (Prototype.Browser.IE) {
-            $$('*[translate]').each(this.initializeElement.bind(this));
-            var scope = this;
-            Ajax.Responders.register({ onComplete: function() {
-                window.setTimeout(scope.reinitElements.bind(scope), 50)
-            }
-            });
-            var ElementNode = (typeof HTMLElement != 'undefined' ? HTMLElement : Element)
-            var ElementUpdate = ElementNode.prototype.update;
-            ElementNode.prototype.update = function() {
-                ElementUpdate.apply(this, arguments);
-                $(this).select('*[translate]').each(scope.initializeElement.bind(scope));
-            }
-        }
         this.translateDialog = jQuery('<div />', {id: 'translate-inline'})
             .prependTo('body')
             .dialog({
@@ -56,82 +40,17 @@ TranslateInline.prototype = {
                 close: jQuery.proxy(this.formClose, this)
             })
             .dialog('close');
-        this.trigEl = $(trigEl);
-        this.trigEl.observe('click', this.formShow.bind(this));
-
-        Event.observe(document.body, 'mousemove', function(e) {
-            var target = Event.element(e);
-            if (!$(target).match('*[translate]')) {
-                target = target.up('*[translate]');
-            }
-
-            if (target && $(target).match('*[translate]')) {
-                this.trigShow(target, e);
-            } else {
-                if (Event.element(e).match('#' + trigEl)) {
-                    this.trigHideClear();
-                } else {
-                    this.trigHideDelayed();
-                }
-            }
-        }.bind(this));
-
-        this.helperDiv = document.createElement('div');
+        jQuery(document).editTrigger();
+        jQuery(document).on('edit.editTrigger', jQuery.proxy(this.formShow, this));
     },
 
-    initializeElement: function(el) {
-        if (!el.initializedTranslate) {
-            el.addClassName('translate-inline');
-            el.initializedTranslate = true;
-        }
-    },
-
-    reinitElements: function(el) {
-        $$('*[translate]').each(this.initializeElement.bind(this));
-    },
-
-    trigShow: function(el, event) {
-        if (this.trigContentEl != el) {
-            this.trigHideClear();
-            this.trigContentEl = el;
-            var p = Element.cumulativeOffset(el);
-
-            this.trigEl.style.left = p[0] + 'px';
-            this.trigEl.style.top = p[1] + 'px';
-            this.trigEl.style.display = 'block';
-
-            Event.stop(event);
-        };
-    },
-
-    trigHide: function() {
-        this.trigEl.style.display = 'none';
-        this.trigContentEl = null;
-    },
-
-    trigHideDelayed: function() {
-        if (this.trigTimer === null) {
-            this.trigTimer = window.setTimeout(this.trigHide.bind(this), 2000);
-        }
-    },
-
-    trigHideClear: function() {
-        clearInterval(this.trigTimer);
-        this.trigTimer = null;
-    },
-
-    formShow: function() {
+    formShow: function(e) {
         if (this.formIsShown) {
             return;
         }
         this.formIsShown = true;
 
-        var el = this.trigContentEl;
-        if (!el) {
-            return;
-        }
-        this.trigHideClear();
-        eval('var data = ' + el.getAttribute('translate'));
+        eval('var data = ' + e.target.getAttribute('translate'));
         jQuery.template("translateInline", '<form id="translate-inline-form">' +
                 '{{each(i, item) data}}' +
                 '<div class="magento_table_container"><table cellspacing="0">' +
@@ -156,7 +75,6 @@ TranslateInline.prototype = {
                 escape:this.escapeHTML
             }))
             .dialog('open');
-        this.trigHide();
     },
 
     formOk: function() {
@@ -203,4 +121,4 @@ TranslateInline.prototype = {
             jQuery('<div/>').text(str).html().replace(/"/g, '&quot;'):
             false;
     }
-}
+};
