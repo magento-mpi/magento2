@@ -204,6 +204,11 @@
                         <visibility/>
                         <weight/>
                     </unassignable>
+                    <used_in_autogeneration>
+                        <name/>
+                        <description/>
+                        <sku/>
+                    </used_in_autogeneration>
                 </attributes>
             </product>
             <content>

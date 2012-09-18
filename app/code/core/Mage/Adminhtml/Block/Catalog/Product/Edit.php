@@ -264,10 +264,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     /**
      * Get fields masks from config
      *
-     * return array
+     * @return array
      */
     public function getFieldsAutogenerationMasks()
     {
         return $this->helper('Mage_Catalog_Helper_Product')->getFieldsAutogenerationMasks();
+    }
+
+    /**
+     * Retrieve available placeholders
+     *
+     * @return array
+     */
+    public function getAttributesAllowedForAutogeneration()
+    {
+        return $this->helper('Mage_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
     }
 }
