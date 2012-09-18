@@ -15,6 +15,10 @@ class Mage_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
      * Check output format
      *
      * @dataProvider toOptionsHashDataProvider
+     *
+     * @param bool $addEmpty
+     * @param array $data
+     * @param array $expected
      */
     public function testToOptionHashFormat($addEmpty, $data, $expected)
     {

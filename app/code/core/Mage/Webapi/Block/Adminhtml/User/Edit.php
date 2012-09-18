@@ -9,7 +9,7 @@
  */
 
 /**
- * Adminhtml permissions user edit page
+ * Web API User edit page
  *
  * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser(Mage_Webapi_Model_Acl_User $user)
  * @method Mage_Webapi_Model_Acl_User getApiUser()
@@ -32,8 +32,8 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
         parent::__construct();
 
         $this->_addButton('save_and_continue', array(
-            'label'     => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
+            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
+            'onclick' => 'saveAndContinueEdit()',
             'class' => 'save'
         ), 100);
 
