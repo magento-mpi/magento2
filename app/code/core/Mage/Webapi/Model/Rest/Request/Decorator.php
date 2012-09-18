@@ -23,15 +23,12 @@
  * @method string getMethod()
  * @method string getApiType()
  */
-class Mage_Webapi_Model_Rest_Request_Decorator
+class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request_DecoratorAbstract
 {
     /**
      * Character set which must be used in request
      */
     const REQUEST_CHARSET = 'utf-8';
-
-    /** @var Mage_Webapi_Model_Request */
-    protected $_decoratedRequest;
 
     /** @var string */
     protected $_resourceName;
@@ -52,12 +49,6 @@ class Mage_Webapi_Model_Rest_Request_Decorator
      * @var array
      */
     protected $_bodyParams;
-
-
-    public function __construct(Mage_Webapi_Model_Request $decoratedRequest)
-    {
-        $this->_decoratedRequest = $decoratedRequest;
-    }
 
     /**
      * Get request interpreter
@@ -205,13 +196,29 @@ class Mage_Webapi_Model_Rest_Request_Decorator
     }
 
     /**
-     * Get Version header from headers
+     * Identify versions of modules that should be used for API configuration file generation.
      *
-     * @return string
+     * @return array
+     * @throws Mage_Webapi_Exception when header value is invalid
      */
-    public function getVersion()
+    public function getRequestedModules()
     {
-        return $this->getHeader('Version');
+        $versionHeader = $this->getHeader('Modules');
+        /**
+         * Match a 'Mage_Customer=v1' and 'Enterprise_Customer=v2' from the following Modules header value:
+         * Modules='Mage_Customer=v1;Enterprise_Customer=v2'
+         */
+        preg_match_all('/\w+\=(v|V)\d+/', $versionHeader, $moduleMatches);
+        $requestedModules = array();
+        foreach ($moduleMatches[0] as $moduleVersion) {
+            $moduleVersion = explode('=', $moduleVersion);
+            $requestedModules[reset($moduleVersion)] = end($moduleVersion);
+        }
+        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
+            throw new Mage_Webapi_Exception('Invalid "Modules" header value.',
+                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+        }
+        return $requestedModules;
     }
 
     /**
@@ -228,17 +235,5 @@ class Mage_Webapi_Model_Rest_Request_Decorator
             return !is_numeric($keys[0]);
         }
         return false;
-    }
-
-    /**
-     * Proxy method calls to decorated object
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        return call_user_func_array(array($this->_decoratedRequest, $method), $arguments);
     }
 }

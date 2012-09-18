@@ -80,6 +80,28 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
+     * Decorate request object.
+     *
+     * @param Mage_Webapi_Model_Request $request
+     * @return Mage_Webapi_Controller_FrontAbstract
+     */
+    public function setRequest(Mage_Webapi_Model_Request $request)
+    {
+        $this->_request = new Mage_Webapi_Model_Soap_Request_Decorator($request);
+        return $this;
+    }
+
+    /**
+     * Return decorated request
+     *
+     * @return Mage_Webapi_Model_Soap_Request_Decorator
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
      * Extend parent with SOAP specific config initialization
      *
      * @return Mage_Webapi_Controller_Front_Soap|Mage_Core_Controller_FrontInterface
@@ -103,7 +125,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $this->_setResponseContentType('application/soap+xml');
         try {
-            $this->_initResourceConfig($this->_getRequestedModules());
+            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 // TODO: Check if PHP SOAP client can handle soap fault when requesting WSDL
                 $responseBody = $this->_getWsdlContent();
@@ -129,7 +151,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlContent()
     {
-        $requestedModules = $this->_getRequestedModules();
+        $requestedModules = $this->getRequest()->getRequestedModules();
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
@@ -150,23 +172,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
 
         return $wsdlContent;
-    }
-
-    /**
-     * Identify versions of modules that should be used for API configuration file generation.
-     *
-     * @return array
-     * @throws RuntimeException
-     */
-    protected function _getRequestedModules()
-    {
-        $requestedModules = $this->getRequest()->getParam('modules');
-        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            $message = $this->_helper->__('Missing requested modules.') . "\n"
-                . $this->_helper->__('Example: http://magentohost/api/soap?wsdl&modules[Mage_Customer]=v1');
-            throw new RuntimeException($message);
-        }
-        return $requestedModules;
     }
 
     /**
@@ -277,7 +282,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getEndpointUrl($isWsdl = false)
     {
         $params = array(
-            'modules' => $this->_getRequestedModules()
+            'modules' => $this->getRequest()->getRequestedModules()
         );
         if ($isWsdl) {
             $params['wsdl'] = true;

@@ -147,7 +147,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->getRequest()->setResourceName($route->getResourceName());
             $this->getRequest()->setResourceType($route->getResourceType());
 //            $this->_checkResourceAcl($role, $route->getResourceName());
-            $this->_initResourceConfig($this->_getRequestedModules());
+            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $operation = $this->_getOperationName();
@@ -188,31 +188,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         $this->_sendResponse();
         Magento_Profiler::stop('send_response');
         Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
-    }
-
-    /**
-     * Identify versions of modules that should be used for API configuration file generation.
-     *
-     * @return array
-     * @throws RuntimeException
-     */
-    protected function _getRequestedModules()
-    {
-        $versionHeader = $this->getRequest()->getHeader('Modules');
-        /**
-         * Match a 'Mage_Customer=v1' and 'Enterprise_Customer=v2' from the following Modules header value:
-         * Modules='Mage_Customer=v1;Enterprise_Customer=v2'
-         */
-        preg_match_all('/\w+\=(v|V)\d+/', $versionHeader, $moduleMatches);
-        $requestedModules = array();
-        foreach ($moduleMatches[0] as $moduleVersion) {
-            $moduleVersion = explode('=', $moduleVersion);
-            $requestedModules[reset($moduleVersion)] = end($moduleVersion);
-        }
-        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            throw new RuntimeException($this->_helper->__('Invalid "Modules" header value.'));
-        }
-        return $requestedModules;
     }
 
     /**

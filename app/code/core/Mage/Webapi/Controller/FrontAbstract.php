@@ -53,6 +53,21 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     abstract public function dispatch();
 
     /**
+     * Decorate request object for concrete API type.
+     *
+     * @param Mage_Webapi_Model_Request $request
+     * @return Mage_Webapi_Controller_FrontAbstract
+     */
+    abstract public function setRequest(Mage_Webapi_Model_Request $request);
+
+    /**
+     * Retrieve decorated request object.
+     *
+     * @return Mage_Webapi_Model_Request_DecoratorAbstract
+     */
+    abstract public function getRequest();
+
+    /**
      * Initialize resources config based on requested modules and versions.
      *
      * @param array $requestedModules
@@ -98,28 +113,6 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     {
         // TODO: Implement
         return $this;
-    }
-
-    /**
-     * Set request object.
-     *
-     * @param Mage_Webapi_Model_Request $request
-     * @return Mage_Webapi_Controller_FrontAbstract
-     */
-    public function setRequest(Mage_Webapi_Model_Request $request)
-    {
-        $this->_request = $request;
-        return $this;
-    }
-
-    /**
-     * Retrieve request object.
-     *
-     * @return Mage_Webapi_Model_Request
-     */
-    public function getRequest()
-    {
-        return $this->_request;
     }
 
     /**
@@ -236,7 +229,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _getOperationVersion($operationName)
     {
-        $requestedModules = $this->_getRequestedModules();
+        $requestedModules = $this->getRequest()->getRequestedModules();
         $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
         if (!isset($requestedModules[$moduleName])) {
             throw new RuntimeException(
@@ -250,14 +243,6 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         }
         return $version;
     }
-
-    /**
-     * Identify versions of modules that should be used for API configuration file generation.
-     *
-     * @return array
-     * @throws RuntimeException
-     */
-    abstract protected function _getRequestedModules();
 
     /**
      * Retrieve reflection helper.
