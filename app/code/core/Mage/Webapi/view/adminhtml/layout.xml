@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <adminhtml_webapi_user_index>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_User" name="webapi.user" />
+        </reference>
+    </adminhtml_webapi_user_index>
+
+    <adminhtml_webapi_user_edit>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit" />
+        </reference>
+        <reference name="left">
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main" />
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="webapi.user.edit.tab.roles" />
+            </block>
+        </reference>
+    </adminhtml_webapi_user_edit>
+
+    <adminhtml_webapi_user_roles>
+        <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml" />
+    </adminhtml_webapi_user_roles>
+</layout>
