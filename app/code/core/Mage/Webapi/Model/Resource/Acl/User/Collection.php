@@ -25,15 +25,4 @@ class Mage_Webapi_Model_Resource_Acl_User_Collection extends Mage_Core_Model_Res
     {
         $this->_init('Mage_Webapi_Model_Acl_User', 'Mage_Webapi_Model_Resource_Acl_User');
     }
-
-    /**
-     * Join Web API User roles
-     *
-     * @return Mage_Webapi_Model_Resource_Acl_User_Collection
-     */
-    public function joinRoles()
-    {
-        $this->join($this->getTable('webapi_role'), 'main_table.role_id = webapi_role.role_id');
-        return $this;
-    }
 }

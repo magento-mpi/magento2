@@ -100,4 +100,18 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
             return $result;
         }
     }
+
+    /**
+     * Get roles list for selects
+     *
+     * @return array
+     */
+    public function getRolesList()
+    {
+        $adapter = $this->getReadConnection();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array($this->getIdFieldName(), 'role_name'))
+            ->order('role_name');
+        return $adapter->fetchPairs($select);
+    }
 }
