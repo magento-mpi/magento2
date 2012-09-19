@@ -9,6 +9,20 @@
 # @license     {license_link}
 #
 ---
+# 'New Customer' Page
+create_customer:
+    uimap:
+        form:
+            tabs:
+                -
+                    account_information:
+                        fieldsets:
+                            -
+                                account_info:
+                                    fields:
+                                        custom_attribute: //input[@id='_account%attribute_name%']
+                                    dropdowns:
+                                        send_from: //select[@id='_accountsendemail_store_id']
 # 'Edit Customer' Page
 edit_customer:
     uimap:

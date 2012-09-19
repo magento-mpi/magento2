@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_GiftCardAccountMultiStoreModeVerificationTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_MultiStoreMode_GiftCardAccountTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
