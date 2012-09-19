@@ -14,7 +14,8 @@
             template: '<img alt="${alt}" src="${img}">',
             zIndex: 2000,
             editSelector: '[translate]',
-            delay: 2000
+            delay: 2000,
+            offsetTop: -3
         },
         /**
          * editTriger creation
@@ -23,8 +24,12 @@
         _create: function() {
             $.template(this.widgetName, this.options.template);
             this.trigger = $.tmpl(this.widgetName, this.options)
-                .css({position: 'absolute', cursor: 'pointer', display: 'none'})
-                .on('click.' + this.widgetName, $.proxy(this._onClick, this))
+                .css({
+                    position: 'absolute',
+                    cursor: 'pointer',
+                    display: 'none',
+                    'z-index': this.options.zIndex
+                })
                 .appendTo('body');
 
             this._bind();
@@ -34,6 +39,7 @@
          * @protected
          */
         _bind: function() {
+            this.trigger.on('click.' + this.widgetName, $.proxy(this._onClick, this));
             this.element.on('mousemove.' + this.widgetName, $.proxy(this._onMouseMove, this));
         },
         /**
@@ -58,11 +64,10 @@
          * @protected
          */
         _setPosition: function(el) {
-            var offset = el.offset(),
-                triggerTopOffset = -3;
+            var offset = el.offset();
             this.trigger.css({
-                top: offset.top + el.outerHeight() + triggerTopOffset,
-                left: offset.left, 'z-index': this.options.zIndex
+                top: offset.top + el.outerHeight() + this.options.offsetTop,
+                left: offset.left
             });
         },
         /**
@@ -92,6 +97,7 @@
          * @protected
          */
         _onClick: function(e) {
+            e.preventDefault();
             e.stopImmediatePropagation();
             $(this.currentTarget).trigger('edit.' + this.widgetName);
             this.trigger.hide();
@@ -101,9 +107,7 @@
          */
         destroy: function() {
             this.trigger.remove();
-            this.element
-                .off('mousemove.' + this.widgetName)
-                .off('click.' + this.widgetName);
+            this.element.off('.' + this.widgetName);
             return $.Widget.prototype.destroy.call(this);
         }
     });
