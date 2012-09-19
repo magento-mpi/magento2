@@ -32,23 +32,32 @@
 ################################################################################
 browsers:
     googlechrome: &googlechrome
-         name: 'Google Chrome'
-         browser: '*googlechrome'
+         browser: 'Google Chrome'
+         browserName: 'chrome'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     firefox: &firefox
-         name: 'Firefox'
-         browser: '*chrome'
+         browser: 'Firefox'
+         browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     iexplorer: &iexplorer
-         name: 'Internet Explorer'
-         browser: '*iexplore'
+         browser: 'Internet Explorer'
+         browserName: 'iexplore'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -58,14 +67,11 @@ browsers:
 framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
-    #work only if tests are run for single browser
-    shareSession: true
     coverageScriptUrl: ''
-    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
-    captureScreenshotOnFailure: true
+    saveScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
-    load_all_data: true
+    load_all_data: false
     cache:
         frontend:
             name: 'core'

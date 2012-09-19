@@ -38,6 +38,8 @@ browsers:
          port: 4444
          seleniumServerRequestsTimeout: 60
          sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     firefox: &firefox
          browser: 'Firefox'
          browserName: 'firefox'
@@ -45,6 +47,8 @@ browsers:
          port: 4444
          seleniumServerRequestsTimeout: 60
          sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     iexplorer: &iexplorer
          browser: 'Internet Explorer'
          browserName: 'iexplore'
@@ -52,6 +56,8 @@ browsers:
          port: 4444
          seleniumServerRequestsTimeout: 60
          sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -62,7 +68,6 @@ framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
     coverageScriptUrl: ''
-    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
     saveScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
