@@ -8,6 +8,13 @@
  * @license     {license_link}
  */
 
+/**
+ * Api Acl Role Locator
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorization_RoleLocator
 {
     /**
@@ -33,7 +40,6 @@ class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorizati
     public function getAclRoleId()
     {
         // TODO: migrate 'webapi_user' to constant in Auth model
-        /** @var $session Mage_Core_Model_Session */
         if ($this->_session->hasData('webapi_user')
             and ($user = $this->_session->getData('webapi_user')) instanceof Varien_Object) {
             return $user->getRoleId();

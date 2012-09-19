@@ -8,8 +8,31 @@
  * @license     {license_link}
  */
 
+/**
+ * Api Acl Role Loader
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
 {
+    /** @var Object Mage_Webapi_Model_Resource_Acl_Role */
+    protected $_resourceModel;
+
+    /** @var Mage_Core_Model_Config */
+    protected $_config;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_resourceModel = isset($data['resourceModel']) ?
+            $data['resourceModel'] : Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
+        $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
+    }
+
     /**
      * Populate ACL with roles from external storage
      *
@@ -17,16 +40,10 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        /** @var $resource Mage_Core_Model_Resource */
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
-        $roleTableName = $resource->getTableName('webapi_role');
-        $adapter = $resource->getConnection('read');
-        $select = $adapter->select() ->from($roleTableName);
-        $roleList = $adapter->fetchAll($select);
-
+        $roleList = $this->_resourceModel->getRolesIds();
         foreach ($roleList as $role) {
             /** @var $aclRole Mage_Webapi_Model_Authorization_Role */
-            $aclRole = Mage::getConfig()->getModelInstance(
+            $aclRole = $this->_config->getModelInstance(
                 'Mage_Webapi_Model_Authorization_Role',
                 $role['role_id']
             );

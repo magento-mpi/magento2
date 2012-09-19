@@ -8,6 +8,13 @@
  * @license     {license_link}
  */
 
+/**
+ * Api Acl Rule Loader
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
 {
     /**
