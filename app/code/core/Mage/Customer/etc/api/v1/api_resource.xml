@@ -28,7 +28,7 @@
             <xs:element name="customerCreateRequestParam">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="1" maxOccurs="1" name="customerData" type="tns:customerEntityCreate" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="data" type="tns:customerEntityCreate" />
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -42,11 +42,54 @@
             <xs:element name="customerInfoRequestParam">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element minOccurs="1" maxOccurs="1" name="customerId" type="xs:int" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="id" type="xs:int" />
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="customerInfoResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:customerEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerMultiGetRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerMultiGetResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:customerEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerUpdateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="id" type="xs:int" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="data" type="tns:customerEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerUpdateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerDeleteRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerDeleteResponseParam">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:customerEntity" />
@@ -68,6 +111,24 @@
     <wsdl:message name="customerInfoResponse">
         <wsdl:part name="parameters" element="tns:customerInfoResponseParam" />
     </wsdl:message>
+    <wsdl:message name="customerMultiGetRequest">
+        <wsdl:part name="parameters" element="tns:customerMultiGetRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerMultiGetResponse">
+        <wsdl:part name="parameters" element="tns:customerMultiGetResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="customerUpdateRequest">
+        <wsdl:part name="parameters" element="tns:customerUpdateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerUpdateResponse">
+        <wsdl:part name="parameters" element="tns:customerUpdateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="customerDeleteRequest">
+        <wsdl:part name="parameters" element="tns:customerDeleteRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerDeleteResponse">
+        <wsdl:part name="parameters" element="tns:customerDeleteResponseParam" />
+    </wsdl:message>
 
     <wsdl:portType name="customer">
         <wsdl:operation name="customerCreate">
@@ -75,11 +136,25 @@
             <wsdl:input message="tns:customerCreateRequest" />
             <wsdl:output message="tns:customerCreateResponse" />
         </wsdl:operation>
-        <wsdl:operation name="customerInfo">
+        <wsdl:operation name="customerGet">
             <wsdl:documentation>Retrieve customer data</wsdl:documentation>
             <wsdl:input message="tns:customerInfoRequest" />
             <wsdl:output message="tns:customerInfoResponse" />
         </wsdl:operation>
+        <wsdl:operation name="customerMultiGet">
+            <wsdl:documentation>Retrieve customer collection</wsdl:documentation>
+            <wsdl:input message="tns:customerMultiGetRequest" />
+            <wsdl:output message="tns:customerMultiGetResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="customerUpdate">
+            <wsdl:documentation>Update customer</wsdl:documentation>
+            <wsdl:input message="tns:customerUpdateRequest" />
+            <wsdl:output message="tns:customerUpdateResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="customerDelete">
+            <wsdl:documentation>Delete customer data</wsdl:documentation>
+            <wsdl:input message="tns:customerDeleteRequest" />
+            <wsdl:output message="tns:customerDeleteResponse" />
+        </wsdl:operation>
     </wsdl:portType>
-
 </wsdl:definitions>

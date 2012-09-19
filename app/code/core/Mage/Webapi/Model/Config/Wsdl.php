@@ -80,9 +80,8 @@ class Mage_Webapi_Model_Config_Wsdl
 
             foreach ($methods as $methodName => $methodData) {
                 $input = $output = array('use' => 'literal');
-                $inputHeader = array('message' => 'AuthorizationHeader', 'part' => 'Authorization', 'use' => 'literal');
                 $operation = $this->_addBindingOperation($binding, $resourceName . ucfirst($methodName), $input,
-                    $inputHeader, $output);
+                    $output);
                 $this->_addSoapOperation($operation, $resourceName . ucfirst($methodName));
                 // @TODO: implement faults binding
             }
@@ -120,7 +119,7 @@ class Mage_Webapi_Model_Config_Wsdl
      * @param array|bool $fault An array of attributes for the fault element, allowed keys are: 'name', 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @return DOMElement The new Operation's DOMElement for use with {@link function _addSoapOperation}
      */
-    protected function _addBindingOperation(DOMElement $binding, $name, $input = false, $inputHeader = false, $output = false, $fault = false)
+    protected function _addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $inputHeader = false, $fault = false)
     {
         $operation = $this->_dom->createElement($this->_nsWsdl . ':operation');
         $operation->setAttribute('name', $name);

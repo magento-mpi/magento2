@@ -21,7 +21,6 @@ class Magento_Test_Webservice_Rest_Adapter
     /**#@+
      * REST API constants
      */
-    const API_VERSION = 1;
     const CONTENT_TYPE = 'application/json';
     const ACCEPT = 'application/json';
     /**#@- */
@@ -63,7 +62,6 @@ class Magento_Test_Webservice_Rest_Adapter
     {
         $this->_client = new Zend_Http_Client(TESTS_WEBSERVICE_URL);
         $this->_client->setHeaders(array(
-            'Version' => self::API_VERSION,
             'Content-Type' => self::CONTENT_TYPE,
             'Accept' => self::ACCEPT,
         ));

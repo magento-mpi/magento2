@@ -976,17 +976,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Collect modules AI resource configuration files for specified modules.
+     * Collect API resource configuration files for specified modules.
      *
-     * @param array $modules requested modules. Format is as follows:
-     * array(
-     *     'Mage_Customer' => 'v1',
-     *     'Catalog_Product' => 'v2',
-     *     ...
-     * )
-     * where key is Magento module name and value is requested version.
+     * @param array $modules Requested modules. Format is as follows:<pre>
+     *      array(
+     *         'Mage_Customer' => 'v1',
+     *         'Catalog_Product' => 'v2',
+     *         ...
+     *      )</pre>
+     *      where key is Magento module name and value is requested version.
      * @return array of paths to configuration files
-     * @throws InvalidArgumentException if specified module or module version not available
+     * @throws RuntimeException if specified module or module version not available
      */
     public function getModulesApiConfigurationFiles(array $modules)
     {
@@ -994,15 +994,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         foreach ($modules as $module => $version) {
             $moduleConfig = $this->getModuleConfig($module);
             if (!$moduleConfig->is('active')) {
-                throw new InvalidArgumentException(sprintf('Unknown module "%s"', $module));
+                throw new RuntimeException(sprintf('Unknown module "%s".', $module));
             }
-            $file = $this->getModuleDir('etc', $module) . DS . 'api' . DS . $version . DS .'api_resource.xml';
+            $file = $this->getModuleDir('etc', $module) . DS . 'api' . DS . $version . DS . 'api_resource.xml';
             if (!file_exists($file)) {
-                throw new InvalidArgumentException(sprintf('Unknown version "%s" for module "%s"', $version, $module));
+                throw new RuntimeException(sprintf('Unknown version "%s" for module "%s".', $version, $module));
             }
             $files[] = $file;
         }
-
         return $files;
     }
 

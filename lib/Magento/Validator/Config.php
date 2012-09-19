@@ -56,7 +56,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     /**
      * Get array of constraints and fields for rule
      *
-     * @param type $rule
+     * @param array $rule
      * @throws InvalidArgumentException 
      * @return array
      */

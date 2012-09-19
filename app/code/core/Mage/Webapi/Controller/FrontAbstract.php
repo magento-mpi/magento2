@@ -13,6 +13,16 @@
  */
 abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
 {
+    const EXCEPTION_CODE_RESOURCE_NOT_FOUND = 404;
+    const EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED = 405;
+
+    /**#@+
+     * Version limits
+     */
+    const VERSION_MIN = 1;
+    const VERSION_MAX = 200;
+    /**#@-*/
+
     /** @var Mage_Webapi_Model_Request */
     protected $_request;
 
@@ -22,17 +32,40 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Webapi_Model_Config_Resource */
     protected $_resourceConfig;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
+    function __construct(Mage_Webapi_Helper_Data $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
+
     /**
      * Generic action controller for all controllers in current area
      *
      * @var string
      */
-    // TODO: Think about more elegant solution
+    // TODO: Initialize base action controller with value from config (currently there is single action controller for all API types)
     protected $_baseActionController = '';
 
     abstract public function init();
 
     abstract public function dispatch();
+
+    /**
+     * Decorate request object for concrete API type.
+     *
+     * @param Mage_Webapi_Model_Request $request
+     * @return Mage_Webapi_Controller_FrontAbstract
+     */
+    abstract public function setRequest(Mage_Webapi_Model_Request $request);
+
+    /**
+     * Retrieve decorated request object.
+     *
+     * @return Mage_Webapi_Model_Request_DecoratorAbstract
+     */
+    abstract public function getRequest();
 
     /**
      * Initialize resources config based on requested modules and versions.
@@ -83,28 +116,6 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Set request object.
-     *
-     * @param Mage_Webapi_Model_Request $request
-     * @return Mage_Webapi_Controller_FrontAbstract
-     */
-    public function setRequest(Mage_Webapi_Model_Request $request)
-    {
-        $this->_request = $request;
-        return $this;
-    }
-
-    /**
-     * Retrieve request object.
-     *
-     * @return Mage_Webapi_Model_Request
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
      * Set response object.
      *
      * @param Mage_Webapi_Model_Response $response
@@ -143,16 +154,14 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Instantiate and validate action controller
      *
      * @param string $className
-     * @return Mage_Core_Controller_Varien_Action
+     * @return Mage_Webapi_Controller_ActionAbstract
      * @throws Mage_Core_Exception
      */
     protected function _getActionControllerInstance($className)
     {
-        if (!$this->_validateControllerClassName($className)) {
-            throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('Specified action controller is not found.'));
-        }
-
+        Magento_Autoload::getInstance()->addFilesMap(array(
+            $className => $this->_getControllerFileName($className)
+        ));
         $controllerInstance = new $className($this->getRequest(), $this->getResponse());
         if (!($controllerInstance instanceof $this->_baseActionController)) {
             throw Mage::exception('Mage_Core',
@@ -163,74 +172,117 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Generating and validating class file name and include it if everything is OK.
-     *
-     * @param string $controllerClassName
-     * @return bool
-     */
-    protected function _validateControllerClassName($controllerClassName)
-    {
-        $controllerFileName = $this->_getControllerFileName($controllerClassName);
-        if (!$this->_validateControllerFileName($controllerFileName)) {
-            return false;
-        }
-
-        // include controller file if needed
-        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Include the file containing controller class if this class is not defined yet
-     *
-     * @param string $controllerFileName
-     * @param string $controllerClassName
-     * @return bool
-     * @throws Mage_Core_Exception
-     */
-    protected function _includeControllerClass($controllerFileName, $controllerClassName)
-    {
-        if (!class_exists($controllerClassName, false)) {
-            if (!file_exists($controllerFileName)) {
-                return false;
-            }
-            include $controllerFileName;
-
-            if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if controller file name is valid
-     *
-     * @param string $fileName
-     * @return bool
-     */
-    protected function _validateControllerFileName($fileName)
-    {
-        if ($fileName && is_readable($fileName) && false === strpos($fileName, '//')) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Identify controller file name by its class name
      *
      * @param string $controllerClassName
      * @return string
+     * @throws Mage_Core_Exception
      */
     protected function _getControllerFileName($controllerClassName)
     {
         $parts = explode('_', $controllerClassName);
         $realModule = implode('_', array_splice($parts, 0, 2));
         $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
-        return $file;
+        if (!file_exists($file)) {
+            throw Mage::exception('Mage_Core',
+                Mage::helper('Mage_Core_Helper_Data')->__('Action controller "%s" could not be loaded.', $controllerClassName));
+        }
+
+        return str_replace(Mage::getBaseDir(), '', $file);
+    }
+
+    /**
+     * Find the most appropriate version suffix for the requested action.
+     *
+     * If there is no action with requested version, fallback mechanism is used.
+     * If there is no appropriate action found after fallback - exception is thrown.
+     *
+     * @param string $operationName
+     * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
+     * @return string
+     * @throws RuntimeException
+     */
+    protected function _getVersionSuffix($operationName, $controllerInstance)
+    {
+        $originalVersion = $this->_getOperationVersion($operationName);
+        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName);
+        $methodVersion = $originalVersion;
+        while ($methodVersion >= self::VERSION_MIN) {
+            $versionSuffix = 'V' . $methodVersion;
+            if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
+                return $versionSuffix;
+            }
+            $methodVersion--;
+        }
+        throw new RuntimeException(
+            $this->_helper->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
+            self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
+    }
+
+
+    /**
+     * Identify version of requested operation
+     *
+     * @param string $operationName
+     * @return int
+     * @throws RuntimeException
+     */
+    protected function _getOperationVersion($operationName)
+    {
+        $requestedModules = $this->getRequest()->getRequestedModules();
+        $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
+        if (!isset($requestedModules[$moduleName])) {
+            throw new RuntimeException(
+                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
+                self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
+        }
+        $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
+        if ($version > self::VERSION_MAX) {
+            throw new RuntimeException($this->_helper
+                ->__("Resource version cannot be greater than %s.", self::VERSION_MAX));
+        }
+        return $version;
+    }
+    
+    /**
+     * Check if operation is deprecated or removed. Throw exception when necessary.
+     *
+     * @param string $operationName
+     * @throws RuntimeException
+     * @throws LogicException
+     */
+    protected function _checkOperationDeprecation($operationName)
+    {
+        if ($deprecationPolicy = $this->getResourceConfig()->getOperationDeprecationPolicy($operationName)) {
+            $operationToBeUsed = isset($deprecationPolicy['use_operation'])
+                ? $deprecationPolicy['use_operation']
+                : $operationName;
+            if (!isset($deprecationPolicy['use_version']) || empty($deprecationPolicy['use_version'])) {
+                throw new LogicException($this->_helper
+                    ->__('The "%s" operation was marked as deprecated but "use_version" attribute was not specified.',
+                    $operationName));
+            } else {
+                $versionToBeUsed = $deprecationPolicy['use_version'];
+            }
+            if (isset($deprecationPolicy['removed'])) {
+                throw new RuntimeException($this->_helper
+                        ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
+                        $operationName, $versionToBeUsed , $operationToBeUsed));
+            } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
+                throw new RuntimeException($this->_helper
+                        ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
+                        $operationName, $versionToBeUsed , $operationToBeUsed));
+            }
+        }
+    }
+    
+    /**
+     * Retrieve reflection helper.
+     *
+     * @return Mage_Webapi_Helper_Data
+     */
+    public function getHelper()
+    {
+        return $this->_helper;
     }
 }

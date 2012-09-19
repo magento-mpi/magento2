@@ -11,6 +11,7 @@
 /**
  * REST API helper
  */
+// TODO: Get rid of this class
 class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
 {
     /**#@+
@@ -27,20 +28,40 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**#@+
-     *  Default collection resources error messages
-     */
-    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
-    /**#@-*/
-
-    /**#@+
      *  Default success messages
      */
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
     /**#@-*/
+
+    /**
+     * Request interpret adapters
+     */
+    const XML_PATH_WEBAPI_REQUEST_INTERPRETERS = 'global/webapi/rest/request/interpreters';
+
+    /**
+     * Response render adapters
+     */
+    const XML_PATH_WEBAPI_RESPONSE_RENDERS     = 'global/webapi/rest/response/renders';
+
+    /**
+     * Get interpreter type for Request body according to Content-type HTTP header
+     *
+     * @return array
+     */
+    public function getRequestInterpreterAdapters()
+    {
+        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
+    }
+
+    /**
+     * Get interpreter type for Request body according to Content-type HTTP header
+     *
+     * @return array
+     */
+    public function getResponseRenderAdapters()
+    {
+        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
+    }
 
     /**
      * Throw exception to stop execution
@@ -80,11 +101,6 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
             self::RESOURCE_INTERNAL_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR,
             self::RESOURCE_UNKNOWN_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
             self::RESOURCE_REQUEST_DATA_INVALID => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
         );
     }
 }
