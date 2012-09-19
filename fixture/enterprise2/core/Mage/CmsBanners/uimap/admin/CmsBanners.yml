@@ -28,6 +28,7 @@ manage_cms_banners:
                             active: //select[@name='banner_is_enabled']
                             any: //select[@name='massaction']
                             banner_massaction: //select[@id='bannerGrid_massaction-select']
+                            filter_visible_in: //select[@name='visible_in']
                         fields:
                             filter_banner_name: //input[@name='banner_name']
                             filter_created_from: //input[@name='banner_id[from]']

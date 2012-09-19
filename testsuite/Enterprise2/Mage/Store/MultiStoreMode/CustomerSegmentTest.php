@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_RewardExchangeRatesMultiStoreModeVerificationTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_MultiStoreMode_CustomerSegmentTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -34,36 +34,34 @@ class Enterprise2_Mage_Store_RewardExchangeRatesMultiStoreModeVerificationTest e
     }
 
     /**
-     * <p>All references to Website-Store-Store View are displayed in the Reward Exchange Rates area.</p>
+     * <p>All references to Website-Store-Store View are displayed in the Customer Segments area</p>
      * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there only one Store View - create one more (for enabling Multi Store Mode functionality).</p>
-     * <p>4. Navigate to Manage Reward Exchange Rates page</p>
-     * <p>5. Click "Add New Rate" button</p>
+     * <p>1. Navigate to Manage Segments page</p>
+     * <p>2. Click "Add Segment" button</p>
      * <p>Expected result:</p>
      * <p>There is "Website" column on the page</p>
-     * <p>There is "Website" multi selector on the page</p>
+     * <p>There is "Assigned to Website" multiselector on the page</p>
      *
      * @param string $singleStoreModeEnabler
      *
      * @dataProvider singleStoreModeEnablerDataProvider
      *
      * @test
-     * @TestlinkId TL-MAGE-6235
+     * @TestlinkId TL-MAGE-6228
      * @author Nataliya_Kolenko
      */
-    public function verificationRewardExchangeRates($singleStoreModeEnabler)
+    public function verificationCustomerSegments($singleStoreModeEnabler)
     {
         $config = $this->loadDataSet('SingleStoreMode', $singleStoreModeEnabler);
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
-        $this->navigate('manage_reward_rates');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'website'),
-            'There is no "Website" multi selector on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_new_rate'),
-            'There is no "Add New Rate" button on the page');
-        $this->clickButton('add_new_rate');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'website'), 'There is no "Website" selector on the page');
+        $this->navigate('manage_customer_segments');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'),
+            'There is no "Website" dropdown on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'add_segment'),
+            'There is no "Add Segment" button on the page');
+        $this->clickButton('add_segment');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'assigned_to_website'),
+            'There is no "Assigned to Website" selector on the page');
     }
 }

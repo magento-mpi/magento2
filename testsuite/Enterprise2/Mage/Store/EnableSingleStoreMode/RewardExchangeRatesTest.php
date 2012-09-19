@@ -11,9 +11,8 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_RewardExchangeRatesSingleStoreModeEnabledTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_EnableSingleStoreMode_RewardExchangeRatesTest extends Mage_Selenium_TestCase
 {
-
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
