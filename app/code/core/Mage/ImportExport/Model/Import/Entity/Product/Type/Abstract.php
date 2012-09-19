@@ -60,7 +60,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract
      *
      * @var array
      */
-    protected $_particularAttributes = array();
+    protected $_specialAttributes = array();
 
     /**
      * Product entity object.
@@ -216,7 +216,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract
      */
     public function getParticularAttributes()
     {
-        return $this->_particularAttributes;
+        return $this->_specialAttributes;
     }
 
     /**
@@ -294,21 +294,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract
         }
 
         return $resultAttrs;
-    }
-
-    /**
-     * Prepare attributes values for save: remove non-existent, remove empty values, remove static.
-     *
-     * @deprecated
-     * @see Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract::prepareAttributesWithDefaultValueForSave()
-     *
-     * @param array $rowData
-     *
-     * @return array
-     */
-    public function prepareAttributesForSave(array $rowData)
-    {
-        return $this->prepareAttributesWithDefaultValueForSave($rowData);
     }
 
     /**

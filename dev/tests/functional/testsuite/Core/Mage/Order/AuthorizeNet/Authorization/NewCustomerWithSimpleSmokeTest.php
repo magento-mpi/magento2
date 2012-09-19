@@ -379,7 +379,6 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-5368
-     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {

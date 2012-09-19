@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data for testGetCreateUrl
      * @static
      * @return array
      */
@@ -48,16 +49,24 @@ class Mage_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
                 'http://localhost/admin/urlrewrite/edit/',
             ),
             array(
-                array('category' => 'For category', 'product' => 'For product', 'id' => 'Custom'),
+                array('category' => 'For category', 'product' => 'For product', 'id' => 'Custom',
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/category',
             ),
             array(
-                array('product' => 'For product', 'category' => 'For category', 'id' => 'Custom'),
+                array('product' => 'For product', 'category' => 'For category', 'id' => 'Custom',
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/product',
             ),
             array(
-                array('id' => 'Custom', 'product' => 'For product', 'category' => 'For category'),
+                array('id' => 'Custom', 'product' => 'For product', 'category' => 'For category',
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/id',
+            ),
+            array(
+                array('cms_page' => 'For CMS page', 'product' => 'For product', 'category' => 'For category',
+                    'id' => 'Custom'),
+                'http://localhost/admin/urlrewrite/edit/cms_page',
             ),
         );
     }

@@ -61,11 +61,9 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      * @return array
      * @test
      * @depends preconditionsForTests
-     * @group skip_due_to_bug2.0
      */
     public function orderWithSwitchMaestroCard($sku)
     {
-        $this->markTestIncomplete('MAGETWO-1656');
         //Data
         $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk', array('payment_info' => $paymentInfo));
@@ -347,8 +345,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {

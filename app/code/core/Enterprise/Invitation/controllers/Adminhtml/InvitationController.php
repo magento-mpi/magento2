@@ -98,7 +98,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             if (empty($emails)) {
                 Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please specify at least one email.'));
             }
-            if (Mage::app()->isSingleStoreMode()) {
+            if (Mage::app()->hasSingleStore()) {
                 $storeId = Mage::app()->getStore(true)->getId();
             }
             else {
@@ -299,6 +299,6 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     protected function _isAllowed()
     {
         return Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabled()
-            && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Invitation::enterprise_invitation');
+            && Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Invitation::enterprise_invitation');
     }
 }

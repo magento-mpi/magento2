@@ -10,6 +10,7 @@
 class Mage_Backend_Model_Menu_Config
 {
     const CACHE_ID = 'backend_menu_config';
+    const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
      * @var Mage_Core_Model_Cache
@@ -32,9 +33,9 @@ class Mage_Backend_Model_Menu_Config
     protected $_eventManager;
 
     /**
-     * @var Mage_Backend_Model_Menu_Builder
+     * @var Mage_Backend_Model_Menu_Factory
      */
-    protected $_menuBuilder;
+    protected $_menuFactory;
     /**
      * Menu model
      *
@@ -53,7 +54,7 @@ class Mage_Backend_Model_Menu_Config
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Backend_Model_Menu_Logger $menuLogger
-     * @param Mage_Backend_Model_Menu_Builder $menuBuilder
+     * @param Mage_Backend_Model_Menu_Factory $menuFactory
      */
     public function __construct(
         Mage_Core_Model_Cache $cache,
@@ -61,14 +62,14 @@ class Mage_Backend_Model_Menu_Config
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Menu_Logger $menuLogger,
-        Mage_Backend_Model_Menu_Builder $menuBuilder
+        Mage_Backend_Model_Menu_Factory $menuFactory
     ) {
         $this->_cache = $cache;
         $this->_factory = $factory;
         $this->_appConfig = $config;
         $this->_eventManager = $eventManager;
         $this->_logger = $menuLogger;
-        $this->_menuBuilder = $menuBuilder;
+        $this->_menuBuilder = $menuFactory;
     }
 
     /**
@@ -104,6 +105,22 @@ class Mage_Backend_Model_Menu_Config
     protected function _initMenu()
     {
         if (!$this->_menu) {
+            $this->_menu = $this->_menuFactory->getMenuInstance();
+
+            if ($this->_cache->canUse('config')) {
+                $cache = $this->_cache->load(self::CACHE_MENU_OBJECT);
+                if ($cache) {
+                    $this->_menu->unserialize($cache);
+                    return;
+                }
+            }
+
+            /* @var $director Mage_Backend_Model_Menu_Builder */
+            $menuBuilder = $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Builder', array(
+                'menu' => $this->_menu,
+                'itemFactory' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Item_Factory'),
+            ));
+
             /* @var $director Mage_Backend_Model_Menu_Director_Dom */
             $director = $this->_factory->create(
                 'Mage_Backend_Model_Menu_Director_Dom',
@@ -113,9 +130,17 @@ class Mage_Backend_Model_Menu_Config
                     'menuLogger' => $this->_logger
                 )
             );
-            $director->buildMenu($this->_menuBuilder);
-            $this->_menu = $this->_menuBuilder->getResult();
+            $director->buildMenu($menuBuilder);
+            $this->_menu = $menuBuilder->getResult();
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
+
+            if ($this->_cache->canUse('config')) {
+                $this->_cache->save(
+                    $this->_menu->serialize(),
+                    self::CACHE_MENU_OBJECT,
+                    array(Mage_Core_Model_Config::CACHE_TAG)
+                );
+            }
         }
     }
 

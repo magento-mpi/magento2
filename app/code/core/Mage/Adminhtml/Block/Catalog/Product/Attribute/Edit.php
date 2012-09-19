@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
@@ -35,6 +35,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
                     'class'     => 'cancel',
                     'onclick'   => 'window.close()',
                     'level'     => -1
+                )
+            );
+            $this->_addButton(
+                'save_in_new_set',
+                array(
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save in New Attribute Set'),
+                    'class'     => 'save',
+                    'onclick'   => 'saveAttributeInNewSet(\''
+                        . Mage::helper('Mage_Catalog_Helper_Data')->__('Enter Name for New Attribute Set')
+                        . '\')',
                 )
             );
         } else {
@@ -59,6 +69,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
         }
     }
 
+    /**
+     * Retrieve header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         if (Mage::registry('entity_attribute')->getId()) {
@@ -68,16 +83,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             }
             return Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute "%s"', $this->escapeHtml($frontendLabel));
         }
-        else {
-            return Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
-        }
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
     }
 
+    /**
+     * Retrieve URL for validation
+     *
+     * @return string
+     */
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
     }
 
+    /**
+     * Retrieve URL for save
+     *
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('*/'.$this->_controller.'/save', array('_current'=>true, 'back'=>null));

@@ -122,7 +122,7 @@
 
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
-            <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
+            <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/backend/admin"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}"/>
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
             <replacefilter token="{{selenium_port}}" value="${env.selenium_port}"/>
@@ -132,7 +132,7 @@
 
     <target name="functional-tests-with-deploy-ee" depends="functional-tests-with-deploy,prepare-ee">
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
-            <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
+            <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/backend/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>
         </replace>
     </target>

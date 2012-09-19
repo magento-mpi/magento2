@@ -18,15 +18,15 @@
  */
 class Varien_Date
 {
-    /**
+    /**#@+
      * Date format, used as default. Compatible with Zend_Date
-     *
      */
     const DATETIME_INTERNAL_FORMAT = 'yyyy-MM-dd HH:mm:ss';
-    const DATE_INTERNAL_FORMAT = 'yyyy-MM-dd';
+    const DATE_INTERNAL_FORMAT     = 'yyyy-MM-dd';
 
     const DATETIME_PHP_FORMAT       = 'Y-m-d H:i:s';
     const DATE_PHP_FORMAT           = 'Y-m-d';
+    /**#@-*/
 
     /**
      * Zend Date To local date according Map array
@@ -98,17 +98,18 @@ class Varien_Date
         }
         return $value;
     }
+
     /**
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
-     * @param Zend_Date|string|true $date
+     * @param Zend_Date|string|bool $date
      * @return int
      */
     public static function toTimestamp($date)
     {
         if ($date instanceof Zend_Date) {
-            return $date->getUnixTimestamp();
+            return $date->getTimestamp();
         }
 
         if ($date === true) {
@@ -133,7 +134,7 @@ class Varien_Date
     /**
      * Format date to internal format
      *
-     * @param string|Zend_Date|true|null $date
+     * @param string|Zend_Date|bool|null $date
      * @param boolean $includeTime
      * @return string|null
      */
@@ -163,4 +164,3 @@ class Varien_Date
         return date($format, $date);
     }
 }
-

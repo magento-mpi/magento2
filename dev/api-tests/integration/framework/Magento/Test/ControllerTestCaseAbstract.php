@@ -188,9 +188,6 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
             if ($user->getId()) {
                 $session->setIsFirstPageAfterLogin(true);
                 $session->setUser($user);
-                /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
-                $aclBuilder = Mage::getModel('Mage_Core_Model_Acl_Builder');
-                $session->setAcl($aclBuilder->getAcl());
             }
 
             if (!$session->isLoggedIn()) {

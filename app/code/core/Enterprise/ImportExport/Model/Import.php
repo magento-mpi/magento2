@@ -49,14 +49,14 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
     public function runSchedule(Enterprise_ImportExport_Model_Scheduled_Operation $operation)
     {
         $sourceFile = $operation->getFileSource($this);
-        $result = $sourceFile && $this->validateSource($sourceFile);
+        $result = false;
+        if ($sourceFile) {
+            $result = $this->validateSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile));
+        }
         $isAllowedForcedImport = $operation->getForceImport()
             && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
         if ($isAllowedForcedImport || $result) {
             $result = $this->importSource();
-        }
-        if ($result) {
-            $this->reindexAll();
         }
         return (bool)$result;
     }
@@ -70,10 +70,10 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
     public function initialize(Enterprise_ImportExport_Model_Scheduled_Operation $operation)
     {
         $this->setData(array(
-            'entity'         => $operation->getEntityType(),
-            'behavior'       => $operation->getBehavior(),
-            'operation_type' => $operation->getOperationType(),
-            'run_at'         => $operation->getStartTime(),
+            'entity'                 => $operation->getEntityType(),
+            'behavior'               => $operation->getBehavior(),
+            'operation_type'         => $operation->getOperationType(),
+            'run_at'                 => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         ));
         return $this;

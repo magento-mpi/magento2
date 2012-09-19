@@ -1,1 +1,2 @@
 app/code/core/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
+dev/tests/functional/testsuite/Enterprise2

@@ -85,7 +85,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 }

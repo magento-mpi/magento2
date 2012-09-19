@@ -40,11 +40,6 @@
         <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
         <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
     </php>
-    <groups>
-        <exclude>
-            <group>skip_due_to_bug</group>
-        </exclude>
-    </groups>
     <logging>
         <log type="json" target="./var/logs/logfile.json"/>
         <log type="tap" target="./var/logs/logfile.tap"/>

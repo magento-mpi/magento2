@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Toolbar_Buttons */ ?>
+<div id="vde_toolbar_buttons">
+    <a href="<?php echo $this->getViewLayoutUrl(); ?>" title="<?php echo $this->__('View Layout'); ?>" class="vde_button view-layout">
+        <?php echo $this->__('View Layout'); ?>
+    </a>
+    <a href="<?php echo $this->getCompactLogUrl(); ?>" title="<?php echo $this->__('Compact Log'); ?>" class="vde_button compact-log">
+        <?php echo $this->__('Compact Log'); ?>
+    </a>
+    <a href="<?php echo $this->getExitUrl(); ?>" title="<?php echo $this->__('Quit'); ?>" class="vde_button">
+        <?php echo $this->__('Quit'); ?>
+    </a>
+    <div style="clear:both;"></div>
+</div>

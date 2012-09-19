@@ -6,7 +6,7 @@ if [ -z "$XDEBUG_INSTALED" ]; then
     XDEBUG_LIB=`$PHP -r "echo ini_get('extension_dir');"`/xdebug.so
     if [ ! -f $XDEBUG_LIB ];  then
         # Try locate xdebug.so
-        XDEBUG_LIB=`locale xdebug.so | head -1`
+        XDEBUG_LIB=`locate xdebug.so | head -1`
     fi
     if [ -z "$XDEBUG_LIB" ]; then
         echo XDebug extension is not found [$XDEBUG_LIB]

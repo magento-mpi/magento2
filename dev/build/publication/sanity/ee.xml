@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category   build
+ * @package    sanity
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <words>
+        <word>{copyright}</word>
+        <word>{license_link}</word>
+        <word>{license_notice}</word>
+        <word>biz@magento.com</word>
+        <word>petervarien</word>
+        <word>ukpromerchant</word>
+    </words>
+    <whitelist>
+        <item>
+            <path>dev/build</path>
+        </item>
+        <item>
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>dev/tests/unit/testsuite/tools/migration/Acl/GeneratorTest.php</path>
+        </item>
+        <item>
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>dev/tools/migration/Acl/Generator.php</path>
+        </item>
+    </whitelist>
+</config>

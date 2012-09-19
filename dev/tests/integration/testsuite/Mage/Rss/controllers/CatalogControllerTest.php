@@ -97,7 +97,7 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/two_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoConfigFixture current_store cataloginventory/item_options/notify_stock_qty 75
      */
     public function testNotifyStockAction()
@@ -113,6 +113,7 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
         $body = $this->getResponse()->getBody();
         $this->assertNotContains('<![CDATA[Simple Product]]>', $body); // this one was supposed to have qty 100 ( > 75)
         $this->assertContains('<![CDATA[Simple Product2]]>', $body); // 50 < 75
+        $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body);// this one was supposed to have qty 140 ( > 75)
     }
 
     /**
@@ -124,7 +125,7 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
         $this->dispatch('rss/catalog/review');
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
         $body = $this->getResponse()->getBody();
-        $this->assertContains('"Simple Product2"', $body);
+        $this->assertContains('"Simple Product 3"', $body);
         $this->assertContains('Review text', $body);
     }
 

@@ -12,7 +12,7 @@ class Mage_Backend_Model_Menu_Item_Factory
     /**
      * ACL
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Core_Model_Authorization
      */
     protected $_acl;
 
@@ -59,7 +59,7 @@ class Mage_Backend_Model_Menu_Item_Factory
 
     /**
      * @param Magento_ObjectManager $factory
-     * @param Mage_Backend_Model_Auth_Session $authorization
+     * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      * @param Mage_Core_Model_Config $appliactionConfig
      * @param Mage_Core_Model_Store_Config $storeConfig
@@ -69,7 +69,7 @@ class Mage_Backend_Model_Menu_Item_Factory
      */
     public function __construct(
         Magento_ObjectManager $factory,
-        Mage_Backend_Model_Auth_Session $authorization,
+        Mage_Core_Model_Authorization $authorization,
         Mage_Backend_Model_Menu_Factory $menuFactory,
         Mage_Core_Model_Config $appliactionConfig,
         Mage_Core_Model_Store_Config $storeConfig,

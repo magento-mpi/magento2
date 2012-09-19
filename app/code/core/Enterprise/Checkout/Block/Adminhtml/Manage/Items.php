@@ -136,7 +136,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Bl
      */
     public function isAllowedActionColumn()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Checkout::update');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update');
     }
 
     /**

@@ -250,7 +250,7 @@ class Enterprise_Pci_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {
-                if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Adminhtml::myaccount')) {
+                if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount')) {
                     $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Adminhtml_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);

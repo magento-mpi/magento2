@@ -1,0 +1,119 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Test Datasets for Add New Product for each types for minimal attribute set
+simple_product_minimal:
+    product_attribute_set: Minimal
+    general_name: Simple Product Required(%randomize%)
+    general_description: Description for Simple Product Required
+    general_short_description: Short Description for Simple Product Required
+    general_sku: simple_sku_req_%randomize%
+    general_weight: 1.13
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price: 9.99
+    general_min_tax_class: None
+    websites: Main Website
+    categories: Default Category
+    custom_options_data:
+        custom_options_field: %noValue%
+
+virtual_product_minimal:
+    product_attribute_set: Minimal
+    general_name: Virtual Product Required(%randomize%)
+    general_description: Description for Virtual Product Required
+    general_short_description: Short Description for Virtual Product Required
+    general_sku: virtual_sku_req_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price: 99.99
+    general_min_tax_class: None
+    websites: Main Website
+    categories: Default Category
+
+configurable_product_minimal:
+    product_attribute_set: Minimal
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product Required(%randomize%)
+    general_description: Description for Configurable Product Required
+    general_short_description: Short Description for Configurable Product Required
+    general_sku: configurable_sku_req_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price: 14.95
+    general_min_tax_class: None
+    categories: Default Category
+    associated_configurable_data:
+        associated_configurable_1:
+            associated_search_sku: %associated_1%
+
+downloadable_product_minimal:
+    product_attribute_set: Minimal
+    general_name: Downloadable Product Required(%randomize%)
+    general_description: Description for Downloadable Product Required
+    general_short_description: Short Description for Downloadable Product Required
+    general_sku: downloadable_sku.req_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price: 99.99
+    general_min_tax_class: None
+    websites: Main Website
+    categories: Default Category
+    downloadable_information_data:
+        downloadable_link_1: %noValue%
+
+grouped_product_minimal:
+    product_attribute_set: Minimal
+    general_name: Grouped Product Visible(%randomize%)
+    general_description: Description for Grouped Product Visible
+    general_short_description: Short Description for Grouped Product Visible
+    general_sku: grouped_visible_sku.req_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    categories: Default Category
+    associated_grouped_data:
+        associated_grouped_1:
+            associated_search_sku: %associated_1%
+
+fixed_bundle_minimal:
+    product_attribute_set: Minimal
+    general_name: Bundle(Fixed) Product Visible(%randomize%)
+    general_description: Description for Bundle(Fixed) Product Visible
+    general_short_description: Short Description for Bundle(Fixed) Product Product Visible
+    general_sku_type: Fixed
+    general_sku: bundle_fixed_visible_sku_%randomize%
+    general_weight_type: Fixed
+    general_weight: 0.999
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price_type: Fixed
+    general_min_price: 12.55
+    general_min_tax_class: None
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        item_1: %noValue%
+
+dynamic_bundle_minimal:
+    product_attribute_set: Minimal
+    general_name: Bundle(Dynamic) Product Visible(%randomize%)
+    general_description: Description for Bundle(Dynamic) Product Visible
+    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    general_sku_type: Dynamic
+    general_sku: bundle_dynamic_visible_sku.req_%randomize%
+    general_weight_type: Dynamic
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_min_price_type: Dynamic
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        item_1: %noValue%

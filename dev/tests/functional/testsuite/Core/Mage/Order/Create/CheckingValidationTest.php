@@ -154,7 +154,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * @dataProvider emptyRequiredFieldsInShippingAddressDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3254
-     * @group skip_due_to_bug
      */
     public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
     {

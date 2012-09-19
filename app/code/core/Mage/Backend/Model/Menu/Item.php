@@ -33,6 +33,13 @@ class Mage_Backend_Model_Menu_Item
      * @var Mage_Core_Helper_Abstract
      */
     protected $_moduleHelper;
+    
+    /**
+     * Module helper name
+     *
+     * @var string
+     */
+    protected $_moduleHelperName;
 
     /**
      * Menu item sort index in list
@@ -79,7 +86,7 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Acl
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Core_Model_Authorization
      */
     protected $_acl;
 
@@ -128,6 +135,13 @@ class Mage_Backend_Model_Menu_Item
      * @var Mage_Backend_Model_Menu_Item_Validator
      */
     protected $_validator;
+
+    /**
+     * Serialized submenu string
+     *
+     * @var string
+     */
+    protected $_serializedSubmenu;
 
     /**
      * @param Mage_Backend_Model_Menu_Item_Validator $validator
@@ -252,7 +266,7 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Retrieve item click callback
      *
-     * @return bool
+     * @return string
      */
     public function getClickCallback()
     {
@@ -424,6 +438,43 @@ class Mage_Backend_Model_Menu_Item
             return $this->_acl->isAllowed((string)$this->_resource);
         } catch (Exception $e) {
             return false;
+        }
+    }
+
+    public function __sleep()
+    {
+        $this->_moduleHelperName = get_class($this->_moduleHelper);
+        if ($this->_submenu) {
+            $this->_serializedSubmenu = $this->_submenu->serialize();
+        }
+        return array(
+            '_parentId',
+            '_moduleHelperName',
+            '_sortIndex',
+            '_dependsOnConfig',
+            '_id',
+            '_resource',
+            '_path',
+            '_action',
+            '_dependsOnModule',
+            '_tooltip',
+            '_title',
+            '_serializedSubmenu'
+        );
+    }
+
+    public function __wakeup()
+    {
+        $this->_moduleHelper = Mage::helper($this->_moduleHelperName);
+        $this->_validator = Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
+        $this->_acl = Mage::getSingleton('Mage_Core_Model_Authorization');
+        $this->_appConfig = Mage::getConfig();
+        $this->_storeConfig =  Mage::getSingleton('Mage_Core_Model_Store_Config');
+        $this->_menuFactory = Mage::getSingleton('Mage_Backend_Model_Menu_Factory');
+        $this->_urlModel = Mage::getSingleton('Mage_Backend_Model_Url');
+        if ($this->_serializedSubmenu) {
+            $this->_submenu = $this->_menuFactory->getMenuInstance();
+            $this->_submenu->unserialize($this->_serializedSubmenu);
         }
     }
 }

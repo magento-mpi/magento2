@@ -62,7 +62,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/two_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRender()
@@ -73,7 +73,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/two_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @expectedException Mage_Core_Exception
      * @magentoAppIsolation enabled
      */
@@ -89,5 +89,46 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testPrepareAndRenderWrongProduct()
     {
         $this->_helper->prepareAndRender(999, $this->_controller);
+    }
+
+    /**
+     * Test for _getSessionMessageModels
+     *
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoAppIsolation enabled
+     * @covers Mage_Catalog_Helper_Product_View::_getSessionMessageModels
+     */
+    public function testGetSessionMessageModels()
+    {
+        $expectedMessages = array(
+            'Mage_Catalog_Model_Session'  => 'catalog message',
+            'Mage_Checkout_Model_Session' => 'checkout message',
+        );
+
+        // add messages
+        foreach ($expectedMessages as $sessionModel => $messageText) {
+            /** @var $session Mage_Core_Model_Session_Abstract */
+            $session = Mage::getSingleton($sessionModel);
+            $session->addNotice($messageText);
+        }
+
+        // _getSessionMessageModels invokes inside prepareAndRender
+        $this->_helper->prepareAndRender(10, $this->_controller);
+
+        // assert messages
+        $actualMessages = $this->_controller->getLayout()
+            ->getMessagesBlock()
+            ->getMessages();
+        $this->assertSameSize($expectedMessages, $actualMessages);
+
+        sort($expectedMessages);
+
+        /** @var $message Mage_Core_Model_Message_Notice */
+        foreach ($actualMessages as $key => $message) {
+            $actualMessages[$key] = $message->getText();
+        }
+        sort($actualMessages);
+
+        $this->assertEquals($expectedMessages, $actualMessages);
     }
 }

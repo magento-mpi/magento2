@@ -8,3 +8,4 @@
  */
 
 jQuery.noConflict();
+jQuery.mage = jQuery.mage || {};

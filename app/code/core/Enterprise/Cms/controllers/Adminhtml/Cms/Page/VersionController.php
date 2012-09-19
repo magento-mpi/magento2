@@ -332,7 +332,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Cms::page');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::page');
                 break;
         }
     }

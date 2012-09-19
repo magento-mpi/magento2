@@ -18,12 +18,21 @@
 class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Application instance
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * Constructor
      *
      * Set main configuration of grid
      */
     protected function _construct()
     {
+        $this->_app = Mage::app();
+
         parent::_construct();
         $this->setId('subscriberGrid');
         $this->setUseAjax(true);
@@ -101,26 +110,28 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
             )
         ));
 
-        $this->addColumn('website', array(
-            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Website'),
-            'index'     => 'website_id',
-            'type'      => 'options',
-            'options'   => $this->_getWebsiteOptions()
-        ));
+        if (!$this->_app->isSingleStoreMode()) {
+            $this->addColumn('website', array(
+                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Website'),
+                'index'     => 'website_id',
+                'type'      => 'options',
+                'options'   => $this->_getWebsiteOptions()
+            ));
 
-        $this->addColumn('group', array(
-            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store'),
-            'index'     => 'group_id',
-            'type'      => 'options',
-            'options'   => $this->_getStoreGroupOptions()
-        ));
+            $this->addColumn('group', array(
+                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store'),
+                'index'     => 'group_id',
+                'type'      => 'options',
+                'options'   => $this->_getStoreGroupOptions()
+            ));
 
-        $this->addColumn('store', array(
-            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store View'),
-            'index'     => 'store_id',
-            'type'      => 'options',
-            'options'   => $this->_getStoreOptions()
-        ));
+            $this->addColumn('store', array(
+                'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store View'),
+                'index'     => 'store_id',
+                'type'      => 'options',
+                'options'   => $this->_getStoreOptions()
+            ));
+        }
 
         $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Customer_Helper_Data')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('Mage_Customer_Helper_Data')->__('Excel XML'));

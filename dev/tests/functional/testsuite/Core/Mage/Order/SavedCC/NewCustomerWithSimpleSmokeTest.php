@@ -430,11 +430,11 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3579
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('There is a problem with CVV field, but SavedCC payment method '
+            . 'is going to be removed, so no need to fix it for now. See MAGETWO-2705 for details.');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

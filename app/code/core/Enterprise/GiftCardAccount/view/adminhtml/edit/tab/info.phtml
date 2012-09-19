@@ -20,6 +20,7 @@
 </form>
 <?php endif;*/ ?>
 </div>
+<?php if (!Mage::app()->isSingleStoreMode()): ?>
 <script type="text/javascript">
 //<![CDATA[
     Event.observe(window, 'load', updateCurrency);
@@ -36,3 +37,4 @@
     }
 //]]>
 </script>
+<?php endif; ?>

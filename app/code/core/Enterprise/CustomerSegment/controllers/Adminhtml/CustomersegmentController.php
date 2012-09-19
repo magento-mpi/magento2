@@ -262,8 +262,9 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_CustomerSegment::customersegment') &&
-            Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_CustomerSegment::customersegment')
+            && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 
     /**

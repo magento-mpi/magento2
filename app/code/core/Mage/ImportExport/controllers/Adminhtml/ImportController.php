@@ -49,7 +49,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_ImportExport::import');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_ImportExport::import');
     }
 
     /**
@@ -123,14 +123,11 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                     Mage_ImportExport_Model_Import::FIELD_NAME_IMG_ARCHIVE_FILE)
                 );
 
-            if (!empty($data['customer_entity'])) {
-                $data['entity_subtype'] = $data['customer_entity'];
-            }
-
             try {
                 /** @var $import Mage_ImportExport_Model_Import */
-                $import = Mage::getModel('Mage_ImportExport_Model_Import');
-                $validationResult = $import->validateSource($import->setData($data)->uploadSource());
+                $import = Mage::getModel('Mage_ImportExport_Model_Import')->setData($data);
+                $source = Mage_ImportExport_Model_Import_Adapter::findAdapterFor($import->uploadSource());
+                $validationResult = $import->validateSource($source);
 
                 if (!$import->getProcessedRowsCount()) {
                     $resultBlock->addError($this->__('File does not contain data. Please upload another one'));
