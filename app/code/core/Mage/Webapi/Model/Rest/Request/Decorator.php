@@ -215,8 +215,13 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
             $requestedModules[reset($moduleVersion)] = end($moduleVersion);
         }
         if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            throw new Mage_Webapi_Exception('Invalid "Modules" header value.',
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+            $helper = Mage::helper('Mage_Webapi_Helper_Data');
+            $message = $helper->__('Invalid "Modules" header value. Example: ')
+                . "Modules: Mage_Customer=v1;Mage_Catalog=v1" . PHP_EOL
+                // TODO: change documentation link
+                . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
+
+            throw new Mage_Webapi_Exception($message, Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
         return $requestedModules;
     }
