@@ -9,7 +9,7 @@
  */
 
 /**
- * Web API permissions user grid
+ * Web API User grid
  *
  * @category   Mage
  * @package    Mage_Webapi
@@ -24,7 +24,7 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
     {
         parent::__construct();
         $this->setId('permissionsUserGrid');
-        $this->setDefaultSort('username');
+        $this->setDefaultSort('user_name');
         $this->setDefaultDir('asc');
         $this->setUseAjax(true);
     }
@@ -65,7 +65,7 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
         /** @var $roleSourceModel Mage_Webapi_Model_Source_Acl_Role */
         $roleSourceModel = Mage::getModel('Mage_Webapi_Model_Source_Acl_Role');
         $this->addColumn('role_name', array(
-            'header' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role'),
+            'header' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Role'),
             'index' => 'role_id',
             'type' => 'options',
             'options' => $roleSourceModel->toOptionHash(false)
@@ -94,5 +94,4 @@ class Mage_Webapi_Block_Adminhtml_User_Grid extends Mage_Backend_Block_Widget_Gr
     {
         return $this->getUrl('*/*/grid', array());
     }
-
 }

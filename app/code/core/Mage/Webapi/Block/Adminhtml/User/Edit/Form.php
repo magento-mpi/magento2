@@ -9,7 +9,7 @@
  */
 
 /**
- * Web API permissions User edit form
+ * Web API User edit form
  *
  * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser(Mage_Webapi_Model_Acl_User $user)
  * @method Mage_Webapi_Model_Acl_User getApiUser()

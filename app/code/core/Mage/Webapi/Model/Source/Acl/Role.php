@@ -23,6 +23,20 @@ class Mage_Webapi_Model_Source_Acl_Role
     protected $_resource = null;
 
     /**
+     * Prepare required models
+     *
+     * @param array $data
+     */
+    public function __construct($data = array())
+    {
+        if (isset($data['resource'])) {
+            $this->_resource = $data['resource'];
+        } else {
+            $this->_resource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
+        }
+    }
+
+    /**
      * Retrieve option hash of Web API Roles
      *
      * @param bool $addEmpty
@@ -44,9 +58,6 @@ class Mage_Webapi_Model_Source_Acl_Role
      */
     protected function _getResourceModel()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
-        }
         return $this->_resource;
     }
 }

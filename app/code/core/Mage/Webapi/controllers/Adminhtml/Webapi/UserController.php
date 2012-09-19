@@ -69,16 +69,9 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
              ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
-        /** @var $user Mage_Webapi_Model_Acl_User */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
-        if ($userId) {
-            $user->load($userId);
-            if (!$user->getId()) {
-                $this->_getSession()->addError(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.'));
-                $this->_redirect('*/*/');
-                return;
-            }
+        $user = $this->_loadApiUser($userId);
+        if (!$user) {
+            return;
         }
 
         // Update title and breadcrumb record
@@ -110,12 +103,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $data = $this->getRequest()->getPost();
         if ($data) {
             $userId = (int)$this->getRequest()->getPost('user_id');
-            /** @var $user Mage_Webapi_Model_Acl_User */
-            $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
-            if (!$user->getId() && $userId) {
-                $this->_getSession()->addError(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.'));
-                $this->_redirect('*/*/');
+            $user = $this->_loadApiUser($userId);
+            if (!$user) {
                 return;
             }
 
@@ -125,7 +114,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
-                $this->_getSession()->setWebapiUserData(false);
+                $this->_getSession()->setWebapiUserData(null);
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('user_id' => $user->getId()));
                     return;
@@ -147,9 +136,11 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     {
         $userId = (int)$this->getRequest()->getParam('user_id');
         if ($userId) {
+            $user = $this->_loadApiUser($userId);
+            if (!$user) {
+                return;
+            }
             try {
-                /** @var $user Mage_Webapi_Model_Acl_User */
-                $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
@@ -184,5 +175,24 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     protected function _isAllowed()
     {
         return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_users');
+    }
+
+    /**
+     * Load Web API User
+     *
+     * @param $userId
+     * @return bool|Mage_Webapi_Model_Acl_User
+     */
+    protected function _loadApiUser($userId)
+    {
+        /** @var $user Mage_Webapi_Model_Acl_User */
+        $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
+        if (!$user->getId() && $userId) {
+            $this->_getSession()->addError(
+                Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.'));
+            $this->_redirect('*/*/');
+            return false;
+        }
+        return $user;
     }
 }
