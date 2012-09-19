@@ -36,7 +36,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
             'policy' => $this->_policyMock,
             'roleLocator' => $roleLocatorMock
         );
-        $this->_model = new Mage_Core_Model_Authorization($data);
+        $this->_model = new Mage_Webapi_Model_Authorization($data);
     }
 
     public function tearDown()

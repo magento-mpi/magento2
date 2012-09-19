@@ -19,12 +19,24 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function testIsAllowed()
     {
         //Initialize data in DB
-        $allowResourceId = 'Mage_Customer::customer/multiGet';
-        $denyResourceId = 'Mage_Customer::customer/delete';
+        $allowResourceId = 'Mage_Customer::customer_multiGet';
+        $denyResourceId = 'Mage_Customer::customer_delete';
+        $role = new Mage_Webapi_Model_Acl_Role();
+        $role->setData(array(
+            'role_name' => 'Test role'
+        ));
+        $role->save();
+
+        $rule = new Mage_Webapi_Model_Acl_Rule();
+        $rule->setData(array(
+            'resource_id' => $allowResourceId,
+            'role_id' => $role->getRoleId()
+        ));
+        $rule->save();
 
         //Initialize user session
         $user = new Varien_Object(array(
-            'role_id' => 5
+            'role_id' => $role->getRoleId()
         ));
         Mage::getSingleton('Mage_Core_Model_Session')->setData('webapi_user', $user);
 
@@ -37,6 +49,6 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($aclModel->isAllowed($allowResourceId));
 
         //Test for Deny
-        $this->assertTrue($aclModel->isAllowed($denyResourceId));
+        $this->assertFalse($aclModel->isAllowed($denyResourceId));
     }
 }
