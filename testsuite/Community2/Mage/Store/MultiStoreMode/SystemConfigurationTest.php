@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_Selenium_TestCase
+class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {

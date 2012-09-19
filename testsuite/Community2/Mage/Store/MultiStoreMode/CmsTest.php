@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selenium_TestCase
+class Community2_Mage_Store_MultiStoreMode_CmsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -36,12 +36,16 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
      * <p>There is "Store View" selector on the page</p>
      * <p>There is "Store View" column on the page</p>
      *
+     * @dataProvider storeModeDataProvider
+     *
      * @test
      * @TestlinkId TL-MAGE-6196
      * @author Nataliya_Kolenko
      */
-    public function verificationManageContent()
+    public function verificationManageContent($storeMode)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure("SingleStoreMode/$storeMode");
         $this->navigate('manage_cms_pages');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');
@@ -51,6 +55,14 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
         $this->clickButton('back');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_store_view'),
             'There is no "Store View" dropdown on the page');
+    }
+
+    public function storeModeDataProvider()
+    {
+        return array(
+            array('enable_single_store_mode'),
+            array('disable_single_store_mode')
+        );
     }
 
     /**
@@ -63,12 +75,16 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
      * <p>There is "Store View" selector on the page</p>
      * <p>There is "Store View" column on the page</p>
      *
+     * @dataProvider storeModeDataProvider
+     *
      * @test
      * @TestlinkId TL-MAGE-6197
      * @author Nataliya_Kolenko
      */
-    public function verificationStaticBlocks()
+    public function verificationStaticBlocks($storeMode)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure("SingleStoreMode/$storeMode");
         $this->navigate('manage_cms_static_blocks');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_block'),
             'There is no "Add New Block" button on the page');
@@ -90,16 +106,17 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
      * <p>Expected result:</p>
      * <p>There is no "Assign to Store Views" selector in the Frontend Properties tab</p>
      *
-     * @param string $dataWidgetType
-     *
      * @dataProvider widgetTypesDataProvider
+     *
      * @test
      * @TestlinkId TL-MAGE-6198
      * @author Nataliya_Kolenko
      */
-    public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
+    public function verificationAllTypesOfWidgetsInSingleStoreMode($widgetType, $storeMode)
     {
-        $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_settings');
+        $widgetData = $this->loadDataSet('CmsWidget', $widgetType . '_settings');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure("SingleStoreMode/$storeMode");
         $this->navigate('manage_cms_widgets');
         $this->clickButton('add_new_widget_instance');
         $this->cmsWidgetsHelper()->fillWidgetSettings($widgetData['settings']);
@@ -110,14 +127,22 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
     public function widgetTypesDataProvider()
     {
         return array(
-            array('cms_page_link'),
-            array('cms_static_block'),
-            array('catalog_category_link'),
-            array('catalog_new_products_list'),
-            array('catalog_product_link'),
-            array('orders_and_returns'),
-            array('recently_compared_products'),
-            array('recently_viewed_products'),
+            array('cms_page_link', 'enable_single_store_mode'),
+            array('cms_page_link', 'disable_single_store_mode'),
+            array('cms_static_block', 'enable_single_store_mode'),
+            array('cms_static_block', 'disable_single_store_mode'),
+            array('catalog_category_link', 'enable_single_store_mode'),
+            array('catalog_category_link', 'disable_single_store_mode'),
+            array('catalog_new_products_list', 'enable_single_store_mode'),
+            array('catalog_new_products_list', 'disable_single_store_mode'),
+            array('catalog_product_link', 'enable_single_store_mode'),
+            array('catalog_product_link', 'disable_single_store_mode'),
+            array('orders_and_returns', 'enable_single_store_mode'),
+            array('orders_and_returns', 'disable_single_store_mode'),
+            array('recently_compared_products', 'enable_single_store_mode'),
+            array('recently_compared_products', 'disable_single_store_mode'),
+            array('recently_viewed_products', 'enable_single_store_mode'),
+            array('recently_viewed_products', 'disable_single_store_mode'),
         );
     }
 
@@ -131,12 +156,16 @@ class Community2_Mage_Store_MultiStoreModeCmsVerificationTest extends Mage_Selen
      * <p>There is "Visible In" selector on the page</p>
      * <p>There is "Visible In" column on the page</p>
      *
+     * @dataProvider storeModeDataProvider
+     *
      * @test
      * @TestlinkId TL-MAGE-6200
      * @author Nataliya_Kolenko
      */
-    public function verificationPolls()
+    public function verificationPolls($storeMode)
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure("SingleStoreMode/$storeMode");
         $this->navigate('poll_manager');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_poll'),
             'There is no "Add New Poll" button on the page');
