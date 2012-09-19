@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Js extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Js extends Mage_Backend_Block_Template
 {
     /**
      * Retrieve grid object name in js

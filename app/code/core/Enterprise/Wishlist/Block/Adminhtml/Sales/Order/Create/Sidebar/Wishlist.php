@@ -21,17 +21,20 @@ class Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist
     /**
      * Retrieve item collection
      *
-     * @return Enterprise_Wishlist_Model_Resource_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getItemCollection()
     {
         $collection = $this->getData('item_collection');
         $storeIds = $this->getCreateOrderModel()->getSession()->getStore()->getWebsite()->getStoreIds();
         if (is_null($collection)) {
-            $collection = Mage::getModel('Enterprise_Wishlist_Model_Item')->getCollection()
+            $collection = Mage::getModel('Mage_Wishlist_Model_Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomerId())
                 ->addStoreFilter($storeIds)
                 ->setVisibilityFilter();
+            /** @var Enterprise_Wishlist_Model_Resource_Item_Collection_Updater $updater  */
+            $updater = Mage::getSingleton('Enterprise_Wishlist_Model_Resource_Item_Collection_Updater');
+            $collection = $updater->update($collection);
             if ($collection) {
                 $collection = $collection->load();
             }
