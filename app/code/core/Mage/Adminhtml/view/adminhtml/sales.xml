@@ -191,6 +191,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Massaction" as="grid.massaction">
                         <arguments>
                             <massaction_id_field>increment_id</massaction_id_field>
+                            <form_field_name>order_ids</form_field_name>
                             <options>
                                 <updater>Mage_Sales_Model_Order_Grid_Massaction_ItemsUpdater</updater>
                                 <cancel_order>
