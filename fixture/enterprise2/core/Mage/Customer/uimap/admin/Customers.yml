@@ -18,6 +18,11 @@ edit_customer:
                     customer_view:
                         fieldsets:
                             -
+                                sales_statistics:
+                                    xpath:
+                                    pageelements:
+                                        sales_statistics_head: //div/div[div/h4[@class='icon-head head-customer-sales-statistics']]/div[@class='grid']/table/thead
+                            -
                                 content_customer_view:
                                     xpath: //*[@id='tab_content_customerViewAccordion']
                                     links:
@@ -26,6 +31,59 @@ edit_customer:
                                        view_wishlist: //*[@id='dt-wishlist']/a
                                     pageelements:
                                         products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
+                -
+                    orders:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_orders_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_bought_from: //select[@name='store_id']
+                -
+                    recuring_profiles:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_edit_tab_recurring_profile']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_store: //select[@name='store_id']
+                -
+                    wishlist:
+                        fieldsets:
+                            -
+                                wishlist_grid:
+                                    xpath: //div[@id='wishlistGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        filter_product_name: //input[@id='wishlistGrid_filter_product_name']
+                                        filter_description: //input[@id='wishlistGrid_filter_description']
+                                        filter_qty_from: //input[@id='wishlistGrid_filter_qty_from']
+                                        filter_qty_to: //input[@id='wishlistGrid_filter_qty_to']
+                                        filter_date_from: //input[@name='added_at[from]']
+                                        filter_date_to: //input[@name='added_at[to]']
+                                        filter_days_from: //input[@id='wishlistGrid_filter_days_from']
+                                        filter_days_to: //input[@id='wishlistGrid_filter_days_to']
+                                    dropdowns:
+                                        filter_added_from: //select[@name='store']
+                -
+                    product_review:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='reviwGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_visible_in: //select[@name='visible_in']
                 -
                     store_credit:
                         xpath: //a[@id='customer_info_tabs_customerbalance']/span

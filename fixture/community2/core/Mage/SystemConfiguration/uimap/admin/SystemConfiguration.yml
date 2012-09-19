@@ -52,7 +52,7 @@ system_configuration:
                                 single_store_mode:
                                     xpath: //fieldset[@id='general_single_store_mode']
                                     dropdowns:
-                                        enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
+                                        enable_single_store_mode: //select[@id='general_single_store_mode_enabled']
                 -
                     customers_customer_configuration:
                         fieldsets:
