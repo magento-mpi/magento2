@@ -52,20 +52,6 @@
                     </params>)
                 </grid_url>
             </arguments>
-            <block type="Mage_Backend_Block_Widget_Grid_Export" as="grid.export">
-                <arguments>
-                    <exportTypes>
-                        <csv>
-                            <urlPath>*/*/exportCsv</urlPath>
-                            <label>CSV</label>
-                        </csv>
-                        <excel>
-                            <urlPath>*/*/exportXml</urlPath>
-                            <label>Excel XML</label>
-                        </excel>
-                    </exportTypes>
-                </arguments>
-            </block>
             <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">
                 <arguments>
                     <rowUrl>
@@ -92,7 +78,7 @@
                         <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty" name="customer.wishlist.edit.tab.columnSet.column.qty">
                     <arguments>
                         <header>Qty</header>
                         <index>qty</index>
@@ -127,17 +113,17 @@
                         <sortable>0</sortable>
                         <filter>0</filter>
                         <actions>
-                            <action>
+                            <configure>
                                 <caption>Configure</caption>
                                 <url>javascript:void(0)</url>
                                 <process>configurable</process>
-                                <controlObject>wishlistControl</controlObject>
-                            </action>
-                            <action>
+                                <control_object>wishlistControl</control_object>
+                            </configure>
+                            <delete>
                                 <caption>Delete</caption>
                                 <url>#</url>
                                 <onclick>return wishlistControl.removeItem($wishlist_item_id);</onclick>
-                            </action>
+                            </delete>
                         </actions>
                     </arguments>
                 </block>

@@ -105,6 +105,12 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         parent::__construct($data);
         $this->setTemplate('Mage_Backend::widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
+
+        $this->setData(
+            'filter_visibility',
+            array_key_exists('filter_visibility', $data) ? $data['filter_visibility'] : true
+        );
+
     }
 
     /**
@@ -346,6 +352,29 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             }
         }
         $this->getColumnSet()->setSortable($this->getSortable());
+        $this->_prepareFilterButtons();
+    }
+
+    /**
+     * Prepare grid filter buttons
+     */
+    protected function _prepareFilterButtons()
+    {
+        $this->setChild('reset_filter_button',
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
+                ->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
+                'onclick'   => $this->getJsObjectName().'.resetFilter()',
+            ))
+        );
+        $this->setChild('search_button',
+            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
+                ->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
+                'onclick'   => $this->getJsObjectName().'.doFilter()',
+                'class'   => 'task'
+            ))
+        );
     }
 
     /**
@@ -780,5 +809,40 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getSubTotals()
     {
         return $this->_subtotals;
+    }
+
+    /**
+     * Generate list of grid buttons
+     *
+     * @return string
+     */
+    public function getMainButtonsHtml()
+    {
+        $html = '';
+        if($this->getData('filter_visibility')) {
+            $html.= $this->getResetFilterButtonHtml();
+            $html.= $this->getSearchButtonHtml();
+        }
+        return $html;
+    }
+
+    /**
+     * Generate reset button
+     *
+     * @return string
+     */
+    public function getResetFilterButtonHtml()
+    {
+        return $this->getChildHtml('reset_filter_button');
+    }
+
+    /**
+     * Generate search button
+     *
+     * @return string
+     */
+    public function getSearchButtonHtml()
+    {
+        return $this->getChildHtml('search_button');
     }
 }

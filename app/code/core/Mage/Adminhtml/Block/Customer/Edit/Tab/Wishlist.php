@@ -126,4 +126,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Backend_Block
     {
         return $this->_productHelpers;
     }
+
+    /**
+     * Initialize grid
+     */
+    protected function _prepareGrid()
+    {
+        if (false == Mage::app()->isSingleStoreMode()) {
+            $blockId = 'store';
+            $column = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column');
+            $column->setData(array(
+                    'header' => Mage::helper('Mage_Wishlist_Helper_Data')->__('Added From'),
+                    'index'  => 'store_id',
+                    'type'   => 'store',
+                    'width'  => '160px',
+                    'sort_order' => 50
+                )
+            );
+
+            $this->getColumnSet()->insert($column, 'customer.wishlist.edit.tab.columnSet.column.qty', true, $blockId);
+        }
+
+        parent::_prepareGrid();
+    }
 }
