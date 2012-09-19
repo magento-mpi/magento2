@@ -10,7 +10,7 @@
 var TranslateInline = Class.create();
 TranslateInline.prototype = {
     initialize: function(trigEl, ajaxUrl, area) {
-        this.ajaxUrl = ajaxUrl.replace('admin', 'backend/admin');
+        this.ajaxUrl = ajaxUrl;
         this.area = area;
 
         this.translateDialog = jQuery('<div />', {id: 'translate-inline'})
