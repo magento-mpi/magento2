@@ -14,10 +14,10 @@ EditTriggerTest.prototype.testInit = function() {
 };
 EditTriggerTest.prototype.testCreate = function() {
     var options = {
-        img: 'img.gif',
-        alt: 'translate',
-        template: '<img class="edit-trigger" alt="${alt}" src="${img}">'
-    },
+            img: 'img.gif',
+            alt: 'translate',
+            template: '<img class="edit-trigger" alt="${alt}" src="${img}">'
+        },
         editTrigger = jQuery(document).editTrigger(options);
     var trigger = jQuery('.edit-trigger');
     assertEquals(true, trigger.is('img'));
@@ -82,10 +82,10 @@ EditTriggerTestAsync.prototype.testHideEditTriggerWithDelay = function(queue) {
      </div>
      */
     var editTrigger = jQuery(document).editTrigger({
-        editSelector: '.edit',
-        delay: 1000,
-        template: '<img class="edit-trigger" alt="${alt}" src="${img}">'
-    }),
+            editSelector: '.edit',
+            delay: 1000,
+            template: '<img class="edit-trigger" alt="${alt}" src="${img}">'
+        }),
         trigger = jQuery('.edit-trigger'),
         editElement = jQuery('.edit'),
         container = jQuery('.container'),
