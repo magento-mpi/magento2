@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-/*global mage:true */
 (function ($) {
     // Default fields to initialize for newsletter
     var newsletterInit = {
@@ -64,7 +63,7 @@
 
     $(document).ready(function () {
         // Trigger initalize event
-        mage.event.trigger("mage.newsletter.initialize", newsletterInit);
+        $.mage.event.trigger("mage.newsletter.initialize", newsletterInit);
         $(newsletterInit.newsletterId).mage().validate();
         $(newsletterInit.newsletterInputId).on('click', function () {
             if ($(this).val() === newsletterInit.placeholder) {
@@ -81,4 +80,4 @@
             }, 1);
         });
     });
-}(jQuery));
+})(jQuery);

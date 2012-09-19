@@ -14,4 +14,4 @@
             return this.checked ? $('#use_secure_options').show() : $('#use_secure_options').hide();
         });
     });
-}(jQuery));
+})(jQuery);

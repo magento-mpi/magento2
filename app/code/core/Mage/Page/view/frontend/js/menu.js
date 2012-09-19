@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-/*global mage:true */
 (function ($) {
     // Default fields to initialize for menu
     var menuInit = {
@@ -40,7 +39,7 @@
 
     $(document).ready(function () {
         // Trigger initalize event
-        mage.event.trigger("mage.menu.initialize", menuInit);
+        $.mage.event.trigger("mage.menu.initialize", menuInit);
         $(menuInit.menuSelector).on('mouseover', function () {
             $(this).addClass('over');
             show($(this).children('ul'));
@@ -50,4 +49,4 @@
             hide($(this).children('ul'));
         });
     });
-}(jQuery));
+})(jQuery);

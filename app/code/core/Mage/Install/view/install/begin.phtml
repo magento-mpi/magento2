@@ -36,7 +36,9 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    mage.load.js("<?php echo $this->getSkinUrl('Mage_Install::js/begin.js') ?>");
+(function($) {
+    $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Install::js/begin.js') ?>");
+})(jQuery);
 //]]>
 </script>
 <?php endif ?>

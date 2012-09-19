@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-/*global mage:true Globalize:true */
+/*global Globalize:true */
 (function ($) {
     //closure localize object
     var localize = function (locale) {
@@ -63,14 +63,20 @@
         }
     };
 
-    mage.locale = function (locale) {
-        if (locale != null && locale.length > 0) {
-            mage.localize = new localize(locale);
-        } else {
-            mage.localize = new localize();
+    $.extend(true, $, {
+        mage: {
+            localize: function() {},
+            locale: function (locale) {
+                if (locale != null && locale.length > 0) {
+                    $.mage.localize = new localize(locale);
+                } else {
+                    $.mage.localize = new localize();
+                 }
+            }
         }
-    };
-    mage.locale(mage.language.code);
-}(jQuery));
+    });
+
+    $.mage.locale($.mage.language.code);
+})(jQuery);
 
 

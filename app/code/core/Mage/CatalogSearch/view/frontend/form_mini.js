@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-/*global mage:true */
 (function ($) {
     $(document).ready(function () {
 
@@ -23,7 +22,7 @@
             formSelector: null
         };
         // Trigger initialize event
-        mage.event.trigger('mage.catalogsearch.initialize', searchInit);
+        $.mage.event.trigger('mage.catalogsearch.initialize', searchInit);
 
         var responseList = {
             indexList: null,
@@ -67,7 +66,7 @@
         $(searchInit.fieldSelector).trigger('blur');
 
         $(searchInit.fieldSelector).on('focus', function () {
-            if ($(this).val() == searchInit.placeholder) {
+            if ($(this).val() === searchInit.placeholder) {
                 $(this).val('');
             }
         });
@@ -78,14 +77,14 @@
 
             switch (keyCode) {
 
-                case mage.constant.KEY_ESC:
+                case $.mage.constant.KEY_ESC:
                     resetResponseList(true);
                     $(searchInit.destinationSelector).hide();
                     break;
-                case mage.constant.KEY_TAB:
+                case $.mage.constant.KEY_TAB:
                     $(searchInit.formSelector).trigger('submit');
                     break;
-                case mage.constant.KEY_DOWN:
+                case $.mage.constant.KEY_DOWN:
                     if (responseList.indexList) {
                         if (!responseList.selected) {
                             getFirstVisibleElement().addClass(searchInit.selectClass);
@@ -100,7 +99,7 @@
                         }
                     }
                     break;
-                case mage.constant.KEY_UP:
+                case $.mage.constant.KEY_UP:
                     if (responseList.indexList !== null) {
                         if (!getFirstVisibleElement().hasClass(searchInit.selectClass)) {
                             responseList.selected = responseList.selected.removeClass(searchInit.selectClass).prev().addClass(searchInit.selectClass);
@@ -146,15 +145,15 @@
                     responseList.indexList.on('click',function () {
                         $(searchInit.formSelector).trigger('submit');
                     }).on('hover',function () {
-                            responseList.indexList.removeClass(searchInit.selectClass);
-                            $(this).addClass(searchInit.selectClass);
-                            responseList.selected = $(this);
-                        }).on('mouseout', function () {
-                            if (!getLastElement() && getLastElement().hasClass(searchInit.selectClass)) {
-                                $(this).removeClass(searchInit.selectClass);
-                                resetResponseList();
-                            }
-                        });
+                        responseList.indexList.removeClass(searchInit.selectClass);
+                        $(this).addClass(searchInit.selectClass);
+                        responseList.selected = $(this);
+                    }).on('mouseout', function () {
+                        if (!getLastElement() && getLastElement().hasClass(searchInit.selectClass)) {
+                            $(this).removeClass(searchInit.selectClass);
+                            resetResponseList();
+                        }
+                    });
                 });
             } else {
                 resetResponseList(true);
@@ -162,5 +161,5 @@
             }
         });
     });
-}(jQuery));
+})(jQuery);
 

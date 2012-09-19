@@ -9,7 +9,7 @@
 /*jshint regexdash:true eqnull:true browser:true jquery:true*/
 (function ($) {
     $.validator.addMethod("allowContainerClassName", function (element) {
-        if (element.type == 'radio' || element.type == 'checkbox') {
+        if (element.type === 'radio' || element.type === 'checkbox') {
             return $(element).hasClass('change-container-classname');
         }
     }, '');
@@ -36,12 +36,12 @@
     }
 
     function parseNumber(value) {
-        if (typeof value != 'string') {
+        if (typeof value !== 'string') {
             return parseFloat(value);
         }
         var isDot = value.indexOf('.');
         var isComa = value.indexOf(',');
-        if (isDot != -1 && isComa != -1) {
+        if (isDot !== -1 && isComa !== -1) {
             if (isComa > isDot) {
                 value = value.replace('.', '').replace(',', '.');
             }
@@ -49,7 +49,7 @@
                 value = value.replace(',', '');
             }
         }
-        else if (isComa != -1) {
+        else if (isComa !== -1) {
             value = value.replace(',', '.');
         }
         return parseFloat(value);
@@ -152,9 +152,9 @@
         var regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
         if (isEmpty(v) || !regex.test(v)) return false;
         var d = new Date(v.replace(regex, '$2/$1/$3'));
-        return ( parseInt(RegExp.$2, 10) == (1 + d.getMonth()) ) &&
-            (parseInt(RegExp.$1, 10) == d.getDate()) &&
-            (parseInt(RegExp.$3, 10) == d.getFullYear() );
+        return ( parseInt(RegExp.$2, 10) === (1 + d.getMonth()) ) &&
+            (parseInt(RegExp.$1, 10) === d.getDate()) &&
+            (parseInt(RegExp.$3, 10) === d.getFullYear() );
 
     }, $.mage.__('Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.'));
 

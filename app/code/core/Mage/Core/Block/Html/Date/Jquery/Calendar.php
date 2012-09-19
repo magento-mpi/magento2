@@ -63,7 +63,8 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
             $yearRange = "$yearStart:$yearEnd";
         }
 
-        $jsFiles = '"/pub/lib/jquery/ui/jquery-ui.js", '; /* First include jquery-ui. */
+        /* First include jquery-ui. */
+        $jsFiles = '"' . $this->getSkinUrl("jquery/ui/jquery-ui.js") . '", ';
 
         /* There are a small handful of localized files that use the 5 character locale. */
         $locale = str_replace('_', '-', Mage::app()->getLocale()->getLocaleCode());
@@ -92,21 +93,23 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
             .= '
             <script type="text/javascript">
                 //<![CDATA[
-                mage.event.observe("mage.calendar.initialize", function (event, initData) {
-                    var datepicker = {
-                        inputSelector: "#' . $this->getId() . '",
-                        locale: "' . $locale . '",
-                        options: {
-                            buttonImage: "' . $this->getImage() . '",
-                            buttonText: "' . $this->helper("Mage_Core_Helper_Data")->__("Select Date") . '",
-                            dateFormat: "' . $displayFormat . '",
-                            yearRange: "' . $yearRange . '"
-                        }
-                    };
-                    initData.datepicker.push(datepicker);
-                });
-                mage.load.css( ' . $cssFile . ' );
-                mage.load.jsSync(' . $jsFiles . ');
+                (function($) {
+                    $.mage.event.observe("mage.calendar.initialize", function (event, initData) {
+                        var datepicker = {
+                            inputSelector: "#' . $this->getId() . '",
+                            locale: "' . $locale . '",
+                            options: {
+                                buttonImage: "' . $this->getImage() . '",
+                                buttonText: "' . $this->helper("Mage_Core_Helper_Data")->__("Select Date") . '",
+                                dateFormat: "' . $displayFormat . '",
+                                yearRange: "' . $yearRange . '"
+                            }
+                        };
+                        initData.datepicker.push(datepicker);
+                    });
+                    $.mage.load.css( ' . $cssFile . ' );
+                    $.mage.load.jsSync(' . $jsFiles . ');
+                })(jQuery);
                 //]]>
             </script>';
 

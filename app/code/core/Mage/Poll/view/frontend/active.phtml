@@ -29,13 +29,15 @@
             </ul>
             <script type="text/javascript">
                 //<![CDATA[
-                mage.event.observe('mage.poll.initialize', function (event, initData) {
-                    initData.formId = '#pollForm';
-                    pollAnswersId = '#poll-answers';
-                    pollCheckedOption = 'input.poll_vote:checked';
-                });
-                mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
-                mage.load.js("<?php echo $this->getSkinUrl('Mage_Poll::js/poll.js') ?>");
+                (function($) {
+                    $.mage.event.observe('mage.poll.initialize', function (event, initData) {
+                        initData.formId = '#pollForm';
+                        pollAnswersId = '#poll-answers';
+                        pollCheckedOption = 'input.poll_vote:checked';
+                    });
+                    $.mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
+                    $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Poll::js/poll.js') ?>");
+                })(jQuery);
                 //]]>
             </script>
             <?php endif; ?>

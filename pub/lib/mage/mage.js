@@ -8,58 +8,14 @@
  */
 /*jshint eqnull:true browser:true jquery:true*/
 /*global head:true */
-// Top level mage namespace
-var mage = {};
+(function($) {
 
-(function ($) {
-    mage.language = {
-        cookieKey: 'language',
-        en: 'en',
-        code: 'en'
-    };
-    // Use mage.event as a wrapper for jquery event
-    mage.event = {
-        trigger: function (customEvent, data) {
-            $(document).triggerHandler(customEvent.toString(), data);
-        },
-        observe: function (customEvent, func) {
-            $(document).on(customEvent.toString(), func);
-        },
-        removeObserver: function (customEvent, func) {
-            $(document).unbind(customEvent, func);
-        }
-    };
-    // Place holder function for translate, will be overwrite when locale.js is loaded
-    mage.localize = {
-        translate: function (val) {
-            return val;
-        }
-    };
-
-    mage.constant = {
-        KEY_BACKSPACE: 8,
-        KEY_TAB: 9,
-        KEY_RETURN: 13,
-        KEY_ESC: 27,
-        KEY_LEFT: 37,
-        KEY_UP: 38,
-        KEY_RIGHT: 39,
-        KEY_DOWN: 40,
-        KEY_DELETE: 46,
-        KEY_HOME: 36,
-        KEY_END: 35,
-        KEY_PAGEUP: 33,
-        KEY_PAGEDOWN: 34
-    };
-
-    // Load javascript by calling mage.load
-
-    var syncQueue = [];
-    var asyncQueue = [];
-    var cssQueue = [];
+    var _syncQueue = [];
+    var _asyncQueue = [];
+    var _cssQueue = [];
 
     // Add add arr to queue make sure elements are unique
-    function addToQueue(files, queue) {
+    function _addToQueue(files, queue) {
         for (var i = 0; i < files.length; i++) {
             if (typeof files[i] === 'string' && $.inArray(files[i], queue) === -1) {
                 queue.push(files[i]);
@@ -67,7 +23,7 @@ var mage = {};
         }
     }
 
-    function unique(arr) {
+    function _unique(arr) {
         var uniqueArr = [];
         for (var i = arr.length; i--;) {
             var val = arr[i];
@@ -78,51 +34,91 @@ var mage = {};
         return uniqueArr;
     }
 
-    function asyncLoad() {
+    function _asyncLoad() {
         var x, s, i;
-        head.js.apply({}, unique(asyncQueue));
+        head.js.apply({}, _unique(_asyncQueue));
         x = document.getElementsByTagName('script')[0];
-        for (i = 0; i < cssQueue.length; i++) {
+        for (i = 0; i < _cssQueue.length; i++) {
             s = document.createElement('link');
             s.type = 'text/css';
             s.rel = 'stylesheet';
-            s.href = cssQueue[i];
+            s.href = _cssQueue[i];
             x.parentNode.appendChild(s);
         }
     }
 
-    function loadScript() {
-        if (syncQueue.length === 0) {
-            asyncLoad();
+    function _loadScript() {
+        if (_syncQueue.length === 0) {
+            _asyncLoad();
             return;
         }
-        syncQueue = unique(syncQueue);
-        syncQueue.push(asyncLoad);
-        head.js.apply({}, syncQueue);
+        _syncQueue = _unique(_syncQueue);
+        _syncQueue.push(_asyncLoad);
+        head.js.apply({}, _syncQueue);
     }
 
-    $(window).on('load', loadScript);
+    $.extend(true, $, {
+        mage: {
+            language: {
+                cookieKey: 'language',
+                en: 'en',
+                code: 'en'
+            },
 
-    mage.load = {
-        jsSync: function () {
-            addToQueue(arguments, syncQueue);
-            return syncQueue.length;
-        },
-        js: function () {
-            addToQueue(arguments, asyncQueue);
-            return asyncQueue.length;
-        },
-        css: function () {
-            addToQueue(arguments, cssQueue);
-            return cssQueue.length;
-        },
-        language: function (lang, jsMapping) {
-            var language = mage.language.code = lang;
-            if (language != null && language !== mage.language.en) {
-                addToQueue(jsMapping.localize, syncQueue);
-            }
-            return syncQueue.length;
+            event: (function() {
+                this.trigger = function (customEvent, data) {
+                    $(document).triggerHandler(customEvent.toString(), data);
+                };
+                this.observe = function (customEvent, func) {
+                    $(document).on(customEvent.toString(), func);
+                };
+                this.removeObserver = function (customEvent, func) {
+                    $(document).unbind(customEvent, func);
+                };
+                return this;
+            }()),
+
+            constant: {
+                KEY_BACKSPACE: 8,
+                KEY_TAB: 9,
+                KEY_RETURN: 13,
+                KEY_ESC: 27,
+                KEY_LEFT: 37,
+                KEY_UP: 38,
+                KEY_RIGHT: 39,
+                KEY_DOWN: 40,
+                KEY_DELETE: 46,
+                KEY_HOME: 36,
+                KEY_END: 35,
+                KEY_PAGEUP: 33,
+                KEY_PAGEDOWN: 34
+            },
+
+            load: (function() {
+                this.jsSync = function () {
+                    _addToQueue(arguments, _syncQueue);
+                    return _syncQueue.length;
+                };
+                this.js = function () {
+                    _addToQueue(arguments, _asyncQueue);
+                    return _asyncQueue.length;
+                };
+                this.css = function () {
+                    _addToQueue(arguments, _cssQueue);
+                    return _cssQueue.length;
+                };
+                this.language = function (lang, jsMapping) {
+                    var language = $.mage.language.code = lang;
+                    if (language != null && language !== $.mage.language.en) {
+                        _addToQueue(jsMapping.localize, _syncQueue);
+                    }
+                    return _syncQueue.length;
+                };
+                return this;
+            }())
         }
-    };
+    });
 
-}(jQuery));
+    $(window).on('load', _loadScript);
+
+})(jQuery);

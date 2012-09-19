@@ -91,7 +91,9 @@
 </div>
 <script type="text/javascript">
     //<![CDATA[
-    mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/product/mage_attributes_processing.js') ?>");
+    (function($) {
+        $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/product/mage_attributes_processing.js') ?>");
+    })(jQuery);
     //]]>
 </script>
 <?php endif ?>

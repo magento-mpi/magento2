@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-/*global mage:true */
 (function ($) {
     $(document).ready(function () {
 
@@ -19,7 +18,7 @@
             closeButton: null
         };
 
-        mage.event.trigger('mage.checkout.initialize', topCartInit);
+        $.mage.event.trigger('mage.checkout.initialize', topCartInit);
 
         topCartInit.container = $(topCartInit.container);
         topCartInit.closeButton = $(topCartInit.closeButton);
@@ -41,12 +40,12 @@
                 topCartInit.closeButton.trigger('click');
             }, topCartInit.intervalDuration);
         }).on('mouseenter', function () {
-                clearTimeout(topCartSettings.interval);
-            });
+            clearTimeout(topCartSettings.interval);
+        });
 
         topCartSettings.elementHeader.on('click', function () {
             $(topCartInit.container).slideToggle('slow');
         });
 
     });
-}(jQuery));
+})(jQuery);

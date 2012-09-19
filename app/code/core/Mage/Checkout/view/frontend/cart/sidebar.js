@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-/*global mage:true confirm:true*/
+/*global confirm:true*/
 (function ($) {
     $(document).ready(function () {
         var checkout = {
@@ -19,8 +19,8 @@
             confirmMessage: null,
             closeList: null
         };
-        mage.event.trigger('mage.checkout.initialize', checkout);
-        jQuery.mage.decorator.list(checkout.cartSelector, checkout.isRecursive);
+        $.mage.event.trigger('mage.checkout.initialize', checkout);
+        $.mage.decorator.list(checkout.cartSelector, checkout.isRecursive);
         $(checkout.button).on('click', function () {
             $(location).attr('href', checkout.url);
         });
@@ -30,4 +30,4 @@
         });
 
     });
-}(jQuery));
+})(jQuery);

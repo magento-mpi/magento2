@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*global document:true mage:true jQuery:true*/
+/*global document:true jQuery:true*/
 (function ($) {
     /*
      * Full documentation for the datepicker, including all options, APIs, and events can be found
@@ -30,7 +30,7 @@
         var calendarInit = {
             datepicker: [] /* Array of datepickers. Possibly more than one on any given page. */
         };
-        mage.event.trigger("mage.calendar.initialize", calendarInit);
+        $.mage.event.trigger("mage.calendar.initialize", calendarInit);
         $.each(calendarInit.datepicker, function (index, value) {
             $(value.inputSelector).datepicker(
                 /* Merge datepicker options. Include localized settings which may default to English. */
@@ -39,4 +39,4 @@
         });
     });
 
-}(jQuery));
+})(jQuery);

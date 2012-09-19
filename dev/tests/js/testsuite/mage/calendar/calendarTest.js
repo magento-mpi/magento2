@@ -13,7 +13,7 @@ CalendarTest.prototype.testCalendar = function () {
             <input type="text" id="datepicker"/>
             <script type="text/javascript">
                 //<![CDATA[
-                mage.event.observe("mage.calendar.initialize", function (event, initData) {
+                $.mage.event.observe("mage.calendar.initialize", function (event, initData) {
                     var datepicker = {
                         inputSelector: "#datepicker",
                         locale: "",

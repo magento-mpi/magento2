@@ -40,7 +40,9 @@
             "<?php echo $this->getSkinUrl($translateJs)?>",
             "<?php echo $this->getSkinUrl('mage/localization/localize.js')?>"]
     };
-    mage.load.language('<?php echo $lang?>', mapping);
+    (function($) {
+        $.mage.load.language('<?php echo $lang?>', mapping);
+    })(jQuery);
     //]]>
 </script>
 

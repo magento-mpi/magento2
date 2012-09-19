@@ -20,11 +20,11 @@
       validator.form = function () {
         oldForm.status = false;
         oldForm.currentForm = this.currentForm;
-        mage.event.trigger('mage.form.beforeValidation', oldForm);
+        $.mage.event.trigger('mage.form.beforeValidation', oldForm);
         if ( !oldForm.status ) {
           oldForm.status = oldForm.apply(this, arguments);
         }
-        mage.event.trigger('mage.form.afterValidation', oldForm);
+        $.mage.event.trigger('mage.form.afterValidation', oldForm);
         return oldForm.status;
       };
     });
