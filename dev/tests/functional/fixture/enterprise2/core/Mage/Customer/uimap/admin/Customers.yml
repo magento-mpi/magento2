@@ -305,6 +305,79 @@ manage_gift_card_account:
     mca: giftcardaccount/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftcardaccount/')]
     title: Gift Card Accounts / Customers / Magento Admin
+    uimap:
+        form: &searchGiftCardAccountGrid
+            fieldsets:
+                -
+                    customer_segment_grid:
+                        xpath:  //div[@id='giftcardaccountGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            submit: //button[span='Submit']
+                            export: //button[span='Export']
+                        fields:
+                            filter_code: //input[@id='giftcardaccountGrid_giftcardaccount_filter_code']
+                            filter_id_from: //input[@name='giftcardaccount_id[from]']
+                            filter_id_to: //input[@name='giftcardaccount_id[to]']
+                            filter_date_created_from: //input[@name='date_created[from]']
+                            filter_date_created_to: //input[@name='date_created[to]']
+                            filter_expiration_data_from: //input[@name='date_expires[from]']
+                            filter_expiration_data_to: //input[@name='date_expires[to]']
+                            filter_balance_from: //input[@name='balance[from]']
+                            filter_balance_to: //input[@name='balance[to]']
+                        dropdowns:
+                            filter_website: //select[@id='giftcardaccountGrid_giftcardaccount_filter_website']
+                            filter_active: //select[@id='giftcardaccountGrid_giftcardaccount_filter_status']
+                            filter_status: //select[@id='giftcardaccountGrid_giftcardaccount_filter_state']
+                            actions: //select[@id='giftcardaccountGrid_massaction-select']
+                            export_to: //select[@id='giftcardaccountGrid_export']
+        buttons:
+            add_gift_card_account: //button[span='Add Gift Card Account']
+        messages: &addGiftCardAccountMessages
+            success_saved_gift_card_account: //li[normalize-space(@class)='success-msg' and contains(.,'The gift cart account has been saved.')]
+            success_deleted_gift_card_account: //li[normalize-space(@class)='success-msg' and contains(.,'Gift Card Account has been deleted.')]
+
+# Add New Gift Card Account page
+new_gift_card_account:
+    mca: giftcardaccount/new/
+    title: New Account / Gift Card Accounts / Customers / Magento Admin
+    uimap:
+        form: &newGiftCardAccountForm
+            tabs:
+                -
+                    informations:
+                        xpath: //a[@id='giftcardaccount_info_tabs_info']/span
+                        fieldsets:
+                            -
+                                gift_card_information:
+                                    xpath: //div[@id='_infobase_fieldset']
+                                    dropdowns:
+                                        active: //select[@id='_infostatus']
+                                        redeemable: //select[@id='_infois_redeemable']
+                                    fields:
+                                        balance: //input[@id='_infobalance" class=']
+                                        expiration_data: //textarea[@id='_infodate_expires']
+                                    multiselects:
+                                        website: //select[@id='_infowebsite_id']
+                -
+                    send_gift_card:
+                        xpath: //a[@id='giftcardaccount_info_tabs_send']/span
+                        fieldsets:
+                            -
+                                send_gift_card:
+                                    xpath: //div[@id='_sendbase_fieldset']
+                                    fields:
+                                        recipient_email: //input[@id='_sendrecipient_email=']
+                                        recipient_name: //input[@id='_sendrecipient_name']
+                                    multiselects:
+                                        send_email_from: //select[@id='_sendstore_id']
+        buttons:
+             back: //button[span='Back']
+             reset: //button[span='Reset']
+             save_segment: //button[span='Save']
+             save_and_send_email: //button[span='Save & Send Email']
+        messages: *addGiftCardAccountMessages
 
 #Manage Reward Exchange Rates page
 manage_reward_rates:
@@ -360,14 +433,13 @@ new_reward_rate:
             positive_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a positive integer number in the left rate field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
-#Edit Customer Invitations page
-
+#Edit Reward page
 edit_reward_rate:
     mca: reward_rate/edit/rate_id/%id%/
     title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
     uimap: *newRateUimap
 
-# 'Online Customers' Page
+#'Online Customers' Page
 online_customers:
     mca: customer_online/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
