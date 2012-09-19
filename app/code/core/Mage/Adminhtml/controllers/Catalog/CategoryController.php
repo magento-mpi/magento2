@@ -305,15 +305,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             ));
 
             /**
-             * Check "Use Default Value" checkboxes values
-             */
-            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
-                foreach ($useDefaults as $attributeCode) {
-                    $category->setData($attributeCode, false);
-                }
-            }
-
-            /**
              * Proceed with $_POST['use_config']
              * set into category model for proccessing through validation
              */
@@ -329,6 +320,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         else {
                             Mage::throwException($error);
                         }
+                    }
+                }
+
+                /**
+                 * Check "Use Default Value" checkboxes values
+                 */
+                if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                    foreach ($useDefaults as $attributeCode) {
+                        $category->setData($attributeCode, false);
                     }
                 }
 

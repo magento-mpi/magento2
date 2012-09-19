@@ -480,7 +480,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         $idsSelect->reset(Zend_Db_Select::COLUMNS);
 
         $idsSelect->columns($this->getResource()->getIdFieldName(), 'main_table');
-        return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
+        return $this->getConnection()->fetchCol($idsSelect);
     }
 
     public function getData()
