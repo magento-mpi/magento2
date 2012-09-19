@@ -147,7 +147,7 @@ Event.observe(window, 'load', function() {
                             if ($el.data(self.data.disabled)) {
                                 return;
                             }
-                            if (onlyText === true && self.varsRegexp.test(self._masks[this])) {
+                            if (onlyText === true && self.varRegexp.test(self._masks[this])) {
                                 return;
                             }
                             var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
