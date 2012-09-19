@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Store_SingleStoreModeEnabledCustomerSegmentTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_EnableSingleStoreMode_CustomerSegmentTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Precondition for test</p>

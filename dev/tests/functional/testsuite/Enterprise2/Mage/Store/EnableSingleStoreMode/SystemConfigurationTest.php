@@ -12,7 +12,7 @@
  *
  */
 
-class Enterprise2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
