@@ -56,6 +56,20 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected $_emptyCellLabel = '';
 
     /**
+     * Count subtotals
+     *
+     * @var boolean
+     */
+    protected $_countSubTotals = false;
+
+    /**
+     * SubTotals
+     *
+     * @var array
+     */
+    protected $_subtotals = array();
+
+    /**
      * Columns to group by
      *
      * @var array
@@ -466,5 +480,49 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getCollection()
     {
         return $this->getGrid()->getCollection();
+    }
+
+    /**
+     * Set subtotals
+     *
+     * @param boolean $flag
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setCountSubTotals($flag = true)
+    {
+        $this->_countSubTotals = $flag;
+        return $this;
+    }
+
+    /**
+     * Return count subtotals
+     *
+     * @return boolean
+     */
+    public function getCountSubTotals()
+    {
+        return $this->_countSubTotals;
+    }
+
+    /**
+     * Set subtotal items
+     *
+     * @param array $items
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setSubTotals(array $items)
+    {
+        $this->_subtotals = $items;
+        return $this;
+    }
+
+    /**
+     * Retrieve subtotal items
+     *
+     * @return array
+     */
+    public function getSubTotals()
+    {
+        return $this->_subtotals;
     }
 }

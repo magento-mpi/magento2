@@ -138,6 +138,8 @@ class Mage_Backend_Block_Widget_Grid_Extended
     */
     public $_isCollapsed;
 
+    protected $_countSubTotals;
+
     public function __construct(array $data = array())
     {
         parent::__construct($data);

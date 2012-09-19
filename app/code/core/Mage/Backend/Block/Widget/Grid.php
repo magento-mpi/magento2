@@ -70,25 +70,11 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_countTotals = false;
 
     /**
-     * Count subtotals
-     *
-     * @var boolean
-     */
-    protected $_countSubTotals = false;
-
-    /**
      * Totals
      *
      * @var Varien_Object
      */
     protected $_varTotals;
-
-    /**
-     * SubTotals
-     *
-     * @var array
-     */
-    protected $_subtotals = array();
 
     /**
      * RSS list
@@ -111,6 +97,27 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             array_key_exists('filter_visibility', $data) ? $data['filter_visibility'] : true
         );
 
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
+
+        if (isset($data['default_sort'])) {
+            $this->setDefaultSort($data['default_sort']);
+        }
+
+        if (isset($data['default_dir'])) {
+            $this->setDefaultDir($data['default_dir']);
+        }
+
+        if (isset($data['save_parameters_in_session'])) {
+            $this->setSaveParametersInSession($data['save_parameters_in_session']);
+        }
+
+        if (isset($data['rssList'])) {
+            foreach ($data['rssList'] as $item) {
+                $this->addRssList($item['url'], $item['label']);
+            }
+        }
     }
 
     /**
@@ -152,7 +159,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            Mage::throwException('Eport block for grid ' . $this->getNameInLayout() . ' is not defined');
+            Mage::throwException('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -730,17 +737,19 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Set count totals
      *
-     * @param boolean $visible
+     * @param boolean $count
+     * @return Mage_Backend_Block_Widget_Grid
      */
-    public function setCountTotals($count=true)
+    public function setCountTotals($count = true)
     {
         $this->_countTotals = $count;
+        return $this;
     }
 
     /**
      * Return count totals
      *
-     * @return bool
+     * @return boolean
      */
     public function getCountTotals()
     {
