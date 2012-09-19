@@ -126,18 +126,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
      */
     public function hasChildren($node, $websiteCode = null, $storeCode = null)
     {
-        $showTab = false;
-        if ($storeCode) {
-            $showTab = (int)$node->show_in_store;
-        } elseif ($websiteCode) {
-            $showTab = (int)$node->show_in_website;
-        } elseif (!empty($node->show_in_default)) {
-            $showTab = true;
-        }
-
-        $showTab = $showTab || $this->_app->isSingleStoreMode();
-
-        if (!$showTab) {
+        if (!$this->_canShowNode($node, $websiteCode, $storeCode)) {
             return false;
         }
 
@@ -155,6 +144,30 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
             }
         }
         return false;
+    }
+
+    /**
+     * Checks whether it is possible to show the node
+     *
+     * @param Varien_Simplexml_Element $node
+     * @param string $websiteCode
+     * @param string $storeCode
+     * @return boolean
+     */
+    protected function _canShowNode($node, $websiteCode = null, $storeCode = null)
+    {
+        $showTab = false;
+        if ($storeCode) {
+            $showTab = (int)$node->show_in_store;
+        } elseif ($websiteCode) {
+            $showTab = (int)$node->show_in_website;
+        } elseif (!empty($node->show_in_default)) {
+            $showTab = true;
+        }
+
+        $showTab = $showTab || $this->_app->isSingleStoreMode();
+        $showTab = $showTab && !($this->_app->isSingleStoreMode() && (int)$node->hide_in_single_store_mode);
+        return $showTab;
     }
 
     /**

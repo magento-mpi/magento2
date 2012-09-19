@@ -58,6 +58,9 @@ class Mage_Adminhtml_Model_ConfigTest extends PHPUnit_Framework_TestCase
             array($xmlData, true, $xmlData->sections->dev->groups->js, null, null, true, 'Case 14'),
             array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', null, true, 'Case 15'),
             array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', 'default', true, 'Case 16'),
+            array($xmlData, true, $xmlData->sections->dev->groups->price, null, null, false, 'Case 17'),
+            array($xmlData, true, $xmlData->sections->dev->groups->price, 'base', null, false, 'Case 17'),
+            array($xmlData, true, $xmlData->sections->dev->groups->price, 'base', 'default', false, 'Case 17'),
         );
     }
 }
