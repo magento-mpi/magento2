@@ -49,6 +49,7 @@ class Mage_Core_Model_Resource_Layout_Update_CollectionTest extends PHPUnit_Fram
      */
     public function testLayoutContext($contextData, $filterData)
     {
+        unset($contextData, $filterData);
         /**
          * Due to huge refactoring that was done in a story, we made decision to merge
          * unfinished implementation of a new core layout updates DB storage.
