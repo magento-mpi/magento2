@@ -15,12 +15,12 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Webapi_Grid_Role extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('roleGrid');
+        $this->setId('webapiRoleGrid');
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('role_id');
         $this->setDefaultDir('asc');
@@ -38,14 +38,14 @@ class Mage_Adminhtml_Block_Webapi_Grid_Role extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('role_id', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('ID'),
             'index'     => 'role_id',
             'align'     => 'right',
             'width'     => '50px'
         ));
 
         $this->addColumn('role_name', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Name'),
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
             'index'     => 'role_name'
         ));
 
@@ -63,6 +63,6 @@ class Mage_Adminhtml_Block_Webapi_Grid_Role extends Mage_Adminhtml_Block_Widget_
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/editrole', array('rid' => $row->getRoleId()));
+        return $this->getUrl('*/*/edit', array('role_id' => $row->getRoleId()));
     }
 }

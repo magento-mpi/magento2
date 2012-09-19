@@ -31,4 +31,24 @@
     <adminhtml_webapi_user_roles>
         <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml" />
     </adminhtml_webapi_user_roles>
+
+    <adminhtml_webapi_role_index>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_Role" name="webapi.role" />
+        </reference>
+    </adminhtml_webapi_role_index>
+
+    <adminhtml_webapi_role_edit>
+        <reference name="content">
+            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit" />
+        </reference>
+        <reference name="left">
+            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main" />
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource"
+                    template="Mage_Adminhtml::api/rolesedit.phtml" />
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user" />
+            </block>
+        </reference>
+    </adminhtml_webapi_role_edit>
 </layout>

@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Webapi_Tab_Rolesusers extends Mage_Adminhtml_Block_Widget_Tabs {
-
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User extends Mage_Backend_Block_Widget_Tabs
+{
     public function __construct()
     {
         parent::__construct();
@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Webapi_Tab_Rolesusers extends Mage_Adminhtml_Block_Wi
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Webapi_Role_Grid_User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('Mage_Webapi_Block_Adminhtml_Role_Grid_User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

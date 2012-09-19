@@ -8,20 +8,32 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Webapi_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget_Form {
-
-    public function __construct() {
+/**
+ * Web API role resource list
+ *
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole()
+ *
+ * @category   Mage
+ * @package    Mage_Webapi
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
+{
+    public function __construct()
+    {
         parent::__construct();
 
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
+        $role = $this->getApiRole();
+        $role_id = $role ? $role->getRoleId() : null;
 
-        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
+        //$resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
+        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList();
 
         $rules_set = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
-            ->getByRoles($rid)->load();
+            ->getByRoles($role_id)->load();
 
         $selrids = array();
-
         foreach ($rules_set->getItems() as $item) {
             if (array_key_exists(strtolower($item->getResource_id()), $resources)
                 && $item->getApiPermission() == 'allow')
@@ -32,8 +44,6 @@ class Mage_Adminhtml_Block_Webapi_Tab_Rolesedit extends Mage_Adminhtml_Block_Wid
         }
 
         $this->setSelectedResources($selrids);
-
-        $this->setTemplate('api/rolesedit.phtml');
     }
 
     public function getEverythingAllowed()
@@ -43,11 +53,11 @@ class Mage_Adminhtml_Block_Webapi_Tab_Rolesedit extends Mage_Adminhtml_Block_Wid
 
     public function getResTreeJson()
     {
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
-        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesTree();
+        //$resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesTree();
+        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesTree();
 
         if ($resources) {
-            $rootArray = $this->_getNodeJson($resources,1);
+            $rootArray = $this->_getNodeJson($resources, 1);
             $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
             return $json;
         }
@@ -60,8 +70,7 @@ class Mage_Adminhtml_Block_Webapi_Tab_Rolesedit extends Mage_Adminhtml_Block_Wid
         return $a['sort_order']<$b['sort_order'] ? -1 : ($a['sort_order']>$b['sort_order'] ? 1 : 0);
     }
 
-
-    protected function _getNodeJson($node, $level=0)
+    protected function _getNodeJson($node, $level = 0)
     {
         $item = array();
         $selres = $this->getSelectedResources();
