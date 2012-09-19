@@ -120,9 +120,6 @@
             if ($(searchInit.fieldSelector).val() === searchInit.placeholder || $(searchInit.fieldSelector).val() === '') {
                 e.preventDefault();
             }
-            if (!responseList.selected) {
-                $(searchInit.fieldSelector).val(searchInit.selected.attr('title'));
-            }
         });
 
         $(searchInit.fieldSelector).on('input propertychange', function () {
@@ -141,7 +138,7 @@
                         .css(clonePostion)
                         .show()
                         .find(searchInit.responseFieldElements);
-                    resetResponseList();
+                    resetResponseList(false);
                     responseList.indexList.on('click',function () {
                         $(searchInit.formSelector).trigger('submit');
                     }).on('hover',function () {
@@ -151,7 +148,7 @@
                     }).on('mouseout', function () {
                         if (!getLastElement() && getLastElement().hasClass(searchInit.selectClass)) {
                             $(this).removeClass(searchInit.selectClass);
-                            resetResponseList();
+                            resetResponseList(false);
                         }
                     });
                 });
