@@ -20,7 +20,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     protected $_block;
 
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendHelperMock;
 
@@ -28,11 +28,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_blockMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -48,6 +43,11 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
+
+    /**
+     *  @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_requestMock;
 
     protected function setUp()
     {
@@ -106,12 +106,13 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
+        unset($this->_block);
         unset($this->_gridMock);
-        unset($this->_blockMock);
         unset($this->_urlModelMock);
         unset($this->_layoutMock);
         unset($this->_eventManagerMock);
         unset($this->_backendHelperMock);
+        unset($this->_requestMock);
     }
 
     public function testMassactionDefaultValues()
