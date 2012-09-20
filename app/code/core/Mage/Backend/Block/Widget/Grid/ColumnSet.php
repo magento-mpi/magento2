@@ -114,10 +114,10 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         ) {
             throw new InvalidArgumentException('Passed wrong parameters');
         }
-        $this->setEmptyText($this->_helper->__('No records found.'));
 
         parent::__construct($data);
         $this->setTemplate('Mage_Backend::widget/grid/column_set.phtml');
+        $this->setEmptyText($this->_helper->__('No records found.'));
     }
 
 
