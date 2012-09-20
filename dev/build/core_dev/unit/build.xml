@@ -47,16 +47,6 @@
             <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_javascript" depends="_product_location" description="Javascript unit tests">
-        <copy file="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist"
-              tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
-        <antcall target="_jstestdriver_path_substitution">
-            <param name="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php"/>
-        </antcall>
-        <exec executable="php" failonerror="true">
-            <arg value="${product_root_dir}/dev/tests/js/run_js_tests.php"/>
-        </exec>
-    </target>
 
     <target name="_unit_tests_all" description="All unit tests">
         <antcall>
@@ -65,7 +55,6 @@
             <target name="_unit_tests_performance_framework"/>
             <target name="_unit_tests_static_framework"/>
             <target name="_unit_tests_unit_framework"/>
-            <target name="_unit_tests_javascript"/>
         </antcall>
     </target>
 
@@ -74,6 +63,17 @@
     </target>
     <target name="unit_tests_ce" depends="_community_edition" description="Unit tests for CE">
         <antcall target="_unit_tests_all"/>
+    </target>
+
+    <target name="unit_tests_js" depends="_product_location" description="Javascript unit tests">
+        <copy file="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist"
+              tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
+        <antcall target="_jstestdriver_path_substitution">
+            <param name="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php"/>
+        </antcall>
+        <exec executable="php" failonerror="true">
+            <arg value="${product_root_dir}/dev/tests/js/run_js_tests.php"/>
+        </exec>
     </target>
 
 </project>
