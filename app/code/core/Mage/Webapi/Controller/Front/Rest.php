@@ -153,6 +153,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
                     $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_BAD_REQUEST));
                     break;
             }
+        } catch (Mage_Webapi_Exception $e) {
+            $this->_addException($e);
         } catch (Exception $e) {
             Mage::logException($e);
             switch ($e->getCode()) {

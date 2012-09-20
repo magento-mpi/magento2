@@ -222,7 +222,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
             $helper = Mage::helper('Mage_Webapi_Helper_Data');
             $message = $helper->__('Invalid "Modules" header value. Example: ')
-                . "Modules: Mage_Customer=v1;Mage_Catalog=v1" . PHP_EOL
+                . "Modules: Mage_Customer=v1;Mage_Catalog=v1;\n"
                 // TODO: change documentation link
                 . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
 
