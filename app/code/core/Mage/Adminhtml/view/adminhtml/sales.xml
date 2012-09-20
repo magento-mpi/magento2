@@ -34,7 +34,7 @@
                     </orders>
                 </rssList>
             </arguments>
-            <block type="Mage_Backend_Block_Widget_Grid_Massaction" as="grid.massaction">
+            <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                 <arguments>
                     <massaction_id_field>entity_id</massaction_id_field>
                     <form_field_name>order_ids</form_field_name>
@@ -190,7 +190,7 @@
                             </orders>
                         </rssList>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Massaction" as="grid.massaction">
+                    <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                         <arguments>
                             <massaction_id_field>entity_id</massaction_id_field>
                             <form_field_name>order_ids</form_field_name>
