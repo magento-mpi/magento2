@@ -14,13 +14,19 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Resource_Acl_Role */
+    /**
+     * @var Mage_Webapi_Model_Resource_Acl_Role
+     */
     protected $_resourceModelMock;
 
-    /** @var Mage_Webapi_Model_Authorization_Loader_Role */
+    /**
+     * @var Mage_Webapi_Model_Authorization_Loader_Role
+     */
     protected $_model;
 
-    /** @var Mage_Core_Model_Config */
+    /**
+     * @var Mage_Core_Model_Config
+     */
     protected $_config;
 
     public function setUp()

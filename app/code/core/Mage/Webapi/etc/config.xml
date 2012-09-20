@@ -32,7 +32,6 @@
                     <resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>
                     <roleLoader>Mage_Webapi_Model_Authorization_Loader_Role</roleLoader>
                     <ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>
-                    <roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>
                 </acl>
             </webapi>
         </areas>

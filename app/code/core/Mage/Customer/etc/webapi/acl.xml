@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Customer
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="customer" title="Manage Customers">
+                <resource id="customer/create" title="Create Customer" />
+                <resource id="customer/update" title="Edit customer" />
+                <resource id="customer/multiGet" title="Get customer list" />
+                <resource id="customer/get" title="Get customer" />
+                <resource id="customer/delete" title="Delete customer" />
+            </resource>
+        </resources>
+    </acl>
+</config>
