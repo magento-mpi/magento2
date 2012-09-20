@@ -12,17 +12,10 @@
 /**
  * Test Webapi Request model
  */
-class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Decorator object
-     *
-     * @var Mage_Webapi_Model_Rest_Request_Decorator
-     */
-    protected $_decorator;
-
-    /**
-     * Request object
+     * Request mock
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -32,11 +25,10 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         parent::setUp();
-        /** @var Mage_Webapi_Model_Request $requestMock */
-        $requestMock = $this->getMock('Mage_Webapi_Model_Request', array('getHeader', 'getMethod', 'isGet', 'isPost',
-            'isPut', 'isDelete'));
+
+        $requestMock = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
+            'isPost', 'isPut', 'isDelete'));
         $this->_requestMock = $requestMock;
-        $this->_decorator = new Mage_Webapi_Model_Rest_Request_Decorator($requestMock);
     }
 
     /**
@@ -54,8 +46,8 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
-
-        $this->assertSame($expectedResult, $this->_decorator->getAcceptTypes());
+        /** @var Mage_Webapi_Controller_Request_Rest _requestMock */
+        $this->assertSame($expectedResult, $this->_requestMock->getAcceptTypes());
     }
 
     /**
@@ -65,24 +57,24 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
     {
         $rawBody = 'a=123&b=145';
         $interpreterMock = $this->getMock('Mage_Webapi_Model_Request_Interpreter_Interface', array('interpret'));
-        $requestDecoratorMock = $this->getMockBuilder('Mage_Webapi_Model_Rest_Request_Decorator')
+        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
             ->setMethods(array('_getInterpreter','getRawBody'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $requestDecoratorMock->expects($this->once())
+        $requestMock->expects($this->once())
             ->method('getRawBody')
             ->will($this->returnValue($rawBody));
 
-        $requestDecoratorMock->expects($this->once())
+        $requestMock->expects($this->once())
             ->method('_getInterpreter')
             ->will($this->returnValue($interpreterMock));
 
         $interpreterMock->expects($this->once())
             ->method('interpret')
             ->with($rawBody);
-        /** @var Mage_Webapi_Model_Rest_Request_Decorator $requestDecoratorMock */
-        $requestDecoratorMock->getBodyParams();
+
+        $requestMock->getBodyParams();
     }
 
     /**
@@ -103,7 +95,7 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($contentTypeHeader));
 
         try {
-            $this->assertEquals($contentType, $this->_decorator->getContentType());
+            $this->assertEquals($contentType, $this->_requestMock->getContentType());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
@@ -153,7 +145,7 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($requestMethod));
 
         try {
-            $this->assertEquals($crudOperation, $this->_decorator->getHttpMethod());
+            $this->assertEquals($crudOperation, $this->_requestMock->getHttpMethod());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
@@ -175,10 +167,10 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
      */
     public function testGetResourceType()
     {
-        $this->assertNull($this->_decorator->getResourceType());
+        $this->assertNull($this->_requestMock->getResourceType());
         $resource = 'test_resource';
-        $this->_decorator->setResourceType($resource);
-        $this->assertEquals($resource, $this->_decorator->getResourceType());
+        $this->_requestMock->setResourceType($resource);
+        $this->assertEquals($resource, $this->_requestMock->getResourceType());
     }
 
     /**
@@ -187,26 +179,26 @@ class Mage_Webapi_Model_Rest_Request_DecoratorTest extends PHPUnit_Framework_Tes
     public function testIsAssocArrayInRequestBody()
     {
         $rawBodyIsAssocArray = array('key' => 'field');
-        $requestDecoratorMock = $this->getMockBuilder('Mage_Webapi_Model_Rest_Request_Decorator')
+        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
             ->setMethods(array('getBodyParams'))
             ->disableOriginalConstructor()
             ->getMock();
-        $requestDecoratorMock->expects($this->once())
+        $requestMock->expects($this->once())
             ->method('getBodyParams')
             ->will($this->returnValue($rawBodyIsAssocArray));
-        /** @var Mage_Webapi_Model_Rest_Request_Decorator $requestDecoratorMock */
-        $this->assertTrue($requestDecoratorMock->isAssocArrayInRequestBody());
+        /** @var Mage_Webapi_Controller_Request_Rest $requestMock */
+        $this->assertTrue($requestMock->isAssocArrayInRequestBody());
 
-        $requestDecoratorMock = $this->getMockBuilder('Mage_Webapi_Model_Rest_Request_Decorator')
+        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
             ->setMethods(array('getBodyParams'))
             ->disableOriginalConstructor()
             ->getMock();
         $rawBodyIsNotAssocArray = array(0 => array('key' => 'field'));
-        $requestDecoratorMock->expects($this->once())
+        $requestMock->expects($this->once())
             ->method('getBodyParams')
             ->will($this->returnValue($rawBodyIsNotAssocArray));
 
-        $this->assertFalse($requestDecoratorMock->isAssocArrayInRequestBody());
+        $this->assertFalse($requestMock->isAssocArrayInRequestBody());
     }
 
     /**

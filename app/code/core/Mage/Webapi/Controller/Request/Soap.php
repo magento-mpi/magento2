@@ -14,8 +14,6 @@
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method mixed getParam()
- * @method array getParams()
  */
 class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_RequestAbstract
 {

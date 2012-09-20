@@ -15,7 +15,8 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Request_Interpreter_Json implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
+class Mage_Webapi_Controller_Request_Rest_Interpreter_Json
+    implements Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
 {
     /**
      * Parse Request body into array of params.

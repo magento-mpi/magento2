@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_request = new Mage_Webapi_Model_Request();
+        $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest('rest');
         $this->_routeMock = $this->getMock('Mage_Webapi_Controller_Router_Route_Rest', array('match'),
             array('/test_route/1'));
     }

@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Interpreter adapter.
      *
-     * @var Mage_Webapi_Model_Rest_Request_Interpreter_Interface
+     * @var Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
      */
     protected $_interpreter;
 
@@ -52,12 +52,12 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Get request interpreter.
      *
-     * @return Mage_Webapi_Model_Rest_Request_Interpreter_Interface
+     * @return Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
      */
     protected function _getInterpreter()
     {
         if (null === $this->_interpreter) {
-            $this->_interpreter = Mage_Webapi_Model_Rest_Request_Interpreter::factory($this->getContentType());
+            $this->_interpreter = Mage_Webapi_Controller_Request_Rest_Interpreter::factory($this->getContentType());
         }
         return $this->_interpreter;
     }

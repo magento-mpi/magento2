@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Error_Processor
+class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Rest_Error_Processor
      * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Model_Rest_Error_Processor
+     * @return Mage_Webapi_Controller_Front_Rest_ErrorProcessor
      */
     public function saveReport($reportData)
     {

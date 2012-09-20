@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
     /**
-     * @var Mage_Webapi_Model_Rest_Renderer_Interface
+     * @var Mage_Webapi_Controller_Request_Rest_Renderer_Interface
      */
     protected $_renderer;
 
@@ -298,7 +298,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
     {
-        $processor = new Mage_Webapi_Model_Rest_Error_Processor();
+        $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
             $processor->saveReport($detailedErrorMessage);
         }
@@ -343,12 +343,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Model_Rest_Renderer_Interface
+     * @return Mage_Webapi_Controller_Request_Rest_Renderer_Interface
      */
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Controller_Response_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

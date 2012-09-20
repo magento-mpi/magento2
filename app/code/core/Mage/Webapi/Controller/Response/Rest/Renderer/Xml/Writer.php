@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Renderer_Xml_Writer extends Zend_Config_Writer_Xml
+class Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer extends Zend_Config_Writer_Xml
 {
     /**
      * Root node in XML output
