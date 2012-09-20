@@ -9,12 +9,13 @@
  */
 
 /**
- * Webservice Webapi renderer factory model
+ * Webservice Webapi renderer factory model.
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Check this class implementation (it was copied from Magento 1 implementation)
 abstract class Mage_Webapi_Model_Rest_Renderer
 {
     /**
@@ -28,7 +29,7 @@ abstract class Mage_Webapi_Model_Rest_Renderer
     public static function factory($acceptTypes)
     {
         /** @var $helper Mage_Webapi_Helper_Rest */
-        $helper   = Mage::helper('Mage_Webapi_Helper_Rest');
+        $helper = Mage::helper('Mage_Webapi_Helper_Rest');
         $adapters = $helper->getResponseRenderAdapters();
 
         if (!is_array($acceptTypes)) {
@@ -39,11 +40,11 @@ abstract class Mage_Webapi_Model_Rest_Renderer
         $adapterPath = null;
         foreach ($acceptTypes as $type) {
             foreach ($adapters as $item) {
-                $itemType = (string) $item->type;
+                $itemType = (string)$item->type;
                 if ($type == $itemType
                     || $type == current(explode('/', $itemType)) . '/*' || $type == '*/*'
                 ) {
-                    $adapterPath = (string) $item->model;
+                    $adapterPath = (string)$item->model;
                     break 2;
                 }
             }

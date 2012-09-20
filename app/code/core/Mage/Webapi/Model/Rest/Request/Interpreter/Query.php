@@ -9,7 +9,7 @@
  */
 
 /**
- * Request content interpreter query adapter
+ * URL-encoded query string interpreter of Request content.
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -17,31 +17,25 @@
  */
 class Mage_Webapi_Model_Rest_Request_Interpreter_Query implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
 {
-    /**
-     * URI validate pattern
-     */
-    const URI_VALIDATE_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
+    const URI_VALIDATION_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
 
     /**
-     * Parse request body into array of params
+     * Parse request body into array of params.
      *
-     * @param string $body  Posted content from request
-     * @return array        Return always array
-     * @throws Exception|Mage_Webapi_Exception
+     * @param string $body Posted content from request
+     * @return array
+     * @throws InvalidArgumentException
+     * @throws Mage_Webapi_Exception
      */
     public function interpret($body)
     {
         if (!is_string($body)) {
-            throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
+            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
-
         if (!$this->_validateQuery($body)) {
-            throw new Mage_Webapi_Exception(
-                'Invalid data type. Check Content-Type.',
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
-            );
+            throw new Mage_Webapi_Exception('Invalid data type. Check Content-Type.',
+                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
-
         $data = array();
         parse_str($body, $data);
         return $data;
@@ -56,6 +50,6 @@ class Mage_Webapi_Model_Rest_Request_Interpreter_Query implements Mage_Webapi_Mo
      */
     protected function _validateQuery($query)
     {
-        return preg_match(self::URI_VALIDATE_PATTERN, $query);
+        return preg_match(self::URI_VALIDATION_PATTERN, $query);
     }
 }

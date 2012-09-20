@@ -9,7 +9,7 @@
  */
 
 /**
- * Request content interpreter JSON adapter
+ * JSON interpreter of Request content.
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -18,27 +18,27 @@
 class Mage_Webapi_Model_Rest_Request_Interpreter_Json implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
 {
     /**
-     * Parse Request body into array of params
+     * Parse Request body into array of params.
      *
-     * @param string $body  Posted content from request
-     * @return array|null   Return NULL if content is invalid
-     * @throws Exception|Mage_Webapi_Exception
+     * @param string $encodedBody Posted content from request.
+     * @return array|null Return NULL if content is invalid.
+     * @throws InvalidArgumentException
+     * @throws Mage_Webapi_Exception If decoding error was encountered.
      */
-    public function interpret($body)
+    public function interpret($encodedBody)
     {
-        if (!is_string($body)) {
-            throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
+        if (!is_string($encodedBody)) {
+            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.',
+                gettype($encodedBody)));
         }
-
         try {
-            $decoded = Zend_Json::decode($body);
+            $decodedBody = Zend_Json::decode($encodedBody);
         } catch (Zend_Json_Exception $e) {
             throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
-        if ($body != 'null' && $decoded === null) {
+        if ($encodedBody != 'null' && $decodedBody === null) {
             throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
-
-        return $decoded;
+        return $decodedBody;
     }
 }

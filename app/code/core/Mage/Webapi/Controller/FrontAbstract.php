@@ -13,6 +13,8 @@
  */
 abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
 {
+    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
+
     const EXCEPTION_CODE_RESOURCE_NOT_FOUND = 404;
     const EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED = 405;
 
@@ -23,10 +25,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     const VERSION_MAX = 200;
     /**#@-*/
 
-    /** @var Mage_Webapi_Model_Request */
+    /** @var Mage_Webapi_Controller_RequestAbstract */
     protected $_request;
 
-    /** @var Mage_Webapi_Model_Response */
+    /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
     /** @var Mage_Webapi_Model_Config_Resource */
@@ -35,36 +37,44 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    function __construct(Mage_Webapi_Helper_Data $helper = null)
+    /** @var Mage_Core_Model_Config */
+    protected $_applicationConfig;
+
+    function __construct(Mage_Webapi_Helper_Data $helper = null, Mage_Core_Model_Config $applicationConfig = null)
     {
         $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_applicationConfig = $applicationConfig ? $applicationConfig : Mage::getConfig();
     }
 
     /**
-     * Generic action controller for all controllers in current area
+     * Generic action controller for all controllers in 'webapi' area
      *
      * @var string
      */
-    // TODO: Initialize base action controller with value from config (currently there is single action controller for all API types)
-    protected $_baseActionController = '';
+    protected $_baseActionController = self::BASE_ACTION_CONTROLLER;
 
     abstract public function init();
 
     abstract public function dispatch();
 
     /**
-     * Decorate request object for concrete API type.
+     * Set response.
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Controller_RequestAbstract $request
      * @return Mage_Webapi_Controller_FrontAbstract
      */
-    abstract public function setRequest(Mage_Webapi_Model_Request $request);
+    public function setRequest(Mage_Webapi_Controller_RequestAbstract $request)
+    {
+        $this->_request = $request;
+        return $this;
+    }
 
     /**
-     * Retrieve decorated request object.
+     * Retrieve request object.
      *
-     * @return Mage_Webapi_Model_Request_DecoratorAbstract
+     * @return Mage_Webapi_Controller_RequestAbstract
      */
+    // TODO: Do we need this abstract?
     abstract public function getRequest();
 
     /**
@@ -75,7 +85,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     protected function _initResourceConfig($requestedModules)
     {
         if (is_null($this->getResourceConfig())) {
-            $resourceConfigFiles = Mage::app()->getConfig()->getModulesApiConfigurationFiles($requestedModules);
+            $resourceConfigFiles = $this->_applicationConfig->getModulesApiConfigurationFiles($requestedModules);
             /** @var Mage_Webapi_Model_Config_Resource $resourceConfig */
             $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource', $resourceConfigFiles);
             $this->setResourceConfig($resourceConfig);
@@ -118,10 +128,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Set response object.
      *
-     * @param Mage_Webapi_Model_Response $response
+     * @param Mage_Webapi_Controller_Response $response
      * @return Mage_Webapi_Controller_FrontAbstract
      */
-    public function setResponse(Mage_Webapi_Model_Response $response)
+    public function setResponse(Mage_Webapi_Controller_Response $response)
     {
         $this->_response = $response;
         return $this;
@@ -130,7 +140,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Retrieve response object.
      *
-     * @return Mage_Webapi_Model_Response
+     * @return Mage_Webapi_Controller_Response
      */
     public function getResponse()
     {
@@ -155,7 +165,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      *
      * @param string $className
      * @return Mage_Webapi_Controller_ActionAbstract
-     * @throws Mage_Core_Exception
+     * @throws LogicException
      */
     protected function _getActionControllerInstance($className)
     {
@@ -164,8 +174,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         ));
         $controllerInstance = new $className($this->getRequest(), $this->getResponse());
         if (!($controllerInstance instanceof $this->_baseActionController)) {
-            throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('Action controller type is invalid.'));
+            throw new LogicException($this->getHelper()->__('Action controller type is invalid.'));
         }
 
         return $controllerInstance;
@@ -176,19 +185,19 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      *
      * @param string $controllerClassName
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws LogicException
      */
     protected function _getControllerFileName($controllerClassName)
     {
         $parts = explode('_', $controllerClassName);
         $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
+        $file = $this->_applicationConfig->getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
         if (!file_exists($file)) {
-            throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('Action controller "%s" could not be loaded.', $controllerClassName));
+            throw new LogicException(
+                $this->getHelper()->__('Action controller "%s" could not be loaded.', $controllerClassName));
         }
 
-        return str_replace(Mage::getBaseDir(), '', $file);
+        return str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $file);
     }
 
     /**
@@ -215,10 +224,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             $methodVersion--;
         }
         throw new RuntimeException(
-            $this->_helper->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
+            $this->getHelper()->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
             self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
     }
-
 
     /**
      * Identify version of requested operation
@@ -233,17 +241,17 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
         if (!isset($requestedModules[$moduleName])) {
             throw new RuntimeException(
-                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
+                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
                 self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
         }
         $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
         if ($version > self::VERSION_MAX) {
-            throw new RuntimeException($this->_helper
+            throw new RuntimeException($this->getHelper()
                 ->__("Resource version cannot be greater than %s.", self::VERSION_MAX));
         }
         return $version;
     }
-    
+
     /**
      * Check if operation is deprecated or removed. Throw exception when necessary.
      *
@@ -258,26 +266,26 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
                 ? $deprecationPolicy['use_operation']
                 : $operationName;
             if (!isset($deprecationPolicy['use_version']) || empty($deprecationPolicy['use_version'])) {
-                throw new LogicException($this->_helper
+                throw new LogicException($this->getHelper()
                     ->__('The "%s" operation was marked as deprecated but "use_version" attribute was not specified.',
                     $operationName));
             } else {
                 $versionToBeUsed = $deprecationPolicy['use_version'];
             }
             if (isset($deprecationPolicy['removed'])) {
-                throw new RuntimeException($this->_helper
+                throw new RuntimeException($this->getHelper()
                         ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
                         $operationName, $versionToBeUsed , $operationToBeUsed));
             } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
-                throw new RuntimeException($this->_helper
+                throw new RuntimeException($this->getHelper()
                         ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
                         $operationName, $versionToBeUsed , $operationToBeUsed));
             }
         }
     }
-    
+
     /**
-     * Retrieve reflection helper.
+     * Retrieve Webapi data helper.
      *
      * @return Mage_Webapi_Helper_Data
      */

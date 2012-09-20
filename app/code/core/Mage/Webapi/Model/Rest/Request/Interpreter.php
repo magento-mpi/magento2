@@ -9,7 +9,7 @@
  */
 
 /**
- * Request content interpreter factory
+ * Request content interpreter factory.
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -18,11 +18,11 @@
 abstract class Mage_Webapi_Model_Rest_Request_Interpreter
 {
     /**
-     * Request body interpreters factory
+     * Request body interpreters factory.
      *
      * @param string $type
      * @return Mage_Webapi_Model_Rest_Request_Interpreter_Interface
-     * @throws Exception|Mage_Webapi_Exception
+     * @throws LogicException|Mage_Webapi_Exception
      */
     public static function factory($type)
     {
@@ -31,14 +31,14 @@ abstract class Mage_Webapi_Model_Rest_Request_Interpreter
         $adapters = $helper->getRequestInterpreterAdapters();
 
         if (empty($adapters) || !is_array($adapters)) {
-            throw new Exception('Request interpreter adapters is not set.');
+            throw new LogicException('Request interpreter adapter is not set.');
         }
 
         $adapterModel = null;
         foreach ($adapters as $item) {
-            $itemType = (string) $item->type;
+            $itemType = (string)$item->type;
             if ($itemType == $type) {
-                $adapterModel = (string) $item->model;
+                $adapterModel = (string)$item->model;
                 break;
             }
         }
@@ -52,7 +52,7 @@ abstract class Mage_Webapi_Model_Rest_Request_Interpreter
 
         $adapter = Mage::getModel($adapterModel);
         if (!$adapter) {
-            throw new Exception(sprintf('Request interpreter adapter "%s" not found.', $type));
+            throw new LogicException(sprintf('Request interpreter adapter "%s" not found.', $type));
         }
 
         return $adapter;

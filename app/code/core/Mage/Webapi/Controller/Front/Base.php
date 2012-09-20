@@ -13,14 +13,21 @@
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInterface
 {
+    /**#@+
+     * API types
+     */
+    const API_TYPE_REST = 'rest';
+    const API_TYPE_SOAP = 'soap';
+    /**#@-*/
+
     /**
      * List of available concrete API front controllers
      *
      * @var array array({api type} => {API front controller class})
      */
     protected $_concreteFrontControllers = array(
-        'rest' => 'Mage_Webapi_Controller_Front_Rest',
-        'soap' => 'Mage_Webapi_Controller_Front_Soap',
+        self::API_TYPE_REST => 'Mage_Webapi_Controller_Front_Rest',
+        self::API_TYPE_SOAP => 'Mage_Webapi_Controller_Front_Soap',
     );
 
     /**
@@ -30,11 +37,19 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     protected $_concreteFrontController;
 
-    /** @var Mage_Webapi_Model_Request */
+    /** @var Mage_Webapi_Controller_RequestAbstract */
     protected $_request;
 
-    /** @var Mage_Webapi_Model_Response */
+    /** @var Mage_Webapi_Controller_Response */
     protected $_response;
+
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
+    function __construct(Mage_Webapi_Helper_Data $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
 
     /**
      * Determine concrete API front controller to use. Initialize it
@@ -43,12 +58,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     public function init()
     {
-        /** @var Mage_Webapi_Model_Request $baseRequest */
-        $baseRequest = Mage::getSingleton('Mage_Webapi_Model_Request');
-        /** @var Mage_Webapi_Model_Response $baseResponse */
-        $baseResponse = Mage::getSingleton('Mage_Webapi_Model_Response');
-        $this->_request = $baseRequest;
-        $this->_response = $baseResponse;
+        $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
+        $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
 
         // TODO: Make sure that non-admin users cannot access this area
         Mage::register('isSecureArea', true, true);
@@ -58,8 +69,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
 
         // TODO: Implement error handling on this stage
         $this->_getConcreteFrontController()
-            ->setRequest($baseRequest)
-            ->setResponse($baseResponse)
+            ->setRequest($this->_request)
+            ->setResponse($this->_response)
             ->init();
         return $this;
     }
@@ -98,7 +109,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
             $apiType = $this->_determineApiType();
 
             if (!isset($this->_concreteFrontControllers[$apiType])) {
-                throw new Mage_Core_Exception(Mage::helper('Mage_Webapi_Helper_Data')
+                throw new Mage_Core_Exception($this->_helper
                     ->__('The specified API type "%s" is not implemented.', $apiType));
             }
             $concreteFrontControllerClass = $this->_concreteFrontControllers[$apiType];
@@ -112,19 +123,22 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      *
      * @return string
      * @throws Mage_Core_Exception
+     * @throws RuntimeException If requested API type is invalid.
      */
     private function _determineApiType()
     {
         // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
-        $request = $this->_request;
+        $request = Mage::app()->getRequest();
         $apiTypeRoute = new Mage_Webapi_Controller_Router_Route_ApiType();
 
         if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
-            throw new Mage_Core_Exception(Mage::helper('Mage_Webapi_Helper_Data')
-                ->__('Request does not match any API type route.'));
+            throw new Mage_Core_Exception($this->_helper->__('Request does not match any API type route.'));
         }
 
         $apiType = $apiTypeMatch['api_type'];
+        if (!array_key_exists($apiType, $this->_concreteFrontControllers)) {
+            throw new RuntimeException($this->_helper->__('The "%s" API type is not defined.'));
+        }
         // TODO: required for multicall, needs refactoring
         $request->setParam('api_type', $apiType);
 

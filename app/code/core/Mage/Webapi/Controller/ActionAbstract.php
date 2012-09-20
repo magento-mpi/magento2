@@ -20,10 +20,10 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     const PAGE_SIZE_MAX = 100;
     /**#@-*/
 
-    /** @var Mage_Webapi_Model_Request */
+    /** @var Mage_Webapi_Controller_RequestAbstract */
     protected $_request;
 
-    /** @var Mage_Webapi_Model_Response */
+    /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -32,12 +32,12 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Request $request
-     * @param Mage_Webapi_Model_Response $response
+     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Core_Helper_Abstract $translationHelper
      */
-    public function __construct(Mage_Webapi_Model_Request $request, Mage_Webapi_Model_Response $response,
-        Mage_Core_Helper_Abstract $translationHelper
+    public function __construct(Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Response $response, Mage_Core_Helper_Abstract $translationHelper = null
     ) {
         $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
         $this->_request = $request;
@@ -47,7 +47,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Retrieve request.
      *
-     * @return Mage_Webapi_Model_Request
+     * @return Mage_Webapi_Controller_RequestAbstract
      */
     public function getRequest()
     {
@@ -57,7 +57,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Retrieve response.
      *
-     * @return Mage_Webapi_Model_Response
+     * @return Mage_Webapi_Controller_Response
      */
     public function getResponse()
     {

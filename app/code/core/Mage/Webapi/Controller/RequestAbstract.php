@@ -9,48 +9,78 @@
  */
 
 /**
- * API Request model
+ * Abstract API request.
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Request extends Zend_Controller_Request_Http
+abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Request_Http
 {
     /**#@+
      * Name of query ($_GET) parameters to use in navigation and so on
      */
-    const QUERY_PARAM_REQ_ATTRS   = 'attrs';
-    const QUERY_PARAM_PAGE_NUM    = 'page';
-    const QUERY_PARAM_PAGE_SIZE   = 'limit';
+    const QUERY_PARAM_REQ_ATTRS = 'attrs';
+    const QUERY_PARAM_PAGE_NUM = 'page';
+    const QUERY_PARAM_PAGE_SIZE = 'limit';
     const QUERY_PARAM_ORDER_FIELD = 'order';
-    const QUERY_PARAM_ORDER_DIR   = 'dir';
-    const QUERY_PARAM_FILTER      = 'filter';
-    /**#@- */
+    const QUERY_PARAM_ORDER_DIR = 'dir';
+    const QUERY_PARAM_FILTER = 'filter';
+    /**#@-*/
+
+    /** @var string */
+    protected $_apiType;
 
     /**
-     * Constructor
+     * Identify versions of modules that should be used for API configuration file generation.
+     * This method should be implemented for concrete API type request.
      *
-     * If a $uri is passed, the object will attempt to populate itself using
-     * that information.
-     * Override parent class to allow object instance get via Mage::getSingleton()
-     *
-     * @param string|Zend_Uri $uri
+     * @return array
      */
-    public function __construct($uri = null)
+    abstract function getRequestedModules();
+
+    /**
+     * Create request object. Factory method for API requests.
+     *
+     * @param string $apiType
+     * @return Mage_Webapi_Controller_RequestAbstract
+     * @throws InvalidArgumentException If API type is undefined in Mage_Webapi_Controller_Front_Base
+     */
+    public static function createRequest($apiType)
     {
-        parent::__construct($uri ? $uri : null);
+        switch($apiType) {
+            case Mage_Webapi_Controller_Front_Base::API_TYPE_REST:
+                return new Mage_Webapi_Controller_Request_Rest();
+                break;
+            case Mage_Webapi_Controller_Front_Base::API_TYPE_SOAP:
+                return new Mage_Webapi_Controller_Request_Soap();
+                break;
+            default:
+                // TODO: LogicException message translation seems to be excessive
+                throw new InvalidArgumentException(
+                    Mage::helper('Mage_Webapi_Helper_Data')->__('The "%s" API type is not valid.'), $apiType);
+                break;
+        }
     }
 
     /**
-     * Get api type from Request
+     * Get current API type.
      *
      * @return string
      */
     public function getApiType()
     {
-        // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['api_type']) ? $this->_params['api_type'] : null;
+        return $this->_apiType;
+    }
+
+    /**
+     * Set current API type.
+     *
+     * @param string $apiType
+     */
+    public function setApiType($apiType)
+    {
+        $this->_apiType = $apiType;
     }
 
     /**

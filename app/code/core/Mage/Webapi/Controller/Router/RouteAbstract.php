@@ -21,7 +21,7 @@ abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controll
      * Matches a Request with parts defined by a map. Assigns and
      * returns an array of variables on a successful match.
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Controller_RequestAbstract $request
      * @param boolean $partial Partial path matching
      * @return array|bool An array of assigned values or a boolean false on a mismatch
      */

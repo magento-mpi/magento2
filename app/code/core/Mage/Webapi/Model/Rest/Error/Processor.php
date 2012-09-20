@@ -9,73 +9,64 @@
  */
 
 /**
- * Webapi Error Processor
+ * Webapi error processor.
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-// TODO: Refactor this class (it came from Magento 1)
 class Mage_Webapi_Model_Rest_Error_Processor
 {
-    /**
-     * Default http response code
+    const DEFAULT_ERROR_HTTP_CODE = 500;
+    const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
+    const DEFAULT_RESPONSE_CHARSET = 'utf-8';
+
+    /**#@+
+     * Error data representation formats.
      */
-    const HTTP_ERROR_CODE = 500;
+    const DATA_FORMAT_ARRAY = 'array';
+    const DATA_FORMAT_JSON = 'json';
+    const DATA_FORMAT_XML = 'xml';
+    const DATA_FORMAT_URL_ENCODED_QUERY = 'url_encoded_query';
+    /**#@-*/
 
     /**
-     * Default response charset
-     */
-    const RESPONSE_CHARSET = 'utf-8';
-
-    /**
-     * Default error message to send
-     */
-    const ERROR_MESSAGE = 'Resource internal error.';
-
-    /**
-     * Report dir for api reports
+     * Directory for API related reports.
      *
      * @var string
      */
     protected $_reportDir;
 
     /**
-     * Initialize report directory
-     *
-     * @see Error_Processor::__construct()
+     * Initialize report directory.
      */
     public function __construct()
     {
-        $varDir = 'var';
-        $reportDir = 'report';
-        $apiReportDir = 'api';
-        $this->_reportDir = BP . DS . $varDir . DS . $reportDir . DS . $apiReportDir;
+        /** @see Error_Processor::__construct() */
+        $this->_reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
     }
 
     /**
-     * Save error report
+     * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Model_Error_Processor
+     * @return Mage_Webapi_Model_Rest_Error_Processor
      */
     public function saveReport($reportData)
     {
+        // TODO: Is it safe to use '@' here?
         if (!file_exists($this->_reportDir)) {
             @mkdir($this->_reportDir, 0777, true);
         }
-
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = $this->_reportDir . DS . $reportId;
-
         @file_put_contents($reportFile, serialize($reportData));
         @chmod($reportFile, 0777);
-
         return $this;
     }
 
     /**
-     * Render error according to mime type
+     * Render error according to mime type.
      *
      * @param string $errorDetailedMessage
      * @param int $httpCode
@@ -83,88 +74,65 @@ class Mage_Webapi_Model_Rest_Error_Processor
     public function render($errorDetailedMessage, $httpCode = null)
     {
         if (strstr($_SERVER['HTTP_ACCEPT'], 'json')) {
-            $output = $this->_getRenderedJson($errorDetailedMessage);
+            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_JSON);
             $mimeType = 'application/json';
         } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'xml')) {
-            $output = $this->_getRenderedXml($errorDetailedMessage);
+            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_XML);
             $mimeType = 'application/xml';
         } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'text/plain')) {
-            $output = $this->_getRenderedQuery($errorDetailedMessage);
+            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_URL_ENCODED_QUERY);
             $mimeType = 'text/plain';
         } else {
-            $output = $this->_getRenderedJson($errorDetailedMessage);
+            /** Default format is JSON */
+            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_JSON);
             $mimeType = 'application/json';
         }
-
         if (!headers_sent()) {
-            header('HTTP/1.1 ' . ($httpCode ? $httpCode : self::HTTP_ERROR_CODE));
-            header('Content-Type: ' . $mimeType . '; charset=' . self::RESPONSE_CHARSET);
+            header('HTTP/1.1 ' . ($httpCode ? $httpCode : self::DEFAULT_ERROR_HTTP_CODE));
+            header('Content-Type: ' . $mimeType . '; charset=' . self::DEFAULT_RESPONSE_CHARSET);
         }
-
         echo $output;
     }
 
     /**
-     * Get output data as xml string
+     * Format error data according to required format.
      *
-     * @param string $errorDetailedMessage
-     * @return string
-     */
-    protected function _getRenderedXml($errorDetailedMessage)
-    {
-        $output = '<?xml version="1.0"?>'
-            . '<magento_api>'
-            . '<messages>'
-            . '<error>'
-            . '<data_item>'
-            . '<code>' . self::HTTP_ERROR_CODE . '</code>'
-            . '<message>' . self::ERROR_MESSAGE . '</message>'
-            . (Mage::getIsDeveloperMode() ? '<trace><![CDATA[' . $errorDetailedMessage . ']]></trace>' : '')
-            . '</data_item>'
-            . '</error>'
-            . '</messages>'
-            . '</magento_api>';
-
-        return $output;
-    }
-
-    /**
-     * Get output data as json
-     *
-     * @param string $errorDetailedMessage
-     * @return string
-     */
-    protected function _getRenderedJson($errorDetailedMessage)
-    {
-        return Zend_Json::encode($this->_getErrorData($errorDetailedMessage));
-    }
-
-    /**
-     * Get output data as URL-encoded query string
-     *
-     * @param string $errorDetailedMessage
-     * @return string
-     */
-    protected function _getRenderedQuery($errorDetailedMessage)
-    {
-        return http_build_query($this->_getErrorData($errorDetailedMessage));
-    }
-
-    /**
-     * Get formatted array with error data
-     *
-     * @param string $errorDetailedMessage
+     * @param string $trace
+     * @param string $format
      * @return array
      */
-    protected function _getErrorData($errorDetailedMessage)
+    protected function _formatError($trace, $format = self::DATA_FORMAT_ARRAY)
     {
-        $data = array();
-        $message = array('code' => self::HTTP_ERROR_CODE, 'message' => self::ERROR_MESSAGE);
+        $errorData = array();
+        $message = array('code' => self::DEFAULT_ERROR_HTTP_CODE, 'message' => self::DEFAULT_ERROR_MESSAGE);
         if (Mage::getIsDeveloperMode()) {
-            $message['trace'] = $errorDetailedMessage;
+            $message['trace'] = $trace;
         }
-        $data['messages']['error'][] = $message;
-
-        return $data;
+        $errorData['messages']['error'][] = $message;
+        switch ($format) {
+            case self::DATA_FORMAT_JSON:
+                $errorData = Zend_Json::encode($errorData);
+                break;
+            case self::DATA_FORMAT_XML:
+                $errorData = '<?xml version="1.0"?>'
+                    . '<magento_api>'
+                    . '<messages>'
+                    . '<error>'
+                    . '<data_item>'
+                    . '<code>' . self::DEFAULT_ERROR_HTTP_CODE . '</code>'
+                    . '<message>' . self::DEFAULT_ERROR_MESSAGE . '</message>'
+                    . (Mage::getIsDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
+                    . '</data_item>'
+                    . '</error>'
+                    . '</messages>'
+                    . '</magento_api>';
+                break;
+            case self::DATA_FORMAT_URL_ENCODED_QUERY:
+                $errorData = http_build_query($errorData);
+                break;
+            case self::DATA_FORMAT_ARRAY:
+                break;
+        }
+        return $errorData;
     }
 }

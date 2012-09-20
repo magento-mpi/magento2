@@ -20,8 +20,8 @@ interface Mage_Webapi_Model_Rest_Request_Interpreter_Interface
     /**
      * Parse request body into array of params
      *
-     * @param string $body  Posted content from request
-     * @return array|null   Return NULL if content is invalid
+     * @param string $body Posted content from request
+     * @return array|null Return NULL if content is invalid
      */
     public function interpret($body);
 }

@@ -9,7 +9,7 @@
  */
 
 /**
- * API XML Renderer Writer
+ * Webapi XML Renderer Writer.
  *
  * @category   Mage
  * @package    Mage_Webapi
@@ -24,14 +24,15 @@ class Mage_Webapi_Model_Rest_Renderer_Xml_Writer extends Zend_Config_Writer_Xml
 
     /**
      * Render a Zend_Config into a XML config string.
-     * OVERRIDE to avoid using zend-config string in XML
+     * OVERRIDE to avoid using zend-config string in XML.
      *
      * @return string
      */
     public function render()
     {
-        $xml         = new SimpleXMLElement('<' . self::XML_ROOT_NODE . '/>');
-        $extends     = $this->_config->getExtends();
+        // TODO: Consider if SimpleXML should be replaced with DOMDocument
+        $xml = new SimpleXMLElement('<' . self::XML_ROOT_NODE . '/>');
+        $extends = $this->_config->getExtends();
         $sectionName = $this->_config->getSectionName();
 
         if (is_string($sectionName)) {
@@ -41,7 +42,7 @@ class Mage_Webapi_Model_Rest_Renderer_Xml_Writer extends Zend_Config_Writer_Xml
         } else {
             foreach ($this->_config as $sectionName => $data) {
                 if (!($data instanceof Zend_Config)) {
-                    $xml->addChild($sectionName, (string) $data);
+                    $xml->addChild($sectionName, (string)$data);
                 } else {
                     $child = $xml->addChild($sectionName);
 
@@ -57,8 +58,6 @@ class Mage_Webapi_Model_Rest_Renderer_Xml_Writer extends Zend_Config_Writer_Xml
         $dom = dom_import_simplexml($xml)->ownerDocument;
         $dom->formatOutput = true;
 
-        $xmlString = $dom->saveXML();
-
-        return $xmlString;
+        return $dom->saveXML();
     }
 }

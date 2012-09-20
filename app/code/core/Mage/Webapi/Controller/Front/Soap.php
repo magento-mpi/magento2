@@ -28,9 +28,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /** @var Zend_Soap_Server */
     protected $_soapServer;
 
-    /** @var string */
-    protected $_baseActionController;
-
     /** @var Mage_Webapi_Model_Config_Soap */
     protected $_soapConfig;
 
@@ -81,21 +78,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Decorate request object.
+     * Get SOAP request.
      *
-     * @param Mage_Webapi_Model_Request $request
-     * @return Mage_Webapi_Controller_FrontAbstract
-     */
-    public function setRequest(Mage_Webapi_Model_Request $request)
-    {
-        $this->_request = new Mage_Webapi_Model_Soap_Request_Decorator($request);
-        return $this;
-    }
-
-    /**
-     * Return decorated request
-     *
-     * @return Mage_Webapi_Model_Soap_Request_Decorator
+     * @return Mage_Webapi_Controller_Request_Soap
      */
     public function getRequest()
     {
@@ -109,7 +94,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function init()
     {
-        $this->_baseActionController = self::BASE_ACTION_CONTROLLER;
         $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_soap.xml');
         /** @var Mage_Webapi_Model_Config_Soap $soapConfig */
         $soapConfig = Mage::getModel('Mage_Webapi_Model_Config_Soap', $soapConfigFiles);

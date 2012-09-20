@@ -166,8 +166,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      */
     protected function _render($data)
     {
-        $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
-            ->setBody($this->getRenderer()->render($data));
+        $mimeType = $this->getRenderer()->getMimeType();
+        $body = $this->getRenderer()->render($data);
+        $this->getResponse()->setMimeType($mimeType)->setBody($body);
     }
 
     /**
