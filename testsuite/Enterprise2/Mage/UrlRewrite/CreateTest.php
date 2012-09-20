@@ -401,6 +401,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function cmsPageRewriteExtLink ()
     {
+        $this->markTestSkipped('Skipped due to bug MAGETWO-3263');
         //Create data
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
