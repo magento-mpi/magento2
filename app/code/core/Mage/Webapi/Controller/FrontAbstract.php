@@ -13,6 +13,7 @@
  */
 abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
 {
+    const EXCEPTION_CODE_RESOURCE_FORBIDDEN = 403;
     const EXCEPTION_CODE_RESOURCE_NOT_FOUND = 404;
     const EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED = 405;
 
@@ -106,13 +107,30 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Check permissions on specific resource in ACL. No information about roles must be used on this level.
-     * ACL check must be performed in the same way for all API types
+     * Check permissions on specific resource in ACL.
+     *
+     * @param string $role
+     * @param string $resource
+     * @param string $method
+     *
+     * @throws RuntimeException
      */
-    protected function _checkResourceAcl()
+    protected function _checkResourceAcl($role, $resource, $method)
     {
-        // TODO: Implement
-        return $this;
+        try {
+            $isAllowed = Mage::getModel('Mage_Webapi_Model_Authorization')->isAllowed($role, $resource, $method);
+            if (!$isAllowed) {
+                throw new RuntimeException(
+                    $this->_helper->__('Access to resource forbidden.'),
+                    self::EXCEPTION_CODE_RESOURCE_FORBIDDEN
+                );
+            }
+        } catch (Zend_Acl_Exception $e) {
+            throw new RuntimeException(
+                $this->_helper->__('Resource not found.'),
+                self::EXCEPTION_CODE_RESOURCE_NOT_FOUND
+            );
+        }
     }
 
     /**
