@@ -280,7 +280,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             $this->_browserTimeoutPeriod = $timeout;
         }
-        //$this->setLogHandle($this->_testConfig->getLogFile());
         $this->prepareSession();
     }
 
