@@ -137,7 +137,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @var int
      */
-    protected $_nameIncrement = 0;
+    protected $_nameIncrement = array();
 
     /**
      * Information about structural elements, scheduled for creation
@@ -430,7 +430,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ((string)$node->getAttribute('name')) {
             $name = (string)$node->getAttribute('name');
         } else {
-            $name = $this->_generateAnonymousName();
+            $name = $this->_generateAnonymousName(get_class($parent) . '_ScheduleStructure_' );
             $node->addAttribute('name', $name);
         }
         $path = $name;
@@ -565,10 +565,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param string $type
      * @return string
      */
-    protected function _createStructuralElement($name, $type)
+    protected function _createStructuralElement($name, $type, $class)
     {
         if (empty($name)) {
-            $name = $this->_generateAnonymousName();
+            $name = $this->_generateAnonymousName($class);
         }
         $this->_structure->createElement($name, array('type' => $type));
         return $name;
@@ -579,9 +579,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @return string
      */
-    protected function _generateAnonymousName()
+    protected function _generateAnonymousName($class)
     {
-        return 'ANONYMOUS_' . $this->_nameIncrement++;
+        $key = substr($class, strpos('Block', $class) + 5) ?: 'ANONYMOUS';
+        if (!isset($this->_nameIncrement[$key])) {
+            $this->_nameIncrement[$key] = 0;
+            return $key;
+        }
+        return $key . $this->_nameIncrement[$key]++;
     }
 
     /**
@@ -1136,7 +1141,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
-        $name = $this->_createStructuralElement($name, self::TYPE_BLOCK);
+        $name = $this->_createStructuralElement($name, self::TYPE_BLOCK, $type);
         return $this->_createBlock($type, $name, $attributes);
     }
 
@@ -1176,7 +1181,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (empty($name) && $block instanceof Mage_Core_Block_Abstract) {
             $name = $block->getNameInLayout();
         }
-        $name = $this->_createStructuralElement($name, self::TYPE_BLOCK);
+        $name = $this->_createStructuralElement($name, self::TYPE_BLOCK, $name ?: get_class($block));
         if ($parent) {
             $this->_structure->setAsChild($name, $parent, $alias);
         }
@@ -1194,7 +1199,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
     {
-        $name = $this->_createStructuralElement($name, self::TYPE_CONTAINER);
+        $name = $this->_createStructuralElement($name, self::TYPE_CONTAINER, $alias);
         $this->_generateContainer($name, $label, $options);
         if ($parent) {
             $this->_structure->setAsChild($name, $parent, $alias);
