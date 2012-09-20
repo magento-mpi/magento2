@@ -19,7 +19,7 @@
             $.mage.event.observe('mage.catalogsearch.initialize', function (e, o) {
                 o.formSelector = '#search_mini_form',
                 o.fieldSelector = '#search',
-                o.placeholder = '<?php echo $this->__('Search entire store here...') ?>;',
+                o.placeholder = '<?php echo $this->__('Search entire store here...') ?>',
                 o.url = '<?php echo $this->helper('Mage_CatalogSearch_Helper_Data')->getSuggestUrl() ?>',
                 o.destinationSelector = '#search_autocomplete';
             });
