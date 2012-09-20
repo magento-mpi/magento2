@@ -12,12 +12,14 @@
 <config>
     <acl>
         <resources>
-            <resource id="customer" title="Manage Customers">
-                <resource id="customer/create" title="Create Customer" />
-                <resource id="customer/update" title="Edit customer" />
-                <resource id="customer/multiGet" title="Get customer list" />
-                <resource id="customer/get" title="Get customer" />
-                <resource id="customer/delete" title="Delete customer" />
+            <resource id="Mage_Webapi" title="Web API root">
+                <resource id="customer" title="Manage Customers" sort_order="20">
+                    <resource id="customer/create" title="Create Customer" sort_order="30" />
+                    <resource id="customer/update" title="Edit customer" sort_order="10" />
+                    <resource id="customer/multiGet" title="Get customer list" sort_order="40" />
+                    <resource id="customer/get" title="Get customer" sort_order="20" />
+                    <resource id="customer/delete" title="Delete customer" />
+                </resource>
             </resource>
         </resources>
     </acl>

@@ -26,6 +26,9 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         return $this;
     }
 
+    /**
+     * Web API Roles grid
+     */
     public function indexAction()
     {
         $this->_title($this->__('System'))
@@ -35,13 +38,13 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
+    /**
+     * AJAX Web API Roles grid
+     */
     public function roleGridAction()
     {
-        $this->getResponse()
-            ->setBody($this->getLayout()
-            ->createBlock('Mage_Webapi_Block_Adminhtml_Grid_Role')
-            ->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -111,7 +114,8 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
             Mage::getModel('Mage_Webapi_Model_Role')->load($role_id)->delete();
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while deleting this role.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                $this->__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -121,18 +125,49 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $role_id = $this->getRequest()->getParam('role_id', false);
-            $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($role_id);
-            if (!$role->getId() && $role_id) {
+            $roleId = $this->getRequest()->getParam('role_id', false);
+            $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId);
+            if (!$role->getId() && $roleId) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This Role no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
 
-
             $role->setData($data);
+
             try {
                 $role->save();
+
+                $resources = explode(',', $this->getRequest()->getParam('resource', false));
+                $isAll = $this->getRequest()->getParam('all');
+                if ($isAll) {
+                    $resources = array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID);
+                } else if (in_array('__root__', $resources)) {
+                    unset($resources[array_search('__root__', $resources)]);
+                }
+
+                $saveResourcesFlag = true;
+                if ($roleId) {
+                    $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
+                        ->getByRoles($roleId)->load();
+                    if ($rulesSet->count() == count($resources)) {
+                        $saveResourcesFlag = false;
+                        /** @var $rule Mage_Webapi_Model_Acl_Rule */
+                        foreach ($rulesSet as $rule) {
+                            if (!in_array($rule->getResourceId(), $resources)) {
+                                $saveResourcesFlag = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if ($saveResourcesFlag) {
+                    Mage::getModel('Mage_Webapi_Model_Acl_Rule')
+                        ->setRoleId($role->getId())
+                        ->setResources($resources)
+                        ->saveResources();
+                }
 
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been saved.'));

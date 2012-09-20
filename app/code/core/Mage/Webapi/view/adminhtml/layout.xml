@@ -32,6 +32,10 @@
         </reference>
     </adminhtml_webapi_role_index>
 
+    <adminhtml_webapi_role_rolegrid>
+        <block type="Mage_Webapi_Block_Adminhtml_Role_Grid" name="root" output="toHtml" />
+    </adminhtml_webapi_role_rolegrid>
+
     <adminhtml_webapi_role_edit>
         <reference name="content">
             <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit" />

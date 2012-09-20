@@ -22,29 +22,36 @@
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {
-    public function __construct()
+    /**
+     * Prepare Form
+     *
+     * @return Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
+     */
+    protected function _prepareForm()
     {
-        parent::__construct();
-
+        /** @var $role Mage_Webapi_Model_Acl_Role */
         $role = $this->getApiRole();
-        $role_id = $role ? $role->getRoleId() : null;
 
-        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
+        if ($role->getRoleId()) {
+            $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
+            $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
+                ->getByRoles($role->getRoleId())->load();
 
-        $rules_set = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
-            ->getByRoles($role_id)->load();
-
-        $selrids = array();
-        foreach ($rules_set->getItems() as $item) {
-            if (array_key_exists(strtolower($item->getResource_id()), $resources)
-                && $item->getApiPermission() == 'allow')
-            {
-                $resources[$item->getResource_id()]['checked'] = true;
-                array_push($selrids, $item->getResource_id());
+            $selectedRoleIds = array();
+            foreach ($rulesSet->getItems() as $item) {
+                $resourceId = $item->getResourceId();
+                if (in_array($resourceId, $resources)
+                    || $resourceId == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID) {
+                    array_push($selectedRoleIds, $resourceId);
+                }
             }
+
+            $this->setSelectedResources($selectedRoleIds);
+        } else {
+            $this->setSelectedResources(array());
         }
 
-        $this->setSelectedResources($selrids);
+        return parent::_prepareForm();
     }
 
     /**
@@ -53,7 +60,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      */
     public function getEverythingAllowed()
     {
-        return in_array('all', $this->getSelectedResources());
+        return in_array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID, $this->getSelectedResources());
     }
 
     /**
@@ -65,13 +72,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         /** @var $resources DOMNodeList */
         $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
 
-        if ($resources) {
-            $resourceArray = array();
-            /** @var $res DOMElement */
-            foreach ($resources as $res) {
-                $resourceArray[] = $this->_getNodeJson($res);
+        if ($resources && $resources->length == 1
+            && (string) $resources->item(0)->getAttribute('id')
+                == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
+            && $resources->item(0)->childNodes) {
+
+            $resourceArray = $this->_getNodeJson($resources->item(0));
+            if (!empty($resourceArray['children'])) {
+                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($resourceArray['children']);
             }
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($resourceArray);
         }
 
         return '';
@@ -79,19 +88,31 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
     /**
      *
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    protected function _sortTree($a, $b)
+    {
+        return $a['sort_order'] < $b['sort_order'] ? -1 : ($a['sort_order'] > $b['sort_order'] ? 1 : 0);
+    }
+
+    /**
+     *
      * @param DOMElement $node
-     * @param int $level
      * @return mixed
      */
     protected function _getNodeJson($node)
     {
         $item = array();
-        $selres = $this->getSelectedResources();
+        $selRes = $this->getSelectedResources();
 
-        $item['text'] = (string) $node->getAttribute('title');
         $item['id'] = (string) $node->getAttribute('id');
+        $item['text'] = (string) $node->getAttribute('title');
+        $sortOrder = (string) $node->getAttribute('sort_order');
+        $item['sort_order']= !empty($sortOrder) ? (int) $sortOrder : 0;
 
-        if (in_array($item['id'], $selres)) {
+        if (in_array($item['id'], $selRes)) {
             $item['checked'] = true;
         }
 
@@ -104,6 +125,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
             if ($child instanceof DOMElement) {
                 $item['children'][] = $this->_getNodeJson($child);
             }
+        }
+
+        if (!empty($item['children'])) {
+            usort($item['children'], array($this, '_sortTree'));
         }
 
         return $item;
