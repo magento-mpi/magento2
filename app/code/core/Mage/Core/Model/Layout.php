@@ -452,8 +452,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             } else {
                 $value = trim((string)$argument);
             }
-
-            if (false === empty($value)) {
+            if ('' !== $value || (is_array($value) && !empty($value))) {
                 $arguments[$argument->getName()]['value'] = $value;
             }
         }
