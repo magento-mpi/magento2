@@ -33,7 +33,7 @@ class Mage_Backend_Model_Menu_Item
      * @var Mage_Core_Helper_Abstract
      */
     protected $_moduleHelper;
-    
+
     /**
      * Module helper name
      *
@@ -145,7 +145,7 @@ class Mage_Backend_Model_Menu_Item
 
     /**
      * @param Mage_Backend_Model_Menu_Item_Validator $validator
-     * @param Mage_Backend_Model_Auth_Session $authorization
+     * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
@@ -155,7 +155,7 @@ class Mage_Backend_Model_Menu_Item
      */
     public function __construct(
         Mage_Backend_Model_Menu_Item_Validator $validator,
-        Mage_Backend_Model_Auth_Session $authorization,
+        Mage_Core_Model_Authorization $authorization,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Backend_Model_Menu_Factory $menuFactory,

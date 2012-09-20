@@ -61,7 +61,7 @@ class Mage_Backend_Model_Menu_Item_Factory
      * @param Magento_ObjectManager $factory
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
-     * @param Mage_Core_Model_Config $appliactionConfig
+     * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Backend_Model_Url $urlModel
      * @param Mage_Backend_Model_Menu_Item_Validator $menuItemValidator
@@ -71,16 +71,16 @@ class Mage_Backend_Model_Menu_Item_Factory
         Magento_ObjectManager $factory,
         Mage_Core_Model_Authorization $authorization,
         Mage_Backend_Model_Menu_Factory $menuFactory,
-        Mage_Core_Model_Config $appliactionConfig,
+        Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Backend_Model_Url $urlModel,
         Mage_Backend_Model_Menu_Item_Validator $menuItemValidator,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
         $this->_acl = $authorization;
         $this->_objectFactory = $factory;
         $this->_menuFactory = $menuFactory;
-        $this->_appConfig = $appliactionConfig;
+        $this->_appConfig = $applicationConfig;
         $this->_storeConfig = $storeConfig;
         $this->_urlModel = $urlModel;
         $this->_validator = $menuItemValidator;

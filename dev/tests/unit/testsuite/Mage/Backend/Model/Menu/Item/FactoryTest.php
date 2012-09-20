@@ -66,8 +66,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
     public function setUp()
     {
         $this->_aclMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
-        $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_factoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory');
+        $this->_objectFactoryMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_factoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory', array(), array(), '', false);
         $this->_helpers = array(
             'Mage_Backend_Helper_Data' => $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false),
             'Mage_User_Helper_Data' => $this->getMock('Mage_User_Helper_Data')

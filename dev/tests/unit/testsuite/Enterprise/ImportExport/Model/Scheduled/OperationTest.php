@@ -72,18 +72,10 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
-        $model = $this->getMock(
-            'Enterprise_ImportExport_Model_Scheduled_Operation',
-            array(
-                'getOperationType',
-                'getEntityType',
-                '_getHistoryDirPath',
-                'getFileInfo',
-                '_init'
-            ),
-            array(array('date_model' => $dateModelMock)),
-            '',
-            false
+        $model = new Enterprise_ImportExport_Model_Scheduled_Operation(
+            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+            $dateModelMock
         );
 
         $model->expects($this->once())

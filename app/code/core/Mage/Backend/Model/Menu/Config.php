@@ -69,7 +69,7 @@ class Mage_Backend_Model_Menu_Config
         $this->_appConfig = $config;
         $this->_eventManager = $eventManager;
         $this->_logger = $menuLogger;
-        $this->_menuBuilder = $menuFactory;
+        $this->_menuFactory = $menuFactory;
     }
 
     /**
@@ -116,9 +116,9 @@ class Mage_Backend_Model_Menu_Config
             }
 
             /* @var $director Mage_Backend_Model_Menu_Builder */
-            $menuBuilder = $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Builder', array(
+            $menuBuilder = $this->_factory->create('Mage_Backend_Model_Menu_Builder', array(
                 'menu' => $this->_menu,
-                'itemFactory' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Item_Factory'),
+                'menuItemFactory' => $this->_factory->get('Mage_Backend_Model_Menu_Item_Factory'),
             ));
 
             /* @var $director Mage_Backend_Model_Menu_Director_Dom */

@@ -90,7 +90,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct')
+                array($attributeData), '', false, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
@@ -154,9 +154,9 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract',
-            array($this->_customerData)
-        );
+        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(), '', false);
+        /** @var $item Mage_Core_Model_Abstract */
+        $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);
     }
