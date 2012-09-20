@@ -30,6 +30,33 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     }
 
     /**
+     * <p>Preconditions for tests:</p>
+     *  <p>1. Setup Mask for SKU auto-generation</p>
+     *  <p>2. Create attribute set</p>
+     *
+     * @return string
+     *
+     * @test
+     */
+    public function preconditionsForTests()
+    {
+        //Data
+        $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
+            array('sku_mask' => '{{name}}'));
+        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
+        //Setup config
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($systemConfig);
+        //Create attribute set
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->createAttributeSet($attributeSet);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+
+        return $attributeSet['set_name'];
+    }
+
+    /**
      * <p>1. Set default values for Meta fields Autogeneration mask.</p>
      * <p>2. Set Meta attributes as non-required and without default values</p>
      */
@@ -263,26 +290,23 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * @param string $metaCode
      * @param string $metaField
      * @param string $metaMask
+     * @param string $attributeSet
      *
      * @test
      * @dataProvider templateMetaMaskDataProvider
+     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6214
      * @author Maryna_Ilnytska
      */
-    public function afterChangeAttributeSet($metaCode, $metaField, $metaMask)
+    public function afterChangeAttributeSet($metaCode, $metaField, $metaMask, $attributeSet)
     {
         //Data
-        $testData = $this->loadDataSet('AttributeSet', 'attribute_set');
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask' => $metaMask, 'sku_mask' => '{{name}}'));
         $productData = $this->loadDataSet('Product', 'simple_product_required',
-            array('product_attribute_set' => $testData['set_name']));
+            array('product_attribute_set' => $attributeSet));
         unset ($productData['general_sku']);
         //Preconditions
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->createAttributeSet($testData);
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
@@ -320,7 +344,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * <p>Expected results:</p>
      *  <p>1a. Meta Title field is equal to default value for meta_title attribute.</p>
      *  <p>1b. Meta Keywords field is equal to default value for meta_keyword attribute</p>
-     *  <p>1c. Meta Description field is equal to default value for meta_description atrribute.</p>
+     *  <p>1c. Meta Description field is equal to default value for meta_description attribute.</p>
      *
      * @param string $metaCode
      * @param string $metaField
@@ -484,6 +508,8 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      */
     public function emptyMetaMask($metaCode, $metaField, $fieldType)
     {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask'   => ''));
@@ -491,8 +517,6 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $this->productAttributeHelper()->editAttribute($metaCode,
             array('values_required' => 'Yes', 'default_' . $fieldType . '_value' => ''));
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Steps
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProductWithAutogeneration($productData, true);
