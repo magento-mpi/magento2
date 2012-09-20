@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
 <title><?php echo $this->getTitle() ?></title>
 <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>"/>
 <meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>"/>
@@ -18,6 +18,7 @@
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery/jquery.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery/head.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('mage/mage.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('mage/translate.js')?>"></script>
 <link rel="stylesheet" href="<?php echo $this->getSkinUrl('jquery/ui/css/jquery-ui.css')?>" type="text/css"
       media="all"/>
 <link rel="stylesheet" href="<?php echo $this->getSkinUrl('Mage_Page::css/validate.css') ?>" type="text/css"
@@ -25,6 +26,7 @@
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>
+<?php echo $this->helper('Mage_Core_Helper_Js')->getTranslatorScript() ?>
 <script type="text/javascript">
     //<![CDATA[
     <?php
@@ -40,7 +42,7 @@
             "<?php echo $this->getSkinUrl($translateJs)?>",
             "<?php echo $this->getSkinUrl('mage/localization/localize.js')?>"]
     };
-    (function($) {
+    (function ($) {
         $.mage.load.language('<?php echo $lang?>', mapping);
     })(jQuery);
     //]]>

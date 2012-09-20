@@ -31,13 +31,12 @@
     </form>
     <script type="text/javascript">
         //<![CDATA[
-        (function($) {
+        (function ($) {
             $.mage.event.observe('mage.newsletter.initialize', function (event, initData) {
                 initData.newsletterId = '#newsletter-validate-detail';
                 initData.newsletterInputId = '#newsletter';
                 initData.placeholder = '<?php echo $this->__('Enter your email address') ?>';
             });
-            $.mage.load.js("<?php echo $this->getSkinUrl('mage/translate.js')?>");
             $.mage.load.js("<?php echo $this->getSkinUrl('jquery/jquery.validate.js')?>");
             $.mage.load.js("<?php echo $this->getSkinUrl('jquery/additional-methods.js')?>");
             $.mage.load.js("<?php echo $this->getSkinUrl('jquery/jquery.metadata.js')?>");
