@@ -14,8 +14,6 @@
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
 {
-    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
-
     /**#@+
      * HTTP Response Codes
      */
@@ -77,11 +75,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
     /**#@-*/
 
-
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
-
-    /** @var string */
-    protected $_baseActionController;
 
     /**
      * @var Mage_Webapi_Model_Rest_Renderer_Interface
@@ -95,21 +89,9 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected $_presentation;
 
     /**
-     * Decorate request object.
+     * Get REST request.
      *
-     * @param Mage_Webapi_Model_Request $request
-     * @return Mage_Webapi_Controller_FrontAbstract
-     */
-    public function setRequest(Mage_Webapi_Model_Request $request)
-    {
-        $this->_request = new Mage_Webapi_Model_Rest_Request_Decorator($request);
-        return $this;
-    }
-
-    /**
-     * Return decorated request
-     *
-     * @return Mage_Webapi_Model_Rest_Request_Decorator
+     * @return Mage_Webapi_Controller_Request_Rest
      */
     public function getRequest()
     {
@@ -123,7 +105,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     public function init()
     {
-        $this->_baseActionController = self::BASE_ACTION_CONTROLLER;
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_rest.xml');
         /** @var Mage_Webapi_Model_Config_Rest $restConfig */
         $restConfig = Mage::getModel('Mage_Webapi_Model_Config_Rest', $configFiles);
@@ -201,10 +182,10 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
-     * @param Mage_Webapi_Model_Rest_Request_Decorator $request
+     * @param Mage_Webapi_Controller_Request_Rest $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _matchRoute(Mage_Webapi_Model_Rest_Request_Decorator $request)
+    protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
         $router->setRoutes($this->getRestConfig()->getRoutes());
@@ -264,11 +245,11 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Authenticate user
      * @todo remove fake authentication code
      *
-     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
      * @throws Mage_Webapi_Exception
+     * @param Mage_Webapi_Controller_RequestAbstract $request
      * @return string
      */
-    protected function _authenticate(Mage_Webapi_Model_Request_DecoratorAbstract $request)
+    protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
     {
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');

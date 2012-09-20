@@ -36,18 +36,18 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     protected $_paramsElementNameByMessageName = array();
 
     /** @var Mage_Core_Model_Config */
-    protected $_magentoConfig;
+    protected $_applicationConfig;
 
 
     /**
      * Initialize Magento config.
      *
      * @param array $configFiles
-     * @param Mage_Core_Model_Config $magentoConfig
+     * @param Mage_Core_Model_Config $applicationConfig
      */
-    public function __construct(array $configFiles, Mage_Core_Model_Config $magentoConfig = null)
+    public function __construct(array $configFiles, Mage_Core_Model_Config $applicationConfig = null)
     {
-        $this->_magentoConfig = $magentoConfig ? $magentoConfig : Mage::getConfig();
+        $this->_applicationConfig = $applicationConfig ? $applicationConfig : Mage::getConfig();
         parent::__construct($configFiles);
     }
 
@@ -442,7 +442,7 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     protected function _addModuleNameToPortType(&$moduleConfigDom, $configPath)
     {
-        $configPathWithoutCodeDir = str_replace($this->_magentoConfig->getOptions()->getCodeDir(), '', $configPath);
+        $configPathWithoutCodeDir = str_replace($this->_applicationConfig->getOptions()->getCodeDir(), '', $configPath);
         list($codePool, $namespace, $moduleName) = explode(DS, trim($configPathWithoutCodeDir, DS));
         $configModuleIdentifier = "{$namespace}_{$moduleName}";
         /** @var DOMElement $portType */

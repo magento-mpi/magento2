@@ -18,9 +18,9 @@
 class Mage_Webapi_Model_Rest_Request_Interpreter_Xml implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
 {
     /**
-     * Default name for item of non-associative array
+     * Default name for item of non-associative array.
      */
-    const ARRAY_NON_ASSOC_ITEM_NAME = 'data_item';
+    const DEFAULT_INDEXED_ARRAY_ITEM_NAME = 'data_item';
 
     /**
      * Load error string.
@@ -32,19 +32,19 @@ class Mage_Webapi_Model_Rest_Request_Interpreter_Xml implements Mage_Webapi_Mode
     protected $_loadErrorStr = null;
 
     /**
-     * Parse Request body into array of params
+     * Parse Request body into array of params.
      *
      * @param string $body  Posted content from request
      * @return array
-     * @throws Exception|Mage_Webapi_Exception
+     * @throws InvalidArgumentException
+     * @throws Mage_Webapi_Exception If decoding error occurs.
      */
     public function interpret($body)
     {
         if (!is_string($body)) {
-            throw new Exception(sprintf('Invalid data type "%s". String expected.', gettype($body)));
+            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
         $body = false !== strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
-
         // disable external entity loading to prevent possible vulnerability
         libxml_disable_entity_loader(true);
         set_error_handler(array($this, '_loadErrorHandler')); // Warnings and errors are suppressed
@@ -52,18 +52,16 @@ class Mage_Webapi_Model_Rest_Request_Interpreter_Xml implements Mage_Webapi_Mode
         restore_error_handler();
         // restore default behavior to make possible to load external entities
         libxml_disable_entity_loader(false);
-
         // Check if there was a error while loading file
         if ($this->_loadErrorStr !== null) {
             throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
         }
-
         $xml = $this->_toArray($config);
         return $xml;
     }
 
     /**
-     * Returns an associativearray from a SimpleXMLElement.
+     * Convert SimpleXMLElement to associative array.
      *
      * @param  SimpleXMLElement $xmlObject Convert a SimpleXMLElement into an array
      * @return array
@@ -99,7 +97,7 @@ class Mage_Webapi_Model_Rest_Request_Interpreter_Xml implements Mage_Webapi_Mode
                         $value = $this->_toArray($value);
                     }
                 } else {
-                    $value = (string) $value;
+                    $value = (string)$value;
                 }
                 if (array_key_exists($key, $config)) {
                     if (!is_array($config[$key]) || !array_key_exists(0, $config[$key])) {
@@ -107,7 +105,7 @@ class Mage_Webapi_Model_Rest_Request_Interpreter_Xml implements Mage_Webapi_Mode
                     }
                     $config[$key][] = $value;
                 } else {
-                    if (self::ARRAY_NON_ASSOC_ITEM_NAME != $key) {
+                    if (self::DEFAULT_INDEXED_ARRAY_ITEM_NAME != $key) {
                         $config[$key] = $value;
                     } else {
                         $config[] = $value;

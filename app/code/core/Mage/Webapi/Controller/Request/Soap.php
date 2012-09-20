@@ -9,7 +9,7 @@
  */
 
 /**
- * SOAP API Request decorator
+ * SOAP API Request
  *
  * @category   Mage
  * @package    Mage_Webapi
@@ -17,8 +17,19 @@
  * @method mixed getParam()
  * @method array getParams()
  */
-class Mage_Webapi_Model_Soap_Request_Decorator extends Mage_Webapi_Model_Request_DecoratorAbstract
+class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_RequestAbstract
 {
+    /**
+     * Initialize API type.
+     *
+     * @param string|null $uri
+     */
+    public function __construct($uri = null)
+    {
+        $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_SOAP);
+        parent::__construct($uri);
+    }
+
     /**
      * Identify versions of modules that should be used for API configuration file generation.
      *

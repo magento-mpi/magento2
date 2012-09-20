@@ -15,6 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Check this class implementation (it was copied from Magento 1 implementation)
 class Mage_Webapi_Model_Rest_Request_Uploader_Image extends Mage_Webapi_Model_Rest_Request_Uploader_File
 {
     /**

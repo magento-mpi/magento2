@@ -41,7 +41,7 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
     /**
      * Response render adapters
      */
-    const XML_PATH_WEBAPI_RESPONSE_RENDERS     = 'global/webapi/rest/response/renders';
+    const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
 
     /**
      * Get interpreter type for Request body according to Content-type HTTP header
@@ -50,7 +50,7 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
      */
     public function getRequestInterpreterAdapters()
     {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
+        return (array)Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
      */
     public function getResponseRenderAdapters()
     {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
+        return (array)Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
     }
 
     /**

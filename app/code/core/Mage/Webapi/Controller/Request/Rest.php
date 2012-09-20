@@ -9,21 +9,13 @@
  */
 
 /**
- * REST API Request decorator
+ * REST API Request
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
- * @method string getHeader()
- * @method string getRawBody()
- * @method bool isGet()
- * @method bool isPost()
- * @method bool isPut()
- * @method bool isDelete()
- * @method string getMethod()
- * @method string getApiType()
  */
-class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request_DecoratorAbstract
+class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_RequestAbstract
 {
     /**
      * Character set which must be used in request
@@ -37,21 +29,28 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     protected $_resourceType;
 
     /**
-     * Interpreter adapter
+     * Interpreter adapter.
      *
      * @var Mage_Webapi_Model_Rest_Request_Interpreter_Interface
      */
     protected $_interpreter;
 
-    /**
-     * Body params
-     *
-     * @var array
-     */
+    /** @var array */
     protected $_bodyParams;
 
     /**
-     * Get request interpreter
+     * Initialize API type.
+     *
+     * @param string|null $uri
+     */
+    public function __construct($uri = null)
+    {
+        $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_REST);
+        parent::__construct($uri);
+    }
+
+    /**
+     * Get request interpreter.
      *
      * @return Mage_Webapi_Model_Rest_Request_Interpreter_Interface
      */
@@ -64,7 +63,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Retrieve accept types understandable by requester in a form of array sorted by quality descending
+     * Retrieve accept types understandable by requester in a form of array sorted by quality descending.
      *
      * @return array
      */
@@ -101,7 +100,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Fetch data from HTTP Request body
+     * Fetch data from HTTP Request body.
      *
      * @return array
      */
@@ -114,7 +113,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Get Content-Type of request
+     * Get Content-Type of request.
      *
      * @return string
      * @throws Mage_Webapi_Exception
@@ -139,7 +138,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Retrieve one of CRUD operation dependent on HTTP method
+     * Retrieve one of CRUD operation dependent on HTTP method.
      *
      * @return string
      * @throws Mage_Webapi_Exception
@@ -162,7 +161,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Retrieve resource type
+     * Retrieve resource type.
      *
      * @return string
      */
@@ -172,7 +171,8 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Set resource type
+     * Set resource type.
+     *
      * @param string $resourceName
      */
     public function setResourceName($resourceName)
@@ -181,7 +181,7 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * Retrieve action type
+     * Retrieve action type.
      *
      * @return string|null
      */
@@ -190,6 +190,11 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
         return $this->_resourceType;
     }
 
+    /**
+     * Set resource type.
+     *
+     * @param $resourceType
+     */
     public function setResourceType($resourceType)
     {
         $this->_resourceType = $resourceType;
@@ -227,8 +232,9 @@ class Mage_Webapi_Model_Rest_Request_Decorator extends Mage_Webapi_Model_Request
     }
 
     /**
-     * It checks if the array in the request body is an associative one.
-     * It is required for definition of the dynamic aaction type (multi or single)
+     * Check if the array in the request body is an associative one.
+     *
+     * It is required for definition of the dynamic action type (multi or single).
      *
      * @return bool
      */

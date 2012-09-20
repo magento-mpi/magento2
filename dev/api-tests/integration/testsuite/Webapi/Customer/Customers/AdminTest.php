@@ -143,8 +143,8 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
         $this->_generateCustomers();
 
         $requestParams = array(
-            Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_FIELD => 'entity_id',
-            Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
+            Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_FIELD => 'entity_id',
+            Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
         );
         $response = $this->callGet('customers', $requestParams);
         $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());

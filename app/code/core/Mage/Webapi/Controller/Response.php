@@ -9,13 +9,13 @@
  */
 
 /**
- * API Response model
+ * Abstract API response.
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
+class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
 {
     /**
      * Character set which must be used in response
@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
      * Default message types
      */
     const MESSAGE_TYPE_SUCCESS = 'success';
-    const MESSAGE_TYPE_ERROR   = 'error';
+    const MESSAGE_TYPE_ERROR = 'error';
     const MESSAGE_TYPE_WARNING = 'warning';
     /**#@- */
 
@@ -41,11 +41,12 @@ class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
      * Set header appropriate to specified MIME type
      *
      * @param string $mimeType MIME type
-     * @return Mage_Webapi_Model_Response
+     * @return Mage_Webapi_Controller_Response
      */
     public function setMimeType($mimeType)
     {
-        return $this->setHeader('Content-Type', "{$mimeType}; charset=" . self::RESPONSE_CHARSET, true);
+        return $this->setHeader('Content-Type', "{$mimeType}; charset=" . self::RESPONSE_CHARSET,
+            true);
     }
 
     /**
@@ -55,7 +56,7 @@ class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
      * @param string $code
      * @param array $params
      * @param string $type
-     * @return Mage_Webapi_Model_Response
+     * @return Mage_Webapi_Controller_Response
      */
     public function addMessage($message, $code, $params = array(), $type = self::MESSAGE_TYPE_ERROR)
     {
@@ -88,7 +89,7 @@ class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
     /**
      * Clear messages
      *
-     * @return Mage_Webapi_Model_Response
+     * @return Mage_Webapi_Controller_Response
      */
     public function clearMessages()
     {
