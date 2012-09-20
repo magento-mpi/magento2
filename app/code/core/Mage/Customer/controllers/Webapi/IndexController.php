@@ -17,9 +17,8 @@
  */
 class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_ActionAbstract
 {
-    public function __construct(Mage_Webapi_Model_Request_DecoratorAbstract $request,
-        Mage_Webapi_Model_Response $response,
-        Mage_Core_Helper_Abstract $translationHelper = null
+    public function __construct(Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Response $response, Mage_Core_Helper_Abstract $translationHelper = null
     ) {
         $translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Customer_Helper_Data');
         parent::__construct($request, $response, $translationHelper);

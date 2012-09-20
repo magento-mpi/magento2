@@ -17,7 +17,7 @@ class Mage_Webapi_Controller_Router_Route_ApiTypeTest extends PHPUnit_Framework_
 
         $testApiType = 'test_api';
         $testUri = str_replace(':api_type', $testApiType, Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
-        $request = new Mage_Webapi_Model_Request();
+        $request = new Zend_Controller_Request_Http();
         $request->setRequestUri($testUri);
 
         $match = $route->match($request);

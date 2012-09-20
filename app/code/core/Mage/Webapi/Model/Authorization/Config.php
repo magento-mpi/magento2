@@ -16,7 +16,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Authorization_Config
+class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_Interface
 {
 
     /**
@@ -43,7 +43,7 @@ class Mage_Webapi_Model_Authorization_Config
     {
         $files = $this->_config
             ->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
-        return (array) $files;
+        return (array)$files;
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Webapi_Model_Authorization_Config
     }
 
     /**
-     * Return ACL Resources loaded from cache if enabled or from files merged previously
+     * Return ACL Resources
      *
      * @return DOMNodeList
      */
