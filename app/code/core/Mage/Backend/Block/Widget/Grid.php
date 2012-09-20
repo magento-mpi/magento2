@@ -777,50 +777,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Set subtotals
-     *
-     * @param boolean $flag
-     * @return Mage_Backend_Block_Widget_Grid
-     */
-    public function setCountSubTotals($flag = true)
-    {
-        $this->_countSubTotals = $flag;
-        return $this;
-    }
-
-    /**
-     * Return count subtotals
-     *
-     * @return boolean
-     */
-    public function getCountSubTotals()
-    {
-        return $this->_countSubTotals;
-    }
-
-    /**
-     * Set subtotal items
-     *
-     * @param array $items
-     * @return Mage_Backend_Block_Widget_Grid
-     */
-    public function setSubTotals(array $items)
-    {
-        $this->_subtotals = $items;
-        return $this;
-    }
-
-    /**
-     * Retrieve subtotal items
-     *
-     * @return array
-     */
-    public function getSubTotals()
-    {
-        return $this->_subtotals;
-    }
-
-    /**
      * Generate list of grid buttons
      *
      * @return string

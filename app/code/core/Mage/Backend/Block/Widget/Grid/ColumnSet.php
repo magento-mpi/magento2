@@ -252,8 +252,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function shouldRenderSubTotal($item)
     {
-        return ($this->getGrid()->getCountSubTotals() &&
-            count($this->getGrid()->getSubTotals()) > 0 &&
+        return ($this->getCountSubTotals() &&
+            count($this->getSubTotals()) > 0 &&
             count($this->getMultipleRows($item)) > 0
         );
     }
@@ -322,7 +322,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function getSubTotalItem($item)
     {
-        foreach ($this->getGrid()->getSubTotals() as $subtotalItem) {
+        foreach ($this->getSubTotals() as $subtotalItem) {
             foreach ($this->_groupedColumn as $groupedColumn) {
                 if ($subtotalItem->getData($groupedColumn) == $item->getData($groupedColumn)) {
                     return $subtotalItem;

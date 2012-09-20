@@ -138,7 +138,19 @@ class Mage_Backend_Block_Widget_Grid_Extended
     */
     public $_isCollapsed;
 
-    protected $_countSubTotals;
+    /**
+     * Count subtotals
+     *
+     * @var boolean
+     */
+    protected $_countSubTotals = false;
+
+    /**
+     * SubTotals
+     *
+     * @var array
+     */
+    protected $_subtotals = array();
 
     public function __construct(array $data = array())
     {
@@ -1176,5 +1188,49 @@ class Mage_Backend_Block_Widget_Grid_Extended
     public function getCollection()
     {
         return $this->_collection;
+    }
+
+    /**
+     * Set subtotals
+     *
+     * @param boolean $flag
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setCountSubTotals($flag = true)
+    {
+        $this->_countSubTotals = $flag;
+        return $this;
+    }
+
+    /**
+     * Return count subtotals
+     *
+     * @return boolean
+     */
+    public function getCountSubTotals()
+    {
+        return $this->_countSubTotals;
+    }
+
+    /**
+     * Set subtotal items
+     *
+     * @param array $items
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setSubTotals(array $items)
+    {
+        $this->_subtotals = $items;
+        return $this;
+    }
+
+    /**
+     * Retrieve subtotal items
+     *
+     * @return array
+     */
+    public function getSubTotals()
+    {
+        return $this->_subtotals;
     }
 }
