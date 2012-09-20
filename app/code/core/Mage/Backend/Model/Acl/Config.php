@@ -16,7 +16,7 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Acl_Config
+class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Interface
 {
     const CACHE_ID = 'backend_acl_resources';
 
@@ -72,7 +72,7 @@ class Mage_Backend_Model_Acl_Config
     /**
      * Return ACL Resources loaded from cache if enabled or from files merged previously
      *
-     * @return DOMDocument
+     * @return DOMNodeList
      */
     public function getAclResources()
     {
