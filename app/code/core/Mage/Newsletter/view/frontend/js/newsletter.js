@@ -77,7 +77,7 @@
                     inputField.val(newsletterInit.placeholder);
                 }
                 hasError = false;
-            }, 1);
+            }, 100);
         });
     });
 })(jQuery);
