@@ -43,7 +43,7 @@ class Enterprise2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest exten
      * <p>"Catalog Price Scope" dropdown is not displayed.</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6183
+     * @TestlinkId TL-MAGE-6182
      * @author Tatyana_Gonchar
      */
     function verificationCatalogPrice()

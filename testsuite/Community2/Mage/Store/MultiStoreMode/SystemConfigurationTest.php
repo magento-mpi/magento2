@@ -14,6 +14,12 @@
 
 class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Precondition for test:</p>
+     * <p>1. Login to backend.</p>
+     * <p>2. Navigate to System -> Manage Store.</p>
+     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality).</p>
+     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -46,14 +52,12 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
      * <p>Scope Selector is enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality).</p>
-     * <p>4.Go to System - Configuration - General.</p>
-     * <p>5.Expand Single Store Mode fieldset and enable Single Store Mode
-     * <p>6.Check for Scope selector</p>
+     * <p>2.Go to System - Configuration - General.</p>
+     * <p>3.Expand Single Store Mode fieldset and enable Single Store Mode </p>
+     * <p>4.Check for Scope selector</p>
      * <p>Expected result: </p>
      * <p>Scope Selector is displayed.</p>
-     * <p>7.Repeat previous step with disabled Single-Store Mode.</p>
+     * <p>5.Repeat previous step with disabled Single-Store Mode.</p>
      * <p>Expected result: </p>
      * <p>Scope Selector is displayed.</p>
      *
@@ -96,18 +100,16 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
      * <p>"Export Table Rates" functionality is enabled only on Website scope.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality.</p>
-     * <p>4.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
-     * <p>5.Select "Main Website" on the scope switcher</p>
-     * <p>6.Go to Sales - Shipping Methods.</p>
-     * <p>7.Check for "Table Rates" fieldset.</p>
+     * <p>2.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
+     * <p>3.Select "Main Website" on the scope switcher</p>
+     * <p>4.Go to Sales - Shipping Methods.</p>
+     * <p>5.Check for "Table Rates" fieldset.</p>
      * <p>Expected result: </p>
      * <p>"Export CSV" button is displayed.</p>
-     * <p>8.Change the scope to "Default Store View" or "Default Config".</p>
+     * <p>6.Change the scope to "Default Store View" or "Default Config".</p>
      * <p>Expected result: </p>
      * <p>"Export CSV" button is not displayed.</p>
-     * <p>9.Repeat previous steps with disabled Single-Store Mode.</p>
+     * <p>7.Repeat previous steps with disabled Single-Store Mode.</p>
      * <p>Expected result:</p>
      * <p>The same results as in previous case.</p>
      *
@@ -141,18 +143,16 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
      * <p>"Account Sharing Options" functionality is enabled only on Default Config scope.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality).</p>
-     * <p>4.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
-     * <p>5.Select "Default Config" on the scope switcher</p>
-     * <p>6.Go to Customer - Customer Configuration.</p>
-     * <p>7.Check for "Account Sharing Options" fieldset.</p>
+     * <p>2.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
+     * <p>3.Select "Default Config" on the scope switcher</p>
+     * <p>4.Go to Customer - Customer Configuration.</p>
+     * <p>5.Check for "Account Sharing Options" fieldset.</p>
      * <p>Expected result: </p>
      * <p>"Account Sharing Options" fieldset is displayed.</p>
-     * <p>8.Change the scope to "Main Website" or "Default Store View".</p>
+     * <p>6.Change the scope to "Main Website" or "Default Store View".</p>
      * <p>Expected result: </p>
      * <p>"Account Sharing Options" fieldset is not displayed.</p>
-     * <p>9.Repeat previous steps with disabled Single-Store Mode.</p>
+     * <p>7.Repeat previous steps with disabled Single-Store Mode.</p>
      * <p>Expected result:</p>
      * <p>The same results as in previous case.</p>
      *
@@ -186,18 +186,16 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
      * <p>"Price" fieldset is displayed only on Default Config scope.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality.</p>
-     * <p>4.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
-     * <p>5.Select "Default Config" on the scope switcher</p>
-     * <p>6.Go to Catalog - Catalog.</p>
-     * <p>7.Check for "Price" fieldset.</p>
+     * <p>3.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
+     * <p>4.Select "Default Config" on the scope switcher</p>
+     * <p>5.Go to Catalog - Catalog.</p>
+     * <p>6.Check for "Price" fieldset.</p>
      * <p>Expected result: </p>
-     * <p>Price" fieldset is displayed.</p>
-     * <p>8.Change the scope to "Main Website" or "Default Store View".</p>
+     * <p>"Price" fieldset is displayed.</p>
+     * <p>7.Change the scope to "Main Website" or "Default Store View".</p>
      * <p>Expected result: </p>
      * <p>"Price" fieldset is not displayed.</p>
-     * <p>9.Repeat previous steps with disabled Single-Store Mode.</p>
+     * <p>8.Repeat previous steps with disabled Single-Store Mode.</p>
      * <p>Expected result:</p>
      * <p>The same results as in previous case.</p>
      *
@@ -228,24 +226,22 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
     }
 
     /**
-     * <p>Debug" fieldset is displayed only on Main Website and Default Store View scopes.</p>
+     * <p>"Debug" fieldset is displayed only on Main Website and Default Store View scopes.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality.</p>
-     * <p>4.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
-     * <p>5.Select "Main Website" on the scope switcher</p>
-     * <p>6.Go to Advanced - Developer.</p>
-     * <p>7.Check for "Debug" fieldset.</p>
+     * <p>2.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
+     * <p>3.Select "Main Website" on the scope switcher</p>
+     * <p>4.Go to Advanced - Developer.</p>
+     * <p>5.Check for "Debug" fieldset.</p>
      * <p>Expected result: </p>
      * <p>"Debug" fieldset is displayed.</p>
-     * <p>8.Change the scope to "Default Store View" </p>
+     * <p>6.Change the scope to "Default Store View" </p>
      * <p>Expected result: </p>
      * <p>"Debug" fieldset is displayed.</p>
-     * <p>9.Change the scope to "Default Config" </p>
+     * <p>7.Change the scope to "Default Config" </p>
      * <p>Expected result: </p>
      * <p>"Debug" fieldset is not displayed.</p>
-     * <p>10.Repeat previous steps with disabled Single-Store Mode.</p>
+     * <p>8.Repeat previous steps with disabled Single-Store Mode.</p>
      * <p>Expected result:</p>
      * <p>The same results as in previous case.</p>
      *
@@ -279,13 +275,11 @@ class Community2_Mage_Store_MultiStoreMode_SystemConfigurationTest extends Mage_
      * <p>Hints for fields are enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.If there only one Store View - create one more (for enabling Multi Store Mode functionality.</p>
-     * <p>4.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
-     * <p>5.Open required tab and fieldset and check hints </p>
+     * <p>2.Go to System - Configuration - General, expand Single-Store Mode fieldset and enable Single Store Mode</p>
+     * <p>3.Open required tab and fieldset and check hints </p>
      * <p>Expected result: </p>
      * <p>Hints are displayed</p>
-     * <p>6.Repeat previous steps with disabled Single-Store Mode.</p>
+     * <p>4.Repeat previous steps with disabled Single-Store Mode.</p>
      * <p>Expected result:</p>
      * <p>The same results as in previous case.</p>
      *
