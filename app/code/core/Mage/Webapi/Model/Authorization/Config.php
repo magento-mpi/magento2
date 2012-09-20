@@ -43,7 +43,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         $files = $this->_config
             ->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
-        return (array) $files;
+        return (array)$files;
     }
 
     /**

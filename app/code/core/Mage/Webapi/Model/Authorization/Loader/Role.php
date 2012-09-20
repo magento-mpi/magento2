@@ -17,7 +17,7 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
 {
-    /** @var Object Mage_Webapi_Model_Resource_Acl_Role */
+    /** @var Mage_Webapi_Model_Resource_Acl_Role */
     protected $_resourceModel;
 
     /** @var Mage_Core_Model_Config */
