@@ -44,6 +44,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
+        $role = $this->_authenticate($this->getRequest());
         $this->_checkOperationDeprecation($operation);
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
@@ -53,8 +54,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $controllerInstance = $this->_getActionControllerInstance($controllerClass);
         $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
         try {
-            // TODO: ACL check is not implemented yet
-            $this->_checkResourceAcl();
+            $this->_checkResourceAcl($role, $resourceName, $method);
 
             $arguments = reset($arguments);
             /** @var Mage_Api_Helper_Data $apiHelper */
@@ -78,6 +78,22 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             Mage::logException($e);
             $this->_soapFault($e->getMessage());
         }
+    }
+
+    /**
+     * Authenticate user
+     * @todo remove fake authentication code
+     *
+     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
+     * @return string
+     */
+    protected function _authenticate(Mage_Webapi_Model_Request_DecoratorAbstract $request)
+    {
+        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
+        $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
+        /** @var $user Mage_Webapi_Model_Acl_User */
+        $user = $collection->getFirstItem();
+        return $user->getRoleId();
     }
 
     /**
@@ -124,25 +140,38 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function dispatch()
     {
-        $this->_setResponseContentType('application/soap+xml');
         try {
             $this->_initResourceConfig($this->getRequest()->getRequestedModules());
             if ($this->getRequest()->getParam('wsdl') !== null) {
-                // TODO: Check if PHP SOAP client can handle soap fault when requesting WSDL
-                $responseBody = $this->_getWsdlContent();
-                /** set content type to text/xml in case when WSDL was generated successfully */
                 $this->_setResponseContentType('text/xml');
+                $responseBody = $this->_getWsdlContent();
             } else {
+                $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_getSoapServer()->handle();
             }
+            $this->_setResponseBody($responseBody);
         } catch (RuntimeException $e) {
-            $responseBody = $this->_getSoapFaultMessage($e->getMessage(), self::FAULT_CODE_SENDER);
+            self::_processBadRequest($e->getMessage());
         } catch (Exception $e) {
-            $responseBody = $this->_getSoapFaultMessage();
+            self::_processBadRequest($this->_helper->__('Internal error.'));
         }
-        $this->_setResponseBody($responseBody);
+
         $this->getResponse()->sendResponse();
         return $this;
+    }
+
+    /**
+     * Process request as HTTP 400 and set error message.
+     *
+     * @param string $message
+     */
+    protected function _processBadRequest($message)
+    {
+        $this->_setResponseContentType('text/plain');
+        $this->getResponse()->setHttpResponseCode(400);
+
+        $response = $this->_helper->__('HTTP/1.1 400 Bad Request.') . PHP_EOL . PHP_EOL . $message;
+        $this->_setResponseBody($response);
     }
 
     /**

@@ -50,6 +50,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      *  Default error messages
      */
+    const RESOURCE_FORBIDDEN = 'Access to resource forbidden.';
     const RESOURCE_NOT_FOUND = 'Resource not found.';
     const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
     const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
@@ -140,28 +141,33 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-            // TODO: Introduce Authentication and Authorization
-//            $role = $this->_authenticate($this->getRequest());
+            // TODO: Introduce Authentication
+            $role = $this->_authenticate($this->getRequest());
 
             $route = $this->_matchRoute($this->getRequest());
             $this->getRequest()->setResourceName($route->getResourceName());
             $this->getRequest()->setResourceType($route->getResourceType());
-//            $this->_checkResourceAcl($role, $route->getResourceName());
+
             $this->_initResourceConfig($this->getRequest()->getRequestedModules());
-            $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
-            $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $operation = $this->_getOperationName();
             $this->_checkOperationDeprecation($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
-            // TODO: Think about passing parameters if they will be available and valid in the resource action
+            $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
+            $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
 
+            $this->_checkResourceAcl($role, $route->getResourceName(), $method);
+
+            // TODO: Think about passing parameters if they will be available and valid in the resource action
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
         } catch (RuntimeException $e) {
             // TODO: Implement proper error handling
             switch ($e->getCode()) {
+                case self::EXCEPTION_CODE_RESOURCE_FORBIDDEN:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_FORBIDDEN));
+                    break;
                 case self::EXCEPTION_CODE_RESOURCE_NOT_FOUND:
                     $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_NOT_FOUND));
                     break;
@@ -256,22 +262,29 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Authenticate user
+     * @todo remove fake authentication code
      *
+     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
      * @throws Mage_Webapi_Exception
-     * @param Mage_Webapi_Model_Request $request
      * @return string
      */
-    protected function _authenticate(Mage_Webapi_Model_Request $request)
+    protected function _authenticate(Mage_Webapi_Model_Request_DecoratorAbstract $request)
     {
-        try {
-            /** @var $oauthServer Mage_Oauth_Model_Server */
-            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
-            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
-        } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
-        }
-        // TODO: implement consumer role loading
-        return $consumerKey;
+        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
+        $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
+        /** @var $user Mage_Webapi_Model_Acl_User */
+        $user = $collection->getFirstItem();
+        return $user->getRoleId();
+
+//        try {
+//            /** @var $oauthServer Mage_Oauth_Model_Server */
+//            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
+//            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
+//        } catch (Exception $e) {
+//            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+//        }
+//        // TODO: implement consumer role loading
+//        return $consumerKey;
     }
 
     /**

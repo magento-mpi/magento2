@@ -51,11 +51,11 @@ class Mage_Webapi_Controller_Router_Rest
      * Route the Request, the only responsibility of the class
      * Find route that match current URL, set parameters of the route to Request object
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
      * @throws Mage_Webapi_Exception
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function match(Mage_Webapi_Model_Request $request)
+    public function match(Mage_Webapi_Model_Request_DecoratorAbstract $request)
     {
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         foreach ($this->getRoutes() as $route) {

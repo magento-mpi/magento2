@@ -32,11 +32,12 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
      * @param Mage_Webapi_Model_Response $response
      * @param Mage_Core_Helper_Abstract $translationHelper
      */
-    public function __construct(Mage_Webapi_Model_Request $request, Mage_Webapi_Model_Response $response,
+    public function __construct(Mage_Webapi_Model_Request_DecoratorAbstract $request,
+        Mage_Webapi_Model_Response $response,
         Mage_Core_Helper_Abstract $translationHelper
     ) {
         $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
