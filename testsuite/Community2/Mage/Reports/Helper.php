@@ -57,23 +57,21 @@ class Community2_Mage_Reports_Helper extends Mage_Selenium_TestCase
      */
     public function verifyReportSortingByColumn(array $data, $column)
     {
-        $currentSorting = array();
-        $newSorting = array();
-        for ($i = 0; $i < count($data); $i++) {
-            $currentSorting[$i] = $data[$i][$column];
-            $newSorting[$i] = $data[$i][$column];
-        }
-        sort($newSorting);
-        $sortedReport = array();
-        for ($i = 0; $i < count($data); $i++) {
-            for ($j = 0; $j < count($data); $j++) {
-                if ($currentSorting[$i] && $newSorting[$j] && $currentSorting[$i] == $newSorting[$j]) {
-                    $sortedReport[$j] = $data[$i];
-                    unset($currentSorting[$i]);
-                    unset($newSorting[$j]);
+        $sortedReport = $data;
+
+        for ($i = 0; $i < count($data)-1; $i++) {
+            for ($j = 0; $j < count($data)-1; $j++) {
+                $columnValues = array($sortedReport[$j][$column], $sortedReport[$j+1][$column]);
+                $columnValuesSorted = $columnValues;
+                sort($columnValuesSorted);
+                if ($columnValues != $columnValuesSorted) {
+                    $rowTemp = $sortedReport[$j];
+                    $sortedReport[$j] = $sortedReport[$j+1];
+                    $sortedReport[$j+1] = $rowTemp;
                 }
             }
         }
+
         for ($i = 0; $i < count($sortedReport); $i++) {
             $this->assertEquals($i+1, $this->searchDataInReport($sortedReport[$i]),
                 "Report sorting by $column is not correct");
