@@ -10,10 +10,10 @@
 
 
 /**
- * Backend Acl Config model
+ * Api Acl Config model
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Webapi_Model_Authorization_Config
@@ -23,7 +23,6 @@ class Mage_Webapi_Model_Authorization_Config
      * @var Mage_Core_Model_Config
      */
     protected $_config;
-
 
     /**
      * @var Magento_Acl_Config_Reader

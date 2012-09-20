@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="customer" title="Manage Customers">
+                <resource id="customer/create" title="Create Customer" />
+                <resource id="customer/update" title="Edit customer" />
+            </resource>
+        </resources>
+    </acl>
+</config>

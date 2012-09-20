@@ -9,6 +9,7 @@
  */
 
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
+define('DS', DIRECTORY_SEPARATOR);
 
 $includePaths = array(
     "./framework",

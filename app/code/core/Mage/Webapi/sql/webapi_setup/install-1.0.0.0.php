@@ -28,6 +28,10 @@ $table = $installer->getConnection()
         array(
             'nullable'  => false,),
         'Role name is displayed in Adminhtml interface')
+    ->addIndex(
+        $installer->getIdxName('webapi_role', array('role_name'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('role_name'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->setComment('Roles of unified webapi ACL');
 $installer->getConnection()->createTable($table);
 
@@ -56,6 +60,10 @@ $table = $installer->getConnection()
         $installer->getIdxName('webapi_user', array('role_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
         array('role_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX))
+    ->addIndex(
+        $installer->getIdxName('webapi_user', array('user_name'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('user_name'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName('webapi_user', 'role_id', 'webapi_role', 'role_id'),
         'role_id',

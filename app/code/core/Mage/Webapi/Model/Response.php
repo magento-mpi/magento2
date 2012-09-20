@@ -15,7 +15,6 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-// TODO: Try to merge Webapi response with Mage_Core_Controller_Response_Http to have the single class
 class Mage_Webapi_Model_Response extends Zend_Controller_Response_Http
 {
     /**

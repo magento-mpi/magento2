@@ -26,4 +26,16 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     {
         $this->_init('webapi_rule', 'rule_id');
     }
+
+    /**
+     * Get all rules from DB
+     *
+     * @return array
+     */
+    public function getRuleList()
+    {
+        $adapter = $this->getReadConnection();
+        $select = $adapter->select()->from($this->getMainTable(), array('resource_id', 'role_id'));
+        return $adapter->fetchAll($select);
+    }
 }

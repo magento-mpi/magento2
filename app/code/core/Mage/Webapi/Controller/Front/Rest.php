@@ -14,28 +14,21 @@
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
 {
-    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_Rest_ActionAbstract';
-
-    /**#@+
-     * Version limits
-     */
-    const VERSION_MIN = 1;
-    const VERSION_MAX = 200;
-    /**#@-*/
+    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
     /**#@+
      * HTTP Response Codes
      */
-    const HTTP_OK                 = 200;
-    const HTTP_CREATED            = 201;
-    const HTTP_MULTI_STATUS       = 207;
-    const HTTP_BAD_REQUEST        = 400;
-    const HTTP_UNAUTHORIZED       = 401;
-    const HTTP_FORBIDDEN          = 403;
-    const HTTP_NOT_FOUND          = 404;
+    const HTTP_OK = 200;
+    const HTTP_CREATED = 201;
+    const HTTP_MULTI_STATUS = 207;
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_FORBIDDEN = 403;
+    const HTTP_NOT_FOUND = 404;
     const HTTP_METHOD_NOT_ALLOWED = 405;
-    const HTTP_NOT_ACCEPTABLE     = 406;
-    const HTTP_INTERNAL_ERROR     = 500;
+    const HTTP_NOT_ACCEPTABLE = 406;
+    const HTTP_INTERNAL_ERROR = 500;
     /**#@- */
 
     /**#@+
@@ -49,7 +42,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * HTTP methods supported by REST
      */
     const HTTP_METHOD_CREATE = 'create';
-    const HTTP_METHOD_RETRIEVE = 'retrieve';
+    const HTTP_METHOD_GET = 'get';
     const HTTP_METHOD_UPDATE = 'update';
     const HTTP_METHOD_DELETE = 'delete';
     /**#@-*/
@@ -57,12 +50,13 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      *  Default error messages
      */
+    const RESOURCE_FORBIDDEN = 'Access to resource forbidden.';
     const RESOURCE_NOT_FOUND = 'Resource not found.';
     const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
     const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
     const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
     const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
-    const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
+    const RESOURCE_DATA_INVALID = 'Resource data invalid.';
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
     /**#@-*/
@@ -70,11 +64,11 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      *  Default collection resources error messages
      */
-    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
+    const RESOURCE_COLLECTION_PAGING_ERROR = 'Resource collection paging error.';
     const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
+    const RESOURCE_COLLECTION_ORDERING_ERROR = 'Resource collection ordering error.';
+    const RESOURCE_COLLECTION_FILTERING_ERROR = 'Resource collection filtering error.';
+    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR = 'Resource collection including additional attributes error.';
     /**#@-*/
 
     /**#@+
@@ -90,7 +84,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected $_baseActionController;
 
     /**
-     * @var Mage_Webapi_Model_Renderer_Interface
+     * @var Mage_Webapi_Model_Rest_Renderer_Interface
      */
     protected $_renderer;
 
@@ -99,6 +93,28 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /** @var Mage_Webapi_Controller_Front_Rest_Presentation */
     protected $_presentation;
+
+    /**
+     * Decorate request object.
+     *
+     * @param Mage_Webapi_Model_Request $request
+     * @return Mage_Webapi_Controller_FrontAbstract
+     */
+    public function setRequest(Mage_Webapi_Model_Request $request)
+    {
+        $this->_request = new Mage_Webapi_Model_Rest_Request_Decorator($request);
+        return $this;
+    }
+
+    /**
+     * Return decorated request
+     *
+     * @return Mage_Webapi_Model_Rest_Request_Decorator
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
 
     /**
      * Extend parent with REST specific config initialization and server errors processing mechanism initialization
@@ -125,26 +141,53 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-        // TODO: Introduce Authentication and Authorization
-//            $role = $this->_authenticate($this->getRequest());
+            // TODO: Introduce Authentication
+            $role = $this->_authenticate($this->getRequest());
 
             $route = $this->_matchRoute($this->getRequest());
             $this->getRequest()->setResourceName($route->getResourceName());
             $this->getRequest()->setResourceType($route->getResourceType());
-//            $this->_checkResourceAcl($role, $route->getResourceName());
 
+            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
+            $operation = $this->_getOperationName();
+            $this->_checkOperationDeprecation($operation);
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $method = $this->_getMethodName($route->getResourceType());
-            // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $action = $method . $this->_getAvailableMethodSuffix($method, $controllerInstance);
+            $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
 
+            $this->_checkResourceAcl($role, $route->getResourceName(), $method);
+
+            // TODO: Think about passing parameters if they will be available and valid in the resource action
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
+        } catch (RuntimeException $e) {
+            // TODO: Implement proper error handling
+            switch ($e->getCode()) {
+                case self::EXCEPTION_CODE_RESOURCE_FORBIDDEN:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_FORBIDDEN));
+                    break;
+                case self::EXCEPTION_CODE_RESOURCE_NOT_FOUND:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_NOT_FOUND));
+                    break;
+                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
+                    break;
+                default:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_BAD_REQUEST));
+                    break;
+            }
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_addException($e);
+            switch ($e->getCode()) {
+                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
+                    break;
+                default:
+                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_INTERNAL_ERROR));
+                    break;
+            }
         }
 
         Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
@@ -158,10 +201,10 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
-     * @param Mage_Webapi_Model_Request $request
+     * @param Mage_Webapi_Model_Rest_Request_Decorator $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _matchRoute(Mage_Webapi_Model_Request $request)
+    protected function _matchRoute(Mage_Webapi_Model_Rest_Request_Decorator $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
         $router->setRoutes($this->getRestConfig()->getRoutes());
@@ -169,83 +212,30 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Identify required action name based on HTTP request parameters
+     * Identify operation name according to HTTP request parameters
      *
-     * @param string $resourceType
      * @return string
      */
-    protected function _getMethodName($resourceType)
+    protected function _getOperationName()
     {
+        // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_RETRIEVE => 'multiGet',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'multiGet',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_RETRIEVE => 'get',
+            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
-        /** @var Mage_Webapi_Model_Request $request */
-        $request = $this->getRequest();
-        $httpMethod = $request->getHttpMethod();
+        $httpMethod = $this->getRequest()->getHttpMethod();
+        $resourceType = $this->getRequest()->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
-        return $methodName;
-    }
-
-    /**
-     * Find the most appropriate version suffix for the requested action.
-     *
-     * If there is no action with requested version, fallback mechanism is used.
-     * If there is no appropriate action found after fallback - exception is thrown.
-     *
-     * @param string $methodName
-     * @param Mage_Webapi_Controller_Rest_ActionAbstract $controllerInstance
-     * @return string
-     * @throws Mage_Webapi_Exception|Exception
-     */
-    protected function _getAvailableMethodSuffix($methodName, $controllerInstance)
-    {
-        $methodVersion = $this->_getVersion();
-        while ($methodVersion >= self::VERSION_MIN) {
-            $methodSuffix = 'V' . $methodVersion;
-            if ($controllerInstance->hasAction($methodName . $methodSuffix)) {
-                return $methodSuffix;
-            }
-            $methodVersion--;
-        }
-        // TODO: Think about better messages
-        Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
-    }
-
-    /**
-     * Get correct version of the resource model
-     *
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getVersion()
-    {
-//        /** @var Mage_Webapi_Model_Request $request */
-//        $request = $this->getRequest();
-//        $requestedVersion = $request->getVersion();
-//        if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
-//            throw new Mage_Webapi_Exception(
-//                sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
-//                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
-//            );
-//        }
-        // TODO: Implement versioning
-        $version = 1;
-        if ($version > self::VERSION_MAX) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(
-                Mage::helper('Mage_Webapi_Helper_Data')->__("Resource version cannot exceed %s", self::VERSION_MAX),
-                Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR
-            );
-        }
-        return (int)$version;
+        $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
+        return $operationName;
     }
 
     /**
@@ -272,22 +262,29 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Authenticate user
+     * @todo remove fake authentication code
      *
+     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
      * @throws Mage_Webapi_Exception
-     * @param Mage_Webapi_Model_Request $request
      * @return string
      */
-    protected function _authenticate(Mage_Webapi_Model_Request $request)
+    protected function _authenticate(Mage_Webapi_Model_Request_DecoratorAbstract $request)
     {
-        try {
-            /** @var $oauthServer Mage_Oauth_Model_Server */
-            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
-            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
-        } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
-        }
-        // TODO: implement consumer role loading
-        return $consumerKey;
+        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
+        $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
+        /** @var $user Mage_Webapi_Model_Acl_User */
+        $user = $collection->getFirstItem();
+        return $user->getRoleId();
+
+//        try {
+//            /** @var $oauthServer Mage_Oauth_Model_Server */
+//            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
+//            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
+//        } catch (Exception $e) {
+//            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+//        }
+//        // TODO: implement consumer role loading
+//        return $consumerKey;
     }
 
     /**
@@ -333,7 +330,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
     {
-        $processor = new Mage_Webapi_Model_Error_Processor();
+        $processor = new Mage_Webapi_Model_Rest_Error_Processor();
         if (!Mage::getIsDeveloperMode()) {
             $processor->saveReport($detailedErrorMessage);
         }
@@ -342,8 +339,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Generate and set HTTP response code, error messages to Response object
-     *
-     * @return Mage_Webapi_Model_Server
      */
     protected function _renderMessages()
     {
@@ -380,14 +375,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Model_Renderer_Interface
+     * @return Mage_Webapi_Model_Rest_Renderer_Interface
      */
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            /** @var $request Mage_Webapi_Model_Request */
-            $request = $this->getRequest();
-            $this->_renderer = Mage_Webapi_Model_Renderer::factory($request->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

@@ -18,32 +18,53 @@
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Request interpret adapters
-     */
-    const XML_PATH_Webapi_REQUEST_INTERPRETERS = 'global/webapi/request/interpreters';
-
-    /**
-     * Response render adapters
-     */
-    const XML_PATH_Webapi_RESPONSE_RENDERS     = 'global/webapi/response/renders';
-
-    /**
-     * Get interpreter type for Request body according to Content-type HTTP header
+     * Reformat request data to be compatible with method specified interface: <br/>
+     * - sort arguments in correct order <br/>
+     * - set default values for omitted arguments
      *
-     * @return array
+     * @param string|object $class
+     * @param string $methodName
+     * @param array $requestData Data to be passed to method
+     * @return array Array of prepared method arguments
+     * @throws RuntimeException
      */
-    public function getRequestInterpreterAdapters()
+    public function prepareMethodParams($class, $methodName, $requestData)
     {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_Webapi_REQUEST_INTERPRETERS);
+        $method = new ReflectionMethod($class, $methodName);
+        $reflectionParameters = $method->getParameters();
+        $preparedParams = array();
+        /** @var $parameter ReflectionParameter */
+        foreach ($reflectionParameters as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($requestData[$parameterName])) {
+                $preparedParams[$parameterName] = $requestData[$parameterName];
+            } else {
+                if ($parameter->isOptional()) {
+                    $preparedParams[$parameterName] = $parameter->getDefaultValue();
+                } else {
+                    throw new RuntimeException($this->__('Required parameter "%s" is missing.', $parameterName));
+                }
+            }
+        }
+        return $preparedParams;
     }
 
     /**
-     * Get interpreter type for Request body according to Content-type HTTP header
+     * Convert objects and arrays to array recursively.
      *
-     * @return array
+     * @param  array|object $data
      */
-    public function getResponseRenderAdapters()
+    public function toArray(&$data)
     {
-        return (array) Mage::app()->getConfig()->getNode(self::XML_PATH_Webapi_RESPONSE_RENDERS);
+        if (is_object($data)) {
+            $data = get_object_vars($data);
+        }
+        if (is_array($data)) {
+            foreach ($data as &$value) {
+                if (is_array($value) or is_object($value)) {
+                    $this->toArray($value);
+                }
+            }
+        }
     }
 }

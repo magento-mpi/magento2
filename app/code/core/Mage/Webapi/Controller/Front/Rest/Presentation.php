@@ -29,41 +29,14 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     // TODO: Think about interface refactoring
     public function fetchRequestData($methodName, $controllerInstance, $action)
     {
-        $methodReflection = new ReflectionMethod($controllerInstance, $action);
         // TODO: Refactor this and take param initialized with post data from anotations
         $parameters = array_merge(
             $this->getRequest()->getParams(),
             array('data' => $this->_getRequestData($methodName))
         );
-        $actionArguments = $this->_prepareMethodArguments($methodReflection->getParameters(), $parameters);
+        $actionArguments = $this->_frontController->getHelper()
+            ->prepareMethodParams($controllerInstance, $action, $parameters);
         return $actionArguments;
-    }
-
-    /**
-     * Convert request data into method arguments list.
-     * Sort in correct order, set default values for omitted parameters.
-     *
-     * @param ReflectionParameter[] $reflectionParameters
-     * @param array $requestData
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function _prepareMethodArguments($reflectionParameters, $requestData) {
-
-        $methodArguments = array();
-        foreach($reflectionParameters as $parameter){
-            $parameterName = $parameter->getName();
-            if( isset( $requestData[$parameterName] ) ){
-                $methodArguments[$parameterName] = $requestData[$parameterName];
-            } else {
-                if($parameter->isOptional()){
-                    $methodArguments[$parameterName] = $parameter->getDefaultValue();
-                } else {
-                    throw new InvalidArgumentException("Required parameter \"$parameterName\" is missing.", 0);
-                }
-            }
-        }
-        return $methodArguments;
     }
 
     /**
@@ -82,6 +55,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                     $createdItem = $outputData;
                     $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 } else {
+                    // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
                     $this->getResponse()->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
                 }
                 if ($this->getResponse()->getMessages()) {
@@ -156,9 +130,10 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      */
     protected function _getRequestData($method)
     {
-        $processedInputData = $this->getRequest()->getBodyParams();
+        $processedInputData = null;
         switch ($method) {
             case 'create':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // request data must be checked before the create type identification
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
@@ -168,9 +143,11 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 }
                 break;
             case 'update':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // TODO: Implement data filtration
                 break;
             case 'multiUpdate':
+                $processedInputData = $this->getRequest()->getBodyParams();
                 // TODO: Implement fields filtration
                 break;
             case 'multiDelete':
@@ -196,12 +173,12 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Get renderer if not exists create
      *
-     * @return Mage_Webapi_Model_Renderer_Interface
+     * @return Mage_Webapi_Model_Rest_Renderer_Interface
      */
     public function getRenderer()
     {
         if (!$this->_renderer) {
-            $renderer = Mage_Webapi_Model_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
             $this->setRenderer($renderer);
         }
 
@@ -211,9 +188,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Set renderer
      *
-     * @param Mage_Webapi_Model_Renderer_Interface $renderer
+     * @param Mage_Webapi_Model_Rest_Renderer_Interface $renderer
      */
-    public function setRenderer(Mage_Webapi_Model_Renderer_Interface $renderer)
+    public function setRenderer(Mage_Webapi_Model_Rest_Renderer_Interface $renderer)
     {
         $this->_renderer = $renderer;
     }
