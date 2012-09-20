@@ -13,7 +13,7 @@
             alt: '[TR]',
             template: '<img alt="${alt}" src="${img}">',
             zIndex: 2000,
-            editSelector: '[translate]',
+            editSelector: '[data-translate]',
             delay: 2000,
             offsetTop: -3
         },

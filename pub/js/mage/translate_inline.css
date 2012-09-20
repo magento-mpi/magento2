@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-[translate], .translate-inline { /* background:black; font-weight:bold; color:red; */ outline: dotted 1px red!important;}
+[data-translate], .translate-inline { /* background:black; font-weight:bold; color:red; */ outline: dotted 1px red!important;}
 * html .translate-inline,
 *+html .translate-inline{ border: dotted 1px red !important;}
 .translate-inline-script, .translate-inline-title { background:yellow; color:black; font-weight:bold; }

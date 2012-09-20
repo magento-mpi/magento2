@@ -258,10 +258,16 @@ class Mage_Core_Model_Translate_Inline
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/translate_inline.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('mage/translate_inline.css') ?>"/>
 
-<div id="translate-inline-trig"><img src="<?php echo $trigImg ?>" alt="[TR]"/></div>
 <script type="text/javascript">
-    new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php
-        echo Mage::getDesign()->getArea() ?>');
+    (function($){
+        $(document).ready(function() {
+            $(this).translateInline({
+                ajaxUrl: '<?php echo $ajaxUrl ?>',
+                area: '<?php echo Mage::getDesign()->getArea() ?>',
+                editTrigger: {img: '<?php echo $trigImg ?>'}
+            });
+        });
+    })(jQuery);
 </script>
 <?php
         $html = ob_get_clean();
@@ -372,13 +378,13 @@ class Mage_Core_Model_Translate_Inline
             $attrRegExp = '#' . $this->_tokenRegex . '#S';
             $trArr = $this->_getTranslateData($attrRegExp, $tagHtml, array($this, '_getAttributeLocation'));
             if ($trArr) {
-                $transRegExp = '# translate=' . $quoteHtml . '\[([^'.preg_quote($quoteHtml).']*)]' . $quoteHtml . '#i';
+                $transRegExp = '# data-translate=' . $quoteHtml . '\[([^'.preg_quote($quoteHtml).']*)]' . $quoteHtml . '#i';
                 if (preg_match($transRegExp, $tagHtml, $m)) {
                     $tagHtml = str_replace($m[0], '', $tagHtml); //remove tra
-                    $trAttr  = ' translate=' . $quoteHtml
+                    $trAttr  = ' data-translate=' . $quoteHtml
                         . htmlspecialchars('[' . $m[1] . ',' . join(',', $trArr) . ']') . $quoteHtml;
                 } else {
-                    $trAttr  = ' translate=' . $quoteHtml
+                    $trAttr  = ' data-translate=' . $quoteHtml
                         . htmlspecialchars('[' . join(',', $trArr) . ']') . $quoteHtml;
                 }
                 $tagHtml = substr_replace($tagHtml , $trAttr, strlen($tagMatch[1][0])+1, 1);
@@ -421,7 +427,7 @@ class Mage_Core_Model_Translate_Inline
     protected function _applySpecialTagsFormat($tagHtml, $tagName, $trArr)
     {
         return $tagHtml . '<span class="translate-inline-' . $tagName
-            . '" translate='
+            . '" data-translate='
             . $this->_getHtmlQuote()
             . htmlspecialchars('[' . join(',', $trArr) . ']')
             . $this->_getHtmlQuote() . '>'
@@ -439,7 +445,7 @@ class Mage_Core_Model_Translate_Inline
     protected function _applySimpleTagsFormat($tagHtml, $tagName, $trArr)
     {
         return substr($tagHtml, 0, strlen($tagName) + 1)
-            . ' translate='
+            . ' data-translate='
             . $this->_getHtmlQuote() . htmlspecialchars( '[' . join(',', $trArr) . ']')
             . $this->_getHtmlQuote()
             . substr($tagHtml, strlen($tagName) + 1);
@@ -552,7 +558,7 @@ class Mage_Core_Model_Translate_Inline
                 'scope' => $m[4][0],
             ));
 
-            $spanHtml = '<span translate=' . $quoteHtml . htmlspecialchars('[' . $tr . ']') . $quoteHtml
+            $spanHtml = '<span data-translate=' . $quoteHtml . htmlspecialchars('[' . $tr . ']') . $quoteHtml
                 . '>' . $m[1][0] . '</span>';
             $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], strlen($m[0][0]));
             $next = $m[0][1] + strlen($spanHtml) - 1;
