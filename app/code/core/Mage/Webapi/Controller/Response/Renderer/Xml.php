@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Renderer_Xml implements Mage_Webapi_Model_Rest_Renderer_Interface
+class Mage_Webapi_Controller_Response_Renderer_Xml implements Mage_Webapi_Controller_Response_RendererInterface
 {
     /**
      * Adapter mime type.
@@ -65,8 +65,8 @@ class Mage_Webapi_Model_Rest_Renderer_Xml implements Mage_Webapi_Model_Rest_Rend
      */
     public function render($data)
     {
-        /* @var $writer Mage_Webapi_Model_Rest_Renderer_Xml_Writer */
-        $writer = Mage::getModel('Mage_Webapi_Model_Rest_Renderer_Xml_Writer', array(
+        /** @var Mage_Webapi_Controller_Response_Renderer_Xml_Writer $writer */
+        $writer = Mage::getModel('Mage_Webapi_Controller_Response_Renderer_Xml_Writer', array(
             'config' => new Zend_Config($this->_prepareData($data, true))
         ));
         return $writer->render();

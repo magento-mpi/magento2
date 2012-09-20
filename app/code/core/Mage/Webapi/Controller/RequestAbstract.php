@@ -37,7 +37,7 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
      *
      * @return array
      */
-    abstract function getRequestedModules();
+    abstract public function getRequestedModules();
 
     /**
      * Create request object. Factory method for API requests.

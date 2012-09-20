@@ -15,7 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Request_Interpreter_Query implements Mage_Webapi_Model_Rest_Request_Interpreter_Interface
+class Mage_Webapi_Controller_Request_Interpreter_Query implements Mage_Webapi_Controller_Request_InterpreterInterface
 {
     const URI_VALIDATION_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
 

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 // TODO: Check this class implementation (it was copied from Magento 1 implementation)
-abstract class Mage_Webapi_Model_Rest_Renderer
+abstract class Mage_Webapi_Controller_Response_Renderer
 {
     /**
      * Get Renderer of given type
@@ -24,7 +24,7 @@ abstract class Mage_Webapi_Model_Rest_Renderer
      * @param array|string $acceptTypes
      * @throws Mage_Webapi_Exception
      * @throws Exception
-     * @return Mage_Webapi_Model_Rest_Renderer_Interface
+     * @return Mage_Webapi_Controller_Response_RendererInterface
      */
     public static function factory($acceptTypes)
     {

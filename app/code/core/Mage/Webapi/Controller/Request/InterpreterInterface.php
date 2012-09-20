@@ -15,7 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Webapi_Model_Rest_Request_Interpreter_Interface
+interface Mage_Webapi_Controller_Request_InterpreterInterface
 {
     /**
      * Parse request body into array of params

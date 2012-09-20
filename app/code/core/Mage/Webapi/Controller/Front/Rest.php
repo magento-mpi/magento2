@@ -78,7 +78,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
     /**
-     * @var Mage_Webapi_Model_Rest_Renderer_Interface
+     * @var Mage_Webapi_Controller_Request_Rest_Renderer_Interface
      */
     protected $_renderer;
 
@@ -159,6 +159,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
                     $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_BAD_REQUEST));
                     break;
             }
+        } catch (Mage_Webapi_Exception $e) {
+            $this->_addException($e);
         } catch (Exception $e) {
             Mage::logException($e);
             switch ($e->getCode()) {
@@ -298,7 +300,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
                 : Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
 
             //if error appeared in "error rendering" process then use error renderer
-            $this->_renderInternalError($e->getMessage() . PHP_EOL . $e->getTraceAsString(), $httpCode);
+            $this->_renderInternalError($e->getMessage(), $e->getTraceAsString(), $httpCode);
         }
     }
 
@@ -306,16 +308,17 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Process application error
      * Create report if not in developer mode and render error to send correct api response
      *
-     * @param string $detailedErrorMessage detailed error message
+     * @param string $errorMessage detailed error message
+     * @param string $trace exception trace
      * @param int|null $httpCode
      */
-    protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
+    protected function _renderInternalError($errorMessage, $trace, $httpCode = null)
     {
-        $processor = new Mage_Webapi_Model_Rest_Error_Processor();
+        $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
-            $processor->saveReport($detailedErrorMessage);
+            $processor->saveReport($errorMessage . $trace);
         }
-        $processor->render($detailedErrorMessage, $httpCode);
+        $processor->render($errorMessage, $trace, $httpCode);
     }
 
     /**
@@ -356,12 +359,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Model_Rest_Renderer_Interface
+     * @return Mage_Webapi_Controller_Request_Rest_Renderer_Interface
      */
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = Mage_Webapi_Model_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Controller_Response_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

@@ -9,32 +9,32 @@
  */
 
 /**
- * Webapi renderer for JSON format.
+ * Webapi renderer for URL-encoded query string format.
  *
  * @category   Mage
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Renderer_Json implements Mage_Webapi_Model_Rest_Renderer_Interface
+class Mage_Webapi_Controller_Response_Renderer_Query implements Mage_Webapi_Controller_Response_RendererInterface
 {
     /**
      * Adapter mime type.
      */
-    const MIME_TYPE = 'application/json';
+    const MIME_TYPE = 'text/plain';
 
     /**
-     * Convert data to JSON.
+     * Convert data to URL-encoded query string format.
      *
      * @param array|object $data
      * @return string
      */
     public function render($data)
     {
-        return Zend_Json::encode($data);
+        return http_build_query($data);
     }
 
     /**
-     * Get JSON renderer MIME type.
+     * Get query renderer MIME type.
      *
      * @return string
      */

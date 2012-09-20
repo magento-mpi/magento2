@@ -46,6 +46,9 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var string */
+    protected $_apiType;
+
     function __construct(Mage_Webapi_Helper_Data $helper = null)
     {
         $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
@@ -128,20 +131,23 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     private function _determineApiType()
     {
         // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
-        $request = Mage::app()->getRequest();
-        $apiTypeRoute = new Mage_Webapi_Controller_Router_Route_ApiType();
+        if (is_null($this->_apiType)) {
+            $request = Mage::app()->getRequest();
+            $apiTypeRoute = new Mage_Webapi_Controller_Router_Route_ApiType();
 
-        if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
-            throw new Mage_Core_Exception($this->_helper->__('Request does not match any API type route.'));
+            if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
+                throw new Mage_Core_Exception($this->_helper->__('Request does not match any API type route.'));
+            }
+
+            $apiType = $apiTypeMatch['api_type'];
+            if (!array_key_exists($apiType, $this->_concreteFrontControllers)) {
+                throw new RuntimeException($this->_helper->__('The "%s" API type is not defined.'));
+            }
+            // TODO: required for multicall, needs refactoring
+            $request->setParam('api_type', $apiType);
+            $this->_apiType = $apiType;
         }
 
-        $apiType = $apiTypeMatch['api_type'];
-        if (!array_key_exists($apiType, $this->_concreteFrontControllers)) {
-            throw new RuntimeException($this->_helper->__('The "%s" API type is not defined.'));
-        }
-        // TODO: required for multicall, needs refactoring
-        $request->setParam('api_type', $apiType);
-
-        return $apiType;
+        return $this->_apiType;
     }
 }

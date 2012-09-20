@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Rest_Error_Processor
+class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Rest_Error_Processor
      * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Model_Rest_Error_Processor
+     * @return Mage_Webapi_Controller_Front_Rest_ErrorProcessor
      */
     public function saveReport($reportData)
     {
@@ -68,23 +68,24 @@ class Mage_Webapi_Model_Rest_Error_Processor
     /**
      * Render error according to mime type.
      *
-     * @param string $errorDetailedMessage
+     * @param string $errorMessage
+     * @param string $trace
      * @param int $httpCode
      */
-    public function render($errorDetailedMessage, $httpCode = null)
+    public function render($errorMessage, $trace, $httpCode = null)
     {
         if (strstr($_SERVER['HTTP_ACCEPT'], 'json')) {
-            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_JSON);
+            $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_JSON);
             $mimeType = 'application/json';
         } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'xml')) {
-            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_XML);
+            $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_XML);
             $mimeType = 'application/xml';
         } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'text/plain')) {
-            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_URL_ENCODED_QUERY);
+            $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_URL_ENCODED_QUERY);
             $mimeType = 'text/plain';
         } else {
             /** Default format is JSON */
-            $output = $this->_formatError($errorDetailedMessage, self::DATA_FORMAT_JSON);
+            $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_JSON);
             $mimeType = 'application/json';
         }
         if (!headers_sent()) {
@@ -97,14 +98,17 @@ class Mage_Webapi_Model_Rest_Error_Processor
     /**
      * Format error data according to required format.
      *
+     * @param string $errorMessage
      * @param string $trace
      * @param string $format
+     * @param int $httpCode
      * @return array
      */
-    protected function _formatError($trace, $format = self::DATA_FORMAT_ARRAY)
-    {
+    protected function _formatError($errorMessage, $trace, $httpCode = self::DEFAULT_ERROR_HTTP_CODE,
+        $format = self::DATA_FORMAT_ARRAY
+    ) {
         $errorData = array();
-        $message = array('code' => self::DEFAULT_ERROR_HTTP_CODE, 'message' => self::DEFAULT_ERROR_MESSAGE);
+        $message = array('code' => $httpCode, 'message' => $errorMessage);
         if (Mage::getIsDeveloperMode()) {
             $message['trace'] = $trace;
         }
@@ -119,8 +123,8 @@ class Mage_Webapi_Model_Rest_Error_Processor
                     . '<messages>'
                     . '<error>'
                     . '<data_item>'
-                    . '<code>' . self::DEFAULT_ERROR_HTTP_CODE . '</code>'
-                    . '<message>' . self::DEFAULT_ERROR_MESSAGE . '</message>'
+                    . '<code>' . $httpCode . '</code>'
+                    . '<message>' . $errorMessage . '</message>'
                     . (Mage::getIsDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
                     . '</data_item>'
                     . '</error>'
