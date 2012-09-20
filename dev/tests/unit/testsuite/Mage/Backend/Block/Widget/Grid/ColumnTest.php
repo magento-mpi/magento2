@@ -66,6 +66,12 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
         $this->assertFalse($this->_block->getFilter());
     }
 
+    public function testGetFilterWhenFilterSetZero()
+    {
+        $this->_block->setData('filter', '0');
+        $this->assertFalse($this->_block->getFilter());
+    }
+
     /**
      * Check that default filter will be used if filter was not set
      */
@@ -77,6 +83,29 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue($this->_blockMock));
 
         $this->_block->getFilter();
+    }
+
+    public function testGetSortableNotSet()
+    {
+        $this->assertTrue($this->_block->getSortable());
+    }
+
+    /**
+     * @dataProvider getSortableDataProvider
+     */
+    public function testGetSortable($value)
+    {
+        $this->_block->setData('sortable', $value);
+        $this->assertFalse($this->_block->getSortable());
+    }
+
+    public function getSortableDataProvider()
+    {
+        return array(
+            'zero' =>  array('0'),
+            'false' =>  array(false),
+            'null' =>  array(null),
+        );
     }
 
     /**

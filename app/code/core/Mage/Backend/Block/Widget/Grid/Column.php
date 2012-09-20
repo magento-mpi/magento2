@@ -11,8 +11,6 @@
 /**
  * Grid column block
  *
- * @method bool getSortable()
- *
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
@@ -105,7 +103,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
             'theme' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme',
             'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
         );
-        
+
         parent::__construct($data);
     }
 
@@ -204,6 +202,14 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
         $class = $this->getData('header_css_class');
         $class .= false === $this->getSortable() ? ' no-link' : '';
         return $class;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSortable()
+    {
+        return $this->hasData('sortable') ? (bool) $this->getData('sortable') : true;
     }
 
     /**
@@ -426,7 +432,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     {
         if (is_null($this->_filter)) {
             $filterClass = $this->getData('filter');
-            if (false === $filterClass) {
+            if (false === (bool) $filterClass && false === is_null($filterClass)) {
                 return false;
             }
             if (!$filterClass) {
