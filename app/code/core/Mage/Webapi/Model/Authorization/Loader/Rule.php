@@ -17,6 +17,18 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
 {
+    /** @var Mage_Webapi_Model_Resource_Acl_Rule */
+    protected $_resourceModel;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_resourceModel = isset($data['resourceModel']) ?
+            $data['resourceModel'] : Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule');
+    }
+
     /**
      * Populate ACL with rules from external storage
      *
@@ -24,10 +36,7 @@ class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $resourceModel = Mage::getSingleton('Mage_Core_Model_Resource');
-        $adapter = $resourceModel->getConnection('read');
-        $select = $adapter->select()->from($resourceModel->getTableName("webapi_rule"));
-        $ruleList = $adapter->fetchAll($select);
+        $ruleList = $this->_resourceModel->getRuleList();
         foreach ($ruleList as $rule) {
             $role = $rule['role_id'];
             $resource = $rule['resource_id'];

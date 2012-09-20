@@ -19,6 +19,9 @@
  */
 class Mage_Webapi_Model_Authorization
 {
+
+    const RESOURCE_SEPARATOR = '/';
+
     /**
      * ACL policy
      *
@@ -27,19 +30,11 @@ class Mage_Webapi_Model_Authorization
     protected $_aclPolicy;
 
     /**
-     * ACL role locator
-     *
-     * @var Magento_Authorization_RoleLocator
-     */
-    protected $_aclRoleLocator;
-
-    /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
         $this->_aclPolicy = isset($data['policy']) ? $data['policy'] : $this->_getAclPolicy();
-        $this->_aclRoleLocator = isset($data['roleLocator']) ? $data['roleLocator'] : $this->_getAclRoleLocator();
     }
 
     /**
@@ -71,38 +66,16 @@ class Mage_Webapi_Model_Authorization
     }
 
     /**
-     * Get ACL role locator
-     *
-     * @return Magento_Authorization_RoleLocator
-     * @throws InvalidArgumentException
-     */
-    protected function _getAclRoleLocator()
-    {
-        $areaConfig = Mage::getConfig()->getAreaConfig();
-        $roleLocatorClassName = isset($areaConfig['acl']['roleLocator']) ?
-            $areaConfig['acl']['roleLocator'] :
-            'Magento_Authorization_RoleLocator_Default';
-
-        /** @var $roleLocatorObject Magento_Authorization_RoleLocator **/
-        $roleLocatorObject = Mage::getSingleton($roleLocatorClassName);
-
-        if (!($roleLocatorObject instanceof Magento_Authorization_RoleLocator)) {
-            throw new InvalidArgumentException(
-                $roleLocatorClassName . ' is not instance of Magento_Authorization_RoleLocator'
-            );
-        }
-        return $roleLocatorObject;
-    }
-
-    /**
      * Check current user permission on resource and privilege
      *
-     * @param   string $resource
-     * @param   string $privilege
-     * @return  boolean
+     * @param string $roleId
+     * @param string $resource
+     * @param string $operation
+     * @return bool
      */
-    public function isAllowed($resource, $privilege = null)
+    public function isAllowed($roleId, $resource, $operation)
     {
-        return $this->_aclPolicy->isAllowed($this->_aclRoleLocator->getAclRoleId(), $resource, $privilege);
+        $aclResource = $resource . self::RESOURCE_SEPARATOR . $operation;
+        return $this->_aclPolicy->isAllowed($roleId, $aclResource, null);
     }
 }
