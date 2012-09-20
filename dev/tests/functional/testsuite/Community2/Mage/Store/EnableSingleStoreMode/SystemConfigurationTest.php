@@ -14,6 +14,13 @@
 
 class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Precondition for test:</p>
+     * <p>1. Login to backend.</p>
+     * <p>2. Navigate to System -> Manage Store.</p>
+     * <p>3. Verify that one store-view is created.<p>
+     * <p>4. Go to System - Configuration - General and enable Single-Store Mode.</p>
+     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -35,9 +42,7 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      * <p>Scope Selector is disabled if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration.</p>
+     * <p>2.Go to System - Configuration.</p>
      * <p>Expected result: </p>
      * <p>Scope Selector is not displayed.</p>
      *
@@ -56,10 +61,8 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      * <p>"Export Table Rates" functionality is displayed if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration - Sales - Shipping Methods.</p>
-     * <p>5.Check for "Table Rates" fieldset  </p>
+     * <p>2.Go to System - Configuration - Sales - Shipping Methods.</p>
+     * <p>3.Check for "Table Rates" fieldset  </p>
      * <p>Expected result: </p>
      * <p>"Export CSV" button is displayed.</p>
      *
@@ -79,15 +82,13 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      * <p>"Account Sharing Options" fieldset is displayed if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration - Customer - Customer Configuration</p>
-     * <p>5.Check for "Account Sharing Options" fieldset  </p>
+     * <p>2.Go to System - Configuration - Customer - Customer Configuration</p>
+     * <p>3.Check for "Account Sharing Options" fieldset  </p>
      * <p>Expected result:</p>
      * <p>"Account Sharing Options" fieldset is displayed.</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-6182
+     * @TestlinkId TL-MAGE-6183
      * @author Tatyana_Gonchar
      */
     function verificationAccountSharingOptions()
@@ -102,10 +103,8 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration - Catalog - Catalog</p>
-     * <p>5.Check for "Price" fieldset</p>
+     * <p>2.Go to System - Configuration - Catalog - Catalog</p>
+     * <p>3.Check for "Price" fieldset</p>
      * <p>Expected result: </p>
      * <p>"Price" fieldset is displayed.</p>
      *
@@ -124,10 +123,8 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      * <p>"Debug" fieldset is displayed if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration - Advanced - Developer</p>
-     * <p>5.Check for "Debug" fieldset.</p>
+     * <p>2.Go to System - Configuration - Advanced - Developer</p>
+     * <p>3.Check for "Debug" fieldset.</p>
      * <p>Expected result:</p>
      * <p>"Debug" fieldset is displayed.</p>
      *
@@ -146,10 +143,8 @@ class Community2_Mage_Store_EnableSingleStoreMode_SystemConfigurationTest extend
      *<p>Hints for fields are disabled if Single Store Mode enabled.</p>
      * <p>Steps:</p>
      * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration</p>
-     * <p>5.Open required tab and fieldset and check hints</p>
+     * <p>2.Go to System - Configuration</p>
+     * <p>3.Open required tab and fieldset and check hints</p>
      * <p>Expected result: </p>
      * <p>Hints are not displayed</p>
      *
