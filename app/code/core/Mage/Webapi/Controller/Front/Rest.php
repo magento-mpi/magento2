@@ -287,7 +287,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
                 : Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
 
             //if error appeared in "error rendering" process then use error renderer
-            $this->_renderInternalError($e->getMessage() . PHP_EOL . $e->getTraceAsString(), $httpCode);
+            $this->_renderInternalError($e->getMessage(), $e->getTraceAsString(), $httpCode);
         }
     }
 
@@ -295,16 +295,17 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Process application error
      * Create report if not in developer mode and render error to send correct api response
      *
-     * @param string $detailedErrorMessage detailed error message
+     * @param string $errorMessage detailed error message
+     * @param string $trace exception trace
      * @param int|null $httpCode
      */
-    protected function _renderInternalError($detailedErrorMessage, $httpCode = null)
+    protected function _renderInternalError($errorMessage, $trace, $httpCode = null)
     {
         $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
-            $processor->saveReport($detailedErrorMessage);
+            $processor->saveReport($errorMessage . $trace);
         }
-        $processor->render($detailedErrorMessage, $httpCode);
+        $processor->render($errorMessage, $trace, $httpCode);
     }
 
     /**
