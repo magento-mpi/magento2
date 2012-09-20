@@ -15,6 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+// TODO: Currently this exception class is highly tied to REST implementation, this should be changed
 class Mage_Webapi_Exception extends Exception
 {
     /**

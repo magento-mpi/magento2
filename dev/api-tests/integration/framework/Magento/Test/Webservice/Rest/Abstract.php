@@ -11,6 +11,8 @@
 
 abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webservice
 {
+    const MODULES_HEADER = 'Modules';
+
     /**
      * REST Webservice user type (admin/customer/guest)
      *

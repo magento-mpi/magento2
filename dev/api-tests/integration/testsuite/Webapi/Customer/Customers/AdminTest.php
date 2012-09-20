@@ -18,6 +18,8 @@
  */
 class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_Admin
 {
+    const CUSTOMER_MODULES = 'Mage_Customer=v1';
+
     /**
      * Customer count of collection
      */
@@ -50,6 +52,7 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
     public function setUp()
     {
         parent::setUp();
+        $this->getWebService()->getClient()->setHeaders(self::MODULES_HEADER, self::CUSTOMER_MODULES);
 
         $this->_initCustomer();
     }
@@ -156,7 +159,7 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
         $collection = $this->_customer->getCollection();
         $collection->setOrder('entity_id', Varien_Data_Collection::SORT_ORDER_ASC);
 
-        $this->assertSame($collection->getAllIds(Mage_Webapi_Controller_Rest_ActionAbstract::PAGE_SIZE_DEFAULT), $customerIds);
+        $this->assertSame($collection->getAllIds(Mage_Webapi_Controller_ActionAbstract::PAGE_SIZE_DEFAULT), $customerIds);
     }
 
     /**

@@ -52,68 +52,70 @@
             </types>
         </cache>
         <webapi>
-            <request>
-                <interpreters>
-                    <!-- JSON -->
-                    <application_json>
-                        <type>application/json</type>
-                        <model>Mage_Webapi_Model_Request_Interpreter_Json</model>
-                    </application_json>
+            <rest>
+                <request>
+                    <interpreters>
+                        <!-- JSON -->
+                        <application_json>
+                            <type>application/json</type>
+                            <model>Mage_Webapi_Model_Rest_Request_Interpreter_Json</model>
+                        </application_json>
 
-                    <!-- QUERY -->
-                    <text_plain>
-                        <type>text/plain</type>
-                        <model>Mage_Webapi_Model_Request_Interpreter_Query</model>
-                    </text_plain>
+                        <!-- QUERY -->
+                        <text_plain>
+                            <type>text/plain</type>
+                            <model>Mage_Webapi_Model_Rest_Request_Interpreter_Query</model>
+                        </text_plain>
 
-                    <!-- XML -->
-                    <application_xml>
-                        <type>application/xml</type>
-                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
-                    </application_xml>
-                    <application_xhtml_xml>
-                        <type>application/xhtml+xml</type>
-                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
-                    </application_xhtml_xml>
-                    <text_xml>
-                        <type>text/xml</type>
-                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
-                    </text_xml>
-                </interpreters>
-            </request>
-            <response>
-                <renders>
-                    <!-- JSON -->
-                    <default>
-                        <type>*/*</type>
-                        <model>Mage_Webapi_Model_Renderer_Json</model>
-                    </default>
-                    <application_json>
-                        <type>application/json</type>
-                        <model>Mage_Webapi_Model_Renderer_Json</model>
-                    </application_json>
+                        <!-- XML -->
+                        <application_xml>
+                            <type>application/xml</type>
+                            <model>Mage_Webapi_Model_Rest_Request_Interpreter_Xml</model>
+                        </application_xml>
+                        <application_xhtml_xml>
+                            <type>application/xhtml+xml</type>
+                            <model>Mage_Webapi_Model_Rest_Request_Interpreter_Xml</model>
+                        </application_xhtml_xml>
+                        <text_xml>
+                            <type>text/xml</type>
+                            <model>Mage_Webapi_Model_Rest_Request_Interpreter_Xml</model>
+                        </text_xml>
+                    </interpreters>
+                </request>
+                <response>
+                    <renders>
+                        <!-- JSON -->
+                        <default>
+                            <type>*/*</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Json</model>
+                        </default>
+                        <application_json>
+                            <type>application/json</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Json</model>
+                        </application_json>
 
-                    <!-- QUERY -->
-                    <text_plain>
-                        <type>text/plain</type>
-                        <model>Mage_Webapi_Model_Renderer_Query</model>
-                    </text_plain>
+                        <!-- QUERY -->
+                        <text_plain>
+                            <type>text/plain</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Query</model>
+                        </text_plain>
 
-                    <!-- XML -->
-                    <text_xml>
-                        <type>text/xml</type>
-                        <model>Mage_Webapi_Model_Renderer_Xml</model>
-                    </text_xml>
-                    <application_xml>
-                        <type>application/xml</type>
-                        <model>Mage_Webapi_Model_Renderer_Xml</model>
-                    </application_xml>
-                    <application_xhtml_xml>
-                        <type>application/xhtml+xml</type>
-                        <model>Mage_Webapi_Model_Renderer_Xml</model>
-                    </application_xhtml_xml>
-                </renders>
-            </response>
+                        <!-- XML -->
+                        <text_xml>
+                            <type>text/xml</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Xml</model>
+                        </text_xml>
+                        <application_xml>
+                            <type>application/xml</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Xml</model>
+                        </application_xml>
+                        <application_xhtml_xml>
+                            <type>application/xhtml+xml</type>
+                            <model>Mage_Webapi_Model_Rest_Renderer_Xml</model>
+                        </application_xhtml_xml>
+                    </renders>
+                </response>
+            </rest>
         </webapi>
     </global>
     <admin>

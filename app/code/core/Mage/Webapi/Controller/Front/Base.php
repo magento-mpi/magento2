@@ -43,12 +43,12 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     public function init()
     {
-        // TODO: Temporary workaround. Required ability to configure request and response classes per area
-        Mage::app()->setRequest(Mage::getSingleton('Mage_Webapi_Model_Request'));
-        Mage::app()->setResponse(Mage::getSingleton('Mage_Webapi_Model_Response'));
-
-        $this->_request = Mage::getSingleton('Mage_Webapi_Model_Request');
-        $this->_response = Mage::getSingleton('Mage_Webapi_Model_Response');
+        /** @var Mage_Webapi_Model_Request $baseRequest */
+        $baseRequest = Mage::getSingleton('Mage_Webapi_Model_Request');
+        /** @var Mage_Webapi_Model_Response $baseResponse */
+        $baseResponse = Mage::getSingleton('Mage_Webapi_Model_Response');
+        $this->_request = $baseRequest;
+        $this->_response = $baseResponse;
 
         // TODO: Make sure that non-admin users cannot access this area
         Mage::register('isSecureArea', true, true);
@@ -57,12 +57,10 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         ini_set('display_errors', 0);
 
         // TODO: Implement error handling on this stage
-        $concreteFrontController = $this->_getConcreteFrontController();
-
-        $concreteFrontController->setRequest($this->_request)
-            ->setResponse($this->_response)
+        $this->_getConcreteFrontController()
+            ->setRequest($baseRequest)
+            ->setResponse($baseResponse)
             ->init();
-
         return $this;
     }
 
