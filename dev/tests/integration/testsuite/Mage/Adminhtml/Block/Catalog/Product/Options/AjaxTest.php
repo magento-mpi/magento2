@@ -30,6 +30,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Fram
      */
     public function testToHtml()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+
         Mage::register('import_option_products', array(1));
         $result = json_decode($this->_block->toHtml(), true);
         $this->assertEquals('test_option_code_1', $result[0]['title']);

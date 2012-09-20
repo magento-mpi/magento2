@@ -735,7 +735,7 @@ final class Mage
         if (!is_null($alternativeConfigModel) && ($alternativeConfigModel instanceof Mage_Core_Model_Config)) {
             self::$_config = $alternativeConfigModel;
         } else {
-            self::$_config = new Mage_Core_Model_Config($options);
+            self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
         }
     }
 
