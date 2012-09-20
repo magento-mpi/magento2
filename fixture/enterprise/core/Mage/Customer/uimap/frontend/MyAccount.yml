@@ -28,3 +28,20 @@ customer_account_no_cache:
 
 product_review_details:
     title: Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    review_details:
+                        pageelements:
+                            product_name: //h3[@class='product-name']
+                            review_details: //div[@class='details']/p[not(@class)]
+
+my_product_reviews_details:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    review_details:
+                        pageelements:
+                            review_details: //div[@class='details']/p[not(@class)]
