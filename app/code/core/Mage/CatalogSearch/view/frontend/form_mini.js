@@ -140,6 +140,7 @@
                         .find(searchInit.responseFieldElements);
                     resetResponseList(false);
                     responseList.indexList.on('click',function () {
+                        searchField.val(responseList.selected.attr('title'));
                         $(searchInit.formSelector).trigger('submit');
                     }).on('hover',function () {
                         responseList.indexList.removeClass(searchInit.selectClass);
