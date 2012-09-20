@@ -90,6 +90,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected static $_urlModel;
 
     /**
+     * Application front controller
+     *
+     * @var Mage_Core_Controller_Varien_Front
+     */
+    protected $_frontController;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -98,6 +105,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
      * @param array $data
      */
     public function __construct(
@@ -109,6 +117,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Session $session,
         Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
         array $data = array()
     ) {
         $this->_request = $request;
@@ -119,6 +128,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $this->_designPackage = $designPackage;
         $this->_session = $session;
         $this->_storeConfig = $storeConfig;
+        $this->_frontController = $frontController;
 
         parent::__construct($data);
         $this->_construct();

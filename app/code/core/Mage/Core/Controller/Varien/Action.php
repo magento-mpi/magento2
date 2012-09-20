@@ -123,21 +123,21 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
      * @param array $invokeArgs
      */
     public function __construct(
         Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response,
         Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
         array $invokeArgs = array()
     ) {
         $this->_request = $request;
         $this->_response= $response;
         $this->_objectManager = $objectManager;
 
-        $this->_frontController = isset($invokeArgs['frontController']) ?
-            $invokeArgs['frontController'] :
-            Mage::app()->getFrontController();
+        $this->_frontController = $frontController;
 
         $this->_frontController->setAction($this);
         if (!$this->_currentArea) {
@@ -549,7 +549,7 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
         $area = Mage::app()->getArea($this->getLayout()->getArea());
         $area->load();
         $area->detectDesign($this->getRequest());
-        
+
         return $this;
     }
 

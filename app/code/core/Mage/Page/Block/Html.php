@@ -45,7 +45,8 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         array $data = array()
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $translator, $cache, $designPackage, $session, $storeConfig, $data
+            $request, $layout, $eventManager, $translator, $cache, $designPackage, $session, $storeConfig,
+            $frontController, $data
         );
         $this->_urls = array(
             'base'      => Mage::getBaseUrl('web'),

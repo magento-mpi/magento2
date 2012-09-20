@@ -120,6 +120,13 @@ class Mage_Core_Model_App
     protected $_frontController;
 
     /**
+     * Flag to identify whether front controller is initialized
+     *
+     * @var bool
+     */
+    protected $_isFrontControllerInitialized = false;
+
+    /**
      * Cache object
      *
      * @var Mage_Core_Model_Cache
@@ -127,10 +134,10 @@ class Mage_Core_Model_App
     protected $_cache;
 
     /**
-    * Use Cache
-    *
-    * @var array
-    */
+     * Use Cache
+     *
+     * @var array
+     */
     protected $_useCache;
 
     /**
@@ -227,8 +234,9 @@ class Mage_Core_Model_App
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(Mage_Core_Controller_Varien_Front $frontController)
     {
+        $this->_frontController = $frontController;
     }
 
     /**
@@ -747,7 +755,6 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        $this->_frontController = new Mage_Core_Controller_Varien_Front();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');
@@ -1093,8 +1100,9 @@ class Mage_Core_Model_App
      */
     public function getFrontController()
     {
-        if (!$this->_frontController) {
+        if (!$this->_isFrontControllerInitialized) {
             $this->_initFrontController();
+            $this->_isFrontControllerInitialized = true;
         }
         return $this->_frontController;
     }
