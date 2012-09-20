@@ -407,8 +407,8 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *  <p>9. Save product and open it
      *
      * <p>Expected results:</p>
-     *  <p>7. Fields on Meta Information tab is displayed information generated according masks.</p>
-     *  <p>9. Fields on Meta Information tab is displayed information entered by user</p>
+     *  <p>After Step 7. Fields on Meta Information tab is displayed information generated according masks.</p>
+     *  <p>After Step 9. Fields on Meta Information tab is displayed information entered by user</p>
      *
      * @param string $metaCode
      * @param string $metaField
