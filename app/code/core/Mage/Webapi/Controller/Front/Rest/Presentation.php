@@ -8,7 +8,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Renderer
      *
-     * @var Mage_Webapi_Model_Renderer_Interface
+     * @var Mage_Webapi_Controller_Response_RendererInterface
      */
     protected $_renderer;
 
@@ -81,6 +81,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 $this->getResponse()->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
                 break;
             case 'update':
+                // break intentionally omitted
             case 'delete':
                 break;
         }
@@ -151,8 +152,11 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 // TODO: Implement fields filtration
                 break;
             case 'multiDelete':
+                // break intentionally omitted
             case 'get':
+                // break intentionally omitted
             case 'delete':
+                // break intentionally omitted
             case 'multiGet':
                 break;
         }
@@ -174,12 +178,12 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Get renderer if not exists create
      *
-     * @return Mage_Webapi_Controller_Request_Rest_Renderer_Interface
+     * @return Mage_Webapi_Controller_Response_RendererInterface
      */
     public function getRenderer()
     {
         if (!$this->_renderer) {
-            $renderer = Mage_Webapi_Controller_Response_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $renderer = Mage_Webapi_Controller_Response_Renderer::factory($this->getRequest()->getAcceptTypes());
             $this->setRenderer($renderer);
         }
 
@@ -189,9 +193,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Set renderer
      *
-     * @param Mage_Webapi_Controller_Request_Rest_Renderer_Interface $renderer
+     * @param Mage_Webapi_Controller_Response_RendererInterface $renderer
      */
-    public function setRenderer(Mage_Webapi_Controller_Response_Rest_Renderer_Interface $renderer)
+    public function setRenderer(Mage_Webapi_Controller_Response_RendererInterface $renderer)
     {
         $this->_renderer = $renderer;
     }

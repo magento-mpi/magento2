@@ -15,13 +15,13 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Webapi_Controller_Request_Rest_Interpreter
+abstract class Mage_Webapi_Controller_Request_Interpreter
 {
     /**
      * Request body interpreters factory.
      *
      * @param string $type
-     * @return Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
+     * @return Mage_Webapi_Controller_Request_InterpreterInterface
      * @throws LogicException|Mage_Webapi_Exception
      */
     public static function factory($type)

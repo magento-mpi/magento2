@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 // TODO: Check this class implementation (it was copied from Magento 1 implementation)
-class Mage_Webapi_Controller_Request_Rest_Uploader_Image extends Mage_Webapi_Controller_Request_Rest_Uploader_File
+class Mage_Webapi_Controller_Request_Uploader_Image extends Mage_Webapi_Controller_Request_Uploader_File
 {
     /**
      * List of MIME types allowed for image

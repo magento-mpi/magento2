@@ -57,7 +57,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     protected function _getInterpreter()
     {
         if (null === $this->_interpreter) {
-            $this->_interpreter = Mage_Webapi_Controller_Request_Rest_Interpreter::factory($this->getContentType());
+            $this->_interpreter = Mage_Webapi_Controller_Request_Interpreter::factory($this->getContentType());
         }
         return $this->_interpreter;
     }

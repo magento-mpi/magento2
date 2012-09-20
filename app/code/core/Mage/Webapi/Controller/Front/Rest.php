@@ -348,7 +348,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = Mage_Webapi_Controller_Response_Rest_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Controller_Response_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

@@ -15,8 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml
-    implements Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
+class Mage_Webapi_Controller_Request_Interpreter_Xml implements Mage_Webapi_Controller_Request_InterpreterInterface
 {
     /**
      * Default name for item of non-associative array.
