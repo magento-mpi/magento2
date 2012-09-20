@@ -13,6 +13,8 @@
  *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit setSelectedResources(array $selrids)
+ * @method array getSelectedResources()
  *
  * @category   Mage
  * @package    Mage_Webapi
@@ -27,8 +29,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $role = $this->getApiRole();
         $role_id = $role ? $role->getRoleId() : null;
 
-        //$resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
-        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList();
+        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
 
         $rules_set = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
             ->getByRoles($role_id)->load();
@@ -46,68 +47,65 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $this->setSelectedResources($selrids);
     }
 
+    /**
+     *
+     * @return bool
+     */
     public function getEverythingAllowed()
     {
         return in_array('all', $this->getSelectedResources());
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getResTreeJson()
     {
-        //$resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesTree();
-        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesTree();
+        /** @var $resources DOMNodeList */
+        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
 
         if ($resources) {
-            $rootArray = $this->_getNodeJson($resources, 1);
-            $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
-            return $json;
+            $resourceArray = array();
+            /** @var $res DOMElement */
+            foreach ($resources as $res) {
+                $resourceArray[] = $this->_getNodeJson($res);
+            }
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($resourceArray);
         }
 
         return '';
     }
 
-    protected function _sortTree($a, $b)
-    {
-        return $a['sort_order']<$b['sort_order'] ? -1 : ($a['sort_order']>$b['sort_order'] ? 1 : 0);
-    }
-
-    protected function _getNodeJson($node, $level = 0)
+    /**
+     *
+     * @param DOMElement $node
+     * @param int $level
+     * @return mixed
+     */
+    protected function _getNodeJson($node)
     {
         $item = array();
         $selres = $this->getSelectedResources();
 
-        if ($level != 0) {
-            $item['text']= (string)$node->title;
-            $item['sort_order']= isset($node->sort_order) ? (string)$node->sort_order : 0;
-            $item['id']  = (string)$node->attributes()->aclpath;
+        $item['text'] = (string) $node->getAttribute('title');
+        $item['id'] = (string) $node->getAttribute('id');
 
-            if (in_array($item['id'], $selres))
-                $item['checked'] = true;
+        if (in_array($item['id'], $selres)) {
+            $item['checked'] = true;
         }
-        if (isset($node->children)) {
-            $children = $node->children->children();
-        } else {
-            $children = $node->children();
-        }
-        if (empty($children)) {
+
+        if (empty($node->childNodes)) {
             return $item;
         }
 
-        if ($children) {
-            $item['children'] = array();
-            //$item['cls'] = 'fiche-node';
-            foreach ($children as $child) {
-                if ($child->getName()!='title' && $child->getName()!='sort_order' && $child->attributes()->module) {
-                    if ($level != 0) {
-                        $item['children'][] = $this->_getNodeJson($child, $level+1);
-                    } else {
-                        $item = $this->_getNodeJson($child, $level+1);
-                    }
-                }
-            }
-            if (!empty($item['children'])) {
-                usort($item['children'], array($this, '_sortTree'));
+        $item['children'] = array();
+        foreach ($node->childNodes as $child) {
+            if ($child instanceof DOMElement) {
+                $item['children'][] = $this->_getNodeJson($child);
             }
         }
+
         return $item;
     }
 }

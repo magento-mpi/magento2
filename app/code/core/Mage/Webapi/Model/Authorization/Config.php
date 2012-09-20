@@ -70,6 +70,6 @@ class Mage_Webapi_Model_Authorization_Config
     {
         $aclResources = $this->_getReader()->getAclResources();
         $xpath = new DOMXPath($aclResources);
-        return $xpath->query('/config/acl/resources/*');
+        return $xpath->query('/config/acl/resources/resource[@id="Mage_Webapi"]/*');
     }
 }
