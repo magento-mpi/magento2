@@ -125,6 +125,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         if (!is_null($formKeyFilter->item(0))) {
             //Get first found form key
             $formKey = $formKeyFilter->item(0)->getAttribute('value');
+        } else {
+            $this->fail('Form Key was not defined. Can not continue Import/Export.');
         }
         //Return form key
         return $formKey;
