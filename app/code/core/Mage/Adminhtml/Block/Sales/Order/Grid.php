@@ -24,6 +24,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Backend_Block_Widget_Gr
     protected function _prepareGrid()
     {
         if (!Mage::app()->isSingleStoreMode()) {
+            $orderBlockName = $this->getColumnSet()->getChildBlock('real_order_id')->getNameInLayout();
             $this->getColumnSet()->insert(
                 $this->getLayout()
                     ->createBlock('Mage_Backend_Block_Widget_Grid_Column', 'store_id', array(
@@ -32,10 +33,11 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Backend_Block_Widget_Gr
                         'type'            => 'store',
                         'store_view'      => true,
                         'display_deleted' => true
-                    )), 'real_order_id', true, 'store_id');
+                    )), $orderBlockName, true, 'store_id');
         }
 
         if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::actions_view')) {
+            $statusBlockName = $this->getColumnSet()->getChildBlock('status')->getNameInLayout();
             $this->getColumnSet()->insert($this->getLayout()
                 ->createBlock('Mage_Backend_Block_Widget_Grid_Column', 'action', array(
                     'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
@@ -53,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Backend_Block_Widget_Gr
                     'sortable'  => false,
                     'index'     => 'stores',
                     'is_system' => true
-                )), 'status', true, 'action');
+                )), $statusBlockName, true, 'action');
         }
 
         return parent::_prepareGrid();
