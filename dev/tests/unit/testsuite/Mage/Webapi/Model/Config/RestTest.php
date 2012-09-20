@@ -72,4 +72,22 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Test_Module_Api_Controller',
             self::$_model->getControllerClassByResourceName($resourceName));
     }
+
+    public function testGetRouteByResource()
+    {
+        $actualRoute = self::$_model->getRouteByResource('test_module_a', 'item');
+        $this->assertEquals('/test_resource/:id', $actualRoute);
+    }
+
+    public function testGetRouteByResourceInvalidResourceType()
+    {
+        $this->setExpectedException('LogicException', 'Route not found.');
+        self::$_model->getRouteByResource('test_module_a', 'invalid_type');
+    }
+
+    public function testGetRouteByResourceInvalidResourceName()
+    {
+        $this->setExpectedException('InvalidArgumentException', "Resource 'invalid_resource' not found.");
+        self::$_model->getRouteByResource('invalid_resource', 'item');
+    }
 }

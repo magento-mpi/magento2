@@ -125,8 +125,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     }
 
     /**
-     * Retrieve request data. Ensure that data is not empty
+     * Retrieve request data. Ensure that data is not empty.
      *
+     * @param string $method
      * @return array
      */
     protected function _getRequestData($method)
