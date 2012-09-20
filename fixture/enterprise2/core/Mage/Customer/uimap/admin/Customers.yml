@@ -36,13 +36,15 @@ edit_customer:
                                     xpath:
                                     pageelements:
                                         sales_statistics_head: //div/div[div/h4[@class='icon-head head-customer-sales-statistics']]/div[@class='grid']/table/thead
+                                        reward_points_head: //div[@id='customer_info_tabs_customer_edit_tab_view_content']//div[@id='rewardPointsBalanceGrid']/div[@class='grid']//thead
+                                        store_credit_head: //div[@id='balanceGrid']/div[@class='grid']//thead
                             -
                                 content_customer_view:
                                     xpath: //*[@id='tab_content_customerViewAccordion']
                                     links:
-                                       view_recent_orders: //*[@id='dt-lastOrders']/a
-                                       view_shopping_cart: //*[@id='dt-shopingCart%websiteId%']/a
-                                       view_wishlist: //*[@id='dt-wishlist']/a
+                                        view_recent_orders: //*[@id='dt-lastOrders']/a
+                                        view_shopping_cart: //*[@id='dt-shopingCart%websiteId%']/a
+                                        view_wishlist: //*[@id='dt-wishlist']/a
                                     pageelements:
                                         products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
                 -
@@ -115,9 +117,25 @@ edit_customer:
                                         notify_by_email: //input[@id='_customerbalancenotify_by_email']
                             -
                                 current_store_balance:
-                                    xpath: //div[@id='balanceGrid']
+                                    xpath: //div[@id='customer_info_tabs_customerbalance_content']//div[@id='balanceGrid']
                                     fields:
                                         current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
+                                    pageelements:
+                                        store_credit_balance_head: //div[@class='grid']//thead
+                            -
+                                balance_history:
+                                    xpath: //div[@id='historyGrid']
+                                    dropdowns:
+                                       filter_website: //select[@id='historyGrid_filter_website_id']
+                -
+                    gift_regystry:
+                        xpath: //a[@id='customer_info_tabs_giftregistry']/span
+                        fieldsets:
+                            -
+                                gift_registry_grid:
+                                    xpath: //div[@id='customerGrid']
+                                    dropdowns:
+                                        filter_website: //select[@id='customerGrid_filter_website_id']
                 -
                     reward_points:
                         xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
@@ -130,17 +148,23 @@ edit_customer:
                                     fields:
                                         update_balance: //input[@id='reward_points_delta']
                                         comment: //input[@id='reward_comment']
+                                    dropdowns:
+                                        store: //select[@id='reward_store']
                             -
                                 current_reward_balance:
                                     xpath: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsBalanceGrid']
                                     fields:
                                         current_balance: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[2]
                                         balance_is_present: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
+                                    pageelements:
+                                        reward_points_balance_head: //div[@class='grid']//thead
                             -
                                 reward_points_history:
                                     xpath: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsHistoryGrid']
                                     pageelements:
                                         reward_points_history_rows_number: //td[@class='pager']//span[contains(@id,'rewardPointsHistoryGrid-total-count')]
+                                    dropdowns:
+                                        filter_website: //select[@id='rewardPointsHistoryGrid_filter_website']
         buttons:
             manage_shopping_cart: //button[span='Manage Shopping Cart']
 
