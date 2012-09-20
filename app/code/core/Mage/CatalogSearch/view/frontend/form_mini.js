@@ -120,6 +120,9 @@
             if ($(searchInit.fieldSelector).val() === searchInit.placeholder || $(searchInit.fieldSelector).val() === '') {
                 e.preventDefault();
             }
+            if (responseList.selected) {
+                $(searchInit.fieldSelector).val(responseList.selected.attr('title'));
+            }
         });
 
         $(searchInit.fieldSelector).on('input propertychange', function () {
@@ -140,7 +143,7 @@
                         .find(searchInit.responseFieldElements);
                     resetResponseList(false);
                     responseList.indexList.on('click',function () {
-                        searchField.val(responseList.selected.attr('title'));
+                        responseList.selected = $(this);
                         $(searchInit.formSelector).trigger('submit');
                     }).on('hover',function () {
                         responseList.indexList.removeClass(searchInit.selectClass);
