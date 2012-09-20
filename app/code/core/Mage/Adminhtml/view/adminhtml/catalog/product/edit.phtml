@@ -132,11 +132,13 @@ Event.observe(window, 'load', function() {
                         $(this).data(self.data.disabled, $(this).val().replace(/\s/g, '') != '');
                     };
                     var $field = $('#' + field);
-                    if ($field.val().length == 0 && mask.length > 0 && !self.varRegexp.test(mask)) {
+                    if (!$field.val() && mask.length > 0 && !self.varRegexp.test(mask)) {
                         $field.val(mask);
                     }
-                    disabler.call($field);
-                    $field.bind('focus blur change keyup click', disabler);
+                    if ($field.length) {
+                        disabler.call($field);
+                        $field.bind('focus blur change keyup click', disabler);
+                    }
                 });
 
                 $.each(self._fieldReverseIndex, function(field) {
@@ -157,8 +159,11 @@ Event.observe(window, 'load', function() {
 
                         });
                     };
-                    $field.bind(events || 'keyup change blur click', filler);
-                    filler.call($field, true);
+                    if ($field.length) {
+                        $field.bind(events || 'keyup change blur click', filler);
+                        filler.call($field, true);
+                    }
+
                 });
             },
             _buildReverseIndex: function(masks) {
