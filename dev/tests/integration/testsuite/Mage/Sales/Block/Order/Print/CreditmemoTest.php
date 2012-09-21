@@ -16,6 +16,8 @@ class Mage_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_Test
      */
     public function testGetTotalsHtml()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $order = new Mage_Sales_Model_Order;
         Mage::register('current_order', $order);
         $payment = new Mage_Sales_Model_Order_Payment;
