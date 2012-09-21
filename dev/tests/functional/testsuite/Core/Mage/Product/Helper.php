@@ -725,7 +725,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                     ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
-        for ($customOptionNumber = 1; $customOptionNumber <= $optionsQty; $customOptionNumber++) {
+        $customOptionNumber = 1;
+        foreach ($customOptionData as $value) {
             //Get custom option ID
             $optionId = '';
             $elementId = $this->getAttribute($fieldSetXpath . "[{$customOptionNumber}]/@id");
@@ -736,7 +737,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                 }
             }
             //Get custom option data
-            $value = $customOptionData[$customOptionNumber-1];
             if (is_array($value)) {
                 //Verify custom option
                 $this->addParameter('optionId', $optionId);
@@ -773,6 +773,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                     $i++;
                 }
             }
+            $customOptionNumber++;
         }
         return true;
     }
