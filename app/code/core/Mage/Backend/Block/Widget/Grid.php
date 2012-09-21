@@ -212,27 +212,33 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
-                    'onclick'   => $this->getJsObjectName().'.doExport()',
-                    'class'   => 'task'
-                ))
+            $this->getLayout()->createBlock(
+                'Mage_Backend_Block_Widget_Button',
+                $this->getNameInLayout() . '_export_button'
+            )->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
+                'onclick'   => $this->getJsObjectName().'.doExport()',
+                'class'   => 'task'
+            ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
-                    'onclick'   => $this->getJsObjectName().'.resetFilter()',
-                ))
+            $this->getLayout()->createBlock(
+                'Mage_Backend_Block_Widget_Button',
+                $this->getNameInLayout() . '_reset_filter_button'
+            )->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
+                'onclick'   => $this->getJsObjectName().'.resetFilter()',
+            ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
-                    'onclick'   => $this->getJsObjectName().'.doFilter()',
-                    'class'   => 'task'
-                ))
+            $this->getLayout()->createBlock(
+                'Mage_Backend_Block_Widget_Button',
+                $this->getNameInLayout() . '_search_button'
+            )->setData(array(
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
+                'onclick'   => $this->getJsObjectName().'.doFilter()',
+                'class'   => 'task'
+            ))
         );
         return parent::_prepareLayout();
     }

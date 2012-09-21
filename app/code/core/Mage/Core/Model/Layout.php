@@ -527,7 +527,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             return;
         }
         list($type, $alias, $parentName, $siblingName, $isAfter, $node) = $row;
-        $name = $this->_createStructuralElement($key, $type);
+        $name = $this->_createStructuralElement($key, $type, $parentName . $alias);
         if ($parentName) {
             // recursively populate parent first
             if (isset($this->_scheduledStructure[$parentName])) {
@@ -1181,7 +1181,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (empty($name) && $block instanceof Mage_Core_Block_Abstract) {
             $name = $block->getNameInLayout();
         }
-        $name = $this->_createStructuralElement($name, self::TYPE_BLOCK, $name ?: get_class($block));
+        $name = $this->_createStructuralElement(
+            $name,
+            self::TYPE_BLOCK,
+            $name ?: (is_object($block) ? get_class($block) : $block)
+        );
         if ($parent) {
             $this->_structure->setAsChild($name, $parent, $alias);
         }
