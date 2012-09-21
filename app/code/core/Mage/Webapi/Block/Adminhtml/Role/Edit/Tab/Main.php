@@ -1,0 +1,59 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Web API role edit form
+ *
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole()
+ *
+ * @category   Mage
+ * @package    Mage_Webapi
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
+{
+    /**
+     * Prepare Form
+     *
+     * @return Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main
+     */
+    protected function _prepareForm()
+    {
+        $form = new Varien_Data_Form();
+        $form->setHtmlIdPrefix('role_');
+
+        $fieldset = $form->addFieldset('base_fieldset', array(
+            'legend'=>Mage::helper('Mage_Webapi_Helper_Data')->__('Role Information'))
+        );
+
+        $role = $this->getApiRole();
+        if ($role && $role->getId()) {
+            $fieldset->addField('role_id', 'hidden', array(
+                'name' => 'role_id',
+                'value' => $role->getId()
+            ));
+        }
+
+        $fieldset->addField('role_name', 'text', array(
+            'name' => 'role_name',
+            'id' => 'role_name',
+            'class' => 'required-entry',
+            'required' => true,
+            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
+            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
+        ));
+
+        $form->setValues($role->getData());
+        $this->setForm($form);
+
+        return parent::_prepareForm();
+    }
+}

@@ -38,4 +38,35 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
         $select = $adapter->select()->from($this->getMainTable(), array('resource_id', 'role_id'));
         return $adapter->fetchAll($select);
     }
+
+    /**
+     * Save rule
+     *
+     * @param Mage_Api_Model_Rules $rule
+     */
+    public function saveResources(Mage_Api_Model_Rules $rule)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $adapter->beginTransaction();
+
+        try {
+            $roleId = $rule->getRoleId();
+            $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
+
+            $resources = $rule->getResources();
+            if ($resources) {
+                foreach ($resources as $resName) {
+                    $adapter->insert($this->getMainTable(), array(
+                        'role_id'       => $roleId,
+                        'resource_id'   => trim($resName),
+                    ));
+                }
+            }
+
+            $adapter->commit();
+        } catch (Exception $e) {
+            $adapter->rollBack();
+            throw $e;
+        }
+    }
 }

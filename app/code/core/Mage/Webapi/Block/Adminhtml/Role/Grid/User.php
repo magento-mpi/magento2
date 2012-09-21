@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Webapi_Role_Grid_User extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()
@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Webapi_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
-        $this->setDefaultFilter(array('in_role_users'=>1));
+        $this->setDefaultFilter(array('in_role_users' => 1));
         $this->setUseAjax(true);
     }
 
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Webapi_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('User ID'),
+            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('User ID'),
             'width'     =>5,
             'align'     =>'left',
             'sortable'  =>true,
@@ -79,49 +79,49 @@ class Mage_Adminhtml_Block_Webapi_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('role_user_username', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('User Name'),
+            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('User Name'),
             'align'     =>'left',
             'index'     =>'username'
         ));
 
         $this->addColumn('role_user_firstname', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('First Name'),
             'align'     =>'left',
             'index'     =>'firstname'
         ));
 
         $this->addColumn('role_user_lastname', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('Last Name'),
             'align'     =>'left',
             'index'     =>'lastname'
         ));
 
         $this->addColumn('role_user_email', array(
-            'header'    =>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Email'),
+            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inactive')),
+            'options'   => array('1' => Mage::helper('Mage_Webapi_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Webapi_Helper_Data')->__('Inactive')),
         ));
 
        /*
         $this->addColumn('grid_actions',
             array(
-                'header'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Actions'),
+                'header'=>Mage::helper('Mage_Webapi_Helper_Data')->__('Actions'),
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
                 'type' => 'action',
                 'actions'   => array(
                                     array(
-                                        'caption' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Remove'),
+                                        'caption' => Mage::helper('Mage_Webapi_Helper_Data')->__('Remove'),
                                         'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )
