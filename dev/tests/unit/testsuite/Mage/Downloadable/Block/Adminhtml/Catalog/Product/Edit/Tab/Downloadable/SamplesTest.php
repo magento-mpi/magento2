@@ -50,7 +50,8 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false)
+            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false),
+            $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false)
         );
 
         $this->_oldDisplayErrors  = ini_get('display_errors');
