@@ -128,7 +128,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Array of messages on page
      * @var array
      */
-    protected $_messages = array();
+    protected static $_messages = array();
 
     /**
      * Name of run Test Class
@@ -143,15 +143,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected static $_lastTestNameInClass = null;
 
     /**
-     * @var    array
-     */
-    public static $browsers = array();
-
-    /**
      * Additional params for navigation URL
      * @var string
      */
-    protected $_urlPostfix;
+    private $_urlPostfix;
 
     /**
      * Type of uimap elements
@@ -275,18 +270,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function prepareBrowserSession()
     {
-        if (empty(self::$browsers)) {
-            $browsers = $this->_configHelper->getConfigBrowsers();
-            $this->setupSpecificBrowser($browsers['default']);
-        }
-        //@TODO
-        //$this->_browserTimeoutPeriod = $this->getseleniumServerRequestsTimeout();
+        $browsers = $this->_configHelper->getConfigBrowsers();
+        $this->setupSpecificBrowser($browsers['default']);
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
+        if (array_key_exists('seleniumServerRequestsTimeout', $browsers['default'])) {
+            $timeout = $browsers['default']['seleniumServerRequestsTimeout'];
+            if (!is_int($timeout)) {
+                throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
+            }
+            $this->_browserTimeoutPeriod = $timeout;
+        }
         $this->prepareSession();
     }
 
     final function setUp()
     {
+        $this->clearMessages();
+        $this->_paramsHelper = new Mage_Selenium_Helper_Params();
         $this->prepareBrowserSession();
         $this->setUpBeforeTestClass();
     }
@@ -827,10 +827,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clearMessages($type = null)
     {
-        if ($type && array_key_exists($type, $this->_messages)) {
-            unset($this->_messages[$type]);
+        if ($type && array_key_exists($type, self::$_messages)) {
+            unset(self::$_messages[$type]);
         } elseif ($type == null) {
-            $this->_messages = null;
+            self::$_messages = null;
         }
     }
 
@@ -842,15 +842,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $area = $this->getArea();
         $page = $this->getCurrentUimapPage();
         if ($area == 'admin' || $area == 'frontend') {
-            $this->_messages['notice'] = $this->getElementsValue($page->findMessage('general_notice'), 'text');
-            $this->_messages['validation'] = $this->parseValidationMessages();
+            self::$_messages['notice'] = $this->getElementsValue($page->findMessage('general_notice'), 'text');
+            self::$_messages['validation'] = $this->parseValidationMessages();
         } else {
-            $this->_messages['validation'] = $this->getElementsValue($page->findMessage('general_validation'), 'text');
+            self::$_messages['validation'] = $this->getElementsValue($page->findMessage('general_validation'), 'text');
         }
-        $this->_messages['success'] = $this->getElementsValue($page->findMessage('general_success'), 'text');
-        $this->_messages['error'] = $this->getElementsValue($page->findMessage('general_error'), 'text');
-        foreach ($this->_messages as $messageType => $messages) {
-            $this->_messages[$messageType] = array_diff($messages, array(''));
+        self::$_messages['success'] = $this->getElementsValue($page->findMessage('general_success'), 'text');
+        self::$_messages['error'] = $this->getElementsValue($page->findMessage('general_error'), 'text');
+        foreach (self::$_messages as $messageType => $messages) {
+            self::$_messages[$messageType] = array_diff($messages, array(''));
         }
     }
 
@@ -934,14 +934,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             $messages = array();
             foreach ($messageType as $message) {
-                if (isset($this->_messages[$message])) {
-                    $messages = array_merge($messages, $this->_messages[$message]);
+                if (isset(self::$_messages[$message])) {
+                    $messages = array_merge($messages, self::$_messages[$message]);
                 }
             }
             return $messages;
         }
 
-        return $this->_messages;
+        return self::$_messages;
     }
 
     /**
@@ -954,9 +954,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getParsedMessages($type = null)
     {
         if ($type) {
-            return (isset($this->_messages[$type])) ? $this->_messages[$type] : null;
+            return (isset(self::$_messages[$type])) ? self::$_messages[$type] : null;
         }
-        return $this->_messages;
+        return self::$_messages;
     }
 
     /**
@@ -969,10 +969,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         if (is_array($message)) {
             foreach ($message as $value) {
-                $this->_messages[$type][] = $value;
+                self::$_messages[$type][] = $value;
             }
         } else {
-            $this->_messages[$type][] = $message;
+            self::$_messages[$type][] = $message;
         }
     }
 
@@ -2522,7 +2522,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getBasicXpathMessagesExcludeCurrent($types)
     {
         foreach ($this->getMessagesOnPage() as $key => $value) {
-            $this->_messages[$key] = array_unique($value);
+            self::$_messages[$key] = array_unique($value);
         }
         if (is_string($types)) {
             $types = explode(',', $types);
@@ -2531,9 +2531,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $returnXpath = array();
         foreach ($types as $message) {
             ${$message} = $this->_getMessageXpath('general_' . $message);
-            if (array_key_exists($message, $this->_messages)) {
+            if (array_key_exists($message, self::$_messages)) {
                 $exclude = '';
-                foreach ($this->_messages[$message] as $messageText) {
+                foreach (self::$_messages[$message] as $messageText) {
                     $exclude .= "[not(normalize-space(..//.)='$messageText')]";
                 }
                 ${$message} .= $exclude;
