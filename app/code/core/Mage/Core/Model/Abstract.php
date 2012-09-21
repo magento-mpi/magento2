@@ -128,6 +128,33 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     }
 
     /**
+     * Remove not serializable fields
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
+        return $properties;
+    }
+
+    /**
+     * Init not serializable fields
+     *
+     * @todo Get rid of Mage dependecy
+     */
+    public function __wakeup()
+    {
+        if (!$this->_eventDispatcher) {
+            $this->_eventDispatcher = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
+        }
+        if (!$this->_cacheManager) {
+            $this->_cacheManager = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+        }
+    }
+
+    /**
      * Model construct that should be used for object initialization
      */
     protected function _construct()
