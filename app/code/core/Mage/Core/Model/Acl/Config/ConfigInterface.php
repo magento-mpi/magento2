@@ -11,7 +11,7 @@
 /**
  * Object that implements this interface should give ACL resource list.
  */
-interface Mage_Core_Model_Acl_Config_Interface
+interface Mage_Core_Model_Acl_Config_ConfigInterface
 {
     /**
      * Return ACL Resources loaded from anywhere

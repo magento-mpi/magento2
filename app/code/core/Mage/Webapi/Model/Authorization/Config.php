@@ -16,7 +16,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_Interface
+class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_ConfigInterface
 {
 
     /**

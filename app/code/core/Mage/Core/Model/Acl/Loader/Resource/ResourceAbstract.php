@@ -11,12 +11,12 @@
 /**
  * Abstraction of ACL Resource Loader
  */
-abstract class Mage_Core_Model_Acl_Loader_Resource_Abstract implements Magento_Acl_Loader
+abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements Magento_Acl_Loader
 {
     /**
      * Acl config
      *
-     * @var Mage_Core_Model_Acl_Config_Interface
+     * @var Mage_Core_Model_Acl_Config_ConfigInterface
      */
     protected $_config;
 
@@ -35,7 +35,7 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_Abstract implements Magento_A
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        if (!($this->_config instanceof Mage_Core_Model_Acl_Config_Interface)) {
+        if (!($this->_config instanceof Mage_Core_Model_Acl_Config_ConfigInterface)) {
             throw new Mage_Core_Exception('Config loader is not defined');
         }
         if (!($this->_objectFactory instanceof Mage_Core_Model_Config)) {
