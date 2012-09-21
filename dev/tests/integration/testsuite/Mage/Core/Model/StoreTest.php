@@ -122,7 +122,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $_SERVER['SCRIPT_FILENAME'] = 'test/pub/index.php';
 
         $this->assertEquals(
-            'http://localhost/js/',
+            'http://localhost/lib/',
             $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)
         );
         $this->assertEquals(

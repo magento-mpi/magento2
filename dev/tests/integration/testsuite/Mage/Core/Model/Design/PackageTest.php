@@ -140,7 +140,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/css/styles.css',
-            'http://localhost/pub/js/calendar/calendar-blue.css',
+            'http://localhost/pub/lib/calendar/calendar-blue.css',
         );
         $params = array(
             'css/styles.css',
