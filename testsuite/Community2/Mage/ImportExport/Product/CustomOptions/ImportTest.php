@@ -219,7 +219,10 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->assertNotNull($csv,
             'Export has not been finished successfully');
         //Modify csv for Test Case condition
-
+        $csv[1] = $csv[0];
+        foreach ($csv[1] as &$value) {
+            $value = '';
+        }
         $csv[0]['_custom_option_row_title'] = 'red';
         $csv[1]['_custom_option_row_title'] = 'black';
         $this->navigate('import');
@@ -235,10 +238,13 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
+        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2'] =
+            $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1'];
+        unset($productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1']);
         $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1']['custom_options_title'] =
-            $csv[0]['_custom_option_row_title'];
-        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2']['custom_options_title'] =
             $csv[1]['_custom_option_row_title'];
+        $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2']['custom_options_title'] =
+            $csv[0]['_custom_option_row_title'];
         $this->productHelper()->verifyProductInfo($productData);
     }
 
