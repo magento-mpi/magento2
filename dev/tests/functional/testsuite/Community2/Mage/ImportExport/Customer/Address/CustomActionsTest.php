@@ -50,7 +50,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             $this->navigate('manage_customers');
             $userUpdateData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
+                array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.'));
             $this->customerHelper()->createCustomer($userUpdateData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userUpdateData['first_name'] . ' '
@@ -67,10 +67,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             $this->navigate('manage_customers');
             $userUpdateData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
+                array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.'));
             $userAddressData[1] = $this->loadDataSet(
                 'Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:'))
+                array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.')
             );
             $this->customerHelper()->createCustomer($userUpdateData, $userAddressData[0]);
             $this->assertMessagePresent('success', 'success_saved_customer');
@@ -134,7 +134,8 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $this->assertArrayHasKey('success', $importResult['import'],
             'Import has been finished with issues: ' . print_r($importResult, true));
         //Verifying
-        $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
+        $userAddressData = $this->loadDataSet('ImportExport', 'generic_address',
+            array('middle_name' => 'C.'));
         for ($i = 0; $i < 4; $i++) {
             $this->navigate('manage_customers');
             $this->addParameter('customer_first_last_name',
@@ -168,9 +169,9 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             $this->navigate('manage_customers');
             $userEmptyData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
+                array('zip_code' => $this->generate('string', 6, ':digit:'),  'middle_name' => 'C.'));
             $userAddressData[1] = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
+                array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.'));
             $this->customerHelper()->createCustomer($userEmptyData, $userAddressData[0]);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userEmptyData['first_name'] . ' '
