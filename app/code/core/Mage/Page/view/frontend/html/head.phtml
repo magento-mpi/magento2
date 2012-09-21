@@ -27,24 +27,3 @@
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>
 <?php echo $this->helper('Mage_Core_Helper_Js')->getTranslatorScript() ?>
-<script type="text/javascript">
-    //<![CDATA[
-    <?php
-    $lang = $this->getLocale();
-    if ($lang !== null && $lang !== 'en') {
-        $cultureJs = "globalize/cultures/globalize.culture." . $lang . ".js";
-        $translateJs = "mage/localization/json/translate_" . $lang . ".js";
-    }
-    ?>
-    var mapping = {
-        'localize': ["<?php echo $this->getSkinUrl('globalize/globalize.js')?>",
-            "<?php echo $this->getSkinUrl($cultureJs)?>",
-            "<?php echo $this->getSkinUrl($translateJs)?>",
-            "<?php echo $this->getSkinUrl('mage/localization/localize.js')?>"]
-    };
-    (function ($) {
-        $.mage.load.language('<?php echo $lang?>', mapping);
-    })(jQuery);
-    //]]>
-</script>
-
