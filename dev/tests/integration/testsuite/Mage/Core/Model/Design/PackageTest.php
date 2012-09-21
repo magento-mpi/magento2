@@ -179,7 +179,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/js/tabs.js',
-            'http://localhost/pub/js/calendar/calendar.js',
+            'http://localhost/pub/lib/calendar/calendar.js',
         );
         $params = array(
             'js/tabs.js',
@@ -208,7 +208,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array('calendar/calendar.js'),
-                array('http://localhost/pub/js/calendar/calendar.js',)
+                array('http://localhost/pub/lib/calendar/calendar.js',)
             ),
         );
     }
@@ -293,12 +293,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 'prototype/prototype.js',
-                'http://localhost/pub/js/prototype/prototype.js'
+                'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
                 false,
                 'prototype/prototype.js',
-                'http://localhost/pub/js/prototype/prototype.min.js'
+                'http://localhost/pub/lib/prototype/prototype.min.js'
             ),
             array(
                 true,
