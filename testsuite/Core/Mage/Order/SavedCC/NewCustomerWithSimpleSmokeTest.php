@@ -433,6 +433,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @group skip_due_to_bug1.12.0.1
      * @group skip_due_to_bug1.7
      * @group skip_due_to_bug1.7.0.1
+     * @group skip_due_to_bug_ce2
      */
     public function reorderPendingOrder($orderData)
     {
