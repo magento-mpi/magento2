@@ -25,10 +25,10 @@ Enterprise.Wishlist.Widget.Form = Class.create(Enterprise.Widget, {
 
     initialize: function($super, action) {
         var _templateString = '<ul class="form-list">' +
-                '<li><label for="wishlist-name">' + Translator.translate('Wishlist Name') + '</label><div class="input-box"><input type="text" id="wishlist-name" maxlength="255" class="input-text required-entry validate-length maximum-length-255" name="name"/></div>' +
-                '<li class="control"><div class="input-box"><input type="checkbox" id="wishlist-public" name="visibility"></div><label for="wishlist-public">' + Translator.translate('Make This Wishlist Public') + '</label></li>' +
+                '<li><label for="wishlist-name">' + jQuery.mage.__('Wishlist Name') + '</label><div class="input-box"><input type="text" id="wishlist-name" maxlength="255" class="input-text required-entry validate-length maximum-length-255" name="name"/></div>' +
+                '<li class="control"><div class="input-box"><input type="checkbox" id="wishlist-public" name="visibility"></div><label for="wishlist-public">' + jQuery.mage.__('Make This Wishlist Public') + '</label></li>' +
             '</ul>' +
-            '<div class="buttons-set form-buttons"><button type="submit" class="button btn-save"><span><span>' + Translator.translate('Save') + '</span></span></button><button type="button" class="button btn-cancel"><span><span>' + Translator.translate('Cancel') + '</span></span></button></div>';
+            '<div class="buttons-set form-buttons"><button type="submit" class="button btn-save"><span><span>' + jQuery.mage.__('Save') + '</span></span></button><button type="button" class="button btn-cancel"><span><span>' + jQuery.mage.__('Cancel') + '</span></span></button></div>';
 
         this.action = action;
         $super(new Element('form', {'method': 'post', 'action': action}));
@@ -115,7 +115,7 @@ Enterprise.Wishlist.Widget.Form.Create = Class.create(Enterprise.Wishlist.Widget
                         } else if (typeof data.redirect != 'undefined') {
                             setLocation(data.redirect);
                         } else {
-                            alert(Translator.translate('Error happened while creating wishlist. Please try again later'));
+                            alert(jQuery.mage.__('Error happened while creating wishlist. Please try again later'));
                         }
                     } catch (e) {
                         setLocation(window.location.href);
@@ -137,7 +137,7 @@ Enterprise.Wishlist.createWithCallback = function(createUrl, callback, useAjax) 
     if (!Enterprise.Wishlist.createWithCallbackDialog) {
         var createWithCallbackForm = new Enterprise.Wishlist.Widget.Form.Create(createUrl, useAjax);
         Enterprise.Wishlist.createWithCallbackDialog = new Enterprise.Widget.Dialog(
-            Translator.translate('Create New Wishlist'),
+            jQuery.mage.__('Create New Wishlist'),
             createWithCallbackForm.getNode()
         );
         Enterprise.Wishlist.createWithCallbackDialog.form = createWithCallbackForm;
@@ -158,7 +158,7 @@ Enterprise.Wishlist.create = function(createUrl, callback) {
     if (!Enterprise.Wishlist.createDialog) {
         var createForm = new Enterprise.Wishlist.Widget.Form(createUrl);
         Enterprise.Wishlist.createDialog = new Enterprise.Widget.Dialog(
-            Translator.translate('Create New Wishlist'),
+            jQuery.mage.__('Create New Wishlist'),
             createForm.getNode()
         );
         createForm.onCancel = Enterprise.Wishlist.createDialog.hide.bind(Enterprise.Wishlist.createDialog);
@@ -170,7 +170,7 @@ Enterprise.Wishlist.edit = function(editUrl, wishlistName, visibility) {
     if (!Enterprise.Wishlist.editDialog) {
         var editForm = new Enterprise.Wishlist.Widget.Form(editUrl);
         Enterprise.Wishlist.editDialog = new Enterprise.Widget.Dialog(
-            Translator.translate('Edit Wishlist'),
+            jQuery.mage.__('Edit Wishlist'),
             editForm.getNode()
         );
         Enterprise.Wishlist.editDialog.form = editForm;
@@ -211,7 +211,7 @@ Enterprise.Wishlist.moveItemTo = function(itemId, qty, wishlistId) {
 
 Enterprise.Wishlist.copySelectedTo = function(wishlistId) {
     if (!this.itemsSelected()) {
-        alert(Translator.translate('You must select items to copy'));
+        alert(jQuery.mage.__('You must select items to copy'));
         return;
     }
     var url = Enterprise.Wishlist.url.copySelected;
@@ -221,7 +221,7 @@ Enterprise.Wishlist.copySelectedTo = function(wishlistId) {
 
 Enterprise.Wishlist.moveSelectedTo = function(wishlistId) {
     if (!this.itemsSelected()) {
-        alert(Translator.translate('You must select items to move'));
+        alert(jQuery.mage.__('You must select items to move'));
         return;
     }
     var url = Enterprise.Wishlist.url.moveSelected;
@@ -249,7 +249,7 @@ Enterprise.Wishlist.moveItemToNew = function(itemId, qty) {
 
 Enterprise.Wishlist.moveSelectedToNew = function() {
     if (!this.itemsSelected()) {
-        alert(Translator.translate('You must select items to move'));
+        alert(jQuery.mage.__('You must select items to move'));
         return;
     }
     this.createWithCallback(Enterprise.Wishlist.url.create, this.moveSelectedTo.bind(this));
@@ -257,7 +257,7 @@ Enterprise.Wishlist.moveSelectedToNew = function() {
 
 Enterprise.Wishlist.copySelectedToNew = function() {
     if (!this.itemsSelected()) {
-        alert(Translator.translate('You must select items to copy'));
+        alert(jQuery.mage.__('You must select items to copy'));
         return;
     }
     this.createWithCallback(Enterprise.Wishlist.url.create, this.copySelectedTo.bind(this));
@@ -284,7 +284,7 @@ Event.observe(document, 'dom:loaded', function() {
                 setLocation(this.href);
             }
 
-            var wishlistSplitButton = new Enterprise.Widget.SplitButton(link.innerHTML, Translator.translate('Add to:'), 'light clickable');
+            var wishlistSplitButton = new Enterprise.Widget.SplitButton(link.innerHTML, jQuery.mage.__('Add to:'), 'light clickable');
             wishlistSplitButton.onClick = onclick.bind({href: url});
 
             Enterprise.Wishlist.list.each(function(wishlist) {
@@ -294,7 +294,7 @@ Event.observe(document, 'dom:loaded', function() {
             });
 
             if (Enterprise.Wishlist.canCreate) {
-                var option = new Enterprise.Widget.SplitButton.Option(Translator.translate('Create New Wishlist'), 'new');
+                var option = new Enterprise.Widget.SplitButton.Option(jQuery.mage.__('Create New Wishlist'), 'new');
                 option.onClick = Enterprise.Wishlist.createWithCallback.bind(this, Enterprise.Wishlist.url.create, function(wishlist) {
                     (onclick.bind({
                         href: buildUrl(url, wishlist)

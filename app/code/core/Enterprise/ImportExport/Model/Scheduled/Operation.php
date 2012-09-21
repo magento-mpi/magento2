@@ -338,6 +338,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $result = false;
         try {
             $result = $operation->runSchedule($this);
+            if ($result) {
+                $operation->reindexAll();
+            }
         } catch (Exception $e) {
             $operation->addLogComment($e->getMessage());
         }

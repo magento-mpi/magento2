@@ -10,6 +10,11 @@
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Init form fields
+     *
+     * @return Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
+     */
     public function initForm()
     {
         $form = new Varien_Data_Form();
@@ -20,20 +25,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Send Gift Card'))
         );
-
-/*
-        $emailTemplates = array();
-        foreach (Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')->toOptionArray() as $option) {
-            $emailTemplates[$option['value']] = $option['label'];
-        }
-
-        $fieldset->addField('email_template', 'select', array(
-            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Email Template'),
-            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Email Template'),
-            'name'      => 'email_template',
-            'options'   => $emailTemplates,
-        ));
-*/
 
         $fieldset->addField('recipient_email', 'text', array(
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Recipient Email'),
@@ -48,14 +39,17 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             'name'      => 'recipient_name',
         ));
 
-        $field = $fieldset->addField('store_id', 'select', array(
-            'name'     => 'recipient_store',
-            'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
-            'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
-            'after_element_html' => $this->_getStoreIdScript()
-        ));
-        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
-        $field->setRenderer($renderer);
+        if (!Mage::app()->isSingleStoreMode()) {
+            $field = $fieldset->addField('store_id', 'select', array(
+                'name'     => 'recipient_store',
+                'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
+                'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
+                'after_element_html' => $this->_getStoreIdScript()
+            ));
+            $renderer = $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $field->setRenderer($renderer);
+        }
 
         $fieldset->addField('action', 'hidden', array(
             'name'      => 'send_action',
