@@ -28,7 +28,7 @@ class Mage_Core_Utility_Layout
      * Retrieve new layout update model instance with XML data from a fixture file
      *
      * @param string $layoutUpdatesFile
-     * @return Mage_Core_Model_Layout_Update|PHPUnit_Framework_MockObject_MockObject
+     * @return Mage_Core_Model_Layout_Merge|PHPUnit_Framework_MockObject_MockObject
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {

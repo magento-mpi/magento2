@@ -128,7 +128,7 @@ class Mage_Core_Model_Layout_Merge
      * Add XML update instruction
      *
      * @param string $update
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function addUpdate($update)
     {
@@ -160,7 +160,7 @@ class Mage_Core_Model_Layout_Merge
      * Add handle(s) to update
      *
      * @param array|string $handleName
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function addHandle($handleName)
     {
@@ -380,7 +380,7 @@ class Mage_Core_Model_Layout_Merge
      *
      * @param array|string $handles
      * @throws Magento_Exception
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function load($handles = array())
     {
@@ -437,7 +437,7 @@ class Mage_Core_Model_Layout_Merge
      * Merge layout update by handle
      *
      * @param string $handle
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     protected function _merge($handle)
     {
@@ -508,7 +508,7 @@ class Mage_Core_Model_Layout_Merge
      * Add handles declared as '<update handle="handle_name"/>' directives
      *
      * @param SimpleXMLElement $updateXml
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     protected function _fetchRecursiveUpdates($updateXml)
     {
