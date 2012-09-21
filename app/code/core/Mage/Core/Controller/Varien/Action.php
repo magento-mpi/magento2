@@ -51,6 +51,11 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
     protected $_response;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Real module name (like 'Mage_Module')
      *
      * @var string

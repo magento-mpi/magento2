@@ -232,11 +232,20 @@ class Mage_Core_Model_App
     protected $_isCacheLocked = null;
 
     /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Constructor
      */
-    public function __construct(Mage_Core_Controller_Varien_Front $frontController)
-    {
+    public function __construct(Mage_Core_Controller_Varien_Front $frontController,
+        Magento_ObjectManager $objectManager
+    ) {
         $this->_frontController = $frontController;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -1226,7 +1235,7 @@ class Mage_Core_Model_App
     public function getRequest()
     {
         if (empty($this->_request)) {
-            $this->_request = new Mage_Core_Controller_Request_Http();
+            $this->_request = $this->_objectManager->create('Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
     }
