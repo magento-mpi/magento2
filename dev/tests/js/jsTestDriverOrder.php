@@ -14,7 +14,7 @@
  */
 return array(
     '/pub/lib/globalize/globalize.js',
-    '/pub/lib/jquery/jquery.js',
+    '/pub/lib/jquery/jquery-1.7.1.min.js',
     '/pub/lib/jquery/jquery.cookie.js',
     '/pub/lib/jquery/head.js',
     '/pub/lib/mage/mage.js',
