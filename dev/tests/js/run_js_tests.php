@@ -69,8 +69,9 @@ if (file_exists($fileOrder)) {
     }
     foreach ($loadFiles as $loadFile) {
         $found = false;
+        $normalizedLoadFile = normalize($loadFile);
         foreach ($loadOrder as $orderFile) {
-            if (strcmp(normalize('../../..' . $orderFile), normalize($loadFile)) == 0) {
+            if (strcmp(normalize('../../..' . $orderFile), $normalizedLoadFile) == 0) {
                 $found = true;
                 break;
             }
