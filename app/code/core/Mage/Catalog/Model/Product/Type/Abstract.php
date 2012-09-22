@@ -58,6 +58,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     protected $_fileQueue       = array();
 
+    /**
+     * Helpers list
+     *
+     * @var array
+     */
+    protected $_helpers = array();
+
     const CALCULATE_CHILD = 0;
     const CALCULATE_PARENT = 1;
 
@@ -87,6 +94,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Item options prefix
      */
     const OPTION_PREFIX = 'option_';
+
+    /**
+     * Initialize data
+     *
+     * @param array $data
+     */
+    public function __construct(array $data= array())
+    {
+        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
+    }
 
     /**
      * Specify type identifier
@@ -376,7 +393,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         $path = dirname($dst);
                         $io = new Varien_Io_File();
                         if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-                            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
+                            Mage::throwException($this->_helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
                         }
 
                         $uploader->setDestination($path);
@@ -388,15 +405,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                             if (isset($queueOptions['option'])) {
                                 $queueOptions['option']->setIsValid(false);
                             }
-                            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("File upload failed"));
+                            Mage::throwException($this->_helper('Mage_Catalog_Helper_Data')->__("File upload failed"));
                         }
-                        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     default:
                         break;
@@ -438,7 +455,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).');
+        return $this->_helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).');
     }
 
     /**
@@ -493,7 +510,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     if (!$customOption || strlen($customOption->getValue()) == 0) {
                         $product->setSkipCheckRequiredOption(true);
                         Mage::throwException(
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('The product has required options')
+                            $this->_helper('Mage_Catalog_Helper_Data')->__('The product has required options')
                         );
                     }
                 }
@@ -898,7 +915,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
             Mage::logException($e);
-            $errors[] = Mage::helper('Mage_Catalog_Helper_Data')->__('There was an error while request processing.');
+            $errors[] = $this->_helper('Mage_Catalog_Helper_Data')->__('There was an error while request processing.');
         }
 
         return $errors;
@@ -914,5 +931,19 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function isMapEnabledInOptions($product, $visibility = null)
     {
         return false;
+    }
+
+    /**
+     * Retrieve helper by specified name
+     *
+     * @param string $name
+     * @return Mage_Core_Helper_Abstract
+     */
+    protected function _helper($name)
+    {
+        if (!isset($this->_helpers[$name])) {
+            $this->_helpers[$name] = $this->_helper($name);
+        }
+        return $this->_helpers[$name];
     }
 }

@@ -91,6 +91,24 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
+     * Resource instance
+     *
+     * @var null
+     */
+    protected $_resource;
+
+    /**
+     * Initialize data
+     *
+     * @param array $data
+     */
+    public function __construct(array $data= array())
+    {
+        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        parent::__construct($data);
+    }
+
+    /**
      * Initialize resources
      */
     protected function _construct()
@@ -564,7 +582,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _getResource()
     {
-        return parent::_getResource();
+        if (is_null($this->_resource)) {
+            return parent::_getResource();
+        }
+        return $this->_resource;
     }
 
     /**
