@@ -94,6 +94,7 @@ return array(
     'Mage_Core_Model_Session_Abstract_Varien',
     'Mage_Core_Model_Session_Abstract_Zend',
     'Mage_Core_Model_Layout_Data' => array('suggestion' => 'Mage_Core_Model_Layout_Update'),
+    'Mage_Core_Model_Layout_Update' => array('suggestion' => 'Mage_Core_Model_Layout_Merge'),
     'Mage_Customer_Block_Account',
     'Mage_Directory_Model_Resource_Currency_Collection',
     'Mage_Downloadable_FileController' => array(
