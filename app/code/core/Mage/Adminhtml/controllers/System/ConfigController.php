@@ -18,10 +18,10 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      *
      * @var bool
      */
-    protected $_isSectionAllowedFlag = true;
+    protected $_isSectionAllowed = true;
 
     /**
-     * Controller predispatch method
+     * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
      * @return Mage_Adminhtml_System_ConfigController
@@ -31,7 +31,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         parent::preDispatch();
 
         if ($this->getRequest()->getParam('section')) {
-            $this->_isSectionAllowedFlag = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
+            $this->_isSectionAllowed = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
         }
 
         return $this;
@@ -80,7 +80,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->getLayout()->addBlock('Mage_Adminhtml_Block_System_Config_Tabs', '', 'left')->initTabs();
 
-        if ($this->_isSectionAllowedFlag) {
+        if ($this->_isSectionAllowed) {
             $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Edit')->initForm());
 
             $this->_addJs($this->getLayout()
@@ -105,24 +105,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         /* @var $session Mage_Adminhtml_Model_Session */
         $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
-        $groups = $this->getRequest()->getPost('groups');
-
-        if (isset($_FILES['groups']['name']) && is_array($_FILES['groups']['name'])) {
-            /**
-             * Carefully merge $_FILES and $_POST information
-             * None of '+=' or 'array_merge_recursive' can do this correct
-             */
-            foreach($_FILES['groups']['name'] as $groupName => $group) {
-                if (is_array($group)) {
-                    foreach ($group['fields'] as $fieldName => $field) {
-                        if (!empty($field['value'])) {
-                            $groups[$groupName]['fields'][$fieldName] = array('value' => $field['value']);
-                        }
-                    }
-                }
-            }
-        }
-
         try {
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
                 throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This section is not allowed.'));
@@ -133,31 +115,26 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $section = $this->getRequest()->getParam('section');
             $website = $this->getRequest()->getParam('website');
             $store   = $this->getRequest()->getParam('store');
-            Mage::getModel('Mage_Adminhtml_Model_Config_Data')
-                ->setSection($section)
-                ->setWebsite($website)
-                ->setStore($store)
-                ->setGroups($groups)
-                ->save();
+            Mage::getModel('Mage_Adminhtml_Model_Config_Data')->setSection($section)->setWebsite($website)
+                ->setStore($store)->setGroups($this->_getGroupsForSave())->save();
 
-            // reinit configuration
+            // re-init configuration
             Mage::getConfig()->reinit();
             Mage::dispatchEvent('admin_system_config_section_save_after', array(
-                'website' => $website,
-                'store'   => $store,
-                'section' => $section
+                'website' => $website, 'store'   => $store, 'section' => $section
             ));
             Mage::app()->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
-            Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
-                array('website' => $website, 'store' => $store)
-            );
+            Mage::dispatchEvent("admin_system_config_changed_section_{$section}", array(
+                'website' => $website, 'store' => $store
+            ));
             $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The configuration has been saved.'));
         } catch (Mage_Core_Exception $e) {
-            foreach(explode("\n", $e->getMessage()) as $message) {
-                $session->addError($message);
-            }
+            $messages = explode("\n", $e->getMessage());
+            array_walk($messages, create_function(
+                '$message', 'Mage::getSingleton(\'Mage_Adminhtml_Model_Session\')->addError($message);'
+            ));
         } catch (Exception $e) {
             $session->addException($e,
                 Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:')
@@ -165,8 +142,34 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
-
         $this->_redirect('*/*/edit', array('_current' => array('section', 'website', 'store')));
+    }
+
+    /**
+     * Get groups for save
+     *
+     * @return array|null
+     */
+    protected function _getGroupsForSave()
+    {
+        $groups = $this->getRequest()->getPost('groups');
+
+        if (isset($_FILES['groups']['name']) && is_array($_FILES['groups']['name'])) {
+            /**
+             * Carefully merge $_FILES and $_POST information
+             * None of '+=' or 'array_merge_recursive' can do this correct
+             */
+            foreach ($_FILES['groups']['name'] as $groupName => $group) {
+                if (is_array($group)) {
+                    foreach ($group['fields'] as $fieldName => $field) {
+                        if (!empty($field['value'])) {
+                            $groups[$groupName]['fields'][$fieldName] = array('value' => $field['value']);
+                        }
+                    }
+                }
+            }
+        }
+        return $groups;
     }
 
     /**
