@@ -22,11 +22,11 @@
         </replace>
     </target>
 
-    <target name="_static_tests_all" depends="_product_location" description="All static tests with out JS static test">
+    <target name="_static_tests_no_js" depends="_product_location" description="All static tests without JS static test">
         <copy file="${product_root_dir}/dev/build/core_dev/static/dev/tests/static/phpunit.php.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
+            <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
         </exec>
     </target>
 
@@ -46,7 +46,7 @@
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
-            <target name="_static_tests_all"/>
+            <target name="_static_tests_no_js"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -55,7 +55,7 @@
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
-            <target name="_static_tests_all"/>
+            <target name="_static_tests_no_js"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -67,7 +67,7 @@
             <param name="phpunit_config_file" value="${product_root_dir}/dev/tests/static/phpunit.xml"/>
         </antcall>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
+            <arg line="--log-junit ${basedir}/static_tests_js.xml"/>
         </exec>
     </target>
 
