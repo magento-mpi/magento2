@@ -23,70 +23,46 @@ TreeTest.prototype.testDefaultOptions = function() {
     assertEquals(false, ui.selected_parent_close);
     assertEquals(false, themes.dots);
     assertEquals(false, themes.icons);
-    tree.vde_page('destroy');
+    tree.vde_tree('destroy');
 };
 var TreeTestAsync = AsyncTestCase('TreeTestAsync');
-/*TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
+TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
     /*:DOC +=
-    <div id="tree" data-selected="li[rel='tree_element']">
+     <div id="tree">
         <ul>
             <li rel="tree_element"><a href="#">All Pages</a></li>
         </ul>
-    </div>
-    */ /*
-    var tree = jQuery('#tree');
+     </div>
+     */
+    var tree = jQuery('#tree').data('selected', 'li[rel="tree_element"]');
     var selectNodeEventIsTriggered = false;
+    var treeLoaded = false;
     queue.call('Step 1: Bind callback on "select_node" event and initialize tree widget', function(callbacks) {
-        var treeLoaded = callbacks.add(function() {});
+        var selectNodeEventTriggered = callbacks.add(function() { selectNodeEventIsTriggered = true; });
         tree
             .on('select_node.jstree', function() {
-                selectNodeEventIsTriggered = true;
+                selectNodeEventTriggered();
             })
             .on('loaded.jstree', function() {
-                treeLoaded();
+                treeLoaded = true;
             });
         tree.vde_tree();
     });
     queue.call('Step 2: Check if "select_node" event is triggered', function() {
+        assertEquals(true, treeLoaded);
         assertEquals(true, selectNodeEventIsTriggered);
+        tree.vde_tree('destroy');
     });
-    tree.vde_page('destroy');
-};*/
-TreeTestAsync.prototype.testTreeLoadWithoutInitialSelect = function(queue) {
-    /*:DOC +=
-    <div id="tree">
-        <ul>
-            <li rel="tree_element"><a href="#">All Pages</a></li>
-        </ul>
-    </div>
-    */
-    var tree = jQuery('#tree');
-    var selectNodeEventIsTriggered = false;
-    queue.call('Step 1: Bind callback on "select_node" event and initialize tree widget', function(callbacks) {
-        var treeLoaded = callbacks.add(function() {});
-        tree
-            .on('select_node.jstree', function() {
-                selectNodeEventIsTriggered = true;
-            })
-            .on('loaded.jstree', function() {
-                treeLoaded();
-            });
-        tree.vde_tree();
-    });
-    queue.call('Step 2: Check if "select_node" event is triggered', function() {
-        assertEquals(false, selectNodeEventIsTriggered);
-    });
-    tree.vde_page('destroy');
 };
-/*TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
+TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
     /*:DOC +=
-    <div id="tree" data-selected="li[rel='tree_element']">
+     <div id="tree">
         <ul>
             <li rel="tree_element"><a href="#link">All Pages</a></li>
         </ul>
-    </div>
-    */ /*
-    var tree = jQuery('#tree');
+     </div>
+     */
+    var tree = jQuery('#tree').data('selected', 'li[rel="tree_element"]');
     var linkSelectedEventIsTriggered = false;
     var locationIsChanged = false;
     queue.call('Step 1: Bind callback on "select_node" event and initialize tree widget', function(callbacks) {
@@ -105,17 +81,17 @@ TreeTestAsync.prototype.testTreeLoadWithoutInitialSelect = function(queue) {
     queue.call('Step 2: Check if "select_node" event is triggered', function() {
         assertEquals(true, linkSelectedEventIsTriggered);
         assertEquals(false, locationIsChanged);
+        tree.vde_tree('destroy');
     });
-    tree.vde_page('destroy');
-};*/
+};
 TreeTestAsync.prototype.testTreeSelectNode = function(queue) {
     /*:DOC +=
-    <div id="tree">
+     <div id="tree">
         <ul>
             <li rel="tree_element"><a href="#link">All Pages</a></li>
         </ul>
-    </div>
-    */
+     </div>
+     */
     var tree = jQuery('#tree');
     var linkSelectedEventIsTriggered = false;
     var locationIsChanged = false;
@@ -138,6 +114,6 @@ TreeTestAsync.prototype.testTreeSelectNode = function(queue) {
     queue.call('Step 2: Check if "link_selected" event is triggered', function() {
         assertEquals(true, linkSelectedEventIsTriggered);
         assertEquals(true, locationIsChanged);
+        tree.vde_tree('destroy');
     });
-    tree.vde_page('destroy');
 };
