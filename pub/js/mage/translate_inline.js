@@ -150,7 +150,7 @@
         }
     });
     /*
-     * TODO: move the "escapeHTML" method into the file with global utility functions
+     * @TODO move the "escapeHTML" method into the file with global utility functions
      */
     $.extend(true, $, {
         mage: {
