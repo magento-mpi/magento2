@@ -100,9 +100,10 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     public function saveAction()
     {
+        $userId = (int)$this->getRequest()->getPost('user_id');
         $data = $this->getRequest()->getPost();
+        $redirectBack = false;
         if ($data) {
-            $userId = (int)$this->getRequest()->getPost('user_id');
             $user = $this->_loadApiUser($userId);
             if (!$user) {
                 return;
@@ -110,23 +111,31 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
             $user->setData($data);
             try {
+                $this->_validateUserData($user);
                 $user->save();
 
-                $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
-                $this->_getSession()->setWebapiUserData(null);
-                if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('user_id' => $user->getId()));
-                    return;
-                }
+                $this->_getSession()
+                    ->setWebapiUserData(null)
+                    ->addSuccess(Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
+                $redirectBack = $this->getRequest()->has('back');
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()
+                    ->setWebapiUserData($data)
+                    ->addError($e->getMessage());
+                $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-                $this->_getSession()->setWebapiUserData($data);
-                $this->_redirect('*/*/edit', array('user_id' => $user->getId()));
-                return;
+                Mage::logException($e);
+                $this->_getSession()
+                    ->setWebapiUserData($data)
+                    ->addError($e->getMessage());
+                $redirectBack = true;
             }
         }
-        $this->_redirect('*/*/');
+        if ($redirectBack) {
+            $this->_redirect('*/*/edit', array('user_id' => $userId));
+        } else {
+            $this->_redirect('*/*/');
+        }
     }
 
     /**
@@ -175,6 +184,25 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     protected function _isAllowed()
     {
         return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_users');
+    }
+
+    /**
+     * Validate Web API User data
+     *
+     * @throws Mage_Core_Exception
+     *
+     * @param Mage_Webapi_Model_Acl_User $user
+     * @return bool
+     */
+    protected function _validateUserData($user)
+    {
+        if (!$user->getUserName()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User name is required.'));
+        }
+        if (!$user->getRoleId()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User role is required.'));
+        }
+        return true;
     }
 
     /**
