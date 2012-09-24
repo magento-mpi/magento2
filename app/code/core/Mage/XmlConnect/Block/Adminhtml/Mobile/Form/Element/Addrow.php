@@ -77,7 +77,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow
     public function toHtml()
     {
         $blockClassName = Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Template');
-        $jsBlock = new $blockClassName;
+        //TODO: Get rid from Mage::getObjectManager
+        $jsBlock = Mage::getObjectManager()->create($blockClassName);
         $jsBlock->setTemplate('Mage_XmlConnect::form/element/addrow.phtml');
         $jsBlock->setOptions($this->getOptions());
         return parent::toHtml() . $jsBlock->toHtml();

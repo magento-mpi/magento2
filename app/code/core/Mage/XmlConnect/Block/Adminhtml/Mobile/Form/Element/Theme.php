@@ -27,7 +27,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Theme
     {
         $blockClassName = Mage::getConfig()
             ->getBlockClassName('Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes');
-        $block = new $blockClassName;
+        //TODO: Get rid from Mage::getObjectManager
+        $block = Mage::getObjectManager()->create($blockClassName);
         $block->setThemes($this->getThemes());
         $block->setName($this->getName());
         $block->setValue($this->getValue());

@@ -30,7 +30,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
         }
 
         $blockClassName = Mage::getConfig()->getBlockClassName('Mage_Adminhtml_Block_Template');
-        $block = new $blockClassName;
+        //TODO: Get rid from Mage::getObjectManager
+        $block = Mage::getObjectManager()->create($blockClassName);
         $device = Mage::helper('Mage_XmlConnect_Helper_Data')->getDeviceType();
         if (array_key_exists($device, Mage::helper('Mage_XmlConnect_Helper_Data')->getSupportedDevices())) {
             $template = 'Mage_XmlConnect::form/element/app_tabs_' . strtolower($device) . '.phtml';
@@ -41,7 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs
         }
 
         $block->setTemplate($template);
-        $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', $this->getValue());
+        $tabs = Mage::getModel('Mage_XmlConnect_Model_Tabs', array('data' => $this->getValue()));
         $block->setTabs($tabs);
         $block->setName($this->getName());
         return $block->toHtml();
