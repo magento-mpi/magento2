@@ -277,4 +277,44 @@ class Mage_Downloadable_Model_Observer
         $block->addOptionsRenderCfg('downloadable', 'Mage_Downloadable_Helper_Catalog_Product_Configuration');
         return $this;
     }
+
+    public function copyProductDownloadableData($observer)
+    {
+        $currentProduct = $observer->getCurrentProduct();
+        $newProduct = $observer->getNewProduct();
+        if ($currentProduct->getTypeId() !== Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            //do nothing if not downloadable
+            return $this;
+        }
+        $downloadableData = array();
+        $type = $currentProduct->getTypeInstance();
+        foreach ($type->getLinks($currentProduct) as $key => $link) {
+            $linkData = $link->getData();
+            $downloadableData['link'][$key] = array(
+                'file' => $linkData['link_file'],
+                'sample' => array(
+                    'url' => $linkData['sample_url'],
+                    'file' => $linkData['sample_file'],
+                    'type' => $linkData['sample_type']),
+                'type' => $linkData['link_type'],
+                'sort_order' => $linkData['sort_order'],
+                'number_of_downloads' => $linkData['number_of_downloads'],
+                'is_shareable' => $linkData['is_shareable'],
+                'link_url' => $linkData['link_url'],
+                'price' => $linkData['price'],
+                'title' => $linkData['title'],
+            );
+        }
+        foreach ($type->getSamples($currentProduct)->getData() as $key => $sample) {
+            $downloadableData['sample'][$key] = array(
+                'title' => $sample['title'],
+                'type' => $sample['sample_type'],
+                'sample_url' => $sample['sample_url'],
+                'file' => $sample['sample_file'],
+                'sort_order' => $sample['sort_order'],
+            );
+        }
+        $newProduct->setDownloadableData($downloadableData);
+        return $this;
+    }
 }
