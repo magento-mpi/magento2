@@ -81,10 +81,10 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      * Authenticate user
      * @todo remove fake authentication code
      *
-     * @param Mage_Webapi_Model_Request_DecoratorAbstract $request
+     * @param Mage_Webapi_Controller_RequestAbstract $request
      * @return string
      */
-    protected function _authenticate(Mage_Webapi_Model_Request_DecoratorAbstract $request)
+    protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
     {
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
