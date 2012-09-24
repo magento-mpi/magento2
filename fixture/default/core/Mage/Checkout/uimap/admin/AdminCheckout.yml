@@ -271,6 +271,8 @@ create_order_for_new_customer:
                             expiration_year: //select[@id='%paymentId%_expiration_yr']
                             start_date_month: //select[@id='%paymentId%_start_month']
                             start_date_year: //select[@id='%paymentId%_start_year']
+                        pageelements:
+                            selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]

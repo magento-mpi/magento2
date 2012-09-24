@@ -426,28 +426,26 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
 
     /**
      * @param array $paymentMethod
-     *
-     * @return bool
      */
     public function selectPaymentMethod(array $paymentMethod)
     {
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
-        if ($payment) {
-            $this->addParameter('paymentTitle', $payment);
-            if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
-                $this->fillRadiobutton('check_payment_method', 'Yes');
-                if ($card) {
-                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
-                    $this->addParameter('paymentId', $paymentId);
-                    $this->fillFieldset($card, 'payment_method');
-                }
-            } elseif (!$this->controlIsPresent('radiobutton', 'selected_one_payment')) {
-                $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
-                return false;
-            }
+        if (!$payment) {
+            return;
         }
-        return true;
+        $this->addParameter('paymentTitle', $payment);
+        if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
+            $this->fillRadiobutton('check_payment_method', 'Yes');
+        } elseif (!$this->controlIsPresent('radiobutton', 'selected_one_payment')) {
+            $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
+            return;
+        }
+        if ($card) {
+            $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
+            $this->addParameter('paymentId', $paymentId);
+            $this->fillFieldset($card, 'payment_method');
+        }
     }
 
     /**

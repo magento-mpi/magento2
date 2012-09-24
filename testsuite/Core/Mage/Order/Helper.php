@@ -377,23 +377,24 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         }
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
-
-        if ($payment) {
-            $this->addParameter('paymentTitle', $payment);
-            if (!$this->controlIsPresent('radiobutton', 'check_payment_method')) {
-                if ($validate) {
-                    $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
-                }
-            } else {
-                $this->fillRadiobutton('check_payment_method', 'Yes');
-                $this->pleaseWait();
-                if ($card) {
-                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
-                    $this->addParameter('paymentId', $paymentId);
-                    $this->fillFieldset($card, 'order_payment_method');
-                    $this->validate3dSecure();
-                }
+        if (is_null($payment)) {
+            return;
+        }
+        $this->addParameter('paymentTitle', $payment);
+        if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
+            $this->fillRadiobutton('check_payment_method', 'Yes');
+            $this->pleaseWait();
+        } elseif (!$this->controlIsPresent('pageelement', 'selected_one_payment')) {
+            if ($validate) {
+                $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
             }
+            return;
+        }
+        if ($card) {
+            $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
+            $this->addParameter('paymentId', $paymentId);
+            $this->fillFieldset($card, 'order_payment_method');
+            $this->validate3dSecure();
         }
     }
 

@@ -263,22 +263,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
         $this->assertOnePageCheckoutTabOpened('payment_method');
-
-        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
-        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
-        if ($payment) {
-            $this->addParameter('paymentTitle', $payment);
-            if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
-                $this->fillRadiobutton('check_payment_method', 'Yes');
-                if ($card) {
-                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
-                    $this->addParameter('paymentId', $paymentId);
-                    $this->fillForm($card);
-                }
-            } elseif (!$this->controlIsPresent('radiobutton', 'selected_one_payment')) {
-                $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
-            }
-        }
+        $this->checkoutMultipleAddressesHelper()->selectPaymentMethod($paymentMethod);
         $this->goToNextOnePageCheckoutStep('payment_method');
     }
 
