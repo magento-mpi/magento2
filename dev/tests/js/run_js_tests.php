@@ -10,8 +10,10 @@
  * @license     {license_link}
  */
 
-require_once normalize('../../../lib/Magento/Autoload.php');
-Magento_Autoload::getInstance()->addIncludePath(normalize('../../../lib'));
+define('RELATIVE_APP_ROOT', '../../..');
+
+require_once normalize(RELATIVE_APP_ROOT . '/lib/Magento/Autoload.php');
+Magento_Autoload::getInstance()->addIncludePath(normalize(RELATIVE_APP_ROOT . '/lib'));
 
 $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');
@@ -64,14 +66,14 @@ $sortedFiles = array();
 $fileOrder = normalize('jsTestDriverOrder.php');
 if (file_exists($fileOrder)) {
     $loadOrder = require($fileOrder);
-    foreach ($loadOrder as $i => $file) {
-        $sortedFiles[$i] = '../../..' . $file;
+    foreach ($loadOrder as $file) {
+        $sortedFiles[] = RELATIVE_APP_ROOT . $file;
     }
     foreach ($loadFiles as $loadFile) {
         $found = false;
         $normalizedLoadFile = normalize($loadFile);
         foreach ($loadOrder as $orderFile) {
-            if (strcmp(normalize('../../..' . $orderFile), $normalizedLoadFile) == 0) {
+            if (strcmp(normalize(RELATIVE_APP_ROOT . $orderFile), $normalizedLoadFile) == 0) {
                 $found = true;
                 break;
             }
@@ -90,7 +92,7 @@ fwrite($fh, "server: $server" . PHP_EOL);
 if (count($proxies) > 0) {
     fwrite($fh, "proxy:" . PHP_EOL);
     foreach ($proxies as $proxy) {
-        $proxyServer = sprintf($proxy['server'], $server, str_replace("\\", "/", realpath(__DIR__ . '/../../..')));
+        $proxyServer = sprintf($proxy['server'], $server, normalize(RELATIVE_APP_ROOT));
         fwrite($fh, '  - {matcher: "' . $proxy['matcher'] . '", server: "' . $proxyServer . '"}' . PHP_EOL);
     }
 }
@@ -169,7 +171,7 @@ function showUsage()
 /**
  * Reports an error given an error message and exits, effectively halting the PHP script's execution.
  *
- * @param $message - Error message to be displayed to the user.
+ * @param string $message - Error message to be displayed to the user.
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
@@ -183,7 +185,7 @@ function reportError($message)
  * Takes a file or directory path in any form and normalizes it to fully absolute canonical form
  * relative to this PHP script's location.
  *
- * @param $filePath - File or directory path to be fully normalized to canonical form.
+ * @param string $filePath - File or directory path to be fully normalized to canonical form.
  *
  * @return string - The fully resolved path converted to absolute form.
  */
@@ -193,51 +195,32 @@ function normalize($filePath)
 }
 
 /**
- * Replace the first occurrence of a search string at the beginning of each string in an array with
- * a replacement value. Only the first occurrence at the beginning of each array value is replaced.
- *
- * @param $search - The search string to be replaced.
- * @param $replace - The string that will replace the search string.
- * @param $subject - An array of strings to apply the replacement to.
- *
- * @return array - An array where the each value has undergone replacement.
- */
-function replaceFirst($search, $replace, $subject)
-{
-    $result = array();
-    foreach ($subject as $string) {
-        if (($pos = strpos($string, $search)) === 0) {
-            array_push($result, substr_replace($string, $replace, $pos, strlen($search)));
-        } else {
-            array_push($result, $string);
-        }
-    }
-    return $result;
-}
-
-/**
  * Accepts an array of directories and generates a list of Javascript files (.js) in those directories and
  * all subdirectories recursively.
  *
- * @param $dirs - An array of directories as specified in the configuration file (i.e. $configFile).
+ * @param array $dirs - An array of directories as specified in the configuration file (i.e. $configFile).
  *
  * @return array - An array of directory paths to all Javascript files found by recursively searching the
  * specified array of directories.
  */
 function listFiles($dirs)
 {
-    $baseDir = normalize('../../..');
+    $baseDir = normalize(RELATIVE_APP_ROOT);
     $result = array();
     foreach ($dirs as $dir) {
         $path = $baseDir . $dir;
         if (is_file($path)) {
+            $path = substr_replace($path, RELATIVE_APP_ROOT, 0, strlen($baseDir));
             array_push($result, $path);
         } else {
-            $result = array_merge(
-                $result, listFiles(replaceFirst($baseDir, '', glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT)))
-            );
-            $result = array_merge($result, glob($path . '/*.js', GLOB_NOSORT));
+            $paths = glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT);
+            $paths = substr_replace($paths, '', 0, strlen($baseDir));
+            $result = array_merge($result, listFiles($paths));
+
+            $files = glob($path . '/*.js', GLOB_NOSORT);
+            $files = substr_replace($files, RELATIVE_APP_ROOT, 0, strlen($baseDir));
+            $result = array_merge($result, $files);
         }
     }
-    return replaceFirst($baseDir, '../../..', $result);
+    return $result;
 }

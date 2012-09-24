@@ -26,7 +26,7 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
     /**
      * Return the path to the localized Javascript file given the locale or null if it doesn't exist.
      *
-     * @param $locale - The locale (e.g. en-US or just en)
+     * @param string $locale - The locale (e.g. en-US or just en)
      * @return string - Url path to the localized Javascript file
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
