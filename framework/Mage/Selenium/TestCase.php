@@ -3430,7 +3430,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getElements($locator, $failIfEmpty = true)
     {
         $locatorType = $this->getLocatorStrategy($locator);
-        $elements = $this->elements($this->using($locatorType)->value($locator));
+        //@TODO Temporary fix for CI
+        //"Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [xpcIJSWeakReference.get]"
+        try {
+            $elements = $this->elements($this->using($locatorType)->value($locator));
+        } catch (RuntimeException $e) {
+            $elements = $this->elements($this->using($locatorType)->value($locator));
+        }
         if (empty($elements) && $failIfEmpty) {
             $this->fail('Element(s) with locator: "' . $locator . '" is not found on page');
         }
