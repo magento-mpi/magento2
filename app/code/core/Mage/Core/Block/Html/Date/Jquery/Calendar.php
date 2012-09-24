@@ -21,22 +21,25 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
     /**
      * File path for the regional localized Javascript file.
      */
-    const LOCALIZED_FILE_PATH = '/pub/lib/jquery/ui/i18n/jquery.ui.datepicker-%s.js';
+    const LOCALIZED_URL_PATH = 'jquery/ui/i18n/jquery.ui.datepicker-%s.js';
 
     /**
      * Return the path to the localized Javascript file given the locale or null if it doesn't exist.
      *
      * @param $locale - The locale (e.g. en-US or just en)
+     * @return string - Url path to the localized Javascript file
      *
-     * @return string - File path to the localized Javascript file
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    private function _getFilePathByLocale($locale)
+    private function _getUrlPathByLocale($locale)
     {
-        $filePath = sprintf(self::LOCALIZED_FILE_PATH, $locale);
-        if (file_exists(BP . $filePath)) {
-            return $filePath;
+        $urlPath = sprintf(self::LOCALIZED_URL_PATH, $locale);
+        try {
+            $urlPath = $this->getSkinUrl($urlPath);
+        } catch (Magento_Exception $e) {
+            $urlPath = null;
         }
-        return null;
+        return $urlPath;
     }
 
     /**
@@ -68,12 +71,12 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
 
         /* There are a small handful of localized files that use the 5 character locale. */
         $locale = str_replace('_', '-', Mage::app()->getLocale()->getLocaleCode());
-        $localizedJsFilePath = $this->_getFilePathByLocale($locale);
+        $localizedJsFilePath = $this->_getUrlPathByLocale($locale);
 
         if ($localizedJsFilePath == null) {
             /* Most localized files use the 2 character locale. */
             $locale = substr($locale, 0, 2);
-            $localizedJsFilePath = $this->_getFilePathByLocale($locale);
+            $localizedJsFilePath = $this->_getUrlPathByLocale($locale);
             if ($localizedJsFilePath == null) {
                 /* Localized Javascript file doesn't exist. Default locale to empty string (English). */
                 $locale = '';
