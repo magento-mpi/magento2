@@ -49,7 +49,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widg
             'content' => $resourceBlock->toHtml()
         ));
 
-        /*
+        /** @var $userBlock Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User */
         if ($this->getApiRole() && $this->getApiRole()->getRoleId() > 0) {
             $userBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.user');
             $userBlock->setApiRole($this->getApiRole());
@@ -59,7 +59,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widg
                 'content' => $userBlock->toHtml()
             ));
         }
-        */
 
         return parent::_beforeToHtml();
     }

@@ -8,13 +8,16 @@
  * @license     {license_link}
  */
 
+/**
+ *
+ */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User extends Mage_Backend_Block_Widget_Tabs
 {
     public function __construct()
     {
         parent::__construct();
 
-        $roleId = $this->getRequest()->getParam('rid', false);
+        $roleId = $this->getRequest()->getParam('role_id', false);
 
         $users = Mage::getModel('Mage_Api_Model_User')->getCollection()->load();
         $this->setTemplate('api/rolesusers.phtml')

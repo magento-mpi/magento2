@@ -45,7 +45,8 @@
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main" />
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource"
                     template="Mage_Adminhtml::api/rolesedit.phtml" />
-                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user" />
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user"
+                    template="Mage_Adminhtml::api/rolesusers.phtml" />
             </block>
         </reference>
     </adminhtml_webapi_role_edit>

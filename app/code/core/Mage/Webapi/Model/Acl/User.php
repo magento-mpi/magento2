@@ -15,6 +15,7 @@
  * @method int getRoleId()
  * @method Mage_Webapi_Model_Acl_User setUserName(string $userName)
  * @method string getUserName()
+ * @method Mage_Webapi_Model_Resource_Acl_User getResource()
  *
  * @category   Mage
  * @package    Mage_Webapi
@@ -35,5 +36,15 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('Mage_Webapi_Model_Resource_Acl_User');
+    }
+
+    /**
+     * Get role users
+     *
+     * @return array
+     */
+    public function getRoleUsers()
+    {
+        return $this->getResource()->getRoleUsers($this);
     }
 }
