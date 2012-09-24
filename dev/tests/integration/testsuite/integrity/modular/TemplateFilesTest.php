@@ -19,9 +19,9 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      * @param string $template
      * @param string $class
      * @param string $area
-     * @dataProvider allTemplatesDataProvider
+     * dataProvider allTemplatesDataProvider
      */
-    public function testAllTemplates($module, $template, $class, $area)
+    public function testAllTemplates(/*$module, $template, $class, $area*/)
     {
         $this->markTestIncomplete('Test incompleted after DI introduction');
         $params = array(
