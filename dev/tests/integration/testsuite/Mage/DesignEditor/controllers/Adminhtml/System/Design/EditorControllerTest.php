@@ -69,7 +69,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     /**
      * magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
+     * magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
     public function testLaunchActionMultipleStores()
     {

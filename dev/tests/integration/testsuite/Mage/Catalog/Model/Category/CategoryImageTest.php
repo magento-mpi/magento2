@@ -29,6 +29,8 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
+        self::markTestIncomplete('Need to fix DI dependencies + fixture');
+
         parent::setUpBeforeClass();
 
         self::$_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
@@ -38,6 +40,8 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
 
     public static function tearDownAfterClass()
     {
+        self::markTestIncomplete('Need to fix DI dependencies + fixture');
+
         Mage::app()->getStore()->setConfig('dev/log/active', self::$_oldLogActive);
         self::$_oldLogActive = null;
 
@@ -61,8 +65,6 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
      */
     public function testSaveCategoryWithoutImage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::registry('_fixture/Mage_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());

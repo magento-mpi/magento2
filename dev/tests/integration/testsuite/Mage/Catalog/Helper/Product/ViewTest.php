@@ -25,6 +25,8 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies');
+
         $this->_helper = new Mage_Catalog_Helper_Product_View;
         $request = new Magento_Test_Request();
         $request->setRouteName('catalog')
@@ -38,6 +40,8 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies');
+
         Mage::getSingleton('Mage_Catalog_Model_Session')->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
