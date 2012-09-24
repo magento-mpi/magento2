@@ -193,6 +193,29 @@ function normalize($filePath)
 }
 
 /**
+ * Replace the first occurrence of a search string at the beginning of each string in an array with
+ * a replacement value. Only the first occurrence at the beginning of each array value is replaced.
+ *
+ * @param $search - The search string to be replaced.
+ * @param $replace - The string that will replace the search string.
+ * @param $subject - An array of strings to apply the replacement to.
+ *
+ * @return array - An array where the each value has undergone replacement.
+ */
+function replaceFirst($search, $replace, $subject)
+{
+    $result = array();
+    foreach ($subject as $string) {
+        if (($pos = strpos($string, $search)) === 0) {
+            array_push($result, substr_replace($string, $replace, $pos, strlen($search)));
+        } else {
+            array_push($result, $string);
+        }
+    }
+    return $result;
+}
+
+/**
  * Accepts an array of directories and generates a list of Javascript files (.js) in those directories and
  * all subdirectories recursively.
  *
@@ -211,10 +234,10 @@ function listFiles($dirs)
             array_push($result, $path);
         } else {
             $result = array_merge(
-                $result, listFiles(str_replace($baseDir, '', glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT)))
+                $result, listFiles(replaceFirst($baseDir, '', glob($path . '/*', GLOB_ONLYDIR | GLOB_NOSORT)))
             );
             $result = array_merge($result, glob($path . '/*.js', GLOB_NOSORT));
         }
     }
-    return str_replace($baseDir, '../../..', $result);
+    return replaceFirst($baseDir, '../../..', $result);
 }
