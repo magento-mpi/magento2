@@ -149,6 +149,9 @@
             return $.Widget.prototype.destroy.call(this);
         }
     });
+    /*
+     * TODO: move the "escapeHTML" method into the file with global utility functions
+     */
     $.extend(true, $, {
         mage: {
             escapeHTML: function(str) {
