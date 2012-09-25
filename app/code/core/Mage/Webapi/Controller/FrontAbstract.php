@@ -54,10 +54,6 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected $_baseActionController = self::BASE_ACTION_CONTROLLER;
 
-    abstract public function init();
-
-    abstract public function dispatch();
-
     /**
      * Set response.
      *

@@ -20,6 +20,9 @@
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -28,6 +31,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widg
         $this->setTitle(Mage::helper('Mage_Webapi_Helper_Data')->__('Role Information'));
     }
 
+    /**
+     * Prepare child blocks
+     *
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _beforeToHtml()
     {
         /** @var $mainBlock Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main */

@@ -51,13 +51,4 @@ class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
         $config = Mage::getSingleton('Mage_Webapi_Model_Authorization_Config');
         return $config->getAclResources();
     }
-
-    /**
-     *
-     * @return Object
-     */
-    public function getUsersCollection()
-    {
-        return Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role_User_Collection');
-    }
 }

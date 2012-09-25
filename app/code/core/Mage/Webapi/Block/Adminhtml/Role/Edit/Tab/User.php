@@ -3,28 +3,28 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
+ * Web API Role users tab
  *
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole()
+ *
+ * @category   Mage
+ * @package    Mage_Webapi
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User extends Mage_Backend_Block_Widget_Tabs
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $roleId = $this->getRequest()->getParam('role_id', false);
-
-        $users = Mage::getModel('Mage_Api_Model_User')->getCollection()->load();
-        $this->setTemplate('api/rolesusers.phtml')
-            ->assign('users', $users->getItems())
-            ->assign('roleId', $roleId);
-    }
-
+    /**
+     * Prepare form container
+     *
+     * @return Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User
+     */
     protected function _prepareLayout()
     {
         $this->setChild(
@@ -34,6 +34,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User extends Mage_Backend_Block_
         return parent::_prepareLayout();
     }
 
+    /**
+     * Get users grid HTML
+     *
+     * @return string
+     */
     protected function _getGridHtml()
     {
         return $this->getChildHtml('userGrid');

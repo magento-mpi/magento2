@@ -10,7 +10,7 @@
 
 /**
  * Web API role edit page
-
+ *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
  *

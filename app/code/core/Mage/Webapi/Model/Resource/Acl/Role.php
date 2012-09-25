@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Web API ACL role resource
  *
@@ -20,7 +19,6 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
 {
     /**
      * Resource initialization
-     *
      */
     protected function _construct()
     {

@@ -41,10 +41,11 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract
     /**
      * Get role users
      *
+     * @param int $roleId
      * @return array
      */
-    public function getRoleUsers()
+    public function getRoleUsers($roleId)
     {
-        return $this->getResource()->getRoleUsers($this);
+        return $this->getResource()->getRoleUsers($roleId);
     }
 }
