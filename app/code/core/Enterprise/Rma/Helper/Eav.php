@@ -195,4 +195,29 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
         }
         return $this->_attributeOptionValues[$storeId];
     }
+
+    /**
+     * Retrieve additional style classes for text-based RMA attributes (represented by text input or textarea)
+     *
+     * @param Varien_Object $attribute
+     * @return array
+     */
+    public function getAdditionalTextElementClasses(Varien_Object $attribute)
+    {
+        $additionalClasses = array();
+
+        $validateRules = $attribute->getValidateRules();
+        if (!empty($validateRules['min_text_length'])) {
+            $additionalClasses[] = 'validate-length';
+            $additionalClasses[] = 'minimum-length-' . $validateRules['min_text_length'];
+        }
+        if (!empty($validateRules['max_text_length'])) {
+            if (!in_array('validate-length', $additionalClasses)) {
+                $additionalClasses[] = 'validate-length';
+            }
+            $additionalClasses[] = 'maximum-length-' . $validateRules['max_text_length'];
+        }
+
+        return $additionalClasses;
+    }
 }

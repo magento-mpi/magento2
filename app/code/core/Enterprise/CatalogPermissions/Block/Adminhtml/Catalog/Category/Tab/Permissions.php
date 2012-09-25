@@ -66,7 +66,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             }
         }
 
-        $config['single_mode']  = Mage::app()->isSingleStoreMode();
+        $config['single_mode']  = Mage::app()->hasSingleStore();
         $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
