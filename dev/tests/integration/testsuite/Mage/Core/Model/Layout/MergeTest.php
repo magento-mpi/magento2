@@ -40,7 +40,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     public function testGetElementClass()
     {
-        $this->assertEquals('Mage_Core_Model_Layout_Element', $this->_model->getElementClass());
+        $reflector = new ReflectionProperty(get_class($this->_model), '_elementClass');
+        $reflector->setAccessible(true);
+        $this->assertEquals('Mage_Core_Model_Layout_Element', $reflector->getValue($this->_model));
     }
 
     public function testAddUpdate()
