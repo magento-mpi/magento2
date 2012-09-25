@@ -20,7 +20,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
 
     public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('catalogEventGrid');
         $this->setDefaultSort('event_id');
         $this->setDefaultDir('ASC');
