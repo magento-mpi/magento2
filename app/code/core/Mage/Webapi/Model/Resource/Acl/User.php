@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Web API User resource model
  *

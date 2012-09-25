@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Test for Mage_Webapi_Model_Source_Acl_Role.
+ */
 class Mage_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
