@@ -101,6 +101,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_cacheManager;
 
     /**
+     * Check if we need to use __sleep and __wakeup serialization methods
+     *
+     * @var bool
+     */
+    protected static $_isSerializable = true;
+
+    /**
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param array $data
@@ -128,6 +135,24 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     }
 
     /**
+     * @static
+     * @param bool $value
+     */
+    public static function setIsSerializable($value = true)
+    {
+        self::$_isSerializable = !empty($value);
+    }
+
+    /**
+     * @static
+     * @return bool
+     */
+    public static function getIsSerializable()
+    {
+        return self::$_isSerializable;
+    }
+
+    /**
      * Remove not serializable fields
      *
      * @return array
@@ -135,7 +160,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
+        if (self::$_isSerializable) {
+            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager'));
+        }
         return $properties;
     }
 
@@ -146,11 +173,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     public function __wakeup()
     {
-        if (!$this->_eventDispatcher) {
-            $this->_eventDispatcher = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
-        }
-        if (!$this->_cacheManager) {
-            $this->_cacheManager = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+        if (self::$_isSerializable) {
+            if (!$this->_eventDispatcher) {
+                $this->_eventDispatcher = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
+            }
+            if (!$this->_cacheManager) {
+                $this->_cacheManager = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+            }
         }
     }
 

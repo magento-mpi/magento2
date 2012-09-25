@@ -39,6 +39,8 @@ function magentoAutoloadForUnitTests($class)
     return false;
 }
 
+Mage_Core_Model_Abstract::setIsSerializable(false);
+
 $tmpDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp';
 $instance = new Magento_Test_Environment($tmpDir);
 Magento_Test_Environment::setInstance($instance);
