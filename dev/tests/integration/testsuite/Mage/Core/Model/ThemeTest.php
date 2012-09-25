@@ -14,7 +14,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Test crud operations for theme model using valid data
      *
-     * @magentoDbIsolation
+     * @magentoDbIsolation enabled
      */
     public function testCrud()
     {
