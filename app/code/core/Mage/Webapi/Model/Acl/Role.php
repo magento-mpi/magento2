@@ -31,6 +31,7 @@ class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
 
     /**
      * Get Web API resources array
+     *
      * @return array
      */
     public function getResourcesArray()
@@ -43,6 +44,7 @@ class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
 
     /**
      * Get Web API resources XML nodes list
+     *
      * @return DOMNodeList
      */
     public function getResourcesList()

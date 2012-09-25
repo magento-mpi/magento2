@@ -46,10 +46,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
 
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('user_id', array('in' => $inRoleIds));
-            } else {
-                if($inRoleIds) {
-                    $this->getCollection()->addFieldToFilter('user_id', array('nin' => $inRoleIds));
-                }
+            } elseif ($inRoleIds) {
+                $this->getCollection()->addFieldToFilter('user_id', array('nin' => $inRoleIds));
             }
         } else {
             parent::_addColumnFilterToCollection($column);
@@ -60,12 +58,13 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
     /**
      * Prepare grid collection
      *
-     * @return this
+     * @return Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('role_id');
         Mage::register('RID', $roleId);
+        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getModel('Mage_Webapi_Model_Acl_User')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -88,17 +87,17 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('User ID'),
-            'width'     =>5,
-            'align'     =>'left',
-            'sortable'  =>true,
-            'index'     =>'user_id'
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('User ID'),
+            'width'     => 5,
+            'align'     => 'left',
+            'sortable'  => true,
+            'index'     => 'user_id'
         ));
 
         $this->addColumn('role_user_username', array(
-            'header'    =>Mage::helper('Mage_Webapi_Helper_Data')->__('User Name'),
-            'align'     =>'left',
-            'index'     =>'user_name'
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('User Name'),
+            'align'     => 'left',
+            'index'     => 'user_name'
         ));
 
         return parent::_prepareColumns();
@@ -123,7 +122,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
      */
     protected function _getUsers($json = false)
     {
-        if ( $this->getRequest()->getParam('in_role_user') != "" ) {
+        if ($this->getRequest()->getParam('in_role_user') != "") {
             return $this->getRequest()->getParam('in_role_user');
         }
 
@@ -136,7 +135,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         if (count($users) > 0) {
             if ($json) {
                 $jsonUsers = array();
-                foreach($users as $userId) {
+                foreach ($users as $userId) {
                     $jsonUsers[$userId] = 0;
                 }
                 return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object) $jsonUsers);
