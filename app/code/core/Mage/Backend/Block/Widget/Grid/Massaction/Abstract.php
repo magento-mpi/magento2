@@ -78,12 +78,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
 
         if ($item instanceof Varien_Object) {
             $item->setId($itemId);
-
-            $itemUrl = $item->getUrl();
-            if (strpos($itemUrl, $this->getBaseUrl()) === false) {
-                $item->setUrl($this->getUrl($itemUrl));
-            }
-
+            $item->setUrl($this->getUrl($item->getUrl()));
             $this->_items[$itemId] = $item;
         }
 
