@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
 
 $installer->startSetup();
 
@@ -52,7 +52,6 @@ $table = $installer->getConnection()
         'User name is displayed in Adminhtml interface')
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
         array(
-            'default'   => '0',
             'unsigned'  => true,
             'nullable'  => false,),
         'User role from webapi_role')
@@ -91,7 +90,6 @@ $table = $installer->getConnection()
         'Resource name. Must match resource calls in xml.')
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
         array(
-            'default'   => '0',
             'unsigned'  => true,
             'nullable'  => false,),
         'User role from webapi_role')

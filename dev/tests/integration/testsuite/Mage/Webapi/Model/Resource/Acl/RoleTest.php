@@ -25,13 +25,17 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRolesIds()
     {
+        $expectedRoleNames = array('test_role', 'Test role');
         /** @var $roleResource Mage_Webapi_Model_Resource_Acl_Role */
         $roleResource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
         $rolesIds = $roleResource->getRolesIds();
         $this->assertCount(2, $rolesIds);
         foreach ($rolesIds as $role) {
             $roleId = $role['role_id'];
-            $this->assertEquals($roleId, Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId)->getId());
+            /** @var $role Mage_Webapi_Model_Acl_Role */
+            $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId);
+            $this->assertNotEmpty($role->getId());
+            $this->assertContains($role->getRoleName(), $expectedRoleNames);
         }
     }
 }

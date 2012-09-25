@@ -29,7 +29,10 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     protected $_config;
 
-    public function setUp()
+    /**
+     * Set up before test
+     */
+    protected function setUp()
     {
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Role',
             array('getRolesIds'), array(), '', false);
@@ -48,13 +51,12 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     public function testPopulateAclWithRoles()
     {
-        $roleMap = array(array('role_id' => 2), array('role_id' => 4), array('role_id' => 5), array('role_id' => 8));
         $roleIds = array(2, 4, 5, 8);
-        $getModel = function($className, $roleId)
+        $getModel = function()
         {
-            return new Mage_Webapi_Model_Authorization_Role($roleId);
+            return new Mage_Webapi_Model_Authorization_Role(func_get_arg(1));
         };
-        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue($roleMap));
+        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue($roleIds));
         $this->_config->expects($this->any())->method('getModelInstance')->will($this->returnCallback($getModel));
         $acl = new Magento_Acl();
         $this->_model->populateAcl($acl);

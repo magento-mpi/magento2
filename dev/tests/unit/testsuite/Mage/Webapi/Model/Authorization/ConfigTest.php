@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Mage_Webapi_Model_Authorization.
+ * Test class for Mage_Webapi_Model_Authorization_Config
  */
 class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,10 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
      */
     protected $_config;
 
-    public function setUp()
+    /**
+     * Set up before test
+     */
+    protected function setUp()
     {
         $this->_config = $this->getMock('Mage_Core_Model_Config',
             array('getModelInstance', 'getModuleConfigurationFiles'), array(), '', false);
@@ -62,23 +65,31 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $resources = $this->_model->getAclResources();
 
         $this->assertInstanceOf('DOMNodeList', $resources);
-        $check = function($object, $resources, &$expectedResources, $callback)
-        {
-            /** @var $resource DOMElement */
-            foreach ($resources as $resource) {
-                if (!($resource instanceof DOMElement)) {
-                    continue;
-                }
-                $object->assertTrue(
-                    false !== ($index = array_search($resource->getAttribute('id'), $expectedResources))
-                );
-                unset($expectedResources[$index]);
-                if ($resource->hasChildNodes()) {
-                    $callback($object, $resource->childNodes, $expectedResources, $callback);
-                }
+        $actualResources = $this->getResources($resources);
+        sort($expectedResources);
+        sort($actualResources);
+        $this->assertEquals($expectedResources, $actualResources);
+    }
+
+    /**
+     *
+     *
+     * @param $resources
+     * @return array
+     */
+    public function getResources($resources)
+    {
+        $resourceArray = array();
+        /** @var $resource DOMElement */
+        foreach ($resources as $resource) {
+            if (!($resource instanceof DOMElement)) {
+                continue;
             }
-        };
-        $check($this, $resources, $expectedResources, $check);
-        $this->assertEmpty($expectedResources);
+            $resourceArray = array_merge($resourceArray, array($resource->getAttribute('id')));
+            if ($resource->hasChildNodes()) {
+                $resourceArray = array_merge($resourceArray, $this->getResources($resource->childNodes));
+            }
+        }
+        return $resourceArray;
     }
 }

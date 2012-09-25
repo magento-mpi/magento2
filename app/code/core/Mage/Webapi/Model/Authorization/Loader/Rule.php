@@ -17,7 +17,9 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
 {
-    /** @var Mage_Webapi_Model_Resource_Acl_Rule */
+    /**
+     * @var Mage_Webapi_Model_Resource_Acl_Rule
+     */
     protected $_resourceModel;
 
     /**
@@ -40,7 +42,9 @@ class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
         foreach ($ruleList as $rule) {
             $role = $rule['role_id'];
             $resource = $rule['resource_id'];
-            $acl->allow($role, $resource);
+            if ($acl->hasRole($role) && $acl->has($resource)) {
+                $acl->allow($role, $resource);
+            }
         }
     }
 }

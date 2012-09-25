@@ -19,6 +19,8 @@
 class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_ConfigInterface
 {
 
+    CONST ACL_RESOURCES_PATH = '/config/acl/resources/*';
+
     /**
      * @var Mage_Core_Model_Config
      */
@@ -69,6 +71,6 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         $aclResources = $this->_getReader()->getAclResources();
         $xpath = new DOMXPath($aclResources);
-        return $xpath->query('/config/acl/resources/*');
+        return $xpath->query(self::ACL_RESOURCES_PATH);
     }
 }
