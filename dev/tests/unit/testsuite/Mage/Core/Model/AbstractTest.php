@@ -14,6 +14,23 @@
  */
 class Mage_Core_Model_AbstractTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Variable value before test
+     *
+     * @var bool
+     */
+    protected $_isSerializable;
+
+    protected function setUp()
+    {
+        $this->_isSerializable = Mage_Core_Model_Abstract::getIsSerializable();
+    }
+
+    protected function tearDown()
+    {
+        Mage_Core_Model_Abstract::setIsSerializable($this->_isSerializable);
+    }
+
     public function testSetGetSerializable()
     {
         $this->assertClassHasStaticAttribute('_isSerializable', 'Mage_Core_Model_Abstract');
