@@ -35,7 +35,10 @@ class Mage_Core_Utility_Layout
         $layoutUpdate = $this->_testCase->getMock(
             'Mage_Core_Model_Layout_Merge', array('getFileLayoutUpdatesXml')
         );
-        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
+
+        $reflector = new ReflectionProperty(get_class($layoutUpdate), '_elementClass');
+        $reflector->setAccessible(true);
+        $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $reflector->getValue($layoutUpdate));
         $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFileLayoutUpdatesXml')
             ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdatesXml));
