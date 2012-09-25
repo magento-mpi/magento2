@@ -288,6 +288,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     final function setUp()
     {
         $this->prepareBrowserSession();
+        $this->cookie()->clear();
         $this->setUpBeforeTestClass();
     }
 
