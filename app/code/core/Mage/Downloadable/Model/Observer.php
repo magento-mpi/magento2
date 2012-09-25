@@ -278,7 +278,13 @@ class Mage_Downloadable_Model_Observer
         return $this;
     }
 
-    public function copyProductDownloadableData($observer)
+    /**
+     * Duplicating downloadable product data
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function duplicateProduct($observer)
     {
         $currentProduct = $observer->getCurrentProduct();
         $newProduct = $observer->getNewProduct();
@@ -288,30 +294,30 @@ class Mage_Downloadable_Model_Observer
         }
         $downloadableData = array();
         $type = $currentProduct->getTypeInstance();
-        foreach ($type->getLinks($currentProduct) as $key => $link) {
+        foreach ($type->getLinks($currentProduct) as $link) {
             $linkData = $link->getData();
-            $downloadableData['link'][$key] = array(
-                'file' => $linkData['link_file'],
-                'sample' => array(
-                    'url' => $linkData['sample_url'],
-                    'file' => $linkData['sample_file'],
-                    'type' => $linkData['sample_type']),
-                'type' => $linkData['link_type'],
-                'sort_order' => $linkData['sort_order'],
+            $downloadableData['link'][] = array(
+                'file'                => $linkData['link_file'],
+                'is_shareable'        => $linkData['is_shareable'],
+                'link_url'            => $linkData['link_url'],
                 'number_of_downloads' => $linkData['number_of_downloads'],
-                'is_shareable' => $linkData['is_shareable'],
-                'link_url' => $linkData['link_url'],
-                'price' => $linkData['price'],
-                'title' => $linkData['title'],
+                'price'               => $linkData['price'],
+                'sample'              => array(
+                    'file'            => $linkData['sample_file'],
+                    'type'            => $linkData['sample_type'],
+                    'url'             => $linkData['sample_url']),
+                'sort_order'          => $linkData['sort_order'],
+                'title'               => $linkData['title'],
+                'type'                => $linkData['link_type'],
             );
         }
-        foreach ($type->getSamples($currentProduct)->getData() as $key => $sample) {
-            $downloadableData['sample'][$key] = array(
-                'title' => $sample['title'],
-                'type' => $sample['sample_type'],
+        foreach ($type->getSamples($currentProduct)->getData() as $sample) {
+            $downloadableData['sample'][] = array(
+                'file'       => $sample['sample_file'],
                 'sample_url' => $sample['sample_url'],
-                'file' => $sample['sample_file'],
                 'sort_order' => $sample['sort_order'],
+                'title'      => $sample['title'],
+                'type'       => $sample['sample_type'],
             );
         }
         $newProduct->setDownloadableData($downloadableData);
