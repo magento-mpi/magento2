@@ -231,7 +231,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('tierPriceId', $rowNumber);
         $this->clickButton('add_tier_price', false);
         if (isset($tierPriceData['prices_tier_price_website'])
-            && !$this->controlIsPresent('dropdown', 'prices_tier_price_website')
+            && !$this->controlIsVisible('dropdown', 'prices_tier_price_website')
         ) {
             unset($tierPriceData['prices_tier_price_website']);
         }
@@ -643,7 +643,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         foreach ($tierPriceData as $value) {
             $this->addParameter('tierPriceId', $i);
             if (isset($value['prices_tier_price_website'])
-                && !$this->controlIsPresent('dropdown', 'prices_tier_price_website')
+                && !$this->controlIsVisible('dropdown', 'prices_tier_price_website')
             ) {
                 unset($value['prices_tier_price_website']);
             }
