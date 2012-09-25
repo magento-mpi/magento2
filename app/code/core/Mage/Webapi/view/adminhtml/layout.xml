@@ -44,10 +44,17 @@
             <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main" />
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource"
-                    template="Mage_Adminhtml::api/rolesedit.phtml" />
+                    template="Mage_Webapi::rolesedit.phtml" />
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user"
-                    template="Mage_Adminhtml::api/rolesusers.phtml" />
+                    template="Mage_Webapi::rolesusers.phtml" />
             </block>
+        </reference>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+        </reference>
+        <reference name="js">
+            <block type="Mage_Core_Block_Template" name="roles-users-grid-js"
+                template="Mage_Webapi::rolesusersgridjs.phtml" />
         </reference>
     </adminhtml_webapi_role_edit>
 </layout>

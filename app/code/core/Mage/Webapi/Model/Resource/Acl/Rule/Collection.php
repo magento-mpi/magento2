@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Web API Rules Resource Collection
  *
@@ -20,7 +19,6 @@ class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Res
 {
     /**
      * Resource collection initialization
-     *
      */
     protected function _construct()
     {
@@ -36,18 +34,6 @@ class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Res
     public function getByRoles($id)
     {
         $this->getSelect()->where("role_id = ?", (int)$id);
-        return $this;
-    }
-
-    /**
-     * Add sort by length
-     *
-     * @return Mage_Api_Model_Resource_Rules_Collection
-     */
-    public function addSortByLength()
-    {
-        $this->getSelect()->columns(array('length' => $this->getConnection()->getLengthSql('resource_id')))
-            ->order('length DESC');
         return $this;
     }
 }

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Web API ACL roles grid
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Grid
@@ -27,6 +27,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Gr
         $this->setUseAjax(true);
     }
 
+    /**
+     * Prepare grid collection
+     *
+     * @return this
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getCollection();
@@ -35,6 +40,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Gr
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare grid columns
+     *
+     * @return Mage_Backend_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('role_id', array(
@@ -52,12 +62,18 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Gr
         return parent::_prepareColumns();
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/roleGrid', array('_current' => true));
     }
 
     /**
+     * Get grid row URL
      * @param Mage_Webapi_Model_Acl_Role $row
      * @return string
      */

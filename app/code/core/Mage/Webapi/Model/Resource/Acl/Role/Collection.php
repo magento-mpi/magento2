@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Web Api Role Resource Collection
  *
@@ -20,7 +19,6 @@ class Mage_Webapi_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Res
 {
     /**
      * Resource collection initialization
-     *
      */
     protected function _construct()
     {

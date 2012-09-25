@@ -3,21 +3,24 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml permissioms role block
+ * Web API Adminhtml role block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Container
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_blockGroup = 'Mage_Webapi';
@@ -28,8 +31,13 @@ class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Co
         parent::__construct();
     }
 
+    /**
+     * Get create URL
+     *
+     * @return string
+     */
     public function getCreateUrl()
     {
-        return $this->getUrl('*/*/editrole');
+        return $this->getUrl('*/*/edit');
     }
 }

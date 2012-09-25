@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Web API role resource list
+ * Web API role resource tab
  *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
@@ -55,7 +55,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
-     *
+     * Check resource access is set to "All"
      * @return bool
      */
     public function getEverythingAllowed()
@@ -64,10 +64,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
+     * Get resource tree as JSON
      *
      * @return string
      */
-    public function getResTreeJson()
+    public function getResourceTreeJson()
     {
         /** @var $resources DOMNodeList */
         $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
@@ -87,6 +88,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
+     * Sorting function for array sorting
      *
      * @param $a
      * @param $b
@@ -98,9 +100,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
+     * Recursive creation of resource tree
      *
      * @param DOMElement $node
-     * @return mixed
+     * @return array
      */
     protected function _getNodeJson($node)
     {

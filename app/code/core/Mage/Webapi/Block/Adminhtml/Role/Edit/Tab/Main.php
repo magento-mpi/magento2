@@ -9,7 +9,7 @@
  */
 
 /**
- * Web API role edit form
+ * Web API Role tab with main information
  *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
@@ -28,10 +28,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('role_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'=>Mage::helper('Mage_Webapi_Helper_Data')->__('Role Information'))
+            'legend' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Information'))
         );
 
         $role = $this->getApiRole();
@@ -50,6 +49,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
             'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
         ));
+
+        $fieldset->addField('in_role_user', 'hidden',
+            array(
+                'name' => 'in_role_user',
+                'id' => 'in_role_user',
+            )
+        );
+
+        $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));
 
         $form->setValues($role->getData());
         $this->setForm($form);

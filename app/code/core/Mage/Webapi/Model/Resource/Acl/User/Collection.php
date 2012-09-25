@@ -19,7 +19,6 @@ class Mage_Webapi_Model_Resource_Acl_User_Collection extends Mage_Core_Model_Res
 {
     /**
      * Resource collection initialization
-     *
      */
     protected function _construct()
     {

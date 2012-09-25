@@ -8,9 +8,13 @@
  * @license     {license_link}
  */
 
-
 /**
  * Web API ACL Rules resource model
+ *
+ * @method array getResources()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule setResources(array $resourcesList)
+ * @method int getRoleId()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule setRoleId(int $roleId)
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -20,7 +24,6 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
 {
     /**
      * Resource initialization
-     *
      */
     protected function _construct()
     {
@@ -40,33 +43,35 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Save rule
+     * Save resources
      *
-     * @param Mage_Api_Model_Rules $rule
+     * @param Mage_Webapi_Model_Acl_Rule $rule
      */
-    public function saveResources(Mage_Api_Model_Rules $rule)
+    public function saveResources(Mage_Webapi_Model_Acl_Rule $rule)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
-        try {
-            $roleId = $rule->getRoleId();
-            $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
+        $roleId = $rule->getRoleId();
+        if ($roleId > 0) {
+            try {
+                $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
 
-            $resources = $rule->getResources();
-            if ($resources) {
-                foreach ($resources as $resName) {
-                    $adapter->insert($this->getMainTable(), array(
-                        'role_id'       => $roleId,
-                        'resource_id'   => trim($resName),
-                    ));
+                $resources = $rule->getResources();
+                if ($resources) {
+                    foreach ($resources as $resName) {
+                        $adapter->insert($this->getMainTable(), array(
+                            'role_id'       => $roleId,
+                            'resource_id'   => trim($resName),
+                        ));
+                    }
                 }
-            }
 
-            $adapter->commit();
-        } catch (Exception $e) {
-            $adapter->rollBack();
-            throw $e;
+                $adapter->commit();
+            } catch (Exception $e) {
+                $adapter->rollBack();
+                throw $e;
+            }
         }
     }
 }

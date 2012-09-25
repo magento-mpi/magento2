@@ -12,10 +12,10 @@
  * Web API ACL Rules
  *
  * @method int getRoleId()
- * @method Mage_Api_Model_Rules setRoleId(int $value)
+ * @method Mage_Webapi_Model_Acl_Rule setRoleId(int $value)
  * @method string getResourceId()
- * @method Mage_Api_Model_Rules setResourceId(string $value)
- * @method Mage_Api_Model_Rules setResources(array $resources)
+ * @method Mage_Webapi_Model_Acl_Rule setResourceId(string $value)
+ * @method Mage_Webapi_Model_Acl_Rule setResources(array $resources)
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -37,6 +37,8 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Save role resources
+     *
      * @return Mage_Webapi_Model_Acl_Rule
      */
     public function saveResources() {
