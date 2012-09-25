@@ -223,7 +223,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     {
         foreach ($this->getColumns() as $columnId => $column) {
             if (isset($data[$columnId])
-                && (!empty($data[$columnId]) || strlen($data[$columnId]) > 0)
+                && ((is_array($data[$columnId]) && !empty($data[$columnId])) || strlen($data[$columnId]) > 0)
                 && $column->getFilter()
             ) {
                 $column->getFilter()->setValue($data[$columnId]);

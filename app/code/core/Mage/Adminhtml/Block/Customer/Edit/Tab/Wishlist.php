@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Backend_Block
         /* @var $collection Mage_Wishlist_Model_Resource_Item_Collection */
         $collection = $this->getCollection();
         $value = $column->getFilter()->getValue();
-        if ($collection && $value) {
+        if ($collection && ((is_array($value) && !empty($value)) || strlen($value) > 0)) {
             switch ($column->getId()) {
                 case 'product_name':
                     $collection->addProductNameFilter($value);
