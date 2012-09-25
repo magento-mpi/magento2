@@ -54,6 +54,32 @@ TreeTestAsync.prototype.testTreeLoadWithInitialSelect = function(queue) {
         tree.vde_tree('destroy');
     });
 };
+TreeTestAsync.prototype.testTreeLoadWithoutInitialSelect = function(queue) {
+    /*:DOC +=
+     <div id="tree">
+        <ul>
+            <li rel="tree_element"><a href="#">All Pages</a></li>
+        </ul>
+     </div>
+     */
+    var tree = jQuery('#tree');
+    var selectNodeEventIsTriggered = false;
+    queue.call('Step 1: Bind callback on "select_node" event and initialize tree widget', function(callbacks) {
+        var treeLoaded = callbacks.add(function() {});
+        tree
+            .on('select_node.jstree', function() {
+                selectNodeEventIsTriggered = true;
+            })
+            .on('loaded.jstree', function() {
+                treeLoaded();
+            });
+        tree.vde_tree();
+    });
+    queue.call('Step 2: Check if "select_node" event is triggered', function() {
+        assertEquals(false, selectNodeEventIsTriggered);
+        tree.vde_tree('destroy');
+    });
+};
 TreeTestAsync.prototype.testTreeSelectNodeOnLoad = function(queue) {
     /*:DOC +=
      <div id="tree">
