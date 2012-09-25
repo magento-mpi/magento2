@@ -371,7 +371,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
      * <p>Expected results:</p>
      *  <p>1. Change the Link Text should be displayed on the  widget  in Front-end</p>
      * 
-     * @param sring $category
+     * @param string $category
      * @param array $selectWidget
      * 
      * @test
