@@ -9,7 +9,7 @@
  */
 
 
-abstract class Mage_Customer_Model_Convert_Parser_Customer
+class Mage_Customer_Model_Convert_Parser_Customer
     extends Mage_Eav_Model_Convert_Parser_Abstract
 {
     const MULTI_DELIMITER = ' , ';

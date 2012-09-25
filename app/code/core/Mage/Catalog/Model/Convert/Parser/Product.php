@@ -9,7 +9,7 @@
  */
 
 
-abstract class Mage_Catalog_Model_Convert_Parser_Product
+class Mage_Catalog_Model_Convert_Parser_Product
     extends Mage_Eav_Model_Convert_Parser_Abstract
 {
     const MULTI_DELIMITER = ' , ';

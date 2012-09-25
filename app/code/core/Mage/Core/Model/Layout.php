@@ -1423,4 +1423,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return 'Mage_Core';
     }
+
+    /**
+     * Retrieve block factory
+     *
+     * @return Mage_Core_Model_BlockFactory
+     */
+    public function getBlockFactory()
+    {
+        return $this->_blockFactory;
+    }
 }

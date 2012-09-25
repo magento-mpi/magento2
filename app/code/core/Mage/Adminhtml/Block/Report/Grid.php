@@ -46,6 +46,20 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected $_template = 'Mage_Adminhtml::report/grid.phtml';
 
+    /**
+     * Filter values array
+     *
+     * @var array
+     */
+    protected $_filterValues;
+
+    /**
+     * Locale instance
+     *
+     * @var Mage_Core_Model_Locale
+     */
+    protected $_locale;
+
     protected function _construct()
     {
         parent::_construct();
