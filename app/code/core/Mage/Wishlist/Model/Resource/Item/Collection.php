@@ -356,6 +356,12 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             return $this;
         }
 
+        foreach ($constraints as $key => $value) {
+            if (!is_numeric($value)) {
+                $constraints[$key] = 0;
+            }
+        }
+
         $filter = array();
 
         $now = Mage::getSingleton('Mage_Core_Model_Date')->date();
@@ -363,14 +369,14 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         if (isset($constraints['from'])) {
             $lastDay = new Zend_Date($now, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
-                ->subDay($constraints['from'] - 1);
+                ->subDay($constraints['from']);
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
             $firstDay = new Zend_Date($now, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
-                ->subDay($constraints['to']);
+                ->subDay($constraints['to']+1);
             $filter['from'] = $firstDay;
         }
 
