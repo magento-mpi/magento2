@@ -88,7 +88,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
      */
     public function testIsAllowed($isAllowed, $expected)
     {
-        $this->_policyMock->expects($this->once())->method('isAllowed')->will($this->returnValue($isAllowed));
+        $this->_policyMock->expects($this->any())->method('isAllowed')->will($this->returnValue($isAllowed));
         $this->assertEquals($expected, $this->_model->isAllowed($this->_roleId, $this->_resource, $this->_operation));
     }
 }
