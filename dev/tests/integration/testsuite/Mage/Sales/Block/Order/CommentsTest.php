@@ -32,6 +32,9 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      * @param mixed $commentedEntity
      * @param string $expectedClass
      * dataProvider getCommentsDataProvider
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testGetComments(/*$commentedEntity, $expectedClass*/)
     {

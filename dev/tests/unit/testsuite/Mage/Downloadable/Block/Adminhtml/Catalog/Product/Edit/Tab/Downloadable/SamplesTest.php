@@ -10,64 +10,15 @@
  */
 
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_SamplesTest
-    extends PHPUnit_Framework_TestCase
+    extends Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_TestCaseAbstract
 {
-    /**
-     * @var Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples
-     */
-    protected $_block;
-
-    /**
-     * Store old display_errors ini option value here
-     *
-     * @var int
-     */
-    protected $_oldDisplayErrors;
-
-    /**
-     * Store old error_reporting ini option value here
-     *
-     * @var int
-     */
-    protected $_oldErrorLevel;
-
-    /**
-     * Store old isDeveloperMode value here
-     *
-     * @var boolean
-     */
-    protected $_oldIsDeveloperMode;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->_block = new Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples(
-            $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false),
-            $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false)
+        $this->_block = $this->_getBlockInstance(
+            'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples'
         );
-
-        $this->_oldDisplayErrors  = ini_get('display_errors');
-        $this->_oldErrorLevel = error_reporting();
-        $this->_oldIsDeveloperMode = Mage::getIsDeveloperMode();
-    }
-
-    protected function tearDown()
-    {
-        ini_set('display_errors', $this->_oldDisplayErrors);
-        error_reporting($this->_oldErrorLevel);
-        Mage::setIsDeveloperMode($this->_oldIsDeveloperMode);
-
-        unset($this->_block);
-
-        parent::tearDown();
     }
 
     /**

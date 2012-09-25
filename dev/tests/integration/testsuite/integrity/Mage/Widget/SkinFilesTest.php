@@ -16,6 +16,9 @@ class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * dataProvider widgetPlaceholderImagesDataProvider
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testWidgetPlaceholderImages(/*$skinImage*/)
     {

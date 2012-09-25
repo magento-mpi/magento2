@@ -20,6 +20,9 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
      * @param string $class
      * @param string $template
      * dataProvider widgetTemplatesDataProvider
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testWidgetTemplates(/*$class, $template*/)
     {

@@ -32,6 +32,9 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
      * @param $registryData
      * @param $expected
      * dataProvider getStoreTypesForLayout
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testStoreTypeFormCreated(/*$registryData, $expected*/)
     {
@@ -70,6 +73,9 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
      * @param $registryData
      * @param $expected
      * dataProvider getStoreDataForBlock
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testGetHeaderText(/*$registryData, $expected*/)
     {

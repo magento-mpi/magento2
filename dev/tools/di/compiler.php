@@ -26,6 +26,14 @@ $config->loadBase();
 $config->loadModules();
 
 $definitions = array();
+
+/**
+ * @param string $moduleDir
+ * @return array
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @todo Need to split compileModule function on several simple functions
+ */
 function compileModule($moduleDir)
 {
     $strategy = new \Zend\Di\Definition\IntrospectionStrategy(new \Zend\Code\Annotation\AnnotationManager());
@@ -51,7 +59,8 @@ function compileModule($moduleDir)
         unset($item['supertypes']);
     });
     foreach ($moduleDefinitions as $name => $definition) {
-        $constructorParams = isset($definition['parameters']['__construct']) ? array_values($definition['parameters']['__construct']) : array();
+        $constructorParams = isset($definition['parameters']['__construct'])
+            ? array_values($definition['parameters']['__construct']) : array();
         if (!count($constructorParams)
             || (count($constructorParams) == 5 && !$constructorParams[3][2] && preg_match('/\w*_\w*\_Model/', $name))
             || (count($constructorParams) == 9 && $constructorParams[3][2] && preg_match('/\w*_\w*\_Block/', $name))) {
@@ -62,7 +71,7 @@ function compileModule($moduleDir)
     return $moduleDefinitions;
 }
 
-foreach(glob(BP . '/app/code/*') as $codePoolDir) {
+foreach (glob(BP . '/app/code/*') as $codePoolDir) {
     foreach (glob($codePoolDir . '/*') as $vendorDir) {
         foreach (glob($vendorDir . '/*') as $moduleDir) {
             $moduleName = basename($vendorDir) . '_' . basename($moduleDir);

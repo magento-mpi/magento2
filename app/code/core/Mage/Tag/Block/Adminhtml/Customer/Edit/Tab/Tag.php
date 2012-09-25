@@ -9,6 +9,8 @@
  *
  * @method Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag setTitle() setTitle(string $title)
  * @method string getTitle() getTitle()
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_Template
     implements Mage_Backend_Block_Widget_Tab_Interface
@@ -48,6 +50,8 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Authorization $authSession
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,

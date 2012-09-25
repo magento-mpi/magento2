@@ -21,6 +21,9 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
      * @param string $code
      * dataProvider paymentMethodDataProvider
      * @throws Exception on various assertion failures
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testPaymentMethod(/*$code, $methodClass*/)
     {

@@ -20,6 +20,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_Core_Block_Abstract extends Varien_Object
 {
@@ -107,6 +108,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,

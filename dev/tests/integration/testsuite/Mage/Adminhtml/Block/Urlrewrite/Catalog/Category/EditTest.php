@@ -21,6 +21,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
      *
      * @param array $blockAttributes
      * @param array $expected
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @todo Remove suppress warnings after the test fix
      */
     public function testPrepareLayout(/*$blockAttributes, $expected*/)
     {
