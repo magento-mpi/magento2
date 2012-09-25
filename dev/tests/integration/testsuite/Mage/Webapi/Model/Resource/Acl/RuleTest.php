@@ -11,8 +11,6 @@
 
 /**
  * Test for Mage_Webapi_Model_Resource_Acl_Rule
- *
- * @group module:Mage_Webapi
  */
 class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {

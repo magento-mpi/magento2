@@ -25,6 +25,21 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
+     * @var int
+     */
+    protected $_roleId = 5;
+
+    /**
+     * @var string
+     */
+    protected $_resourceId = 'customer/get';
+
+    /**
+     * @var string
+     */
+    protected $_resourceDenyId = 'customer/delete';
+
+    /**
      * @var  Zend_Acl_Role
      */
     protected $_role;
@@ -39,55 +54,67 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
      */
     protected $_resourceDeny;
 
-    public function setUp()
+    /**
+     * Set up before test
+     */
+    protected function setUp()
     {
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Rule',
             array('getRuleList'), array(), '', false);
         $this->_model = new Mage_Webapi_Model_Authorization_Loader_Rule(array(
             'resourceModel' => $this->_resourceModelMock,
         ));
-        $this->_role = new Zend_Acl_Role(5);
-        $this->_resource = new Zend_Acl_Resource('Mage_Customer::customer');
-        $this->_resourceDeny = new Zend_Acl_Resource('Mage_Customer::customer_multiGet');
+        $this->_role = new Zend_Acl_Role($this->_roleId);
+        $this->_resource = new Zend_Acl_Resource($this->_resourceId);
+        $this->_resourceDeny = new Zend_Acl_Resource($this->_resourceDenyId);
+    }
+
+    /**
+     * Data provider for testPopulateAcl
+     *
+     * @return array
+     */
+    public function populateAclDataProvider()
+    {
+        return array(
+            'with_rules' => array(
+                'getRuleList' =>  array(
+                    array(
+                        'role_id' => $this->_roleId,
+                        'resource_id' => $this->_resourceId
+                    )
+                ),
+                'resource' => true,
+                'resourceDeny' =>false
+
+            ),
+            'with_no_rules' => array(
+                'getRuleList' =>  array(),
+                'resource' => false,
+                'resourceDeny' =>false
+            )
+        );
     }
 
     /**
      * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl
      *
-     * Test with existing rules
+     * @param $ruleList
+     * @param $resource
+     * @param $resourceDeny
+     *
+     * @dataProvider populateAclDataProvider()
      */
-    public function testPopulateAclWithRules()
+    public function testPopulateAcl($ruleList, $resource, $resourceDeny)
     {
         $acl = new Magento_Acl();
         $acl->addRole($this->_role);
         $acl->deny($this->_role);
         $acl->addResource($this->_resource);
         $acl->addResource($this->_resourceDeny);
-        $rules = array(array(
-            'role_id' => $this->_role->getRoleId(),
-            'resource_id' => $this->_resource->getResourceId()
-        ));
-        $this->_resourceModelMock->expects($this->once())->method('getRuleList')->will($this->returnValue($rules));
+        $this->_resourceModelMock->expects($this->once())->method('getRuleList')->will($this->returnValue($ruleList));
         $this->_model->populateAcl($acl);
-        $this->assertTrue($acl->isAllowed($this->_role->getRoleId(), $this->_resource->getResourceId()));
-        $this->assertFalse($acl->isAllowed($this->_role->getRoleId(), $this->_resourceDeny->getResourceId()));
-    }
-
-    /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl
-     *
-     * Test with No existing rules
-     */
-    public function testPopulateAclWithNoRules()
-    {
-        $acl = new Magento_Acl();
-        $acl->addRole($this->_role);
-        $acl->deny($this->_role);
-        $acl->addResource($this->_resource);
-        $acl->addResource($this->_resourceDeny);
-        $this->_resourceModelMock->expects($this->once())->method('getRuleList')->will($this->returnValue(array()));
-        $this->_model->populateAcl($acl);
-        $this->assertFalse($acl->isAllowed(5, 'Mage_Customer::customer'));
-        $this->assertFalse($acl->isAllowed(5, 'Mage_Customer::customer_multiGet'));
+        $this->assertEquals($resource, $acl->isAllowed($this->_roleId, $this->_resourceId));
+        $this->assertEquals($resourceDeny, $acl->isAllowed($this->_roleId, $this->_resourceDenyId));
     }
 }

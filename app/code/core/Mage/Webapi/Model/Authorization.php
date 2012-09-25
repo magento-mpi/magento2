@@ -30,10 +30,16 @@ class Mage_Webapi_Model_Authorization
     protected $_aclPolicy;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
         $this->_aclPolicy = isset($data['policy']) ? $data['policy'] : $this->_getAclPolicy();
     }
 
@@ -45,13 +51,13 @@ class Mage_Webapi_Model_Authorization
      */
     protected function _getAclPolicy()
     {
-        $areaConfig = Mage::getConfig()->getAreaConfig();
+        $areaConfig = $this->_objectFactory->getAreaConfig();
         $policyClassName = isset($areaConfig['acl']['policy']) ?
             $areaConfig['acl']['policy'] :
             'Magento_Authorization_Policy_Default';
 
         /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
-        $aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
+        $aclBuilder = $this->_objectFactory->getModelInstance('Mage_Core_Model_Acl_Builder', array(
             'areaConfig' => $areaConfig,
             'objectFactory' => Mage::getConfig(),
         ));
@@ -66,7 +72,7 @@ class Mage_Webapi_Model_Authorization
     }
 
     /**
-     * Check current user permission on resource and privilege
+     * Check current user permission on resource and operation
      *
      * @param string $roleId
      * @param string $resource
@@ -76,6 +82,7 @@ class Mage_Webapi_Model_Authorization
     public function isAllowed($roleId, $resource, $operation)
     {
         $aclResource = $resource . self::RESOURCE_SEPARATOR . $operation;
-        return $this->_aclPolicy->isAllowed($roleId, $aclResource, null);
+        return $this->_aclPolicy->isAllowed($roleId, $aclResource)
+            || $this->_aclPolicy->isAllowed($roleId, Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID);
     }
 }

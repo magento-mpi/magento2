@@ -57,14 +57,15 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
      * Test for Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract::populateAcl
      *
      * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Config loader is not defined
      */
     public function testPopulateAclOnInvalidConfig()
     {
         /** @var $loaderResource Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract */
         $loaderResource = $this->getMockForAbstractClass('Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract');
 
-        /** @var $configObject Mage_Core_Model_Config */
-        $configObject = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        /** @var $configObject Varien_Object */
+        $configObject = $this->getMock('Varien_Object', array(), array(), '', false);
 
         /** @var $acl Magento_Acl */
         $acl = $this->getMock('Magento_Acl', array(), array(), '', false);
@@ -80,6 +81,7 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
      * Test for Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract::populateAcl
      *
      * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Object Factory is not defined
      */
     public function testPopulateAclOnInvalidFactory()
     {
@@ -89,8 +91,8 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
         /** @var $configObject Mage_Core_Model_Acl_Config_ConfigInterface */
         $configObject = $this->getMock('Mage_Core_Model_Acl_Config_ConfigInterface', array(), array(), '', false);
 
-        /** @var $factoryObject Mage_Core_Model_App */
-        $factoryObject = $this->getMock('Mage_Core_Model_App', array('getModelInstance'), array(), '', false);
+        /** @var $factoryObject Varien_Object */
+        $factoryObject = $this->getMock('Varien_Object', array('getModelInstance'), array(), '', false);
 
         /** @var $acl Magento_Acl */
         $acl = $this->getMock('Magento_Acl', array(), array(), '', false);
@@ -118,7 +120,6 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
             . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '_files'
             . DIRECTORY_SEPARATOR . 'acl_resources.xml');
         $xpath = new DOMXPath($aclResources);
-        $xpath->query('/config/resources/*');
         return $xpath->query('/config/resources/*');
     }
 }
