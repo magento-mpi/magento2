@@ -82,6 +82,7 @@ class Mage_Webapi_Model_Authorization
     public function isAllowed($roleId, $resource, $operation)
     {
         $aclResource = $resource . self::RESOURCE_SEPARATOR . $operation;
-        return $this->_aclPolicy->isAllowed($roleId, $aclResource);
+        return $this->_aclPolicy->isAllowed($roleId, $aclResource)
+            || $this->_aclPolicy->isAllowed($roleId, Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID);
     }
 }
