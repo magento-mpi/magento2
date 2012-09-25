@@ -150,7 +150,6 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        Mage::setCurrentArea($this->_area);
         $this->_objectManager->loadAreaConfiguration($this->_area);
 
         return $this->_matchController($request, $params);
