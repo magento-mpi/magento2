@@ -31,8 +31,27 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
 
         parent::__construct();
 
+        $this->_formScripts[] = "function saveAndContinueEdit(url)" .
+            "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
+
+        $this->_addButton('save_and_continue', array(
+            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
+            'onclick' => "saveAndContinueEdit('" . $this->getSaveAndContinueUrl() . "')",
+            'class' => 'save'
+        ), 100);
+
         $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API Role'));
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API Role'));
+    }
+
+    /**
+     * Retrieve role SaveAndContinue URL
+     *
+     * @return string
+     */
+    public function getSaveAndContinueUrl()
+    {
+        return $this->getUrl('*/*/save', array('_current' => true, 'continue' => true));
     }
 
     /**

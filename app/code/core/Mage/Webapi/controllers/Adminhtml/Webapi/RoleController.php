@@ -109,7 +109,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $roleId = $this->getRequest()->getParam('role_id', false);
 
         try {
-            Mage::getModel('Mage_Webapi_Model_Role')->load($roleId)->delete();
+            Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId)->delete();
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The role has been deleted.'));
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
@@ -147,7 +147,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
                     Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been saved.'));
                 $this->_getSession()->setWebapiRoleData(false);
 
-                if ($roleId) {
+                if ($roleId && !$this->getRequest()->has('continue')) {
                     $this->_redirect('*/*/');
                 } else {
                     $this->_redirect('*/*/edit', array('role_id' => $role->getId()));

@@ -11,7 +11,7 @@
 /**
  * Web API Role users tab
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
  *
  * @category   Mage

@@ -46,6 +46,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
      * Save resources
      *
      * @param Mage_Webapi_Model_Acl_Rule $rule
+     * @throws Exception
      */
     public function saveResources(Mage_Webapi_Model_Acl_Rule $rule)
     {

@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
 {
     /**
      * Constructor
@@ -63,7 +63,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('role_id');
-        Mage::register('RID', $roleId);
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getModel('Mage_Webapi_Model_Acl_User')->getCollection();
         $this->setCollection($collection);
@@ -127,10 +126,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Adminhtml_Block_Wi
         }
 
         $roleId = (int) $this->getRequest()->getParam('role_id');
-        if ($roleId == 0) {
-            $roleId = Mage::registry('RID');
-        }
-
         $users = Mage::getModel('Mage_Webapi_Model_Acl_User')->getRoleUsers($roleId);
         if (count($users) > 0) {
             if ($json) {

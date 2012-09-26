@@ -11,9 +11,9 @@
 /**
  * Web API role resource tab
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole()
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit setSelectedResources(array $selrids)
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources(array $selrids)
  * @method array getSelectedResources()
  *
  * @category   Mage
