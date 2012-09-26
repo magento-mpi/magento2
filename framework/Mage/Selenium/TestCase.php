@@ -2397,8 +2397,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
              */
             $availableElements = $this->getElements($locator, false);
             foreach ($availableElements as $availableElement) {
-                if ($availableElement->displayed()) {
-                    return $availableElement;
+                try {
+                    if ($availableElement->displayed()) {
+                        return $availableElement;
+                    }
+                } catch (RuntimeException $e) {
                 }
             }
             usleep(500000);
@@ -2431,8 +2434,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
              */
             $availableElements = $this->getElements($locator, false);
             foreach ($availableElements as $availableElement) {
-                if ($availableElement->enabled() && $availableElement->displayed()) {
-                    return $availableElement;
+                try {
+                    if ($availableElement->enabled() && $availableElement->displayed()) {
+                        return $availableElement;
+                    }
+                } catch (RuntimeException $e) {
                 }
             }
             usleep(500000);
