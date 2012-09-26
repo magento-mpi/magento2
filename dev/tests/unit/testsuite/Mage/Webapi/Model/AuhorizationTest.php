@@ -32,22 +32,16 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     protected $_roleId = 5;
 
     /**
-     * @var string
-     */
-    protected $_resource = 'customer';
-
-    /**
-     * @var string
-     */
-    protected $_operation = 'get';
-
-    /**
      * Set up before test
      */
     protected function setUp()
     {
         $this->_policyMock = $this->getMock('Magento_Authorization_Policy', array(), array(), '', false);
-        $data = array('policy' => $this->_policyMock);
+        $objectFactory = $this->getMock('Varien_Object', array(), array(), '', false);
+        $data = array(
+            'policy' => $this->_policyMock,
+            'objectFactory' => $objectFactory
+        );
         $this->_model = new Mage_Webapi_Model_Authorization($data);
     }
 
@@ -67,13 +61,29 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function isAllowedDataProvider()
     {
         return array(
-            'returnPositiveValue' => array(
-                'isAllowed' => true,
-                'expected' => true
+            'resourceIsAllowed' => array(
+                'resource' => 'customer',
+                'operation' => 'get',
+                'aclResource' => 'customer/get',
+                'isAllowedResource' => true,
+                'isAllowedRoot' => false,
+                'expected' => true,
             ),
-            'returnNegativeValue' => array(
-                'isAllowed' => false,
-                'expected' => false
+            'rootIsAllowed' => array(
+                'resource' => 'customer',
+                'operation' => 'get',
+                'aclResource' => 'customer/get',
+                'isAllowedResource' => false,
+                'isAllowedRoot' => true,
+                'expected' => true,
+            ),
+            'notAllowed' => array(
+                'resource' => 'customer',
+                'operation' => 'get',
+                'aclResource' => 'customer/get',
+                'isAllowedResource' => false,
+                'isAllowedRoot' => false,
+                'expected' => false,
             )
         );
     }
@@ -81,14 +91,25 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test for Mage_Webapi_Model_Authorization::isAllowed
      *
-     * @param $isAllowed
+     * @param $resource
+     * @param $operation
+     * @param $aclResource
+     * @param $isAllowedResource
+     * @param $isAllowedRoot
      * @param $expected
      *
      * @dataProvider isAllowedDataProvider
      */
-    public function testIsAllowed($isAllowed, $expected)
+    public function testIsAllowed($resource, $operation, $aclResource, $isAllowedResource, $isAllowedRoot, $expected)
     {
-        $this->_policyMock->expects($this->any())->method('isAllowed')->will($this->returnValue($isAllowed));
-        $this->assertEquals($expected, $this->_model->isAllowed($this->_roleId, $this->_resource, $this->_operation));
+        $this->_policyMock->expects($this->at(0))->method('isAllowed')
+            ->with($this->_roleId, $aclResource)
+            ->will($this->returnValue($isAllowedResource));
+        if (!$isAllowedResource) {
+            $this->_policyMock->expects($this->at(1))->method('isAllowed')
+                ->with($this->_roleId, Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)
+                ->will($this->returnValue($isAllowedRoot));
+        }
+        $this->assertEquals($expected, $this->_model->isAllowed($this->_roleId, $resource, $operation));
     }
 }
