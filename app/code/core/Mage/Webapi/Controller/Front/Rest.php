@@ -122,7 +122,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         try {
             // TODO: Introduce Authentication and Authorization
-//            $role = $this->_authenticate($this->getRequest());
+            $role = $this->_authenticate($this->getRequest());
 
             $route = $this->_matchRoute($this->getRequest());
             $this->getRequest()->setResourceName($route->getResourceName());
