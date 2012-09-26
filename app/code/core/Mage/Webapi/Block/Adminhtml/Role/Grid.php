@@ -30,10 +30,11 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid extends Mage_Backend_Block_Widget_Gr
     /**
      * Prepare grid collection
      *
-     * @return this
+     * @return Mage_Webapi_Block_Adminhtml_Role_Grid
      */
     protected function _prepareCollection()
     {
+        /** @var $collection Mage_Webapi_Model_Resource_Acl_Role_Collection */
         $collection = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getCollection();
         $this->setCollection($collection);
 

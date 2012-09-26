@@ -49,11 +49,11 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
      */
     public function saveResources(Mage_Webapi_Model_Acl_Rule $rule)
     {
-        $adapter = $this->_getWriteAdapter();
-        $adapter->beginTransaction();
-
         $roleId = $rule->getRoleId();
         if ($roleId > 0) {
+            $adapter = $this->_getWriteAdapter();
+            $adapter->beginTransaction();
+
             try {
                 $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
 

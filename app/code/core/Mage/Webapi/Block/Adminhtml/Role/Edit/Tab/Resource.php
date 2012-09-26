@@ -34,6 +34,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
         if ($role->getRoleId()) {
             $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
+            /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
             $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
                 ->getByRoles($role->getRoleId())->load();
 
@@ -58,7 +59,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      * Check resource access is set to "All"
      * @return bool
      */
-    public function getEverythingAllowed()
+    public function isEverythingAllowed()
     {
         return in_array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID, $this->getSelectedResources());
     }
@@ -90,13 +91,14 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     /**
      * Sorting function for array sorting
      *
-     * @param $a
-     * @param $b
+     * @param $firstArg
+     * @param $secondArg
      * @return int
      */
-    protected function _sortTree($a, $b)
+    protected function _sortTree($firstArg, $secondArg)
     {
-        return $a['sort_order'] < $b['sort_order'] ? -1 : ($a['sort_order'] > $b['sort_order'] ? 1 : 0);
+        return $firstArg['sort_order'] < $secondArg['sort_order']
+            ? -1 : ($firstArg['sort_order'] > $secondArg['sort_order'] ? 1 : 0);
     }
 
     /**

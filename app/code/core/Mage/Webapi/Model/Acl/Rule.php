@@ -41,7 +41,8 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
      *
      * @return Mage_Webapi_Model_Acl_Rule
      */
-    public function saveResources() {
+    public function saveResources()
+    {
         $this->getResource()->saveResources($this);
         return $this;
     }

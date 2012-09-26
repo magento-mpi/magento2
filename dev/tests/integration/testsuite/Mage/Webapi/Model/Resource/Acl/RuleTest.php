@@ -14,7 +14,6 @@
  */
 class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds()
      *

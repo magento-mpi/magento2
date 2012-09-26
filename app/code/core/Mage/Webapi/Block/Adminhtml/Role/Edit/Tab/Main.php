@@ -23,7 +23,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
     /**
      * Prepare Form
      *
-     * @return Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main
+     * @return Mage_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {
