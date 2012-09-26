@@ -56,7 +56,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
             $adapter->beginTransaction();
 
             try {
-                $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
+                $adapter->delete($this->getMainTable(), array('role_id = ?' => (int) $roleId));
 
                 $resources = $rule->getResources();
                 if ($resources) {

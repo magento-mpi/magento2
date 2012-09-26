@@ -53,7 +53,8 @@ $table = $installer->getConnection()
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
         array(
             'unsigned'  => true,
-            'nullable'  => false,),
+            'default'   => null,
+            'nullable'  => true),
         'User role from webapi_role')
     ->addIndex(
         $installer->getIdxName('webapi_user', array('role_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
@@ -90,9 +91,8 @@ $table = $installer->getConnection()
         'Resource name. Must match resource calls in xml.')
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
         array(
-            'default'   => NULL,
             'unsigned'  => true,
-            'nullable'  => true),
+            'nullable'  => false),
         'User role from webapi_role')
     ->addIndex(
         $installer->getIdxName('webapi_rule', array('role_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX),
