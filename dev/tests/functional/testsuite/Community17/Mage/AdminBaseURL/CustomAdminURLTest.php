@@ -64,6 +64,7 @@ class Core_Mage_AdminBaseUrl_AdminBaseURL extends Mage_Selenium_TestCase
      */
     public function customAdminUrlIsEqual()
     {
+        $this->markTestIncomplete('Incomplete test with wrong logic');
         //Data
         $CustomUrlData = $this->loadDataSet('AdminBaseURL', 'admin_custom_url_is_equal');
         $this->addParameter('customUrl', '1');
