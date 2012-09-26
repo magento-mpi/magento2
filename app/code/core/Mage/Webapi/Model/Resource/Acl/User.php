@@ -52,7 +52,7 @@ class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Ab
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable(), array('user_id'))
-            ->where('role_id = ?', (int) $roleId);
+            ->where('role_id = ?', (int)$roleId);
         return $adapter->fetchCol($select);
     }
 }

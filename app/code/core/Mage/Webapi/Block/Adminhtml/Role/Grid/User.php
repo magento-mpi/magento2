@@ -33,7 +33,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
     /**
      * Add column to filter
      *
-     * @param $column
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
      * @return Mage_Webapi_Block_Adminhtml_Role_Grid_User
      */
     protected function _addColumnFilterToCollection($column)
@@ -62,7 +62,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
      */
     protected function _prepareCollection()
     {
-        $roleId = $this->getRequest()->getParam('role_id');
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
         $collection = Mage::getModel('Mage_Webapi_Model_Acl_User')->getCollection();
         $this->setCollection($collection);
@@ -125,7 +124,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
             return $this->getRequest()->getParam('in_role_user');
         }
 
-        $roleId = (int) $this->getRequest()->getParam('role_id');
+        $roleId = (int)$this->getRequest()->getParam('role_id');
         $users = Mage::getModel('Mage_Webapi_Model_Acl_User')->getRoleUsers($roleId);
         if (count($users) > 0) {
             if ($json) {
@@ -133,7 +132,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
                 foreach ($users as $userId) {
                     $jsonUsers[$userId] = 0;
                 }
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object) $jsonUsers);
+                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

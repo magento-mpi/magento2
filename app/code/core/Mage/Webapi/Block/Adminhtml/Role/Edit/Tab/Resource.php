@@ -35,10 +35,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         if ($role->getRoleId()) {
             $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
             /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-            $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
-                ->getByRoles($role->getRoleId())->load();
+            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId())->load();
 
             $selectedRoleIds = array();
+            /** @var $item Mage_Webapi_Model_Acl_Rule */
             foreach ($rulesSet->getItems() as $item) {
                 $resourceId = $item->getResourceId();
                 if (in_array($resourceId, $resources)
@@ -75,7 +75,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
 
         if ($resources && $resources->length == 1
-            && (string) $resources->item(0)->getAttribute('id')
+            && (string)$resources->item(0)->getAttribute('id')
                 == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
             && $resources->item(0)->childNodes) {
 
@@ -91,8 +91,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     /**
      * Sorting function for array sorting
      *
-     * @param $firstArg
-     * @param $secondArg
+     * @param array $firstArg
+     * @param array $secondArg
      * @return int
      */
     protected function _sortTree($firstArg, $secondArg)
@@ -112,10 +112,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $item = array();
         $selRes = $this->getSelectedResources();
 
-        $item['id'] = (string) $node->getAttribute('id');
-        $item['text'] = (string) $node->getAttribute('title');
-        $sortOrder = (string) $node->getAttribute('sort_order');
-        $item['sort_order']= !empty($sortOrder) ? (int) $sortOrder : 0;
+        $item['id'] = (string)$node->getAttribute('id');
+        $item['text'] = (string)$node->getAttribute('title');
+        $sortOrder = (string)$node->getAttribute('sort_order');
+        $item['sort_order']= !empty($sortOrder) ? (int)$sortOrder : 0;
 
         if (in_array($item['id'], $selRes)) {
             $item['checked'] = true;

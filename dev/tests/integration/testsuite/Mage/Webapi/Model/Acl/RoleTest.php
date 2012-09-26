@@ -68,6 +68,6 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('DOMNodeList', $resources);
         $this->assertGreaterThan(0, $resources->length);
         $this->assertEquals(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID,
-            (string) $resources->item(0)->getAttribute('id'));
+            (string)$resources->item(0)->getAttribute('id'));
     }
 }

@@ -55,7 +55,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test method Mage_Webapi_Model_Acl_Rule::SaveResources()
+     * Test method Mage_Webapi_Model_Acl_Rule::saveResources()
      *
      * @magentoDataFixture Mage/Webapi/_files/role.php
      */
@@ -71,7 +71,21 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
         $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
-            ->getByRoles($role->getRoleId())->load();
-        $this->assertEquals(2, $rulesSet->count());
+            ->getByRole($role->getRoleId())->load();
+        $this->assertCount(2, $rulesSet);
+    }
+
+    /**
+     * Test method Mage_Webapi_Model_Acl_Rule::getByRole()
+     *
+     * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
+     */
+    public function testGetByRole()
+    {
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
+
+        /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
+        $rulesSet = $this->_model->getByRole($role->getRoleId())->load();
+        $this->assertCount(1, $rulesSet);
     }
 }

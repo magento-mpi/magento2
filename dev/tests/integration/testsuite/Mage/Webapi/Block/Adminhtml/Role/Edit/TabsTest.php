@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Mage_Webapi_Block_Adminhtml_Role_Edit block
+ * Test for Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs block
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_TestCase
 {

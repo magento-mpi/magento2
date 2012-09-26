@@ -56,16 +56,22 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
             $adapter->beginTransaction();
 
             try {
-                $adapter->delete($this->getMainTable(), array('role_id = ?' => (int) $roleId));
+                $adapter->delete($this->getMainTable(), array('role_id = ?' => (int)$roleId));
 
                 $resources = $rule->getResources();
                 if ($resources) {
+                    $resourcesToInsert = array();
                     foreach ($resources as $resName) {
-                        $adapter->insert($this->getMainTable(), array(
+                        $resourcesToInsert[] = array(
                             'role_id'       => $roleId,
-                            'resource_id'   => trim($resName),
-                        ));
+                            'resource_id'   => trim($resName)
+                        );
                     }
+                    $adapter->insertArray(
+                        $this->getMainTable(),
+                        array('role_id', 'resource_id'),
+                        $resourcesToInsert
+                    );
                 }
 
                 $adapter->commit();
