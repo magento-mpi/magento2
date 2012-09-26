@@ -18,7 +18,7 @@ Update as of 9/26/2012
   * Warning message in `system.log` when using GD2 image adapter
   * "Preview" link is absent for managing CMS Pages in single store mode
   * "Promotions" tab is missing on Configuration page
-  * Wrong format of performance tests config, also updated fixtures and scenarios in the config
+  * Wrong format of performance tests config
 
 Update as of 9/13/2012
 ======================
