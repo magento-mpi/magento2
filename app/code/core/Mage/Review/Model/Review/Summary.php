@@ -29,7 +29,7 @@ class Mage_Review_Model_Review_Summary extends Mage_Core_Model_Abstract
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
         Mage_Review_Model_Resource_Review_Summary $resource,
-        Mage_Review_Model_Resource_Review_Summary $resourceCollection,
+        Mage_Review_Model_Resource_Review_Summary_Collection $resourceCollection,
         array $data = array()
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);

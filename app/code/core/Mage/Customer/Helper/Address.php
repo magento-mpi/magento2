@@ -47,6 +47,22 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     protected $_formatTemplate  = array();
 
     /**
+     * Block factory
+     *
+     * @var Mage_Core_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * Class constructor
+     * @param Mage_Core_Model_BlockFactory $blockFactory
+     */
+    public function __construct(Mage_Core_Model_BlockFactory $blockFactory)
+    {
+        $this->_blockFactory = $blockFactory;
+    }
+
+    /**
      * Addresses url
      */
     public function getBookUrl()
@@ -72,7 +88,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     public function getRenderer($renderer)
     {
         if (is_string($renderer) && $className = Mage::getConfig()->getBlockClassName($renderer)) {
-            return Mage::getObjectManager()->get($className);
+            return $this->_blockFactory->createBlock($className, array());
         } else {
             return $renderer;
         }
