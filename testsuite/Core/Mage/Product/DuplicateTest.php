@@ -171,7 +171,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-4390
      * <p>Creating duplicated downloadable product</p>
      * <p>Steps:</p>
      * <p>1. Open created product;</p>
