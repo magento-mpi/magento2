@@ -113,6 +113,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             try {
                 $this->_validateUserData($user);
                 $user->save();
+                $userId = $user->getId();
 
                 $this->_getSession()
                     ->setWebapiUserData(null)
