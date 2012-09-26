@@ -482,7 +482,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     {
         $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
-            if (!($model = Mage::getModel($typeModel, array($this, $type)))) {
+            $params = array($this, $type);
+            if (!($model = Mage::getModel($typeModel, array('params' => $params)))) {
                 Mage::throwException("Entity type model '{$typeModel}' is not found");
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {

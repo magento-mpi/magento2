@@ -150,8 +150,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             );
             $this->_dataSourceModels['customer']
                 = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data',
-                $arguments
-            );
+                    array('arguments' => $arguments)
+                );
         }
         if (isset($data['customer_entity'])) {
             $this->_customerEntity = $data['customer_entity'];
@@ -172,7 +172,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             );
             $this->_dataSourceModels['address']
                 = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data',
-                    $arguments
+                    array('arguments' => $arguments)
                 );
         }
         if (isset($data['address_entity'])) {

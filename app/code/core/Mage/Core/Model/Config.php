@@ -194,19 +194,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_currentAreaCode = null;
 
     /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Class construct
      *
+     * @param Magento_ObjectManager $objectManager
      * @param mixed $sourceData
      */
-    public function __construct($sourceData=null)
+    public function __construct(Magento_ObjectManager $objectManager, $sourceData=null)
     {
+        $this->_objectManager = $objectManager;
         $this->setCacheId('config_global');
         $options = $sourceData;
         if (!is_array($options)) {
             $options = array($options);
         }
-        $this->_options = new Mage_Core_Model_Config_Options($options);
-        $this->_prototype = new Mage_Core_Model_Config_Base();
+        $this->_options = $this->_objectManager->create('Mage_Core_Model_Config_Options', array('data' => $options));
+        $this->_prototype = $this->_objectManager->create('Mage_Core_Model_Config_Base');
         $this->_cacheChecksum = null;
         parent::__construct($sourceData);
     }
@@ -1283,7 +1292,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
             Magento_Profiler::start('FACTORY:' . $className);
-            $obj = new $className($constructArguments);
+            $obj = $this->_objectManager->create($className, $constructArguments);
             Magento_Profiler::stop('FACTORY:' . $className);
             return $obj;
         } else {
