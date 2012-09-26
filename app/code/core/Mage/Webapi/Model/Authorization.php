@@ -59,7 +59,7 @@ class Mage_Webapi_Model_Authorization
         /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
         $aclBuilder = $this->_objectFactory->getModelInstance('Mage_Core_Model_Acl_Builder', array(
             'areaConfig' => $areaConfig,
-            'objectFactory' => Mage::getConfig(),
+            'objectFactory' => $this->_objectFactory,
         ));
 
         /** @var $policyObject Magento_Authorization_Policy **/
