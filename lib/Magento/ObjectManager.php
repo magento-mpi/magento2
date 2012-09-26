@@ -21,7 +21,7 @@ interface Magento_ObjectManager
     public function create($className, array $arguments = array());
 
     /**
-     * Retreive cached object instance
+     * Retrieve cached object instance
      *
      * @abstract
      * @param string $className
@@ -29,4 +29,13 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function get($className, array $arguments = array());
+
+    /**
+     * Load DI configuration for specified ares
+     *
+     * @abstract
+     * @param $areaCode
+     * @return mixed
+     */
+    public function loadAreaConfiguration($areaCode);
 }
