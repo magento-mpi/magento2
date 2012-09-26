@@ -72,9 +72,9 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
+     * Get resources array recursively
      *
-     *
-     * @param $resources
+     * @param DOMNodeList $resources
      * @return array
      */
     public function getResources($resources)

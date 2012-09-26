@@ -99,9 +99,9 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
     /**
      * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl
      *
-     * @param $ruleList
-     * @param $resource
-     * @param $resourceDeny
+     * @param array $ruleList
+     * @param bool $resource
+     * @param bool $resourceDeny
      *
      * @dataProvider populateAclDataProvider()
      */

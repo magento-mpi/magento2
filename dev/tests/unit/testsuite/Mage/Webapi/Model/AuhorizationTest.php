@@ -91,12 +91,12 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     /**
      * Test for Mage_Webapi_Model_Authorization::isAllowed
      *
-     * @param $resource
-     * @param $operation
-     * @param $aclResource
-     * @param $isAllowedResource
-     * @param $isAllowedRoot
-     * @param $expected
+     * @param string $resource
+     * @param string $operation
+     * @param string $aclResource
+     * @param bool $isAllowedResource
+     * @param bool $isAllowedRoot
+     * @param bool $expected
      *
      * @dataProvider isAllowedDataProvider
      */

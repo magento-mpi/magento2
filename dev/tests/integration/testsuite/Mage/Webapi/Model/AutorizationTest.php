@@ -19,6 +19,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
      * Test for Mage_Webapi_Model_Authorization::isAllowed()
      *
      * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
+     * @magentoAppIsolation enabled
      */
     public function testIsAllowed()
     {
