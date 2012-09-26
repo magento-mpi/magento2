@@ -190,7 +190,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateDownloadable($attrData, $assignData)
     {
-        $this->markTestIncomplete('MAGETWO-2875');
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
