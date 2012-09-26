@@ -114,6 +114,13 @@ final class Mage
     static private $_currentEdition = self::EDITION_COMMUNITY;
 
     /**
+     * Check if we need to use __sleep and __wakeup serialization methods in models
+     *
+     * @var bool
+     */
+    static private $_isSerializable = true;
+
+    /**
      * Gets the current Magento version string
      * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
      *
@@ -999,5 +1006,27 @@ final class Mage
     public static function setIsDownloader($flag = true)
     {
         self::$_isDownloader = $flag;
+    }
+
+    /**
+     * Set is serializable flag
+     *
+     * @static
+     * @param bool $value
+     */
+    public static function setIsSerializable($value = true)
+    {
+        self::$_isSerializable = !empty($value);
+    }
+
+    /**
+     * Get is serializable flag
+     *
+     * @static
+     * @return bool
+     */
+    public static function getIsSerializable()
+    {
+        return self::$_isSerializable;
     }
 }
