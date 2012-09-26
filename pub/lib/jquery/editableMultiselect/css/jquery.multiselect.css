@@ -1,0 +1,135 @@
+.mselect-list {
+    position:relative;
+}
+
+
+.mselect-items-wrapper {
+    padding: 3px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.mselect-fixed {
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+
+.mselect-list-item {
+    position: relative;
+    margin: 1px 0;
+}
+
+.mselect-list-item input[type="text"] {
+    height: 28px;
+}
+
+.mselect-list-item:hover {
+    background: #f9f9f9;
+}
+
+.mselect-list-item label {
+    width:100%;
+    display:block;
+}
+
+.mselect-input-container {
+    position:relative;
+    margin:5px 10px;
+    display:none;
+}
+
+
+.mselect-input {
+    width: 99%;
+    margin:0;
+}
+
+.mselect-list-item input:checked + span {
+    background: #e6e6e6;
+}
+
+.mselect-list-item .mselect-checked + span {
+    background: #e6e6e6;
+}
+
+.mselect-list-item input[type='checkbox'] {
+    position: absolute;
+    top:-9999px;
+}
+
+.mselect-list-item label>span {
+    display: block;
+    padding: 5px;
+}
+
+.mselect-list-item.mselect-disabled label span {
+    color:#999;
+    cursor: default;
+}
+.mselect-list-item.mselect-disabled:hover {
+    background: #fff;
+}
+
+.mselect-list-item label span form {
+    position: relative;
+    z-index: 2;
+}
+
+.mselect-cancel,
+.mselect-edit,
+.mselect-delete,
+.mselect-save {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    cursor: pointer;
+    background: url(../images/icons-sprite.png) no-repeat;
+    text-indent: -9999px;
+}
+
+.mselect-cancel {
+    right: 5px;
+    top: 7px;
+    background-position:-312px 0;
+    padding: 0;
+}
+
+.mselect-edit {
+    background-position: 0 -72px;
+    top: 5px;
+    right: 30px;
+    display: none;
+}
+
+.mselect-delete {
+    background-position: -456px -0;
+    display: none;
+    top: 5px;
+    right: 5px;
+}
+
+.mselect-save,
+.mselect-save:hover {
+    background:url(../images/icons-sprite.png) no-repeat -72px -72px;
+    display: block;
+    top: 6px;
+    right: 25px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    filter:none;
+}
+
+.mselect-list-item:hover .mselect-delete,
+.mselect-list-item:hover .mselect-edit {
+    display: block;
+}
+.mselect-list-item-not-editable:hover .mselect-edit {
+    display: none;
+}
+
+.mselect-list-item-not-removable:hover .mselect-delete {
+    display: none;
+}

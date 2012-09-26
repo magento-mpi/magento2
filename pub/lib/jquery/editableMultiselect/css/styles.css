@@ -1,0 +1,201 @@
+
+
+html { height:100%; }
+
+body {
+    min-height:100%;
+    padding: 0;
+    background: #efefef;
+    width: 960px;
+    margin: 0 auto;
+    font: normal normal normal 12px/1.5 sans-serif;
+}
+
+a:focus { outline: 0; }
+header {
+    overflow: hidden;
+    background: #fff;
+    padding:10px;
+    margin:0 0 20px;
+}
+header h1 {
+    float:left;
+}
+footer {
+    position:fixed;
+    bottom:0;
+    width:960px;
+    padding:10px;
+    margin:0 auto;
+    background:#333;
+    color:#fff;
+}
+
+section {
+    padding:20px;
+}
+.colors {display: block; width:500px; overflow: hidden; float:right; }
+.colors li { float:left; width:20%; height:30px; list-style: none; }
+.colors li.c1 { background:#5d686a; background:hsl(189, 7%, 39%); }
+.colors li.c2 { background:#557780; background:hsl(193, 20%, 42%); }
+.colors li.c3 { background:#b2ccc9; background:hsl(173, 20%, 75%); }
+.colors li.c4 { background:#abad9f; background:hsl(69, 8%, 65%); }
+.colors li.c5 { background:#f7ede1; background:hsl(33, 58%, 93%); }
+
+.link-back:before { content:'<<'; font-size:12px; display:inline-block; }
+
+.qty .control,
+.qty .label { display:inline-block; vertical-align:middle; margin:0; }
+.qty .input-text { width:3em; margin:0; }
+
+.temp { width:600px; margin:0 auto; background: #fff; }
+.temp > .tabs-new > .tab-content {
+    padding:50px;
+}
+.tabs { margin:20px 0; }
+.tabs > .section-title {
+    display: table-cell;
+}
+dl.tabs-alt .section-title {
+    float:none;
+    display: table-cell!important;
+}
+.tabs > .sections-nav {
+    display: table; width:auto;
+    padding:0; margin:0;
+}
+.tabs > .sections-nav .section-title {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.tabs.adjusted {
+    background:hsla(189, 7%, 39%, .5);
+}
+.tabs.adjusted .section-content {
+    float:none;
+    margin:0;
+}
+.tabs > .sections-nav > .section-title > .section-switch,
+.tabs > .sections-nav > .section-switch,
+.tabs > .section-title > .section-switch,
+.tabs > .section-switch {
+    text-decoration: none;
+    display: block;
+    padding: 5px 10px;
+    color:#000;
+}
+.tabs > .sections-nav > .section-title > .section-switch:hover,
+.tabs > .sections-nav > .section-switch:hover,
+.tabs > .section-title > .section-switch:hover,
+.tabs > .section-switch:hover {
+    background:#C0C0C0;
+}
+.tabs > .sections-nav > .section-title.active > .section-switch,
+.tabs > .sections-nav > .section-switch.active,
+.tabs > .section-title.active > .section-switch,
+.tabs > .section-switch.active {
+    position: relative;
+    z-index: 2;
+    border:1px solid #C0C0C0;
+    border-bottom: 0;
+    background: #fff;
+}
+
+.tabs > .sections-nav > .disabled > .section-switch,
+.tabs > .disabled > .section-switch,
+.tabs > .section-switch.disabled {
+    color: #999;
+    cursor:not-allowed;
+}
+.tabs > .section-content {
+    margin-top:30px;
+    width:100%;
+    float: right;
+    margin-left: -100%;
+    padding:20px;
+    display: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.tabs > .section-content.active {
+    border:1px solid hsl(0, 0%, 75%);
+    color:hsl(0, 0%, 50%);
+    display: block;
+}
+
+
+.tabs.vertical {
+    padding:0; position: relative; z-index: 1;
+    padding-left:20%;
+}
+.tabs.vertical .section-title {
+    width:20%;
+    position: absolute; margin-bottom:2px;
+    top:0;
+    left:0;
+}
+.tabs.vertical .section-content {
+    border:0;
+    margin-top:0;
+    display: none;
+    float:none;
+    margin:0;
+    clear:none;
+    width:100%;
+    background: hsla(0,0%,95%,1);
+    min-height: 100%;
+}
+.tabs.vertical .section-title.active .section-switch {
+    background: #efefef;
+    background: hsla(0,0%,95%,1);
+    border:0;
+}
+.tabs.vertical .section-content.active {
+    display: block;
+}
+
+.tabs.vertical:last-child { padding:0 20% 0 0; }
+.tabs.vertical:last-child .section-title { left:auto; right:0; }
+
+/* Clears */
+.tabs:before,
+.tabs:after,
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+.tabs:after,
+.cf:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.tabs,
+.cf {
+    *zoom:1;
+}
+
+.accordion > .section-title { padding:0; border:1px solid #000; margin:1px 0; }
+.accordion > .section-title >.section-switch,
+.accordion > .section-switch { display: block; padding:5px; text-decoration: none; }
+.accordion > .active >.section-switch,
+.accordion > .section-switch.active { background: #999; color:#fff; }
+.accordion > .section-content { display: none; padding:10px; margin:0; }
+.accordion > .section-content.active { display: block; }
+
+.tabs { padding:5px; border-radius: 5px; background: hsla(60, 50%, 25%,0.5) }
+.tabs:not(.vertical) .section-switch { color:#fff; }
+.tabs:not(.vertical) .active .section-switch { color:#000; }
+.tabs .section-content {
+    background: #fff;
+    border-radius: 5px;
+    border:0;
+}
+
+
+
+h1 {background: red; height:30px; width:100%; display: block; }
