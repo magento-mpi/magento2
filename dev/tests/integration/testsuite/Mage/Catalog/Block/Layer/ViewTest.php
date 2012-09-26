@@ -18,9 +18,7 @@ class Mage_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture + block');
 
         $currentCategory = new Mage_Catalog_Model_Category;
         $currentCategory->load(3);
