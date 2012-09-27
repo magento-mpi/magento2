@@ -209,7 +209,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     /**
      * Load Web API User
      *
-     * @param $userId
+     * @param int $userId
      * @return bool|Mage_Webapi_Model_Acl_User
      */
     protected function _loadApiUser($userId)
