@@ -34,7 +34,7 @@ class Mage_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Assert that the actual layout update instance represents the expected layout update file
      *
-     * @param Mage_Core_Model_Layout_Update $actualUpdate
+     * @param Mage_Core_Model_Layout_Merge $actualUpdate
      * @param string $expectedUpdateFile
      */
     protected function _assertLayoutUpdate($actualUpdate, $expectedUpdateFile)
