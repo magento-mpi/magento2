@@ -95,12 +95,12 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPreviewImageDefaultUrl()
     {
-        $defaultPreviewImageUrl = 'default_image_preview_url';
+        $defPreviewImageUrl = 'default_image_preview_url';
         $themeModel = $this->getMock('Mage_Core_Model_Theme', array('_getPreviewImageDefaultUrl'));
         $themeModel->expects($this->once())
             ->method('_getPreviewImageDefaultUrl')
-            ->will($this->returnValue($defaultPreviewImageUrl));
+            ->will($this->returnValue($defPreviewImageUrl));
 
-        $this->assertEquals($defaultPreviewImageUrl, $themeModel->getPreviewImageUrl());
+        $this->assertEquals($defPreviewImageUrl, $themeModel->getPreviewImageUrl());
     }
 }
