@@ -18,6 +18,11 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
+        try {
+            Mage::dispatchEvent('theme_update');
+        } catch (Mage_Core_Exception $e) {
+            Mage::log($e->getMessage());
+        }
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
         $this->renderLayout();
