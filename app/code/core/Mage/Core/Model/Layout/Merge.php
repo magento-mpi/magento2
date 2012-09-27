@@ -8,19 +8,22 @@
  * @license     {license_link}
  */
 
-
-class Mage_Core_Model_Layout_Update
+/**
+ * Layout merge model
+ */
+class Mage_Core_Model_Layout_Merge
 {
     /**
      * Additional tag for cleaning layout cache convenience
      */
     const LAYOUT_GENERAL_CACHE_TAG = 'LAYOUT_GENERAL_CACHE_TAG';
 
-    /**
+    /**#@+
      * Available item type names
      */
     const TYPE_PAGE = 'page';
     const TYPE_FRAGMENT = 'fragment';
+    /**#@-*/
 
     /**
      * @var string
@@ -78,14 +81,14 @@ class Mage_Core_Model_Layout_Update
     protected $_pageHandles = array();
 
     /**
-     * Substitution values in structure array('from'=>array(), 'to'=>array())
+     * Substitution values in structure array('from' => array(), 'to' => array())
      *
      * @var array
      */
     protected $_subst = array();
 
     /**
-     * Constructor
+     * Init merge model
      *
      * @param array $arguments
      */
@@ -171,12 +174,23 @@ class Mage_Core_Model_Layout_Update
         return $this;
     }
 
+    /**
+     * Remove handle from update
+     *
+     * @param string $handleName
+     * @return Mage_Core_Model_Layout_Merge
+     */
     public function removeHandle($handleName)
     {
         unset($this->_handles[$handleName]);
         return $this;
     }
 
+    /**
+     * Get handle names array
+     *
+     * @return array
+     */
     public function getHandles()
     {
         return array_keys($this->_handles);
@@ -199,8 +213,8 @@ class Mage_Core_Model_Layout_Update
             $handles[] = $handleName;
 
             /* replace existing page handles with the new ones */
-            foreach ($this->_pageHandles as $handleName) {
-                $this->removeHandle($handleName);
+            foreach ($this->_pageHandles as $pageHandleName) {
+                $this->removeHandle($pageHandleName);
             }
             $this->_pageHandles = $handles;
             $this->addHandle($handles);
@@ -258,7 +272,7 @@ class Mage_Core_Model_Layout_Update
             return null;
         }
         $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$handleName}[$condition][1]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/{$handleName}[{$condition}][1]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -353,7 +367,7 @@ class Mage_Core_Model_Layout_Update
      * Retrieve the type of a page handle
      *
      * @param string $handleName
-     * @return string|bool
+     * @return string|null
      */
     public function getPageHandleType($handleName)
     {
@@ -365,14 +379,14 @@ class Mage_Core_Model_Layout_Update
      * Load layout updates by handles
      *
      * @param array|string $handles
-     * @return Mage_Core_Model_Layout_Update
      * @throws Magento_Exception
+     * @return Mage_Core_Model_Layout_Update
      */
     public function load($handles = array())
     {
         if (is_string($handles)) {
             $handles = array($handles);
-        } else if (!is_array($handles)) {
+        } elseif (!is_array($handles)) {
             throw new Magento_Exception('Invalid layout update handle');
         }
 
@@ -393,10 +407,15 @@ class Mage_Core_Model_Layout_Update
         return $this;
     }
 
+    /**
+     * Get layout updates as Mage_Core_Model_Layout_Element object
+     *
+     * @return Mage_Core_Model_Layout_Element
+     */
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<'.'?xml version="1.0"?'.'><layout>'.$updates.'</layout>';
+        $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
         return simplexml_load_string($updates, $this->getElementClass());
     }
 
@@ -464,7 +483,7 @@ class Mage_Core_Model_Layout_Update
      * Get update string
      *
      * @param string $handle
-     * @return mixed
+     * @return string
      */
     protected function _getUpdateString($handle)
     {
@@ -555,8 +574,8 @@ class Mage_Core_Model_Layout_Update
     /**
      * Collect and merge layout updates from files
      *
-     * @return Mage_Core_Model_Layout_Element
      * @throws Magento_Exception
+     * @return Mage_Core_Model_Layout_Element
      */
     protected function _loadFileLayoutUpdatesXml()
     {
@@ -581,7 +600,7 @@ class Mage_Core_Model_Layout_Update
                     "Layout update instruction '{$updateNodePath}' must specify module and file."
                 );
             }
-            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/$module", $this->_storeId)) {
+            if (Mage::getStoreConfigFlag("advanced/modules_disable_output/{$module}", $this->_storeId)) {
                 continue;
             }
             /* Resolve layout update filename with fallback to the module */

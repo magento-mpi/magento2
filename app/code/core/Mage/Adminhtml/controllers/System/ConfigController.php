@@ -10,10 +10,6 @@
 
 /**
  * Configuration controller
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
 {
@@ -76,8 +72,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->_setActiveMenu('Mage_Adminhtml::system_config');
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
-            $this->getUrl('*/system'));
+        $this->_addBreadcrumb(
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
+            $this->getUrl('*/system')
+        );
 
         $this->getLayout()->addBlock('Mage_Adminhtml_Block_System_Config_Tabs', '', 'left')->initTabs();
 
@@ -100,12 +99,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     /**
      * Save configuration
-     *
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         /* @var $session Mage_Adminhtml_Model_Session */
+        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
         $groups = $this->getRequest()->getPost('groups');
 
@@ -156,16 +154,14 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 array('website' => $website, 'store' => $store)
             );
             $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The configuration has been saved.'));
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             foreach(explode("\n", $e->getMessage()) as $message) {
                 $session->addError($message);
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $session->addException($e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:') . ' '
-                . $e->getMessage());
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:')
+                    . ' ' . $e->getMessage());
         }
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
@@ -174,9 +170,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     *  Custom save logic for section
+     * Custom save logic for section
      */
-    protected function _saveSection ()
+    protected function _saveSection()
     {
         $method = '_save' . uc_words($this->getRequest()->getParam('section'), '');
         if (method_exists($this, $method)) {
@@ -185,27 +181,21 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     *  Advanced save procedure
+     * Advanced save procedure
      */
     protected function _saveAdvanced()
     {
-        Mage::app()->cleanCache(
-            array(
-                'layout',
-                Mage_Core_Model_Layout_Update::LAYOUT_GENERAL_CACHE_TAG
-            ));
+        Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
     }
 
     /**
      * Save fieldset state through AJAX
-     *
      */
     public function stateAction()
     {
-        if ($this->getRequest()->getParam('isAjax') == 1
-                    && $this->getRequest()->getParam('container') != ''
-                        && $this->getRequest()->getParam('value') != '') {
-
+        if ($this->getRequest()->getParam('isAjax') == 1 && $this->getRequest()->getParam('container') != ''
+            && $this->getRequest()->getParam('value') != ''
+        ) {
             $configState = array(
                 $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
             );
@@ -216,7 +206,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     /**
      * Export shipping table rates in csv format
-     *
      */
     public function exportTableratesAction()
     {
@@ -250,6 +239,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      * Will forward to deniedAction(), if not allowed.
      *
      * @param string $section
+     * @throws Exception
      * @return bool
      */
     protected function _isSectionAllowed($section)
@@ -261,13 +251,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 throw new Exception('');
             }
             return true;
-        }
-        catch (Zend_Acl_Exception $e) {
+        } catch (Zend_Acl_Exception $e) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->deniedAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
