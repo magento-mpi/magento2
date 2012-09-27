@@ -22,17 +22,27 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Collection after load
+     * Add title for parent themes
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    protected function _afterLoad()
+    public function addParentTitle()
     {
-        /** @var $item Mage_Core_Model_Theme */
-        foreach ($this->getItems() as $item) {
-            $item->loadPackageData();
-        }
+        $this->getSelect()->joinLeft(
+            array('parent' => $this->getMainTable()),
+            'main_table.parent_id = parent.theme_id',
+            array('parent_theme_title' => 'parent.theme_title')
+        );
+        return $this;
+    }
 
-        return parent::_afterLoad();
+    /**
+     * Return array for select field
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return array('' => '') + $this->_toOptionArray('theme_id', 'theme_title');
     }
 }

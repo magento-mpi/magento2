@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,12 +11,12 @@
 /**
  * Theme Edit Form
  */
-class Mage_Adminhtml_Block_System_Design_Theme_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Initialize theme form
      *
-     * @return Mage_Adminhtml_Block_System_Design_Theme_Edit_Form
+     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Form|Mage_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

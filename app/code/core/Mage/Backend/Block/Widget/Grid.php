@@ -475,7 +475,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Prepare grid collection object
      *
-     * @return this
+     * @return Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {

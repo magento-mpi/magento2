@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Theme controller
  */
-class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
+class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Index action
@@ -24,7 +24,7 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
             Mage::log($e->getMessage());
         }
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
+        $this->_setActiveMenu('Mage_Core::system_design_theme');
         $this->renderLayout();
     }
 
@@ -51,18 +51,13 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $themeId = (int) $this->getRequest()->getParam('id');
-        if (!$themeId) {
-            $this->_redirect('*/*/');
-            return;
-        }
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::getModel('Mage_Core_Model_Theme');
         try {
-            $theme->load($themeId);
-            if (!$theme->getId()) {
-                Mage::throwException($this->__('The theme was not found.'));
+            if ($themeId && !$theme->load($themeId)->getId()) {
+                Mage::throwException($this->__('Theme was not found.'));
             }
-            Mage::register('theme', $theme);
+            Mage::register('current_theme', $theme);
 
             $this->loadLayout();
             $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
@@ -132,6 +127,6 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::theme');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Core::theme');
     }
 }

@@ -132,9 +132,6 @@
                 <sales module="Mage_Adminhtml">
                     <file>sales.xml</file>
                 </sales>
-                <theme module="Mage_Adminhtml">
-                    <file>theme.xml</file>
-                </theme>
             </updates>
         </layout>
         <sales>

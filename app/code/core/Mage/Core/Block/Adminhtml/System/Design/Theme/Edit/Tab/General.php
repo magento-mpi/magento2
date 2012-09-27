@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,27 +11,26 @@
 /**
  * Theme form, general tab
  */
-class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
+class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
+     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {
-        $formData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getThemeData(true);
+        /** @var $session Mage_Backend_Model_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
+        $formData = $session->getThemeData(true);
         if (!$formData) {
-            $formData = Mage::registry('theme')->getData();
+            $formData = Mage::registry('current_theme')->getData();
         }
+        $isThemeExist = isset($formData['theme_id']);
 
         $form = new Varien_Data_Form();
-
-        $packageFieldset = $form->addFieldset('package', array(
-            'legend'   => $this->__('Package Settings'),
-        ));
 
         $themeFieldset = $form->addFieldset('theme', array(
             'legend'   => $this->__('Theme Settings'),
@@ -48,41 +47,40 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
             ));
         }
 
-        $packageFieldset->addField('package_code', 'text', array(
-            'label'    => $this->__('Package Code'),
-            'title'    => $this->__('Package Code'),
-            'name'     => 'package_code',
-            'class'    => 'validate-code',
-            'required' => true
-        ));
+        /** @var $themesCollections Mage_Core_Model_Resource_Theme_Collection */
+        $themesCollections = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        if ($isThemeExist) {
+            $themesCollections->addFieldToFilter('theme_id', array('neq' => $formData['theme_id']));
+        }
 
-        $packageFieldset->addField('package_title', 'text', array(
-            'label'    => $this->__('Package Title'),
-            'title'    => $this->__('Package Title'),
-            'name'     => 'package_title',
-            'class'    => 'validate-alphanum-with-spaces',
-            'required' => true
-        ));
-
-        $themeFieldset->addField('parent_theme', 'text', array(
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+        $themeFieldset->addField('parent_id', 'select', array(
             'label'    => $this->__('Parent theme'),
             'title'    => $this->__('Parent theme'),
-            'name'     => 'parent_theme',
-            'required' => false
+            'name'     => 'parent_id',
+            'values'   => $themesCollections->toOptionArray(),
+            'required' => false,
+            'class'    => 'no-changes',
+            'onchange' => sprintf('parentThemeOnChange(this.value, %s)',
+                str_replace('"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections)))
+            )
         ));
 
-        $themeFieldset->addField('theme_code', 'text', array(
-            'label'    => $this->__('Theme Code'),
-            'title'    => $this->__('Theme Code'),
-            'name'     => 'theme_code',
-            'required' => true
-        ));
+        if (!empty($formData['theme_path'])) {
+            $themeFieldset->addField('theme_path', 'label', array(
+                'label'    => $this->__('Theme Path'),
+                'title'    => $this->__('Theme Path'),
+                'name'     => 'theme_code',
+            ));
+        }
 
         $themeFieldset->addField('theme_version', 'text', array(
             'label'    => $this->__('Theme Version'),
             'title'    => $this->__('Theme Version'),
             'name'     => 'theme_version',
-            'required' => true
+            'required' => true,
+            'note'     => $this->__('Example: 0.0.0.1 or 123.1.0.25-alpha1')
         ));
 
         $themeFieldset->addField('theme_title', 'text', array(
@@ -107,16 +105,21 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Magento Version From'),
             'title'    => $this->__('Magento Version From'),
             'name'     => 'magento_version_from',
-            'required' => true
+            'required' => true,
+            'note'     => $this->__('Example: 1.6.0.0 or *')
         ));
 
         $requirementsFieldset->addField('magento_version_to', 'text', array(
             'label'    => $this->__('Magento Version To'),
             'title'    => $this->__('Magento Version To'),
             'name'     => 'magento_version_to',
-            'required' => true
+            'required' => true,
+            'note'     => $this->__('Example: 1.6.0.0 or *')
         ));
 
+        if (!$isThemeExist) {
+            $formData = array_merge($formData, $this->_getDefaults());
+        }
         $form->addValues($formData);
         $form->setFieldNameSuffix('theme');
         $this->setForm($form);
@@ -183,5 +186,43 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
     public function getImageMaxSize()
     {
         return min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
+    }
+    
+    /**
+     * Get theme default values
+     *
+     * @return array
+     */
+    protected function _getDefaults()
+    {
+        $defaults = array();
+        $defaults['magento_version_from'] = Mage::getVersion();
+        $defaults['magento_version_to'] = '*';
+        $defaults['theme_version'] = '0.0.0.1';
+        $defaults['theme_title'] = $this->__('New theme');
+
+        return $defaults;
+    }
+
+    /**
+     * Get theme default values while inheriting other theme
+     *
+     * @param $themesCollections
+     * @return array
+     */
+    protected function _getDefaultsInherited($themesCollections)
+    {
+        $data = array(
+            '' => $this->_getDefaults()
+        );
+        foreach ($themesCollections as $theme) {
+            $data[$theme->getId()] = array(
+                'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle()),
+                'magento_version_from' => $theme->getMagentoVersionFrom(),
+                'magento_version_to'   => $theme->getMagentoVersionTo()
+            );
+        }
+
+        return $data;
     }
 }

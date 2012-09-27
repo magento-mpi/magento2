@@ -65,13 +65,14 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Return target dir for themes with theme configuration file
      *
-     * @throws Exception
+     *
+     * @throws Magento_Exception
      * @return array|string
      */
     public function getTargetPatterns()
     {
         if (empty($this->_targetDirs)) {
-            throw new Exception('Please specify at least one target pattern to theme config file.');
+            throw new Magento_Exception('Please specify at least one target pattern to theme config file.');
         }
         return $this->_targetDirs;
     }

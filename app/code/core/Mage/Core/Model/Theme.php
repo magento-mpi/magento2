@@ -16,7 +16,6 @@
  * @method string getParentTheme()
  * @method string getThemePath()
  * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
- *
  * @method setPreviewImage(string $previewImage)
  * @method string getPreviewImage()
  */
@@ -93,6 +92,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'theme_path'           => $packageCode . '/' . $themeCode,
             'preview_image'        => $media['preview_image'],
             'theme_directory'      => $this->_getThemeDir($configPath),
+            'magento_version_from' => $themeVersions['from'],
+            'magento_version_to'   => $themeVersions['to'],
+            'theme_path'           => $packageCode . '/' . $themeCode
         ));
         return $this;
     }

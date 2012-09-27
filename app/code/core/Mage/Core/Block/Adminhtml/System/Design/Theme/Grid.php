@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Themes grid
  */
-class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_Widget_Grid
+class Mage_Core_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Block_Widget_Grid
 {
     /**
      * Init Grid properties
@@ -27,12 +27,13 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
     /**
      * Prepare grid data collection
      *
-     * @return Mage_Adminhtml_Block_System_Design_Theme_Grid
+     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Grid|Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        $collection->addParentTitle();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -41,7 +42,7 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
     /**
      * Define grid columns
      *
-     * @return Mage_Adminhtml_Block_System_Design_Grid
+     * @return Mage_Adminhtml_Block_System_Design_Grid|Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -50,24 +51,14 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
             'index'    => 'theme_id',
         ));
 
-        $this->addColumn('package_code', array(
-            'header'   => $this->__('Package Code'),
-            'index'    => 'package_code',
+        $this->addColumn('parent_theme_title', array(
+            'header'   => $this->__('Parent Theme'),
+            'index'    => 'parent_theme_title',
         ));
 
-        $this->addColumn('package_title', array(
-            'header'   => $this->__('Package Title'),
-            'index'    => 'package_title',
-        ));
-
-        $this->addColumn('parent_theme', array(
-            'header'   => $this->__('Parent theme'),
-            'index'    => 'parent_theme',
-        ));
-
-        $this->addColumn('theme_code', array(
-            'header'   => $this->__('Theme Code'),
-            'index'    => 'theme_code',
+        $this->addColumn('theme_path', array(
+            'header'   => $this->__('Theme Path'),
+            'index'    => 'theme_path',
         ));
 
         $this->addColumn('theme_version', array(
@@ -99,12 +90,12 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
                 array(
                     'caption' => $this->__('Edit'),
                     'url'     => array('base' => '*/*/edit'),
-                    'field'   => 'theme_id',
+                    'field'   => 'id',
                 ),
                 array(
                     'caption' => $this->__('Delete'),
                     'url'     => array('base' => '*/*/delete'),
-                    'field'   => 'theme_id',
+                    'field'   => 'id',
             )),
             'filter'   => false,
             'sortable' => false,
