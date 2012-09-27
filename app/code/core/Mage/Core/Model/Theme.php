@@ -53,16 +53,35 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $themeCode = reset($themeCodes);
 
         $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
+        $media = $themeConfig->getMedia($packageCode, $themeCode);
         $this->setData(array(
             'theme_code'           => $themeCode,
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
             'parent_theme'         => $themeConfig->getParentTheme($packageCode, $themeCode),
+            'featured'             => $themeConfig->getFeatured($packageCode, $themeCode),
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
-            'theme_path'           => $packageCode . '/' . $themeCode
+            'theme_path'           => $packageCode . '/' . $themeCode,
+            'preview_image'        => $media['preview_image'],
+            'theme_directory'      => $this->_getThemeDir($configPath),
         ));
         return $this;
+    }
+
+    /**
+     * Get theme directory
+     *
+     * @param string $configPath
+     * @return string
+     */
+    protected function _getThemeDir($configPath)
+    {
+        /**
+         * Replace last 9 symbols(theme.xml) from config path.
+         * As result we retrieve theme base directory.
+         */
+        return substr($configPath, 0, -9);
     }
 
     /**
@@ -113,7 +132,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $parentThemeId = $this->getParentId();
         /** @var $childThemes Mage_Core_Model_Resource_Theme_Collection */
-        $childThemes = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        $childThemes = $this->getCollection();
         $childThemes->addFieldToFilter('parent_id', array('eq' => $this->getId()))->load();
 
         /** @var $theme Mage_Core_Model_Theme */
@@ -132,7 +151,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->_validate();
+        $this->_validate()->_savePreviewImage();
         return parent::_beforeSave();
     }
 
@@ -159,5 +178,31 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $this->_updateChildRelations();
         return parent::_afterDelete();
+    }
+
+    /**
+     * Save preview image
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _savePreviewImage()
+    {
+        if (!$this->getPreviewImage()) {
+            return $this;
+        }
+        $themeDirectory = $this->getThemeDirectory();
+        $currentWorkingDir = getcwd();
+
+        @chdir($themeDirectory);
+
+        $imagePath = realpath($this->getPreviewImage());
+
+        if ($imagePath) {
+            $this->createPreviewImage($themeDirectory . $imagePath);
+        }
+
+        @chdir($currentWorkingDir);
+
+        return $this;
     }
 }
