@@ -55,21 +55,22 @@ class Mage_Core_Model_Resource_Layout_Update_CollectionTest extends PHPUnit_Fram
          * This code could be useful in a future and this is a second reason to keep it as is.
          * Thanks for understanding.
          *
+         * foreach ($contextData as $context) {
+         *     $model = new Mage_Core_Model_Layout_Context();
+         *     $model->setData(array(
+         *         'layout_update_id'  => self::$_layoutModelId,
+         *         'entity_name'       => $context['entity_name'],
+         *         'entity_type'       => $context['entity_type'],
+         *         'value_' . $context['entity_type'] => $context['value_' . $context['entity_type']],
+         *         'relation_count'    => $context['relation_count'],
+         *         'relation_hash'     => $context['relation_hash'],
+         *     ))->save();
+         *  }
+         * $this->assertEquals(1, $this->_collection->addContextFilter($filterData)->count());
+         *
          * Tango team.
          */
         $this->markTestIncomplete('Layout update DB design is not confirmed.');
-//        foreach ($contextData as $context) {
-//            $model = new Mage_Core_Model_Layout_Context();
-//            $model->setData(array(
-//                'layout_update_id'  => self::$_layoutModelId,
-//                'entity_name'       => $context['entity_name'],
-//                'entity_type'       => $context['entity_type'],
-//                'value_' . $context['entity_type'] => $context['value_' . $context['entity_type']],
-//                'relation_count'    => $context['relation_count'],
-//                'relation_hash'     => $context['relation_hash'],
-//            ))->save();
-//        }
-//        $this->assertEquals(1, $this->_collection->addContextFilter($filterData)->count());
     }
 
     public function contextDataProvider()
