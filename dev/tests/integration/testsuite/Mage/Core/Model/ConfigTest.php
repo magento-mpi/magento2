@@ -68,7 +68,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadBaseLocalConfig($etcDir, $option, $expectedNode, $expectedValue)
     {
-        $model = new Mage_Core_Model_Config;
+        $model = new Mage_Core_Model_Config(Mage::getObjectManager());
         $model->setOptions(array('etc_dir' => __DIR__ . "/_files/local_config/{$etcDir}", 'local_config' => $option));
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
@@ -91,7 +91,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testLoadLocales()
     {
-        $model = new Mage_Core_Model_Config();
+        $model = new Mage_Core_Model_Config(Mage::getObjectManager());
         $model->init(array(
             'locale_dir' => dirname(__FILE__) . '/_files/locale'
         ));
@@ -415,7 +415,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($initialize = false)
     {
-        $model = new Mage_Core_Model_Config;
+        $model = new Mage_Core_Model_Config(Mage::getObjectManager());
         if ($initialize) {
             $model->init(self::$_options);
         }
