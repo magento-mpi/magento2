@@ -105,23 +105,12 @@ class Mage_Core_Model_Layout_Merge
         $this->_package = $arguments['package'];
         $this->_theme   = $arguments['theme'];
         $this->_storeId = Mage::app()->getStore($arguments['store'])->getId();
+        $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
+
         foreach (Mage::getConfig()->getPathVars() as $key => $value) {
             $this->_subst['from'][] = '{{' . $key . '}}';
             $this->_subst['to'][] = $value;
         }
-    }
-
-    /**
-     * Retrieve XML element class name
-     *
-     * @return string
-     */
-    public function getElementClass()
-    {
-        if (!$this->_elementClass) {
-            $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
-        }
-        return $this->_elementClass;
     }
 
     /**
@@ -430,7 +419,7 @@ class Mage_Core_Model_Layout_Merge
     {
         $updates = trim($this->asString());
         $updates = '<' . '?xml version="1.0"?' . '><layout>' . $updates . '</layout>';
-        return simplexml_load_string($updates, $this->getElementClass());
+        return simplexml_load_string($updates, $this->_elementClass);
     }
 
     /**
@@ -485,7 +474,7 @@ class Mage_Core_Model_Layout_Merge
         }
         $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
         $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
-        $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
+        $updateXml = simplexml_load_string($updateStr, $this->_elementClass);
         $this->_fetchRecursiveUpdates($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
@@ -535,7 +524,7 @@ class Mage_Core_Model_Layout_Merge
         $cacheId = $this->_getCacheId();
         $result = $this->_loadCache($cacheId);
         if ($result) {
-            $result = simplexml_load_string($result, $this->getElementClass());
+            $result = simplexml_load_string($result, $this->_elementClass);
         } else {
             $result = $this->_loadFileLayoutUpdatesXml();
             $this->_saveCache($result->asXml(), $cacheId);
@@ -636,11 +625,11 @@ class Mage_Core_Model_Layout_Merge
             $fileStr = file_get_contents($filename);
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
             /** @var $fileXml Mage_Core_Model_Layout_Element */
-            $fileXml = simplexml_load_string($fileStr, $this->getElementClass());
+            $fileXml = simplexml_load_string($fileStr, $this->_elementClass);
             $layoutStr .= $fileXml->innerXml();
         }
         $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
-        $layoutXml = simplexml_load_string($layoutStr, $this->getElementClass());
+        $layoutXml = simplexml_load_string($layoutStr, $this->_elementClass);
         return $layoutXml;
     }
 

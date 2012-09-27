@@ -361,5 +361,59 @@ return array(
     'validateFile' => array('class_scope' => 'Mage_Core_Model_Design_Package'),
     'validateOrder' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
     'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product'),
-    'fetchUpdatesByHandle' => array('class_scope' => 'Mage_Core_Model_Resource_Layout')
+    'fetchUpdatesByHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Resource_Layout', 'suggestion' => 'Mage_Core_Model_Resource_Layout_Update'
+    ),
+    'getElementClass' => array('class_scope' => 'Mage_Core_Model_Layout_Update'),
+    'addUpdate' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asArray' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asString' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'addHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'removeHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'addPageHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleParents' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'pageHandleExists' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandlesHierarchy' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleLabel' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleType' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'load' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asSimplexml' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getFileLayoutUpdatesXml' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getContainers' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    )
 );
