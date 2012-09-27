@@ -39,7 +39,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
             $selectedRoleIds = array();
             /** @var $item Mage_Webapi_Model_Acl_Rule */
-            foreach ($rulesSet->getItems() as $item) {
+            foreach ($rulesSet as $item) {
                 $resourceId = $item->getResourceId();
                 if (in_array($resourceId, $resources)
                     || $resourceId == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID) {
