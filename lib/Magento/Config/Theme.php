@@ -43,12 +43,15 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
                 $requirementsNode = $themeNode->getElementsByTagName('requirements')->item(0);
                 /** @var $versionNode DOMElement */
                 $versionNode = $requirementsNode->getElementsByTagName('magento_version')->item(0);
+                /** @var $mediaNode DOMElement */
+                $mediaNode = $themeNode->getElementsByTagName('media')->item(0);
 
                 $themeCode = $themeNode->getAttribute('code');
                 $themeParentCode = $themeNode->getAttribute('parent') ?: null;
                 $themeTitle = $themeNode->getElementsByTagName('title')->item(0)->nodeValue;
                 $versionFrom = $versionNode->getAttribute('from');
                 $versionTo = $versionNode->getAttribute('to');
+                $previewImage = $mediaNode ? $mediaNode->getElementsByTagName('preview_image')->item(0)->nodeValue : '';
 
                 $result[$packageCode]['title'] = $packageTitle;
                 $result[$packageCode]['themes'][$themeCode] = array(
@@ -59,6 +62,9 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
                             'from' => $versionFrom,
                             'to'   => $versionTo,
                         ),
+                    ),
+                    'media'        => array(
+                        'preview_image' => $previewImage
                     ),
                 );
             }
@@ -90,6 +96,19 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
     {
         $this->_ensureThemeExists($package, $theme);
         return $this->_data[$package]['themes'][$theme]['title'];
+    }
+
+    /**
+     * Get theme media data
+     *
+     * @param string $package
+     * @param string $theme
+     * @return array
+     */
+    public function getMedia($package, $theme)
+    {
+        $this->_ensureThemeExists($package, $theme);
+        return $this->_data[$package]['themes'][$theme]['media'];
     }
 
     /**

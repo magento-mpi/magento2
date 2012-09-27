@@ -14,23 +14,6 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'core_package'
- */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('core_package'))
-    ->addColumn('package_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity' => true,
-        'unsigned' => true,
-        'nullable' => false,
-        'primary'  => true,
-    ), 'Package identifier')
-    ->addColumn('package_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Package Code')
-    ->addColumn('package_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Package Title')
-    ->setComment('Core package');
-
-$installer->getConnection()->createTable($table);
-
-/**
  * Create table 'core_theme'
  */
 $table = $installer->getConnection()
@@ -41,27 +24,17 @@ $table = $installer->getConnection()
         'nullable' => false,
         'primary'  => true,
     ), 'Theme identifier')
-    ->addColumn('package_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned' => true,
-        'nullable' => false,
-    ), 'Package identifier')
-    ->addColumn('parent_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Parent Theme')
-    ->addColumn('theme_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Code')
+    ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('nullable' => true), 'Parent Id')
+    ->addColumn('theme_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Path')
     ->addColumn('theme_version', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Version')
     ->addColumn('theme_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Title')
+    ->addColumn('preview_image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Preview Image')
     ->addColumn('magento_version_from', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
     ), 'Magento Version From')
     ->addColumn('magento_version_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
     ), 'Magento Version To')
-    ->addColumn('is_featured', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
-        'nullable' => false,
-        'default'  => 0
-    ), 'Is Theme Featured')
-    ->addForeignKey($installer->getFkName('core_theme', 'package_id', 'core_package', 'package_id'),
-        'package_id', $installer->getTable('core_package'), 'package_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Core theme');
 
 $installer->getConnection()->createTable($table);

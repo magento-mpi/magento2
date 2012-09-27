@@ -145,6 +145,14 @@
                     </synchronize_notification>
                 </observers>
             </show_synchronize_message>
+            <theme_registration>
+                <observers>
+                    <synchronize_notification>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>themeRegistration</method>
+                    </synchronize_notification>
+                </observers>
+            </theme_registration>
         </events>
     </adminhtml>
     <install>
