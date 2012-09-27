@@ -39,7 +39,8 @@ class Mage_Backend_Block_Widget_Accordion_Item extends Mage_Backend_Block_Widget
     {
         $title = $this->getData('title');
         $url = $this->getContentUrl() ? $this->getContentUrl() : '#';
-        $title = '<a href="' . $url . '" class="' . $this->getTarget() . '">' . $title . '</a>';
+        $title = '<a href="' . $url . '" class="' . $this->getTarget() . '"' . $this->getUiId('title-link') . '>'
+            . $title . '</a>';
 
         return $title;
     }

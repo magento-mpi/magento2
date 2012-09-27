@@ -21,7 +21,9 @@
     <ul class="dropdown-menu" <?php echo $this->getUiId("dropdown-menu"); ?>>
         <?php foreach ($this->getOptions() as $key => $option): ?>
         <li>
-            <span class="item<?php if($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>"><?php echo $option['label'], $this->getUiId("item", $key); ?></span>
+            <span class="item<?php if($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>", <?php echo $this->getUiId("item", $key)?>>
+                <?php echo $option['label']?>
+            </span>
             <?php if(isset($option['hint'])): ?>
             <div class="tooltip" <?php echo $this->getUiId("item", $key, "tooltip"); ?>>
                 <a href="<?php echo $option['hint']['href'] ?>" class="help"><?php echo $option['hint']['label'] ?></a>
@@ -32,7 +34,7 @@
     </ul>
 </div>
 <script type="text/javascript">//<[CDATA[
-document.observe("dom:loaded", function() {
+jQuery(function() {
     (function($) {
         $('#<?php echo $this->getId(); ?> [data-toggle="dropdown"]').on('click.toggleDropdown', function() {
             $(this).toggleClass('active')

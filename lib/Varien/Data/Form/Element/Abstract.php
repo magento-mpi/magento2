@@ -161,7 +161,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         if ($this->_renderer instanceof Mage_Core_Block_Abstract) {
             return $this->_renderer->getUiId($this->getType(), $this->getName(), $suffix);
         } else {
-            return ' data-ui-id="form-element-' . $this->getName() . ($suffix?: '') . '"';
+            return ' data-ui-id="form-element-' . $this->getName() . ($suffix ? : '') . '"';
         }
     }
 

@@ -430,7 +430,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ((string)$node->getAttribute('name')) {
             $name = (string)$node->getAttribute('name');
         } else {
-            $name = $this->_generateAnonymousName(get_class($parent) . '_ScheduleStructure_' );
+            $name = $this->_generateAnonymousName($parent->getElementName() . '_schedule_block');
             $node->addAttribute('name', $name);
         }
         $path = $name;
@@ -581,12 +581,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _generateAnonymousName($class)
     {
-        $key = substr($class, strpos('Block', $class) + 5) ?: 'ANONYMOUS';
+        $position = strpos($class, 'Block');
+        $key = $position !== false ? substr($class, $position) : $class;
+        $key = strtolower(trim($key, '_'));
         if (!isset($this->_nameIncrement[$key])) {
-            $this->_nameIncrement[$key] = 0;
+            $this->_nameIncrement[$key] = 1;
             return $key;
         }
-        return $key . $this->_nameIncrement[$key]++;
+        return $key . '_' . $this->_nameIncrement[$key]++;
     }
 
     /**

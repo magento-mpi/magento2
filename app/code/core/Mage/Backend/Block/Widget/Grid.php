@@ -298,7 +298,14 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
+
+            $this->_columns[$columnId] = $this->getLayout()
+                ->createBlock(
+                    isset($column['block_class']) ? $column['block_class'] : 'Mage_Backend_Block_Widget_Grid_Column',
+                    ($this->getId() ?: $this->getNameInLayout())
+                        . '_'
+                        . isset($column['index']) ? $column['index'] : $columnId
+                )
                 ->setData($column)
                 ->setColumnId($columnId)
                 ->setGrid($this);
@@ -579,15 +586,19 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
-                ->setData(array(
-                    'index'        => $this->getMassactionIdField(),
-                    'filter_index' => $this->getMassactionIdFilter(),
-                    'type'         => 'massaction',
-                    'name'         => $this->getMassactionBlock()->getFormFieldName(),
-                    'align'        => 'center',
-                    'is_system'    => true
-                ));
+        $massactionColumn = $this->getLayout()
+            ->createBlock(
+                'Mage_Backend_Block_Widget_Grid_Column',
+                ($this->getId() ? : $this->getNameInLayout()) . $columnId
+            )
+            ->setData(array(
+                'index'        => $this->getMassactionIdField(),
+                'filter_index' => $this->getMassactionIdFilter(),
+                'type'         => 'massaction',
+                'name'         => $this->getMassactionBlock()->getFormFieldName(),
+                'align'        => 'center',
+                'is_system'    => true
+            ));
 
         if ($this->getNoFilterMassactionColumn()) {
             $massactionColumn->setData('filter', false);
