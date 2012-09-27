@@ -28,5 +28,6 @@ $theme->setData(array(
 ));
 $theme->save();
 $session->setThemeId($theme->getThemeId());
-$skin = implode('/', array($theme->getPackageCode(), $theme->getThemeCode(), Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME));
+$skin = implode('/', array($theme->getPackageCode(), $theme->getThemeCode(),
+                Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME));
 $session->setSkin($skin);
