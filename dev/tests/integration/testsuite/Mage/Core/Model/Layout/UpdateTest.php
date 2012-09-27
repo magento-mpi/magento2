@@ -9,12 +9,17 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Layout_DataTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout_Data
+     * @var Mage_Core_Model_Layout_Update
      */
     protected $_model;
+
+    protected function setUp()
+    {
+        $this->_model = new Mage_Core_Model_Layout_Update();
+    }
 
     protected function tearDown()
     {
@@ -23,13 +28,12 @@ class Mage_Core_Model_Layout_DataTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->_model = new Mage_Core_Model_Layout_Data();
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Layout', $this->_model->getResource());
+        $this->_model = new Mage_Core_Model_Layout_Update();
+        $this->assertInstanceOf('Mage_Core_Model_Resource_Layout_Update', $this->_model->getResource());
     }
 
-    public function testCRUD()
+    public function testCrud()
     {
-        $this->_model = new Mage_Core_Model_Layout_Data();
         $this->_model->setData(array(
             'handle' => 'default',
             'xml' => '<layout/>',
