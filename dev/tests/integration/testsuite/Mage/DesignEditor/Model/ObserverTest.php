@@ -73,12 +73,13 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
-    public function testPreDispatchApplyDesignIgnoreNoSkin()
+    public function testPreDispatchWrongThemeId()
     {
-        $currentSkin = Mage::getDesign()->getDesignTheme();
-        $this->assertEmpty(Mage::getSingleton('Mage_DesignEditor_Model_Session')->getSkin());
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session->setThemeId(999);
         $this->_observer->preDispatch($this->_eventObserver);
-        $this->assertEquals($currentSkin, Mage::getDesign()->getDesignTheme());
+        $this->assertFalse($session->isDesignEditorActive());
     }
 
     /**

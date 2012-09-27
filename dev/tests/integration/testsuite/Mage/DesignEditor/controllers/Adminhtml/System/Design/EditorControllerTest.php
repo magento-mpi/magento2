@@ -12,6 +12,31 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
+     * Identifier theme
+     *
+     * @var int
+     */
+    protected $_themeId;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $theme = new Mage_Core_Model_Theme();
+        $theme->setData(array(
+             'package_code'         => 'default',
+             'package_title'        => 'Default',
+             'parent_theme'         => 'default',
+             'theme_code'           => 'default',
+             'theme_version'        => '2.0.0.0',
+             'theme_title'          => 'Default',
+             'magento_version_from' => '2.0.0.0-dev1',
+             'is_featured'          => '0'
+        ));
+        $theme->save();
+        $this->_themeId = $theme->getId();
+    }
+
+    /**
      * Assert that a page content contains the design editor form
      *
      * @param string $content
@@ -22,7 +47,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Visual Design Editor', $content);
         $this->assertContains('<form id="edit_form" action="' . $expectedFormAction, $content);
         $this->assertContains("editForm = new varienForm('edit_form'", $content);
-        $this->assertContains('onclick="editForm.submit();"', $content);
     }
 
     /**
@@ -58,11 +82,26 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     {
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_skin', 'default/default/default');
+        $this->getRequest()->setParam('theme_id', $this->_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 
         $this->_requireSessionId();
         $this->assertRedirect($this->equalTo('http://localhost/index.php/?SID=' . $this->_session->getSessionId()));
+    }
+
+    public function testLaunchActionSingleStoreWrongThemeId()
+    {
+        $session = new Mage_DesignEditor_Model_Session();
+        $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_id', 999);
+        $this->dispatch('backend/admin/system_design_editor/launch');
+        $this->assertFalse($session->isDesignEditorActive());
+
+        $this->_requireSessionId();
+        $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
+        $this->assertRedirect($this->stringStartsWith($expected));
     }
 
     /**
@@ -75,6 +114,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_id', $this->_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 

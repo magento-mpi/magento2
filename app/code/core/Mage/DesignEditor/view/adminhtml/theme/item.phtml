@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Item */?>
+
+<li style="height:300px; width:240px; margin:20px; float:left;">
+    <?php echo $this->getThemeHtml() ?>
+    <div style="margin:5px 20px;">
+        <h4><sup><?php echo $this->getTheme()->getIsFeatured() ? 'F' : 'X'?></sup> <?php echo $this->getTheme()->getThemeTitle()?></h4>
+        <?php $themeId = $this->getTheme()->getId(); $skinList = $this->getTheme()->getSkinList(); ?>
+        <label for="theme-skin-list-<?php echo $themeId ?>"><?php echo $this->__('Skin:') ?></label>
+        <select id="theme-skin-list-<?php echo $themeId ?>">
+            <?php foreach ($skinList as $skinLabel => $skinValue): ?>
+            <option value="<?php echo $skinValue ?>"><?php echo $this->escapeHtml($skinLabel) ?></option>
+            <?php endforeach ?>
+        </select>
+        <?php echo $this->getLaunchButtonHtml() ?>
+    </div>
+</li>

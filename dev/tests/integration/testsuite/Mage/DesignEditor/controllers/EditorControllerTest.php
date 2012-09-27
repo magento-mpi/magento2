@@ -11,6 +11,31 @@
 
 class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
+    /**
+     * Identifier theme
+     *
+     * @var int
+     */
+    protected $_themeId;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $theme = new Mage_Core_Model_Theme();
+        $theme->setData(array(
+             'package_code'         => 'default',
+             'package_title'        => 'Default',
+             'parent_theme'         => 'default',
+             'theme_code'           => 'default',
+             'theme_version'        => '2.0.0.0',
+             'theme_title'          => 'Default',
+             'magento_version_from' => '2.0.0.0-dev1',
+             'is_featured'          => '0'
+        ));
+        $theme->save();
+        $this->_themeId = $theme->getId();
+    }
+
     public function testPreDispatchSession()
     {
         $this->dispatch('design/editor/page');
@@ -93,6 +118,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     public function testSkinAction()
     {
         $this->getRequest()->setParam('skin', 'default/default/blank');
+        $this->getRequest()->setParam('theme_id', $this->_themeId);
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
 
@@ -106,6 +132,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     public function testSkinActionWrongValue()
     {
         $this->getRequest()->setParam('skin', 'wrong/skin/applied');
+        $this->getRequest()->setParam('theme_id', $this->_themeId);
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
 

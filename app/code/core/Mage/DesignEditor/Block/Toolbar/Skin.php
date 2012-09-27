@@ -14,14 +14,25 @@
 class Mage_DesignEditor_Block_Toolbar_Skin extends Mage_Core_Block_Template
 {
     /**
-     * Returns list of skins in the system
+     * Get current theme
      *
-     * @return array
+     * @return Mage_Core_Model_Theme
      */
-    public function getOptions()
+    public function getTheme()
     {
-        return Mage::getModel('Mage_Core_Model_Design_Source_Design')
-            ->getOptions();
+        return Mage::registry('vde_theme');
+    }
+
+    /**
+     * Get collection installed themes
+     *
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function getThemeList()
+    {
+        /** @var  $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        return $themeModel->getCollection();
     }
 
     /**

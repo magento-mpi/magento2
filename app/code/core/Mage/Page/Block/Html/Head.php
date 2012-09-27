@@ -61,7 +61,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             . Mage::app()->getRequest()->getControllerName() . '-' .
             Mage::app()->getRequest()->getActionName();
         if (in_array($currentPage, $excludePages)) {
-            return;
+            //return;
         }
         return $this->_addItem('js', $name, $params, $if, $cond);
     }
