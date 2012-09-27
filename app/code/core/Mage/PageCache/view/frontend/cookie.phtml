@@ -10,11 +10,13 @@
 ?>
 
 <script type="text/javascript">
+(function($) {
     var lifetime = <?php echo Mage::helper('Mage_PageCache_Helper_Data')->getNoCacheCookieLifetime(); ?>;
-    var expireAt = Mage.Cookies.expires;
+    var expireAt = $.cookie.defaults.expires;
     if (lifetime > 0) {
         expireAt = new Date();
         expireAt.setTime(expireAt.getTime() + lifetime * 1000);
     }
-    Mage.Cookies.set('<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE; ?>', 1, expireAt);
+    $.mage.cookies.set('<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE; ?>', 1, expireAt);
+})(jQuery);
 </script>

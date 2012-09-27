@@ -28,8 +28,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><file>scriptaculous/slider.js</file></action>
                 <action method="addJs"><file>varien/js.js</file></action>
                 <action method="addJs"><file>varien/form.js</file></action>
-                <action method="addJs"><file>mage/translate.js</file></action>
-                <action method="addJs"><file>Mage_Page::js/cookies.js</file></action>
                 <action method="addJs"><file>js/iphone.js</file></action>
                 <action method="addJs"><file>js/dnd.js</file></action>
                 <action method="addJs"><file>js/modernizr.js</file></action>

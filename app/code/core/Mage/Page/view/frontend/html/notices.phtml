@@ -40,14 +40,16 @@
     <script type="text/javascript">
     /* <![CDATA[ */
     function allowSaveCookie() {
-        Mage.Cookies.set('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>', '<?php echo Mage::helper('Mage_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds()?>', new Date(new Date().getTime() + <?php echo Mage::helper('Mage_Core_Helper_Cookie')->getCookieRestrictionLifetime() ?> * 1000));
-        if (Mage.Cookies.get('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>')) {
-            window.location.reload();
-        } else {
-            window.location.href = '<?php echo Mage::getUrl('cms/index/noCookies')?>';
-        }
+        (function($) {
+            $.mage.cookies.set('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>', '<?php echo Mage::helper('Mage_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds()?>', new Date(new Date().getTime() + <?php echo Mage::helper('Mage_Core_Helper_Cookie')->getCookieRestrictionLifetime() ?> * 1000));
+            if ($.mage.cookies.get('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>')) {
+                window.location.reload();
+            } else {
+                window.location.href = '<?php echo Mage::getUrl('cms/index/noCookies')?>';
+            }
+        })(jQuery);
     }
-    $('notice-cookie-block').show();
+    (function($) { $('#notice-cookie-block').show(); })(jQuery);
     /* ]]> */
     </script>
 <?php endif; ?>
