@@ -45,8 +45,7 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
      */
     public function setMimeType($mimeType)
     {
-        return $this->setHeader('Content-Type', "{$mimeType}; charset=" . self::RESPONSE_CHARSET,
-            true);
+        return $this->setHeader('Content-Type', "{$mimeType}; charset=" . self::RESPONSE_CHARSET, true);
     }
 
     /**

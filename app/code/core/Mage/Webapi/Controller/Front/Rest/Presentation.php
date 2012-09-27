@@ -67,11 +67,10 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 $filteredData  = $outputData;
                 $this->_render($filteredData);
                 break;
-            case 'multiGet':
+            case 'list':
                 // TODO: Implement fields filtration
                 $filteredData  = $outputData;
                 $this->_render($filteredData);
-                break;
                 break;
             case 'multiUpdate':
                 $this->_render(array('messages' => $this->getResponse()->getMessages()));
@@ -125,8 +124,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     }
 
     /**
-     * Retrieve request data. Ensure that data is not empty
+     * Retrieve request data. Ensure that data is not empty.
      *
+     * @param string $method
      * @return array
      */
     protected function _getRequestData($method)
@@ -157,7 +157,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 // break intentionally omitted
             case 'delete':
                 // break intentionally omitted
-            case 'multiGet':
+            case 'list':
                 break;
         }
         return $processedInputData;

@@ -204,7 +204,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'multiGet',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',

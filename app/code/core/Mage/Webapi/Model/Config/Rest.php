@@ -119,19 +119,19 @@ class Mage_Webapi_Model_Config_Rest extends Magento_Config_XmlAbstract
      * @param string $resourceName
      * @param string $resourceType
      * @return string
-     * @throws RuntimeException
+     * @throws LogicException
      * @throws InvalidArgumentException
      */
     public function getRouteByResource($resourceName, $resourceType)
     {
         if (!isset($this->_data[$resourceName])) {
-            throw new InvalidArgumentException("Resource '%s' not found.", $resourceName);
+            throw new InvalidArgumentException(sprintf("Resource '%s' not found.", $resourceName));
         }
         foreach ($this->_data[$resourceName]['routes'] as $routeData) {
             if ($routeData['resource_type'] == $resourceType) {
                 return (string)$routeData['path'];
             }
         }
-        throw new RuntimeException("Route not found.");
+        throw new LogicException("Route not found.");
     }
 }

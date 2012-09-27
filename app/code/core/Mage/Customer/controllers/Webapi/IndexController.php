@@ -44,7 +44,7 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      *
      * @return array
      */
-    public function multiGetV1()
+    public function listV1()
     {
         $data = $this->_getCollectionForRetrieve()->load()->toArray();
         return isset($data['items']) ? $data['items'] : $data;
