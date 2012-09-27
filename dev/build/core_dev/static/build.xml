@@ -23,7 +23,7 @@
     </target>
 
     <target name="_static_tests_no_js" depends="_product_location" description="All static tests without JS static test">
-        <copy file="${product_root_dir}/dev/build/core_dev/static/dev/tests/static/phpunit.php.xml"
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.php.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
@@ -61,7 +61,7 @@
     </target>
 
     <target name="static_tests_js" depends="_product_location" description="JS static tests">
-        <copy file="${product_root_dir}/dev/build/core_dev/static/dev/tests/static/phpunit.js.xml"
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <antcall target="_jshint_path_substitution">
             <param name="phpunit_config_file" value="${product_root_dir}/dev/tests/static/phpunit.xml"/>
