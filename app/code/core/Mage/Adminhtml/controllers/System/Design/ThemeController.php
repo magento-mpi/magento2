@@ -51,30 +51,30 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $themeId = (int) $this->getRequest()->getParam('id');
+        if (!$themeId) {
+            $this->_redirect('*/*/');
+            return;
+        }
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::getModel('Mage_Core_Model_Theme');
-        if ($themeId) {
-            try {
-                $theme->load($themeId);
-                if (!$theme->getId()) {
-                    Mage::throwException($this->__('The theme was not found.'));
-                }
-            } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($this->__($e->getMessage()));
-                $this->_redirect('*/*/');
-                return;
-            } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('The theme was not found.'));
-                Mage::logException($e);
-                $this->_redirect('*/*/');
-                return;
+        try {
+            $theme->load($themeId);
+            if (!$theme->getId()) {
+                Mage::throwException($this->__('The theme was not found.'));
             }
-        }
-        Mage::register('theme', $theme);
+            Mage::register('theme', $theme);
 
-        $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
-        $this->renderLayout();
+            $this->loadLayout();
+            $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_redirect('*/*/');
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('The theme was not found.'));
+            Mage::logException($e);
+            $this->_redirect('*/*/');
+        }
     }
 
     /**
@@ -82,26 +82,23 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
      */
     public function saveAction()
     {
-        if (!$this->getRequest()->getPost()) {
-            $this->_redirect('*/*/');
-            return;
-        }
-        $themeData = $this->getRequest()->getParam('theme');
+        $redirectBack = (bool)$this->getRequest()->getParam('back', false);
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
         try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = Mage::getModel('Mage_Core_Model_Theme');
-            if (isset($themeData['theme_id'])) {
-                $theme->load($themeData['theme_id']);
+            if ($this->getRequest()->getPost()) {
+                $themeData = $this->getRequest()->getParam('theme');
+                $theme->saveFormData($themeData);
+                $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
             }
-            $theme->setData($themeData)->save();
-            $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($this->__($e->getMessage()));
-            $this->_redirect('*/*/');
-            return;
+            $redirectBack = true;
         } catch (Exception $e) {
             $this->_getSession()->addError('The theme was not saved');
             Mage::logException($e);
+        }
+        if ($redirectBack) {
             $this->_redirect('*/*/edit', array('id' => $theme->getId()));
             return;
         }
@@ -114,13 +111,11 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
     public function deleteAction()
     {
         $themeId = $this->getRequest()->getParam('id');
-        if (!$themeId) {
-            $this->_redirect('*/*/');
-            return;
-        }
         try {
-            Mage::getModel('Mage_Core_Model_Theme')->load($themeId)->delete();
-            $this->_getSession()->addSuccess($this->__('The theme has been deleted.'));
+            if ($themeId) {
+                Mage::getModel('Mage_Core_Model_Theme')->load($themeId)->delete();
+                $this->_getSession()->addSuccess($this->__('The theme has been deleted.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($this->__($e->getMessage()));
         } catch (Exception $e) {

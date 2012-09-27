@@ -78,4 +78,29 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'preview_image'        => 'images/preview.png',
         );
     }
+
+    /**
+     * Test get preview image
+     */
+    public function testGetPreviewImageUrl()
+    {
+        $themeModel = new Mage_Core_Model_Theme();
+        $themeModel->setPreviewImage('preview_image.jpg');
+        $this->assertEquals('http://localhost/pub/media/theme/preview/preview_image.jpg',
+                            $themeModel->getPreviewImageUrl());
+    }
+
+    /**
+     * Test get preview image default
+     */
+    public function testGetPreviewImageDefaultUrl()
+    {
+        $defaultPreviewImageUrl = 'default_image_preview_url';
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('_getPreviewImageDefaultUrl'));
+        $themeModel->expects($this->once())
+            ->method('_getPreviewImageDefaultUrl')
+            ->will($this->returnValue($defaultPreviewImageUrl));
+
+        $this->assertEquals($defaultPreviewImageUrl, $themeModel->getPreviewImageUrl());
+    }
 }

@@ -21,9 +21,10 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Form extends Mage_Backend_Bl
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array(
-              'id'     => 'edit_form',
-              'action' => $this->getUrl('*/*/save'),
-              'method' => 'post'
+              'id'      => 'edit_form',
+              'action'  => $this->getUrl('*/*/save'),
+              'enctype' => 'multipart/form-data',
+              'method'  => 'post'
          ));
 
         $form->setUseContainer(true);

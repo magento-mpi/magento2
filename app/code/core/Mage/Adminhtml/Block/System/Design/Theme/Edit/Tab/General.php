@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
         $themeFieldset = $form->addFieldset('theme', array(
             'legend'   => $this->__('Theme Settings'),
         ));
+        $this->_addElementTypes($themeFieldset);
 
         $requirementsFieldset = $form->addFieldset('requirements', array(
             'legend'   => $this->__('Magento Requirements'),
@@ -91,6 +92,17 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
             'required' => true
         ));
 
+        $themeFieldset->addField('preview_image', 'image', array(
+            'label'    => $this->__('Theme Preview Image'),
+            'title'    => $this->__('Theme Preview Image'),
+            'name'     => 'preview_image',
+            'required' => false
+        ));
+
+        $themeFieldset->addField('preview_image_note', 'note', array(
+            'text' => $this->__('Max image size %s', $this->getImageMaxSize())
+        ));
+
         $requirementsFieldset->addField('magento_version_from', 'text', array(
             'label'    => $this->__('Magento Version From'),
             'title'    => $this->__('Magento Version From'),
@@ -109,6 +121,18 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
         $form->setFieldNameSuffix('theme');
         $this->setForm($form);
         return $this;
+    }
+
+    /**
+     * Set additional form field type for theme preview image
+     *
+     * @return array
+     */
+    protected function _getAdditionalElementTypes()
+    {
+        $element = Mage::getConfig()
+            ->getBlockClassName('Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
+        return array('image' => $element);
     }
 
     /**
@@ -149,5 +173,15 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Get max file size
+     *
+     * @return mixed
+     */
+    public function getImageMaxSize()
+    {
+        return min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
     }
 }
