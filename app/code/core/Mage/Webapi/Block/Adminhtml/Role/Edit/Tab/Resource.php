@@ -35,7 +35,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         if ($role->getRoleId()) {
             $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
             /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId())->load();
+            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId());
 
             $selectedRoleIds = array();
             /** @var $item Mage_Webapi_Model_Acl_Rule */

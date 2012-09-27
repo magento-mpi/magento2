@@ -58,7 +58,7 @@ Ext.EventManager.onDocumentReady(function() {
         text: 'root',
         draggable: false,
         checked: 'false',
-        id: '__root__',
+        id: '<?php echo Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID; ?>',
         uiProvider: Ext.tree.CheckboxNodeUI
     });
 
@@ -101,7 +101,8 @@ function checkHandler(node) {
         var n = node.parentNode;
         this.removeListener('check', checkHandler);
         do {
-            if (!n || n.attributes.id == 'admin' || n.attributes.id == '__root__') {
+            if (!n || n.attributes.id == 'admin' || n.attributes.id == '<?php
+                echo Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID; ?>') {
                 break;
             } else {
                 n.ui.check(true);

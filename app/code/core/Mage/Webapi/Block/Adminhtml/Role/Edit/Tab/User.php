@@ -39,7 +39,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User extends Mage_Backend_Block_
      *
      * @return string
      */
-    public function _getGridHtml()
+    public function getGridHtml()
     {
         return $this->getChildHtml('userGrid');
     }

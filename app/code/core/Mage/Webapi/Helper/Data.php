@@ -18,6 +18,11 @@
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Web API ACL resources tree root ID
+     */
+    const RESOURCES_TREE_ROOT_ID = '__root__';
+
+    /**
      * Reformat request data to be compatible with method specified interface: <br/>
      * - sort arguments in correct order <br/>
      * - set default values for omitted arguments
