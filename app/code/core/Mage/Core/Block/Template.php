@@ -274,13 +274,6 @@ HTML;
     protected function _toHtml()
     {
         $html = $this->renderView();
-
-        $name = $this->_nameInLayout;
-        $template = str_replace(BP, '', $this->getTemplateFile());
-        $html = "<!-- BEGIN $name (" . get_class($this). ") using $template -->"
-                . $html
-                . "<!-- END $name using $template -->";
-
         return $html;
     }
 
