@@ -40,10 +40,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => '2.0.0.1',
             'parent_theme'         => null,
+            'featured'             => true,
             'magento_version_from' => '2.0.0.1-dev1',
             'magento_version_to'   => '*',
             'theme_path'           => 'default/iphone',
-            'preview_image'        => '',
+            'preview_image'        => 'images/preview.png',
         );
     }
 }
