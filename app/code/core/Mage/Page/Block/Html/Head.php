@@ -60,8 +60,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $currentPage = Mage::app()->getRequest()->getModuleName() . '-'
             . Mage::app()->getRequest()->getControllerName() . '-' .
             Mage::app()->getRequest()->getActionName();
-        if (in_array($currentPage, $excludePages)) {
-            //return;
+        if (in_array($currentPage, $excludePages)
+            && !Mage::getSingleton('Mage_DesignEditor_Model_Session')->isDesignEditorActive()) {
+            return;
         }
         return $this->_addItem('js', $name, $params, $if, $cond);
     }
