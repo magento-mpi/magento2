@@ -32,6 +32,9 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Resource_Layout_Update', $this->_model->getResource());
     }
 
+    /**
+     * @magentoDbIsolation
+     */
     public function testCrud()
     {
         $this->_model->setData(array(
