@@ -100,14 +100,20 @@ class Mage_Core_Model_Observer
     /**
      * Theme registration
      *
+     * @param Varien_Event_Observer $observer
      * @return Mage_Core_Model_Observer
      */
-    public function themeRegistration()
+    public function themeRegistration(Varien_Event_Observer $observer)
     {
+        $pathPattern = $observer->getEvent()->getPathPattern();
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         try {
-            $themeCollection->addDefaultPattern();
+            if($pathPattern) {
+                $themeCollection->addTargetPattern($pathPattern);
+            } else {
+                $themeCollection->addDefaultPattern();
+            }
             foreach ($themeCollection as $theme) {
                 $this->_saveThemeRecursively($theme, $themeCollection);
             }
@@ -183,7 +189,7 @@ class Mage_Core_Model_Observer
     protected function _addThemeToList($themePath)
     {
         if (in_array($themePath, $this->_themeList)) {
-            Mage::throwException('Invalid parent theme(сross-references) leads to an infinite loop.');
+            Mage::throwException('Invalid parent theme (сross-references) leads to an infinite loop.');
         }
         array_push($this->_themeList, $themePath);
         return $this;
