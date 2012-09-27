@@ -38,13 +38,6 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_model = null;
     }
 
-    public function testGetElementClass()
-    {
-        $reflector = new ReflectionProperty(get_class($this->_model), '_elementClass');
-        $reflector->setAccessible(true);
-        $this->assertEquals('Mage_Core_Model_Layout_Element', $reflector->getValue($this->_model));
-    }
-
     public function testAddUpdate()
     {
         $this->assertEmpty($this->_model->asArray());
