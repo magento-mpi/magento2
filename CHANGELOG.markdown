@@ -1,4 +1,4 @@
-Update as of 9/26/2012
+Update as of 9/27/2012
 ======================
 * Refactoring Magento 2 to use jQuery instead of Prototype:
   * Implemented simple lazy-loading functionality
