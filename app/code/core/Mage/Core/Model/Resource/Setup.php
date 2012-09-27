@@ -215,7 +215,8 @@ class Mage_Core_Model_Resource_Setup
             if (isset($resource->setup->class)) {
                 $className = $resource->setup->getClassName();
             }
-            $setupClass = new $className($resName);
+            $setupClass = Mage::getModel($className, array('resourceName' => $resName));
+
             $setupClass->applyUpdates();
             if ($setupClass->getCallAfterApplyAllUpdates()) {
                 $afterApplyUpdates[] = $setupClass;
@@ -249,7 +250,7 @@ class Mage_Core_Model_Resource_Setup
             if (isset($resource->setup->class)) {
                 $className = $resource->setup->getClassName();
             }
-            $setupClass = new $className($resName);
+            $setupClass = Mage::getModel($className, array('resourceName' => $resName));
             $setupClass->applyDataUpdates();
         }
     }
