@@ -38,14 +38,310 @@
     <adminhtml_sales_archive_orders>
         <reference name="content">
             <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order" name="archive">
-                <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid" name="archive.grid" as="grid" />
+                <block type="Mage_Adminhtml_Block_Sales_Order_Grid" name="sales.order.archive.grid" as="grid">
+                    <arguments>
+                        <id>sales_order_grid_archive</id>
+                        <dataSource type="object">Enterprise_SalesArchive_Model_Resource_Order_Collection</dataSource>
+                        <use_ajax>0</use_ajax>
+                        <default_sort>0</default_sort>
+                        <default_dir>DESC</default_dir>
+                        <save_parameters_in_session>1</save_parameters_in_session>
+                        <grid_url type="url">
+                            <path>*/*/ordersgrid</path>
+                            <params>
+                                <_current>1</_current>
+                            </params>
+                        </grid_url>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
+                        <arguments>
+                            <id>sales_order_grid_archive</id>
+                            <rowUrl>
+                                <generatorClass>Mage_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>
+                                <path>*/sales_order/view</path>
+                                <extraParamsTemplate>
+                                    <order_id>getId</order_id>
+                                </extraParamsTemplate>
+                            </rowUrl>
+                        </arguments>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">
+                            <arguments>
+                                <header>Order #</header>
+                                <width>80px</width>
+                                <type>text</type>
+                                <index>increment_id</index>
+                                <id>real_order_id</id>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
+                            <arguments>
+                                <header>Purchased On</header>
+                                <width>100px</width>
+                                <type>datetime</type>
+                                <index>created_at</index>
+                                <id>created_at</id>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
+                            <arguments>
+                                <id>billing_name</id>
+                                <header>Bill to Name</header>
+                                <index>billing_name</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
+                            <arguments>
+                                <id>shipping_name</id>
+                                <header>Ship to Name</header>
+                                <index>shipping_name</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
+                            <arguments>
+                                <id>base_grand_total</id>
+                                <header>G.T. (Base)</header>
+                                <type>currency</type>
+                                <currency>base_currency_code</currency>
+                                <index>base_grand_total</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
+                            <arguments>
+                                <id>grand_total</id>
+                                <header>G.T. (Purchased)</header>
+                                <type>currency</type>
+                                <currency>order_currency_code</currency>
+                                <index>grand_total</index>
+                            </arguments>
+                        </block>
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                            <arguments>
+                                <id>status</id>
+                                <header>Status</header>
+                                <width>70px</width>
+                                <type>options</type>
+                                <currency>order_currency_code</currency>
+                                <index>status</index>
+                                <options type="options">Mage_Sales_Model_Resource_Order_Grid_StatusesArray</options>
+                            </arguments>
+                        </block>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
+                        <arguments>
+                            <massaction_id_field>entity_id</massaction_id_field>
+                            <form_field_name>order_ids</form_field_name>
+                            <use_select_all>0</use_select_all>
+                            <options>
+                                <updater>Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater</updater>
+                                <cancel_order>
+                                    <label>Cancel</label>
+                                    <url>*/sales_archive/massCancel</url>
+                                </cancel_order>
+                                <hold_order>
+                                    <label>Hold</label>
+                                    <url>*/sales_archive/massHold</url>
+                                </hold_order>
+                                <unhold_order>
+                                    <label>Unhold</label>
+                                    <url>*/sales_archive/massUnhold</url>
+                                </unhold_order>
+                                <remove_order_from_archive>
+                                    <label>Move to Orders Management</label>
+                                    <url>*/sales_archive/massRemove</url>
+                                </remove_order_from_archive>
+                                <pdfinvoices_order>
+                                    <label>Print Invoices</label>
+                                    <url>*/sales_archive/massPrintInvoices</url>
+                                </pdfinvoices_order>
+                                <pdfshipments_order>
+                                    <label>Print Packingslips</label>
+                                    <url>*/sales_archive/massPrintPackingSlips</url>
+                                </pdfshipments_order>
+                                <pdfcreditmemos_order>
+                                    <label>Print Credit Memos</label>
+                                    <url>*/sales_archive/massPrintCreditMemos</url>
+                                </pdfcreditmemos_order>
+                                <pdfdocs_order>
+                                    <label>Print All</label>
+                                    <url>*/sales_archive/massPrintAllDocuments</url>
+                                </pdfdocs_order>
+                                <print_shipping_label>
+                                    <label>Print Shipping Labels</label>
+                                    <url>*/sales_archive/massPrintShippingLabel</url>
+                                </print_shipping_label>
+                            </options>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Export" as="grid.export">
+                        <arguments>
+                            <exportTypes>
+                                <csv>
+                                    <urlPath>*/*/exportCsv</urlPath>
+                                    <label>CSV</label>
+                                </csv>
+                                <excel>
+                                    <urlPath>*/*/exportExcel</urlPath>
+                                    <label>Excel XML</label>
+                                </excel>
+                            </exportTypes>
+                        </arguments>
+                    </block>
+                </block>
             </block>
         </reference>
     </adminhtml_sales_archive_orders>
 
     <adminhtml_sales_archive_ordersgrid>
         <update handle="formkey"/>
-        <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid" name="archive.grid" as="grid" output="1"/>
+        <block type="Mage_Adminhtml_Block_Sales_Order_Grid" name="sales.order.archive.grid" as="grid" output="1">
+            <arguments>
+                <id>sales_order_grid_archive</id>
+                <dataSource type="object">Enterprise_SalesArchive_Model_Resource_Order_Collection</dataSource>
+                <use_ajax>1</use_ajax>
+                <default_sort>0</default_sort>
+                <default_dir>DESC</default_dir>
+                <save_parameters_in_session>1</save_parameters_in_session>
+                <grid_url type="url">
+                    <path>*/*/ordersgrid</path>
+                    <params>
+                        <_current>1</_current>
+                    </params>
+                </grid_url>
+            </arguments>
+            <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
+                <arguments>
+                    <id>sales_order_grid_archive</id>
+                    <rowUrl>
+                        <generatorClass>Mage_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>
+                        <path>*/sales_order/view</path>
+                        <extraParamsTemplate>
+                            <order_id>getId</order_id>
+                        </extraParamsTemplate>
+                    </rowUrl>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">
+                    <arguments>
+                        <header>Order #</header>
+                        <width>80px</width>
+                        <type>text</type>
+                        <index>increment_id</index>
+                        <id>real_order_id</id>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
+                    <arguments>
+                        <header>Purchased On</header>
+                        <width>100px</width>
+                        <type>datetime</type>
+                        <index>created_at</index>
+                        <id>created_at</id>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
+                    <arguments>
+                        <id>billing_name</id>
+                        <header>Bill to Name</header>
+                        <index>billing_name</index>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
+                    <arguments>
+                        <id>shipping_name</id>
+                        <header>Ship to Name</header>
+                        <index>shipping_name</index>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
+                    <arguments>
+                        <id>base_grand_total</id>
+                        <header>G.T. (Base)</header>
+                        <type>currency</type>
+                        <currency>base_currency_code</currency>
+                        <index>base_grand_total</index>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
+                    <arguments>
+                        <id>grand_total</id>
+                        <header>G.T. (Purchased)</header>
+                        <type>currency</type>
+                        <currency>order_currency_code</currency>
+                        <index>grand_total</index>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                    <arguments>
+                        <id>status</id>
+                        <header>Status</header>
+                        <width>70px</width>
+                        <type>options</type>
+                        <currency>order_currency_code</currency>
+                        <index>status</index>
+                        <options type="options">Mage_Sales_Model_Resource_Order_Grid_StatusesArray</options>
+                    </arguments>
+                </block>
+            </block>
+            <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
+                <arguments>
+                    <massaction_id_field>entity_id</massaction_id_field>
+                    <form_field_name>order_ids</form_field_name>
+                    <use_select_all>0</use_select_all>
+                    <options>
+                        <updater>Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater</updater>
+                        <cancel_order>
+                            <label>Cancel</label>
+                            <url>*/sales_archive/massCancel</url>
+                        </cancel_order>
+                        <hold_order>
+                            <label>Hold</label>
+                            <url>*/sales_archive/massHold</url>
+                        </hold_order>
+                        <unhold_order>
+                            <label>Unhold</label>
+                            <url>*/sales_archive/massUnhold</url>
+                        </unhold_order>
+                        <remove_order_from_archive>
+                            <label>Move to Orders Management</label>
+                            <url>*/sales_archive/massRemove</url>
+                        </remove_order_from_archive>
+                        <pdfinvoices_order>
+                            <label>Print Invoices</label>
+                            <url>*/sales_archive/massPrintInvoices</url>
+                        </pdfinvoices_order>
+                        <pdfshipments_order>
+                            <label>Print Packingslips</label>
+                            <url>*/sales_archive/massPrintPackingSlips</url>
+                        </pdfshipments_order>
+                        <pdfcreditmemos_order>
+                            <label>Print Credit Memos</label>
+                            <url>*/sales_archive/massPrintCreditMemos</url>
+                        </pdfcreditmemos_order>
+                        <pdfdocs_order>
+                            <label>Print All</label>
+                            <url>*/sales_archive/massPrintAllDocuments</url>
+                        </pdfdocs_order>
+                        <print_shipping_label>
+                            <label>Print Shipping Labels</label>
+                            <url>*/sales_archive/massPrintShippingLabel</url>
+                        </print_shipping_label>
+                    </options>
+                </arguments>
+            </block>
+            <block type="Mage_Backend_Block_Widget_Grid_Export" as="grid.export">
+                <arguments>
+                    <exportTypes>
+                        <csv>
+                            <urlPath>*/*/exportCsv</urlPath>
+                            <label>CSV</label>
+                        </csv>
+                        <excel>
+                            <urlPath>*/*/exportExcel</urlPath>
+                            <label>Excel XML</label>
+                        </excel>
+                    </exportTypes>
+                </arguments>
+            </block>
+        </block>
     </adminhtml_sales_archive_ordersgrid>
 
     <adminhtml_sales_archive_invoices>
