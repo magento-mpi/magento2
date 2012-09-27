@@ -24,13 +24,68 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     protected $_currentStore = null;
 
-    protected $_template = 'hierarchy/edit.phtml';
+    /**
+     * ID of the store where node can be previewed
+     *
+     * In most cases it is equal to currently selected store except situation when admin is in single store mode
+     * @var null|int
+     */
+    protected $_nodePreviewStoreId;
 
-    protected function _construct()
-    {
-        parent::_construct();
+    /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Define custom form template for block
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_App $application
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_App $application,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $request,
+            $layout,
+            $eventManager,
+            $translator, $cache,
+            $designPackage,
+            $session,
+            $storeConfig,
+            $frontController
+        );
+        $this->setTemplate('hierarchy/edit.phtml');
+
+        $this->_app = $application;
 
         $this->_currentStore = $this->getRequest()->getParam('store');
+        $this->_nodePreviewStoreId = $this->_app->isSingleStoreMode() ? $this->_app->getAnyStoreView()->getId()
+            : $this->_currentStore;
     }
 
     /**
@@ -545,6 +600,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getStoreBaseUrl()
     {
         return $this->_getStore()->getBaseUrl();
+    }
+
+    /**
+     * Check if node can be previewed
+     *
+     * @return boolean
+     */
+    public function isNodePreviewAvailable()
+    {
+        return !empty($this->_nodePreviewStoreId);
     }
 
     /**
