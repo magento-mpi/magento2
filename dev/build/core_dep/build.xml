@@ -44,7 +44,7 @@
             <param name="product_root_dir" value="${publication_target_dir}"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_unit_tests_all"/>
-            <target name="_static_tests_all"/>
+            <target name="_static_tests_no_js"/>
             <target name="_sanity_check"/>
             <target name="_integration_tests_magento"/>
             <target name="_integration_integrity_tests_magento"/>
