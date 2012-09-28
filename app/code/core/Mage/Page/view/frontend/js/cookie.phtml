@@ -23,7 +23,10 @@
             o.path = '<?php echo $this->getPath()?>',
             o.domain = '<?php echo $this->getDomain()?>'
         });
-        $.mage.load.jsSync("<?php echo $this->getSkinUrl('Mage_Page::js/cookie.js') ?>");
+        $.mage.load.jsSync(
+            "<?php echo $this->getSkinUrl('jquery/jquery.cookie.js') ?>",
+            "<?php echo $this->getSkinUrl('Mage_Page::js/cookie.js') ?>"
+        );
     })(jQuery);
     //]]>
 </script>
