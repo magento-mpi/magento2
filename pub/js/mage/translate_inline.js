@@ -52,6 +52,9 @@
          * @protected
          */
         _create: function() {
+            this.element.is(document) ?
+                $('body').addClass('trnslate-inline-area') :
+                this.element.addClass('trnslate-inline-area');
             this._initTranslateDialog();
             this._initEditTrigger();
             this._bind();
@@ -78,6 +81,16 @@
                     close: $.proxy(this._formClose, this)
                 }, this.options.dialog))
                 .dialog('close');
+            if (this.options.display === 'inline') {
+                this.element.on('edit.editTrigger', $.proxy(function(e){
+                    var offset = $(e.target).offset();
+                    if(offset){
+                        this.translateDialog.dialog('option', 'position', [
+                            offset.left,
+                            offset.top + $(e.target).outerHeight()]);
+                    }
+                }, this))
+            }
         },
         /**
          * Initialisation of Edit Trigger
