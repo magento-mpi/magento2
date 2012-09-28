@@ -45,6 +45,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'magento_version_to'   => '*',
             'theme_path'           => 'default/iphone',
             'preview_image'        => 'images/preview.png',
+            'theme_directory'      => implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme'))
         );
     }
 }
