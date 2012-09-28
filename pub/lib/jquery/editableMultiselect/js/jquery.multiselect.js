@@ -1,20 +1,20 @@
 (function($) {
     /*
-     * jQuery.multiselect plugin 
-     * 
+     * jQuery.multiselect plugin
+     *
      * Form control: allow select several values from list and add new value(s) to list
      *
      * Licensed under the BSD License:
      *   http://www.opensource.org/licenses/bsd-license
      *
      * Version: 0.9.0
-     * 
+     *
      * @author Dmitry (dio) Levashov, dio@std42.ru
      * @example
      *  html: <select name="my-select" multiple="on"><option .... </select>
      * js   : $('select[name="my-select"]').multiselect()
-     *  or  
-     * var opts = { ... }; 
+     *  or
+     * var opts = { ... };
      * $('select[name="my-select"]').multiselect(opts);
      */
     $.fn.multiselect = function(opts) {
@@ -59,9 +59,11 @@
                 Esc: 27
             },
             toggleAddButton: true,
+            // New option for callback
+            mselectInputSubmitCallback: null,
             parse : function(v) { return v.split(/\s*,\s*/); }
         }, opts||{});
-        
+
         return this.filter('select[multiple]:not(.' + o.mselectHiddenClass + ')').each(function() {
             var select = $(this).addClass(o.mselectHiddenClass).hide(),
                 size = select.attr('size') > 0 ? select.attr('size') : o.size,
@@ -138,6 +140,12 @@
                         input.val('');
                     }),
                 append = function(v) {
+                    // Add ability to define custom handler for adding new values
+                    if ($.isFunction(o.mselectInputSubmitCallback)) {
+                        o.mselectInputSubmitCallback(v, o);
+                        return;
+                    }
+                    // end of callback implementation
                     $.each(typeof(o.parse) == 'function' ? o.parse(v) : [$.trim(v)], function(i, v) {
                         var item;
 
