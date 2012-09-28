@@ -217,7 +217,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getUpdate()
     {
         if (!$this->_update) {
-            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('area' => $this->getArea()));
+            $arguments = array('area' => $this->getArea());
+            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $arguments));
         }
         return $this->_update;
     }
