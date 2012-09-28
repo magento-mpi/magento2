@@ -19,8 +19,8 @@ class Mage_Core_Model_Resource_LayoutTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->_model = new Mage_Core_Model_Resource_Layout();
+        
+        $this->_model = new Mage_Core_Model_Resource_Layout_Update();
     }
 
     protected function tearDown()

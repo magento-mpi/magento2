@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-$layoutUpdate = new Mage_Core_Model_Layout_Data;
+$layoutUpdate = new Mage_Core_Model_Layout_Update;
 $layoutUpdate->setData((array(
     'handle' => 'fixture_handle',
     'xml' => '<reference name="root"><block type="Mage_Core_Block_Template" template="dummy.phtml"/></reference>',
