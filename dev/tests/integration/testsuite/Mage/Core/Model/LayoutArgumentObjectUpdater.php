@@ -22,12 +22,12 @@ class Mage_Core_Model_LayoutArgumentObjectUpdater implements Mage_Core_Model_Lay
      */
     public function update($argument)
     {
-        $calls = $argument->getUdaterCall();
+        $calls = $argument->getUpdaterCall();
         if (true == empty($calls)) {
             $calls = array();
         }
         $calls[] = 'updater call';
-        $argument->setUdaterCall($calls);
+        $argument->setUpdaterCall($calls);
         return $argument;
     }
 }

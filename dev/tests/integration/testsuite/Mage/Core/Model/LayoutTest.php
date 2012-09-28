@@ -214,7 +214,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
         $block = $layout->getBlock('block_with_object_updater_args')->getOne();
         $this->assertInstanceOf('Mage_Core_Block_Text', $block);
-        $this->assertEquals($expectedObjectData, $block->getUdaterCall());
+        $this->assertEquals($expectedObjectData, $block->getUpdaterCall());
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
 

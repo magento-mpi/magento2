@@ -449,11 +449,15 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 if (false === empty($updaters)) {
                     $arguments[$argument->getName()]['updater'] = $updaters;
                 }
+
+                if (is_array($value) && !empty($value)) {
+                    $arguments[$argument->getName()]['value'] = $value;
+                }
             } else {
                 $value = trim((string)$argument);
-            }
-            if ('' !== $value || (is_array($value) && !empty($value))) {
-                $arguments[$argument->getName()]['value'] = $value;
+                if ('' !== $value) {
+                    $arguments[$argument->getName()]['value'] = $value;
+                }
             }
         }
         return $arguments;
