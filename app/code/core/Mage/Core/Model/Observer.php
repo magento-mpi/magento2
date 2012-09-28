@@ -128,7 +128,7 @@ class Mage_Core_Model_Observer
      * Save theme recursively
      *
      * @throws Mage_Core_Exception
-     * @param string $theme
+     * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme_Collection $collection
      * @return Mage_Core_Model_Observer
      */
@@ -148,7 +148,7 @@ class Mage_Core_Model_Observer
             $theme->setParentId($parentTheme->getId());
         }
 
-        $theme->save();
+        $theme->savePreviewImage()->save();
         $this->_emptyThemeList();
         return $this;
     }

@@ -90,28 +90,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
             'theme_path'           => $packageCode . '/' . $themeCode,
-            'preview_image'        => $media['preview_image'],
-            'theme_directory'      => $this->_getThemeDir($configPath),
-            'magento_version_from' => $themeVersions['from'],
-            'magento_version_to'   => $themeVersions['to'],
-            'theme_path'           => $packageCode . '/' . $themeCode
+            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
+            'theme_directory'      => dirname($configPath),
         ));
         return $this;
-    }
-
-    /**
-     * Get theme directory
-     *
-     * @param string $configPath
-     * @return string
-     */
-    protected function _getThemeDir($configPath)
-    {
-        /**
-         * Replace last 9 symbols(theme.xml) from config path.
-         * As result we retrieve theme base directory.
-         */
-        return substr($configPath, 0, -9);
     }
 
     /**
@@ -181,7 +163,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->_validate()->_savePreviewImage();
+        $this->_validate();
         return parent::_beforeSave();
     }
 
@@ -216,23 +198,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return Mage_Core_Model_Theme
      */
-    protected function _savePreviewImage()
+    public function savePreviewImage()
     {
-        if (!$this->getPreviewImage()) {
+        if (!$this->getPreviewImage() || !$this->getThemeDirectory()) {
             return $this;
         }
-        $themeDirectory = $this->getThemeDirectory();
         $currentWorkingDir = getcwd();
 
-        @chdir($themeDirectory);
+        chdir($this->getThemeDirectory());
 
         $imagePath = realpath($this->getPreviewImage());
 
-        if ($imagePath) {
-            $this->createPreviewImage($themeDirectory . $imagePath);
+        if (0 === strpos($imagePath, $this->getThemeDirectory())) {
+            $this->createPreviewImage($imagePath);
         }
 
-        @chdir($currentWorkingDir);
+        chdir($currentWorkingDir);
 
         return $this;
     }
@@ -332,20 +313,27 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if (!$upload->save(self::getImagePathOrigin())) {
             Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Image can not be saved.'));
         }
-        $fileName = $upload->getUploadedFileName();
+
+        $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->createPreviewImage($fileName);
+
+        $io = new Varien_Io_File();
+        $io->open(array('path' => self::getImagePathOrigin()));
+        if ($io->fileExists($fileName)) {
+            $io->rm($fileName);
+        }
+
         return true;
     }
 
     /**
      * Create preview image
      *
-     * @param string $originalImageName
+     * @param string $imagePath
      * @return string
      */
-    public function createPreviewImage($originalImageName)
+    public function createPreviewImage($imagePath)
     {
-        $imagePath = self::getImagePathOrigin() . DS . $originalImageName;
         $imageName = str_replace(DS, '_', $this->getThemeCode()) . '.jpg';
 
         $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
@@ -358,12 +346,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
         $image->save(self::_getImagePathPreview(), $imageName);
 
-        $io = new Varien_Io_File();
-        $io->open(array('path' => self::getImagePathOrigin()));
-        if ($io->fileExists($originalImageName)) {
-            $io->rm($originalImageName);
-        }
         $this->setPreviewImage($imageName);
+
         return $imageName;
     }
 
