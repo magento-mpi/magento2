@@ -56,6 +56,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'magento_version_to'   => '*',
             'theme_path'           => 'default/default',
             'preview_image'        => '',
+            'theme_directory'      => implode(
+                DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')
+            )
         );
     }
 

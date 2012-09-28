@@ -318,10 +318,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->createPreviewImage($fileName);
 
         $io = new Varien_Io_File();
-        $io->open(array('path' => self::getImagePathOrigin()));
-        if ($io->fileExists($fileName)) {
-            $io->rm($fileName);
-        }
+        $io->rm(self::getImagePathOrigin() . DS . $fileName);
 
         return true;
     }
@@ -365,10 +362,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $io = new Varien_Io_File();
-        $io->open(array('path' => self::_getImagePathPreview()));
-        if ($io->fileExists($previewImage)) {
-            $io->rm($previewImage);
-        }
+        $io->rm(self::_getImagePathPreview() . DS . $previewImage);
+
         return $this;
     }
 
