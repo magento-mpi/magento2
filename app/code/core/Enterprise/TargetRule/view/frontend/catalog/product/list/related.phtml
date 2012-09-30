@@ -29,7 +29,7 @@
         </ul>
         <?php endif ?>
     <?php endforeach ?>
-    <script type="text/javascript">decorateGeneric($$('.box-related ul.box-content'), ['odd','even','first','last'])</script>
+    <script type="text/javascript">(function($) {$.mage.decorator.general($('.box-related ul.box-content li'), ['odd','even','first','last']);})(jQuery);</script>
 
     <script type="text/javascript">
     //<![CDATA[

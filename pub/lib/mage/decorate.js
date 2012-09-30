@@ -19,10 +19,12 @@
                 this.list = function (list, isRecursive) {
                     var items;
                     if ($(list).length > 0) {
-                        if (isRecursive) {
-                            items = $(list).children();
-                        } else {
+                        if (typeof(isRecursive) === undefined) {
                             items = $(list).find('li');
+                        } else if (isRecursive) {
+                            items = $(list).find('li');
+                        } else {
+                            items = $(list).children();
                         }
                         this.general(items, ['odd', 'even', 'last']);
                     }

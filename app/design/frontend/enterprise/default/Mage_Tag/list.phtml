@@ -20,7 +20,7 @@
             <?php echo $this->renderTags('<li><a href="%1$s">%2$s</a> (%3$s)</li>') ?>
         </ul>
         <script type="text/javascript">
-            decorateGeneric($("<?php echo $this->getUniqueHtmlId('tags-list_'); ?>").select('li'), ['first', 'last']);
+            (function($) {$.mage.decorator.general($("#<?php echo $this->getUniqueHtmlId('tags-list_'); ?>").find('li'), ['first', 'last']);})(jQuery);
         </script>
         <?php endif; ?>
         <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>" method="get">

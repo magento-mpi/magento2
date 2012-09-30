@@ -33,5 +33,5 @@
             </li>
         <?php endforeach; ?>
     </ol>
-    <script type="text/javascript">decorateList('my_recent_tags', 'none-recursive');</script>
+    <script type="text/javascript">(function($) {$.mage.decorator.list('#my_recent_tags', false);})(jQuery);</script>
 </div>

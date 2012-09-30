@@ -13,11 +13,12 @@
     <?php echo $this->getChildHtml('list_before')?>
     <?php if( $this->getCount() ): ?>
     <h3><?php echo $this->__('Other people marked this product with these tags:') ?></h3>
-    <ul id="<?php echo $this->getUniqueHtmlId('product-tags_'); ?>" class="product-tags">
+    <?php $_uniqueProductTagsId = $this->getUniqueHtmlId('product-tags_')?>
+    <ul id="<?php echo $_uniqueProductTagsId ?>" class="product-tags">
         <?php echo $this->renderTags('<li><a href="%1$s">%2$s</a> (%3$s)</li>') ?>
     </ul>
     <script type="text/javascript">
-        decorateGeneric($("<?php echo $this->getUniqueHtmlId('product-tags_'); ?>").select('li'), ['first', 'last']);
+        (function($) {$.mage.decorator.general($('#<?php echo $_uniqueProductTagsId?>').find('li'), ['first','last']);})(jQuery);
     </script>
     <?php endif; ?>
     <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>" method="get">
