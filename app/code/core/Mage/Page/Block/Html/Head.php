@@ -62,9 +62,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             Mage::app()->getRequest()->getActionName();
         if (in_array($currentPage, $excludePages)
             && !Mage::getSingleton('Mage_DesignEditor_Model_Session')->isDesignEditorActive()) {
-            Mage::throwException(
-                'addJS function blocked for cms-index and catalog-view in order to remove old js files'
-            );
+            return;
         }
         return $this->_addItem('js', $name, $params, $if, $cond);
     }
