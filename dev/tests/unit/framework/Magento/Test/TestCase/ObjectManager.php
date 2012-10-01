@@ -32,8 +32,35 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
 
         $params = array_merge($params, $data);
 
-        $reflectionClass = new ReflectionClass($className);
-        return $reflectionClass->newInstanceArgs($params);
+        return $this->_getInstanceViaConstructor($className, $params);
+    }
+
+    /**
+     * Get model instance
+     *
+     * @param string $className
+     * @param array $data
+     * @return Mage_Core_Model_Abstract
+     */
+    public function getModel($className, array $data = array())
+    {
+        $params = array_merge($this->_getArgumentsForModel(), $data);
+        return $this->_getInstanceViaConstructor($className, $params);
+    }
+
+    /**
+     * Retrieve list of arguments that used for new model instance creation
+     *
+     * @return array
+     */
+    protected function _getArgumentsForModel()
+    {
+        return array(
+            'eventDispatcher'    => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Event_Manager'),
+            'cacheManager'       => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Cache'),
+            'resource'           => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Resource_Resource'),
+            'resourceCollection' => $this->_getMockWithoutConstructorCall('Varien_Data_Collection_Db'),
+        );
     }
 
     /**
@@ -45,5 +72,18 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
     protected function _getMockWithoutConstructorCall($className)
     {
         return $this->getMock($className, array(), array(), '', false);
+    }
+
+    /**
+     * Get class instance via constructor
+     *
+     * @param $className
+     * @param array $arguments
+     * @return object
+     */
+    protected function _getInstanceViaConstructor($className, array $arguments = array())
+    {
+        $reflectionClass = new ReflectionClass($className);
+        return $reflectionClass->newInstanceArgs($arguments);
     }
 }
