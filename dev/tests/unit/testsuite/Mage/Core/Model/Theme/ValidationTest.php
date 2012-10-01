@@ -54,16 +54,27 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Theme_Validator', array('_setThemeValidators'), array(), '', true
         );
 
-        $versionValidators = array(
+        $codeValidators = array(
             array(
                 'name' => 'available', 'class' => 'Zend_Validate_Regex', 'break' => true,
                 'options' => array('pattern' => '/^[a-z]+$/'),
                 'message' => 'Theme code has not compatible format'
+            ),
+        );
+
+        $versionValidators = array(
+            array(
+                'name' => 'available', 'class' => 'Zend_Validate_Regex', 'break' => true,
+                'options' => array('pattern' => '/(\d+\.\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)|\*/'),
+                'message' => 'Theme version has not compatible format'
             )
         );
 
-        $validatorMock->addDataValidators('theme_code', $versionValidators);
+        $validatorMock->addDataValidators('theme_code', $codeValidators)
+            ->addDataValidators('theme_version', $versionValidators)
+            ->addDataValidators('magento_version_from', $versionValidators);
         $this->assertEquals(false, $validatorMock->validate($themeMock));
+        $this->assertEquals($this->_getErrorMessages(), $validatorMock->getErrorMessages());
     }
 
     /**
@@ -101,6 +112,20 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'magento_version_to'   => '*',
             'theme_path'           => 'default/iphone',
             'preview_image'        => 'images/preview.png',
+        );
+    }
+
+    /**
+     * Get error messages
+     *
+     * @return array
+     */
+    protected function _getErrorMessages()
+    {
+        return array(
+            'magento_version_from' => array('Theme version has not compatible format'),
+            'theme_code'           => array('Theme code has not compatible format'),
+            'theme_version'        => array('Theme version has not compatible format')
         );
     }
 }

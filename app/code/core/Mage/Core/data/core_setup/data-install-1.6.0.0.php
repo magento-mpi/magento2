@@ -8,5 +8,4 @@
  * @license     {license_link}
  */
 
-Mage::app()->addEventArea('install');
-Mage::dispatchEvent('theme_registration');
+Mage::dispatchEvent('theme_registration_from_filesystem');

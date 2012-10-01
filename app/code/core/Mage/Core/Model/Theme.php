@@ -86,7 +86,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
             'parent_theme'         => $themeConfig->getParentTheme($packageCode, $themeCode),
-            'featured'             => $themeConfig->getFeatured($packageCode, $themeCode),
+            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
             'theme_path'           => $packageCode . '/' . $themeCode,
@@ -158,7 +158,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Before theme save
      *
-     * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Theme
      */
     protected function _beforeSave()

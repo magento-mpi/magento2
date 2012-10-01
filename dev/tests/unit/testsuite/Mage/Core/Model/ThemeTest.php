@@ -29,6 +29,22 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test load invalid configuration
+     *
+     * @expectedException Magento_Exception
+     */
+    public function testLoadInvalidConfiguration()
+    {
+        $themePath = __DIR__ . '/_files/theme/theme_invalid.xml';
+
+        /** @var $themeMock Mage_Core_Model_Theme */
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
+        $themeMock->loadFromConfiguration($themePath);
+
+        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());
+    }
+
+    /**
      * Expected theme data from configuration
      *
      * @return array
@@ -40,7 +56,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => '2.0.0.1',
             'parent_theme'         => null,
-            'featured'             => true,
+            'is_featured'          => true,
             'magento_version_from' => '2.0.0.1-dev1',
             'magento_version_to'   => '*',
             'theme_path'           => 'default/iphone',

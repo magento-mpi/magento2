@@ -91,7 +91,7 @@
 
     <xs:complexType name="media">
         <xs:sequence>
-            <xs:element name="preview_image" type="preview_image" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="preview_image" type="preview_image" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

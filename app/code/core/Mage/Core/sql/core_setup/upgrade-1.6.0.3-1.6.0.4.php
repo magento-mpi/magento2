@@ -35,6 +35,10 @@ $table = $installer->getConnection()
     ->addColumn('magento_version_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
     ), 'Magento Version To')
+    ->addColumn('is_featured', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
+        'nullable' => false,
+        'default'  => 0
+    ), 'Is Theme Featured')
     ->setComment('Core theme');
 
 $installer->getConnection()->createTable($table);

@@ -18,11 +18,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        try {
-            Mage::dispatchEvent('theme_update');
-        } catch (Mage_Core_Exception $e) {
-            Mage::log($e->getMessage());
-        }
+        Mage::dispatchEvent('theme_registration_from_filesystem');
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Core::system_design_theme');
         $this->renderLayout();

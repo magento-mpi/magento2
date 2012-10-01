@@ -118,7 +118,7 @@ class Mage_Core_Model_Observer
                 $this->_saveThemeRecursively($theme, $themeCollection);
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::log($e->getMessage());
+            Mage::logException($e);
         }
 
         return $this;

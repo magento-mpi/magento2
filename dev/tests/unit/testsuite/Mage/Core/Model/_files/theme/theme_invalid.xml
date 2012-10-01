@@ -4,6 +4,7 @@
  *
  * @category    Magento
  * @package     Design
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +12,12 @@
 <design>
     <package code="default">
         <title>Default</title>
-        <theme version="2.0.0.0" code="modern" parent="default" featured="1">
-            <title>Modern</title>
+        <theme version="2.0.0.1" code="iphone">
+            <featured>1</featured>
+            <title>Iphone</title>
             <requirements>
-                <magento_version from="2.0.0.0-dev1" to="*"/>
+                <magento_version from="2.0.0.1-dev1" to="*"/>
             </requirements>
-            <media>
-                <preview_image>media/preview_image.jpg</preview_image>
-            </media>
         </theme>
     </package>
 </design>
