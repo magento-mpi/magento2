@@ -25,14 +25,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     protected function _prepareLayout()
     {
         $onclick = "setSuperSettings('" . $this->getContinueUrl() . "','attribute-checkbox', 'attributes')";
-        $this->setChild('continue_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Continue'),
-                    'onclick'   => $onclick,
-                    'class'     => 'save'
-                ))
-        );
+        $this->addChild('continue_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Continue'),
+            'onclick'   => $onclick,
+            'class'     => 'save'
+        ));
 
         $backButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(

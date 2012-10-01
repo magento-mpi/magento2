@@ -31,18 +31,14 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     protected function _prepareLayout()
     {
-        $this->setChild('row', $this->getLayout()->createBlock(
-            'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row'
-        ));
+        $this->addChild('row', 'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row');
 
-        $this->setChild('add_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-            ->addData(array(
-                'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('New Permission'),
-                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
-                'type'  => 'button',
-                'disabled' => $this->isReadonly()
-            ))
-        );
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('New Permission'),
+            'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+            'type'  => 'button',
+            'disabled' => $this->isReadonly()
+        ));
 
         return parent::_prepareLayout();
     }

@@ -30,45 +30,29 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'rotatecw_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('rotatecw'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CW'),
-                    'onclick' => $this->getJsObjectName() . '.rotateCw()'
-                ))
-        );
+        $this->addChild('rotatecw_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('rotatecw'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CW'),
+            'onclick' => $this->getJsObjectName() . '.rotateCw()'
+        ));
 
-        $this->setChild(
-            'rotateccw_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('rotateccw'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CCW'),
-                    'onclick' => $this->getJsObjectName() . '.rotateCCw()'
-                ))
-        );
+        $this->addChild('rotateccw_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('rotateccw'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Rotate CCW'),
+            'onclick' => $this->getJsObjectName() . '.rotateCCw()'
+        ));
 
-        $this->setChild(
-            'resize_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Resize'),
-                    'onclick' => $this->getJsObjectName() . '.resize()'
-                ))
-        );
+        $this->addChild('resize_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('upload'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Resize'),
+            'onclick' => $this->getJsObjectName() . '.resize()'
+        ));
 
-        $this->setChild(
-            'image_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('image'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Get Image Base64'),
-                    'onclick' => $this->getJsObjectName() . '.getImage()'
-                ))
-        );
+        $this->addChild('image_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('image'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Get Image Base64'),
+            'onclick' => $this->getJsObjectName() . '.getImage()'
+        ));
 
         return parent::_prepareLayout();
     }
