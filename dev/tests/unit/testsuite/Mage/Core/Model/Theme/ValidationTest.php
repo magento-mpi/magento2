@@ -16,6 +16,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test validator with valid data
+     *
+     * @covers Mage_Core_Model_Theme_Validator::validate
      */
     public function testValidateWithValidData()
     {
@@ -42,6 +44,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test validator with invalid data
+     *
+     * @covers Mage_Core_Model_Theme_Validator::validate
      */
     public function testValidateWithInvalidData()
     {

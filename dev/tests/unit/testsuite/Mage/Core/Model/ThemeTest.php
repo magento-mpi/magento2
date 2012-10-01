@@ -16,6 +16,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test load from configuration
+     *
+     * @covers Mage_Core_Model_Theme::loadFromConfiguration
      */
     public function testLoadFromConfiguration()
     {
@@ -31,6 +33,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Test load invalid configuration
      *
+     * @covers Mage_Core_Model_Theme::loadFromConfiguration
      * @expectedException Magento_Exception
      */
     public function testLoadInvalidConfiguration()
