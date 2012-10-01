@@ -37,7 +37,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         parent::_prepareLayout();
 
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element')
+            $this->getLayout()->createBlock(
+                'Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element',
+                $this->getNameInLayout() . '_fieldset_element'
+            )
         );
     }
 

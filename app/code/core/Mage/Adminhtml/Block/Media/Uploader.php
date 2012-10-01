@@ -46,39 +46,27 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'browse_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('browse'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...'),
-                    'type'    => 'button',
-                    'onclick' => $this->getJsObjectName() . '.browse()'
-                ))
-        );
+        $this->addChild('browse_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('browse'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Browse Files...'),
+            'type'    => 'button',
+            'onclick' => $this->getJsObjectName() . '.browse()'
+        ));
 
-        $this->setChild(
-            'upload_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
-                    'type'    => 'button',
-                    'onclick' => $this->getJsObjectName() . '.upload()'
-                ))
-        );
+        $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => $this->_getButtonId('upload'),
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'type'    => 'button',
+            'onclick' => $this->getJsObjectName() . '.upload()'
+        ));
 
-        $this->setChild(
-            'delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => '{{id}}-delete',
-                    'class'   => 'delete',
-                    'type'    => 'button',
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Remove'),
-                    'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
-                ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => '{{id}}-delete',
+            'class'   => 'delete',
+            'type'    => 'button',
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Remove'),
+            'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
+        ));
 
         return parent::_prepareLayout();
     }

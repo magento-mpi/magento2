@@ -582,10 +582,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _generateAnonymousName($class)
     {
         $position = strpos($class, 'Block');
-        $key = $position !== false ? substr($class, $position) : $class;
+        $key = $position !== false ? substr($class, $position + 6) : $class;
         $key = strtolower(trim($key, '_'));
         if (!isset($this->_nameIncrement[$key])) {
-            $this->_nameIncrement[$key] = 1;
+            $this->_nameIncrement[$key] = $this->_structure->hasElement($key) ? 2 : 1;
             return $key;
         }
         return $key . '_' . $this->_nameIncrement[$key]++;
@@ -1143,8 +1143,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
+        $isAnonymousBlock = empty($name);
         $name = $this->_createStructuralElement($name, self::TYPE_BLOCK, $type);
-        return $this->_createBlock($type, $name, $attributes);
+        $block = $this->_createBlock($type, $name, $attributes);
+        $block->setIsAnonymous($isAnonymousBlock);
+        return $block;
     }
 
     /**

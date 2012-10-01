@@ -104,13 +104,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
-                    'class' => 'delete delete-product-option '
-                ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
+            'class' => 'delete delete-product-option '
+        ));
 
         $path = 'global/catalog/product/options/custom/groups';
 
