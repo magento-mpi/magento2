@@ -120,7 +120,6 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
      */
     public function testToOptionArray()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_initHelper();
         $this->_mockConfig();
 

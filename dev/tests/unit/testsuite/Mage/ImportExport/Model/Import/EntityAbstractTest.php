@@ -103,8 +103,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testAddRowError()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
-        
         $errorCode = 'error_code ';
         $errorColumnName = 'error_column';
         $this->_model->addRowError($errorCode . '%s', 0, $errorColumnName);
@@ -144,8 +142,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testAddMessageTemplate()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
-
         $errorCode = 'test';
         $message = 'This is test error message';
         $this->_model->addMessageTemplate($errorCode, $message);
@@ -429,7 +425,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testIsAttributeValid(array $data)
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $registryKey = '_helper/Mage_Core_Helper_String';
         if (!Mage::registry($registryKey)) {
             $helper = new Mage_Core_Helper_String();
@@ -554,8 +549,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testValidateDataPermanentAttributes()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
-
         $columns = array('test1', 'test2');
         $this->_createSourceAdapterMock($columns);
 
@@ -576,7 +569,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testValidateDataEmptyColumnName()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createSourceAdapterMock(array(''));
         $this->_model->validateData();
     }
@@ -590,7 +582,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createSourceAdapterMock(array('  '));
         $this->_model->validateData();
     }
@@ -604,7 +595,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testValidateDataAttributeNames()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createSourceAdapterMock(array('_test1'));
         $this->_model->validateData();
     }

@@ -87,7 +87,6 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      */
     public function testValidateDataEmptyColumnName()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array(''));
         $this->_model->validateData();
@@ -102,7 +101,6 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array('  '));
         $this->_model->validateData();
@@ -117,7 +115,6 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      */
     public function testValidateDataAttributeNames()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array('_test1'));
         $this->_model->validateData();

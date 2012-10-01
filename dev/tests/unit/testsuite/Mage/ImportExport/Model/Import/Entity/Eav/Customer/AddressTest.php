@@ -14,7 +14,7 @@
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * Customer address entity adapter mock
@@ -127,7 +127,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      */
     public function setUp()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $this->_model = $this->_getModelMock();
     }
 
@@ -163,8 +162,10 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct', 'getBackend')
+                $arguments, '', true, true, true, array('_construct', 'getBackend')
             );
             $attribute->expects($this->any())
                 ->method('getBackend')
@@ -179,8 +180,10 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         $customerStorage = $this->getMock('Mage_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
         foreach ($this->_customers as $customerData) {
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $customerData;
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
+            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
 
