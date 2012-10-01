@@ -91,6 +91,19 @@
                 cancel: '<span class="mselect-cancel" title="Cancel"></span>',
                 event: 'dblclick',
                 placeholder: '',
+                isChecked: function(settings) {
+                    var that = $(this);
+                    if (!that.closest('.mselect-list-item').hasClass('mselect-disabled')) {
+                        var checked = that.parent().find('[type=checkbox]').prop('disabled');
+                        that.parent().find('[type=checkbox]').prop({
+                            disabled: !checked
+                        });
+                    }
+                },
+                data: function(value, settings) {
+                    settings.isChecked.apply(this, [settings]);
+                    return value;
+                },
                 submitdata: {
                     form_key: $('input[name="form_key"]').val(),
                     class_type: this.classType
@@ -110,6 +123,7 @@
                 },
 
                 callback: function (result, settings) {
+                    settings.isChecked.apply(this, [settings]);
                     var select = $(this).closest('.mselect-list').prev(),
                         current = $(this).closest('.mselect-list-item').index();
                     if (result.success) {

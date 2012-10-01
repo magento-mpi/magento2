@@ -410,6 +410,7 @@
                     $(':input:first', this).val(string);
                 },
                 reset : function(settings, original) {
+                    settings.data.apply(original, [original, settings]);
                     original.reset(this);
                 },
                 buttons : function(settings, original) {
@@ -441,13 +442,7 @@
                         $(this).append(cancel);
 
                         $(cancel).click(function(event) {
-                            //original.reset();
-                            if ($.isFunction($.editable.types[settings.type].reset)) {
-                                var reset = $.editable.types[settings.type].reset;
-                            } else {
-                                var reset = $.editable.types['defaults'].reset;
-                            }
-                            reset.apply(form, [settings, original]);
+                            original.reset(this);
                             return false;
                         });
                     }
