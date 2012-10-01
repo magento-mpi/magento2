@@ -178,21 +178,26 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
+     * <p>$linkStatus - Yes, if Links can be purchased separately</p>
      *
      * @param array $attrData
      * @param array $assignData
+     * @param $linkStatus
+     * @param $price
      *
      * @test
      * @depends createConfigurableAttribute
      * @depends createProducts
+     * @dataProvider linkInfoDataProvider
      * @TestlinkId TL-MAGE-3429
      */
-    public function duplicateDownloadable($attrData, $assignData)
+    public function duplicateDownloadable($linkStatus, $price, $attrData, $assignData)
     {
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
+        $downloadable['downloadable_information_data']['downloadable_links_purchased_separately'] = $linkStatus;
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $downloadable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
@@ -204,7 +209,16 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $downloadable['general_sku'] = $this->productHelper()->getGeneratedSku($downloadable['general_sku']);
+        $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_price'] = $price;
         $this->productHelper()->verifyProductInfo($downloadable, array('general_status'));
+    }
+
+    public function linkInfoDataProvider()
+    {
+        return array(
+            array('Yes', '12'),
+            array('No', '0.00')
+        );
     }
 
     /**
