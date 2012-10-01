@@ -105,7 +105,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     public function init()
     {
-        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_rest.xml');
+        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('webapi/rest.xml');
         /** @var Mage_Webapi_Model_Config_Rest $restConfig */
         $restConfig = Mage::getModel('Mage_Webapi_Model_Config_Rest', $configFiles);
         $this->setRestConfig($restConfig);

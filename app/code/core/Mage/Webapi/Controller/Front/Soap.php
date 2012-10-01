@@ -110,7 +110,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function init()
     {
-        $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_soap.xml');
+        $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('webapi/soap.xml');
         /** @var Mage_Webapi_Model_Config_Soap $soapConfig */
         $soapConfig = Mage::getModel('Mage_Webapi_Model_Config_Soap', $soapConfigFiles);
         $this->setSoapConfig($soapConfig);

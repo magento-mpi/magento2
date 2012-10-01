@@ -996,7 +996,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             if (!$moduleConfig || !$moduleConfig->is('active')) {
                 throw new RuntimeException(sprintf('Unknown module "%s".', $module));
             }
-            $file = $this->getModuleDir('etc', $module) . DS . 'api' . DS . $version . DS . 'api_resource.xml';
+            $file = $this->getModuleDir('etc', $module) . DS . 'webapi' . DS . $version . DS . 'api_resource.xml';
             if (!file_exists($file)) {
                 throw new RuntimeException(sprintf('Unknown version "%s" for module "%s".', $version, $module));
             }
