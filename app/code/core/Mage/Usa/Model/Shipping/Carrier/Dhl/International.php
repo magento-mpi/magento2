@@ -1702,9 +1702,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $this->_isDomestic = false;
 
-        $origCountry = (string)$this->getCountryParams($origCountryCode)->name;
-        $destCountry = (string)$this->getCountryParams($destCountryCode)->name;
-        $isDomestic = (string)$this->getCountryParams($destCountryCode)->domestic;
+        $origCountry = (string)$this->getCountryParams($origCountryCode)->getData('name');
+        $destCountry = (string)$this->getCountryParams($destCountryCode)->getData('name');
+        $isDomestic = (string)$this->getCountryParams($destCountryCode)->getData('domestic');
 
         if ($origCountry == $destCountry && $isDomestic) {
             $this->_isDomestic = true;
