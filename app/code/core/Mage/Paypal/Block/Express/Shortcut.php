@@ -102,7 +102,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
                 'config' => $config,
                 'params' => array('quote' => $quote)
             ));
-            $this->setImageUrl($checkoutModel)->getCheckoutShortcutImageUrl();
+            $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
         }
 
         // ask whether to create a billing agreement
