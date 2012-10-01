@@ -16,13 +16,15 @@
     </div>
     <div class="vde_toolbar_cell_content">
         <dl id="<?php echo $this->getSelectHtmlId(); ?>">
-            <?php foreach ($this->getThemeList() as $theme): ?>
+            <?php foreach ($this->getTheme()->getCollection() as $theme): ?>
                 <dt class="vde_cell_list_group"><?php echo $this->escapeHtml($theme->getThemeTitle()) ?></dt>
                 <?php foreach ($theme->getSkinList() as $skinLabel => $skinValue): ?>
                     <?php $checked = $this->isSkinSelected($skinValue) ? ' checked' : '' ?>
                     <dd class="vde_cell_list_item<?php echo $checked ?>">
                         <?php $url = $this->getUrl('design/editor/skin', array('_query' => array(
-                            'skin' => $skinValue, 'theme_id' => $theme->getId()))) ?>
+                            'skin' => $skinValue,
+                            'theme_id' => $theme->getId()
+                        ))) ?>
                         <a href="<?php echo $url?>"><?php echo $this->escapeHtml($skinLabel); ?></a>
                     </dd>
                 <?php endforeach; ?>

@@ -18,24 +18,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function indexAction()
     {
-        /** @var $model Mage_Core_Model_Theme */
-        $model = Mage::getModel('Mage_Core_Model_Theme');
         try {
-            $themes = $model->getCollection();
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $themes = array();
+            $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+            $this->loadLayout();
+            $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
+            $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));
+            $this->_redirect($this->_getRefererUrl());
             Mage::logException($e);
-            $themes = array();
         }
-
-        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
-        $this->loadLayout();
-        $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
-        $this->getLayout()->getBlock('design_editor_theme_list')->setThemes($themes);
-        $this->renderLayout();
     }
 
     /**

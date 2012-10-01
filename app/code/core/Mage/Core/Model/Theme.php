@@ -401,4 +401,42 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         return Mage::getDesign()->getSkinUrl('Mage_Core::theme/default_preview.jpg');
     }
+
+    /**
+     * Get skin list
+     *
+     * @return array
+     */
+    public function getSkinList()
+    {
+        $result = array();
+        $skinPaths = glob($this->_getSkinFolderPattern(), GLOB_ONLYDIR);
+
+        foreach ($skinPaths as $skinPath) {
+            $skinPath = str_replace(DS, '/', $skinPath);
+            if (preg_match('/\/(?P<skin>[^\/.]+)$/i', $skinPath, $skinMatches)) {
+                $result[$skinMatches['skin']] = implode('/', array(
+                    $this->getThemePath(),
+                    $skinMatches['skin']
+                ));
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get skin folder pattern
+     *
+     * @return string
+     */
+    protected function _getSkinFolderPattern()
+    {
+        return implode(DS, array(
+            Mage::getBaseDir('design'),
+            Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            $this->getThemePath(),
+            'skin',
+            '*'
+        ));
+    }
 }

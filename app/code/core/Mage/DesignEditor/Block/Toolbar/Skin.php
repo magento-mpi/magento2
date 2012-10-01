@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Block_Toolbar_Skin extends Mage_Core_Block_Template
 {
     /**
+     * Html id of the skin select control
+     */
+    const VDE_HTML_SKIN_ID = 'visual_design_editor_skin';
+
+    /**
      * Get current theme
      *
      * @return Mage_Core_Model_Theme
@@ -21,18 +26,6 @@ class Mage_DesignEditor_Block_Toolbar_Skin extends Mage_Core_Block_Template
     public function getTheme()
     {
         return Mage::registry('vde_theme');
-    }
-
-    /**
-     * Get collection installed themes
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    public function getThemeList()
-    {
-        /** @var  $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-        return $themeModel->getCollection();
     }
 
     /**
@@ -54,6 +47,6 @@ class Mage_DesignEditor_Block_Toolbar_Skin extends Mage_Core_Block_Template
      */
     public function getSelectHtmlId()
     {
-        return 'visual_design_editor_skin';
+        return self::VDE_HTML_SKIN_ID;
     }
 }
