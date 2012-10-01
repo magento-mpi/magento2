@@ -316,8 +316,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->createPreviewImage($fileName);
 
-        $io = new Varien_Io_File();
-        $io->rm(self::getImagePathOrigin() . DS . $fileName);
+        $fileSystem = new Varien_Io_File();
+        $fileSystem->rm(self::getImagePathOrigin() . DS . $fileName);
 
         return true;
     }
@@ -360,8 +360,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $io = new Varien_Io_File();
-        $io->rm(self::_getImagePathPreview() . DS . $previewImage);
+        $fileSystem = new Varien_Io_File();
+        $fileSystem->rm(self::_getImagePathPreview() . DS . $previewImage);
 
         return $this;
     }

@@ -109,7 +109,7 @@ class Mage_Core_Model_Observer
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         try {
-            if($pathPattern) {
+            if ($pathPattern) {
                 $themeCollection->addTargetPattern($pathPattern);
             } else {
                 $themeCollection->addDefaultPattern();

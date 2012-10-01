@@ -28,18 +28,33 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         if (!$formData) {
             $formData = Mage::registry('current_theme')->getData();
         }
-        $isThemeExist = isset($formData['theme_id']);
+        $this->setIsThemeExist(isset($formData['theme_id']));
 
         $form = new Varien_Data_Form();
 
+        $this->_addThemeFieldset($form)->_addRequirementsFieldset($form);
+
+        if (!$this->getIsThemeExist()) {
+            $formData = array_merge($formData, $this->_getDefaults());
+        }
+        $form->addValues($formData);
+        $form->setFieldNameSuffix('theme');
+        $this->setForm($form);
+        return $this;
+    }
+
+    /**
+     * Add theme fieldset
+     *
+     * @param Varien_Data_Form $form
+     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+     */
+    protected function _addThemeFieldset($form)
+    {
         $themeFieldset = $form->addFieldset('theme', array(
             'legend'   => $this->__('Theme Settings'),
         ));
         $this->_addElementTypes($themeFieldset);
-
-        $requirementsFieldset = $form->addFieldset('requirements', array(
-            'legend'   => $this->__('Magento Requirements'),
-        ));
 
         if (isset($formData['theme_id'])) {
             $themeFieldset->addField('theme_id', 'hidden', array(
@@ -49,7 +64,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         /** @var $themesCollections Mage_Core_Model_Resource_Theme_Collection */
         $themesCollections = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
-        if ($isThemeExist) {
+        if ($this->getIsThemeExist()) {
             $themesCollections->addFieldToFilter('theme_id', array('neq' => $formData['theme_id']));
         }
 
@@ -101,6 +116,21 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'text' => $this->__('Max image size %s', $this->getImageMaxSize())
         ));
 
+        return $this;
+    }
+
+    /**
+     * Add requirements fieldset
+     *
+     * @param Varien_Data_Form $form
+     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+     */
+    protected function _addRequirementsFieldset($form)
+    {
+        $requirementsFieldset = $form->addFieldset('requirements', array(
+            'legend'   => $this->__('Magento Requirements'),
+        ));
+
         $requirementsFieldset->addField('magento_version_from', 'text', array(
             'label'    => $this->__('Magento Version From'),
             'title'    => $this->__('Magento Version From'),
@@ -117,12 +147,6 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'note'     => $this->__('Example: 1.6.0.0 or *')
         ));
 
-        if (!$isThemeExist) {
-            $formData = array_merge($formData, $this->_getDefaults());
-        }
-        $form->addValues($formData);
-        $form->setFieldNameSuffix('theme');
-        $this->setForm($form);
         return $this;
     }
 

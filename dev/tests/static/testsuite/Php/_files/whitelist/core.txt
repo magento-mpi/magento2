@@ -10,7 +10,17 @@ app/code/core/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
+app/code/core/Mage/Backend/Model/Acl/Config.php
 app/code/core/Mage/Core/Block/Abstract.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Form/Element/Image.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Tab/General.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Form.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Tabs.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Grid.php
+app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme.php
+app/code/core/Mage/Core/controllers/Adminhtml/System/Design/ThemeController.php
+app/code/core/Mage/Core/data/core_setup/data-install-1.6.0.0.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php
@@ -21,7 +31,13 @@ app/code/core/Mage/Core/Model/Layout/Update.php
 app/code/core/Mage/Core/Model/Design/Fallback
 app/code/core/Mage/Core/Model/Design/Fallback.php
 app/code/core/Mage/Core/Model/Design/FallbackInterface.php
+app/code/core/Mage/Core/Model /Observer.php
 app/code/core/Mage/Core/Model/Resource/Setup/Migration.php
+app/code/core/Mage/Core/Model/Resource/Theme/Collection.php
+app/code/core/Mage/Core/Model/Resource/Theme.php
+app/code/core/Mage/Core/Model/Theme/Validator.php
+app/code/core/Mage/Core/Model/Theme.php
+app/code/core/Mage/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/core/Mage/DesignEditor
 app/code/core/Mage/ImportExport/Model/Import/Entity/CustomerComposite.php
 app/code/core/Mage/ImportExport/Model/Import/Entity/Product/Option.php
