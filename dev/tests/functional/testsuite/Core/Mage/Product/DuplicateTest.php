@@ -183,7 +183,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @param array $attrData
      * @param array $assignData
-     * @param boolean $linkSeparately
+     * @param string $linksSeparately
      * @param string|float $linkPrice
      *
      * @test
@@ -192,13 +192,13 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @dataProvider linkInfoDataProvider
      * @TestlinkId TL-MAGE-3429
      */
-    public function duplicateDownloadable($linkSeparately, $linkPrice, $attrData, $assignData)
+    public function duplicateDownloadable($linksSeparately, $linkPrice, $attrData, $assignData)
     {
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
-        $downloadable['downloadable_information_data']['downloadable_links_purchased_separately'] = $linkSeparately;
+        $downloadable['downloadable_information_data']['downloadable_links_purchased_separately'] = $linksSeparately;
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $downloadable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
