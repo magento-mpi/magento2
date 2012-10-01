@@ -1,0 +1,6 @@
+.ui-slider {
+    margin: 0 2px;
+}
+#zoom_out, #zoom_in {
+    top: -3px;
+}
