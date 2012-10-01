@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+(function ($) {
     $.extend(true, $, {
         mage: {
-            decorator: (function() {
+            decorator: (function () {
                 /**
                  * Decorate a list (e.g. a <ul> containing <li>) recursively if specified.
                  * @param {string} list
@@ -56,6 +56,33 @@
                     }
                 };
 
+                this.table = function (table, instanceOptions) {
+                    if ($(table).length > 0) {
+                        // set default options
+                        var _options = {
+                            'tbody': false,
+                            'tbody tr': ['odd', 'even', 'first', 'last'],
+                            'thead tr': ['first', 'last'],
+                            'tfoot tr': ['first', 'last'],
+                            'tr td': ['last']
+                        };
+                        var _table = $(table);
+                        var _this = this;
+                        $.extend(_options, instanceOptions || {});
+                        // Decorator
+                        $.each(_options, function (key, value) {
+                            if (_options[key]) {
+                                if (key === 'tr td') {
+                                    $.each(_table.find('tr'), function () {
+                                        _this.general($(this).find('TD'), _options['tr td']);
+                                    });
+                                } else {
+                                    _this.general(_table.find(key), value);
+                                }
+                            }
+                        });
+                    }
+                };
                 return this;
             }())
         }

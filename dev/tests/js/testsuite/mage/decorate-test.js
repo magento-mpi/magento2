@@ -59,3 +59,62 @@ DecoratorTest.prototype.testDecoratorGeneral = function () {
     assertFalse($($(itemClass)[3]).hasClass('first'));
     assertTrue($($(itemClass)[3]).hasClass('last'));
 };
+
+DecoratorTest.prototype.testDecoratorTable = function (){
+    /*:DOC += <table id="foo">
+     <thead>
+     <tr>
+     <th>Month</th>
+     <th>Savings</th>
+     </tr>
+     </thead>
+     <tfoot>
+     <tr>
+     <td>Sum</td>
+     <td>$180</td>
+     </tr>
+     </tfoot>
+     <tbody>
+     <tr>
+     <td>January</td>
+     <td>$100</td>
+     </tr>
+     <tr>
+     <td>February</td>
+     <td>$80</td>
+     </tr>
+     </tbody>
+     </table>
+     */
+    var tableId = '#foo';
+    $.mage.decorator.table(tableId);
+    assertTrue($(tableId).find('thead tr').hasClass('first'));
+    assertTrue($(tableId).find('thead tr').hasClass('last'));
+    assertFalse($(tableId).find('thead tr').hasClass('odd'));
+    assertFalse($(tableId).find('thead tr').hasClass('even'));
+
+    assertTrue($(tableId).find('tfoot tr').hasClass('first'));
+    assertTrue($(tableId).find('tfoot tr').hasClass('last'));
+    assertFalse($(tableId).find('tfoot tr').hasClass('odd'));
+    assertFalse($(tableId).find('tfoot tr').hasClass('even'));
+
+    assertFalse($(tableId).find('tfoot tr td').last().hasClass('first'));
+    assertTrue($(tableId).find('tfoot tr td').last().hasClass('last'));
+    assertFalse($(tableId).find('tfoot tr td').last().hasClass('odd'));
+    assertFalse($(tableId).find('tfoot tr td').last().hasClass('even'));
+
+    assertTrue($(tableId).find('tbody tr').first().hasClass('first'));
+    assertTrue($(tableId).find('tbody tr').first().hasClass('odd'));
+    assertFalse($(tableId).find('tbody tr').first().hasClass('last'));
+    assertFalse($(tableId).find('tbody tr').first().hasClass('even'));
+    assertFalse($(tableId).find('tbody tr').last().hasClass('first'));
+    assertFalse($(tableId).find('tbody tr').last().hasClass('odd'));
+    assertTrue($(tableId).find('tbody tr').last().hasClass('last'));
+    assertTrue($(tableId).find('tbody tr').last().hasClass('even'));
+
+    assertFalse($(tableId).find('tbody tr td').last().hasClass('first'));
+    assertFalse($(tableId).find('tbody tr td').last().hasClass('odd'));
+    assertTrue($(tableId).find('tbody tr td').last().hasClass('last'));
+    assertFalse($(tableId).find('tbody tr td').last().hasClass('even'));
+
+};
