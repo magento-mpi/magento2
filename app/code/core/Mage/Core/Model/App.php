@@ -817,7 +817,10 @@ class Mage_Core_Model_App
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = new Mage_Core_Model_App_Area($code);
+            $this->_areas[$code] = $this->_objectManager->create(
+                'Mage_Core_Model_App_Area',
+                array('areaCode' => $code)
+            );
         }
         return $this->_areas[$code];
     }
@@ -1261,7 +1264,7 @@ class Mage_Core_Model_App
     public function getResponse()
     {
         if (empty($this->_response)) {
-            $this->_response = new Mage_Core_Controller_Response_Http();
+            $this->_response = $this->_objectManager->create('Mage_Core_Controller_Response_Http');
             $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }

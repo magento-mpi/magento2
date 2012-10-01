@@ -410,7 +410,7 @@ final class Mage
         if ($observerClass == '') {
             $observerClass = 'Varien_Event_Observer';
         }
-        $observer = new $observerClass();
+        $observer = self::getObjectManager()->create($observerClass);
         $observer->setName($observerName)->addData($data)->setEventName($eventName)->setCallback($callback);
         return self::getEvents()->addObserver($observer);
     }

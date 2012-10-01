@@ -123,7 +123,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
 
         // add cart totals and line items
-        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', array($order)))
+        $parameters = array('params' => array($order));
+        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', $parameters))
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
         $api->setCartSummary($this->_getAggregatedCartSummary());

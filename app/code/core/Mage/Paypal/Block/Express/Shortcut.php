@@ -98,10 +98,11 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         if ($isInCatalog || null === $quote) {
             $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
         } else {
-            $this->setImageUrl(Mage::getModel($this->_checkoutType, array(
-                'quote'  => $quote,
+            $checkoutModel = Mage::getModel($this->_checkoutType, array(
                 'config' => $config,
-            ))->getCheckoutShortcutImageUrl());
+                'params' => array('quote' => $quote)
+            ));
+            $this->setImageUrl($checkoutModel)->getCheckoutShortcutImageUrl();
         }
 
         // ask whether to create a billing agreement
