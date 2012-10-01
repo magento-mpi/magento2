@@ -29,12 +29,27 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     protected $_quote = false;
 
     /**
+     * Config mode type
+     *
+     * @var string
+     */
+    protected $_configType;
+
+    /**
+     * Config method type
+     *
+     * @var string
+     */
+    protected $_configMethod;
+
+    /**
      * Instantiate config
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_config = Mage::getModel($this->_configType, array($this->_configMethod));
+        $parameters = array('params' => array($this->_configMethod));
+        $this->_config = Mage::getModel($this->_configType, $parameters);
     }
 
     /**
