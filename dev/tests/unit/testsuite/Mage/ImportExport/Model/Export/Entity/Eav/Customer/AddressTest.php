@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * Test attribute code
@@ -74,7 +74,6 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
 
     public function setUp()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $this->_model
             = new Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address($this->_getModelDependencies());
     }
@@ -107,8 +106,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));
         foreach ($this->_attributes as $attributeData) {
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct')
+                $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
@@ -181,9 +182,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
      */
     public function iterate(Varien_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
-        $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'),
-            array($this->_customerData)
-        );
+        $arguments = $this->_getArgumentsForModel();
+        $arguments['data'] = $this->_customerData;
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
 
         foreach ($callbacks as $callback) {
             call_user_func($callback, $customer);
@@ -208,10 +210,9 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
         $this->_model->setWriter($writer);
         $this->_model->setParameters(array());
 
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract',
-            array($this->_addressData)
-        );
-
+        $arguments = $this->_getArgumentsForModel();
+        $arguments['data'] = $this->_addressData;
+        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
         $this->_model->exportItem($item);
     }
 

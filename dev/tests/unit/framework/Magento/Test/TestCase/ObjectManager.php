@@ -55,10 +55,18 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
      */
     protected function _getArgumentsForModel()
     {
+        /** @var $resourceMock Mage_Core_Model_Resource_Resource */
+        $resourceMock = $this->getMock('Mage_Core_Model_Resource_Resource', array('getIdFieldName'),
+            array(), '', false
+        );
+        $resourceMock->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
+
         return array(
             'eventDispatcher'    => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Event_Manager'),
             'cacheManager'       => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Cache'),
-            'resource'           => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Resource_Resource'),
+            'resource'           => $resourceMock,
             'resourceCollection' => $this->_getMockWithoutConstructorCall('Varien_Data_Collection_Db'),
         );
     }
