@@ -409,7 +409,7 @@ class Mage_Core_Model_App
             $options = array();
         }
         $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', $options);
+        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
         $this->_isCacheLocked = false;
         return $this;
     }
