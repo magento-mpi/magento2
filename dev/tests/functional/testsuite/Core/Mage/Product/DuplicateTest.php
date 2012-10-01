@@ -172,13 +172,14 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated downloadable product</p>
+     *  <p>$linkStatus - Yes, if Links can be purchased separately</p>
+     *  <p>$linkStatus - No, if Links can not be purchased separately</p>
      * <p>Steps:</p>
      * <p>1. Open created product;</p>
      * <p>2. Click "Duplicate" button;</p>
      * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
      * <p>Expected result:</p>
      * <p>Product is duplicated, confirmation message appears;</p>
-     * <p>$linkStatus - Yes, if Links can be purchased separately</p>
      *
      * @param array $attrData
      * @param array $assignData
