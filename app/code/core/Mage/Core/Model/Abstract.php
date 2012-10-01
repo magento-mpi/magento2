@@ -226,7 +226,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             );
         }
         return $this->_resourceCollection ?
-            $this->_resourceCollection :
+            clone $this->_resourceCollection :
             Mage::getResourceModel($this->_resourceCollectionName, array('resource' => $this->_getResource()));
     }
 
