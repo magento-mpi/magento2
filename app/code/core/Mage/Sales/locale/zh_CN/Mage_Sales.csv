@@ -476,7 +476,7 @@
 "Package","包裹"
 "Package types are disregarded for USPS domestic shipments.","USPS国内发货将忽略包装类型。"
 "Packages","包裹"
-"Packingslip # ","包裹清单 #"
+"Packing Slip # ","包裹清单 #"
 "Paid","已付费"
 "Paid Amount","付费金额"
 "Parent Transaction ID","父交易ID"

@@ -476,7 +476,7 @@
 "Package","Colis"
 "Package types are disregarded for USPS domestic shipments.","Il n'est pas tenu compte du type de paquet  pour les expéditions nationales par UPS."
 "Packages","Paquets"
-"Packingslip # ","Bon de livraison #"
+"Packing Slip # ","Bon de livraison #"
 "Paid","Payé"
 "Paid Amount","Montant payé"
 "Parent Transaction ID","ID de la transaction mère"
