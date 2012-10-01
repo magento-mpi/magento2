@@ -15,6 +15,7 @@
  * @method int getRoleId()
  * @method Mage_Webapi_Model_Acl_User setUserName(string $userName)
  * @method string getUserName()
+ * @method string getApiSecret()
  * @method Mage_Webapi_Model_Resource_Acl_User getResource()
  *
  * @category   Mage
