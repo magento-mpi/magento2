@@ -154,7 +154,7 @@
                                     <url>*/sales_archive/massPrintInvoices</url>
                                 </pdfinvoices_order>
                                 <pdfshipments_order>
-                                    <label>Print Packingslips</label>
+                                    <label>Print Packing Slips</label>
                                     <url>*/sales_archive/massPrintPackingSlips</url>
                                 </pdfshipments_order>
                                 <pdfcreditmemos_order>
@@ -309,7 +309,7 @@
                             <url>*/sales_archive/massPrintInvoices</url>
                         </pdfinvoices_order>
                         <pdfshipments_order>
-                            <label>Print Packingslips</label>
+                            <label>Print Packing Slips</label>
                             <url>*/sales_archive/massPrintPackingSlips</url>
                         </pdfshipments_order>
                         <pdfcreditmemos_order>

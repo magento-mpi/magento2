@@ -58,7 +58,7 @@
                             <url>*/sales_order/pdfinvoices</url>
                         </pdfinvoices_order>
                         <pdfshipments_order>
-                            <label>Print Packingslips</label>
+                            <label>Print Packing Slips</label>
                             <url>*/sales_order/pdfshipments</url>
                         </pdfshipments_order>
                         <pdfcreditmemos_order>
@@ -214,7 +214,7 @@
                                     <url>*/sales_order/pdfinvoices</url>
                                 </pdfinvoices_order>
                                 <pdfshipments_order>
-                                    <label>Print Packingslips</label>
+                                    <label>Print Packing Slips</label>
                                     <url>*/sales_order/pdfshipments</url>
                                 </pdfshipments_order>
                                 <pdfcreditmemos_order>
