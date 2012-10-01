@@ -174,6 +174,10 @@
                         itemsWrapper.children('.' + options.mselectListItemClass + '').length
                             ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
                             : itemsWrapper.prepend(mselectItemHtml);
+                        // Trigger blur event on input field, that is used to add new value, to hide it
+                        var inputSelector = '.' + options.mselectInputContainerClass + ' [type=text].'
+                            + options.mselectInputClass + '';
+                        select.next().find(inputSelector).trigger('blur');
                     } else {
                         alert(result.error_message);
                     }
