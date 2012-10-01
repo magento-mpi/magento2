@@ -45,18 +45,19 @@ return array(
         ),
     ),
     'scenario' => array(
-        'files' => array(
-            'testsuite/backend.jmx',
+        'common_config' => array(
+            'arguments' => array(
+                'users' => 1,
+                'loops' => 100,
+            ),
         ),
-        'common_params' => array(
-            'users' => 1,
-            'loops' => 100,
-        ),
-        'scenario_params' => array(
+        'scenarios' => array(
             'testsuite/backend.jmx' => array(
-                'products_number'  => 100000,
-                'customers_number' => 100000,
-                'orders_number' => 100000,
+                'arguments' => array(
+                    'products_number'  => 100000,
+                    'customers_number' => 100000,
+                    'orders_number' => 100000,
+                ),
             ),
         ),
     ),

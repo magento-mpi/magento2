@@ -34,10 +34,12 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_scenarioParams = array(
-        Magento_Scenario::PARAM_HOST  => '127.0.0.1',
-        Magento_Scenario::PARAM_PATH  => '/',
-        Magento_Scenario::PARAM_USERS => 2,
+    protected $_scenarioArgs = array(
+        'arguments' => array(
+            Magento_Scenario::ARGUMENT_HOST  => '127.0.0.1',
+            Magento_Scenario::ARGUMENT_PATH  => '/',
+            Magento_Scenario::ARGUMENT_USERS => 2,
+        ),
     );
 
     protected function setUp()
@@ -76,20 +78,20 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
                 )
             )
         ;
-        $this->_object->run($this->_scenarioFile, $this->_scenarioParams);
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs);
     }
 
     /**
      * @param string $scenarioFile
-     * @param array $scenarioParams
+     * @param array $scenarioArgs
      * @param string $expectedExceptionMsg
      * @dataProvider runExceptionDataProvider
      * @expectedException Magento_Exception
      */
-    public function testRunException($scenarioFile, array $scenarioParams, $expectedExceptionMsg = '')
+    public function testRunException($scenarioFile, array $scenarioArgs, $expectedExceptionMsg = '')
     {
         $this->setExpectedException('Magento_Exception', $expectedExceptionMsg);
-        $this->_object->run($scenarioFile, $scenarioParams);
+        $this->_object->run($scenarioFile, $scenarioArgs);
     }
 
     public function runExceptionDataProvider()
@@ -97,25 +99,68 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
         return array(
             'non-existing scenario' => array(
                 'non_existing_scenario.jmx',
-                $this->_scenarioParams,
+                $this->_scenarioArgs,
             ),
-            'no "host" param' => array(
+            'no "host" argument' => array(
                 $this->_scenarioFile,
-                array(Magento_Scenario::PARAM_PATH => '/'),
+                array(Magento_Scenario::ARGUMENT_PATH => '/'),
             ),
-            'no "path" param' => array(
+            'no "path" argument' => array(
                 $this->_scenarioFile,
-                array(Magento_Scenario::PARAM_HOST => '127.0.0.1'),
+                array(Magento_Scenario::ARGUMENT_HOST => '127.0.0.1'),
             ),
             'scenario failure in report' => array(
                 __DIR__ . '/_files/scenario_failure.jmx',
-                $this->_scenarioParams,
+                $this->_scenarioArgs,
                 'fixture failure message',
             ),
             'scenario error in report' => array(
                 __DIR__ . '/_files/scenario_error.jmx',
-                $this->_scenarioParams,
+                $this->_scenarioArgs,
                 'fixture error message',
+            ),
+        );
+    }
+
+    /**
+     * Test run() method with different 'dry run' settings
+     *
+     * @param array $scenarioArgs
+     * @param int $runTimes
+     *
+     * @dataProvider dryRunDataProvider
+     */
+    public function testDryRun($scenarioArgs, $runTimes)
+    {
+        $this->_shell
+            ->expects($this->exactly($runTimes))
+            ->method('execute');
+
+        $this->_object->run($this->_scenarioFile, $scenarioArgs);
+    }
+
+    public function dryRunDataProvider()
+    {
+        return array(
+            'dry run not skipped by default' => array(
+                $this->_scenarioArgs,
+                2,
+            ),
+            'dry run not skipped in config' => array(
+                array_merge_recursive($this->_scenarioArgs, array(
+                    'settings' => array(
+                        'skip_dry_run' => false,
+                    ),
+                )),
+                2,
+            ),
+            'dry run skipped' => array(
+                array_merge_recursive($this->_scenarioArgs, array(
+                    'settings' => array(
+                        'skip_dry_run' => true,
+                    ),
+                )),
+                1,
             ),
         );
     }

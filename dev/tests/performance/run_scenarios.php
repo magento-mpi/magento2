@@ -16,21 +16,21 @@ try {
 
     $adminOptions = $config->getAdminOptions();
     $scenario = new Magento_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
-    $scenarioParamsGlobal = array(
-        Magento_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
-        Magento_Scenario::PARAM_PATH => $config->getApplicationUrlPath(),
-        Magento_Scenario::PARAM_ADMIN_FRONTNAME => $adminOptions['frontname'],
-        Magento_Scenario::PARAM_ADMIN_USERNAME => $adminOptions['username'],
-        Magento_Scenario::PARAM_ADMIN_PASSWORD => $adminOptions['password'],
+    $scenarioArgsGlobal = array(
+        Magento_Scenario::ARGUMENT_HOST => $config->getApplicationUrlHost(),
+        Magento_Scenario::ARGUMENT_PATH => $config->getApplicationUrlPath(),
+        Magento_Scenario::ARGUMENT_ADMIN_FRONTNAME => $adminOptions['frontname'],
+        Magento_Scenario::ARGUMENT_ADMIN_USERNAME => $adminOptions['username'],
+        Magento_Scenario::ARGUMENT_ADMIN_PASSWORD => $adminOptions['password'],
     );
     $scenarioTotalCount = count($config->getScenarios());
     $scenarioFailCount = 0;
     $scenarioNum = 1;
-    foreach ($config->getScenarios() as $scenarioFile => $scenarioParams) {
+    foreach ($config->getScenarios() as $scenarioFile => $scenarioConfig) {
         echo "Scenario $scenarioNum of $scenarioTotalCount: '$scenarioFile'" . PHP_EOL;
-        $scenarioParams = array_merge($scenarioParams, $scenarioParamsGlobal);
+        $scenarioConfig['arguments'] = array_merge($scenarioConfig['arguments'], $scenarioArgsGlobal);
         try {
-            $scenario->run($scenarioFile, $scenarioParams);
+            $scenario->run($scenarioFile, $scenarioConfig);
         } catch (Exception $e) {
             echo $e->getMessage() . PHP_EOL;
             $scenarioFailCount++;

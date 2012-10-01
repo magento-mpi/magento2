@@ -39,19 +39,29 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
             ),
         ),
         'scenario' => array(
-            'files' => array(
-                'scenario.jmx',
-                'scenario_error.jmx',
-                'scenario_failure.jmx',
-            ),
-            'common_params' => array(
-                'param1' => 'value 1',
-                'param2' => 'value 2',
-            ),
-            'scenario_params' => array(
-                'scenario.jmx' => array(
-                    'param2' => 'overridden value 2',
+            'common_config' => array(
+                'arguments' => array(
+                    'arg1' => 'value 1',
+                    'arg2' => 'value 2',
                 ),
+                'settings' => array(
+                    'setting1' => 'setting 1',
+                    'setting2' => 'setting 2',
+                ),
+            ),
+            'scenarios' => array(
+                'scenario.jmx' => array(
+                    'arguments' => array(
+                        'arg2' => 'overridden value 2',
+                        'arg3' => 'custom value 3',
+                    ),
+                    'settings' => array(
+                        'setting2' => 'overridden setting 2',
+                        'setting3' => 'custom setting 3',
+                    ),
+                ),
+                'scenario_error.jmx' => array(),
+                'scenario_failure.jmx' => array(),
             ),
         ),
         'report_dir' => 'report',
@@ -133,16 +143,16 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
             'invalid scenarios format' => array(
                 array_merge(
                     $this->_sampleConfigData,
-                    array('scenario' => array('files' => 'string_fixtures_*.jmx'))
+                    array('scenario' => array('scenarios' => 'string_fixtures_*.jmx'))
                 ),
                 __DIR__ . DIRECTORY_SEPARATOR . '_files',
                 'InvalidArgumentException',
-                "'scenarios' => 'files' option must be array",
+                "'scenario' => 'scenarios' option must be array",
             ),
             'non-existing scenario' => array(
                 array_merge(
                     $this->_sampleConfigData,
-                    array('scenario' => array('files' => array('non_existing_scenario.jmx')))
+                    array('scenario' => array('scenarios' => array('non_existing_scenario.jmx' => array())))
                 ),
                 __DIR__ . DIRECTORY_SEPARATOR . '_files',
                 'Magento_Exception',
@@ -182,16 +192,36 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
         $dir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $expectedScenarios = array(
             $dir . 'scenario.jmx' => array(
-                'param1' => 'value 1',
-                'param2' => 'overridden value 2',
+                'arguments' => array(
+                    'arg1' => 'value 1',
+                    'arg2' => 'overridden value 2',
+                    'arg3' => 'custom value 3',
+                ),
+                'settings' => array(
+                    'setting1' => 'setting 1',
+                    'setting2' => 'overridden setting 2',
+                    'setting3' => 'custom setting 3',
+                ),
             ),
             $dir . 'scenario_error.jmx' => array(
-                'param1' => 'value 1',
-                'param2' => 'value 2',
+                'arguments' => array(
+                    'arg1' => 'value 1',
+                    'arg2' => 'value 2',
+                ),
+                'settings' => array(
+                    'setting1' => 'setting 1',
+                    'setting2' => 'setting 2',
+                ),
             ),
             $dir . 'scenario_failure.jmx' => array(
-                'param1' => 'value 1',
-                'param2' => 'value 2',
+                'arguments' => array(
+                    'arg1' => 'value 1',
+                    'arg2' => 'value 2',
+                ),
+                'settings' => array(
+                    'setting1' => 'setting 1',
+                    'setting2' => 'setting 2',
+                ),
             ),
         );
 

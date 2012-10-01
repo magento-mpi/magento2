@@ -43,25 +43,26 @@ return array(
         ),
     ),
     'scenario' => array(
-        'files' => array(
-            'testsuite/add_to_cart.jmx',
-            'testsuite/advanced_search.jmx',
-            'testsuite/category_view.jmx',
-            'testsuite/checkout.jmx',
-            'testsuite/home_page.jmx',
-            'testsuite/product_edit.jmx',
-            'testsuite/product_view.jmx',
-            'testsuite/quick_search.jmx',
-        ),
-        'common_params' => array(
-            'users' => 10,
-            'loops' => 100,
-        ),
-        'scenario_params' => array(
-            'testsuite/product_view.jmx' => array(
-                'product_url_key' => 'product-1.html',
-                'product_name'    => 'Product 1',
+        'common_config' => array(
+            'arguments' => array(
+                'users' => 10,
+                'loops' => 100,
             ),
+        ),
+        'scenarios' => array(
+            'testsuite/add_to_cart.jmx' => array(),
+            'testsuite/advanced_search.jmx' => array(),
+            'testsuite/category_view.jmx' => array(),
+            'testsuite/checkout.jmx' => array(),
+            'testsuite/home_page.jmx' => array(),
+            'testsuite/product_edit.jmx' => array(),
+            'testsuite/product_view.jmx' => array(
+                'arguments' => array(
+                    'product_url_key' => 'product-1.html',
+                    'product_name'    => 'Product 1',
+                ),
+            ),
+            'testsuite/quick_search.jmx' => array(),
         ),
     ),
     'report_dir' => 'report',

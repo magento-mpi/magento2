@@ -14,15 +14,15 @@
 class Magento_Scenario
 {
     /**
-     * Common scenario parameters
+     * Common scenario arguments
      */
-    const PARAM_HOST  = 'host';
-    const PARAM_PATH  = 'path';
-    const PARAM_LOOPS = 'loops';
-    const PARAM_USERS = 'users';
-    const PARAM_ADMIN_USERNAME = 'admin_username';
-    const PARAM_ADMIN_PASSWORD = 'admin_password';
-    const PARAM_ADMIN_FRONTNAME = 'admin_frontname';
+    const ARGUMENT_HOST  = 'host';
+    const ARGUMENT_PATH  = 'path';
+    const ARGUMENT_LOOPS = 'loops';
+    const ARGUMENT_USERS = 'users';
+    const ARGUMENT_ADMIN_USERNAME = 'admin_username';
+    const ARGUMENT_ADMIN_PASSWORD = 'admin_password';
+    const ARGUMENT_ADMIN_FRONTNAME = 'admin_frontname';
 
     /**
      * @var Magento_Shell
@@ -78,40 +78,44 @@ class Magento_Scenario
      * Run performance testing scenario and write results to the report file
      *
      * @param string $scenarioFile
-     * @param array $scenarioParams
+     * @param array $scenarioConfig
      * @throws Magento_Exception
      */
-    public function run($scenarioFile, array $scenarioParams)
+    public function run($scenarioFile, array $scenarioConfig)
     {
         if (!file_exists($scenarioFile)) {
             throw new Magento_Exception("Scenario file '$scenarioFile' does not exist.");
         }
-        if (empty($scenarioParams[self::PARAM_HOST]) || empty($scenarioParams[self::PARAM_PATH])) {
+        $scenarioArgs = isset($scenarioConfig['arguments']) ? $scenarioConfig['arguments'] : array();
+
+        if (empty($scenarioArgs[self::ARGUMENT_HOST]) || empty($scenarioArgs[self::ARGUMENT_PATH])) {
             throw new Magento_Exception(sprintf(
-                "Scenario parameters '%s' and '%s' must be specified.", self::PARAM_HOST, self::PARAM_PATH
+                "Scenario arguments '%s' and '%s' must be specified.", self::ARGUMENT_HOST, self::ARGUMENT_PATH
             ));
         }
 
         // Dry run - just to warm-up the system
-        $dryScenarioParams = array_merge($scenarioParams, array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 2));
-        $this->_runScenario($scenarioFile, $dryScenarioParams);
+        if (empty($scenarioConfig['settings']['skip_dry_run'])) {
+            $dryScenarioArgs = array_merge($scenarioArgs, array(self::ARGUMENT_USERS => 1, self::ARGUMENT_LOOPS => 2));
+            $this->_runScenario($scenarioFile, $dryScenarioArgs);
+        }
 
         // Full run
-        $fullScenarioParams = $scenarioParams + array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 1);
+        $fullScenarioArgs = $scenarioArgs + array(self::ARGUMENT_USERS => 1, self::ARGUMENT_LOOPS => 1);
         $reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
-        $this->_runScenario($scenarioFile, $fullScenarioParams, $reportFile);
+        $this->_runScenario($scenarioFile, $fullScenarioArgs, $reportFile);
     }
 
     /**
      * Run performance testing scenario.
      *
      * @param string $scenarioFile
-     * @param array $scenarioParams
+     * @param array $scenarioArgs
      * @param string|null $reportFile
      */
-    protected function _runScenario($scenarioFile, array $scenarioParams, $reportFile = null)
+    protected function _runScenario($scenarioFile, array $scenarioArgs, $reportFile = null)
     {
-        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioParams, $reportFile);
+        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioArgs, $reportFile);
         $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
         if ($reportFile) {
             $this->_verifyReport($reportFile);
@@ -122,11 +126,11 @@ class Magento_Scenario
      * Build and return scenario execution command and arguments for it
      *
      * @param string $scenarioFile
-     * @param array $scenarioParams
+     * @param array $scenarioArgs
      * @param string|null $reportFile
      * @return array
      */
-    protected function _buildScenarioCmd($scenarioFile, array $scenarioParams, $reportFile = null)
+    protected function _buildScenarioCmd($scenarioFile, array $scenarioArgs, $reportFile = null)
     {
         $command = 'java -jar %s -n -t %s';
         $arguments = array($this->_jMeterJarFile, $scenarioFile);
@@ -134,7 +138,7 @@ class Magento_Scenario
             $command .= ' -l %s';
             $arguments[] = $reportFile;
         }
-        foreach ($scenarioParams as $key => $value) {
+        foreach ($scenarioArgs as $key => $value) {
             $command .= ' %s';
             $arguments[] = "-J$key=$value";
         }

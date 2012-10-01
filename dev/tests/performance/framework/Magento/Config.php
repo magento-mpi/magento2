@@ -117,28 +117,32 @@ class Magento_Config
      */
     protected function _expandScenarios($scenarios, $baseDir)
     {
-        if (isset($scenarios['common_params'])) {
-            $scenarioParamsCommon = $scenarios['common_params'];
-        } else {
-            $scenarioParamsCommon = array();
+        $scenarioCommonConfig = array(
+            'arguments' => array(),
+            'settings' => array(),
+        );
+        if (!empty($scenarios['common_config'])) {
+            $scenarioCommonConfig = array_merge($scenarioCommonConfig, $scenarios['common_config']);
         }
 
-        if (isset($scenarios['files'])) {
-            if (!is_array($scenarios['files'])) {
-                throw new InvalidArgumentException("'scenarios' => 'files' option must be array");
+        if (isset($scenarios['scenarios'])) {
+            if (!is_array($scenarios['scenarios'])) {
+                throw new InvalidArgumentException("'scenario' => 'scenarios' option must be array");
             }
-            foreach ($scenarios['files'] as $scenarioName) {
+            foreach ($scenarios['scenarios'] as $scenarioName => $scenarioConfig) {
                 $scenarioFile = $baseDir . DIRECTORY_SEPARATOR . $scenarioName;
                 if (!file_exists($scenarioFile)) {
                     throw new Magento_Exception("Scenario '$scenarioName' doesn't exist in $baseDir");
                 }
 
-                if (isset($scenarios['scenario_params'][$scenarioName])) {
-                    $oneScenarioParams = $scenarios['scenario_params'][$scenarioName];
-                } else {
-                    $oneScenarioParams = array();
+                foreach ($scenarioCommonConfig as $configKey => $config) {
+                    if (!empty($scenarioConfig[$configKey])) {
+                        $config = array_merge($config, $scenarioConfig[$configKey]);
+                    }
+                    if (!empty($config)) {
+                        $this->_scenarios[$scenarioFile][$configKey] = $config;
+                    }
                 }
-                $this->_scenarios[$scenarioFile] = array_merge($scenarioParamsCommon, $oneScenarioParams);
             }
         }
     }
@@ -209,7 +213,7 @@ class Magento_Config
     }
 
     /**
-     * Retrieve scenario files and their parameters as array('<scenario_file>' => '<scenario_params>', ...)
+     * Retrieve scenario files and their configuration as specified in the config
      *
      * @return array
      */
