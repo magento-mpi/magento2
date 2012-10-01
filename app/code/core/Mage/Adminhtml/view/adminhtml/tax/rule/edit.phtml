@@ -1,0 +1,63 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Backend_Block_Template */
+?>
+<script type="text/javascript">
+    (function ($) {
+        $().ready(function () {
+            var options = {
+                toggleAddButton:false
+            };
+
+            $('#tax_rate').multiselect(options);
+
+            $('body').on('click.mselect-edit', '.mselect-edit', function () {
+                $('#tax-rate-form').dialog('open');
+            });
+
+            $("body").on("click.mselect-delete", ".mselect-delete", function () {
+                var that = $(this),
+                    index = that.parent().index(),
+                    select = that.closest('.mselect-list').prev();
+
+                if (confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Are you sure to delete Tax Rule'); ?>'))
+                that.parent().remove();
+                select.find('option').eq(index).remove();
+            });
+
+            $('body').on('click.mselect-button-add', '.mselect-button-add', function () {
+                $('#tax-rate-form').dialog('open');
+            });
+
+            $('#tax-rate-form').dialog({
+                title: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'); ?>',
+                autoOpen: false,
+                id: '<?php echo $this->getJsId() ?>',
+                minWidth: 560,
+                modal: true,
+                resizable: false,
+                buttons: [{
+                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Cancel'); ?>',
+                    id: '<?php echo $this->getJsId('close-button') ?>',
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }, {
+                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Save'); ?>',
+                    id: '<?php echo $this->getJsId('apply-button') ?>',
+                    click: function() {
+                        // TODO: Save changes
+                    }
+                }]
+            });
+        })
+    })(jQuery);
+</script>
