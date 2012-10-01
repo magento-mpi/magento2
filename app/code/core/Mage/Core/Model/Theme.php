@@ -47,11 +47,29 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PREVIEW_IMAGE_HEIGHT = 200;
 
     /**
+     * @var Varien_Io_File
+     */
+    protected $_ioFile;
+
+    /**
      * Theme model initialization
      */
     protected function _construct()
     {
         $this->_init('Mage_Core_Model_Resource_Theme');
+    }
+
+    /**
+     * Lazy load Varien_Io_File object and return it
+     *
+     * @return Varien_Io_File
+     */
+    protected function _getIoFile()
+    {
+        if (!$this->_ioFile) {
+            $this->_ioFile = new Varien_Io_File();
+        }
+        return $this->_ioFile;
     }
 
     /**
@@ -316,8 +334,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->createPreviewImage($fileName);
 
-        $io = new Varien_Io_File();
-        $io->rm(self::getImagePathOrigin() . DS . $fileName);
+        $this->_getIoFile()->rm($fileName);
 
         return true;
     }
@@ -330,7 +347,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function createPreviewImage($imagePath)
     {
-        $imageName = str_replace(DS, '_', $this->getThemeCode()) . '.jpg';
+        $imageName = str_replace(DS, '_', $this->getThemePath()) . '.jpg';
 
         $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
         $image = new Varien_Image($imagePath, $adapter);
@@ -355,14 +372,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function removePreviewImage()
     {
         $previewImage = $this->getPreviewImage();
-        $this->setPreviewImage(null);
-        if (!$previewImage) {
-            return $this;
+        $this->setPreviewImage('');
+        if ($previewImage) {
+            $this->_getIoFile()->rm(self::_getImagePathPreview() . DS . $previewImage);
         }
-
-        $io = new Varien_Io_File();
-        $io->rm(self::_getImagePathPreview() . DS . $previewImage);
-
         return $this;
     }
 

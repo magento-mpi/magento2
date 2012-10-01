@@ -97,8 +97,12 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'required' => false
         ));
 
+        $minImageSize = $this->getImageMaxSize();
+        if (!$minImageSize) {
+            $minImageSize = $this->__("System doesn't allow to read these settings");
+        }
         $themeFieldset->addField('preview_image_note', 'note', array(
-            'text' => $this->__('Max image size %s', $this->getImageMaxSize())
+            'text' => $this->__('Max image size: %s', $minImageSize)
         ));
 
         $requirementsFieldset->addField('magento_version_from', 'text', array(
@@ -181,7 +185,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Get max file size
      *
-     * @return mixed
+     * @return string|false
      */
     public function getImageMaxSize()
     {

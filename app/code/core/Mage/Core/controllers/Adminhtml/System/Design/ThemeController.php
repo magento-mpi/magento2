@@ -89,11 +89,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
             $this->_getSession()->addError('The theme was not saved');
             Mage::logException($e);
         }
-        if ($redirectBack) {
-            $this->_redirect('*/*/edit', array('id' => $theme->getId()));
-            return;
-        }
-        $this->_redirect('*/*/');
+        $redirectBack ? $this->_redirect('*/*/edit', array('id' => $theme->getId())) : $this->_redirect('*/*/');
     }
 
     /**
