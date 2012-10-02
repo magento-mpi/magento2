@@ -60,7 +60,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Lazy load Varien_Io_File object and return it
+     * Filesystem client
      *
      * @return Varien_Io_File
      */

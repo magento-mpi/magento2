@@ -114,12 +114,12 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         ));
 
         $minImageSize = $this->getImageMaxSize();
-        if (!$minImageSize) {
-            $minImageSize = $this->__("System doesn't allow to read these settings");
+        if ($minImageSize) {
+            $minImageNote = $this->__('Max image size: %s', $minImageSize);
+        } else {
+            $minImageNote = $this->__("System doesn't allow to get file upload settings");
         }
-        $themeFieldset->addField('preview_image_note', 'note', array(
-            'text' => $this->__('Max image size: %s', $minImageSize)
-        ));
+        $themeFieldset->addField('preview_image_note', 'note', array('text' => $minImageNote));
 
         return $this;
     }
