@@ -112,10 +112,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
         $path = 'global/catalog/product/options/custom/groups';
 
         foreach (Mage::getConfig()->getNode($path)->children() as $group) {
-            $this->setChild($group->getName() . '_option_type',
-                $this->getLayout()->createBlock(
-                    (string) Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
-                )
+            $this->addChild(
+                $group->getName() . '_option_type',
+                (string) Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
             );
         }
 
