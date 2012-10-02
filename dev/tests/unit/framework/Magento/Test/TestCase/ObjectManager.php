@@ -91,7 +91,16 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
      */
     protected function _getInstanceViaConstructor($className, array $arguments = array())
     {
+        $constructArguments = array();
+        $method = new ReflectionMethod($className, '__construct');
+        foreach ($method->getParameters() as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($arguments[$parameterName])) {
+                $constructArguments[$parameterName] = $arguments[$parameterName];
+            }
+        }
+
         $reflectionClass = new ReflectionClass($className);
-        return $reflectionClass->newInstanceArgs($arguments);
+        return $reflectionClass->newInstanceArgs($constructArguments);
     }
 }
