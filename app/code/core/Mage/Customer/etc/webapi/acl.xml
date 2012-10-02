@@ -21,8 +21,8 @@
                 </resource>
             </resource>
         </resources>
-        <virtual_resources>
-            <virtual_resource id="customer/list" parent="customer/get" />
-        </virtual_resources>
     </acl>
+    <mapping>
+        <resource id="customer/list" parent="customer/get" />
+    </mapping>
 </config>

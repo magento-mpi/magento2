@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
             ->will($this->returnValue($this->getResourceXPath()->query('/config/acl/resources/*')));
         $config->expects($this->once())
             ->method('getAclVirtualResources')
-            ->will($this->returnValue($this->getResourceXPath()->query('/config/acl/virtual_resources/*')));
+            ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
         $this->_model = new Mage_Webapi_Model_Authorization_Loader_Resource(array(
             'objectFactory' => $objectFactory,
             'config' => $config,
