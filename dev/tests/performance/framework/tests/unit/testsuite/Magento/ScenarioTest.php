@@ -35,11 +35,9 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_scenarioArgs = array(
-        'arguments' => array(
-            Magento_Scenario::ARG_HOST  => '127.0.0.1',
-            Magento_Scenario::ARG_PATH  => '/',
-            Magento_Scenario::ARG_USERS => 2,
-        ),
+        Magento_Scenario::ARG_HOST  => '127.0.0.1',
+        Magento_Scenario::ARG_PATH  => '/',
+        Magento_Scenario::ARG_USERS => 2,
     );
 
     protected function setUp()
@@ -48,7 +46,8 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
         $reportDir = realpath(__DIR__ . '/_files');
         $this->_reportFile = $reportDir . DIRECTORY_SEPARATOR . 'scenario.jtl';
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Magento_Scenario($this->_shell, 'JMeter.jar', $reportDir);
+        $logger = new Zend_Log(new Zend_Log_Writer_Null());
+        $this->_object = new Magento_Scenario($this->_shell, 'JMeter.jar', $reportDir, $logger);
     }
 
     protected function tearDown()
@@ -78,7 +77,7 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
                 )
             )
         ;
-        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs);
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs, array());
     }
 
     /**
@@ -91,7 +90,7 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
     public function testRunException($scenarioFile, array $scenarioArgs, $expectedExceptionMsg = '')
     {
         $this->setExpectedException('Magento_Exception', $expectedExceptionMsg);
-        $this->_object->run($scenarioFile, $scenarioArgs);
+        $this->_object->run($scenarioFile, $scenarioArgs, array());
     }
 
     public function runExceptionDataProvider()
@@ -130,13 +129,13 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider warmUpDataProvider
      */
-    public function testWarmUp($scenarioArgs, $runTimes)
+    public function testWarmUp($settings, $runTimes)
     {
         $this->_shell
             ->expects($this->exactly($runTimes))
             ->method('execute');
 
-        $this->_object->run($this->_scenarioFile, $scenarioArgs);
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs, $settings);
     }
 
     public function warmUpDataProvider()
@@ -147,19 +146,11 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
                 2,
             ),
             'warm-up not skipped in config' => array(
-                array_merge_recursive($this->_scenarioArgs, array(
-                    'settings' => array(
-                        'skip_warm_up' => false,
-                    ),
-                )),
+                array('skip_warm_up' => false),
                 2,
             ),
             'warm-up skipped' => array(
-                array_merge_recursive($this->_scenarioArgs, array(
-                    'settings' => array(
-                        'skip_warm_up' => true,
-                    ),
-                )),
+                'settings' => array('skip_warm_up' => true),
                 1,
             ),
         );

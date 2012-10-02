@@ -19,6 +19,16 @@ class Magento_Config
     const DEFAULT_JMETER_JAR_FILE = 'ApacheJMeter.jar';
 
     /**
+     * @var Zend_Log
+     */
+    protected $_logger = null;
+
+    /**
+     * @var string
+     */
+    protected $_applicationBaseDir;
+
+    /**
      * @var string
      */
     protected $_applicationUrlHost;
@@ -51,11 +61,6 @@ class Magento_Config
     /**
      * @var array
      */
-    protected $_fixtureFiles = array();
-
-    /**
-     * @var array
-     */
     protected $_scenarios = array();
 
     /**
@@ -63,11 +68,14 @@ class Magento_Config
      *
      * @param array $configData
      * @param string $baseDir
+     * @param Zend_Log|null
      * @throws InvalidArgumentException
      * @throws Magento_Exception
      */
-    public function __construct(array $configData, $baseDir)
+    public function __construct(array $configData, $baseDir, $logger = null)
     {
+        $this->_logger = $logger;
+
         $this->_validateData($configData);
         if (!is_dir($baseDir)) {
             throw new Magento_Exception("Base directory '$baseDir' does not exist.");
@@ -75,6 +83,7 @@ class Magento_Config
         $this->_reportDir = $baseDir . DIRECTORY_SEPARATOR . $configData['report_dir'];
 
         $applicationOptions = $configData['application'];
+        $this->_applicationBaseDir = realpath($baseDir . '/../../../');
         $this->_applicationUrlHost = $applicationOptions['url_host'];
         $this->_applicationUrlPath = $applicationOptions['url_path'];
         $this->_adminOptions = $applicationOptions['admin'];
@@ -82,21 +91,6 @@ class Magento_Config
         if (isset($applicationOptions['installation'])) {
             $installConfig = $applicationOptions['installation'];
             $this->_installOptions = $installConfig['options'];
-            if (isset($installConfig['fixture_files'])) {
-                if (!is_array($installConfig['fixture_files'])) {
-                    throw new InvalidArgumentException(
-                        "'application' => 'installation' => 'fixture_files' option must be array"
-                    );
-                }
-                $this->_fixtureFiles = array();
-                foreach ($installConfig['fixture_files'] as $fixtureName) {
-                    $fixtureFile = $baseDir . DIRECTORY_SEPARATOR . $fixtureName;
-                    if (!file_exists($fixtureFile)) {
-                        throw new Magento_Exception("Fixture '$fixtureName' doesn't exist in $baseDir");
-                    }
-                    $this->_fixtureFiles[] = $fixtureFile;
-                }
-            }
         }
 
         if (!empty($configData['scenario']['jmeter_jar_file'])) {
@@ -117,33 +111,35 @@ class Magento_Config
      */
     protected function _expandScenarios($scenarios, $baseDir)
     {
-        $scenarioCommonConfig = array(
-            'arguments' => array(),
-            'settings' => array(),
-        );
-        if (!empty($scenarios['common_config'])) {
-            $scenarioCommonConfig = array_merge($scenarioCommonConfig, $scenarios['common_config']);
+        if (!isset($scenarios['scenarios'])) {
+            return;
+        }
+        if (!is_array($scenarios['scenarios'])) {
+            throw new InvalidArgumentException("'scenario' => 'scenarios' option must be an array");
         }
 
-        if (isset($scenarios['scenarios'])) {
-            if (!is_array($scenarios['scenarios'])) {
-                throw new InvalidArgumentException("'scenario' => 'scenarios' option must be array");
+        $commonScenarioConfig = $this->_composeCommonScenarioConfig($scenarios);
+        foreach ($scenarios['scenarios'] as $scenarioName => $scenarioConfig) {
+            // Scenarios without additional settings can be presented as direct values of 'scenario' array
+            if (!is_array($scenarioConfig)) {
+                $scenarioName = $scenarioConfig;
+                $scenarioConfig = array();
             }
-            foreach ($scenarios['scenarios'] as $scenarioName => $scenarioConfig) {
-                $scenarioFile = $baseDir . DIRECTORY_SEPARATOR . $scenarioName;
-                if (!file_exists($scenarioFile)) {
-                    throw new Magento_Exception("Scenario '$scenarioName' doesn't exist in $baseDir");
-                }
 
-                foreach ($scenarioCommonConfig as $configKey => $config) {
-                    if (!empty($scenarioConfig[$configKey])) {
-                        $config = array_merge($config, $scenarioConfig[$configKey]);
-                    }
-                    if (!empty($config)) {
-                        $this->_scenarios[$scenarioFile][$configKey] = $config;
-                    }
-                }
+            // Scenario file
+            $scenarioFile = realpath($baseDir . DIRECTORY_SEPARATOR . $scenarioName);
+            if (!file_exists($scenarioFile)) {
+                throw new Magento_Exception("Scenario '$scenarioName' doesn't exist in $baseDir");
             }
+
+            // Compose config, using global config
+            $scenarioConfig = $this->_overwriteByArray($commonScenarioConfig, $scenarioConfig);
+
+            // Fixtures
+            $scenarioConfig['fixtures'] = $this->_expandScenarioFixtures($scenarioConfig, $baseDir);
+
+            // Store scenario
+            $this->_scenarios[$scenarioFile] = $scenarioConfig;
         }
     }
 
@@ -170,6 +166,91 @@ class Magento_Config
                 throw new Magento_Exception("Admin options array must define '$requiredKeyName' key.");
             }
         }
+    }
+
+    /**
+     * Compose list of all parameters, that must be provided for all scenarios
+     *
+     * @param array $scenarios
+     * @return array
+     */
+    protected function _composeCommonScenarioConfig($scenarios)
+    {
+        $adminOptions = $this->getAdminOptions();
+        $result = array(
+            'arguments' => array(
+                Magento_Scenario::ARG_HOST => $this->getApplicationUrlHost(),
+                Magento_Scenario::ARG_PATH => $this->getApplicationUrlPath(),
+                Magento_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+                Magento_Scenario::ARG_ADMIN_USERNAME => $adminOptions['username'],
+                Magento_Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password'],
+            ),
+            'settings' => array(),
+            'fixtures' => array()
+        );
+
+        if (isset($scenarios['common_config'])) {
+            $result = $this->_overwriteByArray($result, $scenarios['common_config']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Merge array values from $source into $target's array values
+     *
+     * @param array $target
+     * @param array $source
+     * @return array
+     */
+    protected function _overwriteByArray(array $target, array $source)
+    {
+        foreach ($source as $key => $sourceVal) {
+            if (!empty($target[$key])) {
+                $target[$key] = array_merge($target[$key], $sourceVal);
+            } else {
+                $target[$key] = $sourceVal;
+            }
+        }
+        return $target;
+    }
+
+    /**
+     * Process fixture file names from scenario config and compose array of full file paths to them
+     *
+     * @param array $scenarioConfig
+     * @param string $baseDir
+     * @return array
+     * @throws InvalidArgumentException|Magento_Exception
+     */
+    protected function _expandScenarioFixtures(array $scenarioConfig, $baseDir)
+    {
+        if (!is_array($scenarioConfig['fixtures'])) {
+            throw new InvalidArgumentException(
+                "Scenario 'fixtures' option must be an array, not a value: '{$scenarioConfig['fixtures']}'"
+            );
+        }
+
+        $result = array();
+        foreach ($scenarioConfig['fixtures'] as $fixtureName) {
+            $fixtureFile = $baseDir . DIRECTORY_SEPARATOR . $fixtureName;
+            if (!file_exists($fixtureFile)) {
+                throw new Magento_Exception("Fixture '$fixtureName' doesn't exist in $baseDir");
+            }
+            $result[] = $fixtureFile;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Retrieve application base directory
+     *
+     * @return string
+     */
+    public function getApplicationBaseDir()
+    {
+        return $this->_applicationBaseDir;
     }
 
     /**
@@ -223,16 +304,6 @@ class Magento_Config
     }
 
     /**
-     * Retrieve fixture script files
-     *
-     * @return array
-     */
-    public function getFixtureFiles()
-    {
-        return $this->_fixtureFiles;
-    }
-
-    /**
      * Retrieve reports directory
      *
      * @return string
@@ -250,5 +321,21 @@ class Magento_Config
     public function getJMeterPath()
     {
         return $this->_jMeterPath;
+    }
+
+    /**
+     * Get logger, which is used to output messages
+     *
+     * @return Zend_Log
+     */
+    public function getLogger()
+    {
+        if (!$this->_logger) {
+            $writer = new Zend_Log_Writer_Stream('php://output');
+            $formatter = new Zend_Log_Formatter_Simple('%message%' . PHP_EOL);
+            $writer->setFormatter($formatter);
+            $this->_logger = new Zend_Log($writer);
+        }
+        return $this->_logger;
     }
 }

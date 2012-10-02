@@ -40,10 +40,6 @@ return array(
                 'admin_email'                => 'admin@example.com',
                 'admin_no_form_key'          => 'yes',
             ),
-            'fixture_files' => array(
-                'testsuite/fixtures/catalog_category.php',
-                'testsuite/fixtures/catalog_product.php',
-            ),
         ),
     ),
     'scenario' => array(
@@ -54,25 +50,49 @@ return array(
                 'loops' => 1,
             ),
             /* Common settings for all scenarios */
-            'setiings' => array(),
+            'settings' => array(),
         ),
         'scenarios' => array(
-            'testsuite/add_to_cart.jmx' => array(),
-            'testsuite/advanced_search.jmx' => array(),
-            'testsuite/category_view.jmx' => array(),
-            'testsuite/checkout.jmx' => array(),
-            'testsuite/home_page.jmx' => array(),
-            'testsuite/product_edit.jmx' => array(),
+            'testsuite/add_to_cart.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
+            ),
+            'testsuite/advanced_search.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
+            ),
+            'testsuite/category_view.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_category.php',
+                ),
+            ),
+            'testsuite/checkout.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
+            ),
+            'testsuite/home_page.jmx',
+            'testsuite/product_edit.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
+            ),
             'testsuite/product_view.jmx' => array(
-                /* Custom agruments passed to the scenario */
                 'arguments' => array(
                     'product_url_key' => 'product-1.html',
                     'product_name'    => 'Product 1',
                 ),
-                /* Custom settings for the scenario */
-                'settings' => array(),
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
             ),
-            'testsuite/quick_search.jmx' => array(),
+            'testsuite/quick_search.jmx' => array(
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_product.php',
+                ),
+            ),
         ),
         /**
          * Path to JMeter executable. If empty, then env value 'jmeter_jar_file' is taken. If this value is empty as

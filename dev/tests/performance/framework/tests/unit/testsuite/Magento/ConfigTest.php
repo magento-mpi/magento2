@@ -19,62 +19,29 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_sampleConfigData = array(
-        'application' => array(
-            'url_host' => '127.0.0.1',
-            'url_path' => '/',
-            'admin' => array(
-                'frontname' => 'backend',
-                'username' => 'admin',
-                'password' => 'password1',
-            ),
-            'installation' => array(
-                'options' => array(
-                    'option1' => 'value 1',
-                    'option2' => 'value 2',
-                ),
-                'fixture_files' => array(
-                    'fixture.php',
-                ),
-            ),
-        ),
-        'scenario' => array(
-            'common_config' => array(
-                'arguments' => array(
-                    'arg1' => 'value 1',
-                    'arg2' => 'value 2',
-                ),
-                'settings' => array(
-                    'setting1' => 'setting 1',
-                    'setting2' => 'setting 2',
-                ),
-            ),
-            'scenarios' => array(
-                'scenario.jmx' => array(
-                    'arguments' => array(
-                        'arg2' => 'overridden value 2',
-                        'arg3' => 'custom value 3',
-                    ),
-                    'settings' => array(
-                        'setting2' => 'overridden setting 2',
-                        'setting3' => 'custom setting 3',
-                    ),
-                ),
-                'scenario_error.jmx' => array(),
-                'scenario_failure.jmx' => array(),
-            ),
-        ),
-        'report_dir' => 'report',
-    );
+    protected $_sampleConfigData;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Config($this->_sampleConfigData, __DIR__ . DIRECTORY_SEPARATOR . '_files');
+        $this->_object = new Magento_Config($this->_getSampleConfigData(), __DIR__ . DIRECTORY_SEPARATOR . '_files');
     }
 
     protected function tearDown()
     {
         unset($this->_object);
+    }
+
+    /**
+     * Return default sample config data
+     *
+     * @return array
+     */
+    protected function _getSampleConfigData()
+    {
+        if (!$this->_sampleConfigData) {
+            $this->_sampleConfigData = require(__DIR__ . '/_files/config_data.php');
+        }
+        return $this->_sampleConfigData;
     }
 
     /**
@@ -95,68 +62,48 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function constructorExceptionDataProvider()
     {
+        $invalidFormat = $this->_getSampleConfigData();
+        $invalidFormat['scenario']['scenarios'] = 'string_scenarios_*.jmx';
+
+        $nonExistingScenario = $this->_getSampleConfigData();
+        $nonExistingScenario['scenario']['scenarios'] = array('non_existing_scenario.jmx');
+
+        $invalidFixtureFormat = $this->_getSampleConfigData();
+        $invalidFixtureFormat['scenario']['scenarios']['scenario.jmx']['fixtures'] = 'string_fixtures_*.php';
+
+        $nonExistingFixture = $this->_getSampleConfigData();
+        $nonExistingFixture['scenario']['scenarios']['scenario.jmx']['fixtures'][] = 'non_existing_fixture.php';
+
         return array(
             'non-existing base dir' => array(
-                $this->_sampleConfigData,
+                $this->_getSampleConfigData(),
                 'non_existing_dir',
                 'Magento_Exception',
                 "Base directory 'non_existing_dir' does not exist",
             ),
-            'invalid fixtures format' => array(
-                array_merge(
-                    $this->_sampleConfigData, array(
-                        'application' => array(
-                            'url_host' => '127.0.0.1',
-                            'url_path' => '/',
-                            'admin' => array(
-                                'frontname' => 'backend',
-                                'username' => 'admin',
-                                'password' => 'password1',
-                            ),
-                            'installation' => array(
-                                'options' => array(
-                                    'option1' => 'value 1',
-                                    'option2' => 'value 2',
-                                ),
-                                'fixture_files' => 'string_fixtures_*.php',
-                            ),
-                        )
-                    )
-                ),
-                __DIR__ . DIRECTORY_SEPARATOR . '_files',
-                'InvalidArgumentException',
-                "'application' => 'installation' => 'fixture_files' option must be array",
-            ),
-            'non-existing fixture' => array(
-                array_merge_recursive(
-                    $this->_sampleConfigData,
-                    array('application' =>
-                        array(
-                            'installation' => array('fixture_files' => array('non_existing_fixture.php')),
-                        )
-                    )
-                ),
-                __DIR__ . DIRECTORY_SEPARATOR . '_files',
-                'Magento_Exception',
-                "Fixture 'non_existing_fixture.php' doesn't exist",
-            ),
             'invalid scenarios format' => array(
-                array_merge(
-                    $this->_sampleConfigData,
-                    array('scenario' => array('scenarios' => 'string_fixtures_*.jmx'))
-                ),
+                $invalidFormat,
                 __DIR__ . DIRECTORY_SEPARATOR . '_files',
                 'InvalidArgumentException',
-                "'scenario' => 'scenarios' option must be array",
+                "'scenario' => 'scenarios' option must be an array",
             ),
             'non-existing scenario' => array(
-                array_merge(
-                    $this->_sampleConfigData,
-                    array('scenario' => array('scenarios' => array('non_existing_scenario.jmx' => array())))
-                ),
+                $nonExistingScenario,
                 __DIR__ . DIRECTORY_SEPARATOR . '_files',
                 'Magento_Exception',
                 "Scenario 'non_existing_scenario.jmx' doesn't exist",
+            ),
+            'invalid fixtures format' => array(
+                $invalidFixtureFormat,
+                __DIR__ . DIRECTORY_SEPARATOR . '_files',
+                'InvalidArgumentException',
+                "Scenario 'fixtures' option must be an array, not a value: 'string_fixtures_*.php'",
+            ),
+            'non-existing fixture' => array(
+                $nonExistingFixture,
+                __DIR__ . DIRECTORY_SEPARATOR . '_files',
+                'Magento_Exception',
+                "Fixture 'non_existing_fixture.php' doesn't exist",
             ),
         );
     }
@@ -189,51 +136,37 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetScenarios()
     {
+        $templateScenario = array(
+            'arguments' => array(
+                'host' => '127.0.0.1',
+                'path' => '/',
+                'admin_frontname' => 'backend',
+                'admin_username' => 'admin',
+                'admin_password' => 'password1',
+                'arg1' => 'value 1',
+                'arg2' => 'value 2',
+            ),
+            'settings' => array(
+                'setting1' => 'setting 1',
+                'setting2' => 'setting 2',
+            ),
+            'fixtures' => array(),
+        );
+        $overridenScenario = $templateScenario;
+        $overridenScenario['arguments']['arg2'] = 'overridden value 2';
+        $overridenScenario['arguments']['arg3'] = 'custom value 3';
+        $overridenScenario['fixtures'] = array(realpath(__DIR__ . DIRECTORY_SEPARATOR . '_files/fixture.php'));
+
         $dir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $expectedScenarios = array(
-            $dir . 'scenario.jmx' => array(
-                'arguments' => array(
-                    'arg1' => 'value 1',
-                    'arg2' => 'overridden value 2',
-                    'arg3' => 'custom value 3',
-                ),
-                'settings' => array(
-                    'setting1' => 'setting 1',
-                    'setting2' => 'overridden setting 2',
-                    'setting3' => 'custom setting 3',
-                ),
-            ),
-            $dir . 'scenario_error.jmx' => array(
-                'arguments' => array(
-                    'arg1' => 'value 1',
-                    'arg2' => 'value 2',
-                ),
-                'settings' => array(
-                    'setting1' => 'setting 1',
-                    'setting2' => 'setting 2',
-                ),
-            ),
-            $dir . 'scenario_failure.jmx' => array(
-                'arguments' => array(
-                    'arg1' => 'value 1',
-                    'arg2' => 'value 2',
-                ),
-                'settings' => array(
-                    'setting1' => 'setting 1',
-                    'setting2' => 'setting 2',
-                ),
-            ),
+            $dir . 'scenario.jmx' => $overridenScenario,
+            $dir . 'scenario_error.jmx' => $templateScenario,
+            $dir . 'scenario_failure.jmx' => $templateScenario
         );
 
         $actualScenarios = $this->_object->getScenarios();
         ksort($actualScenarios);
         $this->assertEquals($expectedScenarios, $actualScenarios);
-    }
-
-    public function testGetFixtureFiles()
-    {
-        $expectedFixtureFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'fixture.php';
-        $this->assertEquals(array($expectedFixtureFile), $this->_object->getFixtureFiles());
     }
 
     public function testGetReportDir()
@@ -249,7 +182,7 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
             $baseDir = __DIR__ . '/_files';
             $expectedPath = '/path/to/custom/JMeterFile.jar';
 
-            $configData = $this->_sampleConfigData;
+            $configData = $this->_getSampleConfigData();
             $configData['scenario']['jmeter_jar_file'] = $expectedPath;
             $object = new Magento_Config($configData, $baseDir);
             $this->assertEquals($expectedPath, $object->getJMeterPath());

@@ -39,18 +39,27 @@ class Magento_Scenario
     protected $_reportDir;
 
     /**
+     * Logger, used to output messages
+     *
+     * @param Zend_Log
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * @param Magento_Shell $shell
      * @param string $jMeterJarFile
      * @param string $reportDir
+     * @param Zend_Log $logger
      * @throws Magento_Exception
      */
-    public function __construct(Magento_Shell $shell, $jMeterJarFile, $reportDir)
+    public function __construct(Magento_Shell $shell, $jMeterJarFile, $reportDir, $logger)
     {
         $this->_shell = $shell;
         $this->_jMeterJarFile = $jMeterJarFile;
         $this->_reportDir = $reportDir;
+        $this->_logger = $logger;
 
         $this->_validateScenarioExecutable();
         $this->_ensureReportDirExists();
@@ -61,7 +70,8 @@ class Magento_Scenario
      */
     protected function _validateScenarioExecutable()
     {
-        $this->_shell->execute('java -jar %s --version', array($this->_jMeterJarFile));
+        $this->_shell->execute('java -jar %s --version', array($this->_jMeterJarFile), $fullOutput);
+        $this->_logger->info($fullOutput);
     }
 
     /**
@@ -78,30 +88,30 @@ class Magento_Scenario
      * Run performance testing scenario and write results to the report file
      *
      * @param string $scenarioFile
-     * @param array $scenarioConfig
+     * @param array $arguments
+     * @param array $settings
      * @throws Magento_Exception
      */
-    public function run($scenarioFile, array $scenarioConfig)
+    public function run($scenarioFile, array $arguments, array $settings)
     {
         if (!file_exists($scenarioFile)) {
             throw new Magento_Exception("Scenario file '$scenarioFile' does not exist.");
         }
-        $scenarioArgs = isset($scenarioConfig['arguments']) ? $scenarioConfig['arguments'] : array();
 
-        if (empty($scenarioArgs[self::ARG_HOST]) || empty($scenarioArgs[self::ARG_PATH])) {
+        if (empty($arguments[self::ARG_HOST]) || empty($arguments[self::ARG_PATH])) {
             throw new Magento_Exception(sprintf(
                 "Scenario arguments '%s' and '%s' must be specified.", self::ARG_HOST, self::ARG_PATH
             ));
         }
 
         // Warm-up the system to populate cache, media, etc.
-        if (empty($scenarioConfig['settings']['skip_warm_up'])) {
-            $warmUpScenarioArgs = array_merge($scenarioArgs, array(self::ARG_USERS => 1, self::ARG_LOOPS => 2));
+        if (empty($settings['skip_warm_up'])) {
+            $warmUpScenarioArgs = array_merge($arguments, array(self::ARG_USERS => 1, self::ARG_LOOPS => 2));
             $this->_runScenario($scenarioFile, $warmUpScenarioArgs);
         }
 
         // Full run
-        $fullScenarioArgs = $scenarioArgs + array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
+        $fullScenarioArgs = $arguments + array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
         $reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
         $this->_runScenario($scenarioFile, $fullScenarioArgs, $reportFile);
     }
@@ -116,7 +126,8 @@ class Magento_Scenario
     protected function _runScenario($scenarioFile, array $scenarioArgs, $reportFile = null)
     {
         list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioArgs, $reportFile);
-        $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
+        $this->_shell->execute($scenarioCmd, $scenarioCmdArgs, $fullOutput);
+        $this->_logger->info($fullOutput);
         if ($reportFile) {
             $this->_verifyReport($reportFile);
         }
