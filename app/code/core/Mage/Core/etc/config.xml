@@ -167,14 +167,6 @@
                     </synchronize_notification>
                 </observers>
             </show_synchronize_message>
-            <!--<theme_update_from_filesystem>-->
-                <!--<observers>-->
-                    <!--<theme_registration_observer>-->
-                        <!--<class>Mage_Core_Model_Observer</class>-->
-                        <!--<method>themeRegistration</method>-->
-                    <!--</theme_registration_observer>-->
-                <!--</observers>-->
-            <!--</theme_update_from_filesystem>-->
         </events>
         <layout>
             <updates>
