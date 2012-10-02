@@ -9,15 +9,16 @@
  * @license     {license_link}
  */
 
-class Enterprise_Tag_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Enterprise_Tag_Helper_DataTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * @covers Enterprise_Tag_Helper_Data::addActionClassToRewardModel
      */
     public function testAddActionClassToRewardModel()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
-        $rewardModelMock = $this->getMock('Enterprise_Reward_Model_Reward', array('_init', 'setActionModelClass'));
+        $arguments = $this->_getArgumentsForModel();
+        $rewardModelMock = $this->getMock('Enterprise_Reward_Model_Reward', array('_init', 'setActionModelClass'),
+            $arguments);
         $rewardModelMock->staticExpects($this->once())
             ->method('setActionModelClass')
             ->will($this->returnCallback(array($this, 'validateSetActionModelClass')));
