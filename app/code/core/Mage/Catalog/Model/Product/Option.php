@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     /**
      * Translate instance
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Mage_Core_Model_Translate
      */
     protected $_translate;
 
@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
         parent::__construct($data);
@@ -97,10 +97,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            return parent::_getResource();
-        }
-        return $this->_resource;
+        return $this->_resource ?: parent::_getResource();
     }
 
     protected function _construct()

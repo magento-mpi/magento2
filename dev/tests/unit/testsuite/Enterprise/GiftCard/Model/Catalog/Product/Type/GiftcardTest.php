@@ -57,8 +57,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         }
 
-        $locale = $this->getMock('Varien_Object', array('getNumber'));
-        $locale->expects($this->any())->method('getNumber')->will($this->returnValue(100));
+        $locale = new Varien_Object(array('number' => 100));
 
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
@@ -67,14 +66,16 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
                 'store'     => $store,
                 'helpers'   => $helpers,
                 'locale'    => $locale,
-        )));
+            ))
+        );
 
         $this->_productResource = $this->getMock('Mage_Catalog_Model_Resource_Product', array(), array(), '', false);
         $this->_productOptionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
         $this->_product = $this->getMock('Mage_Catalog_Model_Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
-            array(array('resource' => $this->_productResource)));
+            array(array('resource' => $this->_productResource))
+        );
 
         $this->_customOptions = array();
 
@@ -84,7 +85,8 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] = new Varien_Object(
-                array('value' => 'value'));
+                array('value' => 'value')
+            );
             $this->_product->addOption($option);
         }
 

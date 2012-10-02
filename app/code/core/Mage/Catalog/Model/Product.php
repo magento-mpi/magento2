@@ -93,7 +93,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Resource instance
      *
-     * @var null
+     * @var Mage_Catalog_Model_Resource_Product
      */
     protected $_resource;
 

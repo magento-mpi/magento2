@@ -34,7 +34,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     protected $_store;
 
     /**
-     * Mock for locale instance
+     * Locale instance
      *
      * @var Mage_Core_Model_Locale
      */
@@ -328,14 +328,14 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * @param Mage_Catalog_Model_Product $product
      * @param int $customAmount
      * @param bool $isStrict
-     * @return int|null
+     * @return int|void
      */
     protected function _getAmountWithinConstraints($product, $customAmount, $isStrict)
     {
         $minAmount = $product->getOpenAmountMin();
         $maxAmount = $product->getOpenAmountMax();
-        if (!$minAmount || ($minAmount && $customAmount >= $minAmount)) {
-            if (!$maxAmount || ($maxAmount && $customAmount <= $maxAmount)) {
+        if (!$minAmount || $minAmount && $customAmount >= $minAmount) {
+            if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($maxAmount, true, false);
@@ -349,7 +349,6 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
                 $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card min amount is %s', $messageAmount)
             );
         }
-        return null;
     }
 
     /**
@@ -403,12 +402,10 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             $customAmount = $buyRequest->getCustomGiftcardAmount();
 
             $rate = $this->_store->getCurrentCurrencyRate();
-            if ($rate != 1) {
-                if ($customAmount) {
-                    $customAmount = $this->_locale->getNumber($customAmount);
-                    if (is_numeric($customAmount) && $customAmount) {
-                        $customAmount = $this->_store->roundPrice($customAmount / $rate);
-                    }
+            if ($rate != 1 && $customAmount) {
+                $customAmount = $this->_locale->getNumber($customAmount);
+                if (is_numeric($customAmount) && $customAmount) {
+                    $customAmount = $this->_store->roundPrice($customAmount / $rate);
                 }
             }
             $this->_customGiftcardAmount = $customAmount;
