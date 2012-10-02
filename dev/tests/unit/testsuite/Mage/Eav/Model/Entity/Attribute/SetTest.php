@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Eav_Model_Entity_Attribute_Set
  */
-class Mage_Eav_Model_Entity_Attribute_SetTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Eav_Model_Entity_Attribute_SetTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Eav_Model_Entity_Attribute_Set
