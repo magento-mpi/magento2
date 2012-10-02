@@ -9,29 +9,26 @@
  * @license     {license_link}
  */
 
-class Mage_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
+class Mage_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture current_store design/theme/full_name default/default/default
      * @magentoDataFixture Mage/Sales/_files/order.php
      */
-    public function testSendEmail()
+    public function testSendNewOrderEmail()
     {
         $order = new Mage_Sales_Model_Order();
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
-
-        $invoice = new Mage_Sales_Model_Order_Invoice();
-        $invoice->setOrder($order);
 
         $payment = $order->getPayment();
         $paymentInfoBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 
-        $this->assertEmpty($invoice->getEmailSent());
-        $invoice->sendEmail(true);
-        $this->assertNotEmpty($invoice->getEmailSent());
+        $this->assertEmpty($order->getEmailSent());
+        $order->sendNewOrderEmail();
+        $this->assertNotEmpty($order->getEmailSent());
         $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }
 }
