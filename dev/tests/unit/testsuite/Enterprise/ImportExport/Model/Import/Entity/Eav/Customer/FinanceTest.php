@@ -12,7 +12,7 @@
 /**
  * Test class for Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
  */
-class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * Customer financial data export model
@@ -127,7 +127,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     public function setUp()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $this->_bunchNumber = 0;
         if ($this->getName() == 'testImportDataCustomBehavior') {
             $dependencies = $this->_getModelDependencies(true);
@@ -183,7 +182,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $customerData;
+            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
 
@@ -204,8 +205,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct')
+                $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }

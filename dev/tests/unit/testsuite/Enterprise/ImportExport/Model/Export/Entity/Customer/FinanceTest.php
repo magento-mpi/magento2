@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends Magento_Test_TestCase_ObjectManager
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -89,8 +89,10 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
         /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
+            $arguments = $this->_getArgumentsForModel();
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', false, true, true, array('_construct')
+                $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
@@ -140,11 +142,10 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
     /**
      * Test for method exportItem()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
+     * @covers Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::exportItem
      */
     public function testExportItem()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $writer = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Adapter_Abstract',
             array(), '', false, false, true, array('writeRow')
         );

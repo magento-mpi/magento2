@@ -44,16 +44,17 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
      */
     public function getModel($className, array $data = array())
     {
-        $params = array_merge($this->_getArgumentsForModel(), $data);
+        $params = array_merge($this->_getArgumentsForModel($className), $data);
         return $this->_getInstanceViaConstructor($className, $params);
     }
 
     /**
      * Retrieve list of arguments that used for new model instance creation
      *
+     * @param string $className
      * @return array
      */
-    protected function _getArgumentsForModel()
+    protected function _getArgumentsForModel($className = '')
     {
         /** @var $resourceMock Mage_Core_Model_Resource_Resource */
         $resourceMock = $this->getMock('Mage_Core_Model_Resource_Resource', array('getIdFieldName'),
@@ -63,12 +64,45 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
 
-        return array(
+        $arguments = array(
             'eventDispatcher'    => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Event_Manager'),
             'cacheManager'       => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Cache'),
             'resource'           => $resourceMock,
             'resourceCollection' => $this->_getMockWithoutConstructorCall('Varien_Data_Collection_Db'),
         );
+
+        if ($className) {
+            return $this->_sortConstructorArguments($className, $arguments);
+        } else {
+            return $arguments;
+        }
+    }
+
+    /**
+     * Sort constructor arguments array as is defined for current class interface
+     *
+     * @param string $className
+     * @param array $arguments
+     * @return array
+     */
+    protected function _sortConstructorArguments($className, array $arguments)
+    {
+        $constructArguments = array();
+        $method = new ReflectionMethod($className, '__construct');
+        foreach ($method->getParameters() as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($arguments[$parameterName])) {
+                $constructArguments[$parameterName] = $arguments[$parameterName];
+            } else {
+                if ($parameter->isDefaultValueAvailable()) {
+                    $constructArguments[$parameterName] = $parameter->getDefaultValue();
+                } else {
+                    $constructArguments[$parameterName] = null;
+                }
+            }
+        }
+
+        return $constructArguments;
     }
 
     /**
@@ -91,16 +125,7 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
      */
     protected function _getInstanceViaConstructor($className, array $arguments = array())
     {
-        $constructArguments = array();
-        $method = new ReflectionMethod($className, '__construct');
-        foreach ($method->getParameters() as $parameter) {
-            $parameterName = $parameter->getName();
-            if (isset($arguments[$parameterName])) {
-                $constructArguments[$parameterName] = $arguments[$parameterName];
-            }
-        }
-
         $reflectionClass = new ReflectionClass($className);
-        return $reflectionClass->newInstanceArgs($constructArguments);
+        return $reflectionClass->newInstanceArgs($arguments);
     }
 }

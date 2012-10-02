@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * Default date value
@@ -24,7 +24,6 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
      */
     public function testGetHistoryFilePath($fileInfo, $lastRunDate, $expectedPath)
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $model = $this->_getScheduledOperationModel($fileInfo);
 
         $model->setLastRunDate($lastRunDate);
@@ -73,10 +72,18 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
-        $model = new Enterprise_ImportExport_Model_Scheduled_Operation(
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-            $dateModelMock
+        $arguments = $this->_getArgumentsForModel('Enterprise_ImportExport_Model_Scheduled_Operation');
+        $arguments['dateModel'] = $dateModelMock;
+        $model = $this->getMock(
+            'Enterprise_ImportExport_Model_Scheduled_Operation',
+            array(
+                'getOperationType',
+                'getEntityType',
+                '_getHistoryDirPath',
+                'getFileInfo',
+                '_init'
+            ),
+            $arguments
         );
 
         $model->expects($this->once())
