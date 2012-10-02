@@ -279,8 +279,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $browsers = $this->_configHelper->getConfigBrowsers();
             $this->setupSpecificBrowser($browsers['default']);
         }
-        //@TODO
-        //$this->_browserTimeoutPeriod = $this->getseleniumServerRequestsTimeout();
+        $this->_browserTimeoutPeriod = $this->getSeleniumServerRequestsTimeout();
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
         $this->prepareSession();
     }
@@ -430,15 +429,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function skipTestWithScreenshot($message)
     {
-        $name = '';
-        foreach (debug_backtrace() as $line) {
-            if (preg_match('/Test$/', $line['class'])) {
-                $name = 'Skipped-' . time() . '-' . $line['class'] . '-' . $line['function'];
-                break;
-            }
-        }
-        $url = $this->takeScreenshot($name);
-        $this->markTestSkipped($url . $message);
+        $url = $this->takeScreenshot();
+        $this->markTestSkipped($message . "\n" . $url);
     }
 
     /**
@@ -869,7 +861,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $tabsWithErrors = $this->getElements("//a[contains(@class,'error')]", false);
         $messages = array();
         if (empty($tabsWithErrors)) {
-            //$validationMessages = $this->elements($this->using('class name')->value('validation-advice'));
             $validationMessages = $this->getElements($messageLocator, false);
             foreach ($validationMessages as $message) {
                 $locator = 'preceding-sibling::*[@name][not(@type="hidden")]';
@@ -1940,9 +1931,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if ($fileName == null) {
-            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
-            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
-            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
+            $fileName = time() . '__' . $this->getTestId();
+            $fileName = preg_replace('/"/', '\'', $fileName);
+            $fileName = preg_replace('/ with data set #/', '__DataSet_', $fileName);
         }
         $filePath = $screenshotPath . $fileName . '.png';
         $screenshotContent = $this->currentScreenshot();
@@ -1951,7 +1942,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         fflush($file);
         fclose($file);
         if (file_exists($filePath)) {
-            return 'Screenshot: ' . $filePath . ".png\n";
+            return 'Screenshot: ' . $filePath . "\n";
         }
         return '';
     }
@@ -1973,30 +1964,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         return 'Unknown OS';
     }
-
-    ///**
-    // * Get TestCase Id
-    // *
-    // * @return string
-    // */
-    //public function getTestId()
-    //{
-    //    return $this->testId;
-    //}
-    //
-    ///**
-    // * Set test case Id
-    // *
-    // * @param $testId
-    // *
-    // * @return Mage_Selenium_TestCase
-    // */
-    //public function setTestId($testId)
-    //{
-    //    $this->drivers[0]->setTestId($testId);
-    //    $this->testId = $testId;
-    //    return $this;
-    //}
 
     /**
      * Returns correct path to screenshot save path.
@@ -3045,7 +3012,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->clearActiveFocus();
         $this->waitForAjax();
-        //$this->waitForElementEditable($locator)
     }
 
     /**
@@ -3072,7 +3038,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->select($element)->selectOptionByCriteria($this->using('xpath')->value('.' . $optionLocator));
                 $this->clearActiveFocus();
                 $this->waitForAjax();
-                //$this->waitForElementEditable($locator);
                 return;
             }
         }
@@ -3099,7 +3064,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $element->click();
             $this->clearActiveFocus();
             $this->waitForAjax();
-            //$this->waitForElementEditable($locator);
         }
     }
 
