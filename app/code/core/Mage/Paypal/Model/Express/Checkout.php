@@ -119,7 +119,15 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_order = null;
 
     /**
-     * Set quote and config instances
+     *
+     * @param array $params
+     */
+
+    /**
+     * Set config, session and quote instances
+     *
+     * @param Mage_Paypal_Model_Config $paypalConfig
+     * @param Mage_Customer_Model_Session $customerSession
      * @param array $params
      */
     public function __construct(
