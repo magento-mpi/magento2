@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag
  */
-class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Test model

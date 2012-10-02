@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Tag_Block_Catalog_Product_Rss_Link

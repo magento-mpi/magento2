@@ -12,7 +12,8 @@
 /**
  * Test class for Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data
  */
-class Mage_ImportExport_Model_Resource_Import_CustomerComposite_DataTest extends Magento_Test_TestCase_ObjectManager
+class Mage_ImportExport_Model_Resource_Import_CustomerComposite_DataTest
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Array of customer attributes

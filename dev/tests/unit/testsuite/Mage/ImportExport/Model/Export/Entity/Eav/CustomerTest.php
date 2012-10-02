@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends Magento_Test_TestCase_ObjectManager
+class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**#@+
      * Test attribute code

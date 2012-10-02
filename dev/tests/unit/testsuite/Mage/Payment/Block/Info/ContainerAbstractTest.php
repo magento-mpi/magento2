@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Payment_Block_Info_ContainerAbstract
  */
-class Mage_Payment_Block_Info_ContainerAbstractTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Payment_Block_Info_ContainerAbstractTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     public function testSetInfoTemplate()
     {

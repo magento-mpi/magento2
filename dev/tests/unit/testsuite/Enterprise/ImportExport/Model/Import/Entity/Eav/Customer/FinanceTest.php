@@ -12,7 +12,8 @@
 /**
  * Test class for Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
  */
-class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends Magento_Test_TestCase_ObjectManager
+class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Customer financial data export model

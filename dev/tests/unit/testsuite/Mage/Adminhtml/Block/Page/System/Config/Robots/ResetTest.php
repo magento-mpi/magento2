@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Adminhtml_Block_Page_System_Config_Robots_Reset
  */
-class Mage_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Adminhtml_Block_Page_System_Config_Robots_Reset

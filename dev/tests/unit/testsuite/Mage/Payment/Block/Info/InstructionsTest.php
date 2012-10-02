@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Payment_Block_Info_Instructions
  */
-class Mage_Payment_Block_Info_InstructionsTest extends Magento_Test_TestCase_ObjectManager
+class Mage_Payment_Block_Info_InstructionsTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Varien_Object

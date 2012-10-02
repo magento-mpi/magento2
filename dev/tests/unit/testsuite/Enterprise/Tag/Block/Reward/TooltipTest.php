@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Tag_Block_Reward_TooltipTest extends Magento_Test_TestCase_ObjectManager
+class Enterprise_Tag_Block_Reward_TooltipTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @covers Enterprise_Tag_Block_Reward_Tooltip::__construct
