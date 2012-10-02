@@ -209,13 +209,13 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Get max file size
      *
-     * @return string|false
+     * @return string|bool
      */
     public function getImageMaxSize()
     {
         return min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
     }
-    
+
     /**
      * Get theme default values
      *

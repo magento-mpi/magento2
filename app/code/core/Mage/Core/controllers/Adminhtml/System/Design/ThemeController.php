@@ -84,6 +84,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_getSession()->setThemeData($themeData);
             $redirectBack = true;
         } catch (Exception $e) {
             $this->_getSession()->addError('The theme was not saved');

@@ -46,39 +46,40 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Bl
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('theme_id', array(
-            'header'   => $this->__('Theme id'),
-            'index'    => 'theme_id',
+        $this->addColumn('theme_title', array(
+            'header'       => $this->__('Theme Title'),
+            'index'        => 'theme_title',
+            'filter_index' => 'main_table.theme_title',
         ));
 
         $this->addColumn('parent_theme_title', array(
-            'header'   => $this->__('Parent Theme'),
-            'index'    => 'parent_theme_title',
+            'header'       => $this->__('Parent Theme'),
+            'index'        => 'parent_theme_title',
+            'filter_index' => 'parent.theme_title'
         ));
 
         $this->addColumn('theme_path', array(
-            'header'   => $this->__('Theme Path'),
-            'index'    => 'theme_path',
+            'header'       => $this->__('Theme Path'),
+            'index'        => 'theme_path',
+            'filter_index' => 'main_table.theme_path'
         ));
 
         $this->addColumn('theme_version', array(
-            'header'   => $this->__('Theme Version'),
-            'index'    => 'theme_version',
-        ));
-
-        $this->addColumn('theme_title', array(
-            'header'   => $this->__('Theme Title'),
-            'index'    => 'theme_title',
+            'header'       => $this->__('Theme Version'),
+            'index'        => 'theme_version',
+            'filter_index' => 'main_table.theme_version'
         ));
 
         $this->addColumn('magento_version_from', array(
-            'header'   => $this->__('Magento Version From'),
-            'index'    => 'magento_version_from',
+            'header'       => $this->__('Magento Version From'),
+            'index'        => 'magento_version_from',
+            'filter_index' => 'main_table.magento_version_from'
         ));
 
         $this->addColumn('magento_version_to', array(
-            'header'   => $this->__('Magento Version To'),
-            'index'    => 'magento_version_to',
+            'header'       => $this->__('Magento Version To'),
+            'index'        => 'magento_version_to',
+            'filter_index' => 'main_table.magento_version_to'
         ));
 
         $this->addColumn('action', array(
