@@ -19,10 +19,31 @@ class Mage_DesignEditor_Model_History_Compact_Diff implements Mage_DesignEditor_
      * @param Mage_DesignEditor_Model_Change_Collection $collection
      * @return Mage_DesignEditor_Model_History_Compact_Layout|Mage_DesignEditor_Model_History_CompactInterface
      */
-    public function compact(Mage_DesignEditor_Model_Change_Collection $collection)
+    public function compact($collection = null)
     {
         //@TODO compact strategies for file changes are not determined yet
 
         return $this;
+    }
+
+    /**
+     * Set change collection
+     *
+     * @param Mage_DesignEditor_Model_Change_Collection $collection
+     * @return Mage_DesignEditor_Model_History_Compact_Layout
+     */
+    public function setChangesCollection(Mage_DesignEditor_Model_Change_Collection $collection)
+    {
+        // TODO: Implement setChangesCollection() method.
+    }
+
+    /**
+     * Get change collection
+     *
+     * @return Mage_DesignEditor_Model_Change_Collection
+     */
+    public function getChangesCollection()
+    {
+        // TODO: Implement getChangesCollection() method.
     }
 }
