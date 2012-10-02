@@ -106,20 +106,19 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'required' => true
         ));
 
+        $minImageSize = $this->getImageMaxSize();
+        if ($minImageSize) {
+            $previewImageNote = $this->__('Max image size: %s', $minImageSize);
+        } else {
+            $previewImageNote = $this->__("System doesn't allow to get file upload settings");
+        }
         $themeFieldset->addField('preview_image', 'image', array(
             'label'    => $this->__('Theme Preview Image'),
             'title'    => $this->__('Theme Preview Image'),
             'name'     => 'preview_image',
-            'required' => false
+            'required' => false,
+            'note'     => $previewImageNote
         ));
-
-        $minImageSize = $this->getImageMaxSize();
-        if ($minImageSize) {
-            $minImageNote = $this->__('Max image size: %s', $minImageSize);
-        } else {
-            $minImageNote = $this->__("System doesn't allow to get file upload settings");
-        }
-        $themeFieldset->addField('preview_image_note', 'note', array('text' => $minImageNote));
 
         return $this;
     }
