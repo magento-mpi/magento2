@@ -100,7 +100,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
     }
@@ -941,9 +941,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     protected function _helper($name)
     {
-        if (!isset($this->_helpers[$name])) {
-            $this->_helpers[$name] = $this->_helper($name);
-        }
-        return $this->_helpers[$name];
+        return isset($this->_helpers[$name]) ? $this->_helpers[$name] : Mage::helper($name);
     }
 }

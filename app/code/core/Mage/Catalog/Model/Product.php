@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
         parent::__construct($data);

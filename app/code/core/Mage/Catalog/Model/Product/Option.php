@@ -62,13 +62,10 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     protected $_values = array();
 
-
-
-
     /**
      * Resource instance
      *
-     * @var null
+     * @var Mage_Catalog_Model_Resource_Product_Option
      */
     protected $_resource;
 
