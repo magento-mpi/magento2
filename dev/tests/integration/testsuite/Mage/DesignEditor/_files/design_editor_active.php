@@ -17,17 +17,19 @@ $session->activateDesignEditor();
 
 $theme = new Mage_Core_Model_Theme();
 $theme->setData(array(
-    'package_code'         => 'default',
-    'package_title'        => 'Default',
-    'parent_theme'         => 'default',
-    'theme_code'           => 'default',
+    'parent_id'            => null,
+    'theme_path'           => 'default/default',
     'theme_version'        => '2.0.0.0',
     'theme_title'          => 'Default',
+    'preview_image'        => '',
     'magento_version_from' => '2.0.0.0-dev1',
+    'magento_version_to'   => '*',
     'is_featured'          => '0'
 ));
 $theme->save();
 $session->setThemeId($theme->getThemeId());
-$skin = implode('/', array($theme->getPackageCode(), $theme->getThemeCode(),
-                Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME));
+$skin = implode('/', array(
+    $theme->getThemePath(),
+    Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME
+));
 $session->setSkin($skin);
