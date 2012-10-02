@@ -13,11 +13,11 @@
     <acl>
         <resources>
             <resource id="Mage_Webapi">
-                <resource id="customer" title="Manage Customers" module="Mage_Customer" sort_order="20">
-                    <resource id="customer/create" title="Create Customer" sort_order="30" />
-                    <resource id="customer/update" title="Edit Customer" sort_order="10" />
-                    <resource id="customer/get" title="Get Customer" sort_order="20" />
-                    <resource id="customer/delete" title="Delete Customer" />
+                <resource id="customer" title="Manage Customers" module="Mage_Customer" sortOrder="20">
+                    <resource id="customer/create" title="Create Customer" sortOrder="30" />
+                    <resource id="customer/update" title="Edit Customer" sortOrder="10" />
+                    <resource id="customer/get" title="Get Customer" sortOrder="20" />
+                    <resource id="customer/delete" title="Delete Customer" sortOrder="40" />
                 </resource>
             </resource>
         </resources>

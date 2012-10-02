@@ -97,8 +97,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      */
     protected function _sortTree($firstArg, $secondArg)
     {
-        return $firstArg['sort_order'] < $secondArg['sort_order']
-            ? -1 : ($firstArg['sort_order'] > $secondArg['sort_order'] ? 1 : 0);
+        return $firstArg['sortOrder'] < $secondArg['sortOrder']
+            ? -1 : ($firstArg['sortOrder'] > $secondArg['sortOrder'] ? 1 : 0);
     }
 
     /**
@@ -114,8 +114,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
         $item['id'] = (string)$node->getAttribute('id');
         $item['text'] = (string)$node->getAttribute('title');
-        $sortOrder = (string)$node->getAttribute('sort_order');
-        $item['sort_order']= !empty($sortOrder) ? (int)$sortOrder : 0;
+        $sortOrder = (string)$node->getAttribute('sortOrder');
+        $item['sortOrder']= !empty($sortOrder) ? (int)$sortOrder : 0;
 
         if (in_array($item['id'], $selRes)) {
             $item['checked'] = true;
