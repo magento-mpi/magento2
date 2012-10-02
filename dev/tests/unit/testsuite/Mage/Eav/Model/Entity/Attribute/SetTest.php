@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Eav_Model_Entity_Attribute_Set
  */
-class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
+class Mage_Eav_Model_Entity_Attribute_SetTest extends Magento_Test_TestCase_ObjectManager
 {
     /**
      * @var Mage_Eav_Model_Entity_Attribute_Set
@@ -21,7 +21,6 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         $resource = $this->getMock('Mage_Eav_Model_Resource_Entity_Attribute_Set', array(), array(), '', false);
 
         $helper = $this->getMock('Mage_Eav_Helper_Data', array('__'));
@@ -29,10 +28,11 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
             ->method('__')
             ->will($this->returnArgument(0));
 
-        $this->_model = new Mage_Eav_Model_Entity_Attribute_Set(array(
+        $arguments = array(
             'resource'  => $resource,
-            'helper'    => $helper
-        ));
+            'data'      => array('helper' => $helper)
+        );
+        $this->_model = $this->getModel('Mage_Eav_Model_Entity_Attribute_Set', $arguments);
     }
 
     protected function tearDown()
