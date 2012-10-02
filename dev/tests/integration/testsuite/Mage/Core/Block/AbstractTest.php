@@ -287,7 +287,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block = $this->_createBlockWithLayout('');
         $parent->setChild('', $block);
-        $this->assertContains('block_abstractmock', $parent->getChildNames());
+        $this->assertContains('abstractmock', $parent->getChildNames());
     }
 
     public function testInsertBlockWithAlias()

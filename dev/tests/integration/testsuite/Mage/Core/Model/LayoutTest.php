@@ -313,7 +313,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'named block' => array(
                 'Mage_Core_Block_Template',
                 'some_block_name_full_class',
-                array('type' => 'Mage_Core_Block_Template'),
+                array('type' => 'Mage_Core_Block_Template', 'is_anonymous' => false),
                 '/^some_block_name_full_class$/'
             ),
             'no name block' => array(
@@ -321,7 +321,8 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 '',
                 array(
                     'type' => 'Mage_Core_Block_Text_List',
-                    'key1' => 'value1'
+                    'key1' => 'value1',
+                    'is_anonymous' => true
                 ),
                 '/text_list/'
             ),

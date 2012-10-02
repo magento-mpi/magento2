@@ -286,7 +286,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->_columns[$columnId] = $this->getLayout()
                 ->createBlock(
                     isset($column['block_class']) ? $column['block_class'] : 'Mage_Backend_Block_Widget_Grid_Column',
-                    ($this->getId() ?: $this->getNameInLayout()) . '_column_' . $columnId
+                    $this->getNameInLayout() . '_column_' . $columnId
                 )
                 ->setData($column)
                 ->setColumnId($columnId)

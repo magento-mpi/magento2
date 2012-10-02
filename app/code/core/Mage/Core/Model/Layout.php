@@ -584,11 +584,21 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $position = strpos($class, 'Block');
         $key = $position !== false ? substr($class, $position + 6) : $class;
         $key = strtolower(trim($key, '_'));
+
         if (!isset($this->_nameIncrement[$key])) {
-            $this->_nameIncrement[$key] = $this->_structure->hasElement($key) ? 2 : 1;
+            $this->_nameIncrement[$key] = 0;
+        }
+
+        if ($this->_nameIncrement[$key] == 0 && !$this->_structure->hasElement($key)) {
+            $this->_nameIncrement[$key]++;
             return $key;
         }
-        return $key . '_' . $this->_nameIncrement[$key]++;
+
+        do {
+            $name = $key . '_' . $this->_nameIncrement[$key]++;
+        } while ($this->_structure->hasElement($name));
+
+        return $name;
     }
 
     /**
