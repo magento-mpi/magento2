@@ -70,6 +70,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $store = Mage::app()->getStore($storeId);
             $query['___store'] = urlencode($store->getCode());
         }
+        $params['_nosid'] = true;
         $params['_query'] = $query;
         $this->_redirectUrl(Mage::getUrl('/', $params));
     }

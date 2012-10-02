@@ -106,9 +106,9 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'required' => true
         ));
 
-        $minImageSize = $this->getImageMaxSize();
-        if ($minImageSize) {
-            $previewImageNote = $this->__('Max image size: %s', $minImageSize);
+        $maxImageSize = $this->getImageMaxSize();
+        if ($maxImageSize) {
+            $previewImageNote = $this->__('Max image size: %s', $maxImageSize);
         } else {
             $previewImageNote = $this->__("System doesn't allow to get file upload settings");
         }

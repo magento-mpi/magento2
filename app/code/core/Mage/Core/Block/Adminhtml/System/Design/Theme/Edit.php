@@ -47,7 +47,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_Bl
     public function getHeaderText()
     {
         if (Mage::registry('current_theme')->getId()) {
-            $header = $this->__('Edit Theme');
+            $header = $this->__('Theme: %s', Mage::registry('current_theme')->getThemeTitle());
         } else {
             $header = $this->__('New Theme');
         }

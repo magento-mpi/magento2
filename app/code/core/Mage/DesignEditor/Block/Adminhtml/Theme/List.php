@@ -10,8 +10,6 @@
 
 /**
  * Design editor theme list
- *
- * @method array getThemes()
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_List extends Mage_Backend_Block_Widget_Container
 {
