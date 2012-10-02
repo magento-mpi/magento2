@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$allowResourceId = 'customer/multiGet';
+$allowResourceId = 'customer/get';
 
 $role = new Mage_Webapi_Model_Acl_Role();
 $role->setData(array(

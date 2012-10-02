@@ -51,9 +51,6 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
             $acl->addRole($aclRole);
             //Deny all privileges to Role. Some of them could be allowed later by whitelist
             $acl->deny($aclRole);
-            foreach ($acl->getResources() as $aclResource) {
-                $acl->deny($aclRole, $aclResource);
-            }
         }
     }
 }

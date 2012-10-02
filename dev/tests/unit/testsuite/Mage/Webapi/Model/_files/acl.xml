@@ -16,7 +16,11 @@
             <resource id="customer" title="Manage Customers">
                 <resource id="customer/create" title="Create Customer" />
                 <resource id="customer/update" title="Edit customer" />
+                <resource id="customer/get" title="Get Customer" />
             </resource>
         </resources>
+        <virtual_resources>
+            <virtual_resource id="customer/list" parent="customer/get" />
+        </virtual_resources>
     </acl>
 </config>

@@ -59,17 +59,11 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
         $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue($roleIds));
         $this->_config->expects($this->any())->method('getModelInstance')->will($this->returnCallback($getModel));
         $acl = new Magento_Acl();
-        $parentResource = 'customer';
-        $acl->addResource($parentResource);
-        $resource = 'customer/get';
-        $acl->addResource($resource, $parentResource);
         $this->_model->populateAcl($acl);
         $this->assertEquals($roleIds, $acl->getRoles());
         //Check that nothing is allowed for just loaded roles
         foreach ($roleIds as $role) {
-            $acl->allow($role, $parentResource);
             $this->assertFalse($acl->isAllowed($role));
-            $this->assertFalse($acl->isAllowed($role, $resource));
         }
     }
 

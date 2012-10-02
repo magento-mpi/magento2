@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetRuleList()
     {
         $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
-        $allowResourceId = 'customer/multiGet';
+        $allowResourceId = 'customer/get';
         /** @var $ruleResource Mage_Webapi_Model_Resource_Acl_Rule */
         $ruleResource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule');
         $rules = $ruleResource->getRuleList();

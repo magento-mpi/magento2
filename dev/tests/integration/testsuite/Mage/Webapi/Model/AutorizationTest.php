@@ -31,7 +31,10 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         $aclModel = new Mage_Webapi_Model_Authorization;
 
         //Test for Allow
-        $this->assertTrue($aclModel->isAllowed($role->getRoleId(), 'customer', 'multiGet'));
+        $this->assertTrue($aclModel->isAllowed($role->getRoleId(), 'customer', 'get'));
+
+        //Test for Allow virtual resource
+        $this->assertTrue($aclModel->isAllowed($role->getRoleId(), 'customer', 'list'));
 
         //Test for Deny
         $this->assertFalse($aclModel->isAllowed($role->getRoleId(), 'customer', 'delete'));
