@@ -59,7 +59,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
             $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('The theme was not found.'));
@@ -83,7 +83,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
                 $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
             }
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setThemeData($themeData);
             $redirectBack = true;
         } catch (Exception $e) {
@@ -105,7 +105,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
                 $this->_getSession()->addSuccess($this->__('The theme has been deleted.'));
             }
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($this->__($e->getMessage()));
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Cannot delete the theme.'));
             Mage::logException($e);
