@@ -18,7 +18,7 @@ class Mage_Payment_Block_Info_ContainerAbstractTest extends Magento_Test_TestCas
     {
         $block = $this->getMock('Mage_Payment_Block_Info_ContainerAbstract', array('getChildBlock', 'getPaymentInfo'),
             array(), '', false);
-        $paymentInfo = $this->getModel('Mage_Payment_Model_Info' );
+        $paymentInfo = $this->getModel('Mage_Payment_Model_Info');
         $methodInstance = $this->getModel('Mage_Payment_Model_Method_Checkmo');
         $paymentInfo->setMethodInstance($methodInstance);
         $block->expects($this->atLeastOnce())
