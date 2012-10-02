@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Block_AbstractTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @param string $expectedResult
@@ -19,9 +19,19 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUiId($expectedResult, $nameInLayout, $methodArguments)
     {
-        $this->markTestIncomplete('Test incompleted after DI Introduction');
         /** @var $block Mage_Core_Block_Abstract */
-        $block = $this->getMock('Mage_Core_Block_Abstract', null);
+        $arguments = array(
+            'request'         => $this->_getMockWithoutConstructorCall('Mage_Core_Controller_Request_Http'),
+            'layout'          => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Layout'),
+            'eventManager'    => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Event_Manager'),
+            'translator'      => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Translate'),
+            'cache'           => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Cache'),
+            'designPackage'   => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Design_Package'),
+            'session'         => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Session'),
+            'storeConfig'     => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Store_Config'),
+            'frontController' => $this->_getMockWithoutConstructorCall('Mage_Core_Controller_Varien_Front')
+        );
+        $block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', $arguments);
         $block->setNameInLayout($nameInLayout);
 
         $this->assertEquals(
