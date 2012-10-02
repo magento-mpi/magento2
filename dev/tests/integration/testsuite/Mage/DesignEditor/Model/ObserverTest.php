@@ -75,9 +75,14 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchWrongThemeId()
     {
+        $wrongThemeId = 999;
+        $theme = new Mage_Core_Model_Theme();
+        $theme->load($wrongThemeId);
+        $this->assertTrue($theme->isEmpty(), 'Theme with ID=999 is present in database');
+
         /** @var $session Mage_DesignEditor_Model_Session */
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $session->setThemeId(999);
+        $session->setThemeId($wrongThemeId);
         $this->_observer->preDispatch($this->_eventObserver);
         $this->assertFalse($session->isDesignEditorActive());
     }

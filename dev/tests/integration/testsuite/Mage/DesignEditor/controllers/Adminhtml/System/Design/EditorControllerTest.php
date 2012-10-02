@@ -16,24 +16,35 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      *
      * @var int
      */
-    protected $_themeId;
+    protected static $_themeId;
 
-    protected function setUp()
+    /**
+     * Create theme is db
+     */
+    public static function prepareTheme()
     {
-        parent::setUp();
         $theme = new Mage_Core_Model_Theme();
         $theme->setData(array(
-             'package_code'         => 'default',
-             'package_title'        => 'Default',
-             'parent_theme'         => 'default',
-             'theme_code'           => 'default',
-             'theme_version'        => '2.0.0.0',
-             'theme_title'          => 'Default',
-             'magento_version_from' => '2.0.0.0-dev1',
-             'is_featured'          => '0'
+            'package_code'         => 'default',
+            'package_title'        => 'Default',
+            'parent_theme'         => 'default',
+            'theme_code'           => 'default',
+            'theme_version'        => '2.0.0.0',
+            'theme_title'          => 'Default',
+            'magento_version_from' => '2.0.0.0-dev1',
+            'is_featured'          => '0'
         ));
         $theme->save();
-        $this->_themeId = $theme->getId();
+        self::$_themeId = $theme->getId();
+    }
+
+    /**
+     * Delete theme from db
+     */
+    public static function prepareThemeRollback()
+    {
+        $theme = new Mage_Core_Model_Theme();
+        $theme->load(self::$_themeId)->delete();
     }
 
     /**
@@ -78,12 +89,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Fixture Store</option>', $responseBody);
     }
 
+    /**
+     * @magentoDataFixture prepareTheme
+     */
     public function testLaunchActionSingleStore()
     {
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_skin', 'default/default/default');
-        $this->getRequest()->setParam('theme_id', $this->_themeId);
+        $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 
@@ -105,6 +119,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
+     * @magentoDataFixture prepareTheme
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
@@ -114,7 +129,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_id', $this->_themeId);
+        $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 

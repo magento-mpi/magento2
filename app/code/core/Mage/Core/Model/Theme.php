@@ -347,8 +347,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function createPreviewImage($imagePath)
     {
-        $imageName = str_replace(DS, '_', $this->getThemePath()) . '.jpg';
-
         $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
         $image = new Varien_Image($imagePath, $adapter);
         $image->keepTransparency(true);
@@ -357,6 +355,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $image->keepAspectRatio(true);
         $image->backgroundColor(array(255, 255, 255));
         $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
+
+        $imageName = str_replace('/', '_', $this->getThemePath()) . image_type_to_extension($image->getMimeType());
         $image->save(self::_getImagePathPreview(), $imageName);
 
         $this->setPreviewImage($imageName);
