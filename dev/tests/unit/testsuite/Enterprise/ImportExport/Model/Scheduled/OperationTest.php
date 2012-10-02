@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test_TestCase_ObjectManager
+class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Default date value

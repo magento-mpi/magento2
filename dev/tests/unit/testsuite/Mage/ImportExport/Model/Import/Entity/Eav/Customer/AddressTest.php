@@ -14,7 +14,7 @@
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends Magento_Test_TestCase_ObjectManager
+class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Customer address entity adapter mock

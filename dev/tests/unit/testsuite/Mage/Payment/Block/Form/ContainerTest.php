@@ -9,31 +9,18 @@
  * @license     {license_link}
  */
 
-class Mage_Payment_Block_Form_ContainerAbstractTest extends PHPUnit_Framework_TestCase
+/**
+ * Test class for Mage_Payment_Block_Form_ContainerAbstract
+ */
+class Mage_Payment_Block_Form_ContainerAbstractTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
+    /**
+     * @covers Mage_Payment_Block_Form_ContainerAbstract::getChildBlock
+     */
     public function testSetMethodFormTemplate()
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
-        $childBlockA = new Mage_Core_Block_Template(
-            $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false)
-        );
-        $childBlockB = new Mage_Core_Block_Template(
-            $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false)
-        );
+        $childBlockA = $this->getBlock('Mage_Core_Block_Template');
+        $childBlockB = $this->getBlock('Mage_Core_Block_Template');
 
         $func = function ($blockName) use ($childBlockA, $childBlockB) {
             switch ($blockName) {
@@ -44,8 +31,8 @@ class Mage_Payment_Block_Form_ContainerAbstractTest extends PHPUnit_Framework_Te
             }
             return null;
         };
-
-        $block = $this->getMock('Mage_Payment_Block_Form_Container', array('getChildBlock'));
+        $block = $this->getMock('Mage_Payment_Block_Form_Container', array('getChildBlock'),
+            array(), '', false);
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->will($this->returnCallback($func));

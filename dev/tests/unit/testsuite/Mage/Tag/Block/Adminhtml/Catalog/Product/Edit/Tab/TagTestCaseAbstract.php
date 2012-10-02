@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract extends Magento_Test_TestCase_ObjectManager
+class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag

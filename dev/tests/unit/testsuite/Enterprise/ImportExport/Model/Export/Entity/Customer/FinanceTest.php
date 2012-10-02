@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends Magento_Test_TestCase_ObjectManager
+class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**#@+
      * Test attribute code and website specific attribute code

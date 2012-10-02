@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
+abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Framework_TestCase
 {
     /**
      * Get block instance
      *
      * @param string $className
      * @param array $data
-     * @return object
+     * @return Mage_Core_Block_Abstract
      */
     public function getBlock($className, array $data = array())
     {
@@ -108,7 +108,7 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
     /**
      * Get mock without call of original constructor
      *
-     * @param $className
+     * @param string $className
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getMockWithoutConstructorCall($className)
@@ -119,7 +119,7 @@ class Magento_Test_TestCase_ObjectManager extends PHPUnit_Framework_TestCase
     /**
      * Get class instance via constructor
      *
-     * @param $className
+     * @param string $className
      * @param array $arguments
      * @return object
      */

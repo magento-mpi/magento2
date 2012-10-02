@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_ImportExport_Block_Adminhtml_Import_Edit_Before
  */
-class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends Magento_Test_TestCase_ObjectManager
+class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Test model
