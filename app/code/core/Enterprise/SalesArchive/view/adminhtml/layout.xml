@@ -101,6 +101,16 @@
         <container name="sales_order.grid.container" label="Sales Archive Grid Container" output="1"/>
     </adminhtml_sales_archive_ordersgrid>
 
+    <adminhtml_sales_archive_exportexcel>
+        <update handle="adminhtml_sales_archive_orders_grid_block" />
+        <container name="sales_order.grid.container" label="Sales Archive Order Grid Container"/>
+    </adminhtml_sales_archive_exportexcel>
+
+    <adminhtml_sales_archive_exportcsv>
+        <update handle="adminhtml_sales_archive_orders_grid_block" />
+        <container name="sales_order.grid.container" label="Sales Archive Order Grid Container" />
+    </adminhtml_sales_archive_exportcsv>
+
     <adminhtml_sales_archive_invoices>
         <reference name="content">
             <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice" name="archive">
