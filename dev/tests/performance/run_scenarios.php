@@ -17,11 +17,11 @@ try {
     $adminOptions = $config->getAdminOptions();
     $scenario = new Magento_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
     $scenarioArgsGlobal = array(
-        Magento_Scenario::ARGUMENT_HOST => $config->getApplicationUrlHost(),
-        Magento_Scenario::ARGUMENT_PATH => $config->getApplicationUrlPath(),
-        Magento_Scenario::ARGUMENT_ADMIN_FRONTNAME => $adminOptions['frontname'],
-        Magento_Scenario::ARGUMENT_ADMIN_USERNAME => $adminOptions['username'],
-        Magento_Scenario::ARGUMENT_ADMIN_PASSWORD => $adminOptions['password'],
+        Magento_Scenario::ARG_HOST => $config->getApplicationUrlHost(),
+        Magento_Scenario::ARG_PATH => $config->getApplicationUrlPath(),
+        Magento_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+        Magento_Scenario::ARG_ADMIN_USERNAME => $adminOptions['username'],
+        Magento_Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password'],
     );
     $scenarioTotalCount = count($config->getScenarios());
     $scenarioFailCount = 0;

@@ -36,9 +36,9 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
      */
     protected $_scenarioArgs = array(
         'arguments' => array(
-            Magento_Scenario::ARGUMENT_HOST  => '127.0.0.1',
-            Magento_Scenario::ARGUMENT_PATH  => '/',
-            Magento_Scenario::ARGUMENT_USERS => 2,
+            Magento_Scenario::ARG_HOST  => '127.0.0.1',
+            Magento_Scenario::ARG_PATH  => '/',
+            Magento_Scenario::ARG_USERS => 2,
         ),
     );
 
@@ -103,11 +103,11 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
             ),
             'no "host" argument' => array(
                 $this->_scenarioFile,
-                array(Magento_Scenario::ARGUMENT_PATH => '/'),
+                array(Magento_Scenario::ARG_PATH => '/'),
             ),
             'no "path" argument' => array(
                 $this->_scenarioFile,
-                array(Magento_Scenario::ARGUMENT_HOST => '127.0.0.1'),
+                array(Magento_Scenario::ARG_HOST => '127.0.0.1'),
             ),
             'scenario failure in report' => array(
                 __DIR__ . '/_files/scenario_failure.jmx',
@@ -123,14 +123,14 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test run() method with different 'dry run' settings
+     * Test run() method with different 'warm-up' settings
      *
      * @param array $scenarioArgs
      * @param int $runTimes
      *
-     * @dataProvider dryRunDataProvider
+     * @dataProvider warmUpDataProvider
      */
-    public function testDryRun($scenarioArgs, $runTimes)
+    public function testWarmUp($scenarioArgs, $runTimes)
     {
         $this->_shell
             ->expects($this->exactly($runTimes))
@@ -139,25 +139,25 @@ class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
         $this->_object->run($this->_scenarioFile, $scenarioArgs);
     }
 
-    public function dryRunDataProvider()
+    public function warmUpDataProvider()
     {
         return array(
-            'dry run not skipped by default' => array(
+            'warm-up not skipped by default' => array(
                 $this->_scenarioArgs,
                 2,
             ),
-            'dry run not skipped in config' => array(
+            'warm-up not skipped in config' => array(
                 array_merge_recursive($this->_scenarioArgs, array(
                     'settings' => array(
-                        'skip_dry_run' => false,
+                        'skip_warm_up' => false,
                     ),
                 )),
                 2,
             ),
-            'dry run skipped' => array(
+            'warm-up skipped' => array(
                 array_merge_recursive($this->_scenarioArgs, array(
                     'settings' => array(
-                        'skip_dry_run' => true,
+                        'skip_warm_up' => true,
                     ),
                 )),
                 1,

@@ -16,13 +16,13 @@ class Magento_Scenario
     /**
      * Common scenario arguments
      */
-    const ARGUMENT_HOST  = 'host';
-    const ARGUMENT_PATH  = 'path';
-    const ARGUMENT_LOOPS = 'loops';
-    const ARGUMENT_USERS = 'users';
-    const ARGUMENT_ADMIN_USERNAME = 'admin_username';
-    const ARGUMENT_ADMIN_PASSWORD = 'admin_password';
-    const ARGUMENT_ADMIN_FRONTNAME = 'admin_frontname';
+    const ARG_HOST  = 'host';
+    const ARG_PATH  = 'path';
+    const ARG_LOOPS = 'loops';
+    const ARG_USERS = 'users';
+    const ARG_ADMIN_USERNAME = 'admin_username';
+    const ARG_ADMIN_PASSWORD = 'admin_password';
+    const ARG_ADMIN_FRONTNAME = 'admin_frontname';
 
     /**
      * @var Magento_Shell
@@ -88,20 +88,20 @@ class Magento_Scenario
         }
         $scenarioArgs = isset($scenarioConfig['arguments']) ? $scenarioConfig['arguments'] : array();
 
-        if (empty($scenarioArgs[self::ARGUMENT_HOST]) || empty($scenarioArgs[self::ARGUMENT_PATH])) {
+        if (empty($scenarioArgs[self::ARG_HOST]) || empty($scenarioArgs[self::ARG_PATH])) {
             throw new Magento_Exception(sprintf(
-                "Scenario arguments '%s' and '%s' must be specified.", self::ARGUMENT_HOST, self::ARGUMENT_PATH
+                "Scenario arguments '%s' and '%s' must be specified.", self::ARG_HOST, self::ARG_PATH
             ));
         }
 
-        // Dry run - just to warm-up the system
-        if (empty($scenarioConfig['settings']['skip_dry_run'])) {
-            $dryScenarioArgs = array_merge($scenarioArgs, array(self::ARGUMENT_USERS => 1, self::ARGUMENT_LOOPS => 2));
-            $this->_runScenario($scenarioFile, $dryScenarioArgs);
+        // Warm-up the system to populate cache, media, etc.
+        if (empty($scenarioConfig['settings']['skip_warm_up'])) {
+            $warmUpScenarioArgs = array_merge($scenarioArgs, array(self::ARG_USERS => 1, self::ARG_LOOPS => 2));
+            $this->_runScenario($scenarioFile, $warmUpScenarioArgs);
         }
 
         // Full run
-        $fullScenarioArgs = $scenarioArgs + array(self::ARGUMENT_USERS => 1, self::ARGUMENT_LOOPS => 1);
+        $fullScenarioArgs = $scenarioArgs + array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
         $reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
         $this->_runScenario($scenarioFile, $fullScenarioArgs, $reportFile);
     }
