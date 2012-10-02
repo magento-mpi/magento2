@@ -32,6 +32,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected $_soapConfig;
 
     /**
+     * WS-Security UsernameToken object from request
+     *
+     * @var stdClass
+     */
+    protected $_usernameTokenRequest;
+
+    /**
      * Handler for all SOAP operations
      *
      * @param string $operation
@@ -41,7 +48,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-        $role = $this->_authenticate($this->getRequest());
+        $role = $this->_authenticate();
         $this->_checkOperationDeprecation($operation);
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
@@ -78,19 +85,56 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Authenticate user
-     * @todo remove fake authentication code
+     * WS-Security header handler.
      *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param stdClass $header
+     */
+    public function Security($header)
+    {
+        if (isset($header->UsernameToken)) {
+            $this->_usernameTokenRequest = $header->UsernameToken;
+        }
+    }
+
+    /**
+     * Authenticate user
+     *
      * @return string
      */
-    protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
+    protected function _authenticate()
     {
-        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
-        $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
-        /** @var $user Mage_Webapi_Model_Acl_User */
-        $user = $collection->getFirstItem();
-        return $user->getRoleId();
+        $roleId = null;
+        if (is_null($this->_usernameTokenRequest)) {
+            $this->_soapFault($this->_helper->__('No WS-Security UsernameToken found in SOAP-request.'));
+        }
+
+        try {
+            $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
+                'username' => $this->_usernameTokenRequest->Username,
+                'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
+                'password' => $this->_usernameTokenRequest->Password,
+                'nonce' => $this->_usernameTokenRequest->Nonce,
+                'created' => $this->_usernameTokenRequest->Created
+            ));
+
+            $roleLocator = new Mage_Webapi_Model_Authorization_Soap_RoleLocator(array(
+                'usernameToken' => $usernameToken
+            ));
+
+            $roleId = $roleLocator->getAclRoleId();
+        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
+            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Nonce is already used.'));
+        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
+            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'));
+        } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException $e) {
+            $this->_soapFault($this->_helper->__('User "%s" not found.', $this->_usernameTokenRequest->Username));
+        } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException $e) {
+            $this->_soapFault($this->_helper->__('Request not authenticated.'));
+        } catch (Exception $e) {
+            $this->_soapFault($this->_helper->__('Error during authenticating SOAP-request.'));
+        }
+
+        return $roleId;
     }
 
     /**
