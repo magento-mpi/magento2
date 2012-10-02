@@ -29,7 +29,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     /**
      * @var Mage_Catalog_Model_Resource_Product_Option
      */
-    protected $_productOptionResource;
+    protected $_optionResource;
 
     /**
      * @var Mage_Catalog_Model_Product
@@ -70,7 +70,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         );
 
         $this->_productResource = $this->getMock('Mage_Catalog_Model_Resource_Product', array(), array(), '', false);
-        $this->_productOptionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
+        $this->_optionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
         $this->_product = $this->getMock('Mage_Catalog_Model_Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
@@ -80,7 +80,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = new Mage_Catalog_Model_Product_Option(array('resource' => $this->_productOptionResource));
+            $option = new Mage_Catalog_Model_Product_Option(array('resource' => $this->_optionResource));
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
