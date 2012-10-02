@@ -235,8 +235,14 @@ class Mage_Core_Model_Translate_Inline
             return;
         }
 
-        $url_prefix = Mage::app()->getStore()->isAdmin() ? 'adminhtml' : 'core';
-        $ajaxUrl = Mage::getUrl($url_prefix . '/ajax/translate',
+        if (Mage::app()->getStore()->isAdmin()) {
+            $urlPrefix = 'adminhtml';
+            $urlModel = Mage::getModel('Mage_Backend_Model_Url');
+        } else {
+            $urlPrefix = 'core';
+            $urlModel = Mage::getModel('Mage_Core_Model_Url');
+        }
+        $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
         $trigImg = Mage::getDesign()->getSkinUrl('Mage_Core::fam_book_open.png');
 
@@ -246,14 +252,6 @@ class Mage_Core_Model_Translate_Inline
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('prototype/window.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('prototype/windows/themes/default.css') ?>"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('Mage_Core::prototype/magento.css') ?>"/>
-
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('jquery/jquery-1.7.1.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/jquery-no-conflict.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('jquery/jquery-ui-1.8.18.custom.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('jquery/jquery.tmpl.min.js') ?>"></script>
-<?php if(Mage::app()->getStore()->isAdmin()): ?>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/adminhtml/ajax-setup.js') ?>"></script>
-<?php endif; ?>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/edit-trigger.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/translate_inline.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('mage/translate_inline.css') ?>"/>
