@@ -66,6 +66,11 @@ Supported layout update handles (special):
 
                 <action method="addJs"><file>lib/ds-sleight.js</file><params>defer</params><if>lt IE 7</if></action>
 
+                <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+                <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+                <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+                <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
+                <action method="addJs"><file>mage/backend/ajax-setup.js</file></action>
                 <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
                 <action method="addJs"><file>calendar/calendar.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
                 <action method="addJs"><file>calendar/calendar-setup.js</file><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
