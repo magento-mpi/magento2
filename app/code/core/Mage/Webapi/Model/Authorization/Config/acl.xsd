@@ -89,12 +89,12 @@
     <xs:simpleType name="typeId">
         <xs:annotation>
             <xs:documentation>
-                Item id attribute can has only [a-z0-9/_]. Minimal length 3 symbol. Case insensitive.
+                Item id attribute can has only [A-Za-z0-9_]/[A-Za-z0-9_]. Minimal length 3 symbol. Case insensitive.
             </xs:documentation>
         </xs:annotation>
 
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z_0-9]{1,}/?[A-Za-z_0-9]{1,}" />
+            <xs:pattern value="[A-Za-z_0-9]+/?[A-Za-z_0-9]+" />
         </xs:restriction>
     </xs:simpleType>
 

@@ -61,7 +61,14 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
             ->method('getAclResources')
             ->will($this->returnValue($aclResources));
 
-        $expectedResources = array('customer', 'customer/create', 'customer/get', 'customer/update');
+        $expectedResources = array(
+            'Mage_Webapi',
+            'customer',
+            'customer/create',
+            'customer/delete',
+            'customer/get',
+            'customer/update'
+        );
         $resources = $this->_model->getAclResources();
 
         $this->assertInstanceOf('DOMNodeList', $resources);

@@ -59,7 +59,8 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         if (is_null($this->_reader)) {
             $aclResourceFiles = $this->_getAclResourceFiles();
-            $this->_reader = $this->_config->getModelInstance('Magento_Acl_Config_Reader', $aclResourceFiles);
+            $this->_reader = $this->_config
+                ->getModelInstance('Mage_Webapi_Model_Authorization_Config_Reader', $aclResourceFiles);
         }
         return $this->_reader;
     }
