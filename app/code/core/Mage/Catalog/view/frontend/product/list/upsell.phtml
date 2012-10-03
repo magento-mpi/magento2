@@ -31,6 +31,6 @@
         </tr>
     <?php endfor; ?>
     </table>
-    <script type="text/javascript">decorateTable('upsell-product-table')</script>
+    <script type="text/javascript">(function($) {$.mage.decorator.table('#upsell-product-table');})(jQuery)</script>
 </div>
 <?php endif ?>

@@ -31,5 +31,5 @@
     <?php endforeach; ?>
     </tbody>
 </table>
-<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+<script type="text/javascript">(function($) {$.mage.decorator.table('#product-attribute-specs-table');})(jQuery)</script>
 <?php endif;?>

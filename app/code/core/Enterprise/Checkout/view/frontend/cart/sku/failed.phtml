@@ -74,7 +74,7 @@
                     <?php endforeach ?>
                 </tbody>
             </table>
-            <script type="text/javascript">decorateTable('failed-products-table')</script>
+            <script type="text/javascript">(function($) {$.mage.decorator.table('#failed-products-table');})(jQuery)</script>
         </fieldset>
     </form>
 </div>

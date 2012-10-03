@@ -50,7 +50,7 @@
     <?php endforeach; ?>
     </tbody>
 </table>
-<script type="text/javascript">decorateTable('invitations-list-table')</script>
+<script type="text/javascript">(function($) {$.mage.decorator.table('#invitations-list-table');})(jQuery)</script>
 
 <?php else: ?>
 

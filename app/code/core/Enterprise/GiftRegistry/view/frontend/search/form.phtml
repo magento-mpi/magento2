@@ -158,7 +158,7 @@ $('params_type_id').observe('change', advancedFormUpdate);
     <?php endforeach; ?>
     </tbody>
 </table>
-<script type="text/javascript">decorateTable('giftregistry-search-results')</script>
+<script type="text/javascript">(function($) {$.mage.decorator.table('#giftregistry-search-results');})(jQuery)</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php elseif ($this->getSearchResults()): ?>
     <?php echo $this->__('Your search returns no results.') ?>

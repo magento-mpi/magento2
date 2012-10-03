@@ -48,7 +48,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">decorateTable('my-downloadable-products-table')</script>
+    <script type="text/javascript">(function($) {$.mage.decorator.table('#my-downloadable-products-table');})(jQuery)</script>
 <?php else: ?>
     <p><?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('You have not purchased any downloadable products yet.'); ?></p>
 <?php endif; ?>

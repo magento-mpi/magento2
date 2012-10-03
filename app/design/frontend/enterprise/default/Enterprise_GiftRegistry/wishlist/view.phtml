@@ -111,7 +111,7 @@ $entityValues = $this->getEntityValues();
                     </tbody>
                 <?php endforeach ?>
             </table>
-            <script type="text/javascript">decorateTable('wishlist-table', {'tbody' : ['odd', 'even', 'first', 'last'], 'tbody tr' : ['first', 'last']})</script>
+            <script type="text/javascript">(function($) {$.mage.decorator.table('#wishlist-table', {'tbody': ['odd','even','first','last'], 'tbody tr': ['first','last']});})(jQuery)</script>
             <div class="buttons-set buttons-set2">
                 <button type="submit" onclick="this.name='save_and_share'" title="<?php echo $this->__('Share Wishlist') ?>" class="button btn-share"><span><span><?php echo $this->__('Share Wishlist') ?></span></span></button>
                 <?php if($this->isSaleable()):?>

@@ -138,7 +138,7 @@
                                     <?php endforeach; ?>
                                         </tbody>
                                     </table>
-                                    <script type="text/javascript">decorateTable('return-items-table-<?php echo $bundleID?>');</script>
+                                    <script type="text/javascript">(function($) {$.mage.decorator.table('#return-items-table-<?php echo $bundleID?>');})(jQuery)</script>
                                 </div>
                             </div>
                         </div>
