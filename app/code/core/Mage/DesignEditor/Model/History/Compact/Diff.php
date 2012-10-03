@@ -16,13 +16,12 @@ class Mage_DesignEditor_Model_History_Compact_Diff implements Mage_DesignEditor_
     /**
      * Run compact strategy on given collection
      *
-     * @param Mage_DesignEditor_Model_Change_Collection $collection
+     * @param Mage_DesignEditor_Model_Change_Collection|null $collection
      * @return Mage_DesignEditor_Model_History_Compact_Layout|Mage_DesignEditor_Model_History_CompactInterface
      */
     public function compact($collection = null)
     {
         //@TODO compact strategies for file changes are not determined yet
-
         return $this;
     }
 
@@ -35,6 +34,7 @@ class Mage_DesignEditor_Model_History_Compact_Diff implements Mage_DesignEditor_
     public function setChangesCollection(Mage_DesignEditor_Model_Change_Collection $collection)
     {
         // TODO: Implement setChangesCollection() method.
+        return $this;
     }
 
     /**
@@ -45,5 +45,6 @@ class Mage_DesignEditor_Model_History_Compact_Diff implements Mage_DesignEditor_
     public function getChangesCollection()
     {
         // TODO: Implement getChangesCollection() method.
+        return $this;
     }
 }
