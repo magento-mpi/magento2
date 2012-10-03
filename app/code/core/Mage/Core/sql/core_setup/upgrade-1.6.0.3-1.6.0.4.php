@@ -25,7 +25,7 @@ $table = $installer->getConnection()
         'primary'  => true,
     ), 'Theme identifier')
     ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('nullable' => true), 'Parent Id')
-    ->addColumn('theme_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Path')
+    ->addColumn('theme_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Theme Path')
     ->addColumn('theme_version', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Version')
     ->addColumn('theme_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Title')
     ->addColumn('preview_image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Preview Image')
