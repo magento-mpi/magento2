@@ -20,18 +20,8 @@ class Mage_Core_Block_AbstractTest extends Magento_Test_TestCase_ObjectManagerAb
     public function testGetUiId($expectedResult, $nameInLayout, $methodArguments)
     {
         /** @var $block Mage_Core_Block_Abstract */
-        $arguments = array(
-            'request'         => $this->_getMockWithoutConstructorCall('Mage_Core_Controller_Request_Http'),
-            'layout'          => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Layout'),
-            'eventManager'    => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Event_Manager'),
-            'translator'      => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Translate'),
-            'cache'           => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Cache'),
-            'designPackage'   => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Design_Package'),
-            'session'         => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Session'),
-            'storeConfig'     => $this->_getMockWithoutConstructorCall('Mage_Core_Model_Store_Config'),
-            'frontController' => $this->_getMockWithoutConstructorCall('Mage_Core_Controller_Varien_Front')
-        );
-        $block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', $arguments);
+        $block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',
+            array(), '', false);
         $block->setNameInLayout($nameInLayout);
 
         $this->assertEquals(
