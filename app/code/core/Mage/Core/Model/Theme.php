@@ -332,6 +332,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
+        $this->removePreviewImage();
         $this->createPreviewImage($fileName);
 
         $this->_getIoFile()->rm($fileName);
@@ -356,7 +357,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $image->backgroundColor(array(255, 255, 255));
         $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
 
-        $imageName = str_replace('/', '_', $this->getThemePath()) . image_type_to_extension($image->getMimeType());
+        $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());
         $image->save(self::_getImagePathPreview(), $imageName);
 
         $this->setPreviewImage($imageName);
