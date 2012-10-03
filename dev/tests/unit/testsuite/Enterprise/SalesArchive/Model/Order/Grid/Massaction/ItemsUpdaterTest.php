@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTest extends PHPUnit_Framework_TestCase
+class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -21,7 +21,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTe
     protected $_authorization;
 
     /**
-     * @var Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
+     * @var Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
      */
     protected $_model;
 
@@ -40,7 +40,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTe
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_model = new Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater(
+        $this->_model = new Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater(
             array(
                 'sales_archive_config' => $this->_cfgSalesArchive,
                 'authModel' => $this->_authorization
@@ -48,41 +48,13 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTe
         );
 
         $this->_updateArgs = array(
-            'remove_order_from_archive' => array(
-                'label' => 'Move to Orders Management',
-                'url' => '*/sales_archive/massRemove'
+            'add_order_to_archive' => array(
+                'label' => 'Move to Archive',
+                'url' => '*/sales_archive/massAdd'
             ),
             'cancel_order' => array(
                 'label' => 'Cancel',
                 'url' => '*/sales_archive/massCancel'
-            ),
-            'hold_order' => array(
-                'label' => 'Hold',
-                'url' => '*/sales_archive/massHold'
-            ),
-            'unhold_order' => array(
-                'label' => 'Unhold',
-                'url' => '*/sales_archive/massUnhold'
-            ),
-            'pdfinvoices_order' => array(
-                'label' => 'Print Invoices',
-                'url' => '*/sales_archive/massPrintInvoices'
-            ),
-            'pdfshipments_order' => array(
-                'label' => 'Print Packing Slips',
-                'url' => '*/sales_archive/massPrintPackingSlips'
-            ),
-            'pdfcreditmemos_order' => array(
-                'label' => 'Print Credit Memos',
-                'url' => '*/sales_archive/massPrintCreditMemos'
-            ),
-            'pdfdocs_order' => array(
-                'label' => 'Print All',
-                'url' => '*/sales_archive/massPrintAllDocuments'
-            ),
-            'print_shipping_label' => array(
-                'label' => 'Print Shipping Labels',
-                'url' => '*/sales_archive/massPrintShippingLabel'
             )
         );
     }
@@ -99,16 +71,13 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTe
     protected function _getAclResourceMap($isAllowed)
     {
         return array(
-            array('Mage_Sales::cancel', null, $isAllowed),
-            array('Mage_Sales::hold', null, $isAllowed),
-            array('Mage_Sales::unhold', null, $isAllowed),
-            array('Enterprise_SalesArchive::remove', null, $isAllowed),
+            array('Enterprise_SalesArchive::add', null, $isAllowed)
         );
     }
 
     protected function _getItemsId()
     {
-        return array('cancel_order', 'hold_order', 'unhold_order', 'remove_order_from_archive');
+        return array('add_order_to_archive');
     }
 
     public function testAuthAllowed()

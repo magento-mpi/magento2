@@ -16,39 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
+    extends Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
     implements Mage_Core_Model_Layout_Argument_UpdaterInterface
 {
-    /**
-     * @var Enterprise_SalesArchive_Model_Config $_salesArchiveConfig
-     */
-    protected $_salesArchiveConfig;
-
-    /**
-     * @var Enterprise_SalesArchive_Model_Config $_authModel
-     */
-    protected $_authModel;
-
-    /**
-     * @param array $data
-     */
-    public function __construct($data = array())
-    {
-        $this->_salesArchiveConfig = (isset($data['sales_archive_config']))?
-            $data['sales_archive_config'] : Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
-        $this->_authModel = (isset($data['authModel']))?
-            $data['authModel'] : Mage::getSingleton('Mage_Core_Model_Authorization');
-    }
-
-    /**
-     * Check is module active
-     *
-     * @return bool
-     */
-    protected function _isArchiveActive()
-    {
-        return $this->_salesArchiveConfig->isArchiveActive();
-    }
-
     /**
      * Remove massaction items in case they disallowed for user
      * @param mixed $argument

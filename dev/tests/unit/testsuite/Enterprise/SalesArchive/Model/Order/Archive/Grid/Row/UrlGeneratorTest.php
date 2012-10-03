@@ -26,7 +26,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
      */
     protected $_urlModel;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_authorization = $this->getMockBuilder('Mage_Core_Model_Authorization')
             ->disableOriginalConstructor()
@@ -66,14 +66,6 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
                 )
             )
         );
-    }
-
-    public function tearDown()
-    {
-        unset($this->_authorization);
-        unset($this->_urlModel);
-        unset($this->_model);
-
     }
 
     public function testAuthNotAllowed()
