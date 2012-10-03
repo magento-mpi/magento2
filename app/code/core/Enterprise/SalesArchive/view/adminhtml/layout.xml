@@ -83,11 +83,14 @@
             <reference name="sales.order.grid.columnSet">
                 <arguments>
                     <id>sales_order_grid_archive</id>
+                    <rowUrl>
+                        <generatorClass>Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator</generatorClass>
+                    </rowUrl>
                 </arguments>
             </reference>
         </reference>
     </adminhtml_sales_archive_orders_grid_block>
-    
+
     <adminhtml_sales_archive_orders>
         <update handle="adminhtml_sales_archive_orders_grid_block"/>
         <reference name="content">

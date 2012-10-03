@@ -36,7 +36,7 @@ class Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
     /**
      * @var array
      */
-    protected $_extraParamsTemplate;
+    protected $_extraParamsTemplate = array();
 
     public function __construct(array $args = array())
     {
