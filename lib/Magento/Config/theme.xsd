@@ -57,7 +57,7 @@
         </xs:sequence>
         <xs:attribute name="version" type="version" use="required"/>
         <xs:attribute name="code" type="xs:string" use="required"/>
-        <xs:attribute name="featured" type="xs:integer"/>
+        <xs:attribute name="featured" type="xs:boolean"/>
         <xs:attribute name="parent" type="parent_theme"/>
     </xs:complexType>
 
