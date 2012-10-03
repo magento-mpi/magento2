@@ -25,7 +25,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));
-            $this->_redirect($this->_getRefererUrl());
+            $this->_redirectUrl($this->_getRefererUrl());
             Mage::logException($e);
         }
     }
