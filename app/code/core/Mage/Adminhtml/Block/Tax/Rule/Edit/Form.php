@@ -81,7 +81,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 . 'customerTaxClassMultiselect.init(); }); })(jQuery);'
             . '/*]]>*/'
             . '</script>';
-        $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER), 'multiselect',
+        $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+            'multiselect',
             array(
                 'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
                 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
