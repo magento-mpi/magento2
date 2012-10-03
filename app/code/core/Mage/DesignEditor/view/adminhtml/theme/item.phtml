@@ -16,8 +16,9 @@
     <div style="margin:5px 20px;">
         <h4><sup><?php echo $this->getTheme()->getIsFeatured() ? 'F' : 'X'?></sup> <?php echo $this->getTheme()->getThemeTitle()?></h4>
         <?php $themeId = $this->getTheme()->getId(); $skinList = $this->getTheme()->getSkinList(); ?>
-        <label for="theme-skin-list-<?php echo $themeId ?>"><?php echo $this->__('Skin:') ?></label>
-        <select id="theme-skin-list-<?php echo $themeId ?>">
+        <?php $hideSkinSelector = empty($skinList) ? 'style="display: none;"' : '' ?>
+        <label <?php echo $hideSkinSelector ?> for="theme-skin-list-<?php echo $themeId ?>"><?php echo $this->__('Skin:') ?></label>
+        <select <?php echo $hideSkinSelector ?> id="theme-skin-list-<?php echo $themeId ?>">
             <?php foreach ($skinList as $skinLabel => $skinValue): ?>
             <option value="<?php echo $skinValue ?>"><?php echo $this->escapeHtml($skinLabel) ?></option>
             <?php endforeach ?>
