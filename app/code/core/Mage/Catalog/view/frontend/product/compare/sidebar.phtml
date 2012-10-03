@@ -33,8 +33,8 @@ $_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
             <?php endforeach; ?>
         </ol>
         <div class="actions">
-            <a id='comapare-clear-all' href="<?php echo $_helper->getClearListUrl() ?>" ><?php echo $this->__('Clear All') ?></a>
-            <button id="comapare-popup" type="button" title="<?php echo $this->__('Compare') ?>" class="button"><span><span><?php echo $this->__('Compare') ?></span></span></button>
+            <a id='compare-clear-all' href="<?php echo $_helper->getClearListUrl() ?>" ><?php echo $this->__('Clear All') ?></a>
+            <button type="button" title="<?php echo $this->__('Compare') ?>" class="button" data-mage-popwin="{windowURL:'<?php echo $_helper->getListUrl() ?>',windowName:'compare',resizable:1,scrollbars:1,width:820,height:600}"><span><span><?php echo $this->__('Compare') ?></span></span></button>
         </div>
         <script type="text/javascript">
             (function($) {
@@ -43,13 +43,11 @@ $_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
                         o.removeConfirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>',
                         o.removeSelector = '.btn-remove',
                         o.clearAllConfirmMessage = '<?php echo $this->__('Are you sure you would like to remove all products from your comparison?') ?>',
-                        o.clearAllSelector = '#comapare-clear-all',
-                        o.popUpWindowSelector = '#comapare-popup',
-                        o.windowName = 'compare',
-                        o.windowURL = '<?php echo $_helper->getListUrl() ?>'
+                        o.clearAllSelector = '#compare-clear-all'
                 });
                 $.mage.load.jsSync("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
                 $.mage.load.jsSync("<?php echo $this->getSkinUrl('jquery/jquery.popupwindow.js') ?>");
+                $.mage.load.jsSync("<?php echo $this->getSkinUrl('mage/popup-window.js') ?>");
                 $.mage.load.jsSync("<?php echo $this->getSkinUrl('Mage_Catalog::js/compare.js') ?>");
             })(jQuery);
         </script>
