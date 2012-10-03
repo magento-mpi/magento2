@@ -42,7 +42,7 @@ class Magento_ImportExport_Fixture_Generator extends Mage_ImportExport_Model_Imp
         $this->_colNames    = array_keys($rowPattern);
         $this->_colQuantity = count($rowPattern);
         foreach ($rowPattern as $key => $value) {
-            if (false !== strpos($value, '%s')) {
+            if (is_callable($value) || is_string($value) && (false !== strpos($value, '%s'))) {
                 $this->_dynamicColumns[$key] = $value;
             }
         }
@@ -67,7 +67,11 @@ class Magento_ImportExport_Fixture_Generator extends Mage_ImportExport_Model_Imp
         $this->_currentKey++;
         $this->_currentRow = $this->_pattern;
         foreach ($this->_dynamicColumns as $key => $pattern) {
-            $this->_currentRow[$key] = str_replace('%s', $this->_currentKey, $pattern);
+            if (is_callable($pattern)) {
+                $this->_currentRow[$key] = call_user_func($pattern, $this->_currentKey);
+            } else {
+                $this->_currentRow[$key] = str_replace('%s', $this->_currentKey, $pattern);
+            }
         }
     }
 
