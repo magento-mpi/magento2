@@ -19,9 +19,9 @@
 class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_ConfigInterface
 {
 
-    CONST ACL_RESOURCES_XPATH = '/config/acl/resources/*';
+    const ACL_RESOURCES_XPATH = '/config/acl/resources/*';
 
-    CONST ACL_VIRTUAL_RESOURCES_XPATH = '/config/mapping/*';
+    const ACL_VIRTUAL_RESOURCES_XPATH = '/config/mapping/*';
 
     /**
      * @var Mage_Core_Model_Config

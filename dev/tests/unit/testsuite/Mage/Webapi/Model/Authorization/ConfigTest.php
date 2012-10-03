@@ -124,7 +124,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
             if (!($resourceConfig instanceof DOMElement)) {
                 continue;
             }
-            $actualResources []= array(
+            $actualResources[] = array(
                 'id' => $resourceConfig->getAttribute('id'),
                 'parent' => $resourceConfig->getAttribute('parent')
             );
