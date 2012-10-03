@@ -72,7 +72,7 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Return count totals
      *
-     * @return bool
+     * @return mixed
      */
     public function getCountTotals()
     {

@@ -15,16 +15,16 @@ $numColumns = sizeof($this->getColumns());
         <?php foreach ($this->getColumns() as $_column): ?>
             <col <?php echo $_column->getHtmlProperty() ?> />
         <?php endforeach; ?>
-        <?php if ($this->getHeadersVisibility() || $this->getFilterVisibility()): ?>
+        <?php if ($this->isHeaderVisible() || $this->isFilterVisible()): ?>
             <thead>
-                <?php if ($this->getHeadersVisibility()): ?>
+                <?php if ($this->isHeaderVisible()): ?>
                     <tr class="headings">
                     <?php foreach ($this->getColumns() as $_column): ?>
                         <th<?php echo $_column->getHeaderHtmlProperty() ?>><span class="nobr"><?php echo $_column->getHeaderHtml() ?></span></th>
                     <?php endforeach; ?>
                     </tr>
                 <?php endif; ?>
-                <?php if ($this->getFilterVisibility()): ?>
+                <?php if ($this->isFilterVisible()): ?>
                     <tr class="filter">
                     <?php $i=0;foreach ($this->getColumns() as $_column): ?>
                         <th<?php echo $_column->getHeaderHtmlProperty() ?>><?php echo $_column->getFilterHtml() ?></th>

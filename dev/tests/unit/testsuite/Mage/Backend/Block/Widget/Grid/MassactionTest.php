@@ -45,7 +45,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     protected $_urlModelMock;
 
     /**
-     *  @var PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 

@@ -81,6 +81,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     protected $_isCollapsed;
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @throws InvalidArgumentException
+     * @param array $data
+     */
     public function __construct(array $data = array())
     {
         $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Mage_Backend_Helper_Data');
@@ -104,15 +109,12 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
                     throw new InvalidArgumentException('Passed wrong parameters');
                 }
                 unset($data['objectFactory']);
-
                 $this->_rowUrlGenerator = $objectFactory->getModelInstance($generatorClassName, $rowUrlParams);
             }
-        }
 
-        if (null !== $this->_rowUrlGenerator
-            && false === ($this->_rowUrlGenerator instanceof Mage_Backend_Model_Widget_Grid_Row_UrlGenerator)
-        ) {
-            throw new InvalidArgumentException('Passed wrong parameters');
+            if (false === ($this->_rowUrlGenerator instanceof Mage_Backend_Model_Widget_Grid_Row_UrlGenerator)) {
+                throw new InvalidArgumentException('Passed wrong parameters');
+            }
         }
 
         parent::__construct($data);
@@ -375,7 +377,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      *
      * @return boolean
      */
-    public function getHeadersVisibility()
+    public function isHeaderVisible()
     {
         return $this->_headersVisibility;
     }
@@ -395,7 +397,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      *
      * @return boolean
      */
-    public function getFilterVisibility()
+    public function isFilterVisible()
     {
         return $this->_filterVisibility;
     }
@@ -497,7 +499,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     /**
      * Return count subtotals
      *
-     * @return boolean
+     * @return mixed
      */
     public function getCountSubTotals()
     {
