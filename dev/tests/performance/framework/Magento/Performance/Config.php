@@ -11,18 +11,8 @@
 /**
  * Configuration of performance tests
  */
-class Magento_Config
+class Magento_Performance_Config
 {
-    /**
-     * Default value for configuration of benchmarking executable file path
-     */
-    const DEFAULT_JMETER_JAR_FILE = 'ApacheJMeter.jar';
-
-    /**
-     * @var Zend_Log
-     */
-    protected $_logger = null;
-
     /**
      * @var string
      */
@@ -49,11 +39,6 @@ class Magento_Config
     protected $_reportDir;
 
     /**
-     * @var string
-     */
-    protected $_jMeterPath;
-
-    /**
      * @var array
      */
     protected $_installOptions = array();
@@ -67,23 +52,21 @@ class Magento_Config
      * Constructor
      *
      * @param array $configData
-     * @param string $baseDir
-     * @param Zend_Log|null
+     * @param string $testsBaseDir
+     * @param string $appBaseDir
      * @throws InvalidArgumentException
      * @throws Magento_Exception
      */
-    public function __construct(array $configData, $baseDir, $logger = null)
+    public function __construct(array $configData, $testsBaseDir, $appBaseDir)
     {
-        $this->_logger = $logger;
-
         $this->_validateData($configData);
-        if (!is_dir($baseDir)) {
-            throw new Magento_Exception("Base directory '$baseDir' does not exist.");
+        if (!is_dir($testsBaseDir)) {
+            throw new Magento_Exception("Base directory '$testsBaseDir' does not exist.");
         }
-        $this->_reportDir = $baseDir . DIRECTORY_SEPARATOR . $configData['report_dir'];
+        $this->_reportDir = $testsBaseDir . DIRECTORY_SEPARATOR . $configData['report_dir'];
 
         $applicationOptions = $configData['application'];
-        $this->_applicationBaseDir = realpath($baseDir . '/../../../');
+        $this->_applicationBaseDir = $appBaseDir;
         $this->_applicationUrlHost = $applicationOptions['url_host'];
         $this->_applicationUrlPath = $applicationOptions['url_path'];
         $this->_adminOptions = $applicationOptions['admin'];
@@ -93,13 +76,7 @@ class Magento_Config
             $this->_installOptions = $installConfig['options'];
         }
 
-        if (!empty($configData['scenario']['jmeter_jar_file'])) {
-            $this->_jMeterPath = $configData['scenario']['jmeter_jar_file'];
-        } else {
-            $this->_jMeterPath = getenv('jmeter_jar_file') ?: self::DEFAULT_JMETER_JAR_FILE;
-        }
-
-        $this->_expandScenarios($configData['scenario'], $baseDir);
+        $this->_expandScenarios($configData['scenario'], $testsBaseDir);
     }
 
     /**
@@ -118,7 +95,7 @@ class Magento_Config
             throw new InvalidArgumentException("'scenario' => 'scenarios' option must be an array");
         }
 
-        $commonScenarioConfig = $this->_composeCommonScenarioConfig($scenarios);
+        $commonScenarioConfig = $this->_composeCommonScenarioConfig();
         foreach ($scenarios['scenarios'] as $scenarioName => $scenarioConfig) {
             // Scenarios without additional settings can be presented as direct values of 'scenario' array
             if (!is_array($scenarioConfig)) {
@@ -133,7 +110,10 @@ class Magento_Config
             }
 
             // Compose config, using global config
-            $scenarioConfig = $this->_overwriteByArray($commonScenarioConfig, $scenarioConfig);
+            $scenarioConfig = $this->_getCompleteArray($commonScenarioConfig, $scenarioConfig);
+            if (isset($scenarios['common_config'])) {
+                $scenarioConfig = $this->_getCompleteArray($scenarioConfig, $scenarios['common_config']);
+            }
 
             // Fixtures
             $scenarioConfig['fixtures'] = $this->_expandScenarioFixtures($scenarioConfig, $baseDir);
@@ -171,48 +151,41 @@ class Magento_Config
     /**
      * Compose list of all parameters, that must be provided for all scenarios
      *
-     * @param array $scenarios
      * @return array
      */
-    protected function _composeCommonScenarioConfig($scenarios)
+    protected function _composeCommonScenarioConfig()
     {
         $adminOptions = $this->getAdminOptions();
-        $result = array(
+        return array(
             'arguments' => array(
-                Magento_Scenario::ARG_HOST => $this->getApplicationUrlHost(),
-                Magento_Scenario::ARG_PATH => $this->getApplicationUrlPath(),
-                Magento_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
-                Magento_Scenario::ARG_ADMIN_USERNAME => $adminOptions['username'],
-                Magento_Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password'],
+                Magento_Performance_Scenario_Arguments::ARG_HOST            => $this->getApplicationUrlHost(),
+                Magento_Performance_Scenario_Arguments::ARG_PATH            => $this->getApplicationUrlPath(),
+                Magento_Performance_Scenario_Arguments::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+                Magento_Performance_Scenario_Arguments::ARG_ADMIN_USERNAME  => $adminOptions['username'],
+                Magento_Performance_Scenario_Arguments::ARG_ADMIN_PASSWORD  => $adminOptions['password'],
             ),
             'settings' => array(),
             'fixtures' => array()
         );
-
-        if (isset($scenarios['common_config'])) {
-            $result = $this->_overwriteByArray($result, $scenarios['common_config']);
-        }
-
-        return $result;
     }
 
     /**
-     * Merge array values from $source into $target's array values
+     * Retrieve new array composed for an input array by supplementing missing values
      *
-     * @param array $target
-     * @param array $source
+     * @param array $input
+     * @param array $supplement
      * @return array
      */
-    protected function _overwriteByArray(array $target, array $source)
+    protected function _getCompleteArray(array $input, array $supplement)
     {
-        foreach ($source as $key => $sourceVal) {
-            if (!empty($target[$key])) {
-                $target[$key] = array_merge($target[$key], $sourceVal);
+        foreach ($supplement as $key => $sourceVal) {
+            if (!empty($input[$key])) {
+                $input[$key] += $sourceVal;
             } else {
-                $target[$key] = $sourceVal;
+                $input[$key] = $sourceVal;
             }
         }
-        return $target;
+        return $input;
     }
 
     /**
@@ -294,13 +267,55 @@ class Magento_Config
     }
 
     /**
-     * Retrieve scenario files and their configuration as specified in the config
+     * Retrieve scenario files
      *
      * @return array
      */
     public function getScenarios()
     {
-        return $this->_scenarios;
+        return array_keys($this->_scenarios);
+    }
+
+    /**
+     * Retrieve arguments for a scenario
+     *
+     * @param string $scenarioFile
+     * @return Magento_Performance_Scenario_Arguments|null
+     */
+    public function getScenarioArguments($scenarioFile)
+    {
+        if (isset($this->_scenarios[$scenarioFile]['arguments'])) {
+            return new Magento_Performance_Scenario_Arguments($this->_scenarios[$scenarioFile]['arguments']);
+        }
+        return null;
+    }
+
+    /**
+     * Retrieve settings for a scenario
+     *
+     * @param string $scenarioFile
+     * @return array
+     */
+    public function getScenarioSettings($scenarioFile)
+    {
+        if (isset($this->_scenarios[$scenarioFile]['settings'])) {
+            return $this->_scenarios[$scenarioFile]['settings'];
+        }
+        return array();
+    }
+
+    /**
+     * Retrieve fixtures for a scenario
+     *
+     * @param string $scenarioFile
+     * @return array
+     */
+    public function getScenarioFixtures($scenarioFile)
+    {
+        if (isset($this->_scenarios[$scenarioFile]['fixtures'])) {
+            return $this->_scenarios[$scenarioFile]['fixtures'];
+        }
+        return array();
     }
 
     /**
@@ -311,31 +326,5 @@ class Magento_Config
     public function getReportDir()
     {
         return $this->_reportDir;
-    }
-
-    /**
-     * Retrieves path to JMeter java file
-     *
-     * @return string
-     */
-    public function getJMeterPath()
-    {
-        return $this->_jMeterPath;
-    }
-
-    /**
-     * Get logger, which is used to output messages
-     *
-     * @return Zend_Log
-     */
-    public function getLogger()
-    {
-        if (!$this->_logger) {
-            $writer = new Zend_Log_Writer_Stream('php://output');
-            $formatter = new Zend_Log_Formatter_Simple('%message%' . PHP_EOL);
-            $writer->setFormatter($formatter);
-            $this->_logger = new Zend_Log($writer);
-        }
-        return $this->_logger;
     }
 }

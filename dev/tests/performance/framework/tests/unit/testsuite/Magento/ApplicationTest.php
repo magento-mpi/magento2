@@ -12,7 +12,7 @@
 class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Performance_Config
      */
     protected $_config;
 
@@ -31,22 +31,26 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
      */
     protected $_installerScript;
 
+    /**
+     * @var string
+     */
+    protected $_fixtureDir;
+
+    /**
+     * @var array
+     */
+    protected $_fixtureConfigData;
+
     protected function setUp()
     {
-        $fixtureDir = __DIR__ . '/_files';
-        $configData = require($fixtureDir . '/config_data.php');
-        $logger = new Zend_Log(new Zend_Log_Writer_Null);
+        $this->_fixtureDir = __DIR__ . '/Performance/_files';
+        $this->_fixtureConfigData = require($this->_fixtureDir . '/config_data.php');
 
-        $this->_installerScript = realpath($fixtureDir . '/dev/shell/install.php');
+        $this->_installerScript = realpath($this->_fixtureDir . '/dev/shell/install.php');
 
-        $this->_config = $this->getMock('Magento_Config',
-            array('getApplicationBaseDir'),
-            array($configData, $fixtureDir, $logger)
+        $this->_config = new Magento_Performance_Config(
+            $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir
         );
-        $this->_config->expects($this->any())
-            ->method('getApplicationBaseDir')
-            ->will($this->returnValue($fixtureDir));
-
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
 
         $this->_object = $this->getMock(
@@ -67,23 +71,15 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Config $config
-     * @dataProvider constructorExceptionDataProvider
      * @expectedException Magento_Exception
      */
-    public function testConstructorException($config)
+    public function testConstructorException()
     {
-        new Magento_Application($config, $this->_shell);
-    }
-
-    public function constructorExceptionDataProvider()
-    {
-        $config = $this->getMock('Magento_Config', array('getApplicationBaseDir'), array(), '', false);
-        $config->expects($this->any())
-            ->method('getApplicationBaseDir')
-            ->will($this->returnValue(realpath(__DIR__)));
-
-        return array(array($config));
+        $invalidAppDir = __DIR__;
+        new Magento_Application(
+            new Magento_Performance_Config($this->_fixtureConfigData, $this->_fixtureDir, $invalidAppDir),
+            $this->_shell
+        );
     }
 
     public function testInstall()
@@ -111,6 +107,6 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('_reindex')
         ;
-        $this->_object->install(array('option1' => 'value1', 'option2' => 'value 2'));
+        $this->_object->install();
     }
 }

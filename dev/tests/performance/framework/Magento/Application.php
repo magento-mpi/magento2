@@ -21,13 +21,6 @@ class Magento_Application
     protected $_config;
 
     /**
-     * Logger, used to output messages
-     *
-     * @param Zend_Log
-     */
-    protected $_logger;
-
-    /**
      * Path to shell installer script
      *
      * @var string
@@ -56,20 +49,18 @@ class Magento_Application
     /**
      * Constructor
      *
-     * @param Magento_Config $config
+     * @param Magento_Performance_Config $config
      * @param Magento_Shell $shell
+     * @throws Magento_Exception
      */
-    public function __construct(Magento_Config $config, Magento_Shell $shell)
+    public function __construct(Magento_Performance_Config $config, Magento_Shell $shell)
     {
-        $this->_config = $config;
-        $this->_logger = $config->getLogger();
-
-        $installerScript = $this->_config->getApplicationBaseDir() . '/dev/shell/install.php';
+        $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
             throw new Magento_Exception("File '$installerScript' is not found.");
         }
-
         $this->_installerScript = realpath($installerScript);
+        $this->_config = $config;
         $this->_shell = $shell;
     }
 
@@ -98,9 +89,7 @@ class Magento_Application
      */
     protected function _uninstall()
     {
-        $this->_logger->info('Uninstalling application');
-        $this->_shell->execute('php -f %s -- --uninstall', array($this->_installerScript), $fullOutput);
-        $this->_logger->info($fullOutput);
+        $this->_shell->execute('php -f %s -- --uninstall', array($this->_installerScript));
 
         $this->_cleanupMage();
         $this->_isInstalled = false;
@@ -147,10 +136,7 @@ class Magento_Application
             $installCmd .= " --$optionName %s";
             $installCmdArgs[] = $optionValue;
         }
-        $this->_logger->info("Installing application at '$baseUrl'");
-        $this->_shell->execute($installCmd, $installCmdArgs, $fullOutput);
-        $this->_logger->info($fullOutput);
-        $this->_logger->info('');
+        $this->_shell->execute($installCmd, $installCmdArgs);
 
         $this->_isInstalled = true;
         $this->_fixtures = array();
@@ -218,13 +204,11 @@ class Magento_Application
         $this->_bootstrap();
         foreach ($fixturesToApply as $fixtureFile) {
             require $fixtureFile;
-            $this->_logger->info("Applied fixture {$fixtureFile}");
         }
         $this->_fixtures = $fixtures;
 
         $this->_reindex()
             ->_updateFilesystemPermissions();
-        $this->_logger->info('');
     }
 
     /**

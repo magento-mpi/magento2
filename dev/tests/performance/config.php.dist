@@ -94,11 +94,6 @@ return array(
                 ),
             ),
         ),
-        /**
-         * Path to JMeter executable. If empty, then env value 'jmeter_jar_file' is taken. If this value is empty as
-         * well, then default value is used.
-         */
-        'jmeter_jar_file' => '',
     ),
     'report_dir' => 'report',
 );

@@ -10,23 +10,35 @@
  * @license     {license_link}
  */
 
-// Run scenarios
-try {
-    /** @var $bootstrap Magento_Bootstrap */
-    $bootstrap = require_once __DIR__ . '/framework/bootstrap.php';
+/** @var $bootstrap Magento_Performance_Config */
+$config = require_once __DIR__ . '/framework/bootstrap.php';
 
-    // Run queue
-    $queue = new Magento_Scenario_Queue($bootstrap->getConfig());
-    $queue->run();
+$shell = new Magento_Shell(true);
+$scenarioHandler = new Magento_Performance_Scenario_Handler_Statistics(
+    new Magento_Performance_Scenario_Handler_Aggregate(array(
+        new Magento_Performance_Scenario_Handler_Jmeter($shell),
+        new Magento_Performance_Scenario_Handler_Php($shell),
+    ))
+);
 
-    if ($queue->getNumFailedScenarios()) {
-        throw new Magento_Exception(
-            "Failed {$queue->getNumFailedScenarios()} of {$queue->getNumScenarios()} scenario(s)"
-        );
-    }
+$scenarioTotalCount = count($config->getScenarios());
+$scenarioCount = 1;
+$scenarioHandler->onScenarioFirstRun(function ($scenarioFile) use (&$scenarioCount, $scenarioTotalCount) {
+    echo "Scenario $scenarioCount of $scenarioTotalCount: '$scenarioFile'" . PHP_EOL;
+    $scenarioCount++;
+});
+$scenarioHandler->onScenarioFailure(function ($scenarioFile, Magento_Performance_Scenario_FailureException $failure) {
+    echo "Scenario '$scenarioFile' has failed!" . PHP_EOL . $failure->getMessage() . PHP_EOL . PHP_EOL;
+});
 
-    echo 'Successful', PHP_EOL;
-} catch (Exception $e) {
-    echo $e->getMessage(), PHP_EOL;
+$testsuite = new Magento_Performance_Testsuite($config, new Magento_Application($config, $shell), $scenarioHandler);
+$testsuite->run();
+
+$scenarioFailures = $scenarioHandler->getFailures();
+if ($scenarioFailures) {
+    $scenarioFailCount = count($scenarioFailures);
+    echo "Failed $scenarioFailCount of $scenarioTotalCount scenario(s)" . PHP_EOL;
     exit(1);
+} else {
+    echo 'Successful' . PHP_EOL;
 }
