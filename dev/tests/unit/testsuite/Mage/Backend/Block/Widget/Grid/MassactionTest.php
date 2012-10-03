@@ -100,17 +100,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->_block->setNameInLayout('test_grid_massaction');
     }
 
-    protected function tearDown()
-    {
-        unset($this->_block);
-        unset($this->_gridMock);
-        unset($this->_urlModelMock);
-        unset($this->_layoutMock);
-        unset($this->_eventManagerMock);
-        unset($this->_backendHelperMock);
-        unset($this->_requestMock);
-    }
-
     public function testMassactionDefaultValues()
     {
         $this->assertEquals(0, $this->_block->getCount());
@@ -126,55 +115,69 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertTrue($this->_block->getUseSelectAll());
     }
 
-    public function testItemsProcessing()
+    /**
+     * @param $itemId
+     * @param $item
+     * @param $expectedItem Varien_Object
+     * @dataProvider itemsDataProvider
+     */
+    public function testItemsProcessing($itemId, $item, $expectedItem)
     {
         $this->_urlModelMock->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/index.php'));
 
         $urlReturnValueMap = array(
-            array('*/*/test1', 'http://localhost/index.php/backend/admin/test/test1'),
-            array('*/*/test2', 'http://localhost/index.php/backend/admin/test/test2')
+            array('*/*/test1', array(), 'http://localhost/index.php/backend/admin/test/test1'),
+            array('*/*/test2', array(), 'http://localhost/index.php/backend/admin/test/test2')
         );
         $this->_urlModelMock->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValueMap($urlReturnValueMap));
 
-        $item1 = array("label" => "Test Item One", "url" => "*/*/test1");
-        $this->_block->addItem("test_id1", $item1);
+        $this->_block->addItem($itemId, $item);
         $this->assertEquals(1, $this->_block->getCount());
 
-        $expectedItem1 = new Varien_Object(
+        $actualItem = $this->_block->getItem($itemId);
+        $this->assertInstanceOf('Varien_Object', $actualItem);
+        $this->assertEquals($expectedItem->getData(), $actualItem->getData());
+
+        $this->_block->removeItem($itemId);
+        $this->assertEquals(0, $this->_block->getCount());
+        $this->assertNull($this->_block->getItem($itemId));
+    }
+
+    public function itemsDataProvider()
+    {
+        return array(
             array(
-                "label" => "Test Item One",
-                "url" => "*/*/test1",
-                "id" => 'test_id1',
+                'test_id1',
+                array("label" => "Test Item One", "url" => "*/*/test1"),
+                new Varien_Object(
+                    array(
+                        "label" => "Test Item One",
+                        "url" => "http://localhost/index.php/backend/admin/test/test1",
+                        "id" => 'test_id1',
+                    )
+                )
+            ),
+            array(
+                'test_id2',
+                new Varien_Object(
+                    array(
+                        "label" => "Test Item Two",
+                        "url" => "*/*/test2"
+                    )
+                ),
+                new Varien_Object(
+                    array(
+                        "label" => "Test Item Two",
+                        "url" => "http://localhost/index.php/backend/admin/test/test2",
+                        "id" => 'test_id2',
+                    )
+                )
             )
         );
-        $expectedItem1->setUrl($this->_block->getUrl($expectedItem1->getUrl()));
-
-        $actualItem1 = $this->_block->getItem('test_id1');
-        $this->assertInstanceOf('Varien_Object', $actualItem1);
-        $this->assertEquals($expectedItem1, $actualItem1);
-
-        $item2 = new Varien_Object(array("label" => "Test Item Two", "url" => "*/*/test2"));
-        $this->_block->addItem("test_id2", $item2);
-
-        $this->assertEquals(2, $this->_block->getCount());
-        $this->assertInstanceOf('Varien_Object', $this->_block->getItem('test_id2'));
-
-        $expectedItem2 = $item2;
-        $expectedItem2->setId('test_id2')->setUrl($this->_block->getUrl('*/*/test2'));
-        $this->assertEquals($expectedItem2, $this->_block->getItem('test_id2'));
-
-        $items = array('test_id1' => $expectedItem1, 'test_id2' => $expectedItem2);
-        $this->assertEquals($items, $this->_block->getItems());
-
-        $this->_block->removeItem('test_id2');
-        $this->assertEquals(1, $this->_block->getCount());
-
-        $this->_block->removeItem('test_id1');
-        $this->assertEquals(0, $this->_block->getCount());
     }
 
     /**

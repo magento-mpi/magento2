@@ -65,87 +65,85 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertFalse($blockEmpty->isAvailable());
     }
 
-    /**
-     * @dataProvider javascriptDataProvider
-     */
-    public function testJavascript($input, $expected)
+    public function testJavascript()
     {
-        if (null !== $input) {
-            $this->_block->addItem($input['id'], $input);
-        }
         $javascript = $this->_block->getJavaScript();
-        $this->assertRegExp($expected, $javascript);
+
+        $expectedItem1 =  '#"option_id1":{"label":"Option One",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"complete":"Test","id":"option_id1"}#';
+        $this->assertRegExp($expectedItem1, $javascript);
+
+        $expectedItem2 =  '#"option_id2":{"label":"Option Two",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"confirm":"Are you sure\?","id":"option_id2"}#';
+        $this->assertRegExp($expectedItem2, $javascript);
     }
 
-    public function javascriptDataProvider()
+    public function testJavascriptWithAddedItem()
+    {
+        $input = array(
+            'id' => 'option_id3',
+            'label' => 'Option Three',
+            'url' => '*/*/option3',
+            'block_name' => 'admin.test.grid.massaction.option3'
+        );
+        $expected = '#"option_id3":{"id":"option_id3","label":"Option Three",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"block_name":"admin.test.grid.massaction.option3"}#';
+
+        $this->_block->addItem($input['id'], $input);
+        $this->assertRegExp($expected, $this->_block->getJavaScript());
+    }
+
+    public function testItemsCount()
+    {
+        $this->assertEquals(2, count($this->_block->getItems()));
+        $this->assertEquals(2, $this->_block->getCount());
+    }
+
+    /**
+     * @param $itemId
+     * @param $expectedItem
+     * @dataProvider itemsDataProvider
+     */
+    public function testItems($itemId, $expectedItem)
+    {
+        $items = $this->_block->getItems();
+        $this->assertArrayHasKey($itemId, $items);
+
+        $actualItem = $items[$itemId];
+        $this->assertEquals($expectedItem['id'], $actualItem->getId());
+        $this->assertEquals($expectedItem['label'], $actualItem->getLabel());
+        $this->assertRegExp($expectedItem['url'], $actualItem->getUrl());
+        $this->assertEquals($expectedItem['selected'], $actualItem->getSelected());
+        $this->assertEquals($expectedItem['blockname'], $actualItem->getBlockName());
+    }
+
+    public function itemsDataProvider()
     {
         return array(
             array(
-                null,
-                '#"option_id1":{"label":"Option One",'
-                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
-                . '"complete":"Test","id":"option_id1"}#',
-            ),
-            array(
-                null,
-                '#"option_id2":{"label":"Option Two",'
-                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
-                . '"confirm":"Are you sure\?","id":"option_id2"}#',
-            ),
-            array(
+                'option_id1',
                 array(
-                    'id' => 'option_id3',
-                    'label' => 'Option Three',
-                    'url' => '*/*/option3',
-                    'block_name' => 'admin.test.grid.massaction.option3'
-                ),
-                '#"option_id3":{"id":"option_id3","label":"Option Three",'
-                . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
-                . '"block_name":"admin.test.grid.massaction.option3"}#'
+                    'id' => 'option_id1',
+                    'label' => 'Option One',
+                    'url' => '#http:\/\/localhost\/index\.php\/key\/([\w\d]+)\/#',
+                    'selected' => false,
+                    'blockname' => ''
+                )
+            ),
+            array(
+                'option_id2',
+                array(
+                    'id' => 'option_id2',
+                    'label' => 'Option Two',
+                    'url' => '#http:\/\/localhost\/index\.php\/key\/([\w\d]+)\/#',
+                    'selected' => false,
+                    'blockname' => ''
+                )
             )
         );
-    }
-
-    public function testHtml()
-    {
-        $html = $this->_block->toHtml();
-
-        $this->assertRegExp('#<div id="([\w\d_]+)_massaction">#', $html);
-        $this->assertRegExp(
-            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectAll\(\)">Select All</a>#',
-            $html
-        );
-        $this->assertRegExp(
-            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectAll\(\)">Unselect All</a>#',
-            $html
-        );
-        $this->assertRegExp(
-            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.selectVisible\(\)">Select Visible</a>#',
-            $html
-        );
-        $this->assertRegExp(
-            '#<a href="\#" onclick="return ([\w\d_]+)_massactionJsObject.unselectVisible\(\)">Unselect Visible</a>#',
-            $html
-        );
-        $this->assertRegExp('#<strong id="([\w\d_]+)_massaction-count">0</strong> items selected    </td>#', $html);
-        $this->assertRegExp('#<form action="" id="([\w\d_]+)_massaction-form" method="post">#', $html);
-        $this->assertRegExp(
-            '#<select id="([\w\d_]+)_massaction-select" '
-                . 'class="required-entry select absolute-advice local-validation">#',
-            $html
-        );
-        $this->assertRegExp('#<option value="option_id1">Option One</option>#', $html);
-        $this->assertRegExp('#<option value="option_id2">Option Two</option>#', $html);
-        $this->assertRegExp('#<span class="outer-span" id="([\w\d_]+)_massaction-form-hiddens"></span>#', $html);
-        $this->assertRegExp('#<span class="outer-span" id="([\w\d_]+)_massaction-form-additional"></span>#', $html);
-        $this->assertRegExp(
-            '#<button  id="([\w\d_]+)" title="Submit" type="button" class="scalable " '
-                . 'onclick="([\w\d_]+)_massactionJsObject.apply\(\)" style=""><span><span>'
-                . '<span>Submit</span></span></span></button>                        </span>#',
-            $html
-        );
-        $this->assertRegExp('#<div id="([\w\d_]+)_massaction-item-option_id1-block">#', $html);
-        $this->assertRegExp('#<div id="([\w\d_]+)_massaction-item-option_id2-block">#', $html);
     }
 
     public function testGridContainsMassactionColumn()
