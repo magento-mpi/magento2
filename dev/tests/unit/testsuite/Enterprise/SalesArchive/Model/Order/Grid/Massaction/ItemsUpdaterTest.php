@@ -14,11 +14,11 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest exten
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_cfgSalesArchive;
+    protected $_cfgSalesArchiveMock;
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_authorization;
+    protected $_authorizationMock;
 
     /**
      * @var Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
@@ -32,18 +32,18 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest exten
 
     protected function setUp()
     {
-        $this->_cfgSalesArchive = $this->getMockBuilder('Enterprise_SalesArchive_Model_Config')
+        $this->_cfgSalesArchiveMock = $this->getMockBuilder('Enterprise_SalesArchive_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_authorization = $this->getMockBuilder('Mage_Core_Model_Authorization')
+        $this->_authorizationMock = $this->getMockBuilder('Mage_Core_Model_Authorization')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_model = new Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater(
             array(
-                'sales_archive_config' => $this->_cfgSalesArchive,
-                'authModel' => $this->_authorization
+                'sales_archive_config' => $this->_cfgSalesArchiveMock,
+                'authorizationModel' => $this->_authorizationMock
             )
         );
 
@@ -61,59 +61,41 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest exten
 
     public function testConfigNotActive()
     {
-        $this->_cfgSalesArchive->expects($this->any())
+        $this->_cfgSalesArchiveMock->expects($this->any())
             ->method('isArchiveActive')
             ->will($this->returnValue(false));
 
         $this->assertEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
     }
 
-    protected function _getAclResourceMap($isAllowed)
-    {
-        return array(
-            array('Enterprise_SalesArchive::add', null, $isAllowed)
-        );
-    }
-
-    protected function _getItemsId()
-    {
-        return array('add_order_to_archive');
-    }
-
     public function testAuthAllowed()
     {
-        $this->_cfgSalesArchive->expects($this->any())
+        $this->_cfgSalesArchiveMock->expects($this->any())
             ->method('isArchiveActive')
             ->will($this->returnValue(true));
 
-        $this->_authorization->expects($this->any())
+        $this->_authorizationMock->expects($this->any())
             ->method('isAllowed')
-            ->will($this->returnValueMap($this->_getAclResourceMap(true)));
+            ->with('Enterprise_SalesArchive::add', null)
+            ->will($this->returnValue(true));
 
         $updatedArgs = $this->_model->update($this->_updateArgs);
-        foreach ($this->_getItemsId() as $massItemId) {
-            $this->assertTrue(
-                array_key_exists($massItemId, $updatedArgs)
-            );
-        }
+        $this->assertArrayHasKey('add_order_to_archive', $updatedArgs);
     }
 
     public function testAuthNotAllowed()
     {
-        $this->_cfgSalesArchive->expects($this->any())
+        $this->_cfgSalesArchiveMock->expects($this->any())
             ->method('isArchiveActive')
             ->will($this->returnValue(true));
 
-        $this->_authorization->expects($this->any())
+        $this->_authorizationMock->expects($this->any())
             ->method('isAllowed')
-            ->will($this->returnValueMap($this->_getAclResourceMap(false)));
+            ->with('Enterprise_SalesArchive::add', null)
+            ->will($this->returnValue(false));
 
         $updatedArgs = $this->_model->update($this->_updateArgs);
-        foreach ($this->_getItemsId() as $massItemId) {
-            $this->assertFalse(
-                array_key_exists($massItemId, $updatedArgs)
-            );
-        }
+        $this->assertArrayNotHasKey('add_order_to_archive', $updatedArgs);
     }
 
 }

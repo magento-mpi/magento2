@@ -26,17 +26,17 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
      */
     public function update($argument)
     {
-        if ($this->_isArchiveActive()) {
-            if ($this->_authModel->isAllowed('Mage_Sales::cancel') === false) {
+        if ($this->_salesArchiveConfig->isArchiveActive()) {
+            if ($this->_authorizationModel->isAllowed('Mage_Sales::cancel') === false) {
                 unset($argument['cancel_order']);
             }
-            if ($this->_authModel->isAllowed('Mage_Sales::hold') === false) {
+            if ($this->_authorizationModel->isAllowed('Mage_Sales::hold') === false) {
                 unset($argument['hold_order']);
             }
-            if ($this->_authModel->isAllowed('Mage_Sales::unhold') === false) {
+            if ($this->_authorizationModel->isAllowed('Mage_Sales::unhold') === false) {
                 unset($argument['unhold_order']);
             }
-            if ($this->_authModel->isAllowed('Enterprise_SalesArchive::remove') === false) {
+            if ($this->_authorizationModel->isAllowed('Enterprise_SalesArchive::remove') === false) {
                 unset($argument['remove_order_from_archive']);
             }
         }

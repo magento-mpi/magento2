@@ -19,20 +19,20 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
     /**
      * @var $_authorization PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_authorization;
+    protected $_authorizationMock;
 
     /**
      * @var $_urlModel PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_urlModel;
+    protected $_urlModelMock;
 
     protected function setUp()
     {
-        $this->_authorization = $this->getMockBuilder('Mage_Core_Model_Authorization')
+        $this->_authorizationMock = $this->getMockBuilder('Mage_Core_Model_Authorization')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_urlModel = $this->getMockBuilder('Mage_Backend_Model_Url')
+        $this->_urlModelMock = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -52,15 +52,15 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
                 'http://localhost/backend/admin/sales_order/view/order_id/1'
             ),
         );
-        $this->_urlModel->expects($this->any())
+        $this->_urlModelMock->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValueMap($urlMap));
 
         $this->_model = new Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator(
             array(
                 'path' => '*/sales_order/view',
-                'urlModel' => $this->_urlModel,
-                'authModel' => $this->_authorization,
+                'urlModel' => $this->_urlModelMock,
+                'authorizationModel' => $this->_authorizationMock,
                 'extraParamsTemplate' => array(
                     'order_id' => 'getId'
                 )
@@ -70,7 +70,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
 
     public function testAuthNotAllowed()
     {
-        $this->_authorization->expects($this->once())
+        $this->_authorizationMock->expects($this->once())
             ->method('isAllowed')
             ->with('Enterprise_SalesArchive::orders')
             ->will($this->returnValue(false));
@@ -85,7 +85,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
      */
     public function testAuthAllowed($item, $expectedUrl)
     {
-        $this->_authorization->expects($this->any())
+        $this->_authorizationMock->expects($this->any())
             ->method('isAllowed')
             ->with('Enterprise_SalesArchive::orders')
             ->will($this->returnValue(true));

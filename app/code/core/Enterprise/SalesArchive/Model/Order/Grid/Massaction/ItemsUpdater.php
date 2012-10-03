@@ -24,29 +24,19 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
     protected $_salesArchiveConfig;
 
     /**
-     * @var Enterprise_SalesArchive_Model_Config $_authModel
+     * @var Mage_Core_Model_Authorization $_authModel
      */
-    protected $_authModel;
+    protected $_authorizationModel;
 
     /**
      * @param array $data
      */
     public function __construct($data = array())
     {
-        $this->_salesArchiveConfig = (isset($data['sales_archive_config']))?
+        $this->_salesArchiveConfig = isset($data['sales_archive_config']) ?
             $data['sales_archive_config'] : Mage::getSingleton('Enterprise_SalesArchive_Model_Config');
-        $this->_authModel = (isset($data['authModel']))?
-            $data['authModel'] : Mage::getSingleton('Mage_Core_Model_Authorization');
-    }
-
-    /**
-     * Check is module active
-     *
-     * @return bool
-     */
-    protected function _isArchiveActive()
-    {
-        return $this->_salesArchiveConfig->isArchiveActive();
+        $this->_authorizationModel = isset($data['authorizationModel']) ?
+            $data['authorizationModel'] : Mage::getSingleton('Mage_Core_Model_Authorization');
     }
 
     /**
@@ -56,8 +46,8 @@ class Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
      */
     public function update($argument)
     {
-        if ($this->_isArchiveActive()) {
-            if ($this->_authModel->isAllowed('Enterprise_SalesArchive::add') === false) {
+        if ($this->_salesArchiveConfig->isArchiveActive()) {
+            if ($this->_authorizationModel->isAllowed('Enterprise_SalesArchive::add') === false) {
                 unset($argument['add_order_to_archive']);
             }
         }
