@@ -388,8 +388,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         }
 
         $parameters = array(
-            'config' => $this->_config,
-            'params' => array('quote' => $quote)
+            'params' => array(
+                'quote' => $quote,
+                'config' => $this->_config,
+            ),
         );
         $this->_checkout = Mage::getSingleton($this->_checkoutType, $parameters);
     }

@@ -126,12 +126,16 @@ class Mage_Paypal_Model_Express_Checkout
      * @param array $params
      */
     public function __construct(
-        Mage_Paypal_Model_Config $paypalConfig,
         Mage_Customer_Model_Session $customerSession,
         $params = array()
     ) {
-        $this->_config          = $paypalConfig;
         $this->_customerSession = $customerSession;
+
+        if (isset($params['config']) && $params['config'] instanceof Mage_Paypal_Model_Config) {
+            $this->_config = $params['config'];
+        } else {
+            throw new Exception('Config instance is required.');
+        }
 
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];

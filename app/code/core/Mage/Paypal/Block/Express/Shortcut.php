@@ -99,8 +99,10 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
             $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
         } else {
             $parameters = array(
-                'config' => $config,
-                'params' => array('quote' => $quote)
+                'params' => array(
+                    'quote' => $quote,
+                    'config' => $config,
+                ),
             );
             $checkoutModel = Mage::getModel($this->_checkoutType, $parameters);
             $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
