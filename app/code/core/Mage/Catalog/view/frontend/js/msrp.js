@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 
-/*jshint eqnull:true browser:true jquery:true*/
-/*global head:true */
+/*jshint browser:true jquery:true*/
 (function ($) {
 
     var clickForPrice = {
@@ -44,9 +43,8 @@
                 $('#map-popup-price').html($(value.realPrice));
                 $('#map-popup-msrp').html(value.msrpPrice);
 
-                var height = $('#map-popup').height();
                 var width = $('#map-popup').width();
-                leftVal = e.pageX - (width / 2) + "px";
+                var leftVal = e.pageX - (width / 2) + "px";
                 $('#map-popup').css({left: leftVal, top: e.pageY}).show();
                 $('#map-popup-content').show();
                 $('#map-popup-text').addClass('map-popup-only-text').show();
@@ -57,9 +55,8 @@
 
         $.each(helpLinkData.helpText, function (index, value) {
             $(value.Id).on('click', function (e) {
-                var height = $('#map-popup').height();
                 var width = $('#map-popup').width();
-                leftVal = e.pageX - (width / 2) + "px";
+                var leftVal = e.pageX - (width / 2) + "px";
                 $('#map-popup').css({left: leftVal, top: e.pageY}).show();
                 $('#map-popup-content').hide();
                 $('#map-popup-text').hide();
