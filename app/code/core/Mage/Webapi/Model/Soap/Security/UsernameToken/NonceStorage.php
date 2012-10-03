@@ -65,7 +65,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException;
         }
 
-        $this->_cacheInstance->save($timestamp, $this->getNonceCacheId($nonce), array(), self::NONCE_TTL);
+        $this->_cacheInstance->save($timestamp, $this->getNonceCacheId($nonce),
+            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG), self::NONCE_TTL);
     }
 
     /**
