@@ -72,7 +72,9 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
-        $arguments = $this->_getArgumentsForModel('Enterprise_ImportExport_Model_Scheduled_Operation');
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY,
+            'Enterprise_ImportExport_Model_Scheduled_Operation'
+        );
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Enterprise_ImportExport_Model_Scheduled_Operation',

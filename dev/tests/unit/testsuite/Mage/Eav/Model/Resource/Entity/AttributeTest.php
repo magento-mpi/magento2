@@ -36,7 +36,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         );
 
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $this->_getArgumentsForModel();
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setDefault(array('2'));
@@ -89,7 +89,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         );
 
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $this->_getArgumentsForModel();
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
@@ -149,7 +149,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $this->_getArgumentsForModel();
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption('not-an-array');
 

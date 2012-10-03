@@ -101,7 +101,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends Magento_Tes
 
         $attributeCollection = new Varien_Data_Collection();
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_getArgumentsForModel();
+            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')
@@ -193,7 +193,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends Magento_Tes
 
         $this->_model->setWriter($writer);
 
-        $arguments = $this->_getArgumentsForModel();
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
         $arguments['data'] = $this->_customerData;
         $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
 

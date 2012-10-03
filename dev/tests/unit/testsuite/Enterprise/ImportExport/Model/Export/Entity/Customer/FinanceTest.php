@@ -90,7 +90,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
         /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $this->_getArgumentsForModel();
+            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')
