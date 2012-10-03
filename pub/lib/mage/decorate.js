@@ -90,6 +90,18 @@
                     }
                 };
 
+                /**
+                 * Annotate data list elements with CSS classes.
+                 * @param {string} data list
+                 */
+                this.dataList = function(list) {
+                    var _list = $(list);
+                    if (_list) {
+                        this.general(_list.find('dt'), ['odd', 'even', 'last']);
+                        this.general(_list.find('dd'), ['odd', 'even', 'last']);
+                    }
+                };
+
                 return this;
             }())
         }

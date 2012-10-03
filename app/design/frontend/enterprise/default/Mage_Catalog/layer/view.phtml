@@ -33,7 +33,7 @@
                 <?php endif; ?>
                 <?php endforeach; ?>
             </dl>
-            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+            <script type="text/javascript">(function($) {$.mage.decorator.dataList('#narrow-by-list');})(jQuery)</script>
     <?php endif; ?>
     <?php if ($this->getLayer()->getState()->getFilters()): ?>
         <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
