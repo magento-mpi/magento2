@@ -132,9 +132,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
     public function verifyPageelement($elementName, $expectedValue)
     {
         $resultFlag = true;
-        $elementXpath = $this->_getControlXpath('pageelement', $elementName);
         if ($this->controlIsPresent('pageelement', $elementName)) {
-            $val = $this->getElement($elementXpath)->text();
+            $val = $this->getControlElement('pageelement', $elementName)->text();
             if ($val != $expectedValue) {
                 $this->addVerificationMessage(
                     $elementName . ": The stored value is not equal to specified: ('" . $expectedValue . "' != '"
@@ -142,7 +141,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
                 $resultFlag = false;
             }
         } else {
-            $this->addVerificationMessage('Can not find field (xpath:' . $elementXpath . ')');
+            $this->addVerificationMessage(
+                'Can not find field (xpath:' . $this->_getControlXpath('pageelement', $elementName) . ')');
             $resultFlag = false;
         }
         return $resultFlag;

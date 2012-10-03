@@ -122,7 +122,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             $this->fillOrderAddress($shippingAddress, $shippingChoice, 'shipping');
         }
         if ($shippingMethod) {
-            $this->focusOnElement($this->getElement($this->_getControlXpath('fieldset', 'shipping_method')));
+            $this->focusOnElement($this->getControlElement('fieldset', 'shipping_method'));
             $this->clickControl('link', 'get_shipping_methods_and_rates', false);
             $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);

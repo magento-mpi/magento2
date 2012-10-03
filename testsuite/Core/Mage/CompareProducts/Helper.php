@@ -106,7 +106,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
     {
         $data = array();
         $names = array();
-        $table = $this->getElement($this->_getControlXpath('fieldset', 'compare_products'));
+        $table = $this->getControlElement('fieldset', 'compare_products');
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
          */

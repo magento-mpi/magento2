@@ -87,14 +87,14 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
             if (!$this->controlIsPresent('link', 'group_folder')) {
                 $this->addNewGroup($groupName);
             }
-            $moveToElement = $this->getElement($this->_getControlXpath('link', 'group_folder'));
+            $moveToElement = $this->getControlElement('link', 'group_folder');
             $moveToElement->click();
             foreach ($attributeCode as $value) {
                 $this->addParameter('attributeName', $value);
                 if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
                     $this->fail("Attribute with title '$value' does not exist");
                 }
-                $moveElement = $this->getElement($this->_getControlXpath('link', 'unassigned_attribute'));
+                $moveElement = $this->getControlElement('link', 'unassigned_attribute');
                 $moveElement->click();
                 $this->moveto($moveElement);
                 $this->buttondown();

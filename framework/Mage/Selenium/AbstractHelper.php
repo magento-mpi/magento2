@@ -81,8 +81,10 @@
  * @method Mage_Selenium_Helper_Config getConfigHelper()
  * @method string                   getControlAttribute(string $controlType, string $controlName, string $attribute)
  * @method int                      getControlCount(string $controlType, string $controlName, $locator = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element getControlElement($controlType, $controlName, $uimap = null)
+ * @method array                    getControlElements($controlType, $controlName, $uimap = null, $failIfEmpty = true)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element getChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
- * @method array                    getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+ * @method array                    getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator, $failIfEmpty = true)
  * @method string                   getCurrentLocationArea()
  * @method Mage_Selenium_Uimap_Page getCurrentLocationUimapPage()
  * @method string                   getCurrentPage()
@@ -106,7 +108,7 @@
  * @method Mage_Selenium_TestCase   goToArea(string $area = 'frontend', string $page = '', bool $validatePage = true)
  * @method Mage_Selenium_TestCase   helper(string $className)
  * @method bool                     httpResponseIsOK(string $url)
- * @method array                    loadDataSet(string $dataFile, string $dataSource, array $overrideByKey = null, array $overrideByValueParam = null)
+ * @method array                    loadDataSet(string $dataFile, string $dataSource, $overrideByKey = null, $overrideByValueParam = null)
  * @method Mage_Selenium_TestCase   loginAdminUser()
  * @method Mage_Selenium_TestCase   logoutAdminUser()
  * @method Mage_Selenium_TestCase   logoutCustomer()
@@ -191,39 +193,21 @@
  * @method assertNotEquals(mixed $expected, mixed $actual, string $message = '', float $delta = 0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)
  * @method assertSame(mixed $expected, mixed $actual, string $message = '')
  * @method assertNotNull(mixed $actual, string $message = '')
+ * @method assertNull(mixed $actual, string $message = '')*
  *
- * @method void acceptAlert() Press OK on an alert, or confirms a dialog
- * @method mixed alertText($value = null) Gets the alert dialog text, or sets the text for a prompt dialog
- * @method void back()
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element byCssSelector($value)
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element byClassName($value)
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element byId($value)
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element byName($value)
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element byXPath($value)
- * @method void clickOnElement($id)
- * @method string currentScreenshot() BLOB of the image file
- * @method void dismissAlert() Press Cancel on an alert, or does not confirm a dialog
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element element(\PHPUnit_Extensions_Selenium2TestCase_ElementCriteria $criteria) Retrieves an element
- * @method array elements(\PHPUnit_Extensions_Selenium2TestCase_ElementCriteria $criteria) Retrieves an array of Element instances
- * @method string execute($javaScriptCode) Injects arbitrary JavaScript in the page and returns the last
- * @method string executeAsync($javaScriptCode) Injects arbitrary JavaScript and wait for the callback (last element of arguments) to be called
- * @method void forward()
- * @method void frame($elementId) Changes the focus to a frame in the page
- * @method void refresh()
- * @method \PHPUnit_Extensions_Selenium2TestCase_Element_Select select($element)
- * @method string source() Returns the HTML source of the page
- * @method \PHPUnit_Extensions_Selenium2TestCase_Session_Timeouts timeouts()
- * @method string title()
- * @method void|string url($url = null)
- * @method PHPUnit_Extensions_Selenium2TestCase_ElementCriteria using($strategy) Factory Method for Criteria objects
- * @method void window($name) Changes the focus to another window
- * @method string windowHandle() Retrieves the current window handle
- * @method string windowHandles() Retrieves a list of all available window handles
- * @method string keys() Send a sequence of key strokes to the active element.
- * @method moveto()
- * @method buttondown()
- * @method buttonup()
- * @method closeWindow()
+ * @method void         acceptAlert() Press OK on an alert, or confirms a dialog
+ * @method mixed        alertText($value = null) Gets the alert dialog text, or sets the text for a prompt dialog
+ * @method void         buttondown()
+ * @method void         buttonup()
+ * @method void         clickOnElement($id)
+ * @method void         closeWindow()
+ * @method void         dismissAlert() Press Cancel on an alert, or does not confirm a dialog
+ * @method string       execute($javaScriptCode) Injects arbitrary JavaScript in the page and returns the last
+ * @method void         frame($elementId) Changes the focus to a frame in the page
+ * @method void         moveto(PHPUnit_Extensions_Selenium2TestCase_Element $element)
+ * @method void         window($name) Changes the focus to another window
+ * @method string       windowHandles() Retrieves a list of all available window handles
+ * @method void|string  url($url = null)
  */
 class Mage_Selenium_AbstractHelper
 {

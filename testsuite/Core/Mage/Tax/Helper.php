@@ -124,7 +124,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     {
         $rules = array();
         $columnId = $this->getColumnIdByName('Name');
-        $elements = $this->getElements($this->_getControlXpath('pageelement', 'rule_line'), false);
+        $elements = $this->getControlElements('pageelement', 'rule_line');
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */

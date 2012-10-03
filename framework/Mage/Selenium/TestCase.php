@@ -3415,17 +3415,33 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $locator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getElement($locator)
+    {
+        $elements = $this->getElements($locator);
+        return array_shift($elements);
+    }
+
+    /**
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
+     * @param bool $failIfEmpty
      *
      * @return array
      */
-    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator, $failIfEmpty = true)
     {
         if (preg_match('|^//|', $childLocator)) {
             $childLocator = '.' . $childLocator;
         }
-        return $parentElement->elements($this->using('xpath')->value($childLocator));
+        $elements = $parentElement->elements($this->using('xpath')->value($childLocator));
+        if (empty($elements) && $failIfEmpty) {
+            $this->fail('Element(s) with locator: "' . $childLocator . '" is not found for parent element');
+        }
+        return $elements;
     }
 
     /**
@@ -3441,13 +3457,29 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * @param string $locator
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param mixed $uimap
+     * @param bool $failIfEmpty
+     *
+     * @return array
+     */
+    public function getControlElements($controlType, $controlName, $uimap = null, $failIfEmpty = true)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName, $uimap);
+        return $this->getElements($locator, $failIfEmpty);
+    }
+
+    /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param mixed $uimap
      *
      * @return PHPUnit_Extensions_Selenium2TestCase_Element
      */
-    public function getElement($locator)
+    public function getControlElement($controlType, $controlName, $uimap = null)
     {
-        $elements = $this->getElements($locator);
+        $elements = $this->getControlElements($controlType, $controlName, $uimap);
         return array_shift($elements);
     }
 

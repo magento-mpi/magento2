@@ -43,9 +43,9 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             if ($tab) {
                 $this->openConfigurationTab($tab);
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $formLocator = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
+                    $formLocator = $this->getControlElement('fieldset', $fieldsetName);
                     if ($formLocator->name() == 'fieldset') {
-                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                        $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
                         if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
                             $this->focusOnElement($fieldsetLink);
                             $fieldsetLink->click();
@@ -62,9 +62,9 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $formLocator = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
+                    $formLocator = $this->getControlElement('fieldset', $fieldsetName);
                     if ($formLocator->name() == 'fieldset') {
-                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                        $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
                         if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
                             $this->focusOnElement($fieldsetLink);
                             $fieldsetLink->click();
@@ -100,7 +100,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                         . "'\nTab '$tab' is not present on the page");
         }
         $this->defineParameters('tab', $tab, 'href');
-        $url = $this->getElement($this->_getControlXpath('tab', $tab))->attribute('href');
+        $url = $this->getControlElement('tab', $tab)->attribute('href');
         $this->url($url);
     }
 
@@ -140,7 +140,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->admin('system_configuration');
         $this->openConfigurationTab('general_web');
-        $fieldsetLink = $this->getElement($this->_getControlXpath('link', 'secure_link'));
+        $fieldsetLink = $this->getControlElement('link', 'secure_link');
         if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
             $fieldsetLink->click();
         }

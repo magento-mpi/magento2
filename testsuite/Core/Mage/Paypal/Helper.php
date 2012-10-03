@@ -81,7 +81,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     public function openPaypalTab($tabName = '')
     {
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
-        $this->getElement($this->_getControlXpath('tab', $tabName, $page))->click();
+        $this->getControlElement('tab', $tabName, $page)->click();
         $this->waitForNewPage();
         $result = $this->errorMessage();
         $this->assertFalse($result['success'], $this->getMessagesOnPage());
@@ -159,8 +159,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     public function getPaypalSandboxAccountInfo(array $parameters)
     {
         $this->addParameter('accountEmail', $parameters['login_email']);
-        $this->getElement($this->_getControlXpath('link', 'view_details'))->click();
-        $elements = $this->getElements($this->_getControlXpath('pageelement', 'account_details_line'), false);
+        $this->getControlElement('link', 'view_details')->click();
+        $elements = $this->getControlElements('pageelement', 'account_details_line');
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */
@@ -195,7 +195,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('accountEmail', $email);
         $this->openPaypalTab('api_credentials');
         $apiCredentials = array();
-        $elements = $this->getElements($this->_getControlXpath('pageelement', 'account_api_credentials_line'), false);
+        $elements = $this->getControlElements('pageelement', 'account_api_credentials_line');
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */

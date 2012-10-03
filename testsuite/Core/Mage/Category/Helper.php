@@ -47,7 +47,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $fieldsetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
         $categoryXpath = $this->_getControlXpath('link', $fieldsetName . '_' . $categoryType);
         $this->addParameter('categoryXpath', str_replace($fieldsetXpath, '', $categoryXpath));
-        $elements = $this->getElements($this->_getControlXpath('pageelement', $fieldsetName . '_category_text'), false);
+        $elements = $this->getControlElements('pageelement', $fieldsetName . '_category_text');
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */
@@ -365,10 +365,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     public function moveCategory($whatCatName, $whereCatName)
     {
         $this->addParameter('categoryName', $whatCatName);
-        $this->moveto($this->getElement($this->_getControlXpath('link', 'category_by_name')));
+        $this->moveto($this->getControlElement('link', 'category_by_name'));
         $this->buttondown();
         $this->addParameter('categoryName', $whereCatName);
-        $this->moveto($this->getElement($this->_getControlXpath('link', 'category_by_name')));
+        $this->moveto($this->getControlElement('link', 'category_by_name'));
         $this->buttonup();
         $this->pleaseWait();
     }
