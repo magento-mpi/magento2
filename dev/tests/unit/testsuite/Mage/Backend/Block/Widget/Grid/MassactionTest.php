@@ -60,7 +60,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
         $this->_layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParentName', 'getBlock'))
             ->getMock();
         $this->_layoutMock->expects($this->any())
             ->method('getParentName')
@@ -77,17 +76,14 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
         $this->_urlModelMock = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()
-            ->setMethods(array('getUrl', 'getBaseUrl'))
             ->getMock();
 
         $this->_requestMock = $this->getMockBuilder('Zend_Controller_Request_Http')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
             ->getMock();
 
         $this->_backendHelperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('jsQuoteEscape', '__'))
             ->getMock();
 
         $this->_block = new Mage_Backend_Block_Widget_Grid_Massaction(

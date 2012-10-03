@@ -409,7 +409,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
             ->setId($columnId);
 
         $this->getColumnSet()->insert(
-            $massactionColumn, count($this->getColumnSet()->getColumns())+1, false, $columnId
+            $massactionColumn, count($this->getColumnSet()->getColumns()) + 1, false, $columnId
         );
         return $this;
     }

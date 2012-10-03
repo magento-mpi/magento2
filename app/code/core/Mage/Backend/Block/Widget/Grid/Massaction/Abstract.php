@@ -321,7 +321,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
             ->setId($columnId);
 
         $columnSetBlock = $gridBlock->getColumnSet();
-        $columnSetBlock->insert($massactionColumn, count($columnSetBlock->getColumns())+1, false, $columnId);
+        $columnSetBlock->insert($massactionColumn, count($columnSetBlock->getColumns()) + 1, false, $columnId);
         return $this;
     }
 
