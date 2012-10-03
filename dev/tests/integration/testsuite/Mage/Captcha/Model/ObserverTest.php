@@ -82,4 +82,25 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertRedirect($this->stringContains('backend/admin/auth/forgotpassword'));
     }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture admin_store admin/captcha/enable 1
+     * @magentoConfigFixture admin_store admin/captcha/forms backend_forgotpassword
+     * @magentoConfigFixture admin_store admin/captcha/mode always
+     */
+    public function testCheckUnsuccessfulMessageWhenCaptchaFailed()
+    {
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+        $this->getRequest()->setPost(array('email'   => 'dummy@dummy.com',
+                                           'captcha' => '1234'));
+        $this->dispatch('backend/admin/auth/forgotpassword');
+        /** @var Mage_Backend_Model_Session $session  */
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
+        $this->assertNotEmpty($session->getMessages(false)->getErrors());
+        $this->assertCount(1,$session->getMessages(false)->getErrors());
+
+    }
+
 }
