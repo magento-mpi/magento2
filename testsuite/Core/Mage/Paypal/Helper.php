@@ -165,9 +165,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */
         foreach ($elements as $element) {
-            $key = $element->element($this->using('xpath')->value('td[1]'))->text();
+            $key = $this->getChildElement($element, 'td[1]')->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $element->element($this->using('xpath')->value('td[3]'))->text();
+            $value = $this->getChildElement($element, 'td[3]')->text();
             if ($key == 'credit_card') {
                 $cardData = explode(':', $value);
                 $number = preg_replace('/\D/', '', $cardData[0]);
@@ -200,9 +200,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */
         foreach ($elements as $element) {
-            $key = $element->element($this->using('xpath')->value('td[1]'))->text();
+            $key = $this->getChildElement($element, 'td[1]')->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $element->element($this->using('xpath')->value('td[2]'))->text();
+            $value = $this->getChildElement($element, 'td[2]')->text();
             if ($key == 'test_account') {
                 $apiCredentials['email_associated_with_paypal_merchant_account'] = trim($value);
             } elseif ($key == 'signature') {

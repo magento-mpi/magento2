@@ -238,7 +238,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
                  * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
                  */
                 foreach ($elements as $element) {
-                    $actualRatings[] = trim($element->element($this->using('xpath')->value('.//tr[1]'))->text());
+                    $actualRatings[] = trim($this->getChildElement($element, '//tr[1]')->text());
                 }
             }
             //Verification on product page

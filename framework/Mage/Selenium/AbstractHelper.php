@@ -81,6 +81,8 @@
  * @method Mage_Selenium_Helper_Config getConfigHelper()
  * @method string                   getControlAttribute(string $controlType, string $controlName, string $attribute)
  * @method int                      getControlCount(string $controlType, string $controlName, $locator = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element getChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+ * @method array                    getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method string                   getCurrentLocationArea()
  * @method Mage_Selenium_Uimap_Page getCurrentLocationUimapPage()
  * @method string                   getCurrentPage()
@@ -184,11 +186,11 @@
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
  *
- * @method fail()
- * @method assertEquals()
- * @method assertNotEquals()
- * @method assertSame()
- * @method assertNotNull()
+ * @method fail($message)
+ * @method assertEquals(mixed $expected, mixed $actual, string $message = '', float $delta = 0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)
+ * @method assertNotEquals(mixed $expected, mixed $actual, string $message = '', float $delta = 0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false)
+ * @method assertSame(mixed $expected, mixed $actual, string $message = '')
+ * @method assertNotNull(mixed $actual, string $message = '')
  *
  * @method void acceptAlert() Press OK on an alert, or confirms a dialog
  * @method mixed alertText($value = null) Gets the alert dialog text, or sets the text for a prompt dialog

@@ -3415,6 +3415,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return array
+     */
+    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        if (preg_match('|^//|', $childLocator)) {
+            $childLocator = '.' . $childLocator;
+        }
+        return $parentElement->elements($this->using('xpath')->value($childLocator));
+    }
+
+    /**
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        $elements = $this->getChildElements($parentElement, $childLocator);
+        return array_shift($elements);
+    }
+
+    /**
      * @param string $locator
      *
      * @return PHPUnit_Extensions_Selenium2TestCase_Element

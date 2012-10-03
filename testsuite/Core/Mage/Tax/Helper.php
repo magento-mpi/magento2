@@ -129,7 +129,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
          */
         foreach ($elements as $element) {
-            $name = trim($element->element($this->using('xpath')->value("td[$columnId]"))->text());
+            $name = trim($this->getChildElement($element, "td[$columnId]")->text());
             if (!in_array($name, $excludeList)) {
                 $rules[] = $name;
             }

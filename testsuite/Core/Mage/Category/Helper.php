@@ -95,7 +95,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         $isCategoriesPage = $this->isCategoriesPage();
         $this->pleaseWait();
-        $this->byId($correctRoot[0])->click();
+        $this->clickOnElement($correctRoot[0]);
         if ($isCategoriesPage) {
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');

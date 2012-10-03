@@ -92,8 +92,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('add_layout_update', false);
             $this->waitForElement($this->_getControlXpath('pageelement', 'layout_updates_option_box'));
             $this->fillDropdown('select_display_on', $displayOn);
-            $element = $this->getElement($this->_getControlXpath('dropdown', 'select_display_on'));
-            $layoutName = $this->select($element)->selectedValue();
+            $layoutName = $this->getControlAttribute('dropdown', 'select_display_on', 'selectedValue');
             $this->addParameter('layout', $layoutName);
             $this->addParameter('widgetParam', "//div[@id='" . $layoutName . '_ids_' . $layoutIndex . "']");
             if (!empty($chooseOptions)) {
