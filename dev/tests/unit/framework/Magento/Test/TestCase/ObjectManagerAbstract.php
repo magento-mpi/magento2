@@ -24,42 +24,34 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
     /**#@-*/
 
     /**
-     * List of supported entities which can be initialized
+     * List of supported entities which can be initialized with their dependencies
+     * Example:
+     * array(
+     *     'entityName' => array(
+     *         'paramName' => 'Mage_Class_Name' or 'callbackMethod'
+     *     )
+     * );
      *
      * @var array
      */
     protected $_supportedEntities = array(
-        self::BLOCK_ENTITY,
-        self::MODEL_ENTITY
-    );
-
-    /**
-     * List of block dependencies
-     *
-     * @var array
-     */
-    protected $_blockDependencies = array(
-        'request'         => 'Mage_Core_Controller_Request_Http',
-        'layout'          => 'Mage_Core_Model_Layout',
-        'eventManager'    => 'Mage_Core_Model_Event_Manager',
-        'translator'      => 'Mage_Core_Model_Translate',
-        'cache'           => 'Mage_Core_Model_Cache',
-        'designPackage'   => 'Mage_Core_Model_Design_Package',
-        'session'         => 'Mage_Core_Model_Session',
-        'storeConfig'     => 'Mage_Core_Model_Store_Config',
-        'frontController' => 'Mage_Core_Controller_Varien_Front'
-    );
-
-    /**
-     * List of model dependencies
-     *
-     * @var array
-     */
-    protected $_modelDependencies = array(
-        'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
-        'cacheManager'       => 'Mage_Core_Model_Cache',
-        'resource'           => '_getResourceModelMock',
-        'resourceCollection' => 'Varien_Data_Collection_Db',
+        self::BLOCK_ENTITY => array(
+            'request'            => 'Mage_Core_Controller_Request_Http',
+            'layout'             => 'Mage_Core_Model_Layout',
+            'eventManager'       => 'Mage_Core_Model_Event_Manager',
+            'translator'         => 'Mage_Core_Model_Translate',
+            'cache'              => 'Mage_Core_Model_Cache',
+            'designPackage'      => 'Mage_Core_Model_Design_Package',
+            'session'            => 'Mage_Core_Model_Session',
+            'storeConfig'        => 'Mage_Core_Model_Store_Config',
+            'frontController'    => 'Mage_Core_Controller_Varien_Front'
+        ),
+        self::MODEL_ENTITY => array(
+            'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
+            'cacheManager'       => 'Mage_Core_Model_Cache',
+            'resource'           => '_getResourceModelMock',
+            'resourceCollection' => 'Varien_Data_Collection_Db',
+        )
     );
 
     /**
@@ -99,13 +91,12 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      */
     protected function _getConstructArguments($entityName, $className = '', array $arguments = array())
     {
-        if (!in_array($entityName, $this->_supportedEntities)) {
+        if (!array_key_exists($entityName, $this->_supportedEntities)) {
             throw new Exception('Unsupported entity type');
         }
 
         $constructArguments = array();
-        $properties = '_' . $entityName . 'Dependencies';
-        foreach ($this->$properties as $propertyName => $propertyType) {
+        foreach ($this->_supportedEntities[$entityName] as $propertyName => $propertyType) {
             if (!isset($arguments[$propertyName])) {
                 if (method_exists($this, $propertyType)) {
                     $constructArguments[$propertyName] = $this->$propertyType();
