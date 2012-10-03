@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Api::api">
+                    <resource id="Mage_Webapi::webapi" module="Mage_Webapi" title="Web Services" sortOrder="0">
                         <resource id="Mage_Webapi::webapi_users" title="API Users" sortOrder="1" />
                         <resource id="Mage_Webapi::webapi_roles" title="API Roles" sortOrder="2" />
                     </resource>

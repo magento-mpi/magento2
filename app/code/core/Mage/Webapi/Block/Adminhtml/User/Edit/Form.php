@@ -55,10 +55,10 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Form extends Mage_Backend_Block_Widg
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Name'),
         ));
 
-        $fieldset->addField('api_secret', 'password', array(
+        $fieldset->addField('api_secret', 'text', array(
             'name' => 'api_secret',
             'id' => 'api_secret',
-            'required' => !$user->getId(),
+            'required' => true,
             'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
         ));
