@@ -429,7 +429,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function skipTestWithScreenshot($message)
     {
-        $url = $this->takeScreenshot();
+        $fileName = 'Skipped__' . $this->getTestId();
+        $fileName = preg_replace('/"/', '\'', $fileName);
+        $fileName = preg_replace('/ with data set #/', '__DataSet_', $fileName);
+        $url = $this->takeScreenshot($fileName);
         $this->markTestSkipped($message . "\n" . $url);
     }
 
