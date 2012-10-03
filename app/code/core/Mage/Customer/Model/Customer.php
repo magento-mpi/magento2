@@ -789,8 +789,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(6))) {
             $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The minimum password length is %s', 6);
         }
+
         $confirmation = $this->getConfirmation();
-        if ($password != $confirmation) {
+        if (!is_null($confirmation) && ($password != $confirmation)) {
             $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please make sure your passwords match.');
         }
 

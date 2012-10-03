@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validation>
+    <entity name="customer">
+        <rules>
+            <rule name="password">
+                <constraints>
+                    <constraint class="Mage_Customer_Model_Customer_Validation_Password"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="adminhtml">
+                <uses>
+                    <use rule="password"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
