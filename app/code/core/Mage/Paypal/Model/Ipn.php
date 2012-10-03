@@ -158,7 +158,8 @@ class Mage_Paypal_Model_Ipn
             }
             // re-initialize config with the method code and store id
             $method = $this->_order->getPayment()->getMethod();
-            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', array($method, $this->_order->getStoreId()));
+            $parameters = array('params' => array($method, $this->_order->getStoreId()));
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', $parameters);
             if (!$this->_config->isMethodActive($method) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $method));
             }
@@ -670,7 +671,7 @@ class Mage_Paypal_Model_Ipn
         if ($this->_config && $this->_config->debug) {
             $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            Mage::getModel('Mage_Core_Model_Log_Adapter', $file)->log($this->_debugData);
+            Mage::getModel('Mage_Core_Model_Log_Adapter', array('fileName' => $file))->log($this->_debugData);
         }
     }
 }

@@ -322,9 +322,11 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         }
         $this->_getCheckoutSession()->setCartWasUpdated(false);
 
-        $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
-            'config' => $this->_config, 'quote'  => $quote
-        ));
+        $parameters = array(
+            'config' => $this->_config,
+            'params' => array('quote' => $quote)
+        );
+        $this->_checkout = Mage::getSingleton($this->_checkoutType, $parameters);
     }
 
     /**
