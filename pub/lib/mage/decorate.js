@@ -17,16 +17,16 @@
                  * @param {boolean} isRecursive
                  */
                 this.list = function (list, isRecursive) {
-                    var items;
+                    var _items;
                     if ($(list).length > 0) {
                         if (typeof(isRecursive) === undefined) {
-                            items = $(list).find('li');
+                            _items = $(list).find('li');
                         } else if (isRecursive) {
-                            items = $(list).find('li');
+                            _items = $(list).find('li');
                         } else {
-                            items = $(list).children();
+                            _items = $(list).children();
                         }
-                        this.general(items, ['odd', 'even', 'last']);
+                        this.general(_items, ['odd', 'even', 'last']);
                     }
                 };
 
@@ -36,29 +36,33 @@
                  * @param {array} decoratorParams
                  */
                 this.general = function (elements, decoratorParams) {
-                    var allSupportedParams = {
+                    var _allSupportedParams = {
                         even: 'odd', // Flip jQuery odd/even so that index 0 is odd.
                         odd: 'even',
                         last: 'last',
                         first: 'first'
                     };
 
-                    decoratorParams = decoratorParams || allSupportedParams;
+                    decoratorParams = decoratorParams || _allSupportedParams;
 
                     if (elements) {
                         $.each(decoratorParams, function (index, param) {
                             if (param === 'even' || param === 'odd') {
-                                elements.filter(':' + param).removeClass('odd even').addClass(allSupportedParams[param]);
+                                elements.filter(':' + param).removeClass('odd even').addClass(_allSupportedParams[param]);
                             } else {
-                                elements.filter(':' + param).addClass(allSupportedParams[param]);
+                                elements.filter(':' + param).addClass(_allSupportedParams[param]);
                             }
                         });
                     }
                 };
 
+                /**
+                 * Decorate DOM elements in an HTML table with specified classes.
+                 * @param {string} table
+                 * @param {Object} instanceOptions
+                 */
                 this.table = function (table, instanceOptions) {
                     if ($(table).length > 0) {
-                        // set default options
                         var _options = {
                             'tbody': false,
                             'tbody tr': ['odd', 'even', 'first', 'last'],
@@ -66,15 +70,17 @@
                             'tfoot tr': ['first', 'last'],
                             'tr td': ['last']
                         };
+
                         var _table = $(table);
                         var _this = this;
+
                         $.extend(_options, instanceOptions || {});
-                        // Decorator
+
                         $.each(_options, function (key, value) {
                             if (_options[key]) {
                                 if (key === 'tr td') {
                                     $.each(_table.find('tr'), function () {
-                                        _this.general($(this).find('TD'), _options['tr td']);
+                                        _this.general($(this).find('td'), _options['tr td']);
                                     });
                                 } else {
                                     _this.general(_table.find(key), value);
@@ -83,6 +89,7 @@
                         });
                     }
                 };
+
                 return this;
             }())
         }

@@ -127,7 +127,7 @@
         $.mage.event.observe('mage.compare-list.initialize', function (e, o) {
                 o.productSelector = 'h2.product-name > a',
                 o.productImageSelector = '.product-image'
-                o.productAddTocartSelector = '.btn-cart',
+                o.productAddToCartSelector = '.btn-cart',
                 o.productWishListSelector = '.link-wishlist',
                 o.productRemoveSelector = '.btn-remove',
                 o.productFormSelector = '#product_comparison',
@@ -135,7 +135,6 @@
                 o.windowCloseSelector = '#window-close',
                 o.printSelector = '.link-print'
         });
-        $.mage.load.jsSync("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
         $.mage.load.jsSync("<?php echo $this->getSkinUrl('Mage_Catalog::js/list.js')?>");
     })(jQuery);
 </script>

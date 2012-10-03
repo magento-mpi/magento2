@@ -11,10 +11,9 @@
 (function ($) {
     $(document).ready(function () {
         var _compareList = {
-            // Filled in initialization event
             productSelector: null,
             productImageSelector: null,
-            productAddTocartSelector: null,
+            productAddToCartSelector: null,
             productWishListSelector: null,
             productRemoveSelector: null,
             productFormSelector: null,
@@ -25,6 +24,7 @@
 
         $.mage.event.trigger('mage.compare-list.initialize', _compareList);
         $.mage.decorator.table(_compareList.productFormSelector);
+
         function _setParentWindow(selector) {
             $(selector).on('click', function (e) {
                 e.preventDefault();
@@ -42,6 +42,7 @@
             e.preventDefault();
             window.print();
         });
+
         $(_compareList.productRemoveSelector).on('click', function (e) {
             e.preventDefault();
             // Send remove item request, after that reload windows
@@ -52,11 +53,12 @@
                     $(_compareList.ajaxSpinner).show();
                 }
             }).done(function () {
-                    $(_compareList.ajaxSpinner).hide();
-                    window.location.reload();
-                    window.opener.location.reload();
-                });
+                $(_compareList.ajaxSpinner).hide();
+                window.location.reload();
+                window.opener.location.reload();
+            });
         });
+
         $.each(_compareList, function (index, prop) {
             // Removed properties that doesn't need to call _setParentWindow
             var notAllowedProp = ['windowCloseSelector', 'printSelector', 'productRemoveSelector', 'ajaxSpinner','productFormSelector'];
