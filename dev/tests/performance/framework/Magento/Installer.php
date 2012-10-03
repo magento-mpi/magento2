@@ -60,6 +60,7 @@ class Magento_Installer
         $this->_bootstrap();
         $this->_applyFixtures($fixtureFiles);
         $this->_reindex();
+        $this->_updateFilesystemPermissions();
     }
 
     /**
@@ -111,5 +112,13 @@ class Magento_Installer
                 $process->reindexEverything();
             }
         }
+    }
+
+    /**
+     * Update permissions for `var` directory
+     */
+    protected function _updateFilesystemPermissions()
+    {
+        Varien_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
     }
 }

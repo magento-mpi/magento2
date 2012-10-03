@@ -1,0 +1,34 @@
+<?php
+/**
+ * Returns an array containing the configuration used to generate the JsTestDriver configuration
+ * file that gets used by JsTestDriver when it executes the Javascript unit tests.
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     js
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ * @return array
+ */
+return array(
+    'server' => 'http://localhost:9876',
+    'proxy' => array(array('matcher' => '/pub/lib/*', 'server' => '%s/test/%s/pub/lib/')),
+    'load' => array(
+        '/pub/lib/globalize',
+        '/pub/lib/mage/localization',
+        '/pub/lib/mage/validation',
+        '/pub/lib/jquery/ui/jquery-ui.js',
+        '/pub/lib/jquery/ui/i18n',
+        '/app/code/core/Mage/DesignEditor/view/frontend/js/base.js',
+        '/app/code/core/Mage/DesignEditor/view/frontend/js/design_editor.js',
+        '/pub/lib/jquery/jstree/jquery.jstree.js',
+        '/pub/lib/jquery/slimScroll/slimScroll.min.js',
+        '/app/code/core/Mage/Page/view/frontend/js/cookies.js',
+        '/app/code/core/Mage/DesignEditor/view/frontend/css/styles.css'
+    ),
+    'test' => array('/dev/tests/js/testsuite'),
+    'serve' => array('/pub/lib/mage/calendar'),
+    'JsTestDriver' => '{{path_to_jstestdriver_jar}}'
+);

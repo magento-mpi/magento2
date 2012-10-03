@@ -25,13 +25,38 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_currentStore = null;
 
     /**
-     * Define custom form template for block
+     * ID of the store where node can be previewed
+     *
+     * In most cases it is equal to currently selected store except situation when admin is in single store mode
+     * @var null|int
      */
-    public function __construct()
+    protected $_nodePreviewStoreId;
+
+    /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Define custom form template for block
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        parent::__construct($data);
         $this->setTemplate('hierarchy/edit.phtml');
+
+        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
+        if (!($this->_app instanceof Mage_Core_Model_App)) {
+            throw new InvalidArgumentException('Required app object is invalid');
+        }
+
         $this->_currentStore = $this->getRequest()->getParam('store');
+        $this->_nodePreviewStoreId = $this->_app->isSingleStoreMode() ? $this->_app->getAnyStoreView()->getId()
+            : $this->_currentStore;
     }
 
     /**
@@ -546,6 +571,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getStoreBaseUrl()
     {
         return $this->_getStore()->getBaseUrl();
+    }
+
+    /**
+     * Check if node can be previewed
+     *
+     * @return boolean
+     */
+    public function isNodePreviewAvailable()
+    {
+        return !empty($this->_nodePreviewStoreId);
     }
 
     /**

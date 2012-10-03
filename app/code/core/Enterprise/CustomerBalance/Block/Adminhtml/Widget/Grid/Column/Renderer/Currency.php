@@ -49,4 +49,14 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     {
         return 1;
     }
+
+    /**
+     * Returns HTML for CSS
+     *
+     * @return string
+     */
+    public function renderCss()
+    {
+        return $this->getColumn()->getCssClass() . ' a-left';
+    }
 }

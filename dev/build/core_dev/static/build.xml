@@ -14,11 +14,22 @@
 <project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">
     <import file="../util.xml"/>
 
-    <target name="_static_tests_all" depends="_product_location" description="All static tests">
+    <target name="_jshint_path_substitution" description="JsHint Javascript file path substitution from environment variable">
+        <fail unless="phpunit_config_file" message="Property 'phpunit_config_file' must be defined"/>
+        <fail unless="env.JsHintPath" message="Environment variable 'JsHintPath' must be defined"/>
+        <replace file="${phpunit_config_file}">
+            <replacefilter token="{{tests_jshint_path}}" value="${env.JsHintPath}"/>
+        </replace>
+    </target>
+
+    <target name="_static_tests_no_js" depends="_product_location" description="All static tests without JS static test">
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.php.xml"
+              tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
+            <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
         </exec>
     </target>
+
     <target name="_sanity_check" depends="_product_location" description="Static sanity check">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
@@ -35,7 +46,7 @@
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
-            <target name="_static_tests_all"/>
+            <target name="_static_tests_no_js"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -44,9 +55,20 @@
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
-            <target name="_static_tests_all"/>
+            <target name="_static_tests_no_js"/>
             <target name="_sanity_check"/>
         </antcall>
+    </target>
+
+    <target name="static_tests_js" depends="_product_location" description="JS static tests">
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
+              tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
+        <antcall target="_jshint_path_substitution">
+            <param name="phpunit_config_file" value="${product_root_dir}/dev/tests/static/phpunit.xml"/>
+        </antcall>
+        <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/static_tests_js.xml"/>
+        </exec>
     </target>
 
 </project>

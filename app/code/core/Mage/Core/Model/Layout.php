@@ -72,7 +72,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Layout Update module
      *
-     * @var Mage_Core_Model_Layout_Update
+     * @var Mage_Core_Model_Layout_Merge
      */
     protected $_update;
 
@@ -211,12 +211,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Retrieve the layout update instance
      *
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function getUpdate()
     {
         if (!$this->_update) {
-            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update', array('area' => $this->getArea()));
+            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('area' => $this->getArea()));
         }
         return $this->_update;
     }
@@ -280,7 +280,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         while (!empty($this->_scheduledStructure)) {
             reset($this->_scheduledStructure);
             $this->_scheduleElement(key($this->_scheduledStructure));
-        };
+        }
         $this->_scheduledPaths = array();
 
         $moveList = array_keys(array_intersect_key($this->_scheduledElements, $this->_scheduledMoves));
@@ -1070,7 +1070,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                  * e.g. info.title means that Magento needs to translate value of <title> node
                  * that is a child of <info> node
                  */
-                // @var $argumentHierarhy array - path to translatable item in $args array
+                // @var $argumentHierarchy array - path to translatable item in $args array
                 $argumentHierarchy = explode('.', $translatableArg);
                 $argumentStack = &$args;
                 $canTranslate = true;
@@ -1078,7 +1078,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $argumentName = array_shift($argumentHierarchy);
                     if (isset($argumentStack[$argumentName])) {
                         /*
-                         * Move to the next element in arguments hieracrhy
+                         * Move to the next element in arguments hierarchy
                          * in order to find target translatable argument
                          */
                         $argumentStack = &$argumentStack[$argumentName];
@@ -1408,7 +1408,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             return $result;
         }
         foreach (array_reverse($node->xpath('ancestor::*[@module]')) as $element) {
-            $result = (string) $element->getAttribute('module');
+            $result = (string)$element->getAttribute('module');
             if ($result) {
                 //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
                 return $result;
