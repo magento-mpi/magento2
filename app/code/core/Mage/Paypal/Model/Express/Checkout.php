@@ -121,7 +121,6 @@ class Mage_Paypal_Model_Express_Checkout
     /**
      * Set config, session and quote instances
      *
-     * @param Mage_Paypal_Model_Config $paypalConfig
      * @param Mage_Customer_Model_Session $customerSession
      * @param array $params
      */
