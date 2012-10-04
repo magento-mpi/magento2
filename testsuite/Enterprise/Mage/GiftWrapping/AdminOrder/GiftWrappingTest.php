@@ -691,9 +691,9 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertTrue($this->controlIsPresent('checkbox', 'add_printed_card'), 'Printed Card is not added');
         $this->orderHelper()->verifyPageelement('printed_card_price',
-            '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+            '$' . $printedCardOptions['tab_1']['configuration']['gift_options']['default_price_for_printed_card']);
         $this->orderHelper()->verifyPageelement('total_printed_card_price',
-            '$' . $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card']);
+            '$' . $printedCardOptions['tab_1']['configuration']['gift_options']['default_price_for_printed_card']);
         $this->assertEmptyVerificationErrors();
     }
 

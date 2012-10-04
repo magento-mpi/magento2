@@ -96,7 +96,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     public function changeGiftOptionsSettings($settings)
     {
         $settings = $this->loadDataSet('GiftMessage', $settings);
-        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $settings);
         $this->assertTrue($this->verifyForm($settings['tab_1']['configuration']),
                                             $settings['tab_1']['tab_name']);
     }
@@ -160,8 +160,8 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     public function giftWrappingBackendWebsite($productData, $giftWrappingData)
     {
         //Preconditions
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_enable_all_website');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_website');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
             array('product1' => $productData[0]['general_sku'],
@@ -212,8 +212,8 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     public function giftWrappingBackendGlobalScope($productData)
     {
         //Preconditions
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_enable_all_default_config');
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_disable_all_website');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_default_config');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all_website');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
             array('product1' => $productData[0]['general_sku'],

@@ -51,7 +51,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $websiteName = $website['general_information']['staging_website_name'];
-        $websiteSettings = $this->loadDataSet('StagingWebsite', 'staging_website_enable_auto_entries');
         $productDefault = $this->loadDataSet('Product', 'simple_product_visible');
         $product = $this->loadDataSet('Product', 'simple_product_visible', array('websites' => $websiteName));
         $userDefault = $this->loadDataSet('Customers', 'generic_customer_account');
@@ -62,7 +61,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('gift_wrapping_websites' => $websiteName));
         //Steps and Verification
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($websiteSettings);
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
 
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);

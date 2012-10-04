@@ -20,12 +20,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     protected function tearDownAfterTest()
     {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         //Load default application settings
         $this->getConfigHelper()->getConfigAreas(true);
     }
@@ -41,7 +42,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
@@ -525,7 +526,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         //Preconditions
         $this->navigate('system_configuration');
         $printedCardOptions = $this->loadDataSet('GiftMessage', 'gift_printed_card_enable');
-        $expectedPrintedCardPrice = $printedCardOptions['tab_1']['configuration']['default_price_for_printed_card'];
+        $expectedPrintedCardPrice =
+            $printedCardOptions['tab_1']['configuration']['gift_options']['default_price_for_printed_card'];
         $this->systemConfigurationHelper()->configure($printedCardOptions);
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general',
@@ -630,7 +632,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_receipt_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general',
             array('add_gift_options' => $this->loadDataSet('OnePageCheckout', 'gift_message_gift_receipt')),
@@ -866,7 +868,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_printed_card_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_printed_card_enable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_printed_card_yes_one_page', null,
             array('product_1' => $productData['general_name']));

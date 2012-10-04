@@ -22,8 +22,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('StagingWebsite',
-            'staging_website_enable_auto_entries'));
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
     }
 
     protected function assertPreconditions()

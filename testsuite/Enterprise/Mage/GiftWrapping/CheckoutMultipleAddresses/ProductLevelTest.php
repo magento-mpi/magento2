@@ -75,7 +75,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         //Creating a website
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
         $this->assertMessagePresent('success', 'success_created_website');
@@ -165,7 +165,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', 'ind_items_gift_wrapping_no_message_no');
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_yes_wrapping_yes');
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_order_mess_yes_wrap_yes_item',
@@ -182,7 +181,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_no');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -235,7 +234,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', 'ind_items_all_yes_order_all_no');
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_no_wrapping_no');
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
@@ -248,7 +246,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -307,7 +305,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', $backendData);
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_no_wrapping_no');
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
 
@@ -334,7 +331,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $backendData);
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -393,7 +390,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', $backendData);
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_yes_wrapping_no');
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
         if ($backendData == 'ind_items_all_yes_order_wrapping_yes_message_no') {
@@ -423,7 +419,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $backendData);
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -475,7 +471,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', $backendData);
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_message_no_wrapping_yes');
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
 
@@ -508,7 +503,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $backendData);
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -565,7 +560,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         list($simple1, $simple2) = $testData['products'];
-        $backendSettings = $this->loadDataSet('GiftMessage', 'gift_message_and_wrapping_all_enable');
         $productSettings = $this->loadDataSet('GiftWrapping', 'gift_options_use_default',
             array('gift_options_price_for_gift_wrapping' => '1.23'));
         $search = $this->loadDataSet('Product', 'product_search', $simple1['simple']);
@@ -585,7 +579,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($backendSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_enable');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
@@ -676,8 +670,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $checkoutData['verify_prices'] = $verifyPrices;
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_wrapping_enable_order_items');
-        $this->systemConfigurationHelper()->configure('gift_options_website_price_scope');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_enable_order_items');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_website_price_scope');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_name' => $product1));
         $this->selectStoreScope('dropdown', 'choose_store_view', 'Default Values');
