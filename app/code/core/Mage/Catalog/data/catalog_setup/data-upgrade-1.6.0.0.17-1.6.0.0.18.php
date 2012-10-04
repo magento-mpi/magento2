@@ -23,7 +23,7 @@ if ($attribute) {
     );
 
     foreach ($properties as $key => $value) {
-        $installer->updateAttribute(
+        $this->updateAttribute(
             $attribute['entity_type_id'],
             $attribute['attribute_id'],
             $key,
