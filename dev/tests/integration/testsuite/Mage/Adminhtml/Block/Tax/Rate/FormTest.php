@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Tax_ClassTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Tax_Rate_FormTest extends PHPUnit_Framework_TestCase
 {
     public function testGetRateCollection()
     {
