@@ -65,7 +65,9 @@ class Magento_Performance_Testsuite
      */
     public function run()
     {
-        foreach ($this->_config->getScenarios() as $scenarioFile) {
+        $scenarios = $this->_getOptimizedScenarioList();
+
+        foreach ($scenarios as $scenarioFile) {
             $scenarioArguments = $this->_config->getScenarioArguments($scenarioFile);
             $scenarioSettings = $this->_config->getScenarioSettings($scenarioFile);
             $scenarioFixtures = $this->_config->getScenarioFixtures($scenarioFile);
@@ -87,5 +89,20 @@ class Magento_Performance_Testsuite
                 throw new Magento_Exception("Unable to run scenario '$scenarioFile', format is not supported.");
             }
         }
+    }
+
+    /**
+     * Compose optimal list of scenarios, so that Magento reinstalls will be reduced among scenario executions
+     *
+     * @return array
+     */
+    protected function _getOptimizedScenarioList()
+    {
+        $optimizer = new Magento_Performance_Testsuite_Optimizer();
+        $scenarios = array();
+        foreach ($this->_config->getScenarios() as $scenarioFile) {
+            $scenarios[$scenarioFile] = $this->_config->getScenarioFixtures($scenarioFile);
+        }
+        return $optimizer->run($scenarios);
     }
 }
