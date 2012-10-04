@@ -41,6 +41,12 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $this->_model = new Mage_Webapi_Model_Authorization_Config(array(
             'config' => $this->_config
         ));
+        $this->_config->expects($this->once())
+            ->method('getModuleConfigurationFiles')
+            ->will($this->returnValue(array()));
+        $this->_config->expects($this->once())
+            ->method('getModelInstance')
+            ->will($this->returnValue($this->_configReader));
     }
 
     /**
@@ -54,14 +60,15 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $this->_configReader->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue($aclResources));
-        $this->_config->expects($this->once())
-            ->method('getModuleConfigurationFiles')
-            ->will($this->returnValue(array()));
-        $this->_config->expects($this->once())
-            ->method('getModelInstance')
-            ->will($this->returnValue($this->_configReader));
 
-        $expectedResources = array('customer', 'customer/create', 'customer/update');
+        $expectedResources = array(
+            'Mage_Webapi',
+            'customer',
+            'customer/create',
+            'customer/delete',
+            'customer/get',
+            'customer/update'
+        );
         $resources = $this->_model->getAclResources();
 
         $this->assertInstanceOf('DOMNodeList', $resources);
@@ -91,5 +98,39 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
             }
         }
         return $resourceArray;
+    }
+
+    /**
+     * test for Mage_Webapi_Model_Authorization_ConfigTest::getAclVirtualResources
+     */
+    public function testGetAclVirtualResources()
+    {
+        $aclResources = new DOMDocument();
+        $aclResources->load(__DIR__ . DIRECTORY_SEPARATOR .  '..'
+            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml');
+        $this->_configReader->expects($this->once())
+            ->method('getAclResources')
+            ->will($this->returnValue($aclResources));
+
+        $expectedResources = array(array(
+            'id' => 'customer/list',
+            'parent' => 'customer/get'
+        ));
+        $resources = $this->_model->getAclVirtualResources();
+
+        $this->assertInstanceOf('DOMNodeList', $resources);
+        $actualResources = array();
+        foreach ($resources as $resourceConfig) {
+            if (!($resourceConfig instanceof DOMElement)) {
+                continue;
+            }
+            $actualResources[] = array(
+                'id' => $resourceConfig->getAttribute('id'),
+                'parent' => $resourceConfig->getAttribute('parent')
+            );
+        }
+        sort($expectedResources);
+        sort($actualResources);
+        $this->assertEquals($expectedResources, $actualResources);
     }
 }

@@ -19,7 +19,9 @@
 class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_ConfigInterface
 {
 
-    CONST ACL_RESOURCES_PATH = '/config/acl/resources/*';
+    const ACL_RESOURCES_XPATH = '/config/acl/resources/*';
+
+    const ACL_VIRTUAL_RESOURCES_XPATH = '/config/mapping/*';
 
     /**
      * @var Mage_Core_Model_Config
@@ -57,9 +59,21 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         if (is_null($this->_reader)) {
             $aclResourceFiles = $this->_getAclResourceFiles();
-            $this->_reader = $this->_config->getModelInstance('Magento_Acl_Config_Reader', $aclResourceFiles);
+            $this->_reader = $this->_config
+                ->getModelInstance('Mage_Webapi_Model_Authorization_Config_Reader', $aclResourceFiles);
         }
         return $this->_reader;
+    }
+
+    /**
+     * Get DOMXPath with loaded resources inside
+     *
+     * @return DOMXPath
+     */
+    protected function _getXPathResources()
+    {
+        $aclResources = $this->_getReader()->getAclResources();
+        return new DOMXPath($aclResources);
     }
 
     /**
@@ -69,8 +83,18 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
      */
     public function getAclResources()
     {
-        $aclResources = $this->_getReader()->getAclResources();
-        $xpath = new DOMXPath($aclResources);
-        return $xpath->query(self::ACL_RESOURCES_PATH);
+        return $this->_getXPathResources()->query(self::ACL_RESOURCES_XPATH);
+    }
+
+    /**
+     * Return ACL Virtual Resources
+     *
+     * Virtual resources are not shown in resource list, they use existing resource to check permission
+     *
+     * @return DOMNodeList
+     */
+    public function getAclVirtualResources()
+    {
+        return $this->_getXPathResources()->query(self::ACL_VIRTUAL_RESOURCES_XPATH);
     }
 }
