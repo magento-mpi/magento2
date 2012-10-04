@@ -150,6 +150,16 @@ pending_tags:
                             customers_from: //*[@data-ui-id='anonymous-6-customers-filter-customers-from']
                             customers_to: //*[@data-ui-id='anonymous-6-customers-filter-customers-to']
 
+# Pending Tags page
+pending_tags:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    pending_tags_grid:
+                        dropdowns:
+                            filter_visible_in: //select[@name='visible_in']
+
 dashboard:
     mca: dashboard
     click_xpath: //ul[@id='nav']//a[contains(@href, 'dashboard')]

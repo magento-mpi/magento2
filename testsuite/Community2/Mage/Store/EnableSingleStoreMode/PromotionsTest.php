@@ -18,7 +18,7 @@ class Community2_Mage_Store_EnableSingleStoreMode_PromotionsTest extends Mage_Se
      * <p>Precondition for test:</p>
      * <p>1. Login to backend.</p>
      * <p>2. Navigate to System -> Manage Store.</p>
-     * <p>3. Verify that one store-view is created.<p>
+     * <p>3. Verify that one store-view is created.</p>
      * <p>4. Go to System - Configuration - General and enable Single-Store Mode.</p>
      */
     protected function assertPreConditions()
