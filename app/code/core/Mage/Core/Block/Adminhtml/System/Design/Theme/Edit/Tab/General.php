@@ -22,13 +22,10 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        /** @var $session Mage_Backend_Model_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Session');
-        $formData = $session->getThemeData(true);
-        if ($formData) {
-            $formData['preview_image'] = Mage::registry('current_theme')->getPreviewImage();
-        } else {
-            $formData = Mage::registry('current_theme')->getData();
+        $formDataFromSession = Mage::getSingleton('Mage_Backend_Model_Session')->getThemeData();
+        $formData = Mage::registry('current_theme')->getData();
+        if ($formDataFromSession) {
+            $formData = array_merge($formDataFromSession, $formData);
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
@@ -42,6 +39,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $form->addValues($formData);
         $form->setFieldNameSuffix('theme');
         $this->setForm($form);
+
         return $this;
     }
 
