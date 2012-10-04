@@ -96,8 +96,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     public function openConfigurationTab($tab)
     {
         if (!$this->controlIsPresent('tab', $tab)) {
-            $this->fail("Current location url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage()
-                        . "'\nTab '$tab' is not present on the page");
+            $this->fail($this->locationToString() . "Tab '$tab' is not present on the page");
         }
         $this->defineParameters('tab', $tab, 'href');
         $url = $this->getControlElement('tab', $tab)->attribute('href');

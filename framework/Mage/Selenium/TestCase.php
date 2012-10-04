@@ -1080,7 +1080,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $method = strtolower($type) . 'Message';
         $result = $this->$method($message);
         if (!$result['success']) {
-            $location = 'Current url: \'' . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
+            $location = $this->locationToString();
             if (is_null($message)) {
                 $error = "Failed looking for '" . $type . "' message.\n";
             } else {
@@ -1146,6 +1146,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         return $message;
     }
 
+    /**
+     * @return string
+     */
+    public function locationToString()
+    {
+        return "\nCurrent url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\nCurrent area: '"
+               . $this->getArea() . "'\n";
+    }
     ################################################################################
     #                                                                              #
     #                               Navigation helper methods                      #
@@ -1491,7 +1499,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->title(),
-                'Current url: \'' . $this->url() . "\n" . 'Title for page "' . $page . '" is unexpected.');
+                $this->locationToString() . 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
@@ -1609,9 +1617,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $returnValue = $uimap->$method($elementName, $this->_paramsHelper);
         } catch (Exception $e) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
-            $errorMessage =
-                'Current location url: ' . $this->url() . "\n" . 'Current page "' . $this->getCurrentPage() . '": '
-                . $e->getMessage() . ' - "' . $elementName . '"';
+            $errorMessage = $this->locationToString() . $e->getMessage() . " - '" . $elementName . "'";
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
             }
@@ -1760,9 +1766,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $messageLocator = $messages->get($message, $this->_paramsHelper);
         if ($messageLocator === null) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
-            $errorMessage =
-                'Current location url: ' . $this->url() . "\n" . 'Current page "' . $this->getCurrentPage() . '": '
-                . 'Message "' . $message . '" is not found';
+            $errorMessage = $this->locationToString() . 'Message "' . $message . '" is not found';
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
             }
@@ -2038,9 +2042,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $locator = $this->_getControlXpath($controlType, $controlName);
         $availableElement = $this->elementIsPresent($locator);
         if (!$availableElement || !$availableElement->displayed()) {
-            $this->fail("Current location url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage()
-                        . "'\nProblem with $controlType '$controlName', xpath '$locator':\n"
-                        . 'Control is not present on the page');
+            $this->fail($this->locationToString() . "Problem with $controlType '$controlName', xpath '$locator':\n"
+                        . 'Control is not present(visible) on the page');
         }
         $this->focusOnElement($availableElement);
         $availableElement->click();
@@ -2680,9 +2683,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
-            $message =
-                "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $fieldsetId
-                . '" fieldset:' . "\n" . implode("\n", array_keys($fillData['isNotPresent']));
+            $message = $this->locationToString() . "There are no fields in '" . $fieldsetId . "' fieldset:\n" .
+                       implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
         }
 
@@ -2713,8 +2715,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
-            $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $tabId
-                       . '" tab:' . "\n" . implode("\n", array_keys($fillData['isNotPresent']));
+            $message = $this->locationToString() . "There are no fields in '" . $tabId . "' tab:\n" .
+                       implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
         }
 
@@ -2753,9 +2755,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
-            throw new OutOfRangeException(
-                "Can't find main form in UIMap array for page '" . $this->getCurrentPage() . "', area['"
-                . $this->_configHelper->getArea() . "']");
+            throw new OutOfRangeException($this->locationToString() . 'Can not find main form in UIMap array');
         }
 
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
@@ -2821,9 +2821,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
-            throw new OutOfRangeException(
-                "Can't find main form in UIMap array for page '" . $this->getCurrentPage() . "', area['"
-                . $this->_configHelper->getArea() . "']");
+            throw new OutOfRangeException($this->locationToString() . 'Can not find main form in UIMap array');
         }
 
         if ($tabId) {

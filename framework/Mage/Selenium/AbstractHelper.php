@@ -112,6 +112,7 @@
  * @method Mage_Selenium_TestCase   loginAdminUser()
  * @method Mage_Selenium_TestCase   logoutAdminUser()
  * @method Mage_Selenium_TestCase   logoutCustomer()
+ * @method string                   locationToString()
  * @method array                    messagesToString($message)
  * @method Mage_Selenium_TestCase   navigate(string $page, bool $validatePage = true)
  * @method void                     openTab(string $tabName)
