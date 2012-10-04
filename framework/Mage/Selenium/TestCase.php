@@ -2454,8 +2454,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function saveAndContinueEdit($controlType, $controlName)
     {
         $tabUimap = $this->_getActiveTabUimap();
-        $tabName = $tabUimap->getTabId();
-        $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'id'));
+        if (!is_null($tabUimap)) {
+            $tabName = $tabUimap->getTabId();
+            $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'id'));
+        }
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->waitForElement(self::$xpathLoadingHolder);
     }
@@ -2488,6 +2490,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->clickControl($controlType, $controlName, false);
         $this->waitForElementVisible($messagesXpath);
         $this->addParameter('id', $this->defineIdFromUrl());
+        $this->addParameter('store', $this->defineIdFromUrl());
         if ($validate) {
             $this->validatePage();
         }
