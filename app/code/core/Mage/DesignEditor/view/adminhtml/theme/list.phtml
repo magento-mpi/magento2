@@ -14,7 +14,6 @@
 <div class="content-header">
     <?php echo $this->getHeaderHtml() ?>
 </div>
-
 <div class="entry-edit">
     <div class="fieldset">
         <div class="hor-scroll">
@@ -30,7 +29,7 @@
 
             <?php $nonFeaturedItems = $this->getListItems(false)?>
             <?php if (count($nonFeaturedItems)): ?>
-            <a onclick='$("vde-non-featured-theme").style.display = "block";' href="#"><?php echo $this->__('Other themes'); ?></a>
+            <a onclick="$('vde-non-featured-theme').toggle();" href="#"><?php echo $this->__('Other themes'); ?></a>
             <ul id="vde-non-featured-theme" style="display: none;">
                 <?php echo join("\n", $nonFeaturedItems)?>
             </ul>
