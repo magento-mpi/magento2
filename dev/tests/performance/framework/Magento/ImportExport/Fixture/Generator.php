@@ -66,11 +66,11 @@ class Magento_ImportExport_Fixture_Generator extends Mage_ImportExport_Model_Imp
     {
         $this->_currentKey++;
         $this->_currentRow = $this->_pattern;
-        foreach ($this->_dynamicColumns as $key => $pattern) {
-            if (is_callable($pattern)) {
-                $this->_currentRow[$key] = call_user_func($pattern, $this->_currentKey);
+        foreach ($this->_dynamicColumns as $key => $dynamicValue) {
+            if (is_callable($dynamicValue)) {
+                $this->_currentRow[$key] = call_user_func($dynamicValue, $this->_currentKey);
             } else {
-                $this->_currentRow[$key] = str_replace('%s', $this->_currentKey, $pattern);
+                $this->_currentRow[$key] = str_replace('%s', $this->_currentKey, $dynamicValue);
             }
         }
     }

@@ -14,8 +14,8 @@ $maxNestingLevel = 3;
 $anchorStep = 2;
 
 $nestingLevel = 1;
-$nestingPath = '1/2';
-$parentCategoryId = $defaultParentCategory = 2; // root category
+$parentCategoryId = $defaultParentCategoryId = Mage::app()->getStore()->getRootCategoryId();
+$nestingPath = "1/$parentCategoryId";
 $categoryPath = '';
 $categoryIndex = 1;
 
@@ -37,9 +37,9 @@ while ($categoryIndex <= $categoriesNumber) {
     $categoryPath .=  '/' . $category->getName();
     $categories[] = ltrim($categoryPath, '/');
 
-    if ($nestingLevel++ % $maxNestingLevel == 0) {
+    if ($nestingLevel++ == $maxNestingLevel) {
         $nestingLevel = 1;
-        $parentCategoryId = $defaultParentCategory;
+        $parentCategoryId = $defaultParentCategoryId;
         $nestingPath = '1';
         $categoryPath = '';
     } else {
