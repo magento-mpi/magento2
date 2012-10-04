@@ -190,6 +190,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     {
         //Preconditions
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_default_config');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all_website');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
             array('product1' => $testData['sku_1'], 'product2' => $testData['sku_1']));
