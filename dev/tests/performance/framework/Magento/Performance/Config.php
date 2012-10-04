@@ -160,6 +160,7 @@ class Magento_Performance_Config
             'arguments' => array(
                 Magento_Performance_Scenario_Arguments::ARG_HOST            => $this->getApplicationUrlHost(),
                 Magento_Performance_Scenario_Arguments::ARG_PATH            => $this->getApplicationUrlPath(),
+                Magento_Performance_Scenario_Arguments::ARG_BASEDIR         => $this->getApplicationBaseDir(),
                 Magento_Performance_Scenario_Arguments::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
                 Magento_Performance_Scenario_Arguments::ARG_ADMIN_USERNAME  => $adminOptions['username'],
                 Magento_Performance_Scenario_Arguments::ARG_ADMIN_PASSWORD  => $adminOptions['password'],

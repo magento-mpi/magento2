@@ -22,11 +22,6 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_fixtureDir;
 
     /**
-     * @var string
-     */
-    protected $_appBaseDir;
-
-    /**
      * @var array
      */
     protected $_fixtureConfigData;
@@ -34,10 +29,9 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
-        $this->_appBaseDir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app_base_dir';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
         $this->_object = new Magento_Performance_Config(
-            $this->_fixtureConfigData, $this->_fixtureDir, $this->_appBaseDir
+            $this->_fixtureConfigData, $this->_fixtureDir, $this->_getFixtureAppBaseDir()
         );
     }
 
@@ -56,7 +50,17 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     public function testConstructorException(array $configData, $baseDir, $expectedException, $expectedExceptionMsg)
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        new Magento_Performance_Config($configData, $baseDir, $this->_appBaseDir);
+        new Magento_Performance_Config($configData, $baseDir, $this->_getFixtureAppBaseDir());
+    }
+
+    /**
+     * Get simulated application base directory
+     *
+     * @return string
+     */
+    protected function _getFixtureAppBaseDir()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app_base_dir';
     }
 
     /**
@@ -100,7 +104,7 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetApplicationBaseDir()
     {
-        $this->assertEquals($this->_appBaseDir, $this->_object->getApplicationBaseDir());
+        $this->assertEquals($this->_getFixtureAppBaseDir(), $this->_object->getApplicationBaseDir());
     }
 
     public function testGetApplicationUrlHost()
@@ -166,6 +170,7 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
             Magento_Performance_Scenario_Arguments::ARG_ADMIN_FRONTNAME   => 'backend',
             Magento_Performance_Scenario_Arguments::ARG_ADMIN_USERNAME    => 'admin',
             Magento_Performance_Scenario_Arguments::ARG_ADMIN_PASSWORD    => 'password1',
+            Magento_Performance_Scenario_Arguments::ARG_BASEDIR           => $this->_getFixtureAppBaseDir(),
             'arg1'                                                        => 'value 1',
             'arg2'                                                        => 'value 2',
         );

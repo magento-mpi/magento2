@@ -20,6 +20,7 @@ class Magento_Performance_Scenario_Arguments extends ArrayObject
     const ARG_LOOPS           = 'loops';
     const ARG_HOST            = 'host';
     const ARG_PATH            = 'path';
+    const ARG_BASEDIR         = 'basedir';
     const ARG_ADMIN_USERNAME  = 'admin_username';
     const ARG_ADMIN_PASSWORD  = 'admin_password';
     const ARG_ADMIN_FRONTNAME = 'admin_frontname';
