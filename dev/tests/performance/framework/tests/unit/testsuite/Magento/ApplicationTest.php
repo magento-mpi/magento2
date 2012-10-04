@@ -41,15 +41,25 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
      */
     protected $_fixtureConfigData;
 
+    /**
+     * @var array
+     */
+    protected  $_appEvents = array();
+
+    /**
+     * @var array
+     */
+    protected  $_fixtureEvents = array();
+
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
         $this->_fixtureConfigData = require($this->_fixtureDir . '/config_data.php');
 
-        $this->_installerScript = realpath($this->_fixtureDir . '/dev/shell/install.php');
+        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir//dev/shell/install.php');
 
         $this->_config = new Magento_Performance_Config(
-            $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir
+            $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir . '/app_base_dir'
         );
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
 
@@ -103,10 +113,182 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
                 )
             )
         ;
+
         $this->_object
             ->expects($this->once())
             ->method('_reindex')
         ;
+
+        $this->_object
+            ->expects($this->once())
+            ->method('_updateFilesystemPermissions')
+        ;
+
         $this->_object->install();
+    }
+
+    public function testApplyFixtures()
+    {
+        $application = $this->_buildApplicationForFixtures();
+
+        $this->_testApplyFixtures(
+            $application,
+            array(),
+            array(),
+            array('uninstall', 'install', 'reindex', 'updateFilesystemPermissions'),
+            'Testing initial install'
+        );
+
+        $this->_testApplyFixtures(
+            $application,
+            array('fixture1'),
+            array('fixture1'),
+            array('bootstrap', 'reindex', 'updateFilesystemPermissions'),
+            'Testing first fixture'
+        );
+
+        $this->_testApplyFixtures(
+            $application,
+            array('fixture1'),
+            array(),
+            array(),
+            'Testing same fixture'
+        );
+
+        $this->_testApplyFixtures(
+            $application,
+            array('fixture2', 'fixture1'),
+            array('fixture2'),
+            array('bootstrap', 'reindex', 'updateFilesystemPermissions'),
+            'Testing superior fixture set'
+        );
+
+        $this->_testApplyFixtures(
+            $application,
+            array('fixture2', 'fixture3'),
+            array('fixture2', 'fixture3'),
+            array('uninstall', 'install', 'bootstrap', 'reindex', 'updateFilesystemPermissions'),
+            'Testing incompatible fixture set'
+        );
+    }
+
+    /**
+     * Builds application mocked object, so it will produce tracked events, used for fixture application testing
+     *
+     * @return Magento_Application|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _buildApplicationForFixtures()
+    {
+        $test = $this;
+
+        $funcShellEvent = function ($command, $arguments) use ($test) {
+            $command = vsprintf($command, $arguments);
+            if (strpos($command, 'uninstall') !== false) {
+                $test->addAppEvent('uninstall');
+            } else if (strpos($command, 'install') !== false) {
+                $test->addAppEvent('install');
+            }
+        };
+        $this->_shell->expects($this->any())
+            ->method('execute')
+            ->will($this->returnCallback($funcShellEvent));
+
+        $app = $this->getMock(
+            'Magento_Application',
+            array('_bootstrap', '_reindex', '_updateFilesystemPermissions', '_cleanupMage'),
+            array($this->_config, $this->_shell)
+        );
+
+        // @codingStandardsIgnoreStart
+        $app->expects($this->any())
+            ->method('_bootstrap')
+            ->will($this->returnCallback(function () use ($test, $app) {
+                $test->addAppEvent('bootstrap');
+                return $app;
+            })
+        );
+
+        $app->expects($this->any())
+            ->method('_reindex')
+            ->will($this->returnCallback(function () use ($test, $app) {
+                $test->addAppEvent('reindex');
+                return $app;
+            })
+        );
+
+        $app->expects($this->any())
+            ->method('_updateFilesystemPermissions')
+            ->will($this->returnCallback(function () use ($test, $app) {
+                $test->addAppEvent('updateFilesystemPermissions');
+                return $app;
+            })
+        );
+        // @codingStandardsIgnoreEnd
+
+        return $app;
+    }
+
+    /**
+     * Test application of fixtures, asserting that proper fixtures have been applied,
+     * and application events have happened
+     *
+     * @param Magento_Application|PHPUnit_Framework_MockObject_MockObject $application
+     * @param array $fixtures
+     * @param array $expectedFixtures
+     * @param array $expectedEvents
+     * @param string $message
+     */
+    protected function _testApplyFixtures($application, $fixtures, $expectedFixtures, $expectedEvents, $message)
+    {
+        // Prepare
+        $nameToPathFunc = function ($fixture) {
+            return __DIR__ . "/_files/application_test/{$fixture}.php";
+        };
+        $fixtures = array_map($nameToPathFunc, $fixtures);
+
+        $this->_appEvents = array();
+        $this->_fixtureEvents = array();
+
+        // Run
+        $GLOBALS['applicationTestForFixtures'] = $this; // Expose itself to fixtures
+        try {
+            $application->applyFixtures($fixtures);
+
+            // Assert expectations
+            $fixtureEvents = array_keys($this->_fixtureEvents);
+            sort($fixtureEvents);
+            sort($expectedFixtures);
+            $this->assertEquals($expectedFixtures, $fixtureEvents, "$message - fixtures applied are wrong");
+
+            $appEvents = array_keys($this->_appEvents);
+            sort($appEvents);
+            sort($expectedEvents);
+            $this->assertEquals($expectedEvents, $appEvents, "$message - application management is wrong");
+
+            unset($GLOBALS['applicationTestForFixtures']);
+        } catch (Exception $e) {
+            unset($GLOBALS['applicationTestForFixtures']);
+            throw $e;
+        }
+    }
+
+    /**
+     * Log event that happened in application object
+     *
+     * @param string $name
+     */
+    public function addAppEvent($name)
+    {
+        $this->_appEvents[$name] = true;
+    }
+
+    /**
+     * Log event that happened in fixtures
+     *
+     * @param string $name
+     */
+    public function addFixtureEvent($name)
+    {
+        $this->_fixtureEvents[$name] = true;
     }
 }

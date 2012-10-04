@@ -22,16 +22,22 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_fixtureDir;
 
     /**
+     * @var string
+     */
+    protected $_appBaseDir;
+
+    /**
      * @var array
      */
     protected $_fixtureConfigData;
 
     protected function setUp()
     {
-        $this->_fixtureDir = __DIR__ . '/_files';
+        $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $this->_appBaseDir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app_base_dir';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
         $this->_object = new Magento_Performance_Config(
-            $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir
+            $this->_fixtureConfigData, $this->_fixtureDir, $this->_appBaseDir
         );
     }
 
@@ -50,7 +56,7 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
     public function testConstructorException(array $configData, $baseDir, $expectedException, $expectedExceptionMsg)
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        new Magento_Performance_Config($configData, $baseDir, $this->_fixtureDir);
+        new Magento_Performance_Config($configData, $baseDir, $this->_appBaseDir);
     }
 
     /**
@@ -90,6 +96,11 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
                 "Scenario 'non_existing_scenario.jmx' doesn't exist",
             ),
         );
+    }
+
+    public function testGetApplicationBaseDir()
+    {
+        $this->assertEquals($this->_appBaseDir, $this->_object->getApplicationBaseDir());
     }
 
     public function testGetApplicationUrlHost()
@@ -170,6 +181,37 @@ class Magento_Performance_ConfigTest extends PHPUnit_Framework_TestCase
             'no overriding crosscutting argument' => array(
                 'scenario_failure.jmx',
                 $fixtureParams,
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getScenarioFixturesDataProvider
+     *
+     * @param string $scenarioName
+     * @param array $expectedFixtures
+     */
+    public function testGetScenarioFixtures($scenarioName, array $expectedFixtures)
+    {
+        $scenarioFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . $scenarioName;
+        $actualResult = $this->_object->getScenarioFixtures($scenarioFile);
+        $this->assertEquals($expectedFixtures, $actualResult);
+    }
+
+    public function getScenarioFixturesDataProvider()
+    {
+        return array(
+            'normal fixtures' => array(
+                'scenario.jmx',
+                array(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'fixture.php'),
+            ),
+            'direct scenario declaration' => array(
+                'scenario_error.jmx',
+                array(),
+            ),
+            'scenario without fixtures' => array(
+                'scenario_failure.jmx',
+                array(),
             ),
         );
     }

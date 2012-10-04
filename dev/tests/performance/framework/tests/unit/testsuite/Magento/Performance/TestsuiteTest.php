@@ -36,12 +36,21 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
      */
     protected $_fixtureDir;
 
+    /**
+     * @var string
+     */
+    protected $_appBaseDir;
+
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $fixtureConfigData = include($this->_fixtureDir . DIRECTORY_SEPARATOR . 'config_data.php');
         $shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_config = new Magento_Performance_Config($fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir);
+        $this->_config = new Magento_Performance_Config(
+            $fixtureConfigData,
+            $this->_fixtureDir,
+            $this->_fixtureDir . '/app_base_dir'
+        );
         $this->_application = $this->getMock(
             'Magento_Application', array('applyFixtures'), array($this->_config, $shell)
         );
@@ -99,21 +108,21 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-        $this->_expectScenarioWarmUp('scenario', 0);
-        $this->_expectScenarioRun('scenario', 1);
-
-        $this->_expectScenarioWarmUp('scenario_error', 2);
-        $this->_expectScenarioRun('scenario_error', 3);
+        $this->_expectScenarioWarmUp('scenario_error', 0);
+        $this->_expectScenarioRun('scenario_error', 1);
 
         /* Warm up is disabled for scenario */
-        $this->_expectScenarioRun('scenario_failure', 4);
+        $this->_expectScenarioRun('scenario_failure', 2);
+
+        $this->_expectScenarioWarmUp('scenario', 3);
+        $this->_expectScenarioRun('scenario', 4);
 
         $this->_object->run();
     }
 
     public function testRunException()
     {
-        $expectedScenario = $this->_fixtureDir . DIRECTORY_SEPARATOR . 'scenario.jmx';
+        $expectedScenario = $this->_fixtureDir . DIRECTORY_SEPARATOR . 'scenario_error.jmx';
         $this->setExpectedException(
             'Magento_Exception', "Unable to run scenario '$expectedScenario', format is not supported."
         );
