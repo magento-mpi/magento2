@@ -22,11 +22,14 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        $formDataFromSession = Mage::getSingleton('Mage_Backend_Model_Session')->getThemeData();
+        /** @var $session Mage_Backend_Model_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
+        $formDataFromSession = $session->getThemeData();
         $formData = Mage::registry('current_theme')->getData();
-        if ($formDataFromSession) {
+        if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);
-            $formData = array_merge($formDataFromSession, $formData);
+            $formData = array_merge($formData, $formDataFromSession);
+            $session->setThemeData(null);
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
