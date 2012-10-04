@@ -44,5 +44,19 @@ create_order_for_new_customer:
                     order_payment_method: &orderPaymentMethod
                         fields:
                             purchase_order_number: //input[@id='po_number']
+                -
+                    order_billing_address:
+                        fields:
+                            billing_vat_number: //input[@id='order-billing_address_vat_id']
+                        buttons:
+                            billing_validate_vat_number: //button[@title='Validate VAT Number']
             messages:
+                #confirmation
+                the_same_group: The VAT ID is valid. The current Customer Group will be used.
                 zero_payment: //dt[contains(label,'No Payment Information Required')]
+                valid_domestic_group_message: |
+                 Based on the VAT ID, the customer would belong to the Customer Group %newCustomerGroup%.
+                 The customer is currently assigned to Customer Group %currentCustomerGroup%. Would you like to change the Customer Group for this order?
+                invalid_vat_id_message: |
+                 The VAT ID entered (%vatNumber%) is not a valid VAT ID. The customer would belong to Customer Group %newCustomerGroup%.
+                 The customer is currently assigned to Customer Group %currentCustomerGroup%. Would you like to change the Customer Group for this order?

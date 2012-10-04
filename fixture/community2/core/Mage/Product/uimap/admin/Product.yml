@@ -10,7 +10,7 @@
 ---
 
 # Manage Product page
-manage_products_store:
+manage_products:
     uimap:
         messages:
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
@@ -136,14 +136,12 @@ updating_products:
                         xpath: //a[@title='Websites']/span
                         fieldsets:
                             -
-                                websites:
-                                    xpath: //*[@id='attributes_update_tabs_websites_content']
+                                add_product:
+                                    xpath: //div[@id='attributes_update_tabs_websites_content']
                                     checkboxes:
-                                        websites_add_to_main_website: //*[@id='add_product_website_1']
-                                        websites_remove_from_main_website: //*[@id='remove_product_website_1']
-
+                                        websites_add_to_main_website: //input[@id='add_product_website_1']
+                                        websites_remove_from_main_website: //input[@id='remove_product_website_1']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
-        messages:

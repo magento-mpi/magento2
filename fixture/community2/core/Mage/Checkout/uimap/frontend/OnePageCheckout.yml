@@ -30,6 +30,7 @@ onepage_checkout:
                         fields:
                             captcha_guest_checkout: //*[@id='captcha_guest_checkout']
                             captcha_register_during_checkout: //*[@id='captcha_register_during_checkout']
+                            billing_vat_number: //input[@id='billing:vat_id']
                         pageelements:
                             captcha_guest_checkout: //*[@id='guest_checkout']
                             captcha_register_during_checkout: //*[@id='register_during_checkout']
