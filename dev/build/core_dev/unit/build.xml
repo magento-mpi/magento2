@@ -14,6 +14,14 @@
 <project name="Core Development Unit Tests" basedir="../../../../" default="_unit_tests_all">
     <import file="../util.xml"/>
 
+    <target name="_jstestdriver_path_substitution" description="JsTestDriver JAR file path substitution in configuration file from environment variable">
+        <fail unless="jstestdriver_config_file" message="Property 'jstestdriver_config_file' must be defined"/>
+        <fail unless="env.JsTestDriver" message="Environment variable 'JsTestDriver' must be defined"/>
+        <replace file="${jstestdriver_config_file}">
+            <replacefilter token="{{path_to_jstestdriver_jar}}" value="${env.JsTestDriver}"/>
+        </replace>
+    </target>
+
     <target name="_unit_tests_magento" depends="_product_location" description="Product unit tests">
         <exec dir="${product_root_dir}/dev/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_magento.xml"/>
@@ -39,6 +47,7 @@
             <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
         </exec>
     </target>
+
     <target name="_unit_tests_all" description="All unit tests">
         <antcall>
             <target name="_unit_tests_magento"/>
@@ -54,6 +63,17 @@
     </target>
     <target name="unit_tests_ce" depends="_community_edition" description="Unit tests for CE">
         <antcall target="_unit_tests_all"/>
+    </target>
+
+    <target name="unit_tests_js" depends="_product_location" description="Javascript unit tests">
+        <copy file="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist"
+              tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
+        <antcall target="_jstestdriver_path_substitution">
+            <param name="jstestdriver_config_file" value="${product_root_dir}/dev/tests/js/jsTestDriver.php"/>
+        </antcall>
+        <exec executable="php" failonerror="true">
+            <arg value="${product_root_dir}/dev/tests/js/run_js_tests.php"/>
+        </exec>
     </target>
 
 </project>
