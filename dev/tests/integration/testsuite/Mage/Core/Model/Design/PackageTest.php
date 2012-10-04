@@ -140,11 +140,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/css/styles.css',
-            'http://localhost/pub/js/mage/translate_inline.css',
+            'http://localhost/pub/lib/mage/translate-inline.css',
         );
         $params = array(
             'css/styles.css',
-            'mage/translate_inline.css',
+            'mage/translate-inline.css',
         );
         $this->assertEquals($expected, $this->_model->getOptimalCssUrls($params));
     }
@@ -179,8 +179,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/js/tabs.js',
-            'http://localhost/pub/js/jquery/jquery-ui-timepicker-addon.js',
-            'http://localhost/pub/js/mage/calendar.js',
+            'http://localhost/pub/lib/jquery/jquery-ui-timepicker-addon.js',
+            'http://localhost/pub/lib/mage/calendar.js',
         );
         $params = array(
             'js/tabs.js',
@@ -210,7 +210,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array('mage/calendar.js'),
-                array('http://localhost/pub/js/mage/calendar.js',)
+                array('http://localhost/pub/lib/mage/calendar.js',)
             ),
         );
     }
@@ -295,12 +295,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 'prototype/prototype.js',
-                'http://localhost/pub/js/prototype/prototype.js'
+                'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
                 false,
                 'prototype/prototype.js',
-                'http://localhost/pub/js/prototype/prototype.min.js'
+                'http://localhost/pub/lib/prototype/prototype.min.js'
             ),
             array(
                 true,

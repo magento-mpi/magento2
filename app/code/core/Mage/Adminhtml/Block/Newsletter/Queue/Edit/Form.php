@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'image'     =>    $this->getSkinUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->isSingleStoreMode()) {
+            if (!Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'image'     => $this->getSkinUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->isSingleStoreMode()) {
+            if (!Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),

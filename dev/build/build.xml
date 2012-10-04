@@ -54,24 +54,19 @@
         </exec>
     </target>
 
-
-    <target name="js-test">
-        <exec executable="cmd" dir="dev\build\bin">
-            <arg value="/c"/>
-            <arg value="js-test.bat"/>
-            <arg value="-p"/>
-        </exec>
+    <target name="jstestdriver-path-substitution">
+        <fail unless="env.JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
+        <copy file="${basedir}/dev/tests/js/jsTestDriver.php.dist" tofile="${basedir}/dev/tests/js/jsTestDriver.php"/>
+        <replace file="${basedir}/dev/tests/js/jsTestDriver.php">
+            <replacefilter token="{{path_to_jstestdriver_jar}}" value="${env.JsTestDriver}"/>
+        </replace>
     </target>
 
-    <target name="js-test-sh">
-        <property name="js-test.conf" location="${basedir}/dev/tests/js/jsTestDriver.conf"/>
-        <property name="js-test.output" location="${basedir}/dev/tests/js/test-output"/>
-        <exec executable="/bin/bash" dir="dev/build/bin" failonerror="true">
-            <arg value="js-test.sh"/>
-            <arg value="${js-test.conf}"/>
-            <arg value="${js-test.output}"/>
+    <target name="js-test-php" depends="jstestdriver-path-substitution">
+        <exec dir="${basedir}/dev/tests/js" executable="php" failonerror="true">
+            <arg line="run_js_tests.php"/>
         </exec>
-     </target>
+    </target>
 
     <target name="prepare-ee" depends="prepare-build-properties">
         <copy file="${dir.build_directory}/${enterprise-enabler.file}.dist" tofile="${dir.build_directory}/${enterprise-enabler.file}"/>
