@@ -108,4 +108,4 @@ product_update_inventory_tab:
     inventory_stock_availability: In Stock
 
 product_update_websites_tab:
-    websites_remove_from_main_website: Yes
+    websites_add_to_main_website: Yes

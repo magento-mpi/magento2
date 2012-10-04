@@ -14,7 +14,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage_Selenium_TestCase
+class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -32,6 +32,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $this->pleaseWait();
         //Verification
         $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
+        //Steps
     }
 
     /**
@@ -41,26 +42,27 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
     public function preconditionsForTests()
     {
         //Data
-        $names = array('Valid VAT Domestic_%randomize%', 'Valid VAT IntraUnion_%randomize%', 'Invalid VAT_%randomize%');
+        $names = array(
+            'group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
+            'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
+            'group_invalid_vat'          => 'Invalid VAT_%randomize%');
         $processedGroupNames = array();
         //Creating three Customer  Groups
         $this->loginAdminUser();
         $this->navigate('manage_customer_groups');
-        foreach ($names as $groupName) {
+        foreach ($names as $groupKey => $groupName) {
             $customerGroup = $this->loadDataSet('CustomerGroup', 'new_customer_group',
                 array('group_name' => $groupName));
             $this->customerGroupsHelper()->createCustomerGroup($customerGroup);
         //Verifying
             $this->assertMessagePresent('success', 'success_saved_customer_group');
-            $processedGroupNames[] = $customerGroup['group_name'];
+            $processedGroupNames[$groupKey] = $customerGroup['group_name'];
         }
         //Configuring "Create New Account Options" tab
         $this->navigate('system_configuration');
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options',
-            array('group_valid_vat_domestic'   => $processedGroupNames[0],
-                  'group_valid_vat_intraunion' => $processedGroupNames[1],
-                  'group_invalid_vat'          => $processedGroupNames[2]));
+        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options', $processedGroupNames);
         $this->systemConfigurationHelper()->configure($accountOptions);
+
         return $processedGroupNames;
     }
 
@@ -68,6 +70,14 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
     {
         $this->frontend();
         $this->logoutCustomer();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options_disable');
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($accountOptions);
     }
 
     /**
@@ -84,6 +94,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
      * @test
      * @return array
      * @TestlinkId TL-MAGE-4039
+     * @author andrey.vergeles
      */
     public function customerWithoutVatNumber()
     {
@@ -125,15 +136,17 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
      * @return array
      *
      * @TestlinkId TL-MAGE-3802
+     * @author andrey.vergeles
      */
     public function customerWithValidVatDomestic($processedGroupNames)
     {
         //Data
         $userRegisterData = $this->loadDataSet('Customers', 'customer_account_register');
         $userAddressData = $this->loadDataSet('Customers', 'generic_address',
-            array('country'    => 'Germany',
-                  'state'      => 'Berlin',
-                  'vat_number' => '111607872'));
+            array('country'                 => 'Germany',
+                  'state'                   => 'Berlin',
+                  'vat_number'              => '111607872',
+                  'default_billing_address' => '%noValue%'));
         $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
         //Creating customer on front-end
         $this->goToArea('frontend');
@@ -147,7 +160,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $this->assertMessagePresent('success', 'success_validate_vat');
         //Verifying Customer Group on back-end
         $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames[0]),'account_information');
+        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_domestic']),'account_information');
     }
 
     /**
@@ -169,6 +182,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
      * @return array
      *
      * @TestlinkId TL-MAGE-4042
+     * @author andrey.vergeles
      */
     public function customerWithInvalidVat($processedGroupNames)
     {
@@ -177,7 +191,8 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $userAddressData = $this->loadDataSet('Customers', 'generic_address',
             array('country'    => 'Germany',
                   'state'      => 'Berlin',
-                  'vat_number' => '11111111'));
+                  'vat_number' => '11111111',
+                  'default_billing_address' => '%noValue%'));
         $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
         //Creating customer on front-end
         $this->goToArea('frontend');
@@ -192,7 +207,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $this->assertMessagePresent('success', 'invalid_vat_number');
         //Verifying Customer Group on back-end
         $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames[2]),'account_information');
+        $this->verifyForm(array('group' => $processedGroupNames['group_invalid_vat']),'account_information');
     }
 
     /**
@@ -214,6 +229,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
      * @return array
      *
      * @TestlinkId TL-MAGE-4041
+     * @author andrey.vergeles
      */
     public function customerWithValidVatIntraUnion($processedGroupNames)
     {
@@ -221,7 +237,8 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $userRegisterData = $this->loadDataSet('Customers', 'customer_account_register');
         $userAddressData = $this->loadDataSet('Customers', 'generic_address',
             array('country'    => 'United Kingdom',
-                  'vat_number' => '584451913'));
+                  'vat_number' => '584451913',
+                  'default_billing_address' => '%noValue%'));
         $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
         //Creating customer on front-end
         $this->goToArea('frontend');
@@ -236,7 +253,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
         $this->assertMessagePresent('success', 'success_validate_intraunion_vat');
         //Verifying Customer Group on back-end
         $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames[1]),'account_information');
+        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']),'account_information');
     }
 
     /**
@@ -253,6 +270,7 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroups extends Mage
      * @depends preconditionsForTests
      *
      * @TestlinkId TL-MAGE-3801
+     * @author andrey.vergeles
      */
     public function validationVatNumber()
     {

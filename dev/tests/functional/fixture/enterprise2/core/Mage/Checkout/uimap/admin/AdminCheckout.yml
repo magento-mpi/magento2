@@ -101,6 +101,8 @@ create_order_for_new_customer:
                         pageelements:
                             note_csv: //*[@class='note']
                             add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
+            messages:
+                zero_payment: //dt[contains(label,'No Payment Information Required')]
                                                             
 edit_order:
     uimap:

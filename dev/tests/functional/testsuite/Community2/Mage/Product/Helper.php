@@ -80,4 +80,33 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             return false;
         }
     }
+
+    /**
+     * Fill in Product Settings tab
+     *
+     * @param array $dataForAttributesTab
+     * @param array $dataForInventoryTab
+     * @param array $dataForWebsitesTab
+     */
+    public function updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab)
+    {
+        if(isset($dataForAttributesTab)) {
+            $this->fillFieldset($dataForAttributesTab, 'attributes');
+        }
+        else {
+            $this->fail('data for attributes tab is absent');
+        }
+        if(isset($dataForInventoryTab)) {
+            $this->fillFieldset($dataForInventoryTab, 'inventory');
+        }
+        else {
+            $this->fail('data for inventory tab is absent');
+        }
+        if(isset($dataForWebsitesTab)) {
+            $this->fillFieldset($dataForWebsitesTab, 'add_product');
+        }
+        else {
+            $this->fail('data for websites tab is absent');
+        }
+    }
 }

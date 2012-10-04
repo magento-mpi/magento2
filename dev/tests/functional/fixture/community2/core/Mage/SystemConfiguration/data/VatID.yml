@@ -26,8 +26,18 @@ create_new_account_options:
         tab_name: customers_customer_configuration
         configuration:
             enable_automatic_assignment_group: Yes
+            tax_calculated_based_on: Billing Address
             default_group: General
             group_valid_vat_domestic: %noValue%
             group_valid_vat_intraunion: %noValue%
             group_invalid_vat: %noValue%
             show_vat_number_frontend: Yes
+            default_value_for_disable_automatic_group: %noValue%
+            
+#<-------Disabling "Enable Automatic Assignment to Customer Group" option----------->
+create_new_account_options_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            enable_automatic_assignment_group: No

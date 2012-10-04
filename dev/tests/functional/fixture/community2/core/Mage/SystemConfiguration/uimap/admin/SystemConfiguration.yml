@@ -209,7 +209,10 @@ system_configuration:
                                         group_valid_vat_domestic: //select[@name='groups[create_account][fields][viv_domestic_group][value]']
                                         group_valid_vat_intraunion: //select[@name='groups[create_account][fields][viv_intra_union_group][value]']
                                         group_invalid_vat: //select[@name='groups[create_account][fields][viv_invalid_group][value]']
+                                        group_default: //select[@name='groups[create_account][fields][default_group][value]']
                                         show_vat_number_frontend: //select[@name='groups[create_account][fields][vat_frontend_visibility][value]']
+                                        tax_calculated_based_on: //select[@name='groups[create_account][fields][tax_calculation_address_type][value]']
+                                        default_value_for_disable_automatic_group: //select[@name='groups[create_account][fields][viv_disable_auto_group_assign_default][value]']
                 -
                     customers_wishlist:
                         fieldsets:

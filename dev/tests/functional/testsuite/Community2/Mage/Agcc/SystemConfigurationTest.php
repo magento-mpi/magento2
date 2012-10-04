@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_AGCC
+ * @package     Mage_Agcc
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -26,6 +26,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with blank Code Length field</p>
      * <p>Steps:</p>
      * <p>1. Leave field Code Length blank</p>
@@ -33,8 +34,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p>Received the message that The configuration has been saved.</p>
      *
+     * @group skip_due_to_bug
      * @test
      * @TestlinkId TL-MAGE-3747
+     * @group skip_due_to_bug
      */
     public function withBlankCodeLengthField()
     {
@@ -46,6 +49,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with filled Code Length field</p>
      * <p>Steps:</p>
      * <p>1. Enter an integer numeric value in the Code Length field</p>
@@ -55,6 +59,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3747
+     * @group skip_due_to_bug
      */
     public function withFilledCodeLengthField()
     {
@@ -66,6 +71,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with wrong values in Code Length field</p>
      * <p>Steps:</p>
      * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the CodeLength field</p>
@@ -77,6 +83,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodeLengthFieldNegativeDataProvider
      * @TestlinkId TL-MAGE-3748
+     * @group skip_due_to_bug
      */
     public function withFilledCodeLengthFieldNegative($value)
     {
@@ -98,6 +105,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with changed Code format dropdown</p>
      * <p>Steps:</p>
      * <p>1. Select value "Numeric" in the Code Format dropdown</p>
@@ -107,6 +115,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3749
+     * @group skip_due_to_bug
      */
     public function withFilledCodeFormatField()
     {
@@ -118,6 +127,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with any values in Code Prefix field</p>
      * <p>Steps:</p>
      * <p>1. Enter any value that contains characters, number, special characters and spaces in the Code Prefix field</p>
@@ -129,6 +139,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodePrefixFieldDataProvider
      * @TestlinkId TL-MAGE-3751
+     * @group skip_due_to_bug
      */
     public function withFilledCodePrefixField($value)
     {
@@ -152,6 +163,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with any values in Code Suffix field</p>
      * <p>Steps:</p>
      * <p>1. Enter any value that contains characters, number, special characters and spaces in the Code Suffix field</p>
@@ -163,6 +175,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodeSuffixFieldDataProvider
      * @TestlinkId TL-MAGE-3753
+     * @group skip_due_to_bug
      */
     public function withFilledCodeSuffixField($value)
     {
@@ -186,6 +199,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with filled Dash Every X Characters field</p>
      * <p>Steps:</p>
      * <p>1. Enter an integer numeric value in the Dash Every X Characters field</p>
@@ -195,6 +209,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3755
+     * @group skip_due_to_bug
      */
     public function withFilledDashField()
     {
@@ -206,6 +221,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with blank Dash Every X Characters field</p>
      * <p>Steps:</p>
      * <p>1. Leave field Dash Every X Characters blank</p>
@@ -215,6 +231,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3755
+     * @group skip_due_to_bug
      */
     public function withBlankDashField()
     {
@@ -226,6 +243,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * <p>Fails because of MAGETWO-3105</p>
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with wrong values in Dash Every X Characters field</p>
      * <p>Steps:</p>
      * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the Dash Every X Characters field</p>
@@ -237,6 +255,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledDashFieldNegativeDataProvider
      * @TestlinkId TL-MAGE-3756
+     * @group skip_due_to_bug
      */
     public function withFilledDashFieldNegative($value)
     {
