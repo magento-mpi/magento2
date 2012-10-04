@@ -28,6 +28,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     /**
@@ -267,9 +268,6 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
             array('filter_sku' => $simpleSku));
-        //Configuration
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_disable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);

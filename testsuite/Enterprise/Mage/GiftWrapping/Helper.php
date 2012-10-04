@@ -31,10 +31,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $inputData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-
         $this->clickButton('add_gift_wrapping');
         $this->fillGiftWrappingForm($inputData, $save);
-
     }
 
     /**
@@ -45,6 +43,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillGiftWrappingForm($inputData, $save = true)
     {
+        $title = (isset($inputData['gift_wrapping_design'])) ? $inputData['gift_wrapping_design'] : '';
+        $this->addParameter('elementTitle', $title);
         if (isset($inputData['gift_wrapping_websites'])
             && !$this->controlIsPresent('multiselect', 'gift_wrapping_websites')
         ) {

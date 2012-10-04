@@ -23,6 +23,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     protected function assertPreConditions()
@@ -32,13 +33,14 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
 
     protected function tearDownAfterTest()
     {
-        $this->frontend();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->logoutCustomer();
-        $this->getConfigHelper()->getConfigAreas(true);
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+        $this->loginAdminUser();
     }
 
     /**

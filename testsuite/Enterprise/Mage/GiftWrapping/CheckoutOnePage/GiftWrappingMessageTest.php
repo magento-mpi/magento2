@@ -17,6 +17,14 @@
  */
 class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
+    }
+
     public function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -24,11 +32,12 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
 
     protected function tearDownAfterTest()
     {
+        //Load default application settings
+        $this->getConfigHelper()->getConfigAreas(true);
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
-        //Load default application settings
-        $this->getConfigHelper()->getConfigAreas(true);
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     /**
@@ -252,8 +261,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_' . $entity . '_disable');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_' . $entity . '_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_' . $entity . '_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_' . $entity . '_disable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_printed_card_enable');
         $entity = substr($entity, 4, strlen($entity));
         //Data
@@ -321,7 +330,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_' . $entity . '_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_' . $entity . '_disable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_' . $entity . '_enable');
         $entity = substr($entity, 4, strlen($entity));
         //Data
@@ -576,7 +585,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_printed_card_disable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
@@ -682,7 +690,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_printed_card_enable');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_disable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
             array('product_1' => $productData['general_name']));
@@ -997,8 +1005,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $giftMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_disable');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_disable');
+//        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_disable');
         $this->systemConfigurationHelper()->configure($giftWrappingEnableWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
 

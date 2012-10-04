@@ -22,19 +22,22 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        //Load default application settings
-        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
         //Load default application settings
         $this->getConfigHelper()->getConfigAreas(true);
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     /**
@@ -205,9 +208,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      */
     public function giftOptionsOnProductLevelSetToYes($products, $userData, $giftWrappingData)
     {
-        //Preconditions
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_disable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_no_img_one_page',
             array ('gift_wrapping_for_items'    => '$' . $giftWrappingData['gift_wrapping_price'],
@@ -265,7 +265,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
@@ -317,7 +316,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
@@ -382,7 +380,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
@@ -456,7 +453,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('GiftMessage/' . $sysSettings);
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
@@ -538,7 +534,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_enable');
         //Data
         $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
