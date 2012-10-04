@@ -13,7 +13,21 @@
 $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'category_ids');
 
 if ($attribute) {
-    $this->updateAttribute($attribute['entity_type_id'], $attribute['attribute_id'],
-        'backend_model', 'Mage_Catalog_Model_Product_Attribute_Backend_Category'
+    $properties = array(
+        'sort_order' => 5,
+        'is_visible' => true,
+        'label' => 'Categories',
+        'input' => 'categories',
+        'group' => 'General Information',
+        'backend_model' => 'Mage_Catalog_Model_Product_Attribute_Backend_Category'
     );
+
+    foreach ($properties as $key => $value) {
+        $installer->updateAttribute(
+            $attribute['entity_type_id'],
+            $attribute['attribute_id'],
+            $key,
+            $value
+        );
+    }
 }
