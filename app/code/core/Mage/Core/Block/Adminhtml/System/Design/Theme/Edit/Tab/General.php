@@ -25,6 +25,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $formDataFromSession = Mage::getSingleton('Mage_Backend_Model_Session')->getThemeData();
         $formData = Mage::registry('current_theme')->getData();
         if ($formDataFromSession) {
+            unset($formDataFromSession['preview_image']);
             $formData = array_merge($formDataFromSession, $formData);
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
