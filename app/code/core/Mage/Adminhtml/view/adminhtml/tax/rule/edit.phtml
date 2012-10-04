@@ -17,37 +17,37 @@
                 itemRate: {},
                 itemRateDefault: {}
             },
-            _create: function(){
+            _create: function() {
                 $.ui.dialog.prototype._create.apply(this);
                 this._getFormData(this.options.itemRateDefault);
             },
-            open: function(){
-                if(this._trigger('beforeOpen', null, this) === false){
+            open: function() {
+                if (this._trigger('beforeOpen', null, this) === false) {
                     return;
                 }
                 this._applyItem();
                 $.ui.dialog.prototype.open.apply(this);
 
             },
-            close: function(){
+            close: function() {
                 $.ui.dialog.prototype.close.apply(this);
             },
-            _applyItem: function(){
+            _applyItem: function() {
                 var rate = this.options.itemRateDefault,
                         dialogElement = this.uiDialog;
                 if (this.options.itemRate && !$.isEmptyObject(this.options.itemRate)) {
                     rate = this.options.itemRate;
                 }
-                $.each(rate, function(key, value){
+                $.each(rate, function(key, value) {
                     dialogElement.find('[name="' + key + '"]').attr('value', value);
                 });
 
             },
-            updateItemRate: function(){
+            updateItemRate: function() {
                 this._getFormData(this.options.itemRate);
             },
-            _getFormData: function(data){
-                $.each(this.uiDialog.find(':input'), function(){
+            _getFormData: function(data) {
+                $.each(this.uiDialog.find(':input'), function() {
                     if (this.name) {
                         data[this.name] = this.value
                     }
