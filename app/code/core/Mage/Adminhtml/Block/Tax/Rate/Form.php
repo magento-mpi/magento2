@@ -161,4 +161,20 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         return parent::_prepareForm();
     }
+
+    /**
+     * Get Tax Rates Collection
+     *
+     * @return mixed|Mage_Tax_Model_Resource_Calculation_Rate_Collection
+     */
+    public function getRateCollection()
+    {
+        if ($this->getData('collection') == null) {
+            $rateCollection = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->getCollection()
+                ->joinRegionTable();
+
+            $this->setCollection($rateCollection);
+        }
+        return $this->getData('collection');
+    }
 }
