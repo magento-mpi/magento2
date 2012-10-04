@@ -30,7 +30,7 @@
                     <rssList>
                         <orders>
                             <url>rss/order/new</url>
-                            <label>New Order RSS</label>
+                            <label translate="true">New Order RSS</label>
                         </orders>
                     </rssList>
                 </arguments>
@@ -42,35 +42,35 @@
                         <options>
                             <updater>Mage_Sales_Model_Order_Grid_Massaction_ItemsUpdater</updater>
                             <cancel_order>
-                                <label>Cancel</label>
+                                <label translate="true">Cancel</label>
                                 <url>*/sales_order/massCancel</url>
                             </cancel_order>
                             <hold_order>
-                                <label>Hold</label>
+                                <label translate="true">Hold</label>
                                 <url>*/sales_order/massHold</url>
                             </hold_order>
                             <unhold_order>
-                                <label>Unhold</label>
+                                <label translate="true">Unhold</label>
                                 <url>*/sales_order/massUnhold</url>
                             </unhold_order>
                             <pdfinvoices_order>
-                                <label>Print Invoices</label>
+                                <label translate="true">Print Invoices</label>
                                 <url>*/sales_order/pdfinvoices</url>
                             </pdfinvoices_order>
                             <pdfshipments_order>
-                                <label>Print Packing Slips</label>
+                                <label translate="true">Print Packing Slips</label>
                                 <url>*/sales_order/pdfshipments</url>
                             </pdfshipments_order>
                             <pdfcreditmemos_order>
-                                <label>Print Credit Memos</label>
+                                <label translate="true">Print Credit Memos</label>
                                 <url>*/sales_order/pdfcreditmemos</url>
                             </pdfcreditmemos_order>
                             <pdfdocs_order>
-                                <label>Print All</label>
+                                <label translate="true">Print All</label>
                                 <url>*/sales_order/pdfdocs</url>
                             </pdfdocs_order>
                             <print_shipping_label>
-                                <label>Print Shipping Labels</label>
+                                <label translate="true">Print Shipping Labels</label>
                                 <url>*/sales_order_shipment/massPrintShippingLabel</url>
                             </print_shipping_label>
                         </options>
@@ -81,11 +81,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label>CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportExcel</urlPath>
-                                <label>Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -103,7 +103,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">
                         <arguments>
-                            <header>Order #</header>
+                            <header translate="true">Order #</header>
                             <width>80px</width>
                             <type>text</type>
                             <index>increment_id</index>
@@ -112,7 +112,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header>Purchased On</header>
+                            <header translate="true">Purchased On</header>
                             <width>100px</width>
                             <type>datetime</type>
                             <index>created_at</index>
@@ -122,21 +122,21 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
                         <arguments>
                             <id>billing_name</id>
-                            <header>Bill to Name</header>
+                            <header translate="true">Bill to Name</header>
                             <index>billing_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
                         <arguments>
                             <id>shipping_name</id>
-                            <header>Ship to Name</header>
+                            <header translate="true">Ship to Name</header>
                             <index>shipping_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
                         <arguments>
                             <id>base_grand_total</id>
-                            <header>G.T. (Base)</header>
+                            <header translate="true">G.T. (Base)</header>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
                             <index>base_grand_total</index>
@@ -145,7 +145,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
                         <arguments>
                             <id>grand_total</id>
-                            <header>G.T. (Purchased)</header>
+                            <header translate="true">G.T. (Purchased)</header>
                             <type>currency</type>
                             <currency>order_currency_code</currency>
                             <index>grand_total</index>
@@ -154,7 +154,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <id>status</id>
-                            <header>Status</header>
+                            <header translate="true">Status</header>
                             <width>70px</width>
                             <type>options</type>
                             <currency>order_currency_code</currency>
