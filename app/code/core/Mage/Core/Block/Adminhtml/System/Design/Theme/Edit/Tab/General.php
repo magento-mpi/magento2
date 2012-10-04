@@ -67,10 +67,16 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $themesCollections = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
         if ($this->getIsThemeExist()) {
             $themesCollections->addFieldToFilter('theme_id', array('neq' => $formData['theme_id']));
+            $onChangeScript = '';
+        } else {
+            /** @var $helper Mage_Core_Helper_Data */
+            $helper = Mage::helper('Mage_Core_Helper_Data');
+
+            $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)',
+                str_replace('"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections)))
+            );
         }
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
         $themeFieldset->addField('parent_id', 'select', array(
             'label'    => $this->__('Parent theme'),
             'title'    => $this->__('Parent theme'),
@@ -78,9 +84,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'values'   => $themesCollections->toOptionArray(),
             'required' => false,
             'class'    => 'no-changes',
-            'onchange' => sprintf('parentThemeOnChange(this.value, %s)',
-                str_replace('"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections)))
-            )
+            'onchange' => $onChangeScript
         ));
 
         if (!empty($formData['theme_path'])) {
