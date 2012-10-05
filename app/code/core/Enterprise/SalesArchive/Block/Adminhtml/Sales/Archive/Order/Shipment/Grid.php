@@ -72,5 +72,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
         $this->getMassactionBlock()->getItem('print_shipping_label')
             ->setUrl($this->getUrl('*/sales_archive/massPrintShippingLabel'));
 
+        return $this;
     }
 }
