@@ -159,17 +159,16 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     public function testGridContainsMassactionColumn()
     {
-        $isColumnExisted = false;
-
         $this->_layout->getBlock('admin.test.grid')->toHtml();
-        $gridColumnSetBlock = $this->_layout->getBlock('admin.test.grid')->getColumnSet();
-        foreach ($gridColumnSetBlock->getColumns() as $gridColumnBlock) {
-            if ('massaction' == $gridColumnBlock->getId()) {
-                $isColumnExisted = true;
-                break;
-            }
-        }
 
-        $this->assertTrue($isColumnExisted, 'Massaction column is not existed in grid column set');
+        $gridMassactionColumn = $this->_layout->getBlock('admin.test.grid')
+            ->getColumnSet()
+            ->getChildBlock('massaction');
+        $this->assertNotNull($gridMassactionColumn, 'Massaction column is not existed in grid column set');
+        $this->assertInstanceOf(
+            'Mage_Backend_Block_Widget_Grid_Column',
+            $gridMassactionColumn,
+            'Massaction column is not instance of Mage_Backend_Block_Widget_Column'
+        );
     }
 }
