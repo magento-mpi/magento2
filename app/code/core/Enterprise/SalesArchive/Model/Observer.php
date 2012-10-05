@@ -166,12 +166,19 @@ class Enterprise_SalesArchive_Model_Observer
         /**
          * @var Mage_Core_Controller_Request_Http $request
          */
-        $request = $controller->getRequest();
 
         if (!$response->isRedirect() || $request->getParam('origin') != 'archive') {
             return $this;
         }
 
-        $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+        $request = $controller->getRequest();
+        $ids = $request->getParam('order_ids');
+        $createdFromOrders = !empty($ids);
+
+        if ($createdFromOrders) {
+            $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+        } else {
+            $response->setRedirect($controller->getUrl('*/sales_archive/shipments'));
+        }
     }
 }
