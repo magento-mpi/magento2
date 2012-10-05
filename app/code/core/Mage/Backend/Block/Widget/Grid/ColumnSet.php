@@ -130,7 +130,13 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function getColumns()
     {
-        return $this->getLayout()->getChildBlocks($this->getNameInLayout());
+        $columns = $this->getLayout()->getChildBlocks($this->getNameInLayout());
+        foreach ($columns as $key => $column) {
+            if (!$column->isDisplayed()) {
+                unset($columns[$key]);
+            }
+        }
+        return $columns;
     }
 
     /**

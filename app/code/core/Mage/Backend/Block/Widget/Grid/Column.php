@@ -108,6 +108,16 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Should column be displayed in grid
+     *
+     * @return bool
+     */
+    public function isDisplayed()
+    {
+        return true;
+    }
+
+    /**
      * Set grid block to column
      *
      * @param Mage_Backend_Block_Widget_Grid $grid

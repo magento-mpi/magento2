@@ -13,7 +13,9 @@
     <adminhtml_customer_wishlist>
         <reference name="customer.wishlist.edit.tab">
             <arguments>
-                <dataSource type="object">Enterprise_Wishlist_Model_Item_Collection</dataSource>
+                <dataSource>
+                    <updater>Enterprise_Wishlist_Model_Resource_Item_Collection_Updater</updater>
+                </dataSource>
             </arguments>
             <reference name="customer.wishlist.edit.tab.columnSet">
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
