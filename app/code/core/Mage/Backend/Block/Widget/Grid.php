@@ -347,6 +347,10 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     protected function _prepareGrid()
     {
+        if ($this->getChildBlock('grid.massaction') && $this->getChildBlock('grid.massaction')->isAvailable()) {
+            $this->getChildBlock('grid.massaction')->prepareMassactionColumn();
+        }
+
         $this->_prepareCollection();
         if ($this->hasColumnRenderers()) {
             foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {

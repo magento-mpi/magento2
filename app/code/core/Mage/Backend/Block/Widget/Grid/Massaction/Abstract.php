@@ -298,7 +298,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      *
      * @return Mage_Backend_Block_Widget_Grid_Extended
      */
-    protected function _prepareMassactionColumn()
+    public function prepareMassactionColumn()
     {
         $columnId = 'massaction';
         $massactionColumn = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
@@ -324,19 +324,4 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
         $columnSetBlock->insert($massactionColumn, count($columnSetBlock->getColumns()) + 1, false, $columnId);
         return $this;
     }
-
-    /**
-     * Before rendering html, but after trying to load cache
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    protected function _beforeToHtml()
-    {
-        if($this->isAvailable()) {
-            $this->_prepareMassactionColumn();
-        }
-
-        return parent::_beforeToHtml();
-    }
-
 }

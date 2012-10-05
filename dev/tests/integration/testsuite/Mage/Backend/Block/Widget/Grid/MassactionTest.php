@@ -146,7 +146,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
     }
 
-    public function testGridContainsMassactionColumn()
+    public function testGridContainsMassactionColumnHtml()
     {
         $gridBlock = $this->_layout->getBlock('admin.test.grid');
         $this->assertRegExp(
@@ -157,4 +157,19 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
     }
 
+    public function testGridContainsMassactionColumn()
+    {
+        $isColumnExisted = false;
+
+        $this->_layout->getBlock('admin.test.grid')->toHtml();
+        $gridColumnSetBlock = $this->_layout->getBlock('admin.test.grid')->getColumnSet();
+        foreach ($gridColumnSetBlock->getColumns() as $gridColumnBlock) {
+            if ('massaction' == $gridColumnBlock->getId()) {
+                $isColumnExisted = true;
+                break;
+            }
+        }
+
+        $this->assertTrue($isColumnExisted, 'Massaction column is not existed in grid column set');
+    }
 }
