@@ -166,12 +166,12 @@ class Enterprise_SalesArchive_Model_Observer
         /**
          * @var Mage_Core_Controller_Request_Http $request
          */
+        $request = $controller->getRequest();
 
         if (!$response->isRedirect() || $request->getParam('origin') != 'archive') {
             return $this;
         }
 
-        $request = $controller->getRequest();
         $ids = $request->getParam('order_ids');
         $createdFromOrders = !empty($ids);
 
