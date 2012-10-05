@@ -159,12 +159,3 @@ pending_tags:
                     pending_tags_grid:
                         dropdowns:
                             filter_visible_in: //select[@name='visible_in']
-
-dashboard:
-    mca: dashboard
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'dashboard')]
-    title: "Dashboard / Magento Admin"
-    uimap:
-        form:
-        buttons:
-        messages:
