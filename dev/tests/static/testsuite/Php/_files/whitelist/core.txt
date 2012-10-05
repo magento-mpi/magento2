@@ -1,4 +1,5 @@
 app/bootstrap.php
+app/code/core/Mage/Adminhtml/controllers/System/ConfigController.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/core/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
@@ -44,6 +45,7 @@ app/code/core/Mage/Page/Helper/Robots.php
 dev/shell
 dev/tests/integration
 dev/tests/performance
+dev/tests/js
 dev/tests/static
 dev/tests/unit
 dev/tools

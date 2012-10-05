@@ -1360,6 +1360,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
 /*********************** ADDRESSES ***************************/
 
+    /**
+     * @return Mage_Sales_Model_Resource_Order_Address_Collection
+     */
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
@@ -1395,6 +1398,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * @param array $filterByTypes
+     * @param bool $nonChildrenOnly
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     */
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
@@ -1542,6 +1550,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
 /*********************** PAYMENTS ***************************/
 
+    /**
+     * @return Mage_Sales_Model_Resource_Order_Payment_Collection
+     */
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
