@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-            $require = ($_option->getIsRequire()) ? ' required-entry' : '';
+            $require = ($_option->getIsRequire()) ? ' required' : '';
             $extraParams = '';
             $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
                 ->setData(array(
@@ -84,7 +84,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
             ) {
             $selectHtml = '<ul id="options-'.$_option->getId().'-list" class="options-list">';
-            $require = ($_option->getIsRequire()) ? ' validate-one-required-by-name' : '';
+            $require = ($_option->getIsRequire()) ? ' required' : '';
             $arraySign = '';
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:

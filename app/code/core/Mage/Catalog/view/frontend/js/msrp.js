@@ -69,36 +69,7 @@
             return false;
         });
 
-        $.each(_popupCartData.cartData, function (index, value) {
-            $(value.popupButtonId).on('click', function () {
-                $(value.addToCartForm).mage().validate({
-                    errorPlacement: function (error, element) {
-                        if (element.is(':radio') || element.is(':checkbox')) {
-                            element.closest('ul').after(error);
-                        } else {
-                            element.after(error);
-                        }
-                    },
-                    highlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').addClass('mage-error');
-                        } else {
-                            return true;
-                        }
-                    },
-                    unhighlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').removeClass('mage-error');
-                        } else {
-                            return true;
-                        }
-                    }
-                });
-                $(value.addToCartForm).submit();
-            });
-        });
-
-        $.each(_cartData.addToCartData, function (index, value) {
+        $.each($.merge(_cartData.addToCartData, _popupCartData.cartData), function (index, value) {
             $(value.addToCartButtonId).on('click', function () {
                 $(value.addToCartForm).mage().validate({
                     errorPlacement: function (error, element) {
@@ -112,14 +83,14 @@
                         if ($(element).is(':radio') || $(element).is(':checkbox')) {
                             $(element).closest('ul').addClass('mage-error');
                         } else {
-                            return true;
+                            $(element).addClass('mage-error');
                         }
                     },
                     unhighlight: function (element) {
                         if ($(element).is(':radio') || $(element).is(':checkbox')) {
                             $(element).closest('ul').removeClass('mage-error');
                         } else {
-                            return true;
+                            $(element).removeClass('mage-error');
                         }
                     }
                 });
