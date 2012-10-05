@@ -108,7 +108,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductToCompareListFromProductPage($data)
@@ -144,7 +144,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId @TestlinkId TL-MAGE-2020, TL-MAGE-2021
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductToCompareListFromCatalogPage($data)
@@ -212,7 +212,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3235
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function emptyCompareListIsNotAvailable($data)

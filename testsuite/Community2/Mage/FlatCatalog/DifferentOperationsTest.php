@@ -168,7 +168,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductsWithoutOptionsToWishlistFromProductPage($testData)
@@ -205,7 +205,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductsWithoutOptionsToWishlistFromCatalog($testData)
@@ -243,7 +243,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductsWithoutOptionsToShoppingCartFromWishlist($testData)
@@ -291,7 +291,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2000, TL-MAGE-2002, TL-MAGE-1998, TL-MAGE-2001
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
@@ -354,7 +354,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2000, TL-MAGE-2002, TL-MAGE-1998, TL-MAGE-2001
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
@@ -410,7 +410,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductWithCustomOptionsToWishlist($testData)
@@ -442,7 +442,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlist($testData)
@@ -477,7 +477,7 @@ class Community2_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
      * @author artem.anokhin
-     *
+     * @group skip_due_to_bug
      * MAGETWO-2829
      */
     public function addProductWithCustomOptionsToWishlistFromShoppingCart($testData)
