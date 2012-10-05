@@ -36,14 +36,14 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Test getId method
+     * Test getAlias method
      */
-    public function testGetId()
+    public function testGetAlias()
     {
-        $this->assertEmpty($this->_constraint->getId());
-        $id = 'foo';
-        $constraint = new Magento_Validator_Constraint_Property($this->_validatorMock, self::PROPERTY_NAME, $id);
-        $this->assertEquals($id, $constraint->getId());
+        $this->assertEmpty($this->_constraint->getAlias());
+        $alias = 'foo';
+        $constraint = new Magento_Validator_Constraint_Property($this->_validatorMock, self::PROPERTY_NAME, $alias);
+        $this->assertEquals($alias, $constraint->getAlias());
     }
 
     /**

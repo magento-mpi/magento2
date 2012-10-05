@@ -34,14 +34,14 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getId method
+     * Test getAlias method
      */
-    public function testGetId()
+    public function testGetAlias()
     {
-        $this->assertEmpty($this->_constraint->getId());
-        $id = 'foo';
-        $constraint = new Magento_Validator_Constraint($this->_validatorMock, $id);
-        $this->assertEquals($id, $constraint->getId());
+        $this->assertEmpty($this->_constraint->getAlias());
+        $alias = 'foo';
+        $constraint = new Magento_Validator_Constraint($this->_validatorMock, $alias);
+        $this->assertEquals($alias, $constraint->getAlias());
     }
 
     /**

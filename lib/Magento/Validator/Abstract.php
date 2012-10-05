@@ -21,7 +21,7 @@ abstract class Magento_Validator_Abstract implements Magento_Validator_Interface
     protected $_messages = array();
 
     /**
-     * Returns array of validation failure messages
+     * Get validation failure messages
      *
      * @return array
      */
@@ -39,10 +39,12 @@ abstract class Magento_Validator_Abstract implements Magento_Validator_Interface
     }
 
     /**
-     * @param Magento_Validator_Interface $validator
+     * Add messages
+     *
+     * @param array $messages
      */
-    protected function _addMessages($validator)
+    protected function _addMessages(array $messages)
     {
-        $this->_messages = array_merge_recursive($this->_messages, $validator->getMessages());
+        $this->_messages = array_merge_recursive($this->_messages, $messages);
     }
 }
