@@ -197,7 +197,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
         return array(
             '/validation/entity' => 'name',
             '/validation/entity/rules/rule' => 'name',
-            '/validation/entity/rules/rule/constraints/constraint' => 'class',
+            '/validation/entity/rules/rule/entity_constraints/constraint' => 'class',
+            '/validation/entity/rules/rule/property_constraints/property/constraint' => 'class',
+            '/validation/entity/rules/rule/property_constraints/property' => 'name',
             '/validation/entity/groups/group' => 'name',
             '/validation/entity/groups/group/uses/use' => 'rule',
         );
