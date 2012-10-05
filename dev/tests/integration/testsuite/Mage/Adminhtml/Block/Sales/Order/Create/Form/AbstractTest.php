@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     extends PHPUnit_Framework_TestCase

@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Enterprise_GiftRegistry_Block_Customer_Edit_Abstract.
- *
- * @group module:Enterprise_GiftRegistry
+ * Test class for Enterprise_GiftRegistry_Block_Customer_Edit_Abstract
  */
 class Enterprise_GiftRegistry_Block_Customer_Edit_AbstractTest
     extends PHPUnit_Framework_TestCase

@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Poll_Grid.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Poll_Grid
  */
 class Mage_Adminhtml_Block_Poll_GridTest extends PHPUnit_Framework_TestCase
 {

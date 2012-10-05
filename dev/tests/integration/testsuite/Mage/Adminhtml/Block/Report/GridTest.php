@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Report_Grid.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Report_Grid
  */
 class Mage_Adminhtml_Block_Report_GridTest extends PHPUnit_Framework_TestCase
 {

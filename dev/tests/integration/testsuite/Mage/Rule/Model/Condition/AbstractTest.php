@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Rule_Model_Condition_Abstract.
- *
- * @group module:Mage_Rule
+ * Test class for Mage_Rule_Model_Condition_Abstract
  */
 class Mage_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -20,8 +18,7 @@ class Mage_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCase
     {
         /** @var Mage_Rule_Model_Condition_Abstract $model */
         $model = $this->getMockForAbstractClass('Mage_Rule_Model_Condition_Abstract');
-        /** @var Mage_Rule_Model_Rule $rule */
-        $rule = Mage::getModel('Mage_Rule_Model_Rule');
+        $rule = new Mage_Rule_Model_Rule;
         $model->setRule($rule->setForm(new Varien_Data_Form()));
 
         $property = new ReflectionProperty('Mage_Rule_Model_Condition_Abstract', '_inputType');

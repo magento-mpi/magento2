@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Enterprise_GiftRegistry_Block_Form_Element.
- *
- * @group module:Enterprise_GiftRegistry
+ * Test class for Enterprise_GiftRegistry_Block_Form_Element
  */
 class Enterprise_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_TestCase
 {

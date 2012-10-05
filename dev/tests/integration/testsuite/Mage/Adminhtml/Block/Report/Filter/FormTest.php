@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Report_Filter_Form.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Report_Filter_Form
  */
 class Mage_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_TestCase
 {

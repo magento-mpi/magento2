@@ -10,26 +10,14 @@
  */
 
 /**
- * Test class for Mage_Backend_Block_Widget.
- *
- * @group module:Mage_Backend
+ * Test class for Mage_Backend_Block_Widget
  */
 class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Mage_Backend_Block_Widget
-     */
-    protected  $_block;
-
-    public function setUp()
-    {
-        $this->_block = new Mage_Backend_Block_Widget;
-    }
-
     public function testGetSuffixId()
     {
-        $suffix = 'test';
-        $this->assertStringEndsNotWith('_' . $suffix, $this->_block->getSuffixId('suffix'));
-        $this->assertStringEndsWith('_' . $suffix, $this->_block->getSuffixId($suffix));
+        $block = new Mage_Backend_Block_Widget;
+        $this->assertStringEndsNotWith('_test', $block->getSuffixId('suffix'));
+        $this->assertStringEndsWith('_test', $block->getSuffixId('test'));
     }
 }

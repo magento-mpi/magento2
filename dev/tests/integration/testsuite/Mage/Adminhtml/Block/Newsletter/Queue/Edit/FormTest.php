@@ -10,20 +10,16 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form
  */
 class Mage_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-    }
-
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
         $block = new Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form;
         $prepareFormMethod = new ReflectionMethod(
             'Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form', '_prepareForm');

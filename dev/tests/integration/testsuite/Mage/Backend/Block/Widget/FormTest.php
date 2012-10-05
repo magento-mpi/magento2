@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Backend_Block_Widget_Form.
- *
- * @group module:Mage_Backend
+ * Test class for Mage_Backend_Block_Widget_Form
  */
 class Mage_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
 {

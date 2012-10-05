@@ -10,21 +10,17 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
  */
 class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-    }
-
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        Mage::register('cms_page', Mage::getModel('Mage_Cms_Model_Page'));
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
+        Mage::register('cms_page', new Mage_Cms_Model_Page);
 
         $block = new Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design;
         $prepareFormMethod = new ReflectionMethod(

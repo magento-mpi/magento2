@@ -10,15 +10,16 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_System_Design_Edit_Tab_General.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_System_Design_Edit_Tab_General
  */
 class Mage_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        Mage::register('design', Mage::getModel('Mage_Core_Model_Design'));
+        Mage::register('design', new Mage_Core_Model_Design);
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->addBlock('Mage_Adminhtml_Block_System_Design_Edit_Tab_General');
         $prepareFormMethod = new ReflectionMethod(

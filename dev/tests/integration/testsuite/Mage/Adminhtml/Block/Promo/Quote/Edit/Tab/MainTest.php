@@ -10,15 +10,16 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
  */
 class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        Mage::register('current_promo_quote_rule', Mage::getModel('Mage_SalesRule_Model_Rule'));
+        Mage::register('current_promo_quote_rule', new Mage_SalesRule_Model_Rule);
 
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->addBlock('Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main');

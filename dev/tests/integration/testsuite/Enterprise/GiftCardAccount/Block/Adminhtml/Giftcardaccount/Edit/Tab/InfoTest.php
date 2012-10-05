@@ -10,17 +10,17 @@
  */
 
 /**
- * Test class for Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info.
- *
- * @group module:Enterprise_GiftCardAccount
+ * Test class for Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
  */
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testInitForm()
     {
-        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
-        Mage::register('current_giftcardaccount', $model);
+        Mage::register('current_giftcardaccount', new Enterprise_GiftCardAccount_Model_Giftcardaccount);
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->addBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
 

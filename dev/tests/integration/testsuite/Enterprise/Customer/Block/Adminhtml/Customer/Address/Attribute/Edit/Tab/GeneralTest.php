@@ -10,17 +10,19 @@
  */
 
 /**
- * Test class for Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General.
- *
- * @group module:Enterprise_Customer
+ * Test class for Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_GeneralTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getModel('Mage_Customer_Model_Attribute')->setEntityTypeId($entityType->getId());
+        $model = new Mage_Customer_Model_Attribute;
+        $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 
         $block = new Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General;

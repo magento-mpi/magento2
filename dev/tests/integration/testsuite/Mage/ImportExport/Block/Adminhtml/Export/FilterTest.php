@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_ImportExport_Block_Adminhtml_Export_Filter.
- *
- * @group module:Mage_ImportExport
+ * Test class for Mage_ImportExport_Block_Adminhtml_Export_Filter
  */
 class Mage_ImportExport_Block_Adminhtml_Export_FilterTest
     extends PHPUnit_Framework_TestCase

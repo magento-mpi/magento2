@@ -10,15 +10,16 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
  */
 class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        Mage::register('current_promo_catalog_rule', Mage::getModel('Mage_CatalogRule_Model_Rule'));
+        Mage::register('current_promo_catalog_rule', new Mage_CatalogRule_Model_Rule);
 
         $block = new Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main;
         $block->setLayout(new Mage_Core_Model_Layout);

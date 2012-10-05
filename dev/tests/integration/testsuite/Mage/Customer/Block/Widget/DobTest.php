@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Customer_Block_Widget_Dob.
- *
- * @group module:Mage_Customer
+ * Test class for Mage_Customer_Block_Widget_Dob
  */
 class Mage_Customer_Block_Widget_DobTest extends PHPUnit_Framework_TestCase
 {

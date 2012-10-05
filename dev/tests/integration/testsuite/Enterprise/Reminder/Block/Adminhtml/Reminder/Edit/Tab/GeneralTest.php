@@ -10,15 +10,16 @@
  */
 
 /**
- * Test class for Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General.
- *
- * @group module:Enterprise_Reminder
+ * Test class for Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        Mage::register('current_reminder_rule', Mage::getModel('Enterprise_Reminder_Model_Rule'));
+        Mage::register('current_reminder_rule', new Enterprise_Reminder_Model_Rule);
 
         $layout = new Mage_Core_Model_Layout;
         $block = $layout->addBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General');

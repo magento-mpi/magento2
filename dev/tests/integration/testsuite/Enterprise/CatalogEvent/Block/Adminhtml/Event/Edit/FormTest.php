@@ -10,16 +10,17 @@
  */
 
 /**
- * Test class for Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form.
- *
- * @group module:Enterprise_CatalogEvent
+ * Test class for Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
-        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event')
-            ->setCategoryId(1)->setId(1);
+        $event = new Enterprise_CatalogEvent_Model_Event;
+        $event->setCategoryId(1)->setId(1);
         Mage::register('enterprise_catalogevent_event', $event);
         $block = new Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form;
         $prepareFormMethod = new ReflectionMethod(

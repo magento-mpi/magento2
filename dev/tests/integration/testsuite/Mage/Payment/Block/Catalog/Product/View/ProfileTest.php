@@ -10,15 +10,16 @@
  */
 
 /**
- * Test class for Mage_Payment_Block_Catalog_Product_View_Profile.
- *
- * @group module:Mage_Payment
+ * Test class for Mage_Payment_Block_Catalog_Product_View_Profile
  */
 class Mage_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetDateHtml()
     {
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = new Mage_Catalog_Model_Product;
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
         Mage::register('current_product', $product);

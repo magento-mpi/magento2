@@ -10,17 +10,19 @@
  */
 
 /**
- * Test class for Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract.
- *
- * @group module:Mage_Eav
+ * Test class for Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
  */
 class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPrepareForm()
     {
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getModel('Mage_Customer_Model_Attribute')->setEntityTypeId($entityType->getId());
+        $model = new Mage_Customer_Model_Attribute;
+        $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 
         $block = $this->getMockForAbstractClass('Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract')

@@ -10,9 +10,7 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard.
- *
- * @group module:Mage_Adminhtml
+ * Test class for Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard
  */
 class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_WizardTest extends PHPUnit_Framework_TestCase
 {
