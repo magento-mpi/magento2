@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
+ * @package     Magento_Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,28 +13,28 @@
 <validation>
     <entity>
         <rules>
-            <rule name="test_rule_zend">
+            <rule name="test_rule_a">
                 <property_constraints>
                     <property name="sku">
-                        <constraint class="Zend_Validate_Alnum" />
+                        <constraint class="Magento_Validator_Test_Alnum"/>
                     </property>
                 </property_constraints>
             </rule>
-            <rule name="test_rule_constraint">
+            <rule name="test_rule_b">
                 <constraints>
-                    <constraint class="Magento_Validator_Test"/>
+                    <constraint class="Magento_Validator_Test_True"/>
                 </constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_a">
                 <uses>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_rule_b"/>
                 </uses>
             </group>
             <group name="test_group_b">
                 <uses>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_rule_b"/>
                 </uses>
             </group>
         </groups>

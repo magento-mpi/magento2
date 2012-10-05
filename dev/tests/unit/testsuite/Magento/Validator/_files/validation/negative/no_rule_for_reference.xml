@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
+ * @package     Magento_Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,15 +13,15 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_constraint">
+            <rule name="test_rule_sku_and_name">
                 <property_constraints>
                     <property name="sku">
-                        <constraint class="Magento_Validator_NotEmpty" />
-                        <constraint class="Magento_Validator_Alnum" />
+                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                        <constraint class="Magento_Validator_Test_Alnum"/>
                     </property>
                     <property name="name">
-                        <constraint class="Magento_Validator_NotEmpty"/>
-                        <constraint class="Magento_Validator_StringLenght">
+                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                        <constraint class="Magento_Validator_Test_StringLength">
                             <option name="min">
                                 <value>10</value>
                             </option>
@@ -36,13 +36,13 @@
         <groups>
             <group name="test_group_a">
                 <uses>
-                    <use rule="test_invalide_rule"/>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_invalid_rule"/>
+                    <use rule="test_rule_sku_and_name"/>
                 </uses>
             </group>
             <group name="test_group_b">
                 <uses>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_rule_sku_and_name"/>
                 </uses>
             </group>
         </groups>

@@ -20,6 +20,8 @@ class Magento_Validator_Test_True extends Magento_Validator_Abstract
      *
      * @param mixed $value
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isValid($value)
     {

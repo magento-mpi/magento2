@@ -17,11 +17,14 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var Magento_Validator_Config
      */
-    protected static $_model = null;
+    protected $_config = null;
 
-    public static function setUpBeforeClass()
+    /**
+     * Set up
+     */
+    protected function setUp()
     {
-        self::$_model = new Magento_Validator_Config(glob(__DIR__ . '/_files/validation/positive/*/validation.xml'));
+        $this->_config = new Magento_Validator_Config(glob(__DIR__ . '/_files/validation/positive/*/validation.xml'));
     }
 
     /**
@@ -39,16 +42,16 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidatorInvalidEntityName()
     {
-        self::$_model->createValidator('invalid_entity', null);
+        $this->_config->createValidator('invalid_entity', null);
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Unknown validation group "invalid_group" in entity "test_entity"
+     * @expectedExceptionMessage Unknown validation group "invalid_group" in entity "test_entity_a"
      */
     public function testCreateValidatorInvalidGroupName()
     {
-        self::$_model->createValidator('test_entity', 'invalid_group');
+        $this->_config->createValidator('test_entity_a', 'invalid_group');
     }
 
     /**
@@ -63,19 +66,113 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check xsd schema rules
+     * @dataProvider getValidationRulesDataProvider
      *
-     * @dataProvider getValidationRulesForInvalidXmlDataProvider
+     * @param string $entityName
+     * @param string $groupName
+     * @param mixed $value
+     */
+    public function testCreateValidator($entityName, $groupName, $value, $expectedResult, $expectedMessages)
+    {
+        $validator = $this->_config->createValidator($entityName, $groupName);
+        $actualResult = $validator->isValid($value);
+        $this->assertEquals($expectedMessages, $validator->getMessages());
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * Data provider for testCreateConfigForInvalidXml
+     *
+     * @return array
+     */
+    public function getValidationRulesDataProvider()
+    {
+        $result = array();
+
+        // Case 1. Pass check alnum and int properties are not empty and have valid value
+        $entityName = 'test_entity_a';
+        $groupName = 'check_alnum_and_int_not_empty_and_have_valid_value';
+        $value = new Varien_Object(array(
+            'int' => 1,
+            'alnum' => 'abc123'
+        ));
+        $expectedResult = true;
+        $expectedMessages = array();
+        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
+
+        // Case 2. Fail check alnum is not empty
+        $value = new Varien_Object(array(
+            'int' => 'abc123',
+            'alnum' => null
+        ));
+        $expectedResult = false;
+        $expectedMessages = array(
+            'alnum' => array(
+                'isEmpty' => 'Value is required and can\'t be empty',
+                'alnumInvalid' => 'Invalid type given. String, integer or float expected',
+            ),
+            'int' => array(
+                'notInt' => '\'abc123\' does not appear to be an integer',
+            ),
+        );
+        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
+
+        // Case 3. Pass check alnum has valid value
+        $groupName = 'check_alnum';
+        $value = new Varien_Object(array(
+            'int' => 'abc123',
+            'alnum' => 'abc123'
+        ));
+        $expectedResult = true;
+        $expectedMessages = array();
+        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
+
+        // Case 4. Fail check alnum has valid value
+        $value = new Varien_Object(array(
+            'int' => 'abc123',
+            'alnum' => '[abc123]'
+        ));
+        $expectedResult = false;
+        $expectedMessages = array(
+            'alnum' => array(
+                'notAlnum' => '\'[abc123]\' contains characters which are non alphabetic and no digits'
+            )
+        );
+        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
+
+        // Case 5. Pass check witch custom builder class
+        $entityName = 'test_entity_b';
+        $groupName = 'custom_builder';
+        $value = new Varien_Object();
+        $expectedResult = true;
+        $expectedMessages = array();
+        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
+
+        return $result;
+    }
+
+
+
+    /**
+     * Check XSD schema validates invalid config files
+     *
+     * @dataProvider getInvalidXmlFiles
      * @expectedException Magento_Exception
+     *
      * @param string $configFile
      */
-    public function testCreateConfigForInvalidXml($configFile)
+    public function testValidateInvalidConfigFiles($configFile)
     {
         $configFile = array($configFile);
         new Magento_Validator_Config($configFile);
     }
 
-    public function getValidationRulesForInvalidXmlDataProvider()
+    /**
+     * Data provider for testValidateInvalidConfigFiles
+     *
+     * @return array
+     */
+    public function getInvalidXmlFiles()
     {
         return array(
             array(__DIR__ . '/_files/validation/negative/no_constraint.xml'),
@@ -89,95 +186,10 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getValidationRulesDataProvider
-     * @param string $entityName
-     * @param string $groupName
-     * @param array $expectedRules
+     * Test schema file exists
      */
-    public function testGetValidationRules($entityName, $groupName, $expectedRules)
-    {
-        $this->markTestSkipped('This test should be updated');
-        $actualRules = self::$_model->getValidationRules($entityName, $groupName);
-        $this->assertRulesEqual($expectedRules, $actualRules);
-    }
-
-    /**
-     * Assert that all expected validation rules are present with correct constraint objects.
-     *
-     * @param array $expectedRules
-     * @param array $actualRules
-     */
-    public static function assertRulesEqual(array $expectedRules, array $actualRules)
-    {
-        foreach ($expectedRules as $expectedRule => $expectedConstraints) {
-            self::assertArrayHasKey($expectedRule, $actualRules);
-
-            foreach ($expectedConstraints as $expectedConstraint) {
-                $constraintFound = false;
-                foreach ($actualRules[$expectedRule] as $actualConstraint) {
-                    if ($expectedConstraint['constraint'] instanceof $actualConstraint['constraint']) {
-                        $constraintFound = true;
-                        if (isset($expectedConstraint['field'])) {
-                            self::assertArrayHasKey('field', $actualConstraint);
-                            self::assertEquals($expectedConstraint['field'], $actualConstraint['field']);
-                        }
-                        break;
-                    }
-                }
-                if (!$constraintFound) {
-                    self::fail(sprintf('Expected constraint "%s" was not found in the rule "%"',
-                        get_class($expectedConstraint['constraint']), $expectedRule));
-                }
-            }
-        }
-    }
-
-    public function getValidationRulesDataProvider()
-    {
-        $groupARules = array(
-            'test_rule_zend' => array(
-                array(
-                    'constraint' => $this->getMock('Zend_Validate_Alnum'),
-                    'field' => 'test_field'
-                ),
-            ),
-            'test_rule_constraint' => array(
-                array(
-                    'constraint' => $this->getMock('Magento_Validator_Test'),
-                ),
-            ),
-        );
-        $groupBRules = array(
-            'test_rule_constraint' => array(
-                array(
-                    'constraint' => $this->getMock('Magento_Validator_Test'),
-                ),
-            ),
-            'test_rule_constraint_2' => array(
-                array(
-                    'constraint' => $this->getMock('Magento_Validator_Test'),
-                    'field' => 'constraint_field'
-                ),
-            ),
-        );
-        $groupCRules = array(
-            'test_rule' => array(
-                array(
-                    'constraint' => $this->getMock('Zend_Validate_Int'),
-                    'field' => 'test_field'
-                ),
-            ),
-        );
-
-        return array(
-            array('test_entity', 'test_group_a', $groupARules),
-            array('test_entity', 'test_group_b', $groupBRules),
-            array('test_entity_b', 'test_group_c', $groupCRules),
-        );
-    }
-
     public function testGetSchemaFile()
     {
-        $this->assertFileExists(self::$_model->getSchemaFile());
+        $this->assertFileExists($this->_config->getSchemaFile());
     }
 }
