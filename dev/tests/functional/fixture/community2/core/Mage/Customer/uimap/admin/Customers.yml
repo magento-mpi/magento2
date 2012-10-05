@@ -29,7 +29,7 @@ create_customer:
                             -
                                 edit_address:
                                     fields:
-                                        vat_number: //input[@id='_item%address_number%vat_id']
+                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
 
 # 'Online Customers' Page
 online_customers:
@@ -72,7 +72,7 @@ edit_customer:
                             -
                                 edit_address:
                                     fields:
-                                        vat_number: //input[@id='_item%address_number%vat_id']
+                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
                 -
                     customer_view:
                         fieldsets:

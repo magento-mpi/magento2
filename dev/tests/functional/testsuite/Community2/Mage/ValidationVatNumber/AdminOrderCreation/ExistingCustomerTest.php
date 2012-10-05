@@ -49,10 +49,10 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
     {
         //Data
         $names = array(
-            'group_valid_vat_domestic'                  => 'Valid VAT Domestic_%randomize%',
-            'group_valid_vat_intraunion'                => 'Valid VAT IntraUnion_%randomize%',
-            'group_invalid_vat'                         => 'Invalid VAT_%randomize%',
-            'group_default'                             => 'Default Group_%randomize%');
+            'group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
+            'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
+            'group_invalid_vat'          => 'Invalid VAT_%randomize%',
+            'group_default'              => 'Default Group_%randomize%');
         $processedGroupNames = array();
         //Creating three Customer Groups
         $this->loginAdminUser();
