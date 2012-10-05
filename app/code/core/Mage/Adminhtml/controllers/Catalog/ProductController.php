@@ -618,17 +618,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         /**
-         * Initialize product categories
-         */
-        $categoryIds = $this->getRequest()->getPost('category_ids');
-        if (null !== $categoryIds) {
-            if (empty($categoryIds)) {
-                $categoryIds = array();
-            }
-            $product->setCategoryIds($categoryIds);
-        }
-
-        /**
          * Initialize data for configurable product
          */
         if (($data = $this->getRequest()->getPost('configurable_products_data'))
