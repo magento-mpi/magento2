@@ -466,14 +466,28 @@ final class Mage
     }
 
     /**
+     * Initialize object manager with definitions file
+     *
+     * @static
+     * @param string $definitionsFile
+     */
+    public static function initializeObjectManager($definitionsFile = null)
+    {
+        if (!self::$_objectManager) {
+            self::$_objectManager = new Magento_ObjectManager_Zend($definitionsFile);
+        }
+    }
+
+    /**
      * Retrieve object manager
      *
+     * @static
      * @return Magento_ObjectManager
      */
     public static function getObjectManager()
     {
         if (!self::$_objectManager) {
-            self::$_objectManager = new Magento_ObjectManager_Zend(self::getRoot() . '/../var');
+            self::initializeObjectManager();
         }
         return self::$_objectManager;
     }

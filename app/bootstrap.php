@@ -73,6 +73,11 @@ if (file_exists($classMapPath)) {
     Magento_Autoload::getInstance()->addFilesMap($classMapPath);
 }
 
+$definitionsFile = BP . DS . 'var/di/definitions.php';
+if (file_exists($definitionsFile)) {
+    Mage::initializeObjectManager($definitionsFile);
+}
+
 if (isset($_SERVER['MAGE_PROFILER'])) {
     switch ($_SERVER['MAGE_PROFILER']) {
         case 'firebug':
