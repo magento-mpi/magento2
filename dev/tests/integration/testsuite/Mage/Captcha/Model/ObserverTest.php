@@ -97,6 +97,10 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
         $this->dispatch('backend/admin/auth/forgotpassword');
         /** @var Mage_Backend_Model_Session $session  */
         $session = Mage::getSingleton('Mage_Backend_Model_Session');
-        $this->assertCount(1, $session->getMessages(false)->getErrors(), 'Incorrect CAPTCHA.');
+        $this->assertCount(1, $session->getMessages(false)->getErrors());
+        $errorMessages = Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)
+            ->getItemsByType(Mage_Core_Model_Message::ERROR);
+        $this->assertEquals('Incorrect CAPTCHA.', current($errorMessages)->getCode());
+        ;
     }
 }
