@@ -85,9 +85,9 @@ class Community2_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest ex
     {
         return array(
             array(array('country' => 'Germany',        'state' => 'Berlin')),
-            array(array('country' => 'Germany',        'state' => 'Berlin',    'vat_number' => '111607872')),
-            array(array('country' => 'Germany',        'state' => 'Berlin',    'vat_number' => '111111111')),
-            array(array('country' => 'United Kingdom', 'state' => '%noValue%', 'vat_number' => '584451913')),
+            array(array('country' => 'Germany',        'state' => 'Berlin',    'billing_vat_number' => '111607872')),
+            array(array('country' => 'Germany',        'state' => 'Berlin',    'billing_vat_number' => '111111111')),
+            array(array('country' => 'United Kingdom', 'state' => '%noValue%', 'billing_vat_number' => '584451913')),
         );
     }
 }

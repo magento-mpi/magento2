@@ -26,7 +26,7 @@ system_configuration:
                                 store_information:
                                     xpath: //fieldset[@id='general_store_information']
                                     fields:
-                                        vat_number: //input[@name='groups[store_information][fields][merchant_vat_number][value]']
+                                        billing_vat_number: //input[@name='groups[store_information][fields][merchant_vat_number][value]']
                                     links:
                                         open_store_information_tab: //a[@id='general_store_information-head'][@class='open']
                                     buttons:

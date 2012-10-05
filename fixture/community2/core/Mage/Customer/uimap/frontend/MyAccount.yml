@@ -39,7 +39,7 @@ adding_new_address_book:
                             fax: //input[@id='fax']
                             street_address_line_1: //input[@id='street_1']
                             street_address_line_2: //input[@id='street_2']
-                            vat_number: //input[@id='vat_id']
+                            billing_vat_number: //input[@id='vat_id']
                             city: //input[@id='city']
                             zip_code: //input[@id='zip']
                         checkboxes:
