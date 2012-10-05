@@ -31,6 +31,26 @@ billing_with_register_req_physical_withshipping: &billingWithRegisterReqWithShip
     ship_to_this_address: Yes
     ship_to_different_address: %noValue%
 
+#<--------------SignedIn---------------->
+billing_new_signedin_req_physical_withshipping_usa: &newBillingSignedInReqWithShippingUsa
+    billing_address_choice: New Address
+    billing_first_name: Steven(billing.req)
+    billing_last_name: Stevenson(billing.req)
+    billing_company: %noValue%
+    billing_street_address_1: street address 1(billing.req)
+    billing_street_address_2: %noValue%
+    billing_city: Berlin
+    billing_country: Germany
+    billing_vat_number: %noValue%
+    billing_state: Berlin
+    billing_region: %noValue%
+    billing_zip_code: 90064
+    billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+    billing_save_in_address_book: %noValue%
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
 ################################################################################
 #                                                                              #
 #                                 Checkout Method                              #
@@ -38,6 +58,12 @@ billing_with_register_req_physical_withshipping: &billingWithRegisterReqWithShip
 ################################################################################
 register: &register
     checkout_method: register
+
+login: &login
+    checkout_method: login
+    additional_data:
+        email_address: %noValue%
+        password: 123123q
 
 ################################################################################
 #                                                                              #
@@ -56,3 +82,19 @@ with_register_flatrate_checkmoney: &withRegisterFlatrateCheck
     payment_data:
         payment_method: Check / Money order
 
+################################################################################
+#                                                                              #
+#                           Order Data for Exist Customer                      #
+#                                                                              #
+################################################################################
+exist_flatrate_checkmoney: &existFlatrateCheck
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: *newBillingSignedInReqWithShippingUsa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order

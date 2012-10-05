@@ -1,21 +1,21 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_ValidationVatNumber
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_ValidationVatNumber
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
-class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistrationTest extends Mage_Selenium_TestCase
+/**
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -88,45 +88,49 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      * <p>Preconditions:</p>
      * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>4. Fill in Billing Information tab. Field VAT Number is empty</p>
-     * <p>5. Select "Ship to this address" option.</p>
-     * <p>6. Click 'Continue' button.</p>
-     * <p>7. Select Shipping Method and Payment Method.</p>
-     * <p>8. Place order.</p>
+     * <p>1. Register new customer</p>
+     * <p>2. Open product page.</p>
+     * <p>3. Add product to Shopping Cart.</p>
+     * <p>4. Click "Proceed to Checkout".</p>
+     * <p>5. Fill in Billing Information tab. Field VAT Number is empty</p>
+     * <p>6. Select "Ship to this address" option.</p>
+     * <p>7. Click 'Continue' button.</p>
+     * <p>8. Select Shipping Method and Payment Method.</p>
+     * <p>9. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Checkout is successful.Customer is registered. Customer should be assigned to Default Group</p>
+     * <p>Checkout is successful. Customer should be assigned to Default Group</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3891
+     * @TestlinkId TL-MAGE-3942
      * @author andrey.vergeles
      */
     public function customerWithoutVatNumber($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
-            array('general_name' => $data['simple']));
-        $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' ' .
-                         $checkoutData['billing_address_data']['billing_last_name'];
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+            array('general_name'   => $data['simple'],
+                  'email_address'  => $userData['email']));
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
+        $this->frontend();
         $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        //Verification
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $this->assertMessagePresent('success', 'success_checkout');
         //Steps. Verification Customer group on back-end
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userDataParam);
-        $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('account_information');
         //Verification
-        $this->verifyForm(array('group' => $data['customerGroups']['group_default']),'account_information');
+        $this->verifyForm(array('group'=> $data['customerGroups']['group_default']),'account_information');
     }
 
     /**
@@ -134,48 +138,53 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      * <p>Preconditions:</p>
      * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Fill  Billing Information tab. Enter the same country as country of your store.</p>
-     * <p>6. Enter valid VAT Number</p>
-     * <p>7. Select "Ship to this address" option.</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>9. Select Shipping Method and Payment Method.</p>
-     * <p>10. Place order.</p>
+     * <p>1. Register new customer</p>
+     * <p>2. Open product page.</p>
+     * <p>3. Add product to Shopping Cart.</p>
+     * <p>4. Click "Proceed to Checkout".</p>
+     * <p>5. Fill  Billing Information tab. Enter the same country as country of your store</p>
+     * <p>6. Select "Ship to this address" option.</p>
+     * <p>7. Click 'Continue' button.</p>
+     * <p>8. Select Shipping Method and Payment Method.</p>
+     * <p>9. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Checkout is successful.Customer is registered.</p>
-     * <p> Customer should be assigned to group which was specified as "Group for Valid VAT ID - Domestic"</p>
+     * <p>Checkout is successful. Customer assigned to group which specified as "Group for Valid VAT ID - Domestic"</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3893
+     * @TestlinkId TL-MAGE-3944
      * @author andrey.vergeles
      */
     public function customerWithValidVatDomestic($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
             array('general_name'       => $data['simple'],
+                  'email_address'      => $userData['email'],
                   'billing_vat_number' => '111607872'));
-        $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' ' .
-                         $checkoutData['billing_address_data']['billing_last_name'];
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
+        $this->frontend();
         $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        //Verification
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $this->assertMessagePresent('success', 'success_checkout');
-        //Steps. Verification Customer group on back-end
+        //Steps. Opening customer for changing group
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userDataParam);
-        $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+        $this->saveForm('save_customer');
+        //Steps. Verification Customer group on back-end
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('account_information');
         //Verification
-        $this->verifyForm(array('group' => $data['customerGroups']['group_valid_vat_domestic']),'account_information');
+        $this->verifyForm(array('group'=> $data['customerGroups']['group_valid_vat_domestic']),'account_information');
     }
 
     /**
@@ -183,47 +192,53 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      * <p>Preconditions:</p>
      * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>4. Fill in Billing Information tab. Enter invalid VAT Number</p>
-     * <p>5. Select "Ship to this address" option.</p>
-     * <p>6. Click 'Continue' button.</p>
-     * <p>7. Select Shipping Method and Payment Method.</p>
-     * <p>8. Place order.</p>
+     * <p>1. Register new customer</p>
+     * <p>2. Open product page.</p>
+     * <p>3. Add product to Shopping Cart.</p>
+     * <p>4. Click "Proceed to Checkout".</p>
+     * <p>5. Fill  Billing Information tab. Enter invalid VAT Number</p>
+     * <p>6. Select "Ship to this address" option.</p>
+     * <p>7. Click 'Continue' button.</p>
+     * <p>8. Select Shipping Method and Payment Method.</p>
+     * <p>9. Place order.</p>
      * <p>Expected result:</p>
-     * <p>Checkout is successful. Customer is registered. Customer should be assigned to "Group for Invalid VAT ID"</p>
+     * <p>Checkout is successful. Customer should be assigned to "Group for Invalid VAT ID"</p>
      *
      * @param array $data
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3899
+     * @TestlinkId TL-MAGE-3947
      * @author andrey.vergeles
      */
     public function customerWithInvalidVat($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
             array('general_name'       => $data['simple'],
-                  'billing_vat_number' => '1111111111'
-            ));
-        $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' ' .
-                         $checkoutData['billing_address_data']['billing_last_name'];
+                  'email_address'      => $userData['email'],
+                  'billing_vat_number' => '1111111111'));
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
+        $this->frontend();
         $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        //Verification
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $this->assertMessagePresent('success', 'success_checkout');
-        //Steps. Verification Customer group on back-end
+        //Steps. Opening customer for changing group
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userDataParam);
-        $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+        $this->saveForm('save_customer');
+        //Steps. Verification Customer group on back-end
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('account_information');
         //Verification
-        $this->verifyForm(array('group' => $data['customerGroups']['group_invalid_vat']),'account_information');
+        $this->verifyForm(array('group'=> $data['customerGroups']['group_invalid_vat']),'account_information');
     }
 
     /**
@@ -249,29 +264,35 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3897
+     * @TestlinkId TL-MAGE-3945
      * @author andrey.vergeles
      */
     public function customerWithValidVatIntraUnion($data)
     {
-        //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
             array('general_name'       => $data['simple'],
+                  'email_address'      => $userData['email'],
                   'billing_vat_number' => '37441119989',
                   'billing_country'    => 'France',
                   'billing_state'      => 'Ain'));
-        $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' ' .
-                         $checkoutData['billing_address_data']['billing_last_name'];
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
+        $this->frontend();
         $this->logoutCustomer();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        //Verification
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $this->assertMessagePresent('success', 'success_checkout');
-        //Steps. Verification Customer group on back-end
+        //Steps. Opening customer for changing group
         $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userDataParam);
-        $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+        $this->saveForm('save_customer');
+        //Steps. Verification Customer group on back-end
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('account_information');
         //Verification
         $this->verifyForm(array('group'=> $data['customerGroups']['group_valid_vat_intraunion']),'account_information');
