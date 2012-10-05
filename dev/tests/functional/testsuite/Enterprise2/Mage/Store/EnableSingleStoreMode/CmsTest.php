@@ -91,7 +91,7 @@ class Enterprise2_Mage_Store_EnableSingleStoreMode_CmsTest extends Mage_Selenium
      * <p>4. Click "Back" button</p>
      * <p>Expected result:</p>
      * <p>There is no "Store View Specific Content" fieldset in the Content tab</p>
-     * <p>There is no "Visible In" column on the page
+     * <p>There is no "Visible In" column on the page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6170
