@@ -151,6 +151,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_scheduledStructure;
 
     /**
+     * @var Mage_Core_Model_Layout_Translator
+     */
+    protected $_translator;
+
+    /**
      * Class constructor
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param array $arguments
@@ -170,6 +175,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $this->_argumentProcessor = isset($arguments['processor']) ? $arguments['processor'] : null;
+        $this->_translator = isset($arguments['translator']) ? $arguments['translator'] : null;
 
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
@@ -323,6 +329,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
+     * Get translator object
+     *
+     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Layout_Translator
+     */
+    protected function _getTranslator()
+    {
+        if (null === $this->_translator) {
+            $this->_translator = Mage::getModel('Mage_Core_Model_Layout_Translator');
+        }
+
+        return $this->_translator;
+    }
+
+    /**
      * Move element in scheduled structure
      *
      * @param string $element
@@ -369,8 +389,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case self::TYPE_ARGUMENTS:
                     $referenceName = $parent->getAttribute('name');
                     $element = $this->_scheduledStructure->getStructureElement($referenceName, array());
-
-                    $element['arguments'] = $this->_mergeArguments($element, $this->_readArguments($node));
+                    $args = $this->_readArguments($node);
+                    $element['arguments'] = $this->_mergeArguments($element, $args);
 
                     $this->_scheduledStructure->setStructureElement($referenceName, $element);
                     break;
@@ -411,6 +431,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _readArguments(Mage_Core_Model_Layout_Element $node)
     {
         $arguments = array();
+        $moduleName = isset($node['module']) ? (string)$node['module'] : null;
+
         foreach ($node->children() as $argument) {
             /** @var $argument Mage_Core_Model_Layout_Element */
 
@@ -420,7 +442,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
 
             if ($argument->hasChildren()) {
-                $value = $argument->asArray();
+                $value = array();
+                $this->_fillArgumentsArray($argument, $value, $moduleName);
                 unset($value['updater']);
                 unset($value['@']);
 
@@ -434,13 +457,28 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $arguments[$argument->getName()]['value'] = $value;
                 }
             } else {
-                $value = trim((string)$argument);
+                $value = $this->_getTranslator()->translateArgument($argument, $moduleName);
                 if ('' !== $value) {
                     $arguments[$argument->getName()]['value'] = $value;
                 }
             }
         }
         return $arguments;
+    }
+
+    protected function _fillArgumentsArray(Mage_Core_Model_Layout_Element $node, &$argumentsArray, $moduleName)
+    {
+        $moduleName = isset($node['module']) ? (string)$node['module'] : $moduleName;
+
+        /** @var $childNode Mage_Core_Model_Layout_Element */
+        foreach ($node->children() as $childNode) {
+            $nodeName = $childNode->getName();
+            if ($childNode->hasChildren()) {
+                $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName], $moduleName);
+            } else {
+                $argumentsArray[$nodeName] = $this->_getTranslator()->translateArgument($childNode, $moduleName);
+            }
+        }
     }
 
     /**
@@ -753,10 +791,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
-
             $args = $this->_extractArgs($node);
-
-            $this->_translateLayoutNode($node, $args);
+            $this->_getTranslator()->translateActionParameters($node, $args);
             call_user_func_array(array($block, $method), $args);
         }
 
@@ -1131,52 +1167,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         $parentName = $this->_structure->getParentId($name);
         return $parentName && $this->isContainer($parentName);
-    }
-
-    /**
-     * Translate layout node
-     *
-     * @param Varien_Simplexml_Element $node
-     * @param array $args
-     **/
-    protected function _translateLayoutNode($node, &$args)
-    {
-        if (isset($node['translate'])) {
-            // Translate value by core module if module attribute was not set
-            $moduleName = (isset($node['module'])) ? (string)$node['module'] : 'Mage_Core';
-
-            // Handle translations in arrays if needed
-            $translatableArgs = explode(' ', (string)$node['translate']);
-            foreach ($translatableArgs as $translatableArg) {
-                /*
-                 * .(dot) character is used as a path separator in nodes hierarchy
-                 * e.g. info.title means that Magento needs to translate value of <title> node
-                 * that is a child of <info> node
-                 */
-                // @var $argumentHierarhy array - path to translatable item in $args array
-                $argumentHierarchy = explode('.', $translatableArg);
-                $argumentStack = &$args;
-                $canTranslate = true;
-                while (is_array($argumentStack) && count($argumentStack) > 0) {
-                    $argumentName = array_shift($argumentHierarchy);
-                    if (isset($argumentStack[$argumentName])) {
-                        /*
-                         * Move to the next element in arguments hieracrhy
-                         * in order to find target translatable argument
-                         */
-                        $argumentStack = &$argumentStack[$argumentName];
-                    } else {
-                        // Target argument cannot be found
-                        $canTranslate = false;
-                        break;
-                    }
-                }
-                if ($canTranslate && is_string($argumentStack)) {
-                    // $argumentStack is now a reference to target translatable argument so it can be translated
-                    $argumentStack = Mage::helper($moduleName)->__($argumentStack);
-                }
-            }
-        }
     }
 
     /**

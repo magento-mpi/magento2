@@ -17,14 +17,14 @@
                 <options>
                     <updater>Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
                     <add_order_to_archive>
-                        <label>Move to Archive</label>
+                        <label translate="true" module="Enterprise_SalesArchive">Move to Archive</label>
                         <url>*/sales_archive/massAdd</url>
                     </add_order_to_archive>
                 </options>
             </arguments>
         </reference>
         <reference name="sales_order.grid.container">
-            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"></block>
+            <block type="Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button" />
         </reference>
     </adminhtml_sales_order_index>
     
@@ -34,7 +34,7 @@
                 <options>
                     <updater>Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
                     <add_order_to_archive>
-                        <label>Move to Archive</label>
+                        <label translate="true" module="Enterprise_SalesArchive">Move to Archive</label>
                         <url>*/sales_archive/massAdd</url>
                     </add_order_to_archive>
                 </options>
@@ -67,7 +67,7 @@
                             <url>*/sales_archive/massUnhold</url>
                         </unhold_order>
                         <remove_order_from_archive>
-                            <label translate="true">Move to Orders Management</label>
+                            <label translate="true" module="Enterprise_SalesArchive">Move to Orders Management</label>
                             <url>*/sales_archive/massRemove</url>
                         </remove_order_from_archive>
                         <pdfinvoices_order>
