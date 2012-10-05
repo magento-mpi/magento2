@@ -19,17 +19,17 @@ use Zend\Di\Di,
 class Magento_ObjectManager_Zend implements Magento_ObjectManager
 {
     /**
-     * Default area name
+     * Default configuration area name
      */
-    const DEFAULT_AREA = 'global';
+    const CONFIGURATION_AREA = 'global';
 
     /**
-     * Dependency injection config node name
+     * Dependency injection configuration node name
      */
-    const CONFIG_DI_NODE = 'di';
+    const CONFIGURATION_DI_NODE = 'di';
 
     /**
-     * Zend dependency injection instance
+     * Dependency injection instance
      *
      * @var Zend\Di\Di
      */
@@ -60,10 +60,10 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
 
         /** @var $magentoConfiguration Mage_Core_Model_Config */
-        $magentoConfiguration = $this->_di->get('Mage_Core_Model_Config');
+        $magentoConfiguration = $this->get('Mage_Core_Model_Config');
         $magentoConfiguration->loadBase();
 
-        $this->loadAreaConfiguration(self::DEFAULT_AREA);
+        $this->loadAreaConfiguration(self::CONFIGURATION_AREA);
 
         Magento_Profiler::stop('di');
     }
@@ -103,8 +103,8 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
     public function loadAreaConfiguration($areaCode)
     {
         /** @var $magentoConfiguration Mage_Core_Model_Config */
-        $magentoConfiguration = $this->_di->get('Mage_Core_Model_Config');
-        $node = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIG_DI_NODE);
+        $magentoConfiguration = $this->get('Mage_Core_Model_Config');
+        $node = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
         if ($node) {
             $diConfiguration = new Configuration(array('instance' => $node->asArray()));
             $diConfiguration->configure($this->_di);
