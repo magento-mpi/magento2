@@ -30,17 +30,17 @@
         function formatCurrency(price, format, showPlus){
             var precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision;
             var integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired;
-            var decimalSymbol = format.decimalSymbol == undefined ? "," : format.decimalSymbol;
-            var groupSymbol = format.groupSymbol == undefined ? "." : format.groupSymbol;
-            var groupLength = format.groupLength == undefined ? 3 : format.groupLength;
+            var decimalSymbol = format.decimalSymbol === undefined ? "," : format.decimalSymbol;
+            var groupSymbol = format.groupSymbol === undefined ? "." : format.groupSymbol;
+            var groupLength = format.groupLength === undefined ? 3 : format.groupLength;
             var s = '';
 
-            if (showPlus == undefined || showPlus === true) {
+            if (showPlus === undefined || showPlus === true) {
                 s = price < 0 ? "-" : ( showPlus ? "+" : "");
             } else if (showPlus === false) {
                 s = '';
             }
-            var i = parseInt(price = Math.abs(+price || 0).toFixed(precision)) + '';
+            var i = parseInt(price = Math.abs(+price || 0).toFixed(precision), 10) + '';
             var pad = (i.length < integerRequired) ? (integerRequired - i.length) : 0;
             while (pad) {
                 i = '0' + i;
@@ -55,11 +55,11 @@
              * Result is "0.-0" :(
              */
             var r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) +
-                (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : "")
+                (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : "");
             var pattern = '';
             pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
             return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        };
+        }
 
         // Scan all product custom options, calculate total option price and apply to product price
         function reloadPrice() {
@@ -79,31 +79,31 @@
                 var element = $(this);
                 var optionIdStartIndex = element.attr('name').indexOf('[') + 1;
                 var optionIdEndIndex = element.attr('name').indexOf(']');
-                var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex));
+                var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex), 10);
                 if (priceOptionInit.optionConfig[optionId]) {
                     var configOptions = priceOptionInit.optionConfig[optionId];
                     if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
                         if (element.prop('checked')) {
                             if (configOptions[element.val()]) {
-                                optionPrice.update(configOptions[element.val()]['price'],
-                                    configOptions[element.val()]['excludeTax'],
-                                    configOptions[element.val()]['includeTax'],
-                                    configOptions[element.val()]['oldPrice']);
+                                optionPrice.update(configOptions[element.val()].price,
+                                    configOptions[element.val()].excludeTax,
+                                    configOptions[element.val()].includeTax,
+                                    configOptions[element.val()].oldPrice);
                             }
                         }
                     } else if (element.prop('tagName') === 'SELECT') {
                         $(element).find('option:selected').each(function() {
                             if (configOptions[$(this).val()]) {
-                                optionPrice.update(configOptions[$(this).val()]['price'],
-                                    configOptions[$(this).val()]['excludeTax'],
-                                    configOptions[$(this).val()]['includeTax'],
-                                    configOptions[$(this).val()]['oldPrice']);
+                                optionPrice.update(configOptions[$(this).val()].price,
+                                    configOptions[$(this).val()].excludeTax,
+                                    configOptions[$(this).val()].includeTax,
+                                    configOptions[$(this).val()].oldPrice);
                             }
                         });
                     } else if (element.prop('tagName') === 'TEXTAREA' || element.attr('type') === 'text') {
                         if (element.val()) {
-                            optionPrice.update(configOptions['price'], configOptions['excludeTax'],
-                                configOptions['includeTax'], configOptions['oldPrice']);
+                            optionPrice.update(configOptions.price, configOptions.excludeTax,
+                                configOptions.includeTax, configOptions.oldPrice);
                         }
                     }
                 }
@@ -113,7 +113,7 @@
                 priceInclTax: optionPrice.includeTax + priceOptionInit.priceConfig.priceInclTax,
                 productOldPrice: optionPrice.oldPrice + priceOptionInit.priceConfig.productOldPrice,
                 productPrice: optionPrice.price + priceOptionInit.priceConfig.productPrice
-            }
+            };
             // Loop through each priceSelector and update price
             $.each(priceSelectors, function(index, value) {
                 var priceElement = $(value);
@@ -139,7 +139,7 @@
                     if (clone.length === 1) {
                         clone.html(formatCurrency(price, priceOptionInit.priceConfig.priceFormat));
                     }
-                };
+                }
             });
         }
 
