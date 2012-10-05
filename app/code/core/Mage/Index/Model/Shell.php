@@ -47,6 +47,7 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
                 $process = $this->_getIndexer()->getProcessByCode(trim($code));
                 if (!$process) {
                     echo 'Warning: Unknown indexer with code ' . trim($code) . "\n";
+                    $this->_raiseHasErrors();
                 } else {
                     $processes[] = $process;
                 }
@@ -164,9 +165,11 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
                 echo $process->getIndexer()->getName() . " index was successfully changed index mode\n";
             } catch (Mage_Core_Exception $e) {
                 echo $e->getMessage() . "\n";
+                $this->_raiseHasErrors();
             } catch (Exception $e) {
                 echo $process->getIndexer()->getName() . " index process unknown error:\n";
                 echo $e . "\n";
+                $this->_raiseHasErrors();
             }
         }
         return $this;
@@ -192,9 +195,11 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
                 echo $process->getIndexer()->getName() . " index was rebuilt successfully\n";
             } catch (Mage_Core_Exception $e) {
                 echo $e->getMessage() . "\n";
+                $this->_raiseHasErrors();
             } catch (Exception $e) {
                 echo $process->getIndexer()->getName() . " index process unknown error:\n";
                 echo $e . "\n";
+                $this->_raiseHasErrors();
             }
         }
     }

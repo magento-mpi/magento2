@@ -8,9 +8,12 @@
  * @license     {license_link}
  */
 
-require_once '../../app/bootstrap.php';
+require_once __DIR__ . '/../../app/bootstrap.php';
 Mage::app('admin', 'store');
 
 /** @var $shell Mage_Index_Model_Shell */
 $shell = Mage::getModel('Mage_Index_Model_Shell', basename(__FILE__));
 $shell->run();
+if ($shell->hasErrors()) {
+    exit(1);
+}
