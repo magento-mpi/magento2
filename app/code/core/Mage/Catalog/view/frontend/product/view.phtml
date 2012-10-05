@@ -20,6 +20,13 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+<script type="text/javascript">
+    (function ($) {
+        $.mage.event.observe('mage.priceOption.initialize', function (event, initData) {
+            initData.priceConfig = <?php echo $this->getJsonConfig() ?>;
+        });
+    })(jQuery);
+</script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="product-essential">
