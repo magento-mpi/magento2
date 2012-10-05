@@ -279,7 +279,8 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest 
     public function validationVatNumber()
     {
         //Data
-        $storeInfo = $this->loadDataSet('VatID', 'store_information_data', array('billing_vat_number' => 'invalid_number'));
+        $storeInfo = $this->loadDataSet('VatID', 'store_information_data',
+                                  array('billing_vat_number' => 'invalid_number'));
         //Filling "Store Information" data and Validation VAT Number
         $this->loginAdminUser();
         $this->navigate('system_configuration');
