@@ -13,23 +13,11 @@
  */
 class Magento_Validator_Config extends Magento_Config_XmlAbstract
 {
+    /**
+     * Constraints types
+     */
     const CONSTRAINT_TYPE_ENTITY = 'entity';
     const CONSTRAINT_TYPE_PROPERTY = 'property';
-
-    /**
-     * Get absolute path to validation.xsd
-     *
-     * @return string
-     */
-    public function getSchemaFile()
-    {
-        return __DIR__ . '/validation.xsd';
-    }
-
-    public function getData()
-    {
-        return $this->_data;
-    }
 
     /**
      * Create validator based on entity and group.
@@ -175,6 +163,16 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
         }
 
         return $rules;
+    }
+
+    /**
+     * Get absolute path to validation.xsd
+     *
+     * @return string
+     */
+    public function getSchemaFile()
+    {
+        return __DIR__ . '/validation.xsd';
     }
 
     /**

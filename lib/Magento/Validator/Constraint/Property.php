@@ -9,11 +9,13 @@
  */
 
 /**
- * Validator constraint for property
+ * Validator constraint delegates validation of value's property to wrapped validator.
  */
 class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
 {
     /**
+     * Property name
+     *
      * @var string
      */
     protected $_property;
@@ -23,35 +25,25 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
      *
      * @param Magento_Validator_Interface $validator
      * @param string $property
-     * @param string $id
+     * @param string $alias
      */
-    public function __construct(Magento_Validator_Interface $validator, $property, $id = null)
+    public function __construct(Magento_Validator_Interface $validator, $property, $alias = null)
     {
-        parent::__construct($validator, $id);
+        parent::__construct($validator, $alias);
         $this->_property = $property;
     }
 
     /**
-     * Add messages from validator
+     * Get value that should be validated. Tries to extract value's property if Varien_Object or ArrayAccess or array
+     * is passed
      *
-     * @param Magento_Validator_Interface $validator
-     */
-    protected function _addMessages($validator)
-    {
-        foreach ($validator->getMessages() as $message) {
-            $this->_messages[$this->_property][] = $message;
-        }
-    }
-
-    /**
-     * Get value that should be validated.
-     *
-     * @param Varien_Object|array $value
+     * @param mixed $value
      * @return mixed
      */
     protected function _getValidatorValue($value)
     {
         $result = null;
+
         if ($value instanceof Varien_Object) {
             return $result = $value->getDataUsingMethod($this->_property);
         } elseif ((is_array($value) || $value instanceof ArrayAccess) && isset($value[$this->_property])) {
@@ -59,5 +51,15 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
         }
 
         return $result;
+    }
+
+    /**
+     * Add messages with code of property name
+     *
+     * @param array $messages
+     */
+    protected function _addMessages(array $messages)
+    {
+        $this->_messages[$this->_property] = $messages;
     }
 }

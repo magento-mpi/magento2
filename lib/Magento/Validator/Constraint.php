@@ -9,44 +9,38 @@
  */
 
 /**
- * Validator constraint
+ * Validator constraint delegates validation to wrapped validator.
  */
 class Magento_Validator_Constraint extends Magento_Validator_Abstract
 {
     /**
-     * @var string
-     */
-    protected $_id;
-
-    /**
+     * Wrapped validator
+     *
      * @var Magento_Validator_Interface
      */
     protected $_wrappedValidator;
 
     /**
+     * Alias can be used for search
+     *
+     * @var string
+     */
+    protected $_alias;
+
+    /**
      * Constructor
      *
      * @param Magento_Validator_Interface $validator
-     * @param string $id
+     * @param string $alias
      */
-    public function __construct(Magento_Validator_Interface $validator, $id = null)
+    public function __construct(Magento_Validator_Interface $validator, $alias = null)
     {
-        $this->_id = $id;
         $this->_wrappedValidator = $validator;
+        $this->_alias = $alias;
     }
 
     /**
-     * Get constraint id
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    /**
-     * Check constraint validator is valid.
+     * Delegate validation to wrapped validator
      *
      * @param mixed $value
      * @return bool
@@ -57,7 +51,7 @@ class Magento_Validator_Constraint extends Magento_Validator_Abstract
         $this->_clearMessages();
 
         if (!$this->_wrappedValidator->isValid($this->_getValidatorValue($value))) {
-            $this->_addMessages($this->_wrappedValidator);
+            $this->_addMessages($this->_wrappedValidator->getMessages());
             $result = false;
         }
 
@@ -65,23 +59,23 @@ class Magento_Validator_Constraint extends Magento_Validator_Abstract
     }
 
     /**
-     * Add messages from validator
-     *
-     * @param Magento_Validator_Interface $validator
-     */
-    protected function _addMessages($validator)
-    {
-        $this->_messages = $validator->getMessages();
-    }
-
-    /**
      * Get value that should be validated.
      *
      * @param mixed $value
-     * @return bool
+     * @return mixed
      */
     protected function _getValidatorValue($value)
     {
         return $value;
+    }
+
+    /**
+     * Get constraint alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->_alias;
     }
 }

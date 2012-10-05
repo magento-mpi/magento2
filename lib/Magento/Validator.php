@@ -9,7 +9,7 @@
  */
 
 /**
- * Validator class.
+ * Validator class that represents chain of validators.
  */
 class Magento_Validator extends Magento_Validator_Abstract
 {
@@ -54,7 +54,7 @@ class Magento_Validator extends Magento_Validator_Abstract
                 continue;
             }
             $result = false;
-            $this->_addMessages($validator);
+            $this->_addMessages($validator->getMessages());
             if ($element['breakChainOnFailure']) {
                 break;
             }
