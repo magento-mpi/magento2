@@ -163,7 +163,7 @@
                         select.append('<option value="' + result.class_id + '" selected="selected">'
                             + result.class_name + '</option>');
                         // Add editable multiselect item
-                        var mselectItemHtml = $(options.item.replace(/%value%|%label%/gi, value)
+                        var mselectItemHtml = $(options.item.replace(/%value%|%label%/gi, result.class_name)
                             .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
                             .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
                             .find('[type=checkbox]')

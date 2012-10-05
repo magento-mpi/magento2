@@ -128,8 +128,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
     protected function _processClassName($className)
     {
         $className = trim(strip_tags($className));
-        $validator = new Zend_Validate_Alnum(true);
-        if (!$validator->isValid($className)) {
+        if ($className == '') {
             Mage::throwException(Mage::helper('Mage_Tax_Helper_Data') ->__('Invalid name of tax class specified.'));
         }
         return $className;
