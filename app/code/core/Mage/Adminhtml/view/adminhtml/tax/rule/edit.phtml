@@ -72,7 +72,10 @@
         });
 
         $().ready(function () {
-            var options = {toggleAddButton:false},
+            var options = {
+                    toggleAddButton:false,
+                    addText: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'); ?>'
+                },
                 taxRateField = $('#tax_rate').parent(),
                 taxRateForm = $('#tax-rate-form');
 
