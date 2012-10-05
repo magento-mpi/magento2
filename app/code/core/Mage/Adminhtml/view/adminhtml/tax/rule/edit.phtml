@@ -100,7 +100,7 @@
                         .dialogRates('open');
                 })
                 .on("click.mselect-delete", ".mselect-delete", function () {
-                    if (!confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax rule'); ?>')) {
+                    if (!confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax rate'); ?>')) {
                         return;
                     }
 
@@ -156,15 +156,18 @@
                     text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Save'); ?>',
                     id: '<?php echo $this->getJsId('apply-button') ?>',
                     click: function() {
-                        $(this).closest('.ui-dialog-content').dialogRates('updateItemRate');
-                        var itemRate = $(this).closest('.ui-dialog-content').dialogRates('option').itemRate;
+                        $(this).dialogRates('updateItemRate');
+                        var itemRate = $(this).dialogRates('option').itemRate,
+                            itemRateData = $.extend({}, itemRate);
+                        if (itemRateData.itemElement) {
+                            delete itemRateData.itemElement;
+                        }
 
                         toggleLoadingMask();
 
-                        itemRate.form_key = $('input[name="form_key"]').val();
                         var ajaxOptions = {
                             type: 'POST',
-                            data: itemRate,
+                            data: itemRateData,
                             dataType: 'json',
                             url: '<?php echo $this->getTaxRateSaveUrl()?>',
                             success: function(result, status) {
