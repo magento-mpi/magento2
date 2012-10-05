@@ -18,7 +18,7 @@
         <?php echo $this->renderTags('<li><a href="%1$s">%2$s</a> (%3$s)</li>') ?>
     </ul>
     <script type="text/javascript">
-        (function($) {$.mage.decorator.general($('#<?php echo $_uniqueProductTagsId?>').find('li'), ['first','last']);})(jQuery);
+        (function($) {$('#<?php echo $_uniqueProductTagsId?>').find('li').decorate('generic', ['first','last'])})(jQuery)
     </script>
     <?php endif; ?>
     <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>" method="get">

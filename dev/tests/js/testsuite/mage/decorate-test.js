@@ -15,18 +15,17 @@ DecoratorTest.prototype.testDecoratorList = function () {
      <li>item4</li>
      </ul>
      */
-    var listId = '#list';
-    assertNotNull($(listId));
-    $.mage.decorator.list(listId);
-    assertTrue($($(listId).find('li')[0]).hasClass('odd'));
-    assertFalse($($(listId).find('li')[0]).hasClass('even'));
-    assertTrue($($(listId).find('li')[1]).hasClass('even'));
-    assertFalse($($(listId).find('li')[1]).hasClass('odd'));
-    assertTrue($($(listId).find('li')[2]).hasClass('odd'));
-    assertFalse($($(listId).find('li')[2]).hasClass('even'));
-    assertTrue($($(listId).find('li')[3]).hasClass('even'));
-    assertFalse($($(listId).find('li')[3]).hasClass('odd'));
-    assertTrue($($(listId).find('li')[3]).hasClass('last'));
+    var list = $('#list');
+    list.decorate('list');
+    assertTrue($(list.find('li')[0]).hasClass('odd'));
+    assertFalse($(list.find('li')[0]).hasClass('even'));
+    assertTrue($(list.find('li')[1]).hasClass('even'));
+    assertFalse($(list.find('li')[1]).hasClass('odd'));
+    assertTrue($(list.find('li')[2]).hasClass('odd'));
+    assertFalse($(list.find('li')[2]).hasClass('even'));
+    assertTrue($(list.find('li')[3]).hasClass('even'));
+    assertFalse($(list.find('li')[3]).hasClass('odd'));
+    assertTrue($(list.find('li')[3]).hasClass('last'));
 };
 
 DecoratorTest.prototype.testDecoratorGeneral = function () {
@@ -38,7 +37,7 @@ DecoratorTest.prototype.testDecoratorGeneral = function () {
      </div>
      */
     var itemClass = '.item';
-    $.mage.decorator.general($(itemClass));
+    $(itemClass).decorate('generic');
     assertTrue($($(itemClass)[0]).hasClass('odd'));
     assertFalse($($(itemClass)[0]).hasClass('even'));
     assertTrue($($(itemClass)[0]).hasClass('first'));
@@ -87,7 +86,7 @@ DecoratorTest.prototype.testDecoratorTable = function (){
      </table>
      */
     var tableId = '#foo';
-    $.mage.decorator.table(tableId);
+    $(tableId).decorate('table');
     assertTrue($(tableId).find('thead tr').hasClass('first'));
     assertTrue($(tableId).find('thead tr').hasClass('last'));
     assertFalse($(tableId).find('thead tr').hasClass('odd'));
@@ -127,7 +126,7 @@ DecoratorTest.prototype.testDecoratorDataList = function () {
      </dl>
      */
     var listId = '#data-list';
-    $.mage.decorator.dataList(listId);
+    $(listId).decorate('dataList');
     assertTrue($(listId).find('dt').first().hasClass('odd'));
     assertFalse($(listId).find('dt').first().hasClass('even'));
     assertFalse($(listId).find('dt').first().hasClass('last'));

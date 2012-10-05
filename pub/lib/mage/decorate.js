@@ -8,102 +8,104 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
-    $.extend(true, $, {
-        mage: {
-            decorator: (function () {
-                /**
-                 * Decorate a list (e.g. a <ul> containing <li>) recursively if specified.
-                 * @param {string} list
-                 * @param {boolean} isRecursive
-                 */
-                this.list = function (list, isRecursive) {
-                    var _items;
-                    if ($(list).length > 0) {
-                        if (typeof(isRecursive) === undefined) {
-                            _items = $(list).find('li');
-                        } else if (isRecursive) {
-                            _items = $(list).find('li');
-                        } else {
-                            _items = $(list).children();
-                        }
-                        this.general(_items, ['odd', 'even', 'last']);
-                    }
+    var methods = {
+        /**
+         * Decorate a list (e.g. a <ul> containing <li>) recursively if specified.
+         * @param {boolean} isRecursive
+         */
+        list: function (isRecursive) {
+            return this.each(function() {
+                var list = $(this);
+                if (list.length > 0) {
+                    var items = (typeof(isRecursive) === undefined || isRecursive) ?
+                        list.find('li') :
+                        list.children();
+                    items.decorate('generic', ['odd', 'even', 'last']);
+                }
+            });
+        },
+
+        /**
+         * Annotate a set of DOM elements with decorator classes.
+         * @param {Array} decoratorParams
+         */
+        generic: function (decoratorParams) {
+            var elements = $(this);
+            if (elements) {
+                var allSupportedParams = {
+                    even: 'odd', // Flip jQuery odd/even so that index 0 is odd.
+                    odd: 'even',
+                    last: 'last',
+                    first: 'first'
                 };
 
-                /**
-                 * Annotate a set of DOM elements with decorator classes.
-                 * @param {Object} elements
-                 * @param {array} decoratorParams
-                 */
-                this.general = function (elements, decoratorParams) {
-                    var _allSupportedParams = {
-                        even: 'odd', // Flip jQuery odd/even so that index 0 is odd.
-                        odd: 'even',
-                        last: 'last',
-                        first: 'first'
+                decoratorParams = decoratorParams || allSupportedParams;
+
+                $.each(decoratorParams, function(index, param) {
+                    if (param === 'even' || param === 'odd') {
+                        elements.filter(':' + param).removeClass('odd even').addClass(allSupportedParams[param]);
+                    } else {
+                        elements.filter(':' + param).addClass(allSupportedParams[param]);
+                    }
+                });
+            }
+            return this;
+        },
+
+        /**
+         * Decorate DOM elements in an HTML table with specified classes.
+         * @param {Object} instanceOptions
+         */
+        table: function (instanceOptions) {
+            return this.each(function() {
+                var table = $(this);
+                if (table.length > 0) {
+                    var options = {
+                        'tbody': false,
+                        'tbody tr': ['odd', 'even', 'first', 'last'],
+                        'thead tr': ['first', 'last'],
+                        'tfoot tr': ['first', 'last'],
+                        'tr td': ['last']
                     };
 
-                    decoratorParams = decoratorParams || _allSupportedParams;
+                    $.extend(options, instanceOptions || {});
 
-                    if (elements) {
-                        $.each(decoratorParams, function (index, param) {
-                            if (param === 'even' || param === 'odd') {
-                                elements.filter(':' + param).removeClass('odd even').addClass(_allSupportedParams[param]);
+                    $.each(options, function (key, value) {
+                        if (options[key]) {
+                            if (key === 'tr td') {
+                                $.each(table.find('tr'), function () {
+                                    $(this).find('td').decorate('generic', options['tr td']);
+                                });
                             } else {
-                                elements.filter(':' + param).addClass(_allSupportedParams[param]);
+                                table.find(key).decorate('generic', value);
                             }
-                        });
-                    }
-                };
+                        }
+                    });
+                }
+            });
+        },
 
-                /**
-                 * Decorate DOM elements in an HTML table with specified classes.
-                 * @param {string} table
-                 * @param {Object} instanceOptions
-                 */
-                this.table = function (table, instanceOptions) {
-                    if ($(table).length > 0) {
-                        var _options = {
-                            'tbody': false,
-                            'tbody tr': ['odd', 'even', 'first', 'last'],
-                            'thead tr': ['first', 'last'],
-                            'tfoot tr': ['first', 'last'],
-                            'tr td': ['last']
-                        };
-
-                        var _table = $(table);
-                        var _this = this;
-
-                        $.extend(_options, instanceOptions || {});
-
-                        $.each(_options, function (key, value) {
-                            if (_options[key]) {
-                                if (key === 'tr td') {
-                                    $.each(_table.find('tr'), function () {
-                                        _this.general($(this).find('td'), _options['tr td']);
-                                    });
-                                } else {
-                                    _this.general(_table.find(key), value);
-                                }
-                            }
-                        });
-                    }
-                };
-
-                /**
-                 * Annotate data list elements with CSS classes.
-                 * @param {string} data list
-                 */
-                this.dataList = function(list) {
-                    var _list = $(list);
-                    if (_list) {
-                        this.general(_list.find('dt'), ['odd', 'even', 'last']);
-                        this.general(_list.find('dd'), ['odd', 'even', 'last']);
-                    }
-                };
-
-                return this;
-            }())
+        /**
+         * Annotate data list elements with CSS classes.
+         */
+        dataList: function() {
+            return this.each(function() {
+                var list = $(this);
+                if (list) {
+                    list.find('dt').decorate('generic', ['odd', 'even', 'last']);
+                    list.find('dd').decorate('generic', ['odd', 'even', 'last']);
+                }
+            });
         }
-    });
+    };
+
+    $.fn.decorate = function(method) {
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || ! method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error($.mage.__('Method ' +  method + ' does not exist on jQuery.decorate'));
+        }
+    };
 })(jQuery);

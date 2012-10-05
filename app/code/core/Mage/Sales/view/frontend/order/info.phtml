@@ -29,7 +29,7 @@
             <?php endif; ?>
         <?php endforeach; ?>
         </ul>
-        <script type="text/javascript">(function($) {$.mage.decorator.general($('#order-info-tabs').find('li'), ['first','last']);})(jQuery);</script>
+        <script type="text/javascript">(function($) {$('#order-info-tabs').find('li').decorate('generic', ['first','last'])})(jQuery)</script>
     </dd>
 </dl>
 <p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>

@@ -32,8 +32,8 @@
                 (function($) {
                     $.mage.event.observe('mage.poll.initialize', function (event, initData) {
                         initData.formId = '#pollForm';
-                        pollAnswersId = '#poll-answers';
-                        pollCheckedOption = 'input.poll_vote:checked';
+                        initData.pollAnswersId = '#poll-answers';
+                        initData.pollCheckedOption = 'input.poll_vote:checked';
                     });
                     $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Poll::poll.js') ?>");
                 })(jQuery);

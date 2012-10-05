@@ -23,7 +23,7 @@
         };
 
         $.mage.event.trigger('mage.compare-list.initialize', _compareList);
-        $.mage.decorator.table(_compareList.productFormSelector);
+        $(_compareList.productFormSelector).decorate('table');
 
         function _setParentWindow(selector) {
             $(selector).on('click', function (e) {

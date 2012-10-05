@@ -59,8 +59,8 @@
 <?php endif; ?>
 <script type="text/javascript">
     (function($) {
-        $.mage.decorator.table('#rss-table-misc');
-        $.mage.decorator.table('#rss-table-category');
+        $('#rss-table-misc').decorate('table');
+        $('#rss-table-category').decorate('table');
     })(jQuery);
 </script>
 <?php else: ?>

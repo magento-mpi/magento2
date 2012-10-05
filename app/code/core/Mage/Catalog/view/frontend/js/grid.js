@@ -19,14 +19,14 @@
         $.mage.event.trigger("mage.grid.initialize", gridInit);
 
         if (typeof(gridInit.listId) !== undefined) {
-            $.mage.decorator.list(gridInit.listId);
+            $(gridInit.listId).decorate('list');
         }
         if (typeof(gridInit.genericSelector) !== undefined) {
             if (typeof(gridInit.decoratorParams) !== undefined) {
-                $.mage.decorator.general($(gridInit.genericSelector), gridInit.decoratorParams);
+                $(gridInit.genericSelector).decorate('generic', gridInit.decoratorParams);
             }
             else {
-                $.mage.decorator.general($(gridInit.genericSelector));
+                $(gridInit.genericSelector).decorate('generic');
             }
         }
     });

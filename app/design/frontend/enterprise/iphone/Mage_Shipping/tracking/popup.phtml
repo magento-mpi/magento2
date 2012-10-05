@@ -132,7 +132,7 @@
                    <?php endforeach; ?>
                 </table>
                 <script type="text/javascript">
-                    (function($) {$.mage.decorator.table('#track-history-table-<?php echo $track->getTracking(); ?>');})(jQuery);
+                    (function($) {$('#track-history-table-<?php echo $track->getTracking(); ?>').decorate('table')})(jQuery)
                 </script>
                 <?php endif; ?>
 

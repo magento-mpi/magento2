@@ -57,7 +57,7 @@ if ($linkFormat) {
         </tbody>
     </table>
     <?php echo $this->getChildHtml('pager'); ?>
-    <script type="text/javascript">(function($) {$.mage.decorator.table('#<?php echo $this->getGridHtmlId() ?>');})(jQuery)</script>
+    <script type="text/javascript">(function($) {$('#<?php echo $this->getGridHtmlId() ?>').decorate('table')})(jQuery)</script>
 <?php else: ?>
     <p><?php echo $this->escapeHtml($this->getEmptyGridMessage()); ?></p>
 <?php endif; ?>

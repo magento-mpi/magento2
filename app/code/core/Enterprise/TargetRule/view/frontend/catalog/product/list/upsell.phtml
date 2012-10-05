@@ -28,6 +28,6 @@
             </ul>
         <?php endif ?>
     <?php endforeach; ?>
-    <script type="text/javascript">(function($) {$.mage.decorator.general($('ul.products-grid li'), ['odd','even','first','last']);})(jQuery);</script>
+    <script type="text/javascript">(function($) {$('ul.products-grid li').decorate('generic', ['odd','even','first','last'])})(jQuery)</script>
 </div>
 <?php endif ?>

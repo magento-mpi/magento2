@@ -19,7 +19,7 @@
         };
 
         $.mage.event.trigger('mage.compare.initialize', _compare);
-        $.mage.decorator.list(_compare.listSelector, true);
+        $(_compare.listSelector).decorate('list', true);
 
         function _confirmMessage(selector, message) {
             $(selector).on('click', function () {

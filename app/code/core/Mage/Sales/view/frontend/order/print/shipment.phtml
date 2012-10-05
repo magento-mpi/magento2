@@ -49,7 +49,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <script type="text/javascript">(function($) {$.mage.decorator.table('#my-shipment-tracking');})(jQuery)</script>
+                <script type="text/javascript">(function($) {$('#my-shipment-tracking').decorate('table')})(jQuery)</script>
             <?php endif; ?>
         </div>
         <div class="col-2">
@@ -75,7 +75,7 @@
         </tbody>
         <?php endforeach; ?>
     </table>
-    <script type="text/javascript">(function($) {$.mage.decorator.table('#my-shipment-table-<?php echo $this->getObjectData($shipment, 'id')?>', {'tbody': ['odd','even'], 'tbody tr': ['first','last']});})(jQuery)</script>
+    <script type="text/javascript">(function($) {$('#my-shipment-table-<?php echo $this->getObjectData($shipment, 'id')?>').decorate('table', {'tbody': ['odd','even'], 'tbody tr': ['first','last']})})(jQuery)</script>
 <?php endforeach; ?>
 <?php endif; ?>
 <script type="text/javascript">window.print();</script>

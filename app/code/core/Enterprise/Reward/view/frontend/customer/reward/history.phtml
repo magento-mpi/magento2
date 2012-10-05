@@ -55,7 +55,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">(function($) {$.mage.decorator.table('#reward-history');})(jQuery)</script>
+    <script type="text/javascript">(function($) {$('#reward-history').decorate('table')})(jQuery)</script>
 
     <?php echo $this->getChildHtml('pager') ?>
 

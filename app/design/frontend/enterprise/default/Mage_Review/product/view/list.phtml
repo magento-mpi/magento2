@@ -43,7 +43,7 @@
         </dd>
     <?php endforeach; ?>
     </dl>
-    <script type="text/javascript">(function($) {$.mage.decorator.general($('#product-reviews-list dd'), ['last']);})(jQuery);</script>
+    <script type="text/javascript">(function($) {$('#product-reviews-list dd').decorate('generic', ['last'])})(jQuery)</script>
     <?php echo $this->getChildHtml('toolbar') ?>
 <?php endif;?>
 <?php echo $this->getChildHtml('review_form') ?>

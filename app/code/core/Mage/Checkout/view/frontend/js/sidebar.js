@@ -21,7 +21,7 @@
         };
 
         $.mage.event.trigger('mage.checkout.initialize', checkout);
-        $.mage.decorator.list(checkout.cartSelector, checkout.isRecursive);
+        $(checkout.cartSelector).decorate('list', checkout.isRecursive);
 
         $(checkout.button).on('click', function () {
             $(location).attr('href', checkout.url);

@@ -116,7 +116,7 @@
                 <?php endforeach ?>
                 </tbody>
             </table>
-            <script type="text/javascript">(function($) {$.mage.decorator.table('#shopping-cart-table');})(jQuery)</script>
+            <script type="text/javascript">(function($) {$('#shopping-cart-table').decorate('table')})(jQuery)</script>
         </fieldset>
     </form>
     <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>

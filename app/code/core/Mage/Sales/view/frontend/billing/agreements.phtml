@@ -49,7 +49,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <script type="text/javascript">(function($) {$.mage.decorator.table('#billing-agreements');})(jQuery)</script>
+        <script type="text/javascript">(function($) {$('#billing-agreements').decorate('table')})(jQuery)</script>
     <?php else: ?>
         <p><?php echo $this->__('There are no billing agreements yet.')?></p>
     <?php endif; ?>
