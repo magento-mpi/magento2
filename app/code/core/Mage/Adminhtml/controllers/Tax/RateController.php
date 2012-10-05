@@ -116,7 +116,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $responseContent = '';
         try {
-            $rateData = $this->getRequest()->getPost();
+            $rateData = $this->_processRateData($this->getRequest()->getPost());
             $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
                 ->setData($rateData)
                 ->save();
@@ -145,6 +145,21 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             ));
         }
         $this->getResponse()->setBody($responseContent);
+    }
+
+    /**
+     * Validate/Filter Rate Data
+     *
+     * @param array $rateData
+     * @return array
+     */
+    protected function _processRateData($rateData)
+    {
+        $result = array();
+        foreach ($rateData as $key => $value) {
+            $result[$key] = trim(strip_tags($value));
+        }
+        return $result;
     }
 
     /**

@@ -74,7 +74,8 @@
         $().ready(function () {
             var options = {
                     toggleAddButton:false,
-                    addText: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'); ?>'
+                    addText: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'); ?>',
+                    parse: null
                 },
                 taxRateField = $('#tax_rate').parent(),
                 taxRateForm = $('#tax-rate-form');
@@ -175,6 +176,7 @@
                             url: '<?php echo $this->getTaxRateSaveUrl()?>',
                             success: function(result, status) {
                                 if (result.success) {
+                                    itemRate.code = result.code;
                                     if (itemRate.tax_calculation_rate_id) {
                                         itemRate.itemElement.find('span').html(itemRate.code);
                                         var index = itemRate.itemElement.parent().index();
