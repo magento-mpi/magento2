@@ -92,7 +92,7 @@
             </xs:element>
         </xs:sequence>
         <xs:attribute name="class" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="alias" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="groups">
@@ -105,6 +105,10 @@
                     <xs:attribute name="name" type="xs:string" use="required"/>
                     <xs:attribute name="builder" type="xs:string"/>
                 </xs:complexType>
+                <xs:unique name="groupUse">
+                    <xs:selector xpath="uses/use"/>
+                    <xs:field xpath="@rule"/>
+                </xs:unique>
             </xs:element>
         </xs:sequence>
     </xs:complexType>

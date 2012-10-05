@@ -14,14 +14,18 @@
     <entity name="test_entity">
         <rules>
             <rule>
-                <constraints>
-                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
-                </constraints>
+                <property_constraints>
+                    <property name="sku">
+                        <constraint class="Zend_Validate_Alnum" />
+                    </property>
+                </property_constraints>
             </rule>
             <rule name="test_rule_zend">
-                <constraints>
-                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
-                </constraints>
+                <property_constraints>
+                    <property name="sku">
+                        <constraint class="Zend_Validate_NotEmpty" />
+                    </property>
+                </property_constraints>
             </rule>
         </rules>
         <groups>

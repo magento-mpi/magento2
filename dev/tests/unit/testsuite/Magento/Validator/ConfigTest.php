@@ -71,7 +71,6 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateConfigForInvalidXml($configFile)
     {
-        $this->markTestSkipped('This test should be included when xsd file will be ready');
         $configFile = array($configFile);
         new Magento_Validator_Config($configFile);
     }

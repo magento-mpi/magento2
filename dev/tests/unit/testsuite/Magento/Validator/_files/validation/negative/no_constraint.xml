@@ -14,11 +14,13 @@
     <entity name="test_entity">
         <rules>
             <rule name="test_rule_zend">
+                <entity_constraints>
+                </entity_constraints>
             </rule>
             <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint class="Magento_Validator_Test"/>
-                </constraints>
+                <entity_constraints>
+                    <constraint alias="eav_validator_id" class="Mage_Catalog_Model_Validator_Eav" />
+                </entity_constraints>
             </rule>
         </rules>
         <groups>

@@ -13,25 +13,14 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_zend">
-                <constraints>
-                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
-                </constraints>
-            </rule>
             <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint/>
-                </constraints>
+                <entity_constraints>
+                    <constraint alias="eav_validator_id" />
+                </entity_constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_a">
-                <uses>
-                    <use rule="test_rule_zend"/>
-                    <use rule="test_rule_constraint"/>
-                </uses>
-            </group>
-            <group name="test_group_b">
                 <uses>
                     <use rule="test_rule_constraint"/>
                 </uses>

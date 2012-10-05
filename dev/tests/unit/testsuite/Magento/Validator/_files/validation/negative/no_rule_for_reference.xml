@@ -13,15 +13,24 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_zend">
-                <constraints>
-                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
-                </constraints>
-            </rule>
             <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint class="Magento_Validator_Test"/>
-                </constraints>
+                <property_constraints>
+                    <property name="sku">
+                        <constraint class="Magento_Validator_NotEmpty" />
+                        <constraint class="Magento_Validator_Alnum" />
+                    </property>
+                    <property name="name">
+                        <constraint class="Magento_Validator_NotEmpty"/>
+                        <constraint class="Magento_Validator_StringLenght">
+                            <option name="min">
+                                <value>10</value>
+                            </option>
+                            <option name="max">
+                                <value>80</value>
+                            </option>
+                        </constraint>
+                    </property>
+                </property_constraints>
             </rule>
         </rules>
         <groups>

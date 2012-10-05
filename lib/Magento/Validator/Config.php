@@ -202,16 +202,4 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             '/validation/entity/groups/group/uses/use' => 'rule',
         );
     }
-
-    /**
-     * Dummy for real validation
-     *
-     * @param string $file
-     * @return Magento_Config_XmlAbstract
-     * @throws Magento_Exception if invalid XML-file passed
-     */
-    protected function _performValidate($file = null)
-    {
-        return $this;
-    }
 }
