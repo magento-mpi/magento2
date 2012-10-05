@@ -57,3 +57,9 @@ test_page:
                             widget_category_link: //span[@class='widget widget-category-link']
                             widget_product_link: //span[@class='widget widget-product-link']
                             widget_viewed: //div[@class='widget widget-viewed']
+
+home_storeview:
+    mca: ?___store=%storeViewCode%/
+    title: Home page
+    uimap:
+        form: *homePage

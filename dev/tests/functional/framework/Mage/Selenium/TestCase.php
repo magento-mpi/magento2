@@ -68,6 +68,7 @@
  * @method Community2_Mage_ValidationVatNumber_Helper                                                       validationVatNumberHelper()
  * @method Enterprise2_Mage_WebsiteRestrictions_Helper                                                      websiteRestrictionsHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                        wishlistHelper()
+ * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper                             xmlSitemapHelper()
  * @method Community2_Mage_BatchUpdates_Orders_Helper ordersHelper() //@TODO need to remove
  * @method Community2_Mage_BatchUpdates_Products_Helper productsHelper() //@TODO need to remove
  */
