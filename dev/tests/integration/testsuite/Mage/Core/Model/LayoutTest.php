@@ -12,37 +12,8 @@
 /**
  * Layout integration tests
  */
-class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {
-    /**
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
-
-    public static function setUpBeforeClass()
-    {
-        /* Point application to predefined layout fixtures */
-        Mage::getConfig()->setOptions(array(
-            'design_dir' => dirname(__FILE__) . '/_files/design',
-        ));
-        Mage::getDesign()->setDesignTheme('test/default/default');
-
-        /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
-    }
-
-    protected function setUp()
-    {
-        $this->_layout = new Mage_Core_Model_Layout();
-        $this->_layout->getUpdate()->addHandle('layout_test_handle_main');
-        $this->_layout->getUpdate()->load('layout_test_handle_extra');
-    }
-
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
     /**
      * @param array $inputArguments
      * @param string $expectedArea
@@ -89,7 +60,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Mage_Core_Model_Layout_Merge', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()
@@ -145,71 +116,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('popup.phtml', $block->getTemplate());
 
         $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
-    }
-
-    public function testLayoutArgumentsDirective()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_arguments'));
-        $layout->generateXml()->generateElements();
-        $this->assertEquals('1', $layout->getBlock('block_with_args')->getOne());
-        $this->assertEquals('two', $layout->getBlock('block_with_args')->getTwo());
-        $this->assertEquals('3', $layout->getBlock('block_with_args')->getThree());
-    }
-
-    public function testLayoutArgumentsDirectiveIfComplexValues()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_arguments_complex_values'));
-        $layout->generateXml()->generateElements();
-
-        $this->assertEquals(array('parameters' => array('first' => '1', 'second' => '2')),
-            $layout->getBlock('block_with_args_complex_values')->getOne());
-
-        $this->assertEquals('two', $layout->getBlock('block_with_args_complex_values')->getTwo());
-
-        $this->assertEquals(array('extra' => array('key1' => 'value1', 'key2' => 'value2')),
-            $layout->getBlock('block_with_args_complex_values')->getThree());
-    }
-
-    public function testLayoutObjectArgumentsDirective()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_arguments_object_type'));
-        $layout->generateXml()->generateElements();
-        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Mage_Core_Block_Messages', $layout->getBlock('block_with_object_args')->getTwo());
-        $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
-    }
-
-    public function testLayoutUrlArgumentsDirective()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_arguments_url_type'));
-        $layout->generateXml()->generateElements();
-        $this->assertContains('customer/account/login', $layout->getBlock('block_with_url_args')->getOne());
-        $this->assertContains('customer/account/logout', $layout->getBlock('block_with_url_args')->getTwo());
-        $this->assertContains('customer_id/3', $layout->getBlock('block_with_url_args')->getTwo());
-    }
-
-    public function testLayoutObjectArgumentUpdatersDirective()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_arguments_object_type_updaters'));
-        $layout->generateXml()->generateElements();
-
-        $expectedObjectData = array(
-            0 => 'updater call',
-            1 => 'updater call',
-            2 => 'updater call',
-        );
-
-        $expectedSimpleData = 2;
-
-        $block = $layout->getBlock('block_with_object_updater_args')->getOne();
-        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
-        $this->assertEquals($expectedObjectData, $block->getUpdaterCall());
-        $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
 
     public function testLayoutDirectives()
