@@ -11,122 +11,107 @@
 
 /**
  * Test case for Magento_Validator
- *
- * @group validator
  */
 class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Magento_Validator
+     */
+    protected $_validator;
 
     /**
-     * @expectedException InvalidArgumentException
+     * Set up
      */
-    public function testConstructException()
+    protected function setUp()
     {
-        /** @var Magento_Validator_Config $configMock */
-        $configMock = $this->getMockBuilder('Magento_Validator_Config')->disableOriginalConstructor()->getMock();
-        new Magento_Validator(null, null, $configMock);
+        $this->_validator = new Magento_Validator();
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * Test isValid method
+     *
+     * @dataProvider isValidDataProvider
+     *
+     * @param mixed $value
+     * @param Magento_Validator_Interface[] $validators
+     * @param bool $expectedResult
+     * @param array $expectedMessages
+     * @param bool $breakChainOnFailure
      */
-    public function testConstructEmptyGroupNameException()
-    {
-        /** @var Magento_Validator_Config $configMock */
-        $configMock = $this->getMockBuilder('Magento_Validator_Config')->disableOriginalConstructor()->getMock();
-        new Magento_Validator('test_entity', null, $configMock);
+    public function testIsValid($value, $validators, $expectedResult, $expectedMessages = array(),
+                                $breakChainOnFailure = false
+    ) {
+        foreach ($validators as $validator) {
+            $this->_validator->addValidator($validator, $breakChainOnFailure);
+        }
+
+        $this->assertEquals($expectedResult, $this->_validator->isValid($value));
+        $this->assertEquals($expectedMessages, $this->_validator->getMessages($value));
     }
 
     /**
-     * @param array $dataToValidate
-     * @param PHPUnit_Framework_MockObject_MockObject $zendConstraintMock
-     * @param PHPUnit_Framework_MockObject_MockObject $mageConstraintMock
-     * @param Magento_Validator_Config $configMock
-     * @dataProvider dataProviderForValidator
+     * Data provider for testIsValid
+     *
+     * @return array
      */
-    public function testIsValid($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
+    public function isValidDataProvider()
     {
-        $zendConstraintMock->expects($this->once())
-            ->method('isValid')
-            ->with($dataToValidate['test_field'])
-            ->will($this->returnValue(true));
+        $result = array();
+        $value = 'test';
 
-        $mageConstraintMock->expects($this->once())
-            ->method('isValidData')
-            ->with($dataToValidate, 'test_field_constraint')
-            ->will($this->returnValue(true));
+        // Case 1. Validators fails without breaking chain
+        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1->expects($this->once())->method('isValid')
+            ->with($value)->will($this->returnValue(false));
+        $validators1->expects($this->once())->method('getMessages')
+            ->will($this->returnValue(array('foo' => array('Foo message 1'), 'bar' => array('Foo message 2'))));
 
-        $validator = new Magento_Validator('test_entity', 'test_group_a', $configMock);
-        $this->assertTrue($validator->isValid($dataToValidate));
-    }
+        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2->expects($this->once())->method('isValid')
+            ->with($value)->will($this->returnValue(false));
+        $validators2->expects($this->once())->method('getMessages')
+            ->will($this->returnValue(array('foo' => array('Bar message 1'), 'bar' => array('Bar message 2'))));
 
-    /**
-     * @param array $dataToValidate
-     * @param PHPUnit_Framework_MockObject_MockObject $zendConstraintMock
-     * @param PHPUnit_Framework_MockObject_MockObject $mageConstraintMock
-     * @param Magento_Validator_Config $configMock
-     * @dataProvider dataProviderForValidator
-     */
-    public function testGetErrors($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
-    {
-        $expectedZendErrors = array('Test Zend_Validate_Interface constraint error.');
-        $zendConstraintMock->expects($this->once())
-            ->method('isValid')
-            ->with($dataToValidate['test_field'])
+        $result[] = array($value, array($validators1, $validators2), false, array(
+            'foo' => array('Foo message 1', 'Bar message 1'),
+            'bar' => array('Foo message 2', 'Bar message 2')
+        ));
+
+        // Case 2. Validators fails with breaking chain
+        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1->expects($this->once())->method('isValid')
+            ->with($value)
             ->will($this->returnValue(false));
-        $zendConstraintMock->expects($this->once())
-            ->method('getMessages')
-            ->will($this->returnValue($expectedZendErrors));
+        $validators1->expects($this->once())->method('getMessages')
+            ->will($this->returnValue(array('field' => 'Error message')));
 
-        $expectedMageErrors = array(
-            'test_field_constraint' => array('Test Magento_Validator_ConstraintInterface constraint error.')
-        );
-        $mageConstraintMock->expects($this->once())
-            ->method('isValidData')
-            ->with($dataToValidate, 'test_field_constraint')
-            ->will($this->returnValue(false));
-        $mageConstraintMock->expects($this->once())
-            ->method('getErrors')
-            ->will($this->returnValue($expectedMageErrors));
+        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2->expects($this->never())->method('isValid');
 
-        $validator = new Magento_Validator('test_entity', 'test_group_a', $configMock);
-        $this->assertFalse($validator->isValid($dataToValidate));
-        $expectedErrors = array_merge(array('test_field' => $expectedZendErrors),
-            $expectedMageErrors);
-        $actualErrors = $validator->getMessages();
-        $this->assertEquals($expectedErrors, $actualErrors);
+        $result[] = array($value, array($validators1, $validators2), false, array('field' => 'Error message'), true);
+
+        // Case 3. Validators succeed
+        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1->expects($this->once())->method('isValid')
+            ->with($value)->will($this->returnValue(true));
+        $validators1->expects($this->never())->method('getMessages');
+
+        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2->expects($this->once())->method('isValid')
+            ->with($value)->will($this->returnValue(true));
+        $validators2->expects($this->never())->method('getMessages');
+
+        $result[] = array($value, array($validators1, $validators2), true);
+
+        return $result;
     }
 
-    public function dataProviderForValidator()
+    public function test()
     {
-        $dataToValidate = array(
-            'test_field' => 'test_value',
-            'test_field_constraint' => 'test value constraint',
-        );
-
-        $zendConstraintMock = $this->getMock('Zend_Validate_Alnum', array('isValid', 'getMessages'));
-        $mageConstraintMock = $this->getMock('Magento_Validator_Constraint', array('isValidData', 'getErrors'));
-        $validationRules = array(
-            'test_rule' => array(
-                array(
-                    'constraint' => $zendConstraintMock,
-                    'field' => 'test_field'
-                ),
-                array(
-                    'constraint' => $mageConstraintMock,
-                    'field' => 'test_field_constraint'
-                ),
-            ),
-        );
-
-        $configMock = $this->getMockBuilder('Magento_Validator_Config')->disableOriginalConstructor()->getMock();
-        $configMock->expects($this->once())
-            ->method('getValidationRules')
-            ->with('test_entity', 'test_group_a')
-            ->will($this->returnValue($validationRules));
-
-        return array(
-            array($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
-        );
+        $fooValidator = $this->getMock('Magento_Validator_Interface');
+        $classConstraint = new Magento_Validator_Constraint($fooValidator, 'id');
+        $propertyValidator = new Magento_Validator_Constraint_Property($classConstraint, 'name', 'id');
+        $this->_validator->addValidator($classConstraint);
+        $this->_validator->addValidator($propertyValidator);
     }
 }

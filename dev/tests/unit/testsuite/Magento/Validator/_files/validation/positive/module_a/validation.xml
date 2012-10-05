@@ -13,27 +13,37 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_zend">
-                <constraints>
-                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
-                </constraints>
+            <rule name="test_property_rule">
+                <property_constraints >
+                    <property name="test_field">
+                        <constraint class="Magento_Validate_Test_NotEmpty"/>
+                        <constraint class="Magento_Validate_Test_Alnum"/>
+                    </property>
+                    <property name="test_field2">
+                        <constraint class="Magento_Validate_Test_NotEmpty"/>
+                        <constraint class="Magento_Validate_Test_Alnum"/>
+                    </property>
+                </property_constraints>
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Test_Custom"/>
+                </entity_constraints>
             </rule>
-            <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint class="Magento_Validator_Test"/>
-                </constraints>
+            <rule name="test_class_rule">
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Test_Custom"/>
+                </entity_constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_a">
                 <uses>
-                    <use rule="test_rule_zend"/>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_property_rule"/>
+                    <use rule="test_class_rule"/>
                 </uses>
             </group>
             <group name="test_group_b">
                 <uses>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_class_rule"/>
                 </uses>
             </group>
         </groups>

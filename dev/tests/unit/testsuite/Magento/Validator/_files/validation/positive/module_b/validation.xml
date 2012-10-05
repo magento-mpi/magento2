@@ -14,9 +14,11 @@
     <entity name="test_entity">
         <rules>
             <rule name="test_rule_constraint_2">
-                <constraints>
-                    <constraint class="Magento_Validator_Test" field="constraint_field"/>
-                </constraints>
+                <property_constraints>
+                    <property name="constraint_field">
+                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                    </property>
+                </property_constraints>
             </rule>
         </rules>
         <groups>
@@ -30,13 +32,13 @@
     <entity name="test_entity_b">
         <rules>
             <rule name="test_rule">
-                <constraints>
-                    <constraint class="Zend_Validate_Int" field="test_field"/>
-                </constraints>
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Test_True"/>
+                </entity_constraints>
             </rule>
         </rules>
         <groups>
-            <group name="test_group_c">
+            <group name="test_group_c" builder="CustomBuilderClass">
                 <uses>
                     <use rule="test_rule"/>
                 </uses>
