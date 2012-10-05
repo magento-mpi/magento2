@@ -211,4 +211,24 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         }
         return $url;
     }
+
+    /**
+     * Retrieve Tax Rate delete URL
+     *
+     * @return string
+     */
+    public function getTaxRateDeleteUrl()
+    {
+        return $this->getUrl('*/tax_rate/ajaxDelete/');
+    }
+
+    /**
+     * Retrieve Tax Rate delete URL
+     *
+     * @return string
+     */
+    public function getTaxRateSaveUrl()
+    {
+        return $this->getUrl('*/tax_rate/ajaxSave/');
+    }
 }
