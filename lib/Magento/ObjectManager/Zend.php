@@ -9,15 +9,20 @@
  */
 
 use Zend\Di\Di,
-Zend\Di\DefinitionList,
-Zend\Di\Configuration,
-Zend\Di\Definition;
+    Zend\Di\DefinitionList,
+    Zend\Di\Configuration,
+    Zend\Di\Definition;
 
 /**
  * General implementation of Magento_ObjectManager based on Zend DI
  */
 class Magento_ObjectManager_Zend implements Magento_ObjectManager
 {
+    /**
+     * Default area name
+     */
+    const DEFAULT_AREA = 'global';
+
     /**
      * Dependency injection config node name
      */
@@ -26,15 +31,15 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
     /**
      * Zend dependency injection instance
      *
-     * @var \Zend\Di\Di
+     * @var Zend\Di\Di
      */
     protected $_di;
 
     /**
      * @param string $definitionsFile
-     * @param Magento_Di $magentoDi
+     * @param Zend\Di\Di $diInstance
      */
-    public function __construct($definitionsFile = null, Magento_Di $magentoDi = null)
+    public function __construct($definitionsFile = null, Zend\Di\Di $diInstance = null)
     {
         Magento_Profiler::start('di');
 
@@ -46,8 +51,8 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         }
 
         $definitionsList = new DefinitionList($definition);
-        if ($magentoDi) {
-            $this->_di = $magentoDi;
+        if ($diInstance) {
+            $this->_di = $diInstance;
             $this->_di->setDefinitionList($definitionsList);
         } else {
             $this->_di = new Magento_Di($definitionsList);
@@ -58,7 +63,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $magentoConfiguration = $this->_di->get('Mage_Core_Model_Config');
         $magentoConfiguration->loadBase();
 
-        $this->loadAreaConfiguration(Mage_Core_Model_App_Area::AREA_GLOBAL);
+        $this->loadAreaConfiguration(self::DEFAULT_AREA);
 
         Magento_Profiler::stop('di');
     }
