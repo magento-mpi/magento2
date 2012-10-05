@@ -111,9 +111,6 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
             $user->setData($data);
             try {
-                if (!$user->isObjectNew() && !$user->getApiSecret()) {
-                    $user->unsetData('api_secret');
-                }
                 $this->_validateUserData($user);
                 $user->save();
                 $userId = $user->getId();
@@ -205,9 +202,6 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         }
         if (!$user->getRoleId()) {
             Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User role is required.'));
-        }
-        if ($user->isObjectNew() && !$user->getApiSecret()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret is required.'));
         }
         return true;
     }

@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 class Mage_Webapi_Controller_Front_Rest_Presentation
 {

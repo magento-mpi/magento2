@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -88,6 +88,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      * WS-Security header handler.
      *
      * @param stdClass $header
+     * @codingStandardsIgnoreStart
      */
     public function Security($header)
     {
@@ -95,6 +96,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $this->_usernameTokenRequest = $header->UsernameToken;
         }
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Authenticate user
@@ -109,15 +111,15 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
 
         try {
-            $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
+            $usernameToken = Mage::getModel('Mage_Webapi_Model_Soap_Security_UsernameToken', array(
                 'username' => $this->_usernameTokenRequest->Username,
                 'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
                 'password' => $this->_usernameTokenRequest->Password,
                 'nonce' => $this->_usernameTokenRequest->Nonce,
                 'created' => $this->_usernameTokenRequest->Created
             ));
-
-            $roleLocator = new Mage_Webapi_Model_Authorization_Soap_RoleLocator(array(
+            /** @var Mage_Webapi_Model_Authorization_Soap_RoleLocator $roleLocator */
+            $roleLocator = Mage::getModel('Mage_Webapi_Model_Authorization_Soap_RoleLocator', array(
                 'usernameToken' => $usernameToken
             ));
 

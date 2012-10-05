@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Enterprise
+* @package     Enterprise_Customer
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
 <wsdl:definitions name="Magento"
                   targetNamespace="urn:Magento"
                   xmlns:tns="urn:Magento"

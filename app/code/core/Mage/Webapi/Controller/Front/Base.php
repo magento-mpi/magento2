@@ -3,10 +3,11 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /**
  * Generic front controller for all API types
  */

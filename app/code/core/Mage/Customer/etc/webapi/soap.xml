@@ -10,7 +10,7 @@
  */
 -->
 <config>
-  <resource name="customer">
-    <controller>Mage_Customer_Webapi_IndexController</controller>
-  </resource>
+    <resource name="customer">
+        <controller>Mage_Customer_Webapi_IndexController</controller>
+    </resource>
 </config>

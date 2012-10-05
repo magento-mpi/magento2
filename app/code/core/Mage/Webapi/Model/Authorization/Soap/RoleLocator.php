@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Authorization_Soap_RoleLocator implements Magento_Author
      */
     public function __construct(array $data = array())
     {
-        $this->_usernameToken = $data['usernameToken'];
+        $this->_usernameToken = isset($data['usernameToken']) ? $data['usernameToken'] : null;
     }
 
     /**

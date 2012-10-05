@@ -27,7 +27,12 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     /**
      * @var array
      */
-    protected $_usernameTokenOptionsFixture = array();
+    protected $_tokenOptionsFixture = array();
+
+    /**
+     * @var string
+     */
+    protected $_validFixturePassword;
 
     /**
      * Set up nonce storage mock to be used in further tests.
@@ -49,10 +54,11 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
 
         $nonce = mt_rand();
         $created = date('c');
-        $this->_usernameTokenOptionsFixture = array(
+        $this->_validFixturePassword = '123123qa';
+        $this->_tokenOptionsFixture = array(
             'username' => 'testuser',
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
-            'password' => base64_encode(hash('sha1', $nonce . $created . '123123qa', true)),
+            'password' => base64_encode(hash('sha1', $nonce . $created . $this->_validFixturePassword, true)),
             'nonce' => base64_encode($nonce),
             'created' => $created,
             'nonceStorage' => $this->_nonceStorageMock,
@@ -61,22 +67,29 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with valid datetime input.
+     *
      * @dataProvider validDateTimeProvider()
      * @param string $validDateTime
      */
     public function testConstructNewUsernameToken($validDateTime)
     {
-        $this->_usernameTokenOptionsFixture['created'] = $validDateTime;
+        $this->_tokenOptionsFixture['created'] = $validDateTime;
 
         $this->_nonceStorageMock
             ->expects($this->once())
             ->method('validateNonce')
-            ->with($this->_usernameTokenOptionsFixture['nonce'], strtotime($validDateTime));
+            ->with($this->_tokenOptionsFixture['nonce'], strtotime($validDateTime));
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
         $this->assertInstanceOf('Mage_Webapi_Model_Soap_Security_UsernameToken', $usernameToken);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameToken
+     *
+     * @return array
+     */
     public static function validDateTimeProvider()
     {
         return array(
@@ -88,17 +101,24 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with invalid datetime input.
+     *
      * @dataProvider invalidDateTimeProvider()
      * @param string $invalidDateTime
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
      */
     public function testConstructNewUsernameTokenWithInvalidCreatedDate($invalidDateTime)
     {
-        $this->_usernameTokenOptionsFixture['created'] = $invalidDateTime;
+        $this->_tokenOptionsFixture['created'] = $invalidDateTime;
 
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameTokenWithInvalidCreatedDate
+     *
+     * @return array
+     */
     public static function invalidDateTimeProvider()
     {
         return array(
@@ -109,6 +129,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with missing username.
+     *
      * @dataProvider missingUsernameDataProvider()
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingUsernameException
      */
@@ -116,9 +138,14 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     {
         $this->_prepareFixture($action, $field);
 
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameTokenWithMissingUsername
+     *
+     * @return array
+     */
     public static function missingUsernameDataProvider()
     {
         return array(
@@ -128,25 +155,34 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with invalid password type.
+     *
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
      */
     public function testConstructNewUsernameTokenWithInvalidPasswordType()
     {
-        $this->_usernameTokenOptionsFixture['passwordType'] = 'INVALID_TYPE';
+        $this->_tokenOptionsFixture['passwordType'] = 'INVALID_TYPE';
 
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
     /**
+     * Test construction of object with missing password input.
+     *
      * @dataProvider missingPasswordDataProvider()
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingPasswordException
      */
     public function testConstructNewUsernameTokenWithMissingPassword($action, $field)
     {
         $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameTokenWithMissingPassword
+     *
+     * @return array
+     */
     public static function missingPasswordDataProvider()
     {
         return array(
@@ -156,15 +192,22 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with missing nonce input.
+     *
      * @dataProvider missingNonceDataProvider()
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingNonceException
      */
     public function testConstructNewUsernameTokenWithMissingNonce($action, $field)
     {
         $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameTokenWithMissingNonce
+     *
+     * @return array
+     */
     public static function missingNonceDataProvider()
     {
         return array(
@@ -174,15 +217,22 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test construction of object with missing created timestamp input.
+     *
      * @dataProvider missingCreatedDataProvider()
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingCreatedException
      */
     public function testConstructNewUsernameTokenWithMissingCreated($action, $field)
     {
         $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
     }
 
+    /**
+     * Data provider for testConstructNewUsernameTokenWithMissingCreated
+     *
+     * @return array
+     */
     public static function missingCreatedDataProvider()
     {
         return array(
@@ -200,15 +250,18 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     protected function _prepareFixture($action, $field)
     {
         if ($action == 'unset') {
-            unset($this->_usernameTokenOptionsFixture[$field]);
+            unset($this->_tokenOptionsFixture[$field]);
         } elseif ($action == 'empty') {
-            $this->_usernameTokenOptionsFixture[$field] = '';
+            $this->_tokenOptionsFixture[$field] = '';
         }
     }
 
+    /**
+     * Test positive token authentication.
+     */
     public function testAuthenticate()
     {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
 
         $userMock = $this->_getUserMock();
         $this->_objectFactoryMock
@@ -222,18 +275,20 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->will($this->returnValue(1));
         $userMock->expects($this->once())
             ->method('getApiSecret')
-            ->will($this->returnValue('123123qa'));
+            ->will($this->returnValue($this->_validFixturePassword));
 
         $user = $usernameToken->authenticate();
         $this->assertInstanceOf('Mage_Webapi_Model_Acl_User', $user);
     }
 
     /**
+     * Test negative token authentication - username is invalid.
+     *
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException
      */
     public function testAuthenticateWithInvalidUsername()
     {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
 
         $userMock = $this->_getUserMock();
         $this->_objectFactoryMock
@@ -250,11 +305,13 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
+     * Test negative token authentication - password is invalid.
+     *
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException
      */
     public function testAuthenticateWithInvalidPassword()
     {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_usernameTokenOptionsFixture);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
 
         $userMock = $this->_getUserMock();
         $this->_objectFactoryMock
@@ -286,7 +343,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->getMock();
         $userMock->expects($this->once())
             ->method('load')
-            ->with($this->_usernameTokenOptionsFixture['username'], 'user_name')
+            ->with($this->_tokenOptionsFixture['username'], 'user_name')
             ->will($this->returnSelf());
 
         return $userMock;

@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
+ */
 class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
-     * @magentoAppIsolation enabled
-     */
     public function testAuthenticatePasswordText()
     {
         $userFixture = new Mage_Webapi_Model_Acl_User();
@@ -32,10 +31,6 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $this->assertEquals($userFixture->getRoleId(), $authenticatedUser->getRoleId());
     }
 
-    /**
-     * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
-     * @magentoAppIsolation enabled
-     */
     public function testAuthenticatePasswordDigest()
     {
         $userFixture = new Mage_Webapi_Model_Acl_User();
@@ -57,8 +52,6 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
 
     /**
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException
-     * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
-     * @magentoAppIsolation enabled
      */
     public function testAuthenticateWithNonceUsed()
     {

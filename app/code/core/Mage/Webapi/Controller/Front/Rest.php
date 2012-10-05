@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */

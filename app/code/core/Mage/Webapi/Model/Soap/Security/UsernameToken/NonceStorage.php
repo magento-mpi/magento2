@@ -36,7 +36,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
      * Construct nonce storage object.
      * Optional cache instance could be passed in arguments.
      *
-     * @param $options
+     * @param array $options
      */
     public function __construct($options)
     {
