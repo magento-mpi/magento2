@@ -76,7 +76,7 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" as="grid.export">
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -108,6 +108,16 @@
                             <type>text</type>
                             <index>increment_id</index>
                             <id>real_order_id</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                        <arguments>
+                            <header translate="true" module="Mage_Sales">Purchased From (Store)</header>
+                            <type>store</type>
+                            <store_view>1</store_view>
+                            <display_deleted>1</display_deleted>
+                            <index>store_id</index>
+                            <id>store_id</id>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
@@ -162,6 +172,28 @@
                             <options type="options">Mage_Sales_Model_Resource_Order_Grid_StatusesArray</options>
                         </arguments>
                     </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action" acl="Mage_Sales::actions_view">
+                        <arguments>
+                            <id>action</id>
+                            <header translate="true" module="Mage_Sales">Action</header>
+                            <width>50px</width>
+                            <type>action</type>
+                            <getter>getId</getter>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <index>stores</index>
+                            <is_system>1</is_system>
+                            <actions>
+                                <view_action>
+                                    <caption translate="true" module="Mage_Sales">View</caption>
+                                    <url>
+                                        <base>*/sales_order/view</base>
+                                    </url>
+                                    <field>order_id</field>
+                                </view_action>
+                            </actions>
+                        </arguments>
+                    </block>
                 </block>
             </block>
         </reference>
@@ -205,19 +237,49 @@
     </adminhtml_sales_billing_agreement_grid>
 
     <adminhtml_sales_billing_agreement_view>
+        <update handle="adminhtml_sales_order_grid_block"/>
+        <reference name="sales.order.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Mage_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                </dataSource>
+                <grid_url>
+                    <path>*/*/ordersgrid</path>
+                </grid_url>
+            </arguments>
+        </reference>
+        <remove name="sales.order.grid.export" />
+        <remove name="sales.order.grid.massaction" />
+
         <reference name="content">
             <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view" />
         </reference>
+
         <reference name="left">
             <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab"><name>billing_agreement_info</name><block>Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</block></action>
-                <action method="addTab"><name>billing_agreement_orders</name><block>Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders</block></action>
+                <block name="sales_order.grid.container" type='Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders'/>
+                <action method="addTab"><name>billing_agreement_orders</name><block>sales_order.grid.container</block></action>
             </block>
         </reference>
     </adminhtml_sales_billing_agreement_view>
 
     <adminhtml_sales_billing_agreement_ordersgrid>
-        <block type="Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="related.orders.grid" output="1" />
+        <update handle="adminhtml_sales_order_grid_block"/>
+        <reference name="sales.order.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Mage_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                </dataSource>
+                <grid_url>
+                    <path>*/*/ordersgrid</path>
+                </grid_url>
+            </arguments>
+        </reference>
+        <remove name="sales.order.grid.export" />
+        <remove name="sales.order.grid.massaction" />
+
+        <container name="sales_order.grid.container" label="Sales Order Grid Container" output="1"/>
     </adminhtml_sales_billing_agreement_ordersgrid>
 
     <adminhtml_sales_billing_agreement_customergrid>

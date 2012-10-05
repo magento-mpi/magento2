@@ -367,6 +367,16 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Get massaction block
+     *
+     * @return bool|Mage_Core_Block_Abstract
+     */
+    public function getMassactionBlock()
+    {
+        return $this->getChildBlock('grid.massaction');
+    }
+
+    /**
      * Prepare grid filter buttons
      */
     protected function _prepareFilterButtons()

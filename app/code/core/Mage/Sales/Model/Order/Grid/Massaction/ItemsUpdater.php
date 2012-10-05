@@ -24,7 +24,7 @@ class Mage_Sales_Model_Order_Grid_Massaction_ItemsUpdater implements Mage_Core_M
      */
     public function update($argument)
     {
-        if (false === Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::cancel') || true) {
+        if (false === Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::cancel')) {
             unset($argument['cancel_order']);
         }
 
