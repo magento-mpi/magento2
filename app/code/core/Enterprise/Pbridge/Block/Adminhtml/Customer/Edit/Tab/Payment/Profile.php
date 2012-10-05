@@ -98,7 +98,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getAfter()
     {
-        return 'tags';
+        return 'reviews';
     }
 
     /**

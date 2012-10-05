@@ -35,7 +35,7 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencysymbolController extends Mage
             );
 
         $this->_title($this->__('System'))
-            ->_title($this->__('Manage Currency Rates'));
+            ->_title($this->__('Manage Currency Symbols'));
         $this->renderLayout();
     }
 

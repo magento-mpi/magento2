@@ -73,7 +73,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Layout Update module
      *
-     * @var Mage_Core_Model_Layout_Update
+     * @var Mage_Core_Model_Layout_Merge
      */
     protected $_update;
 
@@ -200,12 +200,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Retrieve the layout update instance
      *
-     * @return Mage_Core_Model_Layout_Update
+     * @return Mage_Core_Model_Layout_Merge
      */
     public function getUpdate()
     {
         if (!$this->_update) {
-            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Update', array('area' => $this->getArea()));
+            $this->_update = Mage::getModel('Mage_Core_Model_Layout_Merge', array('area' => $this->getArea()));
         }
         return $this->_update;
     }

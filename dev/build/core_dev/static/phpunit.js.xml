@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Test suite to run JSHint javascript static code analysis
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php">
+    <testsuites>
+        <testsuite name="Javascript Static Code Analysis">
+            <file>testsuite/Js/LiveCodeTest.php</file>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+        <!-- TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux -->
+        <const name="TESTS_JSHINT_PATH" value="{{tests_jshint_path}}"/>
+        <!-- JSHint global options for code verification. See: http://www.jshint.com/docs/ -->
+        <const name="TESTS_JSHINT_OPTIONS" value=""/>
+    </php>
+</phpunit>

@@ -149,8 +149,6 @@ Product view
             <action method="addJs"><file>varien/product.js</file></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
 
-            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
-            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="addJs"><file>js/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
             <action method="addCss"><file>js/jqzoom/css/jquery.jqzoom.css</file></action>
 
@@ -179,7 +177,6 @@ Product view
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                     <action method="setTitle" translate="value"><value>Additional Information</value></action>
                 </block>
-                <container name="product.tag.list" as="productTagList" label="Product Tags List"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
 

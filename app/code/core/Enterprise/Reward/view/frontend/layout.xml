@@ -44,18 +44,6 @@
         </reference>
     </checkout_multishipping_billing>
 
-    <catalog_product_view>
-        <reference name="product.tag.list.list.before">
-            <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.tag" template="tooltip.phtml">
-                <action method="initRewardType"><type>enterprise_reward/action_tag</type></action>
-                <action method="setWrapperClass"><class>reward-tag</class></action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward"><message>Submit a new tag now and earn %s once the tag is approved.</message></action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward"><message>Up to %s new tag(s) can be rewarded.</message></action>
-                <action method="setIsGuestNote"><value>1</value></action>
-            </block>
-        </reference>
-    </catalog_product_view>
-
     <review_product_list>
         <reference name="product.review.form.fields.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">

@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
@@ -23,24 +23,27 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     public function saveAction()
     {
+        /** @var $customerSession Mage_Customer_Model_Session */
         $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
-        if(!$customerSession->authenticate($this)) {
+        if (!$customerSession->authenticate($this)) {
             return;
         }
         $tagName    = (string) $this->getRequest()->getQuery('productTagName');
         $productId  = (int)$this->getRequest()->getParam('product');
 
-        if(strlen($tagName) && $productId) {
-            $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+        if (strlen($tagName) && $productId) {
+            /** @var $session Mage_Tag_Model_Session */
+            $session = Mage::getSingleton('Mage_Tag_Model_Session');
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
-            if(!$product->getId()){
+            if (!$product->getId()) {
                 $session->addError($this->__('Unable to save tag(s).'));
             } else {
                 try {
                     $customerId = $customerSession->getCustomerId();
                     $storeId = Mage::app()->getStore()->getId();
 
+                    /** @var $tagModel Mage_Tag_Model_Tag */
                     $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
 
                     // added tag relation statuses
@@ -54,8 +57,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     $tagNamesArr = $this->_cleanTags($this->_extractTags($tagName));
                     foreach ($tagNamesArr as $tagName) {
                         // unset previously added tag data
-                        $tagModel->unsetData()
-                            ->loadByName($tagName);
+                        $tagModel->unsetData();
+                        $tagModel->loadByName($tagName);
 
                         if (!$tagModel->getId()) {
                             $tagModel->setName($tagName)
@@ -96,10 +99,10 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _cleanTags(array $tagNamesArr)
     {
-        foreach( $tagNamesArr as $key => $tagName ) {
+        foreach ($tagNamesArr as $key => $tagName) {
             $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
             $tagNamesArr[$key] = trim($tagNamesArr[$key]);
-            if( $tagNamesArr[$key] == '' ) {
+            if ($tagNamesArr[$key] == '') {
                 unset($tagNamesArr[$key]);
             }
         }
@@ -114,19 +117,19 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _fillMessageBox($counter)
     {
-        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+        /** @var $session Mage_Tag_Model_Session */
+        $session = Mage::getSingleton('Mage_Tag_Model_Session');
         $helper = Mage::helper('Mage_Core_Helper_Data');
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
-            $session->addSuccess(
-                $this->__('%s tag(s) have been accepted for moderation.', count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]))
-            );
+            $tagsCount = count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]);
+            $session->addSuccess($this->__('%s tag(s) have been accepted for moderation.', $tagsCount));
         }
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_EXIST])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_EXIST] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has already been added to the product.' , $helper->escapeHtml($tagName))
+                    $this->__('Tag "%s" has already been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -134,7 +137,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_SUCCESS])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_SUCCESS] as $tagName) {
                 $session->addSuccess(
-                    $this->__('Tag "%s" has been added to the product.' ,$helper->escapeHtml($tagName))
+                    $this->__('Tag "%s" has been added to the product.', $helper->escapeHtml($tagName))
                 );
             }
         }
@@ -142,10 +145,9 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_REJECTED])) {
             foreach ($counter[Mage_Tag_Model_Tag::ADD_STATUS_REJECTED] as $tagName) {
                 $session->addNotice(
-                    $this->__('Tag "%s" has been rejected by administrator.' ,$helper->escapeHtml($tagName))
+                    $this->__('Tag "%s" has been rejected by administrator.', $helper->escapeHtml($tagName))
                 );
             }
         }
     }
-
 }

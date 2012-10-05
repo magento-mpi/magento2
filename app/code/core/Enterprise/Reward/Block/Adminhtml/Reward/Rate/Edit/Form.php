@@ -45,14 +45,17 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Exchange Rate Information')
         ));
 
-        $field = $fieldset->addField('website_id', 'select', array(
-            'name'   => 'website_id',
-            'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(),
-        ));
-        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
-        $field->setRenderer($renderer);
+        if (!Mage::app()->isSingleStoreMode()) {
+            $field = $fieldset->addField('website_id', 'select', array(
+                'name'   => 'website_id',
+                'title'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'values' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(),
+            ));
+            $renderer = $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $field->setRenderer($renderer);
+        }
 
         $fieldset->addField('customer_group_id', 'select', array(
             'name'   => 'customer_group_id',

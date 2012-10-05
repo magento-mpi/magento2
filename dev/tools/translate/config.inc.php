@@ -572,6 +572,9 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/importexport',
         'app/design/adminhtml/default/default/layout/importexport.xml',
     ),
+    'Enterprise_Tag' => array(
+        'app/code/core/Enterprise/Tag/',
+    ),
 );
 
 $CONFIG['helpers']  = array(

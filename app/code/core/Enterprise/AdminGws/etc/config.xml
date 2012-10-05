@@ -306,8 +306,6 @@
                     <mage_catalog_model_resource_product_collection>limitProducts</mage_catalog_model_resource_product_collection>
                     <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
                     <mage_review_model_resource_review_collection>limitReviews</mage_review_model_resource_review_collection>
-                    <mage_reports_model_resource_tag_product_collection>addStoreFilter</mage_reports_model_resource_tag_product_collection>
-                    <mage_reports_model_resource_tag_customer_collection>addStoreFilter</mage_reports_model_resource_tag_customer_collection>
                     <mage_catalogSearch_model_resource_query_collection>addStoreFilter</mage_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
                     <mage_log_model_resource_visitor_online_collection>limitOnlineCustomers</mage_log_model_resource_visitor_online_collection>
@@ -371,7 +369,6 @@
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</mage_eav_model_entity_attribute_group>
                     <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</mage_eav_model_entity_attribute_option>
-                    <mage_tag_model_tag>tagSaveBefore</mage_tag_model_tag>
                     <mage_widget_model_widget_instance>widgetInstanceSaveBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerSaveBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
@@ -398,7 +395,6 @@
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</mage_eav_model_entity_attribute_group>
                     <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</mage_eav_model_entity_attribute_option>
-                    <mage_tag_model_tag>tagDeleteBefore</mage_tag_model_tag>
                     <mage_widget_model_widget_instance>widgetInstanceDeleteBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerDeleteBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
@@ -554,9 +550,6 @@
                     <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
                     <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
                     <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
-                    <mage_adminhtml_block_tag_tag_grid>removeTagGridActions</mage_adminhtml_block_tag_tag_grid>
-                    <mage_adminhtml_block_tag_edit>removeTagButtons</mage_adminhtml_block_tag_edit>
-                    <mage_adminhtml_block_tag_edit_form>disableTagEditFormFields</mage_adminhtml_block_tag_edit_form>
                     <mage_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</mage_adminhtml_block_sales_order_grid>
                     <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
                     <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>

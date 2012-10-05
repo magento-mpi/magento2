@@ -58,7 +58,25 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
      */
     public function cleanup()
     {
-        return $this->restoreBackup('empty_db');
+        $cleanupFile = $this->_varPath . '/mssql_cleanup_database.sql';
+        $script = "USE [master]
+GO
+ALTER DATABASE [{$this->_schema}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+DROP DATABASE [{$this->_schema}]
+GO
+CREATE DATABASE [{$this->_schema}]
+GO
+USE [{$this->_schema}]
+GO
+exit
+";
+        $this->_createScript($cleanupFile, $script);
+        $cmd = sprintf($this->getExternalProgram() . ' -S %s -U %s -P %s < %s',
+            escapeshellarg($this->_host), escapeshellarg($this->_user),
+            escapeshellarg($this->_password), escapeshellarg($cleanupFile)
+        );
+        return $this->_exec($cmd);
     }
 
     /**

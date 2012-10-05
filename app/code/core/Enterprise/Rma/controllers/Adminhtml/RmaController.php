@@ -154,151 +154,206 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     }
 
     /**
-     * Save New RMA
+     * Save new RMA request
      *
      * @throws Mage_Core_Exception
      */
     public function saveNewAction()
     {
-        $data = $this->getRequest()->getPost();
-
-        if ($data) {
-            if ($this->getRequest()->getParam('back', false)) {
-                $this->_redirect('*/*/');
-                return;
+        if (!$this->getRequest()->isPost() || $this->getRequest()->getParam('back', false)) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        try {
+            /** @var $model Enterprise_Rma_Model_Rma */
+            $model = $this->_initModel();
+            $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
+            $model->setData($this->_prepareNewRmaInstanceData($saveRequest));
+            if (!$model->saveRma($saveRequest)) {
+                Mage::throwException($this->__('Failed to save RMA.'));
             }
-            try {
-                /** @var $model Enterprise_Rma_Model_Rma */
-                $model = $this->_initModel();
-                $order = Mage::registry('current_order');
-                $rmaData = array(
-                    'status'                => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
-                    'date_requested'        => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
-                    'order_id'              => $order->getId(),
-                    'order_increment_id'    => $order->getIncrementId(),
-                    'store_id'              => $order->getStoreId(),
-                    'customer_id'           => $order->getCustomerId(),
-                    'order_date'            => $order->getCreatedAt(),
-                    'customer_name'         => $order->getCustomerName(),
-                    'customer_custom_email' => !empty($data['contact_email']) ? $data['contact_email'] : ''
-                );
-                $model->setData($rmaData);
-                $result = $model->saveRma($data);
-
-                if ($result && $result->getId()) {
-                    if (!empty($data['comment']['comment'])) {
-                        $visible = isset($data['comment']['is_visible_on_front']) ? true : false;
-
-                        Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
-                            ->setRmaEntityId($result->getId())
-                            ->setComment($data['comment']['comment'])
-                            ->setIsVisibleOnFront($visible)
-                            ->setStatus($result->getStatus())
-                            ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
-                            ->setIsAdmin(1)
-                            ->save();
-                    }
-                    if (!empty($data['rma_confirmation'])) {
-                        $model->sendNewRmaEmail();
-                    }
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been submitted.'));
-                } else {
-                    Mage::throwException($this->__('Failed to save RMA.'));
-                }
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-                $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
-                $controllerParams = array('order_id' => Mage::registry('current_order')->getId());
-                if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
-                    $controllerParams['active_tab'] = 'items_section';
-                }
-                $this->_redirect('*/*/new', $controllerParams);
-
-                return;
-            } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
-                Mage::logException($e);
+            $this->_processNewRmaAdditionalInfo($saveRequest, $model);
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been submitted.'));
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
+            $controllerParams = array('order_id' => Mage::registry('current_order')->getId());
+            if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
+                $controllerParams['active_tab'] = 'items_section';
             }
+            $this->_redirect('*/*/new', $controllerParams);
+            return;
+        } catch (Exception $e) {
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
+            Mage::logException($e);
         }
         $this->_redirect('*/*/');
     }
 
     /**
-     * Save RMA
+     * Prepare RMA instance data from save request
+     *
+     * @param array $saveRequest
+     * @return array
+     */
+    protected function _prepareNewRmaInstanceData(array $saveRequest)
+    {
+        $order = Mage::registry('current_order');
+        $rmaData = array(
+            'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_PENDING,
+            'date_requested' => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate(),
+            'order_id' => $order->getId(),
+            'order_increment_id' => $order->getIncrementId(),
+            'store_id' => $order->getStoreId(),
+            'customer_id' => $order->getCustomerId(),
+            'order_date' => $order->getCreatedAt(),
+            'customer_name' => $order->getCustomerName(),
+            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : ''
+        );
+        return $rmaData;
+    }
+
+    /**
+     * Process additional RMA information (like comment, customer notification etc)
+     *
+     * @param array $saveRequest
+     * @param Enterprise_Rma_Model_Rma $rma
+     * @return Enterprise_Rma_Adminhtml_RmaController
+     */
+    protected function _processNewRmaAdditionalInfo(array $saveRequest, Enterprise_Rma_Model_Rma $rma)
+    {
+        if (!empty($saveRequest['comment']['comment'])) {
+            $visible = isset($saveRequest['comment']['is_visible_on_front']);
+
+            Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
+                ->setRmaEntityId($rma->getId())
+                ->setComment($saveRequest['comment']['comment'])
+                ->setIsVisibleOnFront($visible)
+                ->setStatus($rma->getStatus())
+                ->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                ->setIsAdmin(1)
+                ->save();
+        }
+        if (!empty($saveRequest['rma_confirmation'])) {
+            $rma->sendNewRmaEmail();
+        }
+        return $this;
+    }
+
+    /**
+     * Save RMA request
      *
      * @throws Mage_Core_Exception
      */
     public function saveAction()
     {
-        $data = $this->getRequest()->getPost();
-        if ($data && isset($data['items'])) {
-            $rmaId = $this->getRequest()->getParam('rma_id');
-            if (!$rmaId) {
-                $this->saveNewAction();
+        if (!$this->getRequest()->isPost()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        $rmaId = (int)$this->getRequest()->getParam('rma_id');
+        if (!$rmaId) {
+            $this->saveNewAction();
+            return;
+        }
+        try {
+            $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
+            $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
+            $model = $this->_initModel('rma_id');
+            $model->setStatus(Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')->getStatusByItems($itemStatuses))
+                ->setIsUpdate(1);
+            if (!$model->saveRma($saveRequest)) {
+                Mage::throwException($this->__('Failed to save RMA.'));
+            }
+            $model->sendAuthorizeEmail();
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been saved.'));
+            $redirectBack = $this->getRequest()->getParam('back', false);
+            if ($redirectBack) {
+                $this->_redirect('*/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
-            try {
-                $model = $this->_initModel('rma_id');
-                $statuses = array();
-                foreach ($data['items'] as $key => &$value) {
-                    if (strpos($key, '_') === false) {
-                        $value['entity_id'] = $key;
-                    } else {
-                        $value['entity_id'] = false;
-                    }
-                    if (isset($value['status'])) {
-                        $statuses[] = $value['status'];
-                    }
-                    if (!(isset($value['qty_authorized'])
-                        || isset($value['qty_returned'])
-                        || isset($value['qty_approved']))) {
-                        unset($data['items'][$key]);
-                    }
-                }
-                /* Merge RMA Items status with POST data*/
-                $rmaItems = Mage::getModel('Enterprise_Rma_Model_Item')
-                    ->getCollection()
-                    ->addAttributeToFilter('rma_entity_id', $rmaId);
-                foreach ($rmaItems as $rmaItem) {
-                    if (!isset($data['items'][$rmaItem->getId()])) {
-                        $statuses[] = $rmaItem->getStatus();
-                    }
-                }
-
-                $this->getRequest()->setPost($data);
-                $model->setStatus(
-                    Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')
-                        ->getStatusByItems($statuses)
-                );
-                $model->setIsUpdate(1);
-                $result = $model->saveRma($data);
-                if ($result && $result->getId()) {
-                    $model->sendAuthorizeEmail();
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been saved.'));
-                } else {
-                    Mage::throwException($this->__('Failed to save RMA.'));
-                }
-
-                if ($redirectBack = $this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
-                    return;
-                }
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
-
-                $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
-                $controllerParams = array('id' => $model->getId());
-                if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
-                    $controllerParams['active_tab'] = 'items_section';
-                }
-                $this->_redirect('*/*/edit', $controllerParams);
-                return;
-            } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
-                Mage::logException($e);
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
+            $errorKeys = Mage::getSingleton('Mage_Core_Model_Session')->getRmaErrorKeys();
+            $controllerParams = array('id' => $rmaId);
+            if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
+                $controllerParams['active_tab'] = 'items_section';
             }
+            $this->_redirect('*/*/edit', $controllerParams);
+            return;
+        } catch (Exception $e) {
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Failed to save RMA.'));
+            Mage::logException($e);
+            $this->_redirect('*/*/');
+            return;
         }
         $this->_redirect('*/*/');
+    }
+
+    /**
+     * Filter RMA save request
+     *
+     * @param array $saveRequest
+     * @return array
+     * @throws Mage_Core_Exception
+     */
+    protected function _filterRmaSaveRequest(array $saveRequest)
+    {
+        if (!isset($saveRequest['items'])) {
+            Mage::throwException($this->__('Failed to save RMA. No items have been specified.'));
+        }
+        $saveRequest['items'] = $this->_filterRmaItems($saveRequest['items']);
+        return $saveRequest;
+    }
+
+    /**
+     * Filter user provided RMA items
+     *
+     * @param array $rawItems
+     * @return array
+     */
+    protected function _filterRmaItems(array $rawItems)
+    {
+        $items = array();
+        foreach ($rawItems as $key => $itemData) {
+            if (!isset($itemData['qty_authorized'])
+                && !isset($itemData['qty_returned'])
+                && !isset($itemData['qty_approved'])
+                && !isset($itemData['qty_requested'])
+            ) {
+                continue;
+            }
+            $itemData['entity_id'] = (strpos($key, '_') === false) ? $key : false;
+            $items[$key] = $itemData;
+        }
+        return $items;
+    }
+
+    /**
+     * Combine item statuses from POST request items and original RMA items
+     *
+     * @param array $requestedItems
+     * @param int $rmaId
+     * @return array
+     */
+    protected function _combineItemStatuses(array $requestedItems, $rmaId)
+    {
+        $statuses = array();
+        foreach ($requestedItems as $requestedItem) {
+            if (isset($requestedItem['status'])) {
+                array_push($statuses, $requestedItem['status']);
+            }
+        }
+        /* Merge RMA Items status with POST data*/
+        $rmaItems = Mage::getModel('Enterprise_Rma_Model_Item')
+            ->getCollection()
+            ->addAttributeToFilter('rma_entity_id', $rmaId);
+        foreach ($rmaItems as $rmaItem) {
+            if (!isset($requestedItems[$rmaItem->getId()])) {
+                array_push($statuses, $rmaItem->getStatus());
+            }
+        }
+        return $statuses;
     }
 
     /**
@@ -364,8 +419,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $this->_initModel();
 
             $data = $this->getRequest()->getPost('comment');
-            $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
-            $visible = isset($data['is_visible_on_front']) ? $data['is_visible_on_front'] : false;
+            $notify = isset($data['is_customer_notified']);
+            $visible = isset($data['is_visible_on_front']);
 
             $rma = Mage::registry('current_rma');
             if (!$rma) {
@@ -724,22 +779,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         if ($plain) {
-            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            switch (strtolower($extension)) {
-                case 'gif':
-                    $contentType = 'image/gif';
-                    break;
-                case 'jpg':
-                    $contentType = 'image/jpeg';
-                    break;
-                case 'png':
-                    $contentType = 'image/png';
-                    break;
-                default:
-                    $contentType = 'application/octet-stream';
-                    break;
-            }
-
+            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)));
             $ioFile->streamOpen($fileName, 'r');
             $contentLength = $ioFile->streamStat('size');
             $contentModify = $ioFile->streamStat('mtime');
@@ -765,6 +805,26 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         exit();
+    }
+
+    /**
+     * Retrieve image MIME type by its extension
+     *
+     * @param string $extension
+     * @return string
+     */
+    protected function _getPlainImageMimeType($extension)
+    {
+        $mimeTypeMap = array(
+            'gif' => 'image/gif',
+            'jpg' => 'image/jpeg',
+            'png' => 'image/png'
+        );
+        $contentType = 'application/octet-stream';
+        if (isset($mimeTypeMap[$extension])) {
+            $contentType = $mimeTypeMap[$extension];
+        }
+        return $contentType;
     }
 
     /**

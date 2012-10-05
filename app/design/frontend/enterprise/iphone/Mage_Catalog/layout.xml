@@ -174,7 +174,6 @@ Product view
                     <action method="setTitle" translate="value"><value>Additional Information</value></action>
                 </block>
 
-                <container name="product.tag.list" as="productTagList" label="Product Tags List"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
 
