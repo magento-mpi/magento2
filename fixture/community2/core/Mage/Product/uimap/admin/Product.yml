@@ -265,9 +265,6 @@ updating_products:
                             -
                                 add_product:
                                     xpath: //div[@id='attributes_update_tabs_websites_content']
-
-
-
                                     checkboxes:
                                         websites_add_to_main_website: //input[@id='add_product_website_1']
                                         websites_remove_from_main_website: //input[@id='remove_product_website_1']
