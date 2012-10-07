@@ -264,11 +264,10 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @TestlinkId TL-MAGE-5397
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

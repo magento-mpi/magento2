@@ -83,10 +83,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6097
-     * @group skip_due_to_bug
      */
     public function orderAuthorizeNetDPSmoke($simpleSku)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenetdp');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
@@ -124,10 +124,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @dataProvider differentCardInAuthorizeNetDPDataProvider
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6098
-     * @group skip_due_to_bug
      */
     public function differentCardInAuthorizeNetDP($card, $orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
@@ -175,10 +175,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @dataProvider captureTypeDataProvider
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6099
-     * @group skip_due_to_bug
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -229,10 +229,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @dataProvider refundDataProvider
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6100
-     * @group skip_due_to_bug
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -284,10 +284,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @depends orderAuthorizeNetDPSmoke
      * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6101
-     * @group skip_due_to_bug
      */
     public function partialRefund($captureType, $refundType, $orderData, $sku)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund');
@@ -351,10 +351,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6102
-     * @group skip_due_to_bug
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -380,10 +380,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6103
-     * @group skip_due_to_bug
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -408,10 +408,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6104
-     * @group skip_due_to_bug
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -449,10 +449,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6105
-     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -494,10 +494,10 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * @test
      * @depends orderAuthorizeNetDPSmoke
      * @TestlinkId TL-MAGE-6106
-     * @group skip_due_to_bug
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

@@ -352,11 +352,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @test
      * @depends orderWithSwitchMaestroCard
      * @TestlinkId TL-MAGE-5378
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $cardData = $orderData['payment_data']['payment_info'];
         //Steps

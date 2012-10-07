@@ -318,11 +318,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3292
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

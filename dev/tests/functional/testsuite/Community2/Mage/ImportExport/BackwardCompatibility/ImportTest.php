@@ -67,10 +67,10 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * @test
      * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-1108
-     * @group skip_due_to_bug
      */
     public function validationResultBlock()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Precondition
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');

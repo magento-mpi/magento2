@@ -175,10 +175,10 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      * @depends preconditionReplaceImport
      * @test
      * @TestlinkId TL-MAGE-1141
-     * @group skip_due_to_bug
      */
     public function replaceWithoutOptions(array $productData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Products');
         //set filter by sku
