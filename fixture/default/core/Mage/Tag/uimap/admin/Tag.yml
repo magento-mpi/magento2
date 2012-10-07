@@ -85,7 +85,9 @@ edit_tag:
                             base_popularity: //input[@name='base_popularity']
                 -
                     products_tagged_by_admins:
-                        xpath: //dl[@id='tag_assigned_grid']
+                        xpath: //dl[@id='tab_content_tag_assigned_grid']
+                        links:
+                            prod_tag_admin_expand:  //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']

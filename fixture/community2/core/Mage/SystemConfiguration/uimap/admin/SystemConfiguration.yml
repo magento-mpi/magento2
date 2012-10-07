@@ -1,3 +1,4 @@
+# Magento
 #
 # {license_notice}
 #
@@ -13,8 +14,20 @@
 # 'System Configuration' page
 system_configuration:
     uimap: &system_configuration_uimap
-        form:
+        form: &systemConfiguration
             tabs:
+                -
+                    catalog_catalog:
+                        xpath: //a[contains(@href, 'edit/section/catalog/')]
+                        fieldsets:
+                            -
+                                product_creation:
+                                    xpath: //fieldset[@id='catalog_fields_masks']
+                                    fields:
+                                        sku_mask: //*[@id='catalog_fields_masks_sku']
+                                        meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
+                                        meta_description_mask: //*[@id='catalog_fields_masks_meta_description']
+                                        meta_keyword_mask: //*[@id='catalog_fields_masks_meta_keyword']
                 -
                     general_general:
                         xpath: //a[contains(@href, 'edit/section/general/')]
@@ -285,13 +298,10 @@ system_configuration:
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfiguration
 
 system_configuration_website:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfiguration
 
 system_configuration_store:
-    uimap: *system_configuration_uimap
-
-system_configuration_country:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfiguration

@@ -384,8 +384,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3306
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      * @group skip_due_to_bug1.12.0.1
      * @group skip_due_to_bug1.7.0.1
      */

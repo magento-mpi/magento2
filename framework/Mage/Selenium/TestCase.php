@@ -165,7 +165,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Additional params for navigation URL
      * @var string
      */
-    private $_urlPostfix;
+    protected $_urlPostfix;
 
     /**
      * Testcase error
@@ -367,16 +367,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function prepareBrowserSession()
     {
-        $browsers = $this->_configHelper->getConfigBrowsers();
-        if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
-            $this->setupSpecificBrowser($browsers['default']);
-            $this->shareSession($this->prepareTestSession());
-        } elseif (empty(self::$browsers)) {
-            $this->setupSpecificBrowser($browsers['default']);
-            $this->prepareTestSession();
-        } else {
-            $this->frameworkConfig['shareSession'] = false;
-            $this->prepareTestSession();
+        try {
+            $browsers = $this->_configHelper->getConfigBrowsers();
+            if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
+                $this->setupSpecificBrowser($browsers['default']);
+                $this->shareSession($this->prepareTestSession());
+            } elseif (empty(self::$browsers)) {
+                $this->setupSpecificBrowser($browsers['default']);
+                $this->prepareTestSession();
+            } else {
+                $this->frameworkConfig['shareSession'] = false;
+                $this->prepareTestSession();
+            }
+        } catch (Exception $e) {
+            $this->markTestSkipped($e->getMessage());
         }
     }
 
@@ -642,7 +646,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $name
      * @param string $value
      *
-     * @return Mage_Selenium_Helper_Params
+     * @return Mage_Selenium_TestCase
      */
     public function addParameter($name, $value)
     {
@@ -3916,4 +3920,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         throw $e;
     }
+
+    /**
+     * Get suite
+     *
+     * @param string $className
+     * @param Mage_Test_SkipFilter|null $filter
+     * @return PHPUnit_Framework_TestSuite
+     */
+    public static function suite($className, $filter = null)
+    {
+        $class = new ReflectionClass($className);
+        $staticProperties = $class->getStaticProperties();
+
+        // Create tests from test methods for multiple browsers.
+        if (!empty($staticProperties['browsers'])) {
+            $suite = new Mage_Selenium_TestSuite();
+            if (null !== $filter) {
+                $suite->setTestFilter($filter);
+            }
+
+            foreach ($staticProperties['browsers'] as $browser) {
+                $browserSuite = PHPUnit_Extensions_SeleniumBrowserSuite::fromClassAndBrowser($className, $browser);
+                foreach ($class->getMethods() as $method) {
+                    $browserSuite->addTestMethod($class, $method);
+                }
+                $browserSuite->setupSpecificBrowser($browser);
+
+                $suite->addTest($browserSuite);
+            }
+        } else {
+           $suite = new Mage_Selenium_TestSuite($class, '', $filter);
+        }
+        return $suite;
+    }
+
 }
