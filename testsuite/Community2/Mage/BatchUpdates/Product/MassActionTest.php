@@ -169,10 +169,10 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
      *
      * @test
      * @TestlinkId TL-MAGE-5952
-     * @group skip_due_to_bug
      */
     public function updateAllProductsFields()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         $productQty = 2;
         for ($i = 1; $i <= $productQty; $i++) {
             //Data

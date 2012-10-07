@@ -211,11 +211,10 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3243
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7.0.1
      */
     public function withLongValuesNotValid($fieldName)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register',
             array($fieldName => $this->generate('string', 256, ':alnum:')));

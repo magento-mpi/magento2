@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_Various_saveConfiguration extends Mage_Selenium_TestCase
+class Community2_Mage_Various_SaveConfigurationTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Bug Cover<p/>
@@ -29,12 +29,12 @@ class Community2_Mage_Various_saveConfiguration extends Mage_Selenium_TestCase
      * <p>Expected results:</p>
      * <p> Checkbox "Use Default" for "Weekend Days" should be unchecked. No one Weekend Day should be selected</p>
      *
-     * @group skip_due_to_bug
      * @test
      * @TestlinkId TL-MAGE-6290
      */
     public function saveMultiselectWithNoSelectedValuesOnStoreView ()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');

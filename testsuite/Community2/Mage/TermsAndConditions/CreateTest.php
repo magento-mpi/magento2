@@ -89,10 +89,10 @@ class Community2_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCa
      * @test
      * @depends withRequiredFieldsOnly
      * @TestLinkId
-     * @group skip_due_to_bug
      */
     public function withAlreadyExistingTerms($termsData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         //Verifying

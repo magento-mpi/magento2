@@ -261,10 +261,10 @@ class Community2_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends 
      * @test
      * @depends orderZeroSubtotalCheckoutSmoke
      * @TestlinkId TL-MAGE-6154
-     * @group skip_due_to_bug
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

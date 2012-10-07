@@ -34,13 +34,12 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p>Received the message that The configuration has been saved.</p>
      *
-     * @group skip_due_to_bug
      * @test
      * @TestlinkId TL-MAGE-3747
-     * @group skip_due_to_bug
      */
     public function withBlankCodeLengthField()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('code_length', '');
         $this->clickButton('save_config');
@@ -59,10 +58,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3747
-     * @group skip_due_to_bug
      */
     public function withFilledCodeLengthField()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('code_length', '100');
         $this->clickButton('save_config');
@@ -83,10 +82,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodeLengthFieldNegativeDataProvider
      * @TestlinkId TL-MAGE-3748
-     * @group skip_due_to_bug
      */
     public function withFilledCodeLengthFieldNegative($value)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('code_length', $value);
         $this->clickButton('save_config', false);
@@ -115,10 +114,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3749
-     * @group skip_due_to_bug
      */
     public function withFilledCodeFormatField()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillDropdown('code_format', 'Numeric');
         $this->clickButton('save_config');
@@ -139,10 +138,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodePrefixFieldDataProvider
      * @TestlinkId TL-MAGE-3751
-     * @group skip_due_to_bug
      */
     public function withFilledCodePrefixField($value)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('code_prefix', $value);
         $this->clickButton('save_config');
@@ -175,10 +174,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledCodeSuffixFieldDataProvider
      * @TestlinkId TL-MAGE-3753
-     * @group skip_due_to_bug
      */
     public function withFilledCodeSuffixField($value)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('code_suffix', $value);
         $this->clickButton('save_config');
@@ -209,10 +208,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3755
-     * @group skip_due_to_bug
      */
     public function withFilledDashField()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('dash_every_x_characters', '2');
         $this->clickButton('save_config');
@@ -231,10 +230,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-3755
-     * @group skip_due_to_bug
      */
     public function withBlankDashField()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('dash_every_x_characters', '');
         $this->clickButton('save_config');
@@ -255,10 +254,10 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
      * @param string $value
      * @dataProvider withFilledDashFieldNegativeDataProvider
      * @TestlinkId TL-MAGE-3756
-     * @group skip_due_to_bug
      */
     public function withFilledDashFieldNegative($value)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->fillField('dash_every_x_characters', $value);
         $this->clickButton('save_config', false);

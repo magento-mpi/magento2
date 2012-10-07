@@ -51,12 +51,12 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * @test
      * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-1310
-     * @group skip_due_to_bug
      *
      * @return array
      */
     public function customerAttributeCreate()
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Steps 2-4
@@ -108,10 +108,10 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * @TestlinkId TL-MAGE-1310
      * @depends customerAttributeCreate
      * @TestlinkId TL-MAGE-1311
-     * @group skip_due_to_bug
      */
     public function customerAttributeUpdate($attrData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Step 2
@@ -172,12 +172,12 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * @depends customerAttributeCreate
      * @param $attrData
      * @TestlinkId TL-MAGE-1312
-     * @group skip_due_to_bug
      *
      * @return void
      */
     public function customerAttributeDelete($attrData)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Step 2
