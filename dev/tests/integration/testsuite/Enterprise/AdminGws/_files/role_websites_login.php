@@ -27,7 +27,7 @@ $role->save();
 
 $rule = new Mage_User_Model_Rules;
 $rule->setRoleId($role->getId())
-    ->setResources(array('all'))
+    ->setResources(array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL))
     ->saveRel();
 
 $user = new Mage_User_Model_User();

@@ -27,6 +27,10 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
             return;
         }
         $this->loadLayout();
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Tracking Information'));
+        }
         $this->renderLayout();
     }
 

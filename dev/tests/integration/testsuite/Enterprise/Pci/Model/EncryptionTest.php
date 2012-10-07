@@ -21,6 +21,11 @@ class Enterprise_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
         $this->_model = new Enterprise_Pci_Model_Encryption();
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testEncryptDecrypt()
     {
         $this->assertEquals('', $this->_model->decrypt($this->_model->encrypt('')));

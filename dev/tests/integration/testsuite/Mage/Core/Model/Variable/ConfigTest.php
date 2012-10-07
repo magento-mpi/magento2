@@ -21,10 +21,15 @@ class Mage_Core_Model_Variable_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Variable_Config;
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testGetWysiwygJsPluginSrc()
     {
         $src = $this->_model->getWysiwygJsPluginSrc();
-        $this->assertStringStartsWith('http://localhost/pub/js/', $src);
+        $this->assertStringStartsWith('http://localhost/pub/lib/', $src);
         $this->assertStringEndsWith('editor_plugin.js', $src);
     }
 }

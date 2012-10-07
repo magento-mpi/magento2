@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Cms
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Cms::cms" title="CMS" module="Mage_Cms" sortOrder="70" resource="Mage_Cms::cms"/>
+        <add id="Mage_Cms::cms_page" title="Pages" module="Mage_Cms" sortOrder="0" parent="Mage_Cms::cms" action="adminhtml/cms_page" resource="Mage_Cms::page"/>
+        <add id="Mage_Cms::cms_block" title="Static Blocks" module="Mage_Cms" sortOrder="10" parent="Mage_Cms::cms" action="adminhtml/cms_block" resource="Mage_Cms::block"/>
+    </menu>
+</config>

@@ -59,7 +59,8 @@
     </adminhtml_staging_backup_index>
 
     <adminhtml_staging_backup_grid>
-        <remove name="root" />
+        <remove name="root"/>
+        <update handle="formkey"/>
         <block type="Enterprise_Staging_Block_Adminhtml_Backup_Grid" output="1" name="enterprise_staging_backup" />
     </adminhtml_staging_backup_grid>
 

@@ -13,6 +13,13 @@
     <modules>
         <Mage_Weee>
             <version>1.6.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Tax />
+                <Mage_Sales />
+            </depends>
         </Mage_Weee>
     </modules>
     <global>
@@ -131,6 +138,15 @@
                 </observers>
             </adminhtml_catalog_product_edit_element_types>
         </events>
+        <translate>
+            <modules>
+                <Mage_Weee>
+                    <files>
+                        <default>Mage_Weee.csv</default>
+                    </files>
+                </Mage_Weee>
+            </modules>
+        </translate>
     </adminhtml>
     <default>
         <sales>
@@ -166,5 +182,14 @@
                 </weee>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Mage_Weee>
+                    <files>
+                        <default>Mage_Weee.csv</default>
+                    </files>
+                </Mage_Weee>
+            </modules>
+        </translate>
     </frontend>
 </config>

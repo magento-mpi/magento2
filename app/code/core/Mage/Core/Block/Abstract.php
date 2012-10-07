@@ -246,11 +246,29 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $this->unsetChild($alias);
         }
         if ($block instanceof self) {
+            if ($block->getIsAnonymous()) {
+                $block->setNameInLayout($this->getNameInLayout() . '.' . $alias);
+            }
             $block = $block->getNameInLayout();
         }
         $layout->setChild($thisName, $block, $alias);
 
         return $this;
+    }
+
+    /**
+     * Create block and set as child
+     *
+     * @param string $alias
+     * @param Mage_Core_Block_Abstract $block
+     * @param array $data
+     * @return Mage_Core_Block_Abstract new block
+     */
+    public function addChild($alias, $block, $data = array())
+    {
+        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias, $data);
+        $this->setChild($alias, $block);
+        return $block;
     }
 
     /**
@@ -596,6 +614,29 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected function _toHtml()
     {
         return '';
+    }
+
+    /**
+     * Retrieve data-ui-id attribute which will distinguish link/input/container/anything else in template among others
+     * Function takes an arbitrary amount of parameters
+     *
+     * @return string
+     */
+    public function getUiId()
+    {
+        return ' data-ui-id="' . call_user_func_array(array($this, 'getJsId'), func_get_args()). '" ';
+    }
+
+    /**
+     * Generate id for using in JavaScript UI
+     * Function takes an arbitrary amount of parameters
+     *
+     * @return string
+     */
+    public function getJsId()
+    {
+        $rawId = $this->_nameInLayout . '-' . implode('-', func_get_args());
+        return trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($rawId)), '-');
     }
 
     /**

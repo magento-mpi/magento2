@@ -327,4 +327,28 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $this->_storeId = $storeId;
     }
+
+    /**
+     * Get template for button in order review page if HSS method was selected
+     *
+     * @param string $name template name
+     * @param string $block buttons block name
+     * @return string
+     */
+    public function getReviewButtonTemplate($name, $block)
+    {
+        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        if ($quote) {
+            $payment = $quote->getPayment();
+            if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {
+                return $name;
+            }
+        }
+
+        if ($blockObject = Mage::getSingleton('Mage_Core_Model_Layout')->getBlock($block)) {
+            return $blockObject->getTemplate();
+        }
+
+        return '';
+    }
 }

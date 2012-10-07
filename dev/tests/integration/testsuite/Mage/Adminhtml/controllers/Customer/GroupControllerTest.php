@@ -13,8 +13,11 @@ class Mage_Adminhtml_Customer_GroupControllerTest extends Mage_Adminhtml_Utility
 {
     public function testNewAction()
     {
-        $this->dispatch('admin/customer_group/new');
+        $this->dispatch('backend/admin/customer_group/new');
         $responseBody = $this->getResponse()->getBody();
-        $this->assertStringMatchesFormat('%a<div class="content-header">%ANew Customer Group%a', $responseBody);
+        $this->assertStringMatchesFormat(
+            '%a<div class="content-header"  data-ui-id="group-content-header" >%ANew Customer Group%a',
+            $responseBody
+        );
     }
 }

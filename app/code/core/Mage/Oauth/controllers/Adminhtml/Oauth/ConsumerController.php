@@ -18,6 +18,17 @@
 class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Perform layout initialization actions
+     *
+     * @return Mage_Oauth_Adminhtml_Oauth_ConsumerController
+     */
+    protected function  _initAction()
+    {
+        $this->loadLayout()
+            ->_setActiveMenu('Mage_Oauth::system_api_oauth_consumer');
+        return $this;
+    }
+    /**
      * Unset unused data from request
      * Skip getting "key" and "secret" because its generated from server side only
      *
@@ -53,7 +64,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 
@@ -88,7 +99,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
 
         Mage::register('current_consumer', $model);
 
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 
@@ -118,7 +129,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
         $model->addData($this->_filter($this->getRequest()->getParams()));
         Mage::register('current_consumer', $model);
 
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 
@@ -207,17 +218,23 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
     protected function _isAllowed()
     {
         $action = $this->getRequest()->getActionName();
-        if ('index' == $action) {
-            $action = null;
-        } else {
-            if ('new' == $action || 'save' == $action) {
-                $action = 'edit';
-            }
-            $action = '/' . $action;
+        $resourceId = null;
+        switch ($action) {
+            case 'delete':
+                $resourceId = 'Mage_Oauth::consumer_delete';
+                break;
+
+            case 'new':
+            case 'save':
+                $resourceId = 'Mage_Oauth::consumer_edit';
+                break;
+
+            default:
+                $resourceId = 'Mage_Oauth::consumer';
+                break;
         }
-        /** @var $session Mage_Backend_Model_Auth_Session*/
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        return $session->isAllowed('system/oauth/consumer' . $action);
+
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($resourceId);
     }
 
     /**

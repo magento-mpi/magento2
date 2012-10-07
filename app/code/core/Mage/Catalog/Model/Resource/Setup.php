@@ -19,6 +19,25 @@
 class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
 {
     /**
+     * Add Minimal attribute set id to exclude list
+     *
+     * @param string $resourceName
+     */
+    public function __construct($resourceName)
+    {
+        parent::__construct($resourceName);
+        $entityTypeForMinimal = $this->getEntityType('Minimal', 'entity_type_id');
+        if (is_numeric($entityTypeForMinimal)) {
+            $minimalAttributeSetId = $this->getAttributeSet(
+                Mage_Catalog_Model_Product::ENTITY, $entityTypeForMinimal, 'attribute_set_id'
+            );
+            if (is_numeric($minimalAttributeSetId)) {
+                $this->setExcludedAttributeSetIds(array($minimalAttributeSetId));
+            }
+        }
+    }
+
+    /**
      * Prepare catalog attribute values to save
      *
      * @param array $attr
@@ -366,11 +385,22 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'used_in_product_listing'    => true,
                         'used_for_sort_by'           => true,
                     ),
+                    'sku'                => array(
+                        'type'                       => 'static',
+                        'label'                      => 'SKU',
+                        'input'                      => 'text',
+                        'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Sku',
+                        'unique'                     => true,
+                        'sort_order'                 => 2,
+                        'searchable'                 => true,
+                        'comparable'                 => true,
+                        'visible_in_advanced_search' => true,
+                    ),
                     'description'        => array(
                         'type'                       => 'text',
                         'label'                      => 'Description',
                         'input'                      => 'textarea',
-                        'sort_order'                 => 2,
+                        'sort_order'                 => 3,
                         'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
                         'searchable'                 => true,
                         'comparable'                 => true,
@@ -382,7 +412,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'                       => 'text',
                         'label'                      => 'Short Description',
                         'input'                      => 'textarea',
-                        'sort_order'                 => 3,
+                        'sort_order'                 => 4,
                         'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
                         'searchable'                 => true,
                         'comparable'                 => true,
@@ -390,17 +420,6 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'is_html_allowed_on_front'   => true,
                         'visible_in_advanced_search' => true,
                         'used_in_product_listing'    => true,
-                    ),
-                    'sku'                => array(
-                        'type'                       => 'static',
-                        'label'                      => 'SKU',
-                        'input'                      => 'text',
-                        'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Sku',
-                        'unique'                     => true,
-                        'sort_order'                 => 4,
-                        'searchable'                 => true,
-                        'comparable'                 => true,
-                        'visible_in_advanced_search' => true,
                     ),
                     'price'              => array(
                         'type'                       => 'decimal',

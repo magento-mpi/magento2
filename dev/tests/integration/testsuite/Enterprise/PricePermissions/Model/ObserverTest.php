@@ -17,7 +17,13 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = new Mage_Core_Model_Layout;
+    }
+
+    protected function tearDown()
+    {
+        $this->_layout = null;
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
@@ -66,7 +72,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     {
         $event = new Varien_Event_Observer();
         $event->setBlock($block);
-        $observer = new Enterprise_PricePermissions_Model_Observer;
+        $observer = new Enterprise_PricePermissions_Model_Observer();
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }
@@ -77,7 +83,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function _initSession()
     {
         $user = new Mage_User_Model_User;
-        $user->setId(1)->setRole(true);
+        $user->setId(2)->setRole(true);
         $session = new Mage_Backend_Model_Auth_Session;
         $session->setUpdatedAt(time())->setUser($user);
     }

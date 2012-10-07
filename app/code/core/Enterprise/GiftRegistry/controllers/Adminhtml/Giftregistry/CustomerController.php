@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $emails = explode(',', $data);
             $emailsForSend = array();
 
-            if (Mage::app()->isSingleStoreMode()) {
+            if (Mage::app()->hasSingleStore()) {
                 $storeId = Mage::app()->getStore(true)->getId();
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');
@@ -233,6 +233,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/enterprise_giftregistry');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
     }
 }

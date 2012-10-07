@@ -13,6 +13,11 @@
     <modules>
         <Mage_Adminhtml>
             <version>0.7.1</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Admin/>
+            </depends>
         </Mage_Adminhtml>
     </modules>
     <global>
@@ -69,15 +74,15 @@
         <global_search>
             <products>
                 <class>Mage_Adminhtml_Model_Search_Catalog</class>
-                <acl>catalog</acl>
+                <acl>Mage_Catalog::catalog</acl>
             </products>
             <customers>
                 <class>Mage_Adminhtml_Model_Search_Customer</class>
-                <acl>customer</acl>
+                <acl>Mage_Customer::customer</acl>
             </customers>
             <sales>
                 <class>Mage_Adminhtml_Model_Search_Order</class>
-                <acl>sales</acl>
+                <acl>Mage_Sales::sales</acl>
             </sales>
         </global_search>
         <translate>
@@ -127,9 +132,6 @@
                 <sales module="Mage_Adminhtml">
                     <file>sales.xml</file>
                 </sales>
-                <tag module="Mage_Adminhtml">
-                    <file>tag.xml</file>
-                </tag>
             </updates>
         </layout>
         <sales>

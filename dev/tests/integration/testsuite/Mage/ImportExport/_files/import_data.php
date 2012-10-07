@@ -12,8 +12,7 @@
 $bunches = array(
     0 => array(
         'entity'         => 'customer',
-        'entity_subtype' => 'customer',
-        'behavior'       => 'append',
+        'behavior'       => 'v2_update',
         'data'           => array(
             0 =>
             array(
@@ -78,8 +77,7 @@ $bunches = array(
     ),
     1 => array(
         'entity'         => 'customer',
-        'entity_subtype' => 'customer',
-        'behavior'       => 'append',
+        'behavior'       => 'v2_update',
         'data'           => array(
             0 =>
             array(
@@ -118,7 +116,7 @@ $bunches = array(
 $importDataResource = new Mage_ImportExport_Model_Resource_Import_Data();
 
 foreach ($bunches as $bunch) {
-    $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data'], $bunch['entity_subtype']);
+    $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data']);
 }
 
 Mage::unregister('_fixture/Mage_ImportExport_Import_Data');

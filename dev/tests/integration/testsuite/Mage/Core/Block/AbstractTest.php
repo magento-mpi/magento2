@@ -30,6 +30,12 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        $this->_block = null;
+        $this->_layout = null;
+    }
+
     public function testGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_block->getRequest());
@@ -281,7 +287,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block = $this->_createBlockWithLayout('');
         $parent->setChild('', $block);
-        $this->assertContains('ANONYMOUS_0', $parent->getChildNames());
+        $this->assertContains('abstractmock', $parent->getChildNames());
     }
 
     public function testInsertBlockWithAlias()

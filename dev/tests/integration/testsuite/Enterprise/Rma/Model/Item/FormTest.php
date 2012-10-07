@@ -22,6 +22,11 @@ class Enterprise_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
         $this->_model->setFormCode('default');
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testGetAttributes()
     {
         $attributes = $this->_model->getAttributes();

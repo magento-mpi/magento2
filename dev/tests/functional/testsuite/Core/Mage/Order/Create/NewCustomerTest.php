@@ -71,7 +71,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3265
-     * @group skip_due_to_bug
      */
     public function newCustomerWithoutAddress($simpleSku)
     {
@@ -121,13 +120,12 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3260
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      * @group skip_due_to_bug1.12.0.1
      * @group skip_due_to_bug1.7.0.1
      */
     public function newCustomerWithAddress($simpleSku)
     {
+        $this->markTestIncomplete('Helper method isAddressPresent() incorrectly verifies default billing address');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
                                      array('filter_sku'     => $simpleSku,

@@ -32,7 +32,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function ordersAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/orders');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_orders');
         $this->renderLayout();
     }
 
@@ -50,7 +50,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function invoicesAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/invoices');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_invoices');
         $this->renderLayout();
     }
 
@@ -69,7 +69,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function creditmemosAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/creditmemos');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_creditmemos');
         $this->renderLayout();
     }
 
@@ -87,7 +87,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function shipmentsAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/shipments');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_shipments');
         $this->renderLayout();
     }
 
@@ -298,39 +298,39 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         switch (strtolower($this->getRequest()->getActionName())) {
             case 'orders':
             case 'ordersgrid':
-                $acl = 'sales/archive/orders';
+                $acl = 'Enterprise_SalesArchive::orders';
                 break;
 
             case 'invoices':
             case 'invoicesgrid':
-                $acl = 'sales/archive/invoices';
+                $acl = 'Enterprise_SalesArchive::invoices';
                 break;
 
            case 'creditmemos':
            case 'creditmemosgrid':
-                $acl = 'sales/archive/creditmemos';
+                $acl = 'Enterprise_SalesArchive::creditmemos';
                 break;
 
            case 'shipments':
            case 'shipmentsgrid':
-                $acl = 'sales/archive/shipments';
+                $acl = 'Enterprise_SalesArchive::shipments';
                 break;
 
            case 'massadd':
            case 'add':
-               $acl = 'sales/archive/orders/add';
+               $acl = 'Enterprise_SalesArchive::add';
                 break;
 
            case 'massremove':
            case 'remove':
-                $acl = 'sales/archive/orders/remove';
+                $acl = 'Enterprise_SalesArchive::remove';
                 break;
 
            default:
-                $acl = 'sales/archive/orders';
+                $acl = 'Enterprise_SalesArchive::orders';
                 break;
         }
 
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($acl);
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($acl);
     }
 }

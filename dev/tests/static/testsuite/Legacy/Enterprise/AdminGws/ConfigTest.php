@@ -15,7 +15,7 @@ class Legacy_Enterprise_AdminGws_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
-     * @dataProvider Legacy_ConfigTest::configFileDataProvider
+     * @dataProvider configFileDataProvider
      */
     public function testEventSubscriberFormat($file)
     {
@@ -31,5 +31,13 @@ class Legacy_Enterprise_AdminGws_ConfigTest extends PHPUnit_Framework_TestCase
         if ($errors) {
             $this->fail("Obsolete class names detected in {$file}:\n" . implode(PHP_EOL, $errors) . PHP_EOL);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function configFileDataProvider()
+    {
+        return Utility_Files::init()->getConfigFiles('config.xml');
     }
 }

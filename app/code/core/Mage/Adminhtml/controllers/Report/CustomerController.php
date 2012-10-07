@@ -37,7 +37,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
              ->_title($this->__('New Accounts'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/customer/accounts')
+            ->_setActiveMenu('Mage_Reports::report_customers_accounts')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts'))
             ->renderLayout();
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
              ->_title($this->__('Customers by Number of Orders'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/customer/orders')
+            ->_setActiveMenu('Mage_Reports::report_customers_orders')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'),
                 Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Orders'))
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
              ->_title($this->__('Customers by Orders Total'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/customer/totals')
+            ->_setActiveMenu('Mage_Reports::report_customers_totals')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'),
                 Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals'))
@@ -147,16 +147,16 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'accounts':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/customers/accounts');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::accounts');
                 break;
             case 'orders':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/customers/orders');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::customers_orders');
                 break;
             case 'totals':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/customers/totals');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::totals');
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/customers');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::customers');
                 break;
         }
     }

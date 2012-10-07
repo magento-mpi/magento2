@@ -13,6 +13,14 @@
     <modules>
         <Enterprise_Pci>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Admin/>
+                <Mage_Customer/>
+                <Mage_Api/>
+            </depends>
         </Enterprise_Pci>
     </modules>
     <global>

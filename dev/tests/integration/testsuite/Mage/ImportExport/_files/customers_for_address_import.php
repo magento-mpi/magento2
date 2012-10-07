@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 //Create customer
 $customer = new Mage_Customer_Model_Customer();
 $customer
@@ -24,6 +23,7 @@ $customer
     ->setFirstname('Betsy')
     ->setLastname('Parker')
     ->setGender(2);
+$customer->isObjectNew(true);
 $customer->save();
 
 // Create and set addresses
@@ -39,6 +39,7 @@ $addressFirst->addData(array(
     'postcode'          => '19107',
     'telephone'         => '215-629-9720',
 ));
+$addressFirst->isObjectNew(true);
 $customer->addAddress($addressFirst);
 $customer->setDefaultBilling($addressFirst->getId());
 
@@ -54,41 +55,8 @@ $addressSecond->addData(array(
     'postcode'          => '72701',
     'telephone'         => '479-899-9849',
 ));
+$addressSecond->isObjectNew(true);
 $customer->addAddress($addressSecond);
 $customer->setDefaultShipping($addressSecond->getId());
-
+$customer->isObjectNew(true);
 $customer->save();
-
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Customer';
-Mage::unregister($fixtureKey);
-Mage::register($fixtureKey, $customer);
-
-// important data from address_import.csv (postcode is key)
-$csvData = array(
-    'address' => array( // address records
-        'update'            => '19107',  // address with updates
-        'new'               => '85034',  // new address
-        'no_customer'       => '33602',  // there is no customer with this primary key (email+website)
-        'new_no_address_id' => '32301',  // new address without address id
-    ),
-    'update'  => array( // this data is changed in CSV file
-        '19107' => array(
-            'firstname'  => 'Katy',
-            'middlename' => 'T.',
-        ),
-    ),
-    'remove'  => array( // this data is not set in CSV file
-        '19107' => array(
-            'city'   => 'Philadelphia',
-            'region' => 'Pennsylvania',
-        ),
-    ),
-    'default' => array( // new default billing/shipping addresses
-        'billing'  => '85034',
-        'shipping' => '19107',
-    ),
-);
-
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv';
-Mage::unregister($fixtureKey);
-Mage::register($fixtureKey, $csvData);

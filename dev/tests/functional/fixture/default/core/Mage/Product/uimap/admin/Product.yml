@@ -63,6 +63,7 @@ manage_products:
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
             no_records_found: //td[text()='No records found.']
+            sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
@@ -137,6 +138,26 @@ new_product:
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
+                -
+                    general_min: &generalMinimalTab
+                        xpath: //a[@title='General']/span
+                        fieldsets:
+                            -
+                                product_general:
+                                    xpath: //div[contains(div/div/h4,'General')]
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                    dropdowns:
+                                        general_min_status: //select[@id='status']
+                                        general_min_visibility: //select[@id='visibility']
+                                        general_min_tax_class: //select[@id='tax_class_id']
+                                    fields:
+                                        general_min_name: //input[@id='name']
+                                        general_min_description: //textarea[@id='description']
+                                        general_min_short_description: //textarea[@id='short_description']
+                                        general_min_sku: //input[@id='sku']
+                                        general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_min_weight: //input[@id='weight' and not(@disabled)]
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span
@@ -392,6 +413,7 @@ new_product:
                                     xpath: //div[@class='option-box']
                                     buttons:
                                         delete_option: //button[span='Delete Option' and ancestor::div[@id ='option_%optionId%']]
+                                        delete_custom_option: //button[span='Delete Option']
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
                                     dropdowns:
@@ -585,6 +607,8 @@ edit_product:
                 -
                     general: *generalTab
                 -
+                    general_minimal: *generalMinimalTab
+                -
                     prices: *pricesTab
                 -
                     meta_information: *metaInformationTab
@@ -702,6 +726,16 @@ edit_product_save_and_continue:
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
+edit_new_product_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_new_configurable_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/attributes/%attributeTitle%/set/%setId%/type/%productType%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
 create_empty_simple_from_configurable:
     mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/
     title: New Product / Manage Products / Catalog / Magento Admin
@@ -729,3 +763,13 @@ created_empty_simple_from_configurable:
         buttons:
             close_window: //button[span='Close Window']
         messages: *productMesssages
+
+new_product_after_changed_attribute_set:
+    mca: catalog_product/new/type/%productType%/?set=%setId%
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct

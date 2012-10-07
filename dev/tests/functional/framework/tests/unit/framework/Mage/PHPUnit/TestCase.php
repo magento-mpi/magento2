@@ -22,13 +22,10 @@ abstract class Mage_PHPUnit_TestCase extends PHPUnit_Framework_TestCase
      */
     protected $_config = null;
 
-    /**
-     * Class constructor
-     */
-    public function __construct($name = NULL, array $data = array(), $dataName = '')
+    protected function setUp()
     {
-        parent::__construct($name, $data, $dataName);
-        $this->_config = Mage_Selenium_TestConfiguration::initInstance();
+        parent::setUp();
+        $this->_config = Mage_Selenium_TestConfiguration::getInstance();
     }
 
     /**

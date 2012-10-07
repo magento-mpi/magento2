@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Module_Name
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="item1" resource="acl4"/>
+        <add id="item2" resource="acl2"/>
+        <update id="item2" resource="acl5"/>
+        <add id="item3" resource="acl3"/>
+        <update id="item3"/>
+        <add id="item4"/>
+        <update id="item3" resource="dummy_resource"/>
+    </menu>
+</config>

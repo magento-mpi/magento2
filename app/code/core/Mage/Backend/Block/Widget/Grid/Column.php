@@ -268,7 +268,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
             if (!$rendererClass) {
                 $rendererClass = $this->_getRendererByType();
             }
-            $this->_renderer = $this->getLayout()->createBlock($rendererClass)
+            $this->_renderer = $this->getLayout()->createBlock($rendererClass, $this->getNameInLayout() . '.renderer.' . $this->getColumnId())
                 ->setColumn($this);
         }
         return $this->_renderer;
@@ -276,7 +276,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
 
     public function setFilter($filterClass)
     {
-        $this->_filter = $this->getLayout()->createBlock($filterClass)
+        $this->_filter = $this->getLayout()->createBlock($filterClass, $this->getNameInLayout() . '.' . $this->getId())
                 ->setColumn($this);
     }
 
@@ -347,7 +347,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
                     return false;
                 }
             }
-            $this->_filter = $this->getLayout()->createBlock($filterClass)
+            $this->_filter = $this->getLayout()->createBlock($filterClass, $this->getNameInLayout() .'.' . $this->getColumnId())
                 ->setColumn($this);
         }
 

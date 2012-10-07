@@ -27,7 +27,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('cms/block')
+            ->_setActiveMenu('Mage_Cms::cms_block')
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Static Blocks'), Mage::helper('Mage_Cms_Helper_Data')->__('Static Blocks'))
         ;
@@ -184,6 +184,6 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/block');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::block');
     }
 }

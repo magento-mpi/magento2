@@ -13,6 +13,12 @@
     <modules>
         <Mage_Payment>
             <version>1.6.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Core/>
+                <Mage_Catalog/>
+            </depends>
         </Mage_Payment>
     </modules>
     <global>
@@ -131,7 +137,7 @@
     <default>
         <payment>
             <ccsave>
-                <active>1</active>
+                <active>0</active>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <model>Mage_Payment_Model_Method_Ccsave</model>
                 <order_status>pending</order_status>

@@ -22,7 +22,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $this->_title($this->__('Dashboard'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('dashboard');
+        $this->_setActiveMenu('Mage_Adminhtml::dashboard');
         $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Dashboard'));
         $this->renderLayout();
     }
@@ -96,6 +96,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('dashboard');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::dashboard');
     }
 }

@@ -57,7 +57,7 @@ create_cms_widget:
                                     xpath: //div[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
-                                        package_theme: //select[@name='package_theme']
+                                        design_package_theme: //select[@name='package_theme']
                                     buttons:
                                         continue: //button[span='Continue']
 

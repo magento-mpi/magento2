@@ -24,6 +24,11 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testHasAction()
     {
         $this->assertFalse($this->_model->hasAction('test'));
@@ -256,6 +261,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
+        Mage::getConfig()->setCurrentAreaCode($expectedArea);
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
         $controller->preDispatch();

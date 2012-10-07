@@ -30,7 +30,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
     {
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('cms/page')
+            ->_setActiveMenu('Mage_Cms::cms_page')
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'))
         ;
@@ -384,7 +384,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::page');
                 break;
         }
     }

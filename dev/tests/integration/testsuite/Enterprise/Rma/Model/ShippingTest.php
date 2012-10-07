@@ -21,6 +21,11 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
         $this->_model= new Enterprise_Rma_Model_Shipping();
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testIsCustom()
     {
         $this->_model->setCarrierCode('ups');

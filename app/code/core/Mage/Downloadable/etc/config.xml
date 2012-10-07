@@ -13,6 +13,12 @@
     <modules>
         <Mage_Downloadable>
             <version>1.6.0.0.2</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Catalog />
+                <!--<Mage_Sales />-->
+            </depends>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -103,6 +109,14 @@
                     </downloadable_observer>
                 </observers>
             </catalog_product_prepare_save>
+            <catalog_model_product_duplicate>
+                <observers>
+                    <downloadable_observer>
+                        <class>Mage_Downloadable_Model_Observer</class>
+                        <method>duplicateProduct</method>
+                    </downloadable_observer>
+                </observers>
+            </catalog_model_product_duplicate>
             <sales_order_item_save_commit_after>
                 <observers>
                     <downloadable_observer>

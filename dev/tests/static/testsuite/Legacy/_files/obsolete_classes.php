@@ -9,7 +9,14 @@
  * @license     {license_link}
  */
 return array(
+    'Mage_Admin_Model_Acl' => array('suggestion' => 'Magento_Acl'),
     'Mage_Admin_Model_Acl_Role',
+    'Mage_Admin_Model_Acl_Resource' => array('suggestion' => 'Magento_Acl_Resource'),
+    'Mage_Admin_Model_Acl_Role_Registry' => array('suggestion' => 'Magento_Acl_Role_Registry'),
+    'Mage_Admin_Model_Acl_Role_Generic' => array('suggestion' => 'Mage_User_Model_Acl_Role_Generic'),
+    'Mage_Admin_Model_Acl_Role_Group' => array('suggestion' => 'Mage_User_Model_Acl_Role_Group'),
+    'Mage_Admin_Model_Acl_Role_User' => array('suggestion' => 'Mage_User_Model_Acl_Role_User'),
+    'Mage_Admin_Model_Resource_Acl' => array('suggestion' => 'Mage_User_Model_Resource_Acl'),
     'Mage_Admin_Model_Observer',
     'Mage_Admin_Model_Session' => array('suggestion' => 'Mage_Backend_Model_Auth_Session'),
     'Mage_Admin_Model_Resource_Acl_Role',
@@ -35,6 +42,8 @@ return array(
     'Mage_Adminhtml_Block_Api_Edituser',
     'Mage_Adminhtml_Block_Api_Tab_Userroles',
     'Mage_Adminhtml_Block_Catalog',
+    'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings',
+    'Mage_Adminhtml_Block_Page_Menu' => array('suggestion' => 'Mage_Backend_Block_Menu'),
     'Mage_Adminhtml_Block_Permissions_User',
     'Mage_Adminhtml_Block_Permissions_User_Grid',
     'Mage_Adminhtml_Block_Permissions_User_Edit',
@@ -76,6 +85,7 @@ return array(
     'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice',
+    'Mage_Core_Block_Flush',
     'Mage_Core_Block_Template_Facade',
     'Mage_Core_Controller_Varien_Router_Admin' => array('suggestion' => 'Mage_Backend_Controller_Router_Default'),
     'Mage_Core_Model_Design_Source_Apply',
@@ -84,6 +94,7 @@ return array(
     'Mage_Core_Model_Resource_Language_Collection',
     'Mage_Core_Model_Session_Abstract_Varien',
     'Mage_Core_Model_Session_Abstract_Zend',
+    'Mage_Core_Model_Layout_Data' => array('suggestion' => 'Mage_Core_Model_Layout_Update'),
     'Mage_Customer_Block_Account',
     'Mage_Directory_Model_Resource_Currency_Collection',
     'Mage_Downloadable_FileController' => array(
@@ -107,6 +118,10 @@ return array(
     'Mage_ProductAlert_Block_Stock',
     'Mage_Reports_Model_Resource_Coupons_Collection',
     'Mage_Reports_Model_Resource_Invoiced_Collection',
+    'Mage_Reports_Model_Resource_Product_Ordered_Collection',
+    'Mage_Reports_Model_Resource_Product_Viewed_Collection' => array(
+        'suggestion' => 'Mage_Reports_Model_Resource_Report_Product_Viewed_Collection'
+    ),
     'Mage_Reports_Model_Resource_Refunded_Collection',
     'Mage_Reports_Model_Resource_Shipping_Collection',
     'Mage_Rss_Model_Observer',

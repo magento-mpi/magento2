@@ -195,7 +195,7 @@ declare @ddl varchar(MAX)
 
 set @objectId = object_id(@objectName)
 if (@objectId is null)
-    raiserror 99999 'Invalid table name';
+    raiserror('Invalid table name', 16, 1);
 
 select @fkeys = @fkeys +
     'ALTER TABLE ' + object_name(@objectId) + ' ADD CONSTRAINT ' + object_name(fkc.constraint_object_id) + ' FOREIGN KEY (' +
@@ -235,7 +235,7 @@ declare @ddl varchar(MAX)
 
 set @objectId = object_id(@objectName)
 if (@objectId is null)
-    raiserror 99999 'Invalid table name';
+    raiserror('Invalid table name', 16, 2);
 
 if (@withdrop = 1)
     select @drop = 'IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = ' + cast(@objectId as varchar) + ' AND type in (N''U''))' + char(13) +

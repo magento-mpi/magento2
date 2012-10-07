@@ -50,7 +50,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
         $customer = Mage::registry('current_customer');
         return $customer->getId()
             && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabled()
-            && Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+            && Mage::getSingleton('Mage_Core_Model_Authorization')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
     }
 
@@ -92,6 +92,6 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getAfter()
     {
-        return 'tags';
+        return 'reviews';
     }
 }

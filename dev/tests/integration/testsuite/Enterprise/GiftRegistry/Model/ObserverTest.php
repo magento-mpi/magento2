@@ -16,6 +16,11 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
      */
     protected $_giftRegistry;
 
+    protected function tearDown()
+    {
+        $this->_giftRegistry = null;
+    }
+
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
      * @magentoDataFixture Mage/Customer/_files/customer.php

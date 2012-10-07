@@ -20,7 +20,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         $this->_title($this->__('CMS'))->_title($this->__('Banners'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('cms/enterprise_banner');
+        $this->_setActiveMenu('Enterprise_Banner::cms_enterprise_banner');
         $this->renderLayout();
     }
 
@@ -56,7 +56,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('cms/enterprise_banner');
+        $this->_setActiveMenu('Enterprise_Banner::cms_enterprise_banner');
         $this->_addBreadcrumb($id ? Mage::helper('Enterprise_Banner_Helper_Data')->__('Edit Banner') : Mage::helper('Enterprise_Banner_Helper_Data')->__('New Banner'),
                               $id ? Mage::helper('Enterprise_Banner_Helper_Data')->__('Edit Banner') : Mage::helper('Enterprise_Banner_Helper_Data')->__('New Banner'))
              ->renderLayout();
@@ -227,7 +227,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/enterprise_banner');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Banner::enterprise_banner');
     }
 
     /**

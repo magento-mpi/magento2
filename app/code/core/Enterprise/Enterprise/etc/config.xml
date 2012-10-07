@@ -13,6 +13,16 @@
     <modules>
         <Enterprise_Enterprise>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Cms/>
+                <Mage_Install/>
+                <Mage_Adminhtml/>
+                <Mage_Admin/>
+                <Mage_AdminNotification/>
+                <Mage_Widget/>
+            </depends>
         </Enterprise_Enterprise>
     </modules>
     <global>
@@ -24,6 +34,9 @@
                 </setup>
             </enterprise_enterprise_setup>
         </resources>
+        <rewrites>
+            <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
+        </rewrites>
     </global>
     <adminhtml>
         <events>

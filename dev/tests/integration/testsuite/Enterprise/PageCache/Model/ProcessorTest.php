@@ -26,6 +26,11 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = new Enterprise_PageCache_Model_Processor;
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testIsAllowedHttps()
     {
         $this->assertTrue($this->_model->isAllowed());

@@ -37,7 +37,7 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('system/convert');
+        $this->_setActiveMenu('Mage_Adminhtml::system_convert');
 
         /**
          * Append profiles block to content
@@ -81,7 +81,7 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 
         $this->_title($profile->getId() ? $profile->getName() : $this->__('New Profile'));
 
-        $this->_setActiveMenu('system/convert');
+        $this->_setActiveMenu('Mage_Adminhtml::system_convert');
 
 
         $this->_addContent(
@@ -135,6 +135,6 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 //                break;
 //        }
 
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/system/convert/gui');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::gui');
     }
 }

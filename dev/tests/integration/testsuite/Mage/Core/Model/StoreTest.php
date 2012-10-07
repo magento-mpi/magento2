@@ -24,6 +24,11 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @dataProvider loadDataProvider
      */
@@ -96,10 +101,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/index.php/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, false, false, 'http://localhost/pub/js/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, false, true,  'http://localhost/pub/js/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  false, 'http://localhost/pub/js/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  true,  'http://localhost/pub/js/'),
+            array(Mage_Core_Model_Store::URL_TYPE_JS, false, false, 'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_JS, false, true,  'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  false, 'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  true,  'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, false, true,  'http://localhost/pub/media/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, true,  false, 'http://localhost/pub/media/'),
@@ -117,7 +122,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $_SERVER['SCRIPT_FILENAME'] = 'test/pub/index.php';
 
         $this->assertEquals(
-            'http://localhost/js/',
+            'http://localhost/lib/',
             $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)
         );
         $this->assertEquals(
@@ -222,5 +227,33 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
         $crud = new Magento_Test_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
+    }
+
+    /**
+     *
+     * @dataProvider getUrlClassNameDataProvider
+     * @param $urlClassName
+     * @param $expectedModel
+     */
+    public function testGetUrlModel($urlClassName, $expectedModel)
+    {
+        $urlModel = $this->_model->setUrlClassName($urlClassName)
+            ->getUrlModel();
+        $this->assertEquals($expectedModel, get_class($urlModel));
+    }
+
+    public function getUrlClassNameDataProvider()
+    {
+        return array(
+            array(
+                null,'Mage_Core_Model_Url'
+            ),
+            array(
+                'Mage_Core_Model_Url', 'Mage_Core_Model_Url'
+            ),
+            array(
+                'Mage_Backend_Model_Url', 'Mage_Backend_Model_Url'
+            ),
+        );
     }
 }

@@ -15,13 +15,6 @@
 class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tested source model
-     *
-     * @var Mage_ImportExport_Model_Source_Import_Entity
-     */
-    public static $sourceModel;
-
-    /**
      * Helper registry key
      *
      * @var string
@@ -34,6 +27,13 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
      * @var Mage_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected static $_helper;
+
+    /**
+     * Tested source model
+     *
+     * @var Mage_ImportExport_Model_Source_Import_Entity
+     */
+    public static $sourceModel;
 
     /**
      * Test entity
@@ -57,19 +57,6 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
     }
 
     /**
-     * Unregister source model and helper
-     *
-     * @static
-     */
-    public static function tearDownAfterClass()
-    {
-        parent::tearDownAfterClass();
-        Mage::unregister(self::$_helperKey);
-        self::$_helper = null;
-        self::$sourceModel = null;
-    }
-
-    /**
      * Helper initialization
      *
      * @return Mage_ImportExport_Helper_Data
@@ -89,6 +76,23 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
             Mage::register(self::$_helperKey, self::$_helper);
         }
         return self::$_helper;
+    }
+
+    /**
+     * Unregister source model and helper
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::unregister(self::$_helperKey);
+        self::$_helper = null;
+        self::$sourceModel = null;
+
+        $config = new ReflectionProperty('Mage', '_config');
+        $config->setAccessible(true);
+        $config->setValue(null, null);
+        $config->setAccessible(false);
     }
 
     /**

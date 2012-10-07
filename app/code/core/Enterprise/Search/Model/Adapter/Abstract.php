@@ -379,10 +379,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
 
             $attribute->setStoreId($storeId);
-
+            $preparedValue = '';
             // Preparing data for solr fields
             if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()
                 || $attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()
+                || $attribute->getUsedForSortBy()
             ) {
                 $backendType = $attribute->getBackendType();
                 $frontendInput = $attribute->getFrontendInput();
@@ -421,16 +422,16 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     if ($backendType == 'datetime') {
                         if (is_array($value)) {
                             $preparedValue = array();
-                            foreach ($value as &$val) {
+                            foreach ($value as $id => &$val) {
                                 $val = $this->_getSolrDate($storeId, $val);
                                 if (!empty($val)) {
-                                    $preparedValue[] = $val;
+                                    $preparedValue[$id] = $val;
                                 }
                             }
                             unset($val); //clear link to value
                             $preparedValue = array_unique($preparedValue);
                         } else {
-                            $preparedValue = $this->_getSolrDate($storeId, $value);
+                            $preparedValue[$productId] = $this->_getSolrDate($storeId, $value);
                         }
                     }
                 }
@@ -438,6 +439,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
             // Preparing data for sorting field
             if ($attribute->getUsedForSortBy()) {
+                $sortValue = null;
                 if (is_array($preparedValue)) {
                     if (isset($preparedValue[$productId])) {
                         $sortValue = $preparedValue[$productId];

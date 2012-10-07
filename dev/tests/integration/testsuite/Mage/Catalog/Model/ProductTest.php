@@ -29,6 +29,11 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Catalog_Model_Product;
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public static function tearDownAfterClass()
     {
         $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
@@ -96,6 +101,14 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
             $this->_undo($duplicate);
             throw $e;
         }
+    }
+
+    public function testDuplicateSkuGeneration()
+    {
+        $this->_model->load(1);
+        $this->assertEquals('simple', $this->_model->getSku());
+        $duplicated = $this->_model->duplicate();
+        $this->assertEquals('simple-1', $duplicated->getSku());
     }
 
     /**
@@ -335,7 +348,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/two_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      */
     public function testIsProductsHasSku()
     {

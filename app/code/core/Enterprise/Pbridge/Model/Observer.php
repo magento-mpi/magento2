@@ -63,8 +63,8 @@ class Enterprise_Pbridge_Model_Observer
         $website = Mage::app()->getWebsite($observer->getEvent()->getData('website'));
         $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
             && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
-        $authorizenetEnabled = $website->getConfig('payment/authorizenet/active')
-            && $website->getConfig('payment/authorizenet/payment_profiles_enabled');
+        $authorizenetEnabled = $website->getConfig('payment/pbridge_authorizenet/active')
+            && $website->getConfig('payment/pbridge_authorizenet/payment_profiles_enabled');
 
         $profileStatus = null;
 

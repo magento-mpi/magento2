@@ -777,7 +777,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     } else {
                         $dataRow[self::COL_STORE] = null;
                         if (isset($stockItemRows[$productId])) {
-                            array_merge($dataRow, $stockItemRows[$productId]);
+                            $dataRow = array_merge($dataRow, $stockItemRows[$productId]);
                         }
                     }
 
@@ -811,7 +811,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     if (!empty($configurableData[$productId])) {
                         $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
                     }
-                    if(!empty($rowMultiselects[$productId])) {
+                    if (!empty($rowMultiselects[$productId])) {
                         foreach ($rowMultiselects[$productId] as $attrKey => $attrVal) {
                             if (!empty($rowMultiselects[$productId][$attrKey])) {
                                 $dataRow[$attrKey] = array_shift($rowMultiselects[$productId][$attrKey]);
@@ -851,7 +851,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     $additionalRowsCount = max($additionalRowsCount, count($configurableData[$productId]));
                 }
                 if (!empty($rowMultiselects[$productId])) {
-                    foreach($rowMultiselects[$productId] as $attributes) {
+                    foreach ($rowMultiselects[$productId] as $attributes) {
                         $additionalRowsCount = max($additionalRowsCount, count($attributes));
                     }
                 }
@@ -891,9 +891,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                         if (!empty($configurableData[$productId])) {
                             $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
                         }
-                        if(!empty($rowMultiselects[$productId])) {
-                            foreach($rowMultiselects[$productId] as $attrKey=>$attrVal) {
-                                if(!empty($rowMultiselects[$productId][$attrKey])) {
+                        if (!empty($rowMultiselects[$productId])) {
+                            foreach ($rowMultiselects[$productId] as $attrKey => $attrVal) {
+                                if (!empty($rowMultiselects[$productId][$attrKey])) {
                                     $dataRow[$attrKey] = array_shift($rowMultiselects[$productId][$attrKey]);
                                 }
                             }

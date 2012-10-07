@@ -13,6 +13,13 @@
     <modules>
         <Enterprise_Staging>
             <version>1.11.0.0.2</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Cms/>
+                <Mage_Catalog/>
+                <Enterprise_WebsiteRestriction/>
+            </depends>
         </Enterprise_Staging>
     </modules>
     <global>

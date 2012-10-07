@@ -26,7 +26,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/giftwrapping');
+            ->_setActiveMenu('Enterprise_GiftWrapping::sales_enterprise_giftwrapping');
 
         $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Sales'))->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Manage Gift Wrapping'));
         return $this;
@@ -264,7 +264,8 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/enterprise_giftwrapping');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_GiftWrapping::enterprise_giftwrapping');
     }
 
     /**

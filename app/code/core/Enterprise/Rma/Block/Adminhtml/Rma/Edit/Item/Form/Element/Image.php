@@ -23,9 +23,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Va
      *
      * @param array $attributes
      */
-    public function _construct($attributes = array())
+    public function __construct($attributes = array())
     {
-        parent::_construct($attributes);
+        parent::__construct($attributes);
         $this->setType('file');
     }
 

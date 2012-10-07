@@ -13,6 +13,11 @@
     <modules>
         <Enterprise_Search>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_CatalogSearch/>
+            </depends>
         </Enterprise_Search>
     </modules>
     <global>

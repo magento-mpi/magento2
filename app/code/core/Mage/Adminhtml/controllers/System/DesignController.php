@@ -16,7 +16,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         $this->_title($this->__('System'))->_title($this->__('Design'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Design'));
         $this->renderLayout();
     }
@@ -38,7 +38,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         $this->_title($this->__('System'))->_title($this->__('Design'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
@@ -111,6 +111,6 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/design');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::design');
     }
 }

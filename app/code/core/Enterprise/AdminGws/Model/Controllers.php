@@ -28,13 +28,22 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     protected $_isForwarded = false;
 
     /**
+     * Application config object
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+
+    /**
      * Initialize helper
      *
      */
-    public function __construct()
+    public function __construct(array $data = array())
     {
-        parent::__construct();
-        $this->_request = Mage::app()->getRequest();
+        parent::__construct($data);
+        $this->_request = isset($data['request']) ?  $data['request'] : Mage::app()->getRequest();
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
     }
 
     /**
@@ -1086,16 +1095,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // Determine entity model class name
         switch ($controllerName) {
             case 'promo_catalog':
-                $entityModelClassName = 'catalogrule/rule';
+                $entityModelClassName = 'Mage_CatalogRule_Model_Rule';
                 break;
             case 'promo_quote':
-                $entityModelClassName = 'salesrule/rule';
+                $entityModelClassName = 'Mage_SalesRule_Model_Rule';
                 break;
             case 'reminder':
-                $entityModelClassName = 'enterprise_reminder/rule';
+                $entityModelClassName = 'Enterprise_Reminder_Model_Rule';
                 break;
             case 'customersegment':
-                $entityModelClassName = 'enterprise_customersegment/segment';
+                $entityModelClassName = 'Enterprise_CustomerSegment_Model_Segment';
                 break;
             default:
                 $entityModelClassName = null;
@@ -1106,7 +1115,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return true;
         }
 
-        $entityObject = Mage::getModel($entityModelClassName);
+        $entityObject = $this->_objectFactory->getModelInstance($entityModelClassName);
         if (!$entityObject) {
             return true;
         }

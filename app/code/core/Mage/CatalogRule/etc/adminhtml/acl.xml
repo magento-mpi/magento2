@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_CatalogRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_CatalogRule::promo" module="Mage_CatalogRule" title="Promotions" sortOrder="50">
+                    <resource id="Mage_CatalogRule::promo_catalog" title="Catalog Price Rules" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

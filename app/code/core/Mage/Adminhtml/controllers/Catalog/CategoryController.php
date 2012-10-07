@@ -183,7 +183,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/categories');
+        $this->_setActiveMenu('Mage_Catalog::catalog_categories');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)
             ->setContainerCssClass('catalog-categories');
 
@@ -305,6 +305,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             ));
 
             /**
+             * Check "Use Default Value" checkboxes values
+             */
+            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                foreach ($useDefaults as $attributeCode) {
+                    $category->setData($attributeCode, false);
+                }
+            }
+
+            /**
              * Proceed with $_POST['use_config']
              * set into category model for proccessing through validation
              */
@@ -320,15 +329,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         else {
                             Mage::throwException($error);
                         }
-                    }
-                }
-
-                /**
-                 * Check "Use Default Value" checkboxes values
-                 */
-                if ($useDefaults = $this->getRequest()->getPost('use_default')) {
-                    foreach ($useDefaults as $attributeCode) {
-                        $category->setData($attributeCode, false);
                     }
                 }
 
@@ -493,6 +493,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/categories');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::categories');
     }
 }

@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+/** @var $installer Mage_ImportExport_Model_Resource_Setup */
 $installer = $this;
 
 $installer->getConnection()

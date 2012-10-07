@@ -21,6 +21,11 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
         $this->_collection = new Varien_Data_Collection_Db;
     }
 
+    protected function tearDown()
+    {
+        unset($this->_collection);
+    }
+
     /**
      * @return PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract
      */
@@ -70,17 +75,10 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testAddFieldToFilter()
     {
-        $adapter =$this->_getAdapterMock(
-            'Zend_Db_Adapter_Pdo_Mysql',
-            array('fetchAll', 'prepareSqlCondition'),
-            null
-        );
+        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), null);
         $adapter->expects($this->any())
             ->method('prepareSqlCondition')
-            ->with(
-                $this->stringContains('is_imported'),
-                $this->anything()
-            )
+            ->with($this->stringContains('is_imported'), $this->anything())
             ->will($this->returnValue('is_imported = 1'));
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from('test');
@@ -95,31 +93,21 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testAddFieldToFilterWithMultipleParams()
     {
-        $adapter = $this->_getAdapterMock(
-            'Zend_Db_Adapter_Pdo_Mysql',
-            array('fetchAll', 'prepareSqlCondition'),
-            null
-        );
+        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), null);
         $adapter->expects($this->at(0))
             ->method('prepareSqlCondition')
-            ->with(
-                'weight',
-                array('in' => array(1,3))
-            )
+            ->with('weight', array('in' => array(1, 3)))
             ->will($this->returnValue('weight in (1, 3)'));
         $adapter->expects($this->at(1))
             ->method('prepareSqlCondition')
-            ->with(
-                'name',
-                array('like' => 'M%')
-            )
+            ->with('name', array('like' => 'M%'))
             ->will($this->returnValue("name like 'M%'"));
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from("test");
 
         $this->_collection->addFieldToFilter(
             array('weight', 'name'),
-            array(array('in' => array(1,3)), array('like' => 'M%'))
+            array(array('in' => array(1, 3)), array('like' => 'M%'))
         );
 
         $this->assertEquals(
@@ -139,6 +127,50 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
         $this->assertEquals(
             "SELECT `test`.* FROM `test` WHERE ((weight in (1, 3)) OR (name like 'M%')) AND (is_imported = 1)",
             $select->assemble()
+        );
+    }
+
+    /**
+     * Test that adding field to filter by value which contains question mark produce correct SQL
+     */
+    public function testAddFieldToFilterValueContainsQuestionMark()
+    {
+        $adapter = $this->_getAdapterMock(
+            'Zend_Db_Adapter_Pdo_Mysql',
+            array('select', 'prepareSqlCondition', 'supportStraightJoin'),
+            null
+        );
+        $adapter->expects($this->once())
+            ->method('prepareSqlCondition')
+            ->with('email', array('like' => 'value?'))
+            ->will($this->returnValue('email LIKE \'%value?%\''));
+        $adapter->expects($this->once())
+            ->method('select')
+            ->will($this->returnValue(new Varien_Db_Select($adapter)));
+        $this->_collection->setConnection($adapter);
+
+        $select = $this->_collection->getSelect()->from('test');
+        $this->_collection->addFieldToFilter('email', array('like' => 'value?'));
+        $this->assertEquals("SELECT `test`.* FROM `test` WHERE (email LIKE '%value?%')", $select->assemble());
+    }
+
+    /**
+     * Test that after cloning collection $this->_select in initial and cloned collections
+     * do not reference the same object
+     *
+     * @covers Varien_Data_Collection_Db::__clone
+     */
+    public function testClone()
+    {
+        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', null, null);
+        $this->_collection->setConnection($adapter);
+        $this->assertInstanceOf('Zend_Db_Select', $this->_collection->getSelect());
+
+        $clonedCollection = clone $this->_collection;
+
+        $this->assertInstanceOf('Zend_Db_Select', $clonedCollection->getSelect());
+        $this->assertNotSame($clonedCollection->getSelect(), $this->_collection->getSelect(),
+            'Collection was cloned but $this->_select in both initial and cloned collections reference the same object'
         );
     }
 }

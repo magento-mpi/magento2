@@ -15,7 +15,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutControllerTest extends Mage_Adminhtm
     {
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
-        $this->dispatch('admin/checkout/loadBlock');
+        $this->dispatch('backend/admin/checkout/loadBlock');
         $this->assertStringMatchesFormat('{"message":"%ACustomer not found%A"}', $this->getResponse()->getBody());
     }
 }

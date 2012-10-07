@@ -25,7 +25,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
             ->_title($this->__('Billing Agreements'));
 
         $this->loadLayout()
-            ->_setActiveMenu('sales/billing_agreement')
+            ->_setActiveMenu('Mage_Sales::sales_billing_agreement')
             ->renderLayout();
     }
 
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
                 ->_title(sprintf("#%s", $agreementModel->getReferenceId()));
 
             $this->loadLayout()
-                ->_setActiveMenu('sales/billing_agreement')
+                ->_setActiveMenu('Mage_Sales::sales_billing_agreement')
                 ->renderLayout();
             return;
         }
@@ -191,14 +191,14 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
             case 'index':
             case 'grid' :
             case 'view' :
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/billing_agreement/actions/view');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::billing_agreement_actions_view');
                 break;
             case 'cancel':
             case 'delete':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/billing_agreement/actions/manage');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::actions_manage');
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/billing_agreement');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::billing_agreement');
                 break;
         }
     }

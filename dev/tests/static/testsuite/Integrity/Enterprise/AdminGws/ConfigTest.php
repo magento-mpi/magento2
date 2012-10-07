@@ -18,7 +18,7 @@ class Integrity_Enterprise_AdminGws_ConfigTest extends PHPUnit_Framework_TestCas
 
     /**
      * @param string $file
-     * @dataProvider Legacy_ConfigTest::configFileDataProvider
+     * @dataProvider configFileDataProvider
      */
     public function testEventSubscriberFormat($file)
     {
@@ -37,5 +37,13 @@ class Integrity_Enterprise_AdminGws_ConfigTest extends PHPUnit_Framework_TestCas
                 . implode(PHP_EOL, $errors) . PHP_EOL
             );
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function configFileDataProvider()
+    {
+        return Utility_Files::init()->getConfigFiles('config.xml');
     }
 }

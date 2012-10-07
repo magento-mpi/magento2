@@ -63,6 +63,18 @@ system_configuration:
                                     buttons:
                                         reset_to_default_robots: //button[span='Reset to Default']
                 -
+                    catalog_catalog:
+                        xpath: //a[contains(@href, 'edit/section/catalog/')]
+                        fieldsets:
+                            -
+                                product_creation:
+                                    xpath: //fieldset[@id='catalog_fields_masks']
+                                    fields:
+                                        sku_mask: //*[@id='catalog_fields_masks_sku']
+                                        meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
+                                        meta_description_mask: //*[@id='catalog_fields_masks_meta_description']
+                                        meta_keyword_mask: //*[@id='catalog_fields_masks_meta_keyword']
+                -
                     catalog_google_sitemap:
                         fieldsets:
                             -

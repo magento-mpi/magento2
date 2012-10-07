@@ -16,7 +16,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Uti
      */
     public function testEditAction()
     {
-        $this->dispatch('admin/cms_page/edit/page_id/3');
+        $this->dispatch('backend/admin/cms_page/edit/page_id/3');
         $content = $this->getResponse()->getBody();
         $this->assertContains('onclick="pagePreviewAction()"', $content);
         $this->assertContains('function pagePreviewAction() {', $content);
@@ -27,7 +27,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Uti
      */
     public function testIndexAction()
     {
-        $this->dispatch('admin/cms_page/index');
+        $this->dispatch('backend/admin/cms_page/index');
         $content = $this->getResponse()->getBody();
         $this->assertContains('Version Control', $content);
     }

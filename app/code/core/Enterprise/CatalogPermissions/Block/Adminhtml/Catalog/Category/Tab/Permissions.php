@@ -31,18 +31,14 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     protected function _prepareLayout()
     {
-        $this->setChild('row', $this->getLayout()->createBlock(
-            'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row'
-        ));
+        $this->addChild('row', 'Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row');
 
-        $this->setChild('add_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-            ->addData(array(
-                'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('New Permission'),
-                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
-                'type'  => 'button',
-                'disabled' => $this->isReadonly()
-            ))
-        );
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('New Permission'),
+            'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+            'type'  => 'button',
+            'disabled' => $this->isReadonly()
+        ));
 
         return parent::_prepareLayout();
     }
@@ -66,7 +62,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             }
         }
 
-        $config['single_mode']  = Mage::app()->isSingleStoreMode();
+        $config['single_mode']  = Mage::app()->hasSingleStore();
         $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
@@ -202,7 +198,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $canShow = $this->getCanShowTab();
         if (is_null($canShow)) {
-            $canShow = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/enterprise_catalogpermissions');
+            $canShow = Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions');
         }
         return $canShow;
     }

@@ -60,7 +60,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         $this->_initStaging();
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('Enterprise_Staging::system_enterprise_staging');
         $this->renderLayout();
     }
 
@@ -89,7 +89,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         $this->_title($backup->getName());
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('Enterprise_Staging::system_enterprise_staging');
         $this->renderLayout();
     }
 
@@ -218,6 +218,6 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/enterprise_staging/staging_backup');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Staging::staging_backup');
     }
 }

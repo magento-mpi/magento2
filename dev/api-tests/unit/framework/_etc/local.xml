@@ -128,16 +128,12 @@
             <backend>Mage_PHPUnit_Cache_Memory</backend>
             <id_prefix>mem</id_prefix>
         </cache>
-    </global>
-    <admin>
-        <routers>
+        <areas>
             <adminhtml>
-                <args>
-                    <frontName><![CDATA[admin]]></frontName>
-                </args>
+                <frontName><![CDATA[backend]]></frontName>
             </adminhtml>
-        </routers>
-    </admin>
+        </areas>
+    </global>
     <default>
         <system>
             <filesystem>

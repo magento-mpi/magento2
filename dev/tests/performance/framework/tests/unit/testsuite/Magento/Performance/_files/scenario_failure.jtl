@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     performance_tests
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<testResults version="1.2">
+    <httpSample>
+        <assertionResult>
+            <name>Response Assertion</name>
+            <failure>true</failure>
+            <error>false</error>
+            <failureMessage>fixture failure message</failureMessage>
+        </assertionResult>
+    </httpSample>
+</testResults>

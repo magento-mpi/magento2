@@ -19,6 +19,16 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
     extends Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
 {
     /**
+     * Prepare html output
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return $this->canDisplayGiftWrappingForOrder() ? parent::_toHtml() : '';
+    }
+
+    /**
      * Select element for choosing gift wrapping design
      *
      * @return array

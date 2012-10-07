@@ -23,15 +23,25 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
         $this->_indexModel = new Enterprise_CatalogPermissions_Model_Permission_Index();
     }
 
+    protected function tearDown()
+    {
+        $this->_indexModel = null;
+    }
+
     /**
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php
      */
     public function testReindex()
     {
-        $this->markTestIncomplete('MAGETWO-1664');
-        $fixturePermission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')->load(1);
-        unset($fixturePermission['permission_id']);
+        $fixturePermission = array(
+            'category_id'                 => 6,
+            'website_id'                  => Mage::app()->getWebsite()->getId(),
+            'customer_group_id'           => 1,
+            'grant_catalog_category_view' => Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY,
+            'grant_catalog_product_price' => Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY,
+            'grant_checkout_items'        => Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY,
+        );
 
         $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);
         $this->assertEquals(array(), $permissions);
@@ -41,6 +51,6 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
 
         $this->assertArrayHasKey(6, $permissions);
         $this->assertEquals(1, count($permissions));
-        $this->assertEquals($fixturePermission->getData(), reset($permissions));
+        $this->assertEquals($fixturePermission, reset($permissions));
     }
 }

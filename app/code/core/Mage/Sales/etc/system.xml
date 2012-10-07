@@ -26,6 +26,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Sales::config_sales</resource>
             <groups>
                 <general translate="label">
                     <label>General</label>
@@ -256,6 +257,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Sales::sales_email</resource>
             <groups>
                 <order translate="label">
                     <label>Order</label>
@@ -783,6 +785,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Sales::sales_pdf</resource>
             <groups>
                 <invoice translate="label">
                     <label>Invoice</label>

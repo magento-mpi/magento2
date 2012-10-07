@@ -32,7 +32,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/order')
+            ->_setActiveMenu('Mage_Sales::sales_order')
             ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
             ->_addBreadcrumb($this->__('Invoices'),$this->__('Invoices'));
         return $this;
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/invoice');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::sales_invoice');
     }
 
 }

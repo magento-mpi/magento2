@@ -29,8 +29,6 @@ Mage_Selenium_Autoloader::register();
 
 require_once 'functions.php';
 
-$testsConfig = Mage_Selenium_TestConfiguration::getInstance();
-
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
     $baseDir = realpath(__DIR__ . '/../../../../');
     $installCmd = sprintf('php -f %s --', escapeshellarg($baseDir . '/dev/shell/install.php'));
@@ -58,4 +56,4 @@ if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'e
 }
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($testsConfig, $installCmd, $installConfigFile, $installConfig, $installExitCode);
+unset($installCmd, $installConfigFile, $installConfig, $installExitCode);

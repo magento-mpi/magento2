@@ -26,6 +26,8 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
     protected function tearDown()
     {
         $this->_customerSession->logout();
+        $this->_customerSession = null;
+        parent::tearDown();
     }
 
     /**

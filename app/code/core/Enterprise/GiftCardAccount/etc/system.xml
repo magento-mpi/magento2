@@ -18,6 +18,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <sort_order>500</sort_order>
+            <resource>Enterprise_GiftCard::giftcard</resource>
             <groups>
                 <giftcardaccount_email translate="label" module="Enterprise_GiftCardAccount">
                     <label>Email Sent from Gift Card Account Management</label>

@@ -155,11 +155,11 @@ class Mage_Core_Model_App
     protected $_stores = array();
 
     /**
-     * is a single store mode
+     * Flag that shows that system has only one store view
      *
      * @var bool
      */
-    protected $_isSingleStore;
+    protected $_hasSingleStore;
 
     /**
      * @var bool
@@ -326,7 +326,7 @@ class Mage_Core_Model_App
 
         Magento_Profiler::stop('init');
 
-        if ($this->_cache->processRequest()) {
+        if ($this->_cache->processRequest($this->getResponse())) {
             $this->getResponse()->sendResponse();
         } else {
             Magento_Profiler::start('init');
@@ -397,7 +397,7 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Initialize active modules configuration and data
+     * Initialize configuration of active modules and locales
      *
      * @return Mage_Core_Model_App
      */
@@ -411,6 +411,7 @@ class Mage_Core_Model_App
                 Magento_Profiler::stop('apply_db_schema_updates');
             }
             $this->_config->loadDb();
+            $this->_config->loadLocales();
             $this->_config->saveCache();
         }
         return $this;
@@ -612,9 +613,9 @@ class Mage_Core_Model_App
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store::CACHE_TAG))
             ->setLoadDefault(true);
 
-        $this->_isSingleStore = false;
+        $this->_hasSingleStore = false;
         if ($this->_isSingleStoreAllowed) {
-            $this->_isSingleStore = $storeCollection->count() < 3;
+            $this->_hasSingleStore = $storeCollection->count() < 3;
         }
 
         $websiteStores = array();
@@ -671,16 +672,26 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Is single Store mode (only one store without default)
+     * Check if system is run in the single store mode
      *
      * @return bool
      */
     public function isSingleStoreMode()
     {
+        return $this->hasSingleStore() && Mage::helper('Mage_Core_Helper_Data')->isSingleStoreModeEnabled();
+    }
+
+    /**
+     * Check if store has only one store view
+     *
+     * @return bool
+     */
+    public function hasSingleStore()
+    {
         if (!Mage::isInstalled()) {
             return false;
         }
-        return $this->_isSingleStore;
+        return $this->_hasSingleStore;
     }
 
     /**
@@ -789,7 +800,7 @@ class Mage_Core_Model_App
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = new Mage_Core_Model_App_Area($code, $this);
+            $this->_areas[$code] = new Mage_Core_Model_App_Area($code);
         }
         return $this->_areas[$code];
     }
@@ -807,7 +818,7 @@ class Mage_Core_Model_App
             return $this->_getDefaultStore();
         }
 
-        if ($id === true && $this->isSingleStoreMode()) {
+        if ($id === true && $this->hasSingleStore()) {
             return $this->_store;
         }
 
@@ -1274,7 +1285,6 @@ class Mage_Core_Model_App
                         'type'  => (string)$obsConfig->type,
                         'model' => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
                         'method'=> (string)$obsConfig->method,
-                        'args'  => (array)$obsConfig->args,
                     );
                 }
                 $events[$eventName]['observers'] = $observers;

@@ -30,7 +30,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('promo/quote')
+            ->_setActiveMenu('Mage_SalesRule::promo_quote')
             ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Promotions'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Promotions'))
         ;
         return $this;
@@ -395,6 +395,6 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('promo/quote');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_SalesRule::quote');
     }
 }

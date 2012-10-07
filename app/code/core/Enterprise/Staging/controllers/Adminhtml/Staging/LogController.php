@@ -30,7 +30,7 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
              ->_title($this->__('Log'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -48,7 +48,7 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
              ->_title($this->__('Log Entry'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -83,6 +83,6 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/enterprise_staging/staging_log');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Staging::staging_log');
     }
 }

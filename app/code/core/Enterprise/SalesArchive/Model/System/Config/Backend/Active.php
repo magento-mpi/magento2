@@ -16,7 +16,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
      * @var array
      */
     protected $_cacheTags = array(
-        Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS
+        Mage_Backend_Block_Menu::CACHE_TAGS
     );
 
     /**

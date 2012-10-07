@@ -13,6 +13,11 @@
     <modules>
         <Enterprise_License>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Enterprise_Enterprise/>
+            </depends>
         </Enterprise_License>
     </modules>
     <adminhtml>

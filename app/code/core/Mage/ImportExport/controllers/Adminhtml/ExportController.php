@@ -37,7 +37,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     {
         $this->_title($this->__('Import/Export'))
             ->loadLayout()
-            ->_setActiveMenu('system/importexport');
+            ->_setActiveMenu('Mage_ImportExport::system_convert_export');
 
         return $this;
     }
@@ -49,7 +49,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/convert/export');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_ImportExport::export');
     }
 
     /**

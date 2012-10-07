@@ -35,7 +35,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('cms/widgets')
+            ->_setActiveMenu('Mage_Widget::cms_widget_instance')
             ->_addBreadcrumb(Mage::helper('Mage_Widget_Helper_Data')->__('CMS'),
                 Mage::helper('Mage_Widget_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Mage_Widget_Helper_Data')->__('Manage Widget Instances'),
@@ -288,6 +288,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/widget_instance');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Widget::widget_instance');
     }
 }

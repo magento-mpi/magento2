@@ -15,14 +15,14 @@
 abstract class Enterprise_Customer_Model_Sales_Address_Abstract extends Enterprise_Customer_Model_Sales_Abstract
 {
     /**
-     * Attach data to collection
+     * Attach data to models
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param array $entities
      * @return Enterprise_Customer_Model_Sales_Address_Abstract
      */
-    public function attachDataToCollection(Varien_Data_Collection_Db $collection)
+    public function attachDataToEntities(array $entities)
     {
-        $this->_getResource()->attachDataToCollection($collection);
+        $this->_getResource()->attachDataToEntities($entities);
         return $this;
     }
 }

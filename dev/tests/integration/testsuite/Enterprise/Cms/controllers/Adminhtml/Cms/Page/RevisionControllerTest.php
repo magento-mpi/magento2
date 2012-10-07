@@ -19,7 +19,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Admi
         $page = new Mage_Cms_Model_Page;
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
-        $this->dispatch('admin/cms_page_revision/preview/');
+        $this->dispatch('backend/admin/cms_page_revision/preview/');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<input id="preview_selected_revision"', $body);
         $this->assertNotContains('<select name="revision_switcher" id="revision_switcher">', $body);

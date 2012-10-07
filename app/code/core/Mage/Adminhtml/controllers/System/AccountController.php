@@ -23,7 +23,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         $this->_title($this->__('System'))->_title($this->__('My Account'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/account');
+        $this->_setActiveMenu('Mage_Adminhtml::system_myaccount');
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Account_Edit'));
         $this->renderLayout();
     }
@@ -75,6 +75,6 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/myaccount');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount');
     }
 }

@@ -13,6 +13,12 @@
     <modules>
         <Enterprise_GiftCard>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Catalog/>
+                <Enterprise_GiftCardAccount/>
+            </depends>
         </Enterprise_GiftCard>
     </modules>
     <global>
@@ -37,6 +43,13 @@
                         <price_indexer>Enterprise_GiftCard_Model_Resource_Indexer_Price</price_indexer>
                     </giftcard>
                 </type>
+                <attributes>
+                    <unassignable>
+                        <allow_open_amount/>
+                        <giftcard_amounts/>
+                        <giftcard_type/>
+                    </unassignable>
+                </attributes>
             </product>
         </catalog>
         <template>

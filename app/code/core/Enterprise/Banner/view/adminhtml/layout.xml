@@ -18,6 +18,17 @@
     </adminhtml_banner_index>
     <adminhtml_banner_edit>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/vendor/jquery.ui.widget.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
         <reference name="left">
             <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">
                 <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties" name="banner_edit_tab_properties"/>
@@ -58,6 +69,7 @@
 
     <adminhtml_banner_grid>
         <remove name="root"/>
+        <update handle="formkey"/>
         <block type="Enterprise_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="1"/>
     </adminhtml_banner_grid>
     <adminhtml_banner_salesrulegrid>

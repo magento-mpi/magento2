@@ -50,6 +50,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         Varien_Io_File::rmdirRecursive(self::$_skinPublicDir);
         Varien_Io_File::rmdirRecursive(self::$_fixtureTmpDir);
+        $this->_model = null;
     }
 
     /**
@@ -107,11 +108,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             ),
             'lib file' => array(
                 'varien/product.js',
-                'http://localhost/pub/js/varien/product.js',
+                'http://localhost/pub/lib/varien/product.js',
             ),
             'lib folder' => array(
                 'varien',
-                'http://localhost/pub/js/varien',
+                'http://localhost/pub/lib/varien',
             )
         );
     }

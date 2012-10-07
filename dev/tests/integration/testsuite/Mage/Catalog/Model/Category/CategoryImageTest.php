@@ -39,10 +39,23 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
     public static function tearDownAfterClass()
     {
         Mage::app()->getStore()->setConfig('dev/log/active', self::$_oldLogActive);
-        Mage::app()->getStore()->setConfig('dev/log/exception_file', self::$_oldExceptionFile);
-        Mage::getConfig()->setNode('global/log/core/writer_model', self::$_oldWriterModel);
+        self::$_oldLogActive = null;
 
-        Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions = array();
+        Mage::app()->getStore()->setConfig('dev/log/exception_file', self::$_oldExceptionFile);
+        self::$_oldExceptionFile = null;
+
+        Mage::getConfig()->setNode('global/log/core/writer_model', self::$_oldWriterModel);
+        self::$_oldWriterModel = null;
+
+        /**
+         * @TODO: refactor this test
+         * Changing store configuration in such a way totally breaks the idea of application isolation.
+         * Class declaration in data fixture file is dumb too.
+         * Added a quick fix to be able run separate tests with "phpunit --filter testMethod"
+         */
+        if (class_exists('Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream', false)) {
+            Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions = array();
+        }
 
         parent::tearDownAfterClass();
     }

@@ -189,22 +189,22 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_Helper_Config::setScreenshotDir
      * @depends testGetSetScreenshotDir
+     * @expectedException PHPUnit_Framework_Error_Warning
      */
     public function testSetScreenshotDirInvalidPathException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
-        $configHelper->setScreenshotDir('!#$@%*^&:?');
+        $configHelper->setScreenshotDir('\0//////////!#$@%*^&:?');
     }
 
     /**
      * @covers Mage_Selenium_Helper_Config::setScreenshotDir
      * @depends testGetSetScreenshotDir
+     * @expectedException PHPUnit_Framework_Error_Warning
      */
     public function testSetScreenshotDirInvalidParameterException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setScreenshotDir(null);
     }
 
@@ -234,22 +234,22 @@ class Mage_Selenium_Helper_ConfigTest extends Mage_PHPUnit_TestCase
     /**
      * @covers Mage_Selenium_Helper_Config::setLogDir
      * @depends testGetSetLogDir
+     * @expectedException PHPUnit_Framework_Error_Warning
      */
     public function testSetLogDirInvalidPathException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setLogDir('!#$@%*^&:?');
     }
 
     /**
      * @covers Mage_Selenium_Helper_Config::setLogDir
      * @depends testGetSetLogDir
+     * @expectedException PHPUnit_Framework_Error_Warning
      */
     public function testSetLogDirInvalidParameterException()
     {
         $configHelper = new Mage_Selenium_Helper_Config($this->_config);
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
         $configHelper->setLogDir(null);
     }
 }

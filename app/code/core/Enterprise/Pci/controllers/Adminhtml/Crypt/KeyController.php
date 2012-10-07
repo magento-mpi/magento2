@@ -41,7 +41,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();
-        $this->_setActiveMenu('system/crypt_key');
+        $this->_setActiveMenu('Enterprise_Pci::system_crypt_key');
 
         if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
             && $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true)) {
@@ -99,6 +99,6 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/crypt_key');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Pci::crypt_key');
     }
 }

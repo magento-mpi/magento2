@@ -12,11 +12,13 @@
 
 <layout>
     <adminhtml_catalog_product_index>
-        <referense name="head">
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="setTitle" translate="title"><title>Catalog</title></action>
-        </referense>
+        </reference>
         <reference name="menu">
-            <action method="setActive"><menupath>catalog/products</menupath></action>
+            <action method="setActive"><itemId>Mage_Catalog::catalog_products</itemId></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list">
@@ -29,13 +31,29 @@
 
     <adminhtml_catalog_product_new>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
+
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/vendor/jquery.ui.widget.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
+            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml" />
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>
@@ -43,14 +61,30 @@
 
     <adminhtml_catalog_product_edit>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
+
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/vendor/jquery.ui.widget.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" before="-"></block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
+            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml" />
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
             <block type="Mage_Core_Block_Template" name="catalog.wysiwyg.js" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>
@@ -68,18 +102,6 @@
         </container>
     </adminhtml_catalog_product_reviews>
 
-    <adminhtml_catalog_product_taggrid>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag" name="admin.product.tags"/>
-        </container>
-    </adminhtml_catalog_product_taggrid>
-
-    <adminhtml_catalog_product_tagcustomergrid>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer" name="admin.product.tags.customers"/>
-        </container>
-    </adminhtml_catalog_product_tagcustomergrid>
-
     <adminhtml_catalog_product_options>
         <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options" name="admin.product.options"/>
@@ -87,6 +109,7 @@
     </adminhtml_catalog_product_options>
 
     <adminhtml_catalog_product_grid>
+        <update handle="formkey"/>
         <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Grid" name="admin.product.grid"/>
         </container>
@@ -267,6 +290,17 @@ Layout handle for configurable products
 
     <adminhtml_catalog_category_edit>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/vendor/jquery.ui.widget.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+        </reference>
         <reference name="left">
             <block name="category.tree" type="Mage_Adminhtml_Block_Catalog_Category_Tree" template="catalog/category/tree.phtml" />
         </reference>
@@ -312,5 +346,17 @@ Additional block in composite_fieldset block dependant on product type
             <remove name="product.composite.fieldset.qty"/>
         </reference>
     </catalog_product_view_type_grouped>
+
+    <adminhtml_catalog_product_optionsimportgrid>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid" name="catalog.product.import.custom.options" />
+        </container>
+    </adminhtml_catalog_product_optionsimportgrid>
+
+    <adminhtml_catalog_product_customoptions>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Options_Ajax" name="catalog.product.import.custom.options"/>
+        </container>
+    </adminhtml_catalog_product_customoptions>
 
 </layout>

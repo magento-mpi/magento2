@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Api::api" module="Mage_Api" title="Web Services" sortOrder="0">
+                        <resource id="Mage_Api::users" title="SOAP/XML-RPC - Users" sortOrder="10" />
+                        <resource id="Mage_Api::roles" title="SOAP/XML-RPC - Roles" sortOrder="20" />
+                    </resource>
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Mage_Api::config_api" module="Mage_Api" title="Magento Core API Section" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

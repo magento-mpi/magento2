@@ -36,7 +36,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/sales')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_sales')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sales Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Sales Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_sales.grid');
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE, 'bestsellers');
 
         $this->_initAction()
-            ->_setActiveMenu('report/products/bestsellers')
+            ->_setActiveMenu('Mage_Reports::report_products_bestsellers')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Bestsellers Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Bestsellers Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_bestsellers.grid');
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/tax')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_tax')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tax'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tax'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_tax.grid');
@@ -185,7 +185,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/shipping')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_shipping')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_shipping.grid');
@@ -228,7 +228,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/invoiced')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_invoiced')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Invoiced'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Invoiced'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_invoiced.grid');
@@ -271,7 +271,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/refunded')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_refunded')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Refunded'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total Refunded'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_refunded.grid');
@@ -314,7 +314,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
 
         $this->_initAction()
-            ->_setActiveMenu('report/sales/coupons')
+            ->_setActiveMenu('Mage_Reports::report_salesroot_coupons')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Coupons'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Coupons'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_coupons.grid');
@@ -359,31 +359,31 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
     {
         switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return $this->_getSession()->isAllowed('report/salesroot/sales');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::salesroot_sales');
                 break;
             case 'tax':
-                return $this->_getSession()->isAllowed('report/salesroot/tax');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::tax');
                 break;
             case 'shipping':
-                return $this->_getSession()->isAllowed('report/salesroot/shipping');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::shipping');
                 break;
             case 'invoiced':
-                return $this->_getSession()->isAllowed('report/salesroot/invoiced');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::invoiced');
                 break;
             case 'refunded':
-                return $this->_getSession()->isAllowed('report/salesroot/refunded');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::refunded');
                 break;
             case 'coupons':
-                return $this->_getSession()->isAllowed('report/salesroot/coupons');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::coupons');
                 break;
             case 'shipping':
-                return $this->_getSession()->isAllowed('report/salesroot/shipping');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::shipping');
                 break;
             case 'bestsellers':
-                return $this->_getSession()->isAllowed('report/products/bestsellers');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::bestsellers');
                 break;
             default:
-                return $this->_getSession()->isAllowed('report/salesroot');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::salesroot');
                 break;
         }
     }

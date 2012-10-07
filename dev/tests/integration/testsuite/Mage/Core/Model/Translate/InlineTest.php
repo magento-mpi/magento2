@@ -31,6 +31,10 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
 
     public function testIsAllowed()
     {
@@ -98,7 +102,16 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $actualText = $originalText;
         $this->_model->processResponseBody($actualText);
         $this->markTestIncomplete('Bug MAGE-2494');
-        $this->assertXmlStringEqualsXmlString($expectedText, $actualText);
+
+        $expected = new DOMDocument;
+        $expected->preserveWhiteSpace = FALSE;
+        $expected->loadHTML($expectedText);
+
+        $actual = new DOMDocument;
+        $actual->preserveWhiteSpace = FALSE;
+        $actual->loadHTML($actualText);
+
+        $this->assertEquals($expected, $actual);
     }
 
     public function processResponseBodyDataProvider()

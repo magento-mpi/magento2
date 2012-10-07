@@ -94,7 +94,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('cms/hierarchy')
+            ->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_hierarchy')
             ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'),
                 Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'),
@@ -345,6 +345,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/hierarchy');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::hierarchy');
     }
 }

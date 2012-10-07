@@ -18,9 +18,9 @@ class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Adminhtml_Util
      */
     public function testEditCategoryAction()
     {
-        $this->dispatch('admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $this->assertContains(
-            'onclick="setLocation(\'http://localhost/index.php/admin/catalog_event/new/category_id/',
+            'onclick="setLocation(\'http://localhost/index.php/backend/admin/catalog_event/new/category_id/',
             $this->getResponse()->getBody()
         );
     }
@@ -33,9 +33,9 @@ class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Adminhtml_Util
      */
     public function testEditCategoryActionEditEvent()
     {
-        $this->dispatch('admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $this->assertContains(
-            'onclick="setLocation(\'http://localhost/index.php/admin/catalog_event/edit/id/',
+            'onclick="setLocation(\'http://localhost/index.php/backend/admin/catalog_event/edit/id/',
             $this->getResponse()->getBody()
         );
     }

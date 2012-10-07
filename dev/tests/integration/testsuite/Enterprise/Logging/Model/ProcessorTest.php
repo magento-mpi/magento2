@@ -58,9 +58,9 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
     public function adminActionDataProvider()
     {
         return array(
-            array('admin/user/edit/user_id/2', 'view'),
+            array('backend/admin/user/edit/user_id/2', 'view'),
             array(
-                'admin/user/save', 'save',
+                'backend/admin/user/save', 'save',
                 array(
                     'email' => 'newuser@ebay.com',
                     'roles[]' => 1,
@@ -68,15 +68,15 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
                     'password' => 'password'
                 )
             ),
-            array('admin/user/delete/user_id/2', 'delete'),
-            array('admin/user_role/editrole/rid/2', 'view'),
+            array('backend/admin/user/delete/user_id/2', 'delete'),
+            array('backend/admin/user_role/editrole/rid/2', 'view'),
             array(
-                'admin/user_role/saverole', 'save',
+                'backend/admin/user_role/saverole', 'save',
                 array(
                     'rolename' => 'newrole2'
                 )
             ),
-            array('admin/user_role/delete/rid/2', 'delete'),
+            array('backend/admin/user_role/delete/rid/2', 'delete'),
         );
     }
 }

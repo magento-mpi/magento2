@@ -39,7 +39,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('customer/giftcardaccount');
+        $this->_setActiveMenu('Enterprise_GiftCardAccount::customer_giftcardaccount');
         $this->renderLayout();
     }
 
@@ -102,6 +102,10 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('This Gift Card Account no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
+            }
+
+            if (Mage::app()->isSingleStoreMode()) {
+                $data['website_id'] = Mage::app()->getStore(true)->getWebsiteId();
             }
 
             if (!empty($data)) {
@@ -237,7 +241,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/giftcardaccount');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
     }
 
     /**
@@ -253,7 +258,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
+            $this->getLayout()
+                ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
                 ->toHtml()
         );
     }

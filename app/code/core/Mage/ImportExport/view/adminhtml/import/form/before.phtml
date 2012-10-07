@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 ?>
+<?php
+/** @var $this Mage_ImportExport_Block_Adminhtml_Import_Edit_Before */
+?>
 <script type="text/javascript">
 //<![CDATA[
     /**
@@ -18,6 +21,76 @@
     varienForm.prototype.ifrElemName = 'import_post_target_frame';
 
     /**
+     * List of existing behavior sets
+     *
+     * @var array
+     */
+    varienForm.prototype.uniqueBehaviors = <?php echo $this->getUniqueBehaviors() ?>;
+
+    /**
+     * Behaviour codes for import entities
+     *
+     * @var array
+     */
+    varienForm.prototype.entityBehaviors = <?php echo $this->getEntityBehaviors() ?>;
+
+    /**
+     * Show behavior selector
+     *
+     * @param string|boolean entity If false, then hide all behavior selectors
+     * @return void
+     */
+    varienForm.prototype.showBehavior = function(entity)
+    {
+        var requiredBehavior = this.entityBehaviors[entity];
+        for (i = 0; i < this.uniqueBehaviors.length; i++) {
+            var currentBehavior = this.uniqueBehaviors[i];
+            this.showBehaviorFieldset(currentBehavior, requiredBehavior == currentBehavior);
+        }
+    };
+
+    /**
+     * Show/hide one behavior fieldset
+     *
+     * @param string behavior
+     * @param boolean isShow
+     * @return void
+     */
+    varienForm.prototype.showBehaviorFieldset = function(behavior, isShow)
+    {
+        var behaviorFieldset = behavior + '_fieldset';
+        if (isShow) {
+            $('head-' + behaviorFieldset).show();
+            $(behaviorFieldset).show();
+            $(behavior).enable();
+            $(behavior).addClassName('required-entry');
+        } else {
+            $('head-' + behaviorFieldset).hide();
+            $(behaviorFieldset).hide();
+            $(behavior).selectedIndex = 0;
+            $(behavior).disable();
+            $(behavior).removeClassName('required-entry');
+        }
+    };
+
+    /**
+     * Show upload file field
+     *
+     * @param boolean isShow
+     * @return void
+     */
+    varienForm.prototype.showUploadFile = function(isShow)
+    {
+        if (isShow == true) {
+            $('head-upload_file_fieldset').show();
+            $('upload_file_fieldset').show();
+        } else {
+            $('head-upload_file_fieldset').hide();
+            $('upload_file_fieldset').hide();
+        }
+    };
+
+    /**
      * Handle value change in entity type selector
      *
      * @return void
@@ -25,118 +98,11 @@
     varienForm.prototype.handleEntityTypeSelector = function()
     {
         if ($('entity') && $F('entity')) {
-            $('head-import_format_version_fieldset').hide();
-            $('import_format_version_fieldset').hide();
-            $('file_format_version').selectedIndex = 0;
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').disable();
-            $('customer_entity').selectedIndex = 0;
-            $('head-upload_file_fieldset').hide();
-            $('upload_file_fieldset').hide();
-            this.showAllBehaviours();
-
-            switch ($F('entity')) {
-                case 'customer':
-                    $('head-import_format_version_fieldset').show();
-                    $('import_format_version_fieldset').show();
-                    break;
-                case 'catalog_product':
-                    $('head-upload_file_fieldset').show();
-                    $('upload_file_fieldset').show();
-                    break;
-                default:
-                    break;
-            }
+            this.showBehavior($F('entity'));
+            this.showUploadFile(true);
         } else {
-            $('head-import_format_version_fieldset').hide();
-            $('import_format_version_fieldset').hide();
-            $('file_format_version').selectedIndex = 0;
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').disable();
-            $('customer_entity').selectedIndex = 0;
-            $('head-upload_file_fieldset').hide();
-            $('upload_file_fieldset').hide();
-            this.showAllBehaviours();
-        }
-    };
-
-    /**
-     * Handle value change in import format version selector
-     *
-     * @return void
-     */
-    varienForm.prototype.handleImportFormatVersionSelector = function()
-    {
-        if ($('file_format_version') && $F('file_format_version')) {
-            var allowedBehaviours = [];
-            <?php
-                $importVersion = array(
-                    1 => Mage_ImportExport_Model_Source_Format_Version::VERSION_1,
-                    2 => Mage_ImportExport_Model_Source_Format_Version::VERSION_2,
-                );
-            ?>
-            switch ($F('file_format_version')) {
-                case '<?php echo $importVersion[1] ?>':
-                    $('head-customer_entity_fieldset').hide();
-                    $('customer_entity_fieldset').hide();
-                    $('customer_entity').disable();
-                    $('customer_entity').selectedIndex = 0;
-                    allowedBehaviours = <?php echo $this->getJsAllowedCustomerBehaviours($importVersion[1]) ?>;
-                    break;
-                case '<?php echo $importVersion[2] ?>':
-                    $('head-customer_entity_fieldset').show();
-                    $('customer_entity_fieldset').show();
-                    $('customer_entity').enable();
-                    allowedBehaviours = <?php echo $this->getJsAllowedCustomerBehaviours($importVersion[2]) ?>;
-                    break;
-                default:
-                    break;
-            }
-
-            // hide not allowed behaviours
-            if ($('behavior')) {
-                var behaviourLength = $('behavior').length;
-                var behaviourOptions = $('behavior').options;
-
-                for (var i = 0; i < behaviourLength; i++) {
-                    if (allowedBehaviours.include(behaviourOptions[i].value)) {
-                        behaviourOptions[i].show();
-                    } else if (behaviourOptions[i].value != '') {
-                        behaviourOptions[i].hide();
-                        if (behaviourOptions[i].selected) {
-                            $('behavior').selectedIndex = 0;
-                        }
-                    }
-                }
-            }
-
-            $('head-upload_file_fieldset').show();
-            $('upload_file_fieldset').show();
-        } else {
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').disable();
-            $('customer_entity').selectedIndex = 0;
-            $('head-upload_file_fieldset').hide();
-            $('upload_file_fieldset').hide();
-        }
-    };
-
-    /**
-     * Show all available behaviours
-     *
-     * @return void
-     */
-    varienForm.prototype.showAllBehaviours = function()
-    {
-        if ($('behavior')) {
-            var behaviourLength = $('behavior').length;
-            var behaviourOptions = $('behavior').options;
-            for (var i = 0; i < behaviourLength; i++) {
-                behaviourOptions[i].show();
-            }
+            this.showBehavior(false);
+            this.showUploadFile(false);
         }
     };
 

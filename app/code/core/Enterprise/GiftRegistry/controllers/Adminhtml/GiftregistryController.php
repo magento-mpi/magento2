@@ -18,7 +18,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/giftregistry')
+            ->_setActiveMenu('Enterprise_GiftRegistry::customer_enterprise_giftregistry')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'),
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry')
@@ -199,6 +199,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/enterprise_giftregistry');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
     }
 }

@@ -10,6 +10,12 @@
  */
  -->
 <layout>
+    <default>
+        <reference name="root" after="header">
+            <block type="Mage_Backend_Block_Menu" name="menu" as="menu" template="Mage_Backend::menu.phtml" />
+        </reference>
+    </default>
+
     <adminhtml_auth_login>
         <container name="root" label="Root" output="1">
             <block type="Mage_Backend_Block_Template" name="content" template="admin/login.phtml">

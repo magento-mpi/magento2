@@ -53,7 +53,7 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
             && Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)
-            && Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+            && Mage::getSingleton('Mage_Core_Model_Authorization')
                 ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount()
             && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;

@@ -69,7 +69,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
              ->_title($this->__('Staging Websites'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -129,7 +129,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->_title($staging->getId() ? $staging->getName() : $this->__('New Staging'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -335,7 +335,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         );
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -471,6 +471,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/enterprise_staging/staging_grid');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Staging::staging_grid');
     }
 }

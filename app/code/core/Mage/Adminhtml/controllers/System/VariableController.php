@@ -25,7 +25,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
     protected function _initLayout()
     {
         $this->loadLayout()
-            ->_setActiveMenu('system/variable')
+            ->_setActiveMenu('Mage_Adminhtml::system_variable')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variables'));
         return $this;
     }
@@ -185,6 +185,6 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/variable');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::variable');
     }
 }

@@ -13,6 +13,13 @@
     <modules>
         <Enterprise_WebsiteRestriction>
             <version>1.11.0.0.1</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Core/>
+                <Mage_Customer/>
+                <Mage_Cms />
+            </depends>
         </Enterprise_WebsiteRestriction>
     </modules>
     <global>

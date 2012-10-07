@@ -23,7 +23,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('CMS'))->_title($this->__('Polls'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('cms/poll');
+        $this->_setActiveMenu('Mage_Poll::cms_poll');
         $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Poll Manager'));
 
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Poll_Poll'));
@@ -43,7 +43,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
             Mage::register('poll_data', $pollModel);
 
             $this->loadLayout();
-            $this->_setActiveMenu('cms/poll');
+            $this->_setActiveMenu('Mage_Poll::cms_poll');
             $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Poll Manager'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Poll Manager'), $this->getUrl('*/*/'));
             $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Poll'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit Poll'));
 
@@ -194,7 +194,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/poll');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Poll::poll');
     }
 
 }

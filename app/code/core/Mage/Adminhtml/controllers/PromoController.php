@@ -21,14 +21,14 @@ class Mage_Adminhtml_PromoController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('promo');
+        $this->_setActiveMenu('Mage_CatalogRule::promo');
         $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Promotions'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Promo'));
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('promo');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_CatalogRule::promo');
     }
 
 }

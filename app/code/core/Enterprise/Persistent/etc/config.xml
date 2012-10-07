@@ -13,6 +13,11 @@
     <modules>
         <Enterprise_Persistent>
             <version>1.0.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Persistent/>
+            </depends>
         </Enterprise_Persistent>
     </modules>
     <default>
@@ -50,6 +55,15 @@
                 </observers>
             </enterprise_persistent_options_shopping_cart_save_after>
         </events>
+        <translate>
+            <modules>
+                <Enterprise_Persistent>
+                    <files>
+                        <default>Enterprise_Persistent.csv</default>
+                    </files>
+                </Enterprise_Persistent>
+            </modules>
+        </translate>
     </adminhtml>
     <frontend>
         <events>

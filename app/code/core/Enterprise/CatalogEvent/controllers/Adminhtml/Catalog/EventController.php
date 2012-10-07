@@ -49,7 +49,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'),
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events')
             )
-            ->_setActiveMenu('catalog/enterprise_catelogevent');
+            ->_setActiveMenu('Enterprise_CatalogEvent::catalog_enterprise_catalogevent');
         return $this;
     }
 
@@ -253,7 +253,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/events');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogEvent::events');
     }
 
     /**

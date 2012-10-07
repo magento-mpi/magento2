@@ -137,7 +137,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/checkoutagreement')
+            ->_setActiveMenu('Mage_Checkout::sales_checkoutagreement')
             ->_addBreadcrumb(Mage::helper('Mage_Checkout_Helper_Data')->__('Sales'), Mage::helper('Mage_Checkout_Helper_Data')->__('Sales'))
             ->_addBreadcrumb(Mage::helper('Mage_Checkout_Helper_Data')->__('Checkout Conditions'), Mage::helper('Mage_Checkout_Helper_Data')->__('Checkout Terms and Conditions'))
         ;
@@ -146,6 +146,6 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/checkoutagreement');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Checkout::checkoutagreement');
     }
 }

@@ -37,6 +37,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel   = Mage::app();
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+        $this->_mageModel = null;
+    }
+
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
@@ -66,10 +72,28 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Cookie', $this->_model->getCookie());
     }
 
-    public function testIsSingleStoreMode()
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store general/single_store_mode/enabled 1
+     */
+    public function testIsSingleStoreModeWhenEnabled()
     {
-        $this->assertNull($this->_model->isSingleStoreMode());
         $this->assertTrue($this->_mageModel->isSingleStoreMode());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store general/single_store_mode/enabled 0
+     */
+    public function testIsSingleStoreModeWhenDisabled()
+    {
+        $this->assertFalse($this->_mageModel->isSingleStoreMode());;
+    }
+
+    public function testHasSingleStore()
+    {
+        $this->assertNull($this->_model->hasSingleStore());
+        $this->assertTrue($this->_mageModel->hasSingleStore());
     }
 
     public function testSetCurrentStore()
@@ -101,11 +125,21 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store general/locale/code de_DE
      */
-    public function testLoadGetArea()
+    public function testLoadArea()
     {
+        $translator = Mage::app()->getTranslator();
+        $this->assertEmpty($translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
         $this->_model->loadArea('frontend');
-        $this->assertSame($this->_model, $this->_model->getArea('frontend')->getApplication());
+        $this->assertEquals('de_DE', $translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
+    }
+
+    public function testGetArea()
+    {
+        $area = $this->_model->getArea('frontend');
+        $this->assertInstanceOf('Mage_Core_Model_App_Area', $area);
+        $this->assertSame($area, $this->_model->getArea('frontend'));
     }
 
     /**

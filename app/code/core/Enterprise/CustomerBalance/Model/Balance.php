@@ -20,6 +20,9 @@
  * @method Enterprise_CustomerBalance_Model_Balance setAmount(float $value)
  * @method string getBaseCurrencyCode()
  * @method Enterprise_CustomerBalance_Model_Balance setBaseCurrencyCode(string $value)
+ * @method Enterprise_CustomerBalance_Model_Balance setAmountDelta() setAmountDelta(float $value)
+ * @method Enterprise_CustomerBalance_Model_Balance setComment() setComment(string $value)
+ * @method Enterprise_CustomerBalance_Model_Balance setCustomer() setCustomer(Mage_Customer_Model_Customer $customer)
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerBalance

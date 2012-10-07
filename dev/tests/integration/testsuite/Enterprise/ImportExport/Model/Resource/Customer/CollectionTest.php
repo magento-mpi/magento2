@@ -20,6 +20,17 @@
 class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Remove not used websites
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->reinitStores();
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test join with reward points
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
@@ -34,8 +45,14 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = reset($items);
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
-        $this->assertEquals(Mage::registry('reward_point_balance'), $customer->getData($key));
+        /** @var $website Mage_Core_Model_Website */
+        foreach (Mage::app()->getWebsites() as $website) {
+            $key = $website->getCode() . '_'
+                . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+            $rewardPoints = $customer->getData($key);
+            $this->assertNotEmpty($rewardPoints);
+            $this->assertEquals(Mage::registry('reward_point_balance_' . $website->getCode()), $rewardPoints);
+        }
     }
 
     /**
@@ -53,8 +70,14 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = reset($items);
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
-        $this->assertEquals(Mage::registry('customer_balance'), $customer->getData($key));
+        /** @var $website Mage_Core_Model_Website */
+        foreach (Mage::app()->getWebsites() as $website) {
+            $key = $website->getCode() . '_'
+                . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+            $customerBalance = $customer->getData($key);
+            $this->assertNotEmpty($customerBalance);
+            $this->assertEquals(Mage::registry('customer_balance_' . $website->getCode()), $customerBalance);
+        }
     }
 
     /**

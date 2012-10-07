@@ -31,7 +31,7 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
         );
         $this->loadLayout();
 
-        $this->_setActiveMenu('newsletter/problem');
+        $this->_setActiveMenu('Mage_Newsletter::newsletter_problem');
 
         $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Problem Reports'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Problem Reports'));
 
@@ -83,6 +83,6 @@ class Mage_Adminhtml_Newsletter_ProblemController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('newsletter/problem');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Newsletter::problem');
     }
 }

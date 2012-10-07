@@ -12,7 +12,15 @@
 <config>
     <modules>
         <Enterprise_Cms>
-            <version>1.11.0.3</version>
+            <version>1.11.0.4</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Admin />
+                <Mage_Adminhtml />
+                <Mage_Cms />
+                <Mage_Widget />
+            </depends>
         </Enterprise_Cms>
     </modules>
     <global>

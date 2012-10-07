@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($revisionAvailable && !Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page/save_revision')) {
+        if ($revisionAvailable && !Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::save_revision')) {
             foreach ($baseFieldset->getElements() as $element) {
                 $element->setDisabled(true);
             }
