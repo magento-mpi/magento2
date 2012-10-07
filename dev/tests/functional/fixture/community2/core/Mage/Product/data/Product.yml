@@ -117,7 +117,8 @@ dynamic_bundle_minimal:
     categories: Default Category
     bundle_items_data:
         item_1: %noValue%
-*****************************************
+
+#*********************************************
 #*         Custom Options Data               *
 #*********************************************
 

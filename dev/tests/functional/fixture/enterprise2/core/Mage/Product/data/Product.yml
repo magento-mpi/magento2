@@ -520,7 +520,7 @@ downloadable_product_website:
     websites: Main Website
     downloadable_information_data: *downloadableData
 
- # Product that has all needed fields without price.
+# Product that has all needed fields without price.
 simple_product_price:
     product_attribute_set: Default
     general_name: Simple Product Visible(%randomize%)
@@ -536,11 +536,11 @@ simple_product_price:
     websites: Main Website
     custom_options_data: %noValue%
 
- #*********************************************
- #*         Virtual Product Data              *
- #*********************************************
+#*********************************************
+#*         Virtual Product Data              *
+#*********************************************
 
- # Product that has all needed fields without price.
+# Product that has all needed fields without price.
 virtual_product_price:
     product_attribute_set: Default
     general_name: Virtual Product Visible(%randomize%)
@@ -555,11 +555,11 @@ virtual_product_price:
     websites: Main Website
     custom_options_data: %noValue%
 
-  #*********************************************
- #*         Downloadable Product Data         *
- #*********************************************
+#*********************************************
+#*         Downloadable Product Data         *
+#*********************************************
 
- # Product that has all needed fields set without price.
+# Product that has all needed fields set without price.
 downloadable_product_price:
     product_attribute_set: Default
     general_name: Downloadable Product Visible(%randomize%)
