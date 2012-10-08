@@ -181,7 +181,10 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
             array(__DIR__ . '/_files/validation/negative/no_name_for_entity.xml'),
             array(__DIR__ . '/_files/validation/negative/no_name_for_rule.xml'),
             array(__DIR__ . '/_files/validation/negative/no_name_for_group.xml'),
-            array(__DIR__ . '/_files/validation/negative/no_class_for_constraint.xml')
+            array(__DIR__ . '/_files/validation/negative/no_class_for_constraint.xml'),
+            array(__DIR__ . '/_files/validation/negative/invalid_method.xml'),
+            array(__DIR__ . '/_files/validation/negative/invalid_method_callback.xml'),
+            array(__DIR__ . '/_files/validation/negative/invalid_entity_callback.xml'),
         );
     }
 

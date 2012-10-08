@@ -82,17 +82,41 @@
 
     <xs:complexType name="constraint">
         <xs:sequence>
-            <xs:element name="option" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="argument" type="argument" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="method" maxOccurs="unbounded" minOccurs="0" >
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="value" maxOccurs="1" />
+                        <xs:element name="argument" type="argument" maxOccurs="unbounded" minOccurs="0" />
                     </xs:sequence>
                     <xs:attribute name="name" type="xs:string" use="required"/>
                 </xs:complexType>
             </xs:element>
+            <xs:element name="callback" type="callback" maxOccurs="unbounded" minOccurs="0" />
         </xs:sequence>
         <xs:attribute name="class" type="xs:string" use="required"/>
         <xs:attribute name="alias" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="argument" mixed="true">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element name="option" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="name" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:element name="callback" type="callback" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="callback">
+        <xs:attribute name="class" type="xs:string" use="required"/>
+        <xs:attribute name="method" type="xs:string" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="groups">

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Validator
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="catalog_product">
+        <rules>
+            <rule name="name_sku_and_price">
+                <property_constraints>
+                    <property name="name">
+                        <constraint alias="some_validator" class="Magento_Validator_StringLenght">
+                            <argument>
+                                <option name="minValue">3</option>
+                            </argument>
+                            <method name="setOptions">
+                                <argument>
+                                    <option name="max">80</option>
+                                </argument>
+                                <argument>
+                                    <callback method="getSomeValue"/>
+                                </argument>
+                            </method>
+                        </constraint>
+                    </property>
+                </property_constraints>
+            </rule>
+            <rule name="eav_attributes">
+                <entity_constraints>
+                    <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" />
+                </entity_constraints>
+            </rule>
+            <rule name="stock_data">
+                <entity_constraints>
+                    <constraint class="Mage_CatalogInventory_Model_Validation_Data"/>
+                </entity_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="create" builder="ClassName">
+                <uses>
+                    <use rule="name_sku_and_price"/>
+                    <use rule="eav_attributes"/>
+                    <use rule="stock_data"/>
+                </uses>
+            </group>
+            <group name="update">
+                <uses>
+                    <use rule="eav_attributes"/>
+                    <use rule="stock_data"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
