@@ -15,22 +15,22 @@
 class Magento_Performance_Testsuite_Optimizer
 {
     /**
-     * Compose array of scenario files, sorted according to scenario fixtures in such an order, that
-     * number of Magento reinstalls among scenario executions is reduced.
+     * Sort scenarios, according to their fixtures in such an order, that number of Magento reinstalls
+     * among future scenario executions is reduced.
      *
-     * @param array $scenarios Map of scenario files to arrays of their fixtures
+     * @param array $scenarioFixtures Map of scenario ids to their fixture arrays
      * @return array
      */
-    public function run(array $scenarios)
+    public function optimizeScenarios(array $scenarioFixtures)
     {
         $result = array();
-        $currentScenario = null;
-        while ($scenarios) {
-            $scenarioFile = $this->_selectNextScenario($currentScenario, $scenarios);
-            $result[] = $scenarioFile;
+        $currentFixtures = null;
+        while ($scenarioFixtures) {
+            $scenarioId = $this->_selectNextScenario($currentFixtures, $scenarioFixtures);
+            $result[] = $scenarioId;
 
-            $currentScenario = $scenarios[$scenarioFile];
-            unset($scenarios[$scenarioFile]);
+            $currentFixtures = $scenarioFixtures[$scenarioId];
+            unset($scenarioFixtures[$scenarioId]);
         }
 
         return $result;
@@ -39,68 +39,67 @@ class Magento_Performance_Testsuite_Optimizer
     /**
      * Choose scenario, most suitable to be added next to queue.
      *
-     * If $exemplarScenario is not null, then a try is made to choose compatible scenario (considering the set
-     * of fixtures $exemplarScenario has). If a scenario is not chosen, or $exemplarScenario is not provided - then
-     * just any scenario with minimal number of fixtures is chosen.
+     * If $fixtures is not null, then a try is made to choose scenario, compatible with it. If a scenario is not found,
+     * or $fixtures is not provided - then just any entry with minimal number of fixtures is chosen.
      *
-     * @param array|null $exemplarScenario
-     * @param array $scenarios
+     * @param array|null $fixtures
+     * @param array $scenarioFixtures
      * @return string
      */
-    protected function _selectNextScenario($exemplarScenario, array $scenarios)
+    protected function _selectNextScenario($fixtures, array $scenarioFixtures)
     {
         $result = null;
-        if ($exemplarScenario) {
-            $result = $this->_selectCompatibleScenario($exemplarScenario, $scenarios);
+        if ($fixtures) {
+            $result = $this->_selectCompatibleScenario($fixtures, $scenarioFixtures);
         }
         if (!$result) {
-            $result = $this->_selectScenarioWithMinFixtures($scenarios);
+            $result = $this->_selectScenarioWithMinFixtures($scenarioFixtures);
         }
         return $result;
     }
 
     /**
-     * Choose scenario, which contains same fixtures as $exemplarScenario + some additional fixtures.
-     * Prefer the one with minimal number of additional fixtures.
+     * Find id of a scenario that contains same fixtures as $fixtures + some additional fixtures.
+     * Prefer the scenario with minimal number of additional fixtures.
      *
-     * @param array $exemplarScenario
-     * @param array $scenarios
+     * @param array $fixtures
+     * @param array $scenarioFixtures
      * @return string|null
      */
-    protected function _selectCompatibleScenario($exemplarScenario, array $scenarios)
+    protected function _selectCompatibleScenario(array $fixtures, array $scenarioFixtures)
     {
-        $chosenKey = null;
+        $result = null;
         $chosenNumFixtures = null;
-        foreach ($scenarios as $key => $scenarioFixtures) {
-            if (array_diff($exemplarScenario, $scenarioFixtures)) {
+        foreach ($scenarioFixtures as $currentId => $currentFixtures) {
+            if (array_diff($fixtures, $currentFixtures)) {
                 continue; // Fixture lists are incompatible
             }
 
-            $numFixtures = count($scenarioFixtures);
-            if (($chosenKey === null) || ($chosenNumFixtures > $numFixtures)) {
-                $chosenKey = $key;
+            $numFixtures = count($currentFixtures);
+            if (($result === null) || ($chosenNumFixtures > $numFixtures)) {
+                $result = $currentId;
                 $chosenNumFixtures = $numFixtures;
             }
         }
 
-        return $chosenKey;
+        return $result;
     }
 
     /**
-     * Choose a scenario with the minimal number of fixtures. Remove it from list of all scenarios.
+     * Find id of a scenario that has minimal number of fixtures.
      *
-     * @param array $scenarios
+     * @param array $scenarioFixtures
      * @return string
      */
-    protected function _selectScenarioWithMinFixtures(array $scenarios)
+    protected function _selectScenarioWithMinFixtures(array $scenarioFixtures)
     {
-        $chosenKey = key($scenarios);
-        foreach ($scenarios as $key => $scenarioFixtures) {
-            if (count($scenarios[$chosenKey]) > count($scenarioFixtures)) {
-                $chosenKey = $key;
+        $result = key($scenarioFixtures);
+        foreach ($scenarioFixtures as $currentId => $currentFixtures) {
+            if (count($scenarioFixtures[$result]) > count($currentFixtures)) {
+                $result = $currentId;
             }
         }
 
-        return $chosenKey;
+        return $result;
     }
 }

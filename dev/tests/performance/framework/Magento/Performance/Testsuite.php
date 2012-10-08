@@ -178,6 +178,6 @@ class Magento_Performance_Testsuite
         foreach ($this->_config->getScenarios() as $scenarioFile) {
             $scenarios[$scenarioFile] = $this->_config->getScenarioFixtures($scenarioFile);
         }
-        return $optimizer->run($scenarios);
+        return $optimizer->optimizeScenarios($scenarios);
     }
 }

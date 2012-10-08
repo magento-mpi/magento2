@@ -36,11 +36,6 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
      */
     protected $_fixtureDir;
 
-    /**
-     * @var string
-     */
-    protected $_appBaseDir;
-
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
