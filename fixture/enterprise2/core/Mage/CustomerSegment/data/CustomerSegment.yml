@@ -1,0 +1,20 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CustomerSegment
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+segm_with_website:
+    general_properties:
+        segment_name: name_%randomize%
+        description: %randomize%
+        assigned_to_website: Main Website
+
+segm_without_website:
+    general_properties:
+        segment_name: name_%randomize%
+        description: %randomize%

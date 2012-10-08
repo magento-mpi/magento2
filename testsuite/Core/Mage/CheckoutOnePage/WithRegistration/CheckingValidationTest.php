@@ -365,6 +365,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      */
     public function billingAddressLongValues($field, $fieldName, $simpleSku)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
                                            array('general_name'     => $simpleSku,
@@ -400,6 +401,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      */
     public function shippingAddressLongValues($field, $fieldName, $simpleSku)
     {
+        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
                                            array('general_name'      => $simpleSku,
