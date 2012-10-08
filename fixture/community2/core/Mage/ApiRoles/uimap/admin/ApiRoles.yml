@@ -81,7 +81,7 @@ new_role:
                                         role_access: //select[@name='all']
                                     links:
                                         root: //ul/div/li[contains(div/a/span,'%root%')]
-                                        sub_root: //li[@class='x-tree-node']/ul/li/div[contains(a/span,'%subName%')]
+                                        sub_root: //li[@class='x-tree-node']/ul/li/div/a[span = '%subName%']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

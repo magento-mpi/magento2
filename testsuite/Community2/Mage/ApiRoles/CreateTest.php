@@ -53,21 +53,21 @@ class Community2_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create API Role (Full Access)</p>
-     * <p>Steps</p>
-     * <p>1. Click Add New Role button</p>
-     * <p>2. Fill Role name field</p>
-     * <p>3. Click resources tab</p>
-     * <p>4. At Resources tab select All at Resource Access</p>
-     * <p>5. Click Save API role</p>
-     * <p>Expected result:</p>
-     * <p>API Role is created</p>
-     * <p>Message "The API role has been saved." is displayed</p>
-     *
-     * @test
-     * @author Michael Banin
-     * @TestlinkId TL-MAGE-6291
-     */
+ * <p>Create API Role (Full Access)</p>
+ * <p>Steps</p>
+ * <p>1. Click Add New Role button</p>
+ * <p>2. Fill Role name field</p>
+ * <p>3. Click resources tab</p>
+ * <p>4. At Resources tab select All at Resource Access</p>
+ * <p>5. Click Save API role</p>
+ * <p>Expected result:</p>
+ * <p>API Role is created</p>
+ * <p>Message "The API role has been saved." is displayed</p>
+ *
+ * @test
+ * @author Michael Banin
+ * @TestlinkId TL-MAGE-6291
+ */
     public function roleWithAllAccess()
     {
         $fieldData = $this->loadDataSet('ApiRoles', 'api_role_new');
@@ -76,6 +76,37 @@ class Community2_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $this->fillField('role_name', $fieldData['role_name']);
         $this->openTab('resources');
         $this->fillDropdown('role_access', 'All');
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_role');
+    }
+
+    /**
+     * <p>Create API Role (Custom Access)</p>
+     * <p>Steps</p>
+     * <p>1. Click Add New Role button</p>
+     * <p>2. Fill Role name field</p>
+     * <p>3. Click resources tab</p>
+     * <p>4. At Resources tab select Custom at Resource Access</p>
+     * <p>5. Open Resources tab and check that Get Customer checkbox are set</p>
+     * <p>6. Click Save API role</p>
+     * <p>Expected result:</p>
+     * <p>API Role is created</p>
+     * <p>Message "The API role has been saved." is displayed</p>
+     *
+     * @test
+     * @author Michael Banin
+     * @TestlinkId TL-MAGE-6292
+     */
+    public function roleWithCustomAccess()
+    {
+        $fieldData = $this->loadDataSet('ApiRoles', 'api_role_new');
+        $this->navigate('api_roles_management');
+        $this->clickButton('add_new_role', true);
+        $this->fillField('role_name', $fieldData['role_name']);
+        $this->openTab('resources');
+        $this->fillDropdown('role_access', 'Custom');
+        $this->addParameter('subName', 'Get Customer');
+        $this->clickControl('link', 'sub_root', false);
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_role');
     }
