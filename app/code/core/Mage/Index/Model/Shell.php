@@ -25,45 +25,6 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
     protected $_hasErrors = false;
 
     /**
-     * Gets indexer instance
-     *
-     * @return Mage_Index_Model_Indexer
-     */
-    protected function _getIndexer()
-    {
-        return Mage::getSingleton('Mage_Index_Model_Indexer');
-    }
-
-    /**
-     * Parses string with indexers and return array of indexer instances
-     *
-     * @param string $string
-     * @return array
-     */
-    protected function _parseIndexerString($string)
-    {
-        $processes = array();
-        if ($string == 'all') {
-            $collection = $this->_getIndexer()->getProcessesCollection();
-            foreach ($collection as $process) {
-                $processes[] = $process;
-            }
-        } else if (!empty($string)) {
-            $codes = explode(',', $string);
-            foreach ($codes as $code) {
-                $process = $this->_getIndexer()->getProcessByCode(trim($code));
-                if (!$process) {
-                    echo 'Warning: Unknown indexer with code ' . trim($code) . "\n";
-                    $this->_raiseHasErrors();
-                } else {
-                    $processes[] = $process;
-                }
-            }
-        }
-        return $processes;
-    }
-
-    /**
      * Runs this model, assumed to be run by command-line
      *
      * @return Mage_Index_Model_Shell
@@ -212,6 +173,63 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
     }
 
     /**
+     * Parses string with indexers and return array of indexer instances
+     *
+     * @param string $string
+     * @return array
+     */
+    protected function _parseIndexerString($string)
+    {
+        $processes = array();
+        if ($string == 'all') {
+            $collection = $this->_getIndexer()->getProcessesCollection();
+            foreach ($collection as $process) {
+                $processes[] = $process;
+            }
+        } else if (!empty($string)) {
+            $codes = explode(',', $string);
+            foreach ($codes as $code) {
+                $process = $this->_getIndexer()->getProcessByCode(trim($code));
+                if (!$process) {
+                    echo 'Warning: Unknown indexer with code ' . trim($code) . "\n";
+                    $this->_raiseHasErrors();
+                } else {
+                    $processes[] = $process;
+                }
+            }
+        }
+        return $processes;
+    }
+
+    /**
+     * Gets indexer instance
+     *
+     * @return Mage_Index_Model_Indexer
+     */
+    protected function _getIndexer()
+    {
+        return Mage::getSingleton('Mage_Index_Model_Indexer');
+    }
+
+    /**
+     * Raise an error status
+     */
+    protected function _raiseHasErrors()
+    {
+        $this->_hasErrors = true;
+    }
+
+    /**
+     * Return whether there errors have happened
+     *
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return $this->_hasErrors;
+    }
+
+    /**
      * Retrieves usage help message
      *
      * @return string
@@ -232,23 +250,5 @@ Usage:  php -f {$this->_entryPoint} -- [options]
 
   <indexer>     Comma separated indexer codes or value "all" for all indexers
 USAGE;
-    }
-
-    /**
-     * Return whether there errors have happened
-     *
-     * @return bool
-     */
-    public function hasErrors()
-    {
-        return $this->_hasErrors;
-    }
-
-    /**
-     * Raise an error status
-     */
-    protected function _raiseHasErrors()
-    {
-        $this->_hasErrors = true;
     }
 }
