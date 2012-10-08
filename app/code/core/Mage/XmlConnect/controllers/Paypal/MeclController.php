@@ -65,7 +65,12 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
     protected function _construct()
     {
         parent::_construct();
-        $this->_config = Mage::getModel($this->_configType, array($this->_configMethod));
+        $this->_config = Mage::getModel($this->_configType,
+            array(
+                'params' => array(
+                    $this->_configMethod
+                )
+        ));
     }
 
     /**
@@ -108,7 +113,8 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             if ($token) {
                 $this->_initToken($token);
                 /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
+                $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element',
+                    array('data' => '<message></message>'));
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('token', $token);
                 $this->getResponse()->setBody($message->asNiceXml());
@@ -260,7 +266,8 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_initToken(false); // no need in token anymore
 
             /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
-            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element', '<message></message>');
+            $message = Mage::getModel('Mage_XmlConnect_Model_Simplexml_Element',
+                array('data' => '<message></message>'));
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $text = $this->__('Thank you for your purchase! ');
