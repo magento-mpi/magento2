@@ -88,7 +88,7 @@ new_role:
             save: //button[span='Save API Role']
             delete: //button[span='Delete API Role']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages: &pageMessages
+        messages: *pageMessages
 
 edit_role:
     mca: webapi_role/edit/role_id/%id%/
@@ -140,4 +140,4 @@ edit_role:
             save: //button[span='Save API Role']
             delete: //button[span='Delete API Role']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages: &pageMessages
+        messages: *pageMessages
