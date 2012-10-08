@@ -75,9 +75,6 @@
     <enterprise_giftregistry_search_index translate="label" type="page" parent="enterprise_giftregistry_index_index">
         <label>Customer GiftRegistry Search Form</label>
         <update handle="calendar"/>
-        <reference name="left">
-            <remove name="giftregistry.quick.search" />
-        </reference>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"></block>
         </reference>
@@ -86,9 +83,6 @@
     <enterprise_giftregistry_search_results translate="label" type="page" parent="enterprise_giftregistry_search_index">
         <label>Customer GiftRegistry Search Results List</label>
         <update handle="calendar"/>
-        <reference name="left">
-            <remove name="giftregistry.quick.search" />
-        </reference>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"></block>
             <block type="Enterprise_GiftRegistry_Block_Search_Results" name="giftregistry.search.results" template="search/results.phtml"></block>
