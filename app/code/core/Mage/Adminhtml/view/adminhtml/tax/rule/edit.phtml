@@ -41,19 +41,18 @@
                 if (this._trigger('beforeOpen', null, this) === false) {
                     return;
                 }
-                this._applyItem();
+                this._applyItem(this.options.itemRateDefault);
+                if (this.options.itemRate && !$.isEmptyObject(this.options.itemRate)) {
+                    this._applyItem(this.options.itemRate);
+                }
                 $.ui.dialog.prototype.open.apply(this);
 
             },
             close: function() {
                 $.ui.dialog.prototype.close.apply(this);
             },
-            _applyItem: function() {
-                var rate = this.options.itemRateDefault,
-                        dialogElement = this.uiDialog;
-                if (this.options.itemRate && !$.isEmptyObject(this.options.itemRate)) {
-                    rate = this.options.itemRate;
-                }
+            _applyItem: function(rate) {
+                var dialogElement = this.uiDialog;
                 $.each(rate, function(key, value) {
                     dialogElement.find('[name="' + key + '"]').attr('value', value);
                 });
@@ -75,7 +74,23 @@
             var options = {
                     toggleAddButton:false,
                     addText: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'); ?>',
-                    parse: null
+                    parse: null,
+                    mselectInputSubmitCallback: function (value, options) {
+                        var select = $('#tax_rate');
+                        select.append('<option value="" selected="selected">'
+                                + value + '</option>');
+                        var mselectItemHtml = $(options.item.replace(/%value%|%label%/gi, value)
+                                .replace(/%mselectDisabledClass%|%iseditable%|%isremovable%/gi, '')
+                                .replace(/%mselectListItemClass%/gi, options.mselectListItemClass))
+                                .find('[type=checkbox]')
+                                .attr('checked', true)
+                                .addClass(options.mselectCheckedClass)
+                                .end();
+                        var itemsWrapper = select.next().find('.' + options.mselectItemsWrapperClass + '');
+                        itemsWrapper.children('.' + options.mselectListItemClass + '').length
+                                ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
+                                : itemsWrapper.prepend(mselectItemHtml);
+                    }
                 },
                 taxRateField = $('#tax_rate').parent(),
                 taxRateForm = $('#tax-rate-form');
@@ -181,14 +196,14 @@
                                         itemRate.itemElement.find('span').html(itemRate.code);
                                         var index = itemRate.itemElement.parent().index();
                                         itemRate.itemElement.closest('.mselect-list').prev().find('option').eq(index)
-                                                .html(itemRate.code)
-                                                .val(itemRate.tax_calculation_rate_id);
+                                            .html(itemRate.code)
+                                            .val(itemRate.tax_calculation_rate_id);
                                     } else {
                                         itemRate.tax_calculation_rate_id = result.tax_calculation_rate_id;
                                         taxRateField.find('.mselect-input').val(itemRate.code);
                                         taxRateField.find('.mselect-save').trigger('mousedown');
-                                        taxRateField.find('option[value="' + itemRate.code + '"]')
-                                                .val(itemRate.tax_calculation_rate_id);
+                                        taxRateField.find('option[value=""]:last')
+                                            .val(itemRate.tax_calculation_rate_id);
                                     }
                                     taxRateForm.dialogRates("close");
                                     taxRateCollection.push(itemRate);

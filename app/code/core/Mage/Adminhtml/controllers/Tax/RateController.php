@@ -157,7 +157,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $result = array();
         foreach ($rateData as $key => $value) {
-            $result[$key] = trim(strip_tags($value));
+            if (is_array($value)) {
+                $result[$key] = $this->_processRateData($value);
+            } else {
+                $result[$key] = trim(strip_tags($value));
+            }
         }
         return $result;
     }
