@@ -10,7 +10,7 @@
  */
 
 /**
- * Helper class Core_Mage_for OnePageCheckout
+ * Helper class Core_Mage for OnePageCheckout
  *
  * @package     selenium
  * @subpackage  tests
