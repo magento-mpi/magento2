@@ -17,14 +17,10 @@
                 <property_constraints>
                     <property name="name">
                         <constraint alias="some_validator" class="Magento_Validator_StringLenght">
+                            <!-- attribute class is not allowed for tag method -->
                             <method name="setOptions" class="Object">
-                                <argument>
-                                    <option name="max">80</option>
-                                </argument>
-                                <argument>
-                                    <callback class="Class" method="getSomeValue"/>
-                                </argument>
                             </method>
+                            <!-- attribute name is required for tag method -->
                             <method >
                                 <argument>7</argument>
                             </method>
@@ -32,29 +28,11 @@
                     </property>
                 </property_constraints>
             </rule>
-            <rule name="eav_attributes">
-                <entity_constraints>
-                    <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" />
-                </entity_constraints>
-            </rule>
-            <rule name="stock_data">
-                <entity_constraints>
-                    <constraint class="Mage_CatalogInventory_Model_Validation_Data"/>
-                </entity_constraints>
-            </rule>
         </rules>
         <groups>
             <group name="create" builder="ClassName">
                 <uses>
                     <use rule="name_sku_and_price"/>
-                    <use rule="eav_attributes"/>
-                    <use rule="stock_data"/>
-                </uses>
-            </group>
-            <group name="update">
-                <uses>
-                    <use rule="eav_attributes"/>
-                    <use rule="stock_data"/>
                 </uses>
             </group>
         </groups>

@@ -13,13 +13,6 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_property">
-                <property_constraints>
-                    <property name="sku">
-                        <constraint class="Magento_Validator_Test_Alnum"/>
-                    </property>
-                </property_constraints>
-            </rule>
             <rule name="test_rule_entity">
                 <property_constraints>
                     <property name="sku">
@@ -29,12 +22,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="test_group">
-                <uses>
-                    <use rule="test_rule_properties"/>
-                    <use rule="test_rule_entity"/>
-                </uses>
-            </group>
+            <!-- attribute name is required for tag group -->
             <group>
                 <uses>
                     <use rule="test_rule_entity"/>

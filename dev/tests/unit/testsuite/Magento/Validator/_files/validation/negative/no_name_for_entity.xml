@@ -13,25 +13,14 @@
 <validation>
     <entity>
         <rules>
-            <rule name="test_rule_a">
-                <property_constraints>
-                    <property name="sku">
-                        <constraint class="Magento_Validator_Test_Alnum"/>
-                    </property>
-                </property_constraints>
-            </rule>
             <rule name="test_rule_b">
+                <!-- tag constraints is not allowed here. Expected entity_constraints or property_constraints-->
                 <constraints>
                     <constraint class="Magento_Validator_Test_True"/>
                 </constraints>
             </rule>
         </rules>
         <groups>
-            <group name="test_group_a">
-                <uses>
-                    <use rule="test_rule_b"/>
-                </uses>
-            </group>
             <group name="test_group_b">
                 <uses>
                     <use rule="test_rule_b"/>

@@ -11,18 +11,21 @@
  */
 -->
 <validation>
-    <entity name="test_entity">
+    <entity name="catalog_product">
         <rules>
-            <rule name="test_rule_a">
+            <rule name="name_sku_and_price">
                 <entity_constraints>
-                    <!-- tag constraint is expected here -->
+                    <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" >
+                        <!-- callback should be empty -->
+                        <callback method="someMethod" class="Mage_Catalog_Model_Validator_Eav" >some test</callback>
+                    </constraint>
                 </entity_constraints>
             </rule>
         </rules>
         <groups>
-            <group name="test_group_a">
+            <group name="create" builder="ClassName">
                 <uses>
-                    <use rule="test_rule_a"/>
+                    <use rule="name_sku_and_price"/>
                 </uses>
             </group>
         </groups>

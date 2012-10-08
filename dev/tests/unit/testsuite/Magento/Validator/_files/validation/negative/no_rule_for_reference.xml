@@ -17,18 +17,6 @@
                 <property_constraints>
                     <property name="sku">
                         <constraint class="Magento_Validator_Test_NotEmpty"/>
-                        <constraint class="Magento_Validator_Test_Alnum"/>
-                    </property>
-                    <property name="name">
-                        <constraint class="Magento_Validator_Test_NotEmpty"/>
-                        <constraint class="Magento_Validator_Test_StringLength">
-                            <option name="min">
-                                <value>10</value>
-                            </option>
-                            <option name="max">
-                                <value>80</value>
-                            </option>
-                        </constraint>
                     </property>
                 </property_constraints>
             </rule>
@@ -36,6 +24,7 @@
         <groups>
             <group name="test_group_a">
                 <uses>
+                    <!-- declaration of test_invalid_rule is absent in the file -->
                     <use rule="test_invalid_rule"/>
                     <use rule="test_rule_sku_and_name"/>
                 </uses>

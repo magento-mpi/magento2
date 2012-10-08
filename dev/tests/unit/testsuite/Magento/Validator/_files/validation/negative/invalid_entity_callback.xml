@@ -14,29 +14,11 @@
     <entity name="catalog_product">
         <rules>
             <rule name="name_sku_and_price">
-                <property_constraints>
-                    <property name="sku">
-                        <constraint class="Magento_Validator_NotEmpty" />
-                        <constraint class="Magento_Validator_Alnum" />
-                    </property>
-                    <property name="name">
-                        <constraint class="Magento_Validator_NotEmpty"/>
-                    </property>
-                </property_constraints>
                 <entity_constraints>
                     <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" >
+                        <!-- attribute class is required for callback tag -->
                         <callback method="someMethod" />
                     </constraint>
-                </entity_constraints>
-            </rule>
-            <rule name="eav_attributes">
-                <entity_constraints>
-                    <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" />
-                </entity_constraints>
-            </rule>
-            <rule name="stock_data">
-                <entity_constraints>
-                    <constraint class="Mage_CatalogInventory_Model_Validation_Data"/>
                 </entity_constraints>
             </rule>
         </rules>
@@ -44,14 +26,6 @@
             <group name="create" builder="ClassName">
                 <uses>
                     <use rule="name_sku_and_price"/>
-                    <use rule="eav_attributes"/>
-                    <use rule="stock_data"/>
-                </uses>
-            </group>
-            <group name="update">
-                <uses>
-                    <use rule="eav_attributes"/>
-                    <use rule="stock_data"/>
                 </uses>
             </group>
         </groups>

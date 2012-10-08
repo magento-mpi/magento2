@@ -15,27 +15,16 @@
         <rules>
             <rule name="test_rule_sku">
                 <entity_constraints>
-                    <property name="sku">
-                        <constraint class="Magento_Validator_Test_NotEmpty"/>
-                    </property>
-                </entity_constraints>
-            </rule>
-            <rule name="test_rule_eav">
-                <entity_constraints>
-                    <constraint class="Mage_Catalog_Model_Validator_Eav"/>
+                    <constraint class="Magento_Validator_Test_NotEmpty"/>
                 </entity_constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_a">
                 <uses>
+                    <!-- reference to rule must be unique in one group -->
                     <use rule="test_rule_sku"/>
                     <use rule="test_rule_sku"/>
-                </uses>
-            </group>
-            <group name="test_group_b">
-                <uses>
-                    <use rule="test_rule_eav"/>
                 </uses>
             </group>
         </groups>
