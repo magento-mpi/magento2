@@ -188,6 +188,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
             array(__DIR__ . '/_files/validation/negative/invalid_entity_callback.xml'),
             array(__DIR__ . '/_files/validation/negative/invalid_child_for_option.xml'),
             array(__DIR__ . '/_files/validation/negative/invalid_content_for_callback.xml'),
+            array(__DIR__ . '/_files/validation/negative/multiple_callback_in_argument.xml'),
         );
     }
 
