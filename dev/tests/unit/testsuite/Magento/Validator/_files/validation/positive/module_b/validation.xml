@@ -45,7 +45,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="custom_builder" builder="CustomBuilderClass">
+            <group name="custom_builder" builder="Custom_Builder_Stub">
                 <uses>
                     <use rule="always_true"/>
                 </uses>

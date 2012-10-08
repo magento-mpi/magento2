@@ -14,16 +14,15 @@
     <entity name="catalog_product">
         <rules>
             <rule name="name_sku_and_price">
-                <entity_constraints>
-                    <constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" >
-                        <!-- attribute class is required for callback tag -->
-                        <callback method="someMethod" />
-                    </constraint>
-                </entity_constraints>
+                <property_constraints>
+                    <property name="name">
+                        <constraint alias="some_validator" class="Magento_Validator_StringLenght"/>
+                    </property>
+                </property_constraints>
             </rule>
         </rules>
         <groups>
-            <group name="create">
+            <group name="create" builder="UnknownBuilderClass">
                 <uses>
                     <use rule="name_sku_and_price"/>
                 </uses>

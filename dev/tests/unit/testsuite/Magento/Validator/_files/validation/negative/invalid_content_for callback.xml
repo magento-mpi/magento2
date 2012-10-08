@@ -23,7 +23,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="create" builder="ClassName">
+            <group name="create">
                 <uses>
                     <use rule="name_sku_and_price"/>
                 </uses>
