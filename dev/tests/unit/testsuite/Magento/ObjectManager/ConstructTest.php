@@ -28,19 +28,6 @@ class Magento_ObjectManager_Zend_ConstructTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * Test for method  __construct($definitionsFile, $diInstance)
-     *
-     * @covers Magento_ObjectManager_Zend::__construct
-     *
-     * @expectedException PHPUnit_Framework_Error_Warning
-     * @expectedExceptionMessage The system cannot find the file specified
-     */
-    public function testConstructWithOutDiObject()
-    {
-        new Magento_ObjectManager_Zend(null, null);
-    }
-
-    /**
      * Data Provider for method __construct($definitionsFile, $diInstance)
      *
      * @covers Magento_ObjectManager_Zend::__construct
