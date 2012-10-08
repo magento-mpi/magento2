@@ -1597,7 +1597,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($elementType == 'button') {
                 $generalButtons = $this->getCurrentUimapPage()->getMainButtons();
                 if (isset($generalButtons[$elementName])) {
-                    return $generalButtons[$elementName];
+                    return $this->_paramsHelper->replaceParameters($generalButtons[$elementName]);
                 }
             }
             if ($elementType != 'fieldset' && $elementType != 'tab') {
