@@ -39,13 +39,6 @@ abstract class Mage_Core_Model_ShellAbstract
     protected $_entryPoint = null;
 
     /**
-     * Error status - whether errors have happened
-     *
-     * @var bool
-     */
-    protected $_hasErrors = false;
-
-    /**
      * Initializes application and parses input parameters
      *
      * @var string $entryPoint
@@ -193,23 +186,5 @@ USAGE;
             return $this->_args[$name];
         }
         return false;
-    }
-
-    /**
-     * Return whether there errors have happened
-     *
-     * @return bool
-     */
-    public function hasErrors()
-    {
-        return $this->_hasErrors;
-    }
-
-    /**
-     * Raise an error status
-     */
-    protected function _raiseHasErrors()
-    {
-        $this->_hasErrors = true;
     }
 }

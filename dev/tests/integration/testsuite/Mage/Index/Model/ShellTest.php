@@ -83,14 +83,8 @@ class Mage_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
     public function hasErrorsDataProvider()
     {
         return array(
-            'execution without issues' => array(
-                'info',
-                false
-            ),
-            'issue with wrong index' => array(
-                '--reindex=wrong_index_code',
-                true
-            ),
+            'execution without issues' => array('info', false),
+            'issue with wrong index' => array('--reindex=wrong_index_code', true),
         );
     }
 }

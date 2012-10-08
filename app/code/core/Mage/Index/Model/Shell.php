@@ -18,6 +18,13 @@
 class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
 {
     /**
+     * Error status - whether errors have happened
+     *
+     * @var bool
+     */
+    protected $_hasErrors = false;
+
+    /**
      * Gets indexer instance
      *
      * @return Mage_Index_Model_Indexer
@@ -225,5 +232,23 @@ Usage:  php -f {$this->_entryPoint} -- [options]
 
   <indexer>     Comma separated indexer codes or value "all" for all indexers
 USAGE;
+    }
+
+    /**
+     * Return whether there errors have happened
+     *
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return $this->_hasErrors;
+    }
+
+    /**
+     * Raise an error status
+     */
+    protected function _raiseHasErrors()
+    {
+        $this->_hasErrors = true;
     }
 }
