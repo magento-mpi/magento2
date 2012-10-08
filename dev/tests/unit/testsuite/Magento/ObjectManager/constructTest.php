@@ -47,9 +47,14 @@ class Magento_ObjectManager_Zend_ConstructTest extends PHPUnit_Framework_TestCas
      */
     public function constructDataProvider()
     {
-        $diInstance = $this->getMock('Zend\Di\Di', array('get', 'setDefinitionList'));
+        $diInstance = $this->getMock('Zend\Di\Di', array('get', 'setDefinitionList', 'instanceManager'));
         $magentoConfiguration = $this->getMock('Mage_Core_Model_Config', array('loadBase'),
             array(), '', false);
+        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'),
+            array(), '', false);
+        $diInstance->expects($this->atLeastOnce())
+            ->method('instanceManager')
+            ->will($this->returnValue($instanceManager));
         $diInstance->expects($this->atLeastOnce())
             ->method('get')
             ->with('Mage_Core_Model_Config')
