@@ -15,7 +15,7 @@
  * @package    Mage_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Validator_Attribute_Backend implements Zend_Validate_Interface
+class Mage_Eav_Model_Validator_Attribute_Backend implements Magento_Validator_Interface
 {
     /**
      * @var array

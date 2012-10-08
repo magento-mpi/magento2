@@ -165,9 +165,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                     /** @var DOMElement $constraint */
                     foreach ($property->getElementsByTagName('constraint') as $constraint) {
                         $rules[$ruleName][] = array(
-                            'id' => $constraint->getAttribute('id'),
+                            'alias' => $constraint->getAttribute('alias'),
                             'class' => $constraint->getAttribute('class'),
-                            'options' => $this->_extractRuleOptions($rule),
+                            'options' => $this->_extractConstraintOptions($constraint),
                             'property' => $property->getAttribute('name'),
                             'type' => self::CONSTRAINT_TYPE_PROPERTY,
                         );
@@ -180,9 +180,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 /** @var DOMElement $constraint */
                 foreach ($entityConstraints->getElementsByTagName('constraint') as $constraint) {
                     $rules[$ruleName][] = array(
-                        'id' => $constraint->getAttribute('id'),
+                        'alias' => $constraint->getAttribute('alias'),
                         'class' => $constraint->getAttribute('class'),
-                        'options' => $this->_extractRuleOptions($rule),
+                        'options' => $this->_extractConstraintOptions($constraint),
                         'type' => self::CONSTRAINT_TYPE_ENTITY,
                     );
                 }
@@ -193,30 +193,36 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Extract rule options
+     * Extract constraint options.
      *
-     * @param DOMElement $rule
+     * @param DOMElement $constraint
      * @return array|null
      */
-    protected function _extractRuleOptions(DOMElement $rule)
+    protected function _extractConstraintOptions(DOMElement $constraint)
     {
         $options = null;
 
-        if ($rule->hasChildNodes()) {
+        if ($constraint->hasChildNodes()) {
             $options = array();
 
             /**
              * Read constructor arguments
              *
              * <constraint class="Constraint">
-             *     <option name="minValue">123</option>
+             *     <argument>
+             *         <option name="minValue">123</option>
+             *         <option name="maxValue">234</option>
+             *     </argument>
+             *     <argument>0</argument>
+             *     <argument>
+             *         <callback class="Class" method="method" />
+             *     </argument>
              * </constraint>
              */
-            $arguments = $this->_readRuleArguments($rule);
+            $children = $this->_collectChildren($constraint);
+            $arguments = $this->_readArguments($children);
             if ($arguments) {
-                $options[] = array(
-                    'arguments' => $arguments
-                );
+                $options['arguments'] = $arguments;
             }
 
             /**
@@ -226,51 +232,47 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
              *     <callback class="Mage_Customer_Helper_Data" method="configureValidator"/>
              * </constraint>
              */
-            $callback = $this->_readRuleCallback($rule);
+            $callback = $this->_readCallback($children);
             if ($callback) {
-                $options[] = array(
-                    'callback' => $callback
-                );
+                $options['callback'] = $callback;
             }
 
             /**
              * Read constraint method configuration
              */
-            $methods = $rule->getElementsByTagName('method');
+            $methods = $constraint->getElementsByTagName('method');
             if ($methods->length > 0) {
-                /** @var $method DOMNode */
+                /** @var $method DOMElement */
                 foreach ($methods as $method) {
+                    $children = $this->_collectChildren($method);
+                    $methodName = (string)$method->getAttribute('name');
                     $methodOptions = array(
-                        'method' => $method->attributes->getNamedItem('name')
+                        'method' => $methodName
                     );
 
                     /**
                      * <constraint class="Constraint">
                      *     <method name="setMaxValue">
-                     *         <option name="minValue">123</option>
+                     *         <argument>
+                     *             <option name="minValue">123</option>
+                     *             <option name="maxValue">234</option>
+                     *         </argument>
+                     *         <argument>0</argument>
+                     *         <argument>
+                     *             <callback class="Class" method="method" />
+                     *         </argument>
                      *     </method>
                      * </constraint>
                      */
-                    $arguments = $this->_readRuleArguments($rule);
+                    $arguments = $this->_readArguments($children);
                     if ($arguments) {
-                        $options[] = array(
-                            'arguments' => $arguments
-                        );
+                        $methodOptions['arguments'] = $arguments;
                     }
 
-                    /**
-                     * <constraint class="Constraint">
-                     *     <method name="setMaxValue">
-                     *        <callback class="Mage_Customer_Helper_Data" method="getMaxValue"/>
-                     *     </method>
-                     * </constraint>
-                     */
-                    $callback = $this->_readRuleCallback($method);
-                    if ($callback) {
-                        $methodOptions['callback'] = $callback;
+                    if (!array_key_exists('methods', $options)) {
+                        $options['methods'] = array();
                     }
-
-                    $options[] = $methodOptions;
+                    $options['methods'][$methodName] = $methodOptions;
                 }
             }
         }
@@ -278,19 +280,51 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get arguments
+     * Get element children.
      *
-     * @param DOMElement $parent
+     * @param DOMElement $element
+     * @return array
+     */
+    protected function _collectChildren($element)
+    {
+        $children = array();
+        /** @var $node DOMElement */
+        foreach ($element->childNodes as $node) {
+            if (!$node instanceof DOMElement) {
+                continue;
+            }
+            $nodeName = strtolower($node->nodeName);
+            if (!array_key_exists($nodeName, $children)) {
+                $children[$nodeName] = array();
+            }
+            $children[$nodeName][] = $node;
+        }
+        return $children;
+    }
+
+    /**
+     * Get arguments.
+     *
+     * @param array $children
      * @return array|null
      */
-    protected function _readRuleArguments(DOMElement $parent)
+    protected function _readArguments($children)
     {
-        $nodes = $parent->getElementsByTagName('option');
-        if ($nodes->length > 0) {
+        if (array_key_exists('argument', $children)) {
             $arguments = array();
-            /** @var $node DOMNode */
-            foreach ($nodes as $node) {
-                $arguments[] = $node->textContent;
+            /** @var $node DOMElement */
+            foreach ($children['argument'] as $node) {
+                $nodeChildren = $this->_collectChildren($node);
+                $callback = $this->_readCallback($nodeChildren);
+                $options = $this->_readOptions($nodeChildren);
+                if ($callback) {
+                    $arguments[] = $callback[0];
+                } elseif ($options) {
+                    $arguments[] = $options;
+                } else {
+                    $arguments[] = new Magento_Validator_Constraint_Option_Scalar((string)$node->textContent);
+                }
+
             }
             return $arguments;
         }
@@ -298,25 +332,52 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get callback rules
+     * Get callback rules.
      *
-     * @param DOMElement $parent
+     * @param array $children
      * @return array|null
      */
-    protected function _readRuleCallback(DOMElement $parent)
+    protected function _readCallback($children)
     {
-        $callback = $parent->getElementsByTagName('callback');
-        if ($callback->length > 0) {
-            return array(
-                'class' => $callback->item(0)->attributes->getNamedItem('name'),
-                'method' => $callback->item(0)->attributes->getNamedItem('method')
-            );
+        if (array_key_exists('callback', $children)) {
+            $callbacks = array();
+            /** @var $callbackData DOMElement */
+            foreach ($children['callback'] as $callbackData) {
+                $callbacks[] = new Magento_Validator_Constraint_Option_Callback(
+                    (string)$callbackData->getAttribute('class'),
+                    (string)$callbackData->getAttribute('method')
+                );
+            }
+            return $callbacks;
         }
         return null;
     }
 
     /**
-     * Get initial XML of a valid document
+     * Get options array.
+     *
+     * @param array $children
+     * @return array|null
+     */
+    protected function _readOptions($children)
+    {
+        if (array_key_exists('option', $children)) {
+            $data = array();
+            /** @var $option DOMElement */
+            foreach ($children['option'] as $option) {
+                if ($option->hasAttribute('name')) {
+                    $data[(string)$option->getAttribute('name')] = (string)$option->textContent;
+                } else {
+                    $data[] = (string)$option->textContent;
+                }
+            }
+            return new Magento_Validator_Constraint_Option_Scalar($data);
+        }
+        return null;
+    }
+
+    /**
+     * Get initial XML of a valid document.
      *
      * @return string
      */
