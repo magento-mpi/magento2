@@ -38,14 +38,11 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Settings extends Mage
      */
     protected function _prepareLayout()
     {
-        $this->setChild('continue_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Continue'),
-                    'onclick'   => "setSettings('".$this->getContinueUrl()."', 'master_website_id', 'type')",
-                    'class'     => 'save'
-            ))
-        );
+        $this->addChild('continue_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Continue'),
+            'onclick'   => "setSettings('".$this->getContinueUrl()."', 'master_website_id', 'type')",
+            'class'     => 'save'
+        ));
         return parent::_prepareLayout();
     }
 

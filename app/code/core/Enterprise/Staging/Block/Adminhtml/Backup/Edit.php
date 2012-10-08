@@ -47,49 +47,34 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
     protected function _prepareLayout()
     {
          if ($this->getBackup()->canRollback()) {
-            $this->setChild('rollback_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
-                        'onclick'   => 'enterpriseRollbackForm.submit()',
-                        'class'  => 'add'
-                    ))
-            );
+            $this->addChild('rollback_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
+                'onclick'   => 'enterpriseRollbackForm.submit()',
+                'class'  => 'add'
+            ));
         } else {
-            $this->setChild('rollback_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
-                        'class'  => 'disabled'
-                    ))
-            );
+            $this->addChild('rollback_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
+                'class'  => 'disabled'
+            ));
         }
 
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
-                    'class' => 'back'
-                ))
-        );
+        $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Back'),
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'class' => 'back'
+        ));
 
-        $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
-                ))
-        );
+        $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset'),
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
+        ));
 
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('Enterprise_Staging_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                    'class'  => 'delete'
-                ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Delete'),
+            'onclick'   => 'confirmSetLocation(\''.Mage::helper('Enterprise_Staging_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+            'class'  => 'delete'
+        ));
 
         return parent::_prepareLayout();
     }

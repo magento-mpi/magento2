@@ -265,8 +265,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Selecting payment method
      *
      * @param array $paymentMethod
-     *
-     * @return bool
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
@@ -280,18 +278,16 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $selectedPayment = $this->_getControlXpath('radiobutton', 'selected_one_payment');
             if ($this->isElementPresent($xpath)) {
                 $this->click($xpath);
+                if ($card) {
+                    $paymentId = $this->getAttribute($xpath . '/@value');
+                    $this->addParameter('paymentId', $paymentId);
+                    $this->fillForm($card);
+                }
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
-                return false;
-            }
-            if ($card) {
-                $paymentId = $this->getAttribute($xpath . '/@value');
-                $this->addParameter('paymentId', $paymentId);
-                $this->fillForm($card);
             }
         }
         $this->goToNextOnePageCheckoutStep('payment_method');
-        return true;
     }
 
     /**
@@ -476,8 +472,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 
         if ($payMethod && isset($payMethod['payment_method'])) {
             $xpathPayMethod = $this->_getControlXpath('field', 'payment_method_checkout');
-            if ($this->isElementPresent($xpathPayMethod . '/p/strong')) {
-                $xpathPayMethod .= '/p/strong';
+            if ($this->isElementPresent($xpathPayMethod . '/p')) {
+                $xpathPayMethod .= '/p';
             }
             $text = $this->getText($xpathPayMethod);
             if (strcmp($text, $payMethod['payment_method']) != 0) {

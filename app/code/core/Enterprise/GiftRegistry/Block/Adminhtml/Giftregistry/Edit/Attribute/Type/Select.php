@@ -19,22 +19,16 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
      */
     protected function _prepareLayout()
     {
-        $this->setChild('add_select_row_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add New Option'),
-                    'class' => 'add add-select-row',
-                    'id'    => '{{prefix}}_add_select_row_button_{{id}}'
-                ))
-        );
+        $this->addChild('add_select_row_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add New Option'),
+            'class' => 'add add-select-row',
+            'id'    => '{{prefix}}_add_select_row_button_{{id}}'
+        ));
 
-        $this->setChild('delete_select_row_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Option'),
-                    'class' => 'delete delete-select-row icon-btn'
-                ))
-        );
+        $this->addChild('delete_select_row_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Option'),
+            'class' => 'delete delete-select-row icon-btn'
+        ));
 
         return parent::_prepareLayout();
     }

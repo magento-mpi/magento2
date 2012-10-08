@@ -78,7 +78,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     {
         $event = new Varien_Event_Observer();
         $event->setBlock($block);
-        $observer = new Enterprise_PricePermissions_Model_Observer;
+        $observer = new Enterprise_PricePermissions_Model_Observer();
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }

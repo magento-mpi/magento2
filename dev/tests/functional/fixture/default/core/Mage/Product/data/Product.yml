@@ -424,6 +424,18 @@ simple_product_required:
     prices_tax_class: None
     inventory_qty: %noValue%
 
+simple_product_minimal:
+    product_attribute_set: Minimal
+    general_min_name: Simple Product Required(%randomize%)
+    general_min_description: Description for Simple Product Required
+    general_min_short_description: Short Description for Simple Product Required
+    general_min_sku: simple_sku_req_%randomize%
+    general_min_weight: 1.13
+    general_min_status: Enabled
+    general_min_visibility: Catalog, Search
+    general_min_price: 9.99
+    general_min_tax_class: None
+
 # Product that has all needed fields set to be visible in frontend.
 simple_product_visible:
     product_attribute_set: Default

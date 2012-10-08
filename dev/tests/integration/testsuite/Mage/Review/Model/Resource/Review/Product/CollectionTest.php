@@ -21,8 +21,7 @@ class Mage_Review_Model_Resource_Review_Product_CollectionTest extends PHPUnit_F
     public function testGetResultingIds()
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $this->markTestIncomplete('Bug MAGETWO-2595');
+        
         $collection = new Mage_Review_Model_Resource_Review_Product_Collection();
         $collection->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED)
             ->setOrder('rdt.title', Mage_Review_Model_Resource_Review_Product_Collection::SORT_ORDER_ASC);

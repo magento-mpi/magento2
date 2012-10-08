@@ -1,0 +1,69 @@
+# Magento
+# 
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AttributeSet
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Attribute Set
+mini_attribute_set:
+    set_name: mini_attribute_set_%randomize%
+    based_on: Minimal
+
+system_attributes_general_minimal:
+    name: name
+    description: description
+    short_description: short_description
+    sku: sku
+    price: price
+    status: status
+    visibility: visibility
+    tax_class_id: tax_class_id
+    weight: weight
+    price_view: price_view
+    allow_open_amount: allow_open_amount
+    giftcard_amounts: giftcard_amounts
+
+system_attributes_unassigned_minimal:
+    color: color
+    cost: cost
+    country_of_manufacture: country_of_manufacture
+    custom_design: custom_design
+    custom_design_from: custom_design_from
+    custom_design_to: custom_design_to
+    custom_layout_update: custom_layout_update
+    enable_googlecheckout: enable_googlecheckout
+    gallery: gallery
+    gift_message_available: gift_message_available
+    gift_wrapping_available: gift_wrapping_available
+    gift_wrapping_price: gift_wrapping_price
+    group_price: group_price
+    image: image
+    is_recurring: is_recurring
+    is_returnable: is_returnable
+    manufacturer: manufacturer
+    media_gallery: media_gallery
+    meta_description: meta_description
+    meta_keyword: meta_keyword
+    meta_title: meta_title
+    msrp: msrp
+    msrp_display_actual_price_type: msrp_display_actual_price_type
+    msrp_enabled: msrp_enabled
+    news_from_date: news_from_date
+    news_to_date: news_to_date
+    open_amount_max: open_amount_max
+    open_amount_min: open_amount_min
+    options_container: options_container
+    page_layout: page_layout
+    recurring_profile: recurring_profile
+    small_image: small_image
+    special_from_date: special_from_date
+    special_price: special_price
+    special_to_date: special_to_date
+    thumbnail: thumbnail
+    tier_price: tier_price
+    url_key: url_key

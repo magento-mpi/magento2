@@ -103,8 +103,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         Mage_Catalog_Model_Resource_Product $resource,
         Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
-    ) {
+    ) {  
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * Initialize resources
+     */
+    protected function _construct()
+    {
+        $this->_init('Mage_Catalog_Model_Resource_Product');
     }
 
     /**
@@ -118,6 +126,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             return $this->getData('store_id');
         }
         return Mage::app()->getStore()->getId();
+    }
+
+    /**
+     * Get collection instance
+     *
+     * @return object
+     */
+    public function getResourceCollection()
+    {
+        $collection = parent::getResourceCollection();
+        $collection->setStoreId($this->getStoreId());
+        return $collection;
     }
 
     /**
@@ -459,6 +479,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setHasOptions(false);
             $this->setRequiredOptions(false);
         }
+
         parent::_beforeSave();
     }
 
@@ -548,16 +569,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
         return $this;
-    }
-
-    /**
-     * Retrieve resource instance wrapper
-     *
-     * @return Mage_Catalog_Model_Resource_Product
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
     }
 
     /**
@@ -1019,7 +1030,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $newProduct = Mage::getModel('Mage_Catalog_Model_Product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
-            ->setSku(null)
             ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setCreatedAt(null)
             ->setUpdatedAt(null)

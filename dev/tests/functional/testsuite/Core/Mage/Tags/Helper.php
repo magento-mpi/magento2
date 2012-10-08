@@ -25,7 +25,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    protected function _convertTagsStringToArray($tagName)
+    public function convertTagsStringToArray($tagName)
     {
         $tags = array();
         $tagNameArray = array_filter(explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
@@ -43,9 +43,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function frontendAddTag($tagsString)
     {
-        $tagNameArray = $this->_convertTagsStringToArray($tagsString);
+        $tagNameArray = $this->convertTagsStringToArray($tagsString);
         $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
+        $this->addParameter('tagName', $tagsString);
         $this->fillField('input_new_tags', $tagsString);
         $this->clickButton('add_tags');
     }
@@ -58,7 +59,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function frontendDeleteTags($tags)
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         foreach ($tags as $tag) {
             $this->addParameter('tagName', $tag);
@@ -76,10 +77,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      * @param string|array $tags
      * @param string $product
      */
-    public function frontendTagVerification($tags, $product)
+    public function frontendTagVerification($tags, $product )
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         //Verification in "My Recent tags" area
         $this->addParameter('productName', $product);
@@ -116,7 +117,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function frontendTagVerificationInCategory($tags, $product, $category)
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         $category = substr($category, strpos($category, '/') + 1);
         $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
@@ -161,11 +162,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function fillTagSettings($tagData)
     {
-        if (is_string($tagData)) {
-            $elements = explode('/', $tagData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $tagData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -184,11 +180,17 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tagName);
             //Fill additional options
             $this->clickButton('save_and_continue_edit');
+            //Open area
             if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
                 $this->clickControl('link', 'prod_tag_admin_expand', false);
                 $this->waitForAjax();
             }
             $this->searchAndChoose($prodTagAdmin, 'products_tagged_by_admins');
+            //Close area
+            if ($this->controlIsPresent('field', 'prod_tag_admin_name')) {
+                $this->clickControl('link', 'prod_tag_admin_expand', false);
+                $this->waitForAjax();
+            }
         }
     }
 
@@ -209,27 +211,27 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      * Opens a tag in backend
      *
      * @param string|array $searchData Data used in Search Grid for tags
+     * @param bool $resetFilter Click reset filter before search
      */
-    public function openTag($searchData)
+    public function openTag($searchData, $resetFilter = true)
     {
-        if (is_string($searchData)) {
-            $elements = explode('/', $searchData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
             unset($searchData[$key]);
         }
         // Search and open
-        $xpathTR = $this->search($searchData, 'tags_grid');
+        $xpathTR = $this->search($searchData, null, $resetFilter);
         $this->assertNotNull($xpathTR, 'Tag is not found');
-        $cellId = $this->getColumnIdByName('Tag');
+        //get Table xPath depends page content
+        $tableXpath = $this->_getControlXpath('pageelement', 'tags_grid');
+        $cellId = $this->getColumnIdByName('Tag', $tableXpath);
         $this->addParameter('tagName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
+        $this->addParameter('custId', $this->defineParameterFromUrl('customer_id'));
         $this->validatePage();
     }
 
@@ -270,6 +272,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('message', 'no_records_found')) {
             return true;
         }
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
         $this->clickControl('link', 'select_all', false);
         $this->waitForAjax();
         $this->fillDropdown('tags_massaction', 'Delete');
@@ -299,6 +303,41 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Checks tag.
+     *
+     * @param array $tagData Data used in Search Grid for tags. Same as used for openTag
+     * @param array|null $products
+     * @param array|null $customers
+     * @return bool
+     */
+    public function verifyTag(array $tagData, array $products = null, array $customers = null)
+    {
+        $this->openTag($tagData);
+        $this->assertTrue($this->verifyForm($tagData),
+        'Tag verification is failure ' . print_r($tagData, true));
+        //Verification in "Edit Tag" -> "Customers Submitted this Tag", "Products Tagged by Customers"
+        $this->clickControl('link', 'prod_tag_customer_expand', false);
+        $this->waitForAjax();
+        if ($products) {
+            foreach ($products as $product) {
+                $this->assertNotNull($this->search(array('prod_tag_customer_product_name' => $product['name']),
+                        'products_tagged_by_customers'),
+                    "Cannot find product $product in Products Tagged by Customers");
+            }
+        }
+        $this->clickControl('link', 'customers_submit_tag_expand', false);
+        $this->waitForAjax();
+        if ($customers) {
+            foreach ($customers as $customer) {
+                $this->assertNotNull($this->search(array('first_name' => $customer['first_name'],
+                        'last_name' => $customer['last_name']), 'customers_submitted_tags'),
+                     "Cannot find customer in Customers Submitted this Tag");
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks if the tag is assigned to the product.
      * Returns true if assigned, or False otherwise.
      *
@@ -312,6 +351,22 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($productSearchData);
         $this->openTab('product_tags');
         $xpathTR = $this->search($tagSearchData, 'product_tags');
+        return $xpathTR ? true : false;
+    }
+    /**
+     * Checks if the customer tagged product is assigned to the product.
+     * Returns true if assigned, or False otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
+     * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
+     *
+     * @return bool
+     */
+    public function verifyCustomerTaggedProduct(array $tagSearchData, array $productSearchData)
+    {
+        $this->productHelper()->openProduct($productSearchData);
+        $this->openTab('customer_tags');
+        $xpathTR = $this->search($tagSearchData, 'customer_tags');
         return $xpathTR ? true : false;
     }
 
@@ -341,6 +396,27 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             }
         } while (true);
 
+        return false;
+    }
+
+    /**
+     * Checks if tag is selected in grid.
+     * Returns true if selected, or false otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag
+     *
+     * @return bool
+     */
+    public function isTagSelected(array $tagSearchData)
+    {
+        $this->_prepareDataForSearch($tagSearchData);
+        $xpathTR = $this->search($tagSearchData);
+        if ($xpathTR) {
+            $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
+            if ($this->getValue($xpathTR) != 'off') {
+                return true;
+            }
+        }
         return false;
     }
 }

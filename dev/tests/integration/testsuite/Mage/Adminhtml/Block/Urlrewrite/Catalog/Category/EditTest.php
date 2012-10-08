@@ -28,8 +28,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
     public function testPrepareLayout(/*$blockAttributes, $expected*/)
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
-
-        $layout = Mage::app()->getLayout();
+        
+        $layout = new Mage_Core_Model_Layout(array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', $blockAttributes);

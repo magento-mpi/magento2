@@ -18,7 +18,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage
         $this->dispatch('backend/admin/catalog_event/new');
         $body = $this->getResponse()->getBody();
         $this->assertNotContains(
-            '<select name="store_switcher" id="store_switcher" onchange="return switchStore(this);">',
+            '<select name="store_switcher" id="store_switcher" onchange="return switchStore(this);',
             $body
         );
     }
@@ -36,7 +36,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage
         $this->dispatch('backend/admin/catalog_event/edit/id/' . $event->getId());
         $body = $this->getResponse()->getBody();
         $this->assertContains(
-            '<select name="store_switcher" id="store_switcher" onchange="return switchStore(this);">',
+            '<select name="store_switcher" id="store_switcher" onchange="return switchStore(this);',
             $body
         );
 
