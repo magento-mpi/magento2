@@ -108,7 +108,7 @@ class Magento_Performance_Testsuite
     }
 
     /**
-     * Set callback for scenario first run event
+     * Set callback for scenario run event
      *
      * @param callable $callback
      */
@@ -118,7 +118,7 @@ class Magento_Performance_Testsuite
     }
 
     /**
-     * Set callback for scenario scenarioFailure event
+     * Set callback for scenario failure event
      *
      * @param callable $callback
      */
@@ -140,7 +140,7 @@ class Magento_Performance_Testsuite
     }
 
     /**
-     * Notify about scenario scenarioFailure event
+     * Notify about scenario failure event
      *
      * @param Magento_Performance_Scenario_FailureException $scenarioFailure
      */
