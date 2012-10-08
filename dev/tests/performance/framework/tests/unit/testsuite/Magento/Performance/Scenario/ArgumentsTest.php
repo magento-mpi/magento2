@@ -45,8 +45,9 @@ class Magento_Performance_Scenario_ArgumentsTest extends PHPUnit_Framework_TestC
     {
         return array(
             'default arguments'   => array(
-                array(),
+                array('custom' => 'custom_value'),
                 array(
+                    'custom' => 'custom_value',
                     Magento_Performance_Scenario_Arguments::ARG_USERS => 1,
                     Magento_Performance_Scenario_Arguments::ARG_LOOPS => 1,
                 )
@@ -109,7 +110,7 @@ class Magento_Performance_Scenario_ArgumentsTest extends PHPUnit_Framework_TestC
         try {
             $this->_object[Magento_Performance_Scenario_Arguments::ARG_LOOPS] = 100500;
         } catch (LogicException $e) {
-            $this->assertEquals('Scenario arguments are read-only.', $e->getMessage());
+            $this->assertEquals("Scenario argument 'loops' is read-only.", $e->getMessage());
             $this->testGetLoops();
         }
     }
@@ -119,7 +120,7 @@ class Magento_Performance_Scenario_ArgumentsTest extends PHPUnit_Framework_TestC
         try {
             unset($this->_object[Magento_Performance_Scenario_Arguments::ARG_USERS]);
         } catch (LogicException $e) {
-            $this->assertEquals('Scenario arguments are read-only.', $e->getMessage());
+            $this->assertEquals("Scenario argument 'users' is read-only.", $e->getMessage());
             $this->testGetUsers();
         }
     }

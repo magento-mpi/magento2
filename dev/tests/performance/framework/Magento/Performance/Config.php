@@ -71,16 +71,16 @@ class Magento_Performance_Config
         $this->_applicationUrlPath = $applicationOptions['url_path'];
         $this->_adminOptions = $applicationOptions['admin'];
 
-        if (isset($applicationOptions['installation'])) {
-            $installConfig = $applicationOptions['installation'];
-            $this->_installOptions = $installConfig['options'];
+        if (isset($applicationOptions['installation']['options'])) {
+            $this->_installOptions = $applicationOptions['installation']['options'];
         }
 
         $this->_expandScenarios($configData['scenario'], $testsBaseDir);
     }
 
     /**
-     * Expands scenario options and file paths glob to a list of scenarios
+     * Expands scenario file paths, options and settings with the values, common to all scenarios
+     *
      * @param array $scenarios
      * @param string $baseDir
      * @throws InvalidArgumentException
@@ -110,9 +110,9 @@ class Magento_Performance_Config
             }
 
             // Compose config, using global config
-            $scenarioConfig = $this->_getCompleteArray($commonScenarioConfig, $scenarioConfig);
+            $scenarioConfig = $this->_getCompletedArray($commonScenarioConfig, $scenarioConfig);
             if (isset($scenarios['common_config'])) {
-                $scenarioConfig = $this->_getCompleteArray($scenarioConfig, $scenarios['common_config']);
+                $scenarioConfig = $this->_getCompletedArray($scenarioConfig, $scenarios['common_config']);
             }
 
             // Fixtures
@@ -171,13 +171,13 @@ class Magento_Performance_Config
     }
 
     /**
-     * Retrieve new array composed for an input array by supplementing missing values
+     * Retrieve new array composed from an input array by supplementing missing values
      *
      * @param array $input
      * @param array $supplement
      * @return array
      */
-    protected function _getCompleteArray(array $input, array $supplement)
+    protected function _getCompletedArray(array $input, array $supplement)
     {
         foreach ($supplement as $key => $sourceVal) {
             if (!empty($input[$key])) {

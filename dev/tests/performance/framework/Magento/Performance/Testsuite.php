@@ -44,6 +44,16 @@ class Magento_Performance_Testsuite
     );
 
     /**
+     * @var callable
+     */
+    protected $_onScenarioRun;
+
+    /**
+     * @var callable
+     */
+    protected $_onScenarioFailure;
+
+    /**
      * Constructor
      *
      * @param Magento_Performance_Config $config
@@ -60,8 +70,6 @@ class Magento_Performance_Testsuite
 
     /**
      * Run entire test suite of scenarios
-     *
-     * @throws Magento_Exception
      */
     public function run()
     {
@@ -74,20 +82,72 @@ class Magento_Performance_Testsuite
 
             $this->_application->applyFixtures($scenarioFixtures);
 
+            $this->_notifyScenarioRun($scenarioFile);
+
             /* warm up cache, if any */
             if (empty($scenarioSettings[self::SETTING_SKIP_WARM_UP])) {
                 $warmUpArgs = new Magento_Performance_Scenario_Arguments(
                     $this->_warmUpArguments + (array)$scenarioArguments
                 );
-                $this->_scenarioHandler->run($scenarioFile, $warmUpArgs);
+                try {
+                    $this->_scenarioHandler->run($scenarioFile, $warmUpArgs);
+                } catch (Magento_Performance_Scenario_FailureException $scenarioFailure) {
+                    // do not notify about failed warm up
+                }
             }
 
             /* full run with reports recording */
-            $scenarioName = preg_replace('/\..+?$/', '', basename($scenarioFile));
+            $scenarioName = pathinfo($scenarioFile, PATHINFO_FILENAME);
             $reportFile = $this->_config->getReportDir() . DIRECTORY_SEPARATOR . $scenarioName . '.jtl';
-            if (!$this->_scenarioHandler->run($scenarioFile, $scenarioArguments, $reportFile)) {
-                throw new Magento_Exception("Unable to run scenario '$scenarioFile', format is not supported.");
+            try {
+                $this->_scenarioHandler->run($scenarioFile, $scenarioArguments, $reportFile);
+            } catch (Magento_Performance_Scenario_FailureException $scenarioFailure) {
+                $this->_notifyScenarioFailure($scenarioFailure);
             }
+        }
+    }
+
+    /**
+     * Set callback for scenario first run event
+     *
+     * @param callable $callback
+     */
+    public function onScenarioRun($callback)
+    {
+        $this->_onScenarioRun = $callback;
+    }
+
+    /**
+     * Set callback for scenario scenarioFailure event
+     *
+     * @param callable $callback
+     */
+    public function onScenarioFailure($callback)
+    {
+        $this->_onScenarioFailure = $callback;
+    }
+
+    /**
+     * Notify about scenario run event
+     *
+     * @param string $scenarioFile
+     */
+    protected function _notifyScenarioRun($scenarioFile)
+    {
+        if ($this->_onScenarioRun) {
+            call_user_func($this->_onScenarioRun, $scenarioFile);
+        }
+    }
+
+    /**
+     * Notify about scenario scenarioFailure event
+     *
+     * @param Magento_Performance_Scenario_FailureException $scenarioFailure
+     */
+    protected function _notifyScenarioFailure(Magento_Performance_Scenario_FailureException $scenarioFailure)
+    {
+        if ($this->_onScenarioFailure) {
+            call_user_func($this->_onScenarioFailure, $scenarioFailure);
         }
     }
 

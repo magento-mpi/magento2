@@ -45,7 +45,7 @@ class Magento_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_Tes
             'custom' => 'custom_value',
         ));
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Magento_Performance_Scenario_Handler_Php($this->_shell);
+        $this->_object = new Magento_Performance_Scenario_Handler_Php($this->_shell, false);
     }
 
     protected function tearDown()
@@ -55,23 +55,24 @@ class Magento_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_Tes
         $this->_scenarioArgs = null;
     }
 
-    public function testConstructor()
+    public function testValidateScenarioExecutable()
     {
+        $object = new Magento_Performance_Scenario_Handler_Php($this->_shell);
+
         $this->_shell
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('execute')
             ->with('php --version')
         ;
-        $this->_object->__construct($this->_shell);
-    }
+        $object->run('scenario.php', $this->_scenarioArgs);
 
-    public function testRunUnsupportedScenarioFormat()
-    {
+        // validation must be performed only once
         $this->_shell
-            ->expects($this->never())
+            ->expects($this->any())
             ->method('execute')
+            ->with($this->logicalNot($this->equalTo('php --version')))
         ;
-        $this->assertFalse($this->_object->run($this->_scenarioFile . '.txt', $this->_scenarioArgs));
+        $object->run('scenario.php', $this->_scenarioArgs);
     }
 
     public function testRunNoReport()
@@ -80,17 +81,17 @@ class Magento_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_Tes
             ->expects($this->exactly(3))
             ->method('execute')
             ->with(
-                'php -f %s -- --loops=%s --custom=%s --users=%s',
+                'php -f %s -- --loops %s --custom %s --users %s',
                 array($this->_scenarioFile, 3, 'custom_value', 1)
             )
         ;
-        $this->assertTrue($this->_object->run($this->_scenarioFile, $this->_scenarioArgs));
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs);
     }
 
     public function testRunReport()
     {
         $this->expectOutputRegex('/.+/'); // prevent displaying output
-        $this->assertTrue($this->_object->run($this->_scenarioFile, $this->_scenarioArgs, 'php://output'));
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs, 'php://output');
         $expectedDom = new DOMDocument();
         $expectedDom->loadXML('
             <testResults version="1.2">

@@ -73,28 +73,27 @@ class Magento_Performance_Scenario_Arguments extends ArrayObject
      */
     public function offsetSet($offset, $value)
     {
-        $this->_denyModification();
+        $this->_denyModification($offset);
     }
 
     /**
      * Deny invocation of unset() function
      *
      * @param mixed $offset
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function offsetUnset($offset)
     {
-        $this->_denyModification();
+        $this->_denyModification($offset);
     }
 
     /**
      * Deny modification operation by throwing an exception
      *
+     * @param mixed $index
      * @throws LogicException
      */
-    protected function _denyModification()
+    protected function _denyModification($index)
     {
-        throw new LogicException('Scenario arguments are read-only.');
+        throw new LogicException("Scenario argument '$index' is read-only.");
     }
 }

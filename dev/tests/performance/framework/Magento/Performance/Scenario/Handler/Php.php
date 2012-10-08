@@ -19,14 +19,20 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
     protected $_shell;
 
     /**
+     * @var bool
+     */
+    protected $_validateExecutable;
+
+    /**
      * Constructor
      *
      * @param Magento_Shell $shell
+     * @param bool $validateExecutable
      */
-    public function __construct(Magento_Shell $shell)
+    public function __construct(Magento_Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
-        $this->_validateScenarioExecutable();
+        $this->_validateExecutable = $validateExecutable;
     }
 
     /**
@@ -34,7 +40,10 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
      */
     protected function _validateScenarioExecutable()
     {
-        $this->_shell->execute('php --version');
+        if ($this->_validateExecutable) {
+            $this->_validateExecutable = false; // validate only once
+            $this->_shell->execute('php --version');
+        }
     }
 
     /**
@@ -43,15 +52,13 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
      * @param string $scenarioFile
      * @param Magento_Performance_Scenario_Arguments $scenarioArguments
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @return bool Whether handler was able to process scenario
+     * @throws Magento_Performance_Scenario_FailureException
      *
      * @todo Implement execution in concurrent threads defined by the "users" scenario argument
      */
     public function run($scenarioFile, Magento_Performance_Scenario_Arguments $scenarioArguments, $reportFile = null)
     {
-        if (pathinfo($scenarioFile, PATHINFO_EXTENSION) != 'php') {
-            return false;
-        }
+        $this->_validateScenarioExecutable();
         $reportRows = array();
         for ($i = 0; $i < $scenarioArguments->getLoops(); $i++) {
             $oneReportRow = $this->_executeScenario($scenarioFile, $scenarioArguments);
@@ -60,8 +67,12 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
         if ($reportFile) {
             $this->_writeReport($reportRows, $reportFile);
         }
-        $this->_verifyReport($reportRows);
-        return true;
+        $reportErrors = $this->_getReportErrors($reportRows);
+        if ($reportErrors) {
+            throw new Magento_Performance_Scenario_FailureException(
+                $scenarioFile, $scenarioArguments, implode(PHP_EOL, $reportErrors)
+            );
+        }
     }
 
     /**
@@ -97,7 +108,8 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
     }
 
     /**
-     * Build and return scenario execution command and arguments for it
+     * Build and return scenario execution command and arguments for it, compatible with the getopt() "long options"
+     * @link http://www.php.net/getopt
      *
      * @param string $scenarioFile
      * @param Traversable $scenarioArgs
@@ -108,7 +120,7 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
         $command = 'php -f %s --';
         $arguments = array($scenarioFile);
         foreach ($scenarioArgs as $paramName => $paramValue) {
-            $command .= " --$paramName=%s";
+            $command .= " --$paramName %s";
             $arguments[] = $paramValue;
         }
         return array($command, $arguments);
@@ -144,21 +156,19 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
     }
 
     /**
-     * Verify that report does not contain failures
+     * Retrieve error messages from the report
      *
      * @param array $reportRows
-     * @throws Magento_Performance_Scenario_FailureException
+     * @return array
      */
-    protected function _verifyReport(array $reportRows)
+    protected function _getReportErrors(array $reportRows)
     {
-        $failureMessages = array();
+        $result = array();
         foreach ($reportRows as $oneReportRow) {
             if (!$oneReportRow['success']) {
-                $failureMessages[] = $oneReportRow['output'];
+                $result[] = $oneReportRow['output'];
             }
         }
-        if ($failureMessages) {
-            throw new Magento_Performance_Scenario_FailureException(implode(PHP_EOL, $failureMessages));
-        }
+        return $result;
     }
 }

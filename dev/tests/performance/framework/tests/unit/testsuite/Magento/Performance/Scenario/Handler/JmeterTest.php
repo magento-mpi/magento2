@@ -46,7 +46,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             Magento_Performance_Scenario_Arguments::ARG_USERS => 2,
         ));
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Magento_Performance_Scenario_Handler_Jmeter($this->_shell);
+        $this->_object = new Magento_Performance_Scenario_Handler_Jmeter($this->_shell, false);
     }
 
     protected function tearDown()
@@ -56,23 +56,24 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
         $this->_scenarioArgs = null;
     }
 
-    public function testConstructor()
+    public function testValidateScenarioExecutable()
     {
+        $object = new Magento_Performance_Scenario_Handler_Jmeter($this->_shell, true);
+
         $this->_shell
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('execute')
             ->with('jmeter --version')
         ;
-        $this->_object->__construct($this->_shell);
-    }
+        $object->run('scenario.jmx', $this->_scenarioArgs);
 
-    public function testRunUnsupportedScenarioFormat()
-    {
+        // validation must be performed only once
         $this->_shell
-            ->expects($this->never())
+            ->expects($this->any())
             ->method('execute')
+            ->with($this->logicalNot($this->equalTo('jmeter --version')))
         ;
-        $this->assertFalse($this->_object->run('scenario.txt', $this->_scenarioArgs));
+        $object->run('scenario.jmx', $this->_scenarioArgs);
     }
 
     public function testRunNoReport()
@@ -85,7 +86,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
                 array($this->_scenarioFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2', '-Jloops=1')
             )
         ;
-        $this->assertTrue($this->_object->run($this->_scenarioFile, $this->_scenarioArgs));
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs);
     }
 
     public function testRunReport()
@@ -100,7 +101,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
                 )
             )
         ;
-        $this->assertTrue($this->_object->run($this->_scenarioFile, $this->_scenarioArgs, $this->_reportFile));
+        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs, $this->_reportFile);
     }
 
     /**

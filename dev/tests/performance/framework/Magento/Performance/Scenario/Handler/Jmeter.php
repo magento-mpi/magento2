@@ -19,14 +19,20 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
     protected $_shell;
 
     /**
+     * @var bool
+     */
+    protected $_validateExecutable;
+
+    /**
      * Constructor
      *
      * @param Magento_Shell $shell
+     * @param bool $validateExecutable
      */
-    public function __construct(Magento_Shell $shell)
+    public function __construct(Magento_Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
-        $this->_validateScenarioExecutable();
+        $this->_validateExecutable = $validateExecutable;
     }
 
     /**
@@ -34,7 +40,10 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
      */
     protected function _validateScenarioExecutable()
     {
-        $this->_shell->execute('jmeter --version');
+        if ($this->_validateExecutable) {
+            $this->_validateExecutable = false; // validate only once
+            $this->_shell->execute('jmeter --version');
+        }
     }
 
     /**
@@ -43,19 +52,25 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
      * @param string $scenarioFile
      * @param Magento_Performance_Scenario_Arguments $scenarioArguments
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @return bool Whether handler was able to process scenario
+     * @throws Magento_Exception
+     * @throws Magento_Performance_Scenario_FailureException
      */
     public function run($scenarioFile, Magento_Performance_Scenario_Arguments $scenarioArguments, $reportFile = null)
     {
-        if (pathinfo($scenarioFile, PATHINFO_EXTENSION) != 'jmx') {
-            return false;
-        }
+        $this->_validateScenarioExecutable();
         list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioArguments, $reportFile);
         $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
         if ($reportFile) {
-            $this->_verifyReport($reportFile);
+            if (!file_exists($reportFile)) {
+                throw new Magento_Exception("Report file '$reportFile' has not been created.");
+            }
+            $reportErrors = $this->_getReportErrors($reportFile);
+            if ($reportErrors) {
+                throw new Magento_Performance_Scenario_FailureException(
+                    $scenarioFile, $scenarioArguments, implode(PHP_EOL, $reportErrors)
+                );
+            }
         }
-        return true;
     }
 
     /**
@@ -82,33 +97,29 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
     }
 
     /**
-     * Verify that report XML structure contains no failures and no errors
+     * Retrieve error/failure messages from the report file
      * @link http://wiki.apache.org/jmeter/JtlTestLog
      *
      * @param string $reportFile
-     * @throws Magento_Exception
-     * @throws Magento_Performance_Scenario_FailureException
+     * @return array
      */
-    protected function _verifyReport($reportFile)
+    protected function _getReportErrors($reportFile)
     {
-        if (!file_exists($reportFile)) {
-            throw new Magento_Exception("Report file '$reportFile' has not been created.");
-        }
+        $result = array();
         $reportXml = simplexml_load_file($reportFile);
         $failedAssertions = $reportXml->xpath(
             '/testResults/*/assertionResult[failure[text()="true"] or error[text()="true"]]'
         );
         if ($failedAssertions) {
-            $failureMessages = array();
             foreach ($failedAssertions as $assertionResult) {
                 if (isset($assertionResult->failureMessage)) {
-                    $failureMessages[] = (string)$assertionResult->failureMessage;
+                    $result[] = (string)$assertionResult->failureMessage;
                 }
                 if (isset($assertionResult->errorMessage)) {
-                    $failureMessages[] = (string)$assertionResult->errorMessage;
+                    $result[] = (string)$assertionResult->errorMessage;
                 }
             }
-            throw new Magento_Performance_Scenario_FailureException(implode(PHP_EOL, $failureMessages));
         }
+        return $result;
     }
 }
