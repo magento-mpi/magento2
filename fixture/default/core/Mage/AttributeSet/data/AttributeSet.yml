@@ -28,6 +28,3 @@ attribute_set:
 
 search_attribute_set:
     set_name: Default
-
-search_attribute_set2:
-    set_name: Minimal
