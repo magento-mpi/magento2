@@ -52,6 +52,7 @@
                 <grid_url type="url">
                     <path>*/*/ordersgrid</path>
                 </grid_url>
+                <rssList>null</rssList>
             </arguments>
             <reference name="sales.order.grid.massaction">
                 <arguments>
