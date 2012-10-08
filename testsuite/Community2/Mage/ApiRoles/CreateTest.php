@@ -53,6 +53,29 @@ class Community2_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>API Role Required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click Add New Role button</p>
+     * <p>2. Click Save API Role button</p>
+     * <p>Expected result:</p>
+     * <p>API Role is not created</p>
+     * <p>Message that Role name is required field is appear</p>
+     *
+     * @test
+     * @author Michael Banin
+     * @TestlinkId TL-MAGE-6358
+     */
+    public function requiredFields()
+    {
+        $this->navigate('api_roles_management');
+        $this->clickButton('add_new_role', true);
+        $this->clickButton('save',false);
+        $xpath = $this->_getControlXpath('field', 'role_name');
+        $this->addParameter('fieldXpath', $xpath);
+        $this->assertMessagePresent('error', 'empty_required_field');
+    }
+
+    /**
  * <p>Create API Role (Full Access)</p>
  * <p>Steps</p>
  * <p>1. Click Add New Role button</p>
