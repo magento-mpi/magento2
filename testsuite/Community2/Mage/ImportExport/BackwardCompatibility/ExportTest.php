@@ -69,7 +69,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function searchByAttributeLabelAndResetFilter()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Steps 2-5
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         $this->importExportHelper()->customerFilterAttributes(
@@ -162,7 +162,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function simpleExportMasterFile()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Precondition: create customer
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet(
@@ -210,7 +210,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function exportWithFilters($userData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
@@ -244,10 +244,11 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * @author Iuliia Babenko
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1194
+     * @param array $userData
      */
     public function exportWithSkippedAttribute($userData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
