@@ -31,7 +31,10 @@ class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator
      */
     public function __construct($class, $method)
     {
-        $this->_callback = array(trim($class), trim($method));
+        if (is_string($class)) {
+            $class = trim($class);
+        }
+        $this->_callback = array($class, trim($method));
     }
 
     /**
@@ -47,6 +50,7 @@ class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator
     /**
      * Get callback value
      *
+     * @throws InvalidArgumentException
      * @return mixed
      */
     public function getValue()
@@ -54,6 +58,9 @@ class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator
         if (is_string($this->_callback[0])) {
             $callbackClass = $this->_callback[0];
             $this->_callback[0] = new $callbackClass();
+        }
+        if (!is_callable($this->_callback)) {
+            throw new InvalidArgumentException('Callback does not callable');
         }
         if (is_array($this->_arguments)) {
             return call_user_func_array($this->_callback, $this->_arguments);

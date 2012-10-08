@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Validator
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="test_entity_a">
+        <rules>
+            <rule name="rules_for_builder">
+                <property_constraints>
+                    <property name="int">
+                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                        <constraint class="Validator_Stub" alias="stub">
+                            <argument>test_string_argument</argument>
+                            <argument>
+                                <option name="option1">value1</option>
+                                <option name="option2">value2</option>
+                            </argument>
+                            <argument>
+                                <callback class="Test_Builder_Stub" method="getId"/>
+                            </argument>
+
+                            <method name="setOptionThree">
+                                <argument>
+                                    <option name="argOption">argOptionValue</option>
+                                </argument>
+                                <argument>
+                                    <callback class="Test_Builder_Stub" method="getId"/>
+                                </argument>
+                                <argument>10</argument>
+                            </method>
+                            <method name="enableOptionFour"/>
+
+                            <callback class="Test_Builder_Stub" method="configureValidator"/>
+                        </constraint>
+                    </property>
+                </property_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="check_builder" builder="Test_Builder_Stub">
+                <uses>
+                    <use rule="rules_for_builder"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

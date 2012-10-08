@@ -221,10 +221,12 @@ class Magento_Validator_Builder
         // Call all validator methods according to configuration
         if (array_key_exists('methods', $options)) {
             foreach ($options['methods'] as $methodName => $methodData) {
-                if (array_key_exists('arguments', $methodData)) {
-                    if (method_exists($validator, $methodName)) {
+                if (method_exists($validator, $methodName)) {
+                    if (array_key_exists('arguments', $methodData)) {
                         $arguments = $this->_applyArgumentsCallback($methodData['arguments']);
                         call_user_func_array(array($validator, $methodName), $arguments);
+                    } else {
+                        call_user_func(array($validator, $methodName));
                     }
                 }
             }

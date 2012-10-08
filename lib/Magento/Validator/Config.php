@@ -20,6 +20,11 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     const CONSTRAINT_TYPE_PROPERTY = 'property';
 
     /**
+     * @var string
+     */
+    protected $_defaultBuilderClass = 'Magento_Validator_Builder';
+
+    /**
      * @var array
      */
     protected $_validatorBuilders = array();
@@ -64,7 +69,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
                 $builderClass = $this->_data[$entityName][$groupName]['builder'];
             } else {
-                $builderClass =  'Magento_Validator_Builder';
+                $builderClass = $this->_defaultBuilderClass;
             }
 
             $autoLoader = Magento_Autoload::getInstance();
