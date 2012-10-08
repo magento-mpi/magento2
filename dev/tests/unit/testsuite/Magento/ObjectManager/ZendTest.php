@@ -71,7 +71,7 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_config));
 
         $diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'newInstance', 'get'),
-            array(null, $instanceManager, null));
+            array());
         $diInstance->expects($this->any())
             ->method('instanceManager')
             ->will($this->returnValue($instanceManager));
