@@ -40,7 +40,7 @@ class Community2_Mage_Store_DisableSingleStoreMode_CmsTest extends Mage_Selenium
      *
      * @test
      * @TestlinkId TL-MAGE-6218
-     * author Nataliya_Kolenko
+     * @author Nataliya_Kolenko
      */
     public function verificationManageContent()
     {
@@ -67,7 +67,7 @@ class Community2_Mage_Store_DisableSingleStoreMode_CmsTest extends Mage_Selenium
      *
      * @test
      * @TestlinkId TL-MAGE-6219
-     * author Nataliya_Kolenko
+     * @author Nataliya_Kolenko
      */
     public function verificationStaticBlocks()
     {
@@ -98,7 +98,7 @@ class Community2_Mage_Store_DisableSingleStoreMode_CmsTest extends Mage_Selenium
      *
      * @test
      * @TestlinkId TL-MAGE-6220
-     * author Nataliya_Kolenko
+     * @author Nataliya_Kolenko
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -136,7 +136,7 @@ class Community2_Mage_Store_DisableSingleStoreMode_CmsTest extends Mage_Selenium
      *
      * @test
      * @TestlinkId TL-MAGE-6222
-     * author Nataliya_Kolenko
+     * @author Nataliya_Kolenko
      */
     public function verificationPolls()
     {
