@@ -45,10 +45,20 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      * @param $entityName
      * @param $groupName
      * @param array $builderConfig
+     * @throws InvalidArgumentException
      * @return Magento_Validator_Builder
      */
     public function getValidatorBuilder($entityName, $groupName, array $builderConfig = null)
     {
+        if (!isset($this->_data[$entityName])) {
+            throw new InvalidArgumentException(sprintf('Unknown validation entity "%s"', $entityName));
+        }
+
+        if (!isset($this->_data[$entityName][$groupName])) {
+            throw new InvalidArgumentException(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
+                $entityName));
+        }
+
         $builderKey = $entityName . '/' . $groupName;
         if (!array_key_exists($builderKey, $this->_validatorBuilders)) {
             if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
@@ -56,8 +66,18 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             } else {
                 $builderClass =  'Magento_Validator_Builder';
             }
-            $this->_validatorBuilders[$builderKey] =
-                new $builderClass($this->_data[$entityName][$groupName]['constraints']);
+
+            $autoLoader = Magento_Autoload::getInstance();
+            if (!$autoLoader->classExists($builderClass)) {
+                throw new InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
+            }
+
+            $builder = new $builderClass($this->_data[$entityName][$groupName]['constraints']);
+            if (!$builder instanceof Magento_Validator_Builder) {
+                throw new InvalidArgumentException(
+                    sprintf('Builder "%s" must extend Magento_Validator_Builder', $builderClass));
+            }
+            $this->_validatorBuilders[$builderKey] = $builder;
         }
         if ($builderConfig) {
             $this->_validatorBuilders[$builderKey]->addConfigurations($builderConfig);
@@ -71,20 +91,10 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      * @param string $entityName
      * @param string $groupName
      * @param array $builderConfig
-     * @throws InvalidArgumentException
      * @return Magento_Validator
      */
     public function createValidator($entityName, $groupName, array $builderConfig = null)
     {
-        if (!isset($this->_data[$entityName])) {
-            throw new InvalidArgumentException(sprintf('Unknown validation entity "%s"', $entityName));
-        }
-
-        if (!isset($this->_data[$entityName][$groupName])) {
-            throw new InvalidArgumentException(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
-                $entityName));
-        }
-
         return $this
             ->getValidatorBuilder($entityName, $groupName, $builderConfig)
             ->createValidator();
@@ -133,8 +143,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             $result[$group->getAttribute('name')] = array(
                 'constraints' => $groupConstraints
             );
-            $autoLoader = Magento_Autoload::getInstance();
-            if ($group->hasAttribute('builder') && $autoLoader->classExists($group->getAttribute('builder'))) {
+            if ($group->hasAttribute('builder')) {
                 $result[$group->getAttribute('name')]['builder'] = (string)$group->getAttribute('builder');
             }
         }
@@ -200,10 +209,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      */
     protected function _extractConstraintOptions(DOMElement $constraint)
     {
-        $options = null;
-
         if ($constraint->hasChildNodes()) {
             $options = array();
+            $children = $this->_collectChildren($constraint);
 
             /**
              * Read constructor arguments
@@ -219,7 +227,6 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
              *     </argument>
              * </constraint>
              */
-            $children = $this->_collectChildren($constraint);
             $arguments = $this->_readArguments($children);
             if ($arguments) {
                 $options['arguments'] = $arguments;
@@ -240,43 +247,13 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             /**
              * Read constraint method configuration
              */
-            $methods = $constraint->getElementsByTagName('method');
-            if ($methods->length > 0) {
-                /** @var $method DOMElement */
-                foreach ($methods as $method) {
-                    $children = $this->_collectChildren($method);
-                    $methodName = (string)$method->getAttribute('name');
-                    $methodOptions = array(
-                        'method' => $methodName
-                    );
-
-                    /**
-                     * <constraint class="Constraint">
-                     *     <method name="setMaxValue">
-                     *         <argument>
-                     *             <option name="minValue">123</option>
-                     *             <option name="maxValue">234</option>
-                     *         </argument>
-                     *         <argument>0</argument>
-                     *         <argument>
-                     *             <callback class="Class" method="method" />
-                     *         </argument>
-                     *     </method>
-                     * </constraint>
-                     */
-                    $arguments = $this->_readArguments($children);
-                    if ($arguments) {
-                        $methodOptions['arguments'] = $arguments;
-                    }
-
-                    if (!array_key_exists('methods', $options)) {
-                        $options['methods'] = array();
-                    }
-                    $options['methods'][$methodName] = $methodOptions;
-                }
+            $methods = $this->_readMethods($children);
+            if ($methods) {
+                $options['methods'] = $methods;
             }
+            return $options;
         }
-        return $options;
+        return null;
     }
 
     /**
@@ -372,6 +349,48 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 }
             }
             return new Magento_Validator_Constraint_Option_Scalar($data);
+        }
+        return null;
+    }
+
+    /**
+     * Get methods configuration.
+     *
+     * Example of method configuration:
+     * <constraint class="Constraint">
+     *     <method name="setMaxValue">
+     *         <argument>
+     *             <option name="minValue">123</option>
+     *             <option name="maxValue">234</option>
+     *         </argument>
+     *         <argument>0</argument>
+     *         <argument>
+     *             <callback class="Class" method="method" />
+     *         </argument>
+     *     </method>
+     * </constraint>
+     *
+     * @param array $children
+     * @return array|null
+     */
+    protected function _readMethods($children)
+    {
+        if (array_key_exists('method', $children)) {
+            $methods = array();
+            /** @var $method DOMElement */
+            foreach ($children['method'] as $method) {
+                $children = $this->_collectChildren($method);
+                $methodName = (string)$method->getAttribute('name');
+                $methodOptions = array(
+                    'method' => $methodName
+                );
+                $arguments = $this->_readArguments($children);
+                if ($arguments) {
+                    $methodOptions['arguments'] = $arguments;
+                }
+                $methods[$methodName] = $methodOptions;
+            }
+            return $methods;
         }
         return null;
     }

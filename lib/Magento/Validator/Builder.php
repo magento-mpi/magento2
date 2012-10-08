@@ -25,7 +25,57 @@ class Magento_Validator_Builder
      */
     public function __construct(array $constraints)
     {
+        foreach ($constraints as $constraint) {
+            if (array_key_exists('options', $constraint) && is_array($constraint['options'])) {
+                $this->_checkConfigurationArguments($constraint['options']);
+                $this->_checkConfigurationCallback($constraint['options'], true);
+            }
+        }
         $this->_constraints = $constraints;
+    }
+
+    /**
+     * Check configuration arguments
+     *
+     * @param array $configuration
+     * @throws InvalidArgumentException
+     */
+    protected function _checkConfigurationArguments(array $configuration)
+    {
+        if (array_key_exists('arguments', $configuration) && !is_array($configuration['arguments'])) {
+            throw new InvalidArgumentException('Arguments must be an array');
+        }
+        if (array_key_exists('methods', $configuration)) {
+            foreach ($configuration['methods'] as $method) {
+                if (array_key_exists('arguments', $method) && !is_array($method['arguments'])) {
+                    throw new InvalidArgumentException('Method arguments must be an array');
+                }
+            }
+        }
+    }
+
+    /**
+     * Check configuration callbacks
+     *
+     * @param array $configuration
+     * @param $callbackIsArray
+     * @throws InvalidArgumentException
+     */
+    protected function _checkConfigurationCallback(array $configuration, $callbackIsArray)
+    {
+        if (array_key_exists('callback', $configuration)) {
+            if ($callbackIsArray) {
+                $callbacks = $configuration['callback'];
+            } else {
+                $callbacks = array($configuration['callback']);
+            }
+            foreach ($callbacks as $callback) {
+                if (!($callback instanceof Magento_Validator_Constraint_Option_Callback)) {
+                    throw new InvalidArgumentException(
+                        'Callback must be instance of Magento_Validator_Constraint_Option_Callback');
+                }
+            }
+        }
     }
 
     /**
@@ -57,10 +107,13 @@ class Magento_Validator_Builder
      *
      * @param string $alias
      * @param array $configuration
+     * @throws InvalidArgumentException
      * @return Magento_Validator_Builder
      */
     public function addConfiguration($alias, array $configuration)
     {
+        $this->_checkConfigurationArguments($configuration);
+        $this->_checkConfigurationCallback($configuration, false);
         foreach ($this->_constraints as &$constraint) {
             if ($constraint['alias'] != $alias) {
                 continue;
