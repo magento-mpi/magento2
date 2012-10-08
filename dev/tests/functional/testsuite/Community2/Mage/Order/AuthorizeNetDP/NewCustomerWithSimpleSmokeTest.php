@@ -75,7 +75,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>8. Click 'Submit Order'</p>
      * <p>Expected result:</p>
      * <p>Order is successfully placed</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param string $simpleSku
      *
@@ -86,7 +85,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function orderAuthorizeNetDPSmoke($simpleSku)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenetdp');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
@@ -115,7 +114,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>8. Click 'Submit Order'</p>
      * <p>Expected result:</p>
      * <p>Order is successfully placed</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param array $orderData
      * @param string $card
@@ -127,7 +125,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function differentCardInAuthorizeNetDP($card, $orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
@@ -166,7 +164,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>13.Create Invoice.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param string $captureType
      * @param array $orderData
@@ -178,7 +175,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -219,7 +216,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>14.Make refund online.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -232,7 +228,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -272,7 +268,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>15.Execute partial refund.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -287,7 +282,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function partialRefund($captureType, $refundType, $orderData, $sku)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund');
@@ -344,7 +339,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>New customer successfully created. Order is created for the new customer;</p>
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param array $orderData
      *
@@ -354,7 +348,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -373,7 +367,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
      * <p>Order is unhold;</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param array $orderData
      *
@@ -383,7 +376,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -401,7 +394,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>3. Open created order and click'Cancel'</p>
      * <p>Expected result:</p>
      * <p>Order is cancelled</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param array $orderData
      *
@@ -411,7 +403,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -441,8 +433,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
-     * <p>Bug MAGETWO-2856</p>
      *
      * @param array $orderData
      *
@@ -452,7 +442,6 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -487,8 +476,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      * <p>13.Void Order.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Void successful</p>
-     * <p>Bug MAGETWO-2856</p>
-     *
+     * 
      * @param array $orderData
      *
      * @test
@@ -497,7 +485,7 @@ class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extend
      */
     public function voidPendingOrderFromOrderPage($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-2856');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

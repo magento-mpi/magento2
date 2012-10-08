@@ -322,7 +322,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
@@ -338,7 +337,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInSimple()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
