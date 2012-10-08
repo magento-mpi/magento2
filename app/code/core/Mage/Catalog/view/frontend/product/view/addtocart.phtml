@@ -28,10 +28,10 @@
     (function ($) {
         $.mage.event.observe('product.addtocart.button', function (event, cartData) {
             var initData = {
-                addToCartButtonId: "#product-addtocart-button",
-                addToCartForm: "#product_addtocart_form"
+                cartButtonId: "#product-addtocart-button",
+                cartForm: "#product_addtocart_form"
             };
-            cartData.addToCartData.push(initData);
+            cartData.cartFormData.push(initData);
         });
         $.mage.load.js("<?php echo $this->getSkinUrl('jquery/jquery.metadata.js')?>");
         $.mage.load.js("<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>");

@@ -62,8 +62,8 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 
                 $.mage.event.observe('map.popup.button', function (event, popupCartData) {
                     var initData = {
-                        popupButtonId: "#map-popup-button",
-                        addToCartForm: "#product_addtocart_form"
+                        cartButtonId: "#map-popup-button",
+                        cartForm: "#product_addtocart_form"
                     };
                     popupCartData.cartData.push(initData);
                 });

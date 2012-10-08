@@ -26,7 +26,7 @@
     };
 
     var _cartData = {
-        addToCartData: []
+        cartFormData: []
     };
 
     $(document).ready(function () {
@@ -35,6 +35,7 @@
         $.mage.event.trigger("mage.popup.whatsthislink", _helpLinkData);
         $.mage.event.trigger("map.popup.button", _popupCartData);
         $.mage.event.trigger("product.addtocart.button", _cartData);
+        $.mage.event.trigger("product.updatecart.button", _cartData);
 
         $.each(_clickForPrice.helpLink, function (index, value) {
             $(value.popupId).on('click', function (e) {
@@ -69,9 +70,10 @@
             return false;
         });
 
-        $.each($.merge(_cartData.addToCartData, _popupCartData.cartData), function (index, value) {
-            $(value.addToCartButtonId).on('click', function () {
-                $(value.addToCartForm).mage().validate({
+        $.each($.merge(_cartData.cartFormData, _popupCartData.cartData), function (index, value) {
+
+            $(value.cartButtonId).on('click', function () {
+                $(value.cartForm).mage().validate({
                     errorPlacement: function (error, element) {
                         if (element.is(':radio') || element.is(':checkbox')) {
                             element.closest('ul').after(error);
@@ -94,7 +96,7 @@
                         }
                     }
                 });
-                $(value.addToCartForm).submit();
+                $(value.cartForm).submit();
             });
         });
 
