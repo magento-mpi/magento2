@@ -189,9 +189,8 @@ class Mage_Paypal_Model_Ipn
             }
             // re-initialize config with the method code and store id
             $methodCode = $this->_recurringProfile->getMethodCode();
-            $this->_config = Mage::getModel(
-                'Mage_Paypal_Model_Config', array($methodCode, $this->_recurringProfile->getStoreId())
-            );
+            $parameters = array('params' => array($methodCode, $this->_recurringProfile->getStoreId()));
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', $parameters);
             if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
                 throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
             }

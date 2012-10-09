@@ -538,7 +538,7 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
-        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $this->_quote);
+        $service = Mage::getModel('Mage_Sales_Model_Service_Quote', $parameters);
         $service->submitAll();
         $this->_quote->save();
 

@@ -806,16 +806,18 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         if ($this->getIsInherited()) {
             $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
-                'scope' =>  $parentScope[0],
-                'scope_id' => $parentScope[1],
-            ));
-            if ($parentScopeNode->getIsInherited()) {
-                $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+            $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
+                array(
                     'scope' =>  $parentScope[0],
                     'scope_id' => $parentScope[1],
-                ));
+            )));
+            if ($parentScopeNode->getIsInherited()) {
+                $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
+                $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
+                    array(
+                        'scope' =>  $parentScope[0],
+                        'scope_id' => $parentScope[1],
+                )));
             }
             return $parentScopeNode;
         }
