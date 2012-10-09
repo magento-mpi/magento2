@@ -150,7 +150,6 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
     }
 
     /**
-     * <p>Fails because of MAGETWO-3250</p>
      * <p>Updating products attributes using Batch Updates</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add Product"</p>
@@ -172,7 +171,7 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
      */
     public function updateAllProductsFields()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3250');
         $productQty = 2;
         for ($i = 1; $i <= $productQty; $i++) {
             //Data
