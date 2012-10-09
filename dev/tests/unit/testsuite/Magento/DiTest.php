@@ -14,15 +14,27 @@ use \Zend\Di;
 /**
  * Test case for Magento_Di
  */
-class Magento_DiTest extends PHPUnit_Framework_TestCase
+class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
+    /**#@+
+     * Parent classes for test classes
+     */
+    const PARENT_CLASS_MODEL = 'Mage_Core_Model_Abstract';
+    const PARENT_CLASS_BLOCK = 'Mage_Core_Block_Abstract';
+    /**#@-*/
+
     /**#@+
      * Test classes for different instantiation types
      */
-    const TEST_CLASS_MODEL = 'Mage_Test_Model_Stub';
-    const TEST_CLASS_BLOCK = 'Mage_Test_Block_Stub';
+    const TEST_CLASS_MODEL = 'Mage_Test_Model_TestStub';
+    const TEST_CLASS_BLOCK = 'Mage_Test_Block_TestStub';
     const TEST_CLASS_OTHER = 'Varien_Object';
     /**#@-*/
+
+    /**
+     * Construct method name
+     */
+    const CONSTRUCT_METHOD = '__construct';
 
     /**
      * Model under test
@@ -73,9 +85,31 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             'design'          => 'Mage_Core_Model_Design_Package',
             'session'         => 'Mage_Core_Model_Session',
             'storeConfig'     => 'Mage_Core_Model_Store_Config',
-            'frontController' =>'Mage_Core_Controller_Varien_Front',
+            'frontController' => 'Mage_Core_Controller_Varien_Front',
         ),
     );
+
+    /**
+     * Construct parameters full definition
+     *
+     * @var array
+     */
+    protected $_constructParameters = array(
+        self::TEST_CLASS_MODEL => array(
+            '::__construct:0' => array('eventDispatcher', 'Mage_Core_Model_Event_Manager', true, null),
+            '::__construct:1' => array('cacheManager', 'Mage_Core_Model_Cache', true, null),
+            '::__construct:2' => array('resource', 'Mage_Core_Model_Resource_Abstract', false, null),
+            '::__construct:3' => array('resourceCollection', 'Varien_Data_Collection_Db', false, null),
+            '::__construct:4' => array('data', null, false, array()),
+        ),
+    );
+
+    /**
+     * Test data value to assert test expectations
+     *
+     * @var array
+     */
+    protected $_expectedDataValue = array('key' => 'value');
 
     /**
      * List of shared instances
@@ -83,6 +117,19 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_sharedInstances = array();
+
+    protected function setUp()
+    {
+        // create mock classes for test
+        $this->getMockForAbstractClass(
+            self::PARENT_CLASS_MODEL,
+            $this->_getConstructArguments(self::MODEL_ENTITY, self::PARENT_CLASS_MODEL),
+            self::TEST_CLASS_MODEL, false
+        );
+        $this->getMockForAbstractClass(self::PARENT_CLASS_BLOCK,
+            $this->_getConstructArguments(self::BLOCK_ENTITY, self::PARENT_CLASS_BLOCK),
+            self::TEST_CLASS_BLOCK, false);
+    }
 
     protected function tearDown()
     {
@@ -263,7 +310,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
     // @codingStandardsIgnoreStart
     /**
      * @expectedException Zend\Di\Exception\ClassNotFoundException
-     * @expectedExceptionMessage Class (specified by alias Mage_Test_Model_Stub) Mage_Test_Model_Stub_Other could not be located in provided definitions.
+     * @expectedExceptionMessage Class (specified by alias Mage_Test_Model_TestStub) Mage_Test_Model_TestStub_Other could not be located in provided definitions.
      */
     // @codingStandardsIgnoreEnd
     public function testNewInstanceNoDefinitionException()
@@ -283,7 +330,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Zend\Di\Exception\RuntimeException
-     * @expectedExceptionMessage Invalid instantiator of type "string" for "Mage_Test_Model_Stub".
+     * @expectedExceptionMessage Invalid instantiator of type "string" for "Mage_Test_Model_TestStub".
      */
     public function testNewInstanceInvalidInstantiatorNotArray()
     {
@@ -341,30 +388,30 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
      */
     public function newInstanceWithDefinitionsWithoutResolveDataProvider()
     {
-        $testClassName = self::TEST_CLASS_OTHER;
+        $testClassOther = self::TEST_CLASS_OTHER;
 
         return array(
             'shared with arguments' => array(
-                '$instantiator' => '__construct',
-                '$className'    => $testClassName,
+                '$instantiator' => self::CONSTRUCT_METHOD,
+                '$className'    => self::TEST_CLASS_OTHER,
                 '$arguments'    => array(2 => 'test string'),
                 '$isShared'     => true,
             ),
             'shared without arguments' => array(
-                '$instantiator' => '__construct',
-                '$className'    => $testClassName,
+                '$instantiator' => self::CONSTRUCT_METHOD,
+                '$className'    => self::TEST_CLASS_OTHER,
                 '$arguments'    => array(),
                 '$isShared'     => true,
             ),
             'not shared' => array(
-                '$instantiator' => '__construct',
-                '$className'    => $testClassName,
+                '$instantiator' => self::CONSTRUCT_METHOD,
+                '$className'    => self::TEST_CLASS_OTHER,
                 '$arguments'    => array(),
                 '$isShared'     => false,
             ),
             'not shared callback' => array(
-                '$instantiator' => array(new $testClassName(), 'setOrigData'), // setOrigData returns object itself
-                '$className'    => $testClassName,
+                '$instantiator' => array(new $testClassOther(), 'setOrigData'), // setOrigData returns object itself
+                '$className'    => self::TEST_CLASS_OTHER,
                 '$arguments'    => array(),
                 '$isShared'     => false,
             ),
@@ -388,6 +435,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
 
         $testObject = $this->_model->newInstance($className, $arguments, $isShared);
         $this->assertInstanceOf($className, $testObject);
+        $this->assertAttributeEmpty('instanceContext', $this->_model);
     }
 
     /**
@@ -455,88 +503,97 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Magento_Di($definitions, $instanceManager);
     }
-}
 
-/**
- * Stub model class to test Magento_Di::newInstance
- */
-class Mage_Test_Model_Stub extends Mage_Core_Model_Abstract
-{
     /**
-     * Constructor $data property value
+     * Data provider for testNewInstanceWithDefinitionsWithResolve
      *
-     * @var array
+     * @return array
      */
-    protected $_data;
-
-    /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
-     * @param array $data
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
-     */
-    public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
-        Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection);
-        $this->_data = $data;
-    }
-}
-
-/**
- * Stub block class to test Magento_Di::newInstance
- */
-class Mage_Test_Block_Stub extends Mage_Core_Block_Abstract
-{
-    /**
-     * Constructor $data property value
-     *
-     * @var array
-     */
-    protected $_data;
-
-    /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $request,
-            $layout,
-            $eventManager,
-            $translator,
-            $cache,
-            $designPackage,
-            $session,
-            $storeConfig,
-            $frontController
+    public function testNewInstanceWithDefinitionsWithResolveDataProvider()
+    {
+        return array(
+            'model with data in new array format' => array(
+                '$arguments' => array('data' => $this->_expectedDataValue)
+            ),
+            'model with data in new numeric format' => array(
+                '$arguments' => array(4 => $this->_expectedDataValue)
+            ),
+            'model with data in old format' => array(
+                '$arguments' => $this->_expectedDataValue
+            ),
         );
-        $this->_data = $data;
+    }
+
+    /**
+     * @param array $arguments
+     *
+     * @dataProvider testNewInstanceWithDefinitionsWithResolveDataProvider
+     */
+    public function testNewInstanceWithDefinitionsWithResolve(array $arguments)
+    {
+        $className  = self::TEST_CLASS_MODEL . '_Alias';
+        $classAlias = self::TEST_CLASS_MODEL;
+        $this->_prepareMockForNewInstanceWithDefinitionsWithResolve($classAlias);
+
+        $testModel = $this->_model->newInstance($className, $arguments, false);
+        $this->assertAttributeEquals($this->_expectedDataValue, '_data', $testModel);
+    }
+
+    /**
+     * Prepares all mocks for testNewInstanceWithDefinitionsWithResolve
+     *
+     * @param string $className
+     */
+    protected function _prepareMockForNewInstanceWithDefinitionsWithResolve($className)
+    {
+        $definitions = $this->getMock(
+            'Zend\Di\DefinitionList',
+            array(
+                'hasClass',
+                'getInstantiator',
+                'hasMethodParameters',
+                'getMethodParameters'
+            ),
+            array(), '', false
+        );
+        $definitions->expects($this->any())
+            ->method('hasClass')
+            ->will($this->returnValue(true));
+        $definitions->expects($this->any())
+            ->method('getInstantiator')
+            ->will($this->returnValue('__construct'));
+
+        $definitions->expects($this->any())
+            ->method('hasMethodParameters')
+            ->with($className, self::CONSTRUCT_METHOD)
+            ->will($this->returnValue(true));
+
+        $constructParameters = array();
+        foreach ($this->_constructParameters[$className] as $key => $data) {
+            $key = $className . $key;
+            $constructParameters[$key] = $data;
+        }
+        $definitions->expects($this->once())
+            ->method('getMethodParameters')
+            ->with($className, self::CONSTRUCT_METHOD)
+            ->will($this->returnValue($constructParameters));
+
+        $instanceManager = $this->getMock(
+            'Zend\Di\InstanceManager', array('hasAlias', 'getClassFromAlias', 'hasSharedInstance', 'getSharedInstance')
+        );
+        $instanceManager->expects($this->any())
+            ->method('hasAlias')
+            ->will($this->returnValue(true));
+        $instanceManager->expects($this->any())
+            ->method('getClassFromAlias')
+            ->will($this->returnValue($className));
+        $instanceManager->expects($this->any())
+            ->method('hasSharedInstance')
+            ->will($this->returnValue(true));
+        $instanceManager->expects($this->any())
+            ->method('getSharedInstance')
+            ->will($this->returnCallback(array($this, 'callbackGetSharedInstance')));
+
+        $this->_model = new Magento_Di($definitions, $instanceManager);
     }
 }

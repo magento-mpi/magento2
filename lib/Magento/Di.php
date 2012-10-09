@@ -258,8 +258,8 @@ class Magento_Di extends Zend\Di\Di
                 $callTimeUserParams[$parameterNames[$name]] = $callTimeUserParams[$name];
             }
         }
-        if (!$isPositional) {
 
+        if (!$isPositional) {
             if (count($callTimeUserParams)
                 && !isset($callTimeUserParams['data'])
             ) {
@@ -462,7 +462,7 @@ class Magento_Di extends Zend\Di\Di
                 if ($isInstantiator
                     && in_array($computedParams['required'][$fqParamPos][1], $this->currentDependencies)) {
                     throw new Exception\CircularDependencyException(
-                        "Circular dependency detected: $class depends on {$value[1]} and viceversa"
+                        "Circular dependency detected: $class depends on {$value[1]} and vice versa"
                     );
                 }
                 array_push($this->currentDependencies, $class);
