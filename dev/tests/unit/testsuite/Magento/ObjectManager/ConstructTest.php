@@ -24,13 +24,10 @@ class Magento_ObjectManager_Zend_ConstructTest extends PHPUnit_Framework_TestCas
     {
         $model = new Magento_ObjectManager_Zend($definitionsFile, $diInstance);
         $this->assertAttributeInstanceOf(get_class($diInstance), '_di', $model);
-
     }
 
     /**
      * Data Provider for method __construct($definitionsFile, $diInstance)
-     *
-     * @covers Magento_ObjectManager_Zend::__construct
      */
     public function constructDataProvider()
     {
