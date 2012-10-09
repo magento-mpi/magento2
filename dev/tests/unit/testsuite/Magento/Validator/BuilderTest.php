@@ -14,7 +14,6 @@
  */
 class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Magento_Validator_Constraint_Option_Callback
      */
@@ -30,29 +29,65 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidator(array $constraints, array $constructorData, array $expectedCallback = array())
     {
-        foreach ($expectedCallback as $return) {
-            self::$_callbackObject->expects($this->once())
+        if (isset($expectedCallback['return'])) {
+            self::$_callbackObject->expects($this->at(0))
                 ->method('getValue')
-                ->will($this->returnValue($return));
+                ->will($this->returnValue($expectedCallback['return']));
+        } elseif (isset($expectedCallback['entity_callback'])) {
+            self::$_callbackObject->expects($this->once())
+                ->method('getValue');
+            self::$_callbackObject->expects($this->once())
+                ->method('setArguments');
         }
         $builder = new Magento_Validator_Builder($constraints);
         $builder->createValidator();
-        $this->assertEquals($constructorData, Magento_Validator_Stub::$constructorData);
+        $this->assertEquals($constructorData, Magento_Validator_Test_Stub::$constructorData);
     }
 
     /**
+     * Data provider for testCreateValidator
+     *
      * @return array
      */
     public function getBuilderData()
     {
         self::$_callbackObject = $this->getMock('Magento_Validator_Constraint_Option_Callback',
             array('getValue'), array(), '', false);
+        return $this->constructorDataProvider() + $this->methodsDataProvider() + array(
+            'callback_entity' => array(
+                'constraints' => array(
+                    0 => array (
+                        'alias' => 'notEmpty',
+                        'class' => 'Magento_Validator_Test_Stub',
+                        'options' => array(
+                            'arguments' => array(5, 6),
+                            'callback' => array(self::$_callbackObject),
+                        ),
+                        'property' => 'name',
+                        'type' => 'property',
+                    ),
+                ),
+                'constructorData' => array(5, 6),
+                'expectedCallback' => array(
+                    'entity_callback' => array()
+                )
+            ),
+        );
+    }
+
+    /**
+     * Return data for testing validator constructor
+     *
+     * @return array
+     */
+    public function constructorDataProvider()
+    {
         return array(
             'constructor_argument' => array(
                 'constraints' => array(
                     0 => array (
                         'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Stub',
+                        'class' => 'Magento_Validator_Test_Stub',
                         'options' => array(
                             'arguments' => array(5, 6)
                         ),
@@ -66,7 +101,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 'constraints' => array(
                     0 => array (
                         'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Stub',
+                        'class' => 'Magento_Validator_Test_Stub',
                         'options' => array(
                             'arguments' => array(5, array(43, 84))
                         ),
@@ -80,7 +115,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 'constraints' => array(
                     0 => array (
                         'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Stub',
+                        'class' => 'Magento_Validator_Test_Stub',
                         'options' => array(
                             'arguments' => array(
                                 self::$_callbackObject,
@@ -96,11 +131,22 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                     'return' => array(7, 8),
                 )
             ),
+        );
+    }
+
+    /**
+     * Return data for testing validator methods
+     *
+     * @return array
+     */
+    public function methodsDataProvider()
+    {
+        return array(
             'method_arguments' => array(
                 'constraints' => array(
                     0 => array (
                         'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Stub',
+                        'class' => 'Magento_Validator_Test_Stub',
                         'options' => array(
                             'arguments' => array(5, 6),
                             'methods' =>
@@ -118,87 +164,56 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 ),
                 'constructorData' => array(3, 4),
             ),
-//            'method_callback' => array(
-//                'constraints' => array(
-//                    0 => array (
-//                        'alias' => 'notEmpty',
-//                        'class' => 'Magento_Validator_Stub',
-//                        'options' => array(
-//                            'arguments' => array(5, 6)
-//                        ),
-//                        'property' => 'name',
-//                        'type' => 'property',
-//                    )
-//                ),
-//                'constructorData' => array(5, 6),
-//                'expectedCallback' => array(),
-//            ),
-//            'method_array' => array(
-//                'constraints' => array(
-//                    0 => array (
-//                        'alias' => 'notEmpty',
-//                        'class' => 'Magento_Validator_Stub',
-//                        'options' => array(
-//                            'arguments' => array(5, 6)
-//                        ),
-//                        'property' => 'name',
-//                        'type' => 'property',
-//                    )
-//                ),
-//                'constructorData' => array(5, 6),
-//                'expectedCallback' => array(),
-//            ),
-//            'callback_entity' => array(),
+            'method_callback' => array(
+                'constraints' => array(
+                    0 => array (
+                        'alias' => 'notEmpty',
+                        'class' => 'Magento_Validator_Test_Stub',
+                        'options' => array(
+                            'arguments' => array(5, 6),
+                            'methods' =>
+                            array (
+                                'setData' =>
+                                array (
+                                    'method' => 'setData',
+                                    'arguments' => array(
+                                        self::$_callbackObject,
+                                        'Second argument'
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'property' => 'name',
+                        'type' => 'property',
+                    )
+                ),
+                'constructorData' => array(array('First param', 85), 'Second argument'),
+                'expectedCallback' => array(
+                    'return' => array('First param', 85),
+                )
+            ),
+            'method_array' => array(
+                'constraints' => array(
+                    0 => array (
+                        'alias' => 'notEmpty',
+                        'class' => 'Magento_Validator_Test_Stub',
+                        'options' => array(
+                            'arguments' => array(5, 6),
+                            'methods' =>
+                            array (
+                                'setData' =>
+                                array (
+                                    'method' => 'setData',
+                                    'arguments' => array (3, array(45, 83)),
+                                ),
+                            ),
+                        ),
+                        'property' => 'name',
+                        'type' => 'property',
+                    )
+                ),
+                'constructorData' => array (3, array(45, 83)),
+            ),
         );
-    }
-}
-
-/**
- * Stub for testing Magento_Validator_Builder
- */
-class Magento_Validator_Stub implements Magento_Validator_Interface
-{
-    /**
-     * @var array
-     */
-    public static $constructorData;
-
-    /**
-     * Class constructor
-     */
-    public function __construct()
-    {
-        self::$constructorData = func_get_args();
-    }
-
-    /**
-     * Implementation isValid from interface
-     *
-     * @param $value
-     * @return bool
-     */
-    public function isValid($value)
-    {
-        return (bool)$value;
-    }
-
-    /**
-     * Implementation getMessages from interface
-     *
-     * @return array
-     */
-    public function getMessages()
-    {
-        return array();
-    }
-
-    /**
-     * Set validator's options
-     *
-     * @return array
-     */
-    public function setData()
-    {
-        self::$constructorData = func_get_args();
     }
 }
