@@ -63,15 +63,13 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareObjectManagerForTests($mockNewInstance = false)
     {
-        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array(), array(), '', false);
-
         $this->_config = $this->getMock('Mage_Core_Model_Config', array('loadBase'), array(), '', false);
         $this->_config->expects($this->any())
             ->method('loadBase')
             ->will($this->returnValue($this->_config));
 
-        $diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'newInstance', 'get'),
-            array());
+        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'), array(), '', false);
+        $diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'newInstance', 'get', 'setDefinitionList'));
         $diInstance->expects($this->any())
             ->method('instanceManager')
             ->will($this->returnValue($instanceManager));
