@@ -62,6 +62,9 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
     {
         /** @var $attribute Mage_Eav_Model_Attribute */
         foreach ($this->_attributes as $attribute) {
+            if (!$attribute->getDataModel() && !$attribute->getFrontendInput()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute, $entity);
             $dataModel->setExtractedData($this->_data);
             if (!isset($this->_data[$attribute->getAttributeCode()])) {

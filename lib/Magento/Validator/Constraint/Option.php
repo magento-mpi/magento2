@@ -9,7 +9,7 @@
  */
 
 /**
- * Constraint scalar option
+ * Constraint option
  */
 class Magento_Validator_Constraint_Option implements  Magento_Validator_Constraint_OptionInterface
 {
@@ -25,11 +25,6 @@ class Magento_Validator_Constraint_Option implements  Magento_Validator_Constrai
      */
     public function __construct($value)
     {
-        if (is_array($value)) {
-            $value = array_map('trim', $value);
-        } elseif (is_string($value)) {
-            $value = trim($value);
-        }
         $this->_value = $value;
     }
 

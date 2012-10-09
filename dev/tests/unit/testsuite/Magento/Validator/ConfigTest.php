@@ -192,7 +192,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         $configFile = array(__DIR__ . '/_files/validation/positive/builder/validation.xml');
         $config = new Magento_Validator_Config($configFile);
         $builder = $config->getValidatorBuilder('test_entity_a', 'check_builder');
-        $this->assertInstanceOf('Test_Builder_Stub', $builder);
+        $this->assertInstanceOf('Magento_Validator_Test_Builder', $builder);
 
         $expected = array(
             array(
@@ -212,17 +212,23 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                             'option1' => 'value1',
                             'option2' => 'value2'
                         )),
-                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId')
+                        new Magento_Validator_Constraint_Option_Callback('Magento_Validator_Test_Callback', 'getId')
                     ),
                     'callback' => array(
-                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'configureValidator')
+                        new Magento_Validator_Constraint_Option_Callback(
+                            'Magento_Validator_Test_Callback',
+                            'configureValidator'
+                        )
                     ),
                     'methods' => array(
                         'setOptionThree' => array(
                             'method' => 'setOptionThree',
                             'arguments' => array(
                                 new Magento_Validator_Constraint_Option(array('argOption' => 'argOptionValue')),
-                                new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId'),
+                                new Magento_Validator_Constraint_Option_Callback(
+                                    'Magento_Validator_Test_Callback',
+                                    'getId'
+                                ),
                                 new Magento_Validator_Constraint_Option('10')
                             )
                         ),
@@ -235,7 +241,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                 'type' => 'property'
             ),
         );
-        $this->assertEquals($expected, Test_Builder_Stub::getActualConstraints());
+        $this->assertAttributeEquals($expected, '_constraints', $builder);
     }
 
     /**
@@ -283,45 +289,5 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetSchemaFile()
     {
         $this->assertFileExists($this->_config->getSchemaFile());
-    }
-}
-
-/**
- * Stub for testing builder configuration passed throw constructor
- */
-class Test_Builder_Stub extends Magento_Validator_Builder
-{
-    /**
-     * @var array
-     */
-    public static $actual;
-
-    /**
-     * Get actual constraints for testing purposes
-     *
-     * @static
-     * @return array
-     */
-    public static function getActualConstraints()
-    {
-        return self::$actual;
-    }
-
-    /**
-     * Check constraint configuration
-     *
-     * @param array $constraints
-     */
-    public function __construct($constraints)
-    {
-        self::$actual = $constraints;
-    }
-
-    /**
-     * @return Magento_Validator
-     */
-    public function createValidator()
-    {
-        return new Magento_Validator();
     }
 }

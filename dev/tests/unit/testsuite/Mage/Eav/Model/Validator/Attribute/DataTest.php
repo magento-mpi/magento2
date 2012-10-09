@@ -26,7 +26,11 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
     public function testIsValid($result, $expected, $messages)
     {
         $entity = new Varien_Object(array('attribute' => 'test'));
-        $attribute = new Varien_Object(array('attribute_code' => 'attribute'));
+        $attribute = new Varien_Object(array(
+            'attribute_code' => 'attribute',
+            'data_model' => new Varien_Object(),
+            'frontend_input' => 'text'
+        ));
         $data = array('attribute' => 'new_test');
 
         $validator = $this->getMockBuilder('Mage_Eav_Model_Validator_Attribute_Data')

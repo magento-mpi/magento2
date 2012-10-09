@@ -304,7 +304,8 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 } elseif ($options) {
                     $arguments[] = $options;
                 } else {
-                    $arguments[] = new Magento_Validator_Constraint_Option((string)$node->textContent);
+                    $argument = (string)$node->textContent;
+                    $arguments[] = new Magento_Validator_Constraint_Option(trim($argument));
                 }
 
             }
@@ -347,10 +348,11 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             $data = array();
             /** @var $option DOMElement */
             foreach ($children['option'] as $option) {
+                $value = trim((string)$option->textContent);
                 if ($option->hasAttribute('name')) {
-                    $data[(string)$option->getAttribute('name')] = (string)$option->textContent;
+                    $data[(string)$option->getAttribute('name')] = $value;
                 } else {
-                    $data[] = (string)$option->textContent;
+                    $data[] = $value;
                 }
             }
             return new Magento_Validator_Constraint_Option($data);
