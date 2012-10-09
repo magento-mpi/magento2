@@ -29,13 +29,18 @@ class Magento_Di extends Zend\Di\Di
      * constructor parameters provided.
      *
      * @param mixed $name Class name or service alias
-     * @param array $params Parameters to pass to the constructor
+     * @param array $parameters Parameters to pass to the constructor
      * @param bool $isShared
      * @return object|null
      * @throws Exception\ClassNotFoundException
      * @throws Exception\RuntimeException
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @todo Need to refactor this method
      */
-    public function newInstance($name, array $params = array(), $isShared = true)
+    public function newInstance($name, array $parameters = array(), $isShared = true)
     {
         // localize dependencies
         $definitions = $this->definitions;
@@ -55,7 +60,7 @@ class Magento_Di extends Zend\Di\Di
                     $this->_cachedInstances['cache'],
                     null,
                     null,
-                    $params
+                    $parameters
                 );
             } else if (preg_match('/\w*_\w*\_Block/', $name)) {
                 if (!isset($this->_cachedInstances['request'])) {
@@ -77,14 +82,14 @@ class Magento_Di extends Zend\Di\Di
                     $this->_cachedInstances['session'],
                     $this->_cachedInstances['storeConfig'],
                     $this->_cachedInstances['frontController'],
-                    $params
+                    $parameters
                 );
             } else {
                 $instance = new $name();
             }
             if ($isShared) {
-                if ($params) {
-                    $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $params);
+                if ($parameters) {
+                    $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
                 } else {
                     $this->instanceManager->addSharedInstance($instance, $name);
                 }
@@ -115,9 +120,9 @@ class Magento_Di extends Zend\Di\Di
         $instantiator = $definitions->getInstantiator($class);
 
         if ($instantiator === '__construct') {
-            $instance = $this->createInstanceViaConstructor($class, $params, $alias);
+            $instance = $this->createInstanceViaConstructor($class, $parameters, $alias);
         } elseif (is_callable($instantiator, false)) {
-            $instance = $this->createInstanceViaCallback($instantiator, $params, $alias);
+            $instance = $this->createInstanceViaCallback($instantiator, $parameters, $alias);
         } else {
             if (is_array($instantiator)) {
                 $msg = sprintf(
@@ -136,8 +141,8 @@ class Magento_Di extends Zend\Di\Di
         }
 
         if ($isShared) {
-            if ($params) {
-                $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $params);
+            if ($parameters) {
+                $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
             } else {
                 $this->instanceManager->addSharedInstance($instance, $name);
             }
@@ -158,6 +163,9 @@ class Magento_Di extends Zend\Di\Di
      * @param array $params
      * @param string|null $alias
      * @return object
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @todo Need to refactor this method
      */
     protected function createInstanceViaConstructor($class, $params, $alias = null)
     {
@@ -198,10 +206,15 @@ class Magento_Di extends Zend\Di\Di
                 return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
                     $callParameters[4], $callParameters[5], $callParameters[6], $callParameters[7], $callParameters[8]
                 );
+            case 10:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4], $callParameters[5], $callParameters[6], $callParameters[7], $callParameters[8],
+                    $callParameters[9]
+                );
 
             default:
-                $r = new \ReflectionClass($class);
-                return $r->newInstanceArgs($callParameters);
+                $reflection = new \ReflectionClass($class);
+                return $reflection->newInstanceArgs($callParameters);
         }
     }
 
@@ -215,6 +228,11 @@ class Magento_Di extends Zend\Di\Di
      * @param string $alias
      * @return array
      * @throws Exception\CircularDependencyException
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @todo Need to refactor this method
      */
     protected function resolveMethodParameters($class, $method, array $callTimeUserParams, $alias, $methodIsRequired,
         $isInstantiator = false
@@ -223,21 +241,21 @@ class Magento_Di extends Zend\Di\Di
         $resolvedParams = array();
 
         // parameter requirements from the definition
-        $injectionMethodParameters = $this->definitions->getMethodParameters($class, $method);
+        $methodParameters = $this->definitions->getMethodParameters($class, $method);
 
         /** Magento  */
         $callTimeParamNames = array_keys($callTimeUserParams);
         $isPositional = false;
-        $injectionMethodParameterNames = array();
+        $parameterNames = array();
 
-        foreach ($injectionMethodParameters as $param) {
-            $injectionMethodParameterNames[] = $param[0];
+        foreach ($methodParameters as $param) {
+            $parameterNames[] = $param[0];
         }
 
         foreach ($callTimeParamNames as $name) {
             if (is_numeric($name)) {
                 $isPositional = true;
-                $callTimeUserParams[$injectionMethodParameterNames[$name]] = $callTimeUserParams[$name];
+                $callTimeUserParams[$parameterNames[$name]] = $callTimeUserParams[$name];
             }
         }
         if (!$isPositional) {
@@ -245,8 +263,8 @@ class Magento_Di extends Zend\Di\Di
             if (count($callTimeUserParams)
                 && !isset($callTimeUserParams['data'])
             ) {
-                if (in_array('data', $injectionMethodParameterNames)) {
-                    $intersection = array_intersect($callTimeParamNames, $injectionMethodParameterNames);
+                if (in_array('data', $parameterNames)) {
+                    $intersection = array_intersect($callTimeParamNames, $parameterNames);
                     if (!$intersection) {
                         $callTimeUserParams = array('data' => $callTimeUserParams);
                     }
@@ -295,7 +313,7 @@ class Magento_Di extends Zend\Di\Di
         // first pass will find the sources, the second pass will order them and resolve lookups if they exist
         // MOST methods will only have a single parameters to resolve, so this should be fast
 
-        foreach ($injectionMethodParameters as $fqParamPos => $info) {
+        foreach ($methodParameters as $fqParamPos => $info) {
             list($name, $type, $isRequired) = $info;
 
             $fqParamName = substr_replace($fqParamPos, ':' . $info[0], strrpos($fqParamPos, ':'));
@@ -429,7 +447,7 @@ class Magento_Di extends Zend\Di\Di
         }
 
         $index = 0;
-        foreach ($injectionMethodParameters as $fqParamPos => $value) {
+        foreach ($methodParameters as $fqParamPos => $value) {
             $name = $value[0];
             $defaultValue = $value[3];
 
@@ -480,5 +498,4 @@ class Magento_Di extends Zend\Di\Di
 
         return $resolvedParams; // return ordered list of parameters
     }
-
 }
