@@ -107,7 +107,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $roleId = null;
         if (is_null($this->_usernameTokenRequest)) {
-            $this->_soapFault($this->_helper->__('No WS-Security UsernameToken found in SOAP-request.'));
+            $this->_soapFault($this->_helper->__('No WS-Security UsernameToken found in SOAP-request.'),
+                self::FAULT_CODE_SENDER);
         }
 
         try {
@@ -133,7 +134,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
             $this->_soapFault($this->_helper->__('Invalid Username or Password.'), self::FAULT_CODE_SENDER);
         } catch (Exception $e) {
-            $this->_soapFault($this->_helper->__('Error during authenticating SOAP-request.'), null, $e);
+            $this->_soapFault($this->_helper->__('Error during authenticating SOAP-request.'), self::FAULT_CODE_SENDER,
+                $e);
         }
 
         return $roleId;
