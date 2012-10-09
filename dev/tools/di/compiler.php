@@ -30,26 +30,25 @@ $paths[] = BP . DS . 'lib';
 Magento_Autoload::getInstance()->addIncludePath($paths);
 
 Mage::setRoot();
-$config = new Mage_Core_Model_Config();
+$config = new Mage_Core_Model_Config(new Magento_ObjectManager_Zend());
 $config->loadBase();
 $config->loadModules();
 
 $definitions = array();
 
 /**
+ * Compile definitions using Magento_Di_Definition_CompilerDefinition_Zend
+ *
  * @param string $moduleDir
  * @return array
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @todo Need to split compileModule function on several simple functions
  */
-function compileModule($moduleDir)
+function compileModuleDefinitions($moduleDir)
 {
     $strategy = new \Zend\Di\Definition\IntrospectionStrategy(new \Zend\Code\Annotation\AnnotationManager());
     $strategy->setMethodNameInclusionPatterns(array());
     $strategy->setInterfaceInjectionInclusionPatterns(array());
 
-    $compiler = new Magento_Di_Definition_CompilerDefinition($strategy);
+    $compiler = new Magento_Di_Definition_CompilerDefinition_Zend($strategy);
     $compiler->addDirectory($moduleDir);
 
     $controllerPath = $moduleDir . '/controllers/';
@@ -62,21 +61,48 @@ function compileModule($moduleDir)
     }
 
     $compiler->compile();
-    $moduleDefinitions = $compiler->toArrayDefinition()->toArray();
+    $moduleDefinitions = $compiler->toArray();
     array_walk($moduleDefinitions, function (&$item)
     {
         unset($item['supertypes']);
     });
+
+    return $moduleDefinitions;
+}
+
+/**
+ * Remove model and block constructors
+ *
+ * @see Zend\Di\Di::newInstance()
+ * @param $moduleDefinitions
+ */
+function removeModelAndBlockConstructors(&$moduleDefinitions)
+{
     foreach ($moduleDefinitions as $name => $definition) {
-        $constructorParams = isset($definition['parameters']['__construct'])
-            ? array_values($definition['parameters']['__construct']) : array();
+        $constructorParams = array();
+        if (isset($definition['parameters']['__construct'])) {
+            $constructorParams = array_values($definition['parameters']['__construct']);
+        }
+        //TODO: fix this condition
         if (!count($constructorParams)
-            || (count($constructorParams) == 5 && !$constructorParams[3][2] && preg_match('/\w*_\w*\_Model/', $name))
-            || (count($constructorParams) == 9 && $constructorParams[3][2] && preg_match('/\w*_\w*\_Block/', $name))) {
+            || (count($constructorParams) == 5 && preg_match('/\w*_\w*\_Model/', $name))
+            || (count($constructorParams) == 10 && preg_match('/\w*_\w*\_Block/', $name))) {
             unset($moduleDefinitions[$name]);
         }
-
     }
+}
+
+/**
+ * Compile module definitions
+ *
+ * @param string $moduleDir
+ * @return array
+ */
+function compileModule($moduleDir)
+{
+    $moduleDefinitions = compileModuleDefinitions($moduleDir);
+    removeModelAndBlockConstructors($moduleDefinitions);
+
     return $moduleDefinitions;
 }
 

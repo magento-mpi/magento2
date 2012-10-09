@@ -75,6 +75,7 @@ if (file_exists($classMapPath)) {
 
 $definitionsFile = BP . DS . 'var/di/definitions.php';
 if (file_exists($definitionsFile)) {
+    Mage::setRoot();
     Mage::initializeObjectManager($definitionsFile);
 }
 

@@ -159,7 +159,7 @@ final class Mage
      */
     public static function getEdition()
     {
-       return self::$_currentEdition;
+        return self::$_currentEdition;
     }
 
     /**
@@ -248,7 +248,7 @@ final class Mage
 
         $appRoot = realpath($appRoot);
 
-        if (is_dir($appRoot) and is_readable($appRoot)) {
+        if (is_dir($appRoot) && is_readable($appRoot)) {
             self::$_appRoot = $appRoot;
         } else {
             self::throwException($appRoot . ' is not a directory or not readable by this user');
@@ -954,8 +954,8 @@ final class Mage
             try {
                 $storeCode = self::app()->getStore()->getCode();
                 $reportData['skin'] = $storeCode;
+            } catch (Exception $e) {
             }
-            catch (Exception $e) {}
 
             require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . 'report.php');
         }
