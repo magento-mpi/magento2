@@ -116,17 +116,28 @@ class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
      */
     protected $_sharedInstances = array();
 
+    /**
+     * If mock classes already created
+     *
+     * @var bool
+     */
+    protected $_isMockClasses = false;
+
     protected function setUp()
     {
-        // create mock classes for test
-        $this->getMockForAbstractClass(
-            self::PARENT_CLASS_MODEL,
-            $this->_getConstructArguments(self::MODEL_ENTITY, self::PARENT_CLASS_MODEL),
-            self::TEST_CLASS_MODEL, false
-        );
-        $this->getMockForAbstractClass(self::PARENT_CLASS_BLOCK,
-            $this->_getConstructArguments(self::BLOCK_ENTITY, self::PARENT_CLASS_BLOCK),
-            self::TEST_CLASS_BLOCK, false);
+        if (!$this->_isMockClasses) {
+            // create mock classes for test
+            $this->getMockForAbstractClass(
+                self::PARENT_CLASS_MODEL,
+                $this->_getConstructArguments(self::MODEL_ENTITY, self::PARENT_CLASS_MODEL),
+                self::TEST_CLASS_MODEL, false
+            );
+            $this->getMockForAbstractClass(self::PARENT_CLASS_BLOCK,
+                $this->_getConstructArguments(self::BLOCK_ENTITY, self::PARENT_CLASS_BLOCK),
+                self::TEST_CLASS_BLOCK, false);
+
+            $this->_isMockClasses = true;
+        }
     }
 
     protected function tearDown()

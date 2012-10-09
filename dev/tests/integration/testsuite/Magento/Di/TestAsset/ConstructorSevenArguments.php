@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Magento_Di_TestAsset_ConstructorSevenArguments extends Magento_Di_TestAsset_ConstructorSixArguments
 {
     /**

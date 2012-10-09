@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Magento_Di_TestAsset_ConstructorEightArguments extends Magento_Di_TestAsset_ConstructorSevenArguments
 {
     /**
@@ -27,6 +30,8 @@ class Magento_Di_TestAsset_ConstructorEightArguments extends Magento_Di_TestAsse
      * @param Magento_Di_TestAsset_Basic $six
      * @param Magento_Di_TestAsset_Basic $seven
      * @param Magento_Di_TestAsset_Basic $eight
+     *
+     * @SuppressWarnings(PHPMD.DepthOfInheritance)
      */
     public function __construct(
         Magento_Di_TestAsset_Basic $one,
