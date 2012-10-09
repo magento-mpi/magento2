@@ -345,7 +345,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
@@ -355,7 +354,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $cardData = $orderData['payment_data']['payment_info'];
         //Steps

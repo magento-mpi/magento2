@@ -34,7 +34,7 @@ class Community2_Mage_Various_SaveConfigurationTest extends Mage_Selenium_TestCa
      */
     public function saveMultiselectWithNoSelectedValuesOnStoreView ()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-1918');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
