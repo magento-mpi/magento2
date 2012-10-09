@@ -63,7 +63,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Form extends Mage_Backend_Block_Widg
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
         ));
 
-        /** @var $roleSourceModel Mage_Webapi_Model_Source_Acl_Role */
+        /** @var Mage_Webapi_Model_Source_Acl_Role $roleSourceModel */
         $roleSourceModel = Mage::getModel('Mage_Webapi_Model_Source_Acl_Role');
         $fieldset->addField('role_id', 'select', array(
             'name' => 'role_id',

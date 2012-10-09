@@ -125,15 +125,15 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
 
             $roleId = $roleLocator->getAclRoleId();
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
-            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Nonce is already used.'));
+            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Nonce is already used.'),
+                self::FAULT_CODE_SENDER);
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
-            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'));
-        } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException $e) {
-            $this->_soapFault($this->_helper->__('User "%s" not found.', $this->_usernameTokenRequest->Username));
-        } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException $e) {
-            $this->_soapFault($this->_helper->__('Request not authenticated.'));
+            $this->_soapFault($this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'),
+                self::FAULT_CODE_SENDER);
+        } catch(Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
+            $this->_soapFault($this->_helper->__('Invalid Username or Password.'), self::FAULT_CODE_SENDER);
         } catch (Exception $e) {
-            $this->_soapFault($this->_helper->__('Error during authenticating SOAP-request.'));
+            $this->_soapFault($this->_helper->__('Error during authenticating SOAP-request.'), null, $e);
         }
 
         return $roleId;

@@ -284,7 +284,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     /**
      * Test negative token authentication - username is invalid.
      *
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException
+     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
      */
     public function testAuthenticateWithInvalidUsername()
     {
@@ -307,7 +307,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     /**
      * Test negative token authentication - password is invalid.
      *
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException
+     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
      */
     public function testAuthenticateWithInvalidPassword()
     {

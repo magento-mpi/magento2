@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,6 +16,8 @@ class Mage_Webapi_Model_Authorization_Soap_RoleLocator implements Magento_Author
     protected $_usernameToken;
 
     /**
+     * Initialize username token.
+     *
      * @param array $data
      */
     public function __construct(array $data = array())
@@ -24,7 +26,7 @@ class Mage_Webapi_Model_Authorization_Soap_RoleLocator implements Magento_Author
     }
 
     /**
-     * Retrieve current role
+     * Retrieve current role.
      *
      * @return string|null
      */

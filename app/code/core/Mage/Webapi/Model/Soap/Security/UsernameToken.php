@@ -18,11 +18,12 @@
  */
 class Mage_Webapi_Model_Soap_Security_UsernameToken
 {
-    /**
+    /**#@+
      * Available password types.
      */
     const PASSWORD_TYPE_TEXT = 'PasswordText';
     const PASSWORD_TYPE_DIGEST = 'PasswordDigest';
+    /**#@-*/
 
     /**
      * @var Mage_Core_Model_Config
@@ -119,8 +120,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
     /**
      * Authenticate token and return user model.
      *
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException
+     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
      * @return Mage_Webapi_Model_Acl_User
      */
     public function authenticate()
@@ -128,7 +128,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
         /** @var Mage_Webapi_Model_Acl_User $user */
         $user = $this->_objectFactory->getModelInstance('Mage_Webapi_Model_Acl_User');
         if (!$user->load($this->_username, 'user_name')->getId()) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException;
+            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 
         $password = $user->getApiSecret();
@@ -138,7 +138,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
         }
 
         if ($password != $this->_password) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_NotAuthenticatedException;
+            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 
         return $user;

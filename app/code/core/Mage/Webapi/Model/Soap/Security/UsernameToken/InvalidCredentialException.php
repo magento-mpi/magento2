@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Mage_Webapi_Model_Soap_Security_UsernameToken_UserNotFoundException extends RuntimeException
+class Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException extends RuntimeException
 {
 
 }
