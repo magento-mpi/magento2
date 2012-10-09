@@ -1,4 +1,31 @@
-api_users_management:
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#API Users
+api_users:
     mca: webapi_user/
     click_xpath: //div[@class='nav-bar']//a[span='API Users']
     title: API Users / Web Services / System / Magento Admin
@@ -32,10 +59,10 @@ add_new_api_users:
     mca: webapi_user/new/
     title: New User / API Users / Web Services / System / Magento Admin
     uimap:
-        form:
+        form: &edit_api_user_grid
             fieldsets:
                 -
-                    api_new_user:
+                    api_new_user_grid:
                         xpath: //div[@id='user_base_fieldset']
                         dropdowns:
                             api_user_role: //select[@name='role_id']
@@ -45,7 +72,7 @@ add_new_api_users:
             buttons:
                 back: //button[@title='Back']
                 reset: //button[@title='Reset']
-                save: //button[@title='Save']
+                save: //button[@title='Save API User']
                 save_and_continue_edit: //button[@title='Save and Continue Edit']
             messages: *pageMessages
 
@@ -53,4 +80,4 @@ edit_api_user:
     mca: webapi_user/edit/user_id/%userId%/
     title: %userName% / API Users / Web Services / System / Magento Admin
     uimap:
-        form: *api_new_user
+        form: *edit_api_user_grid
