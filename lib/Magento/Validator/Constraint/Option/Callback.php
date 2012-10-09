@@ -11,7 +11,7 @@
 /**
  * Constraint callback option
  */
-class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator_Constraint_OptionInterface
+class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_Constraint_OptionInterface
 {
     /**
      * @var array
@@ -68,8 +68,10 @@ class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator
         }
         if (is_array($this->_arguments)) {
             return call_user_func_array($this->_callback, $this->_arguments);
-        } else {
+        } elseif ($this->_arguments) {
             return call_user_func($this->_callback, $this->_arguments);
+        } else {
+            return call_user_func($this->_callback);
         }
     }
 }

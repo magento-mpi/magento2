@@ -195,6 +195,11 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilderConfiguration()
     {
+        $this->getMockBuilder('Magento_Validator_Builder')
+            ->setMockClassName('Magento_Validator_Test_Builder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_initConfig(array(__DIR__ . '/_files/validation/positive/builder/validation.xml'));
         $builder = $this->_config->getValidatorBuilder('test_entity_a', 'check_builder');
         $this->assertInstanceOf('Magento_Validator_Test_Builder', $builder);
