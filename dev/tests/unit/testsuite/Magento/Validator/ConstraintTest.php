@@ -20,7 +20,7 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
     protected $_constraint;
 
     /**
-     * @var Magento_Validator_Interface|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Validator_ValidatorInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
@@ -29,7 +29,7 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_validatorMock = $this->getMock('Magento_Validator_Interface');
+        $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface');
         $this->_constraint = new Magento_Validator_Constraint($this->_validatorMock);
     }
 

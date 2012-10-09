@@ -56,7 +56,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Constraint class "stdClass" must implement Magento_Validator_Interface
+     * @expectedExceptionMessage Constraint class "stdClass" must implement Magento_Validator_ValidatorInterface
      */
     public function testCreateValidatorInvalidConstraintClass()
     {

@@ -13,6 +13,6 @@
 /**
  * Alphanumerical test validator
  */
-class Magento_Validator_Test_Alnum extends Zend_Validate_Alnum implements Magento_Validator_Interface
+class Magento_Validator_Test_Alnum extends Zend_Validate_Alnum implements Magento_Validator_ValidatorInterface
 {
 }

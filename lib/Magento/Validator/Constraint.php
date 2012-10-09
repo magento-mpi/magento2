@@ -11,12 +11,12 @@
 /**
  * Validator constraint delegates validation to wrapped validator.
  */
-class Magento_Validator_Constraint extends Magento_Validator_Abstract
+class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
 {
     /**
      * Wrapped validator
      *
-     * @var Magento_Validator_Interface
+     * @var Magento_Validator_ValidatorInterface
      */
     protected $_wrappedValidator;
 
@@ -30,10 +30,10 @@ class Magento_Validator_Constraint extends Magento_Validator_Abstract
     /**
      * Constructor
      *
-     * @param Magento_Validator_Interface $validator
+     * @param Magento_Validator_ValidatorInterface $validator
      * @param string $alias
      */
-    public function __construct(Magento_Validator_Interface $validator, $alias = null)
+    public function __construct(Magento_Validator_ValidatorInterface $validator, $alias = null)
     {
         $this->_wrappedValidator = $validator;
         $this->_alias = $alias;

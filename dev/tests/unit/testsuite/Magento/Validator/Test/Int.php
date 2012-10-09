@@ -13,6 +13,6 @@
 /**
  * Integer test validator
  */
-class Magento_Validator_Test_Int extends Zend_Validate_Int implements Magento_Validator_Interface
+class Magento_Validator_Test_Int extends Zend_Validate_Int implements Magento_Validator_ValidatorInterface
 {
 }

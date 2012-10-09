@@ -156,7 +156,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 /**
  * Stub for testing Magento_Validator_Builder
  */
-class Magento_Validator_Stub implements Magento_Validator_Interface
+class Magento_Validator_Stub implements Magento_Validator_ValidatorInterface
 {
     /**
      * @var array

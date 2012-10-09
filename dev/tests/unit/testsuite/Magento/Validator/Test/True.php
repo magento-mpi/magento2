@@ -13,7 +13,7 @@
 /**
  * Test validator that always returns TRUE
  */
-class Magento_Validator_Test_True extends Magento_Validator_Abstract
+class Magento_Validator_Test_True extends Magento_Validator_ValidatorAbstract
 {
     /**
      * Validate value

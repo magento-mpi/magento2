@@ -11,7 +11,7 @@
 /**
  * Abstract validator class.
  */
-abstract class Magento_Validator_Abstract implements Magento_Validator_Interface
+abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_ValidatorInterface
 {
     /**
      * Array of validation failure messages
