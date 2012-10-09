@@ -25,6 +25,7 @@ class Magento_ObjectManager_LoadTest extends PHPUnit_Framework_TestCase
      */
     protected $_areaCode = 'global';
 
+
     protected function setUp()
     {
         /** @var $modelConfigMock Mage_Core_Model_Config */
