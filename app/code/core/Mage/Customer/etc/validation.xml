@@ -9,7 +9,7 @@
             </rule>
             <rule name="check_form">
                 <entity_constraints>
-                    <!--<constraint alias="eav_validator" class="Mage_Catalog_Model_Validator_Eav" />-->
+                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
                 </entity_constraints>
             </rule>
             <rule name="validate_form">
