@@ -95,7 +95,60 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 'expectedCallback' => array(
                     'return' => array(7, 8),
                 )
-            )
+            ),
+            'method_arguments' => array(
+                'constraints' => array(
+                    0 => array (
+                        'alias' => 'notEmpty',
+                        'class' => 'Magento_Validator_Stub',
+                        'options' => array(
+                            'arguments' => array(5, 6),
+                            'methods' =>
+                            array (
+                                'setData' =>
+                                array (
+                                    'method' => 'setData',
+                                    'arguments' => array (3, 4),
+                                ),
+                            ),
+                        ),
+                        'property' => 'name',
+                        'type' => 'property',
+                    )
+                ),
+                'constructorData' => array(3, 4),
+            ),
+//            'method_callback' => array(
+//                'constraints' => array(
+//                    0 => array (
+//                        'alias' => 'notEmpty',
+//                        'class' => 'Magento_Validator_Stub',
+//                        'options' => array(
+//                            'arguments' => array(5, 6)
+//                        ),
+//                        'property' => 'name',
+//                        'type' => 'property',
+//                    )
+//                ),
+//                'constructorData' => array(5, 6),
+//                'expectedCallback' => array(),
+//            ),
+//            'method_array' => array(
+//                'constraints' => array(
+//                    0 => array (
+//                        'alias' => 'notEmpty',
+//                        'class' => 'Magento_Validator_Stub',
+//                        'options' => array(
+//                            'arguments' => array(5, 6)
+//                        ),
+//                        'property' => 'name',
+//                        'type' => 'property',
+//                    )
+//                ),
+//                'constructorData' => array(5, 6),
+//                'expectedCallback' => array(),
+//            ),
+//            'callback_entity' => array(),
         );
     }
 }
@@ -109,11 +162,6 @@ class Magento_Validator_Stub implements Magento_Validator_Interface
      * @var array
      */
     public static $constructorData;
-
-    /**
-     * @var array
-     */
-    protected $_data;
 
     /**
      * Class constructor
@@ -151,6 +199,6 @@ class Magento_Validator_Stub implements Magento_Validator_Interface
      */
     public function setData()
     {
-        return $this->_data = func_get_args();
+        self::$constructorData = func_get_args();
     }
 }
