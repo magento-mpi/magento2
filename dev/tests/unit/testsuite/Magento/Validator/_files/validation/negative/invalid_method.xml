@@ -17,10 +17,10 @@
                 <property_constraints>
                     <property name="name">
                         <constraint alias="some_validator" class="Magento_Validator_StringLenght">
-                            <!-- attribute class is not allowed for tag method -->
+                            <!-- attribute class is not allowed for method element -->
                             <method name="setOptions" class="Object">
                             </method>
-                            <!-- attribute name is required for tag method -->
+                            <!-- attribute name is required for method element -->
                             <method >
                                 <argument>7</argument>
                             </method>

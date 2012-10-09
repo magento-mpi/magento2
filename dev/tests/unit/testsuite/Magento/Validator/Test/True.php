@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Test validator that always returns TRUE
  */

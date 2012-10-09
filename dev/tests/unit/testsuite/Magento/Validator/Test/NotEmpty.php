@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Not empty test validator
  */

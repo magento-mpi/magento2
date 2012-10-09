@@ -15,7 +15,7 @@
         <rules>
             <rule name="test_rule_constraint">
                 <entity_constraints>
-                    <!-- attribute class is required for tag constraint -->
+                    <!-- attribute class is required for tag element -->
                     <constraint alias="eav_validator"/>
                 </entity_constraints>
             </rule>

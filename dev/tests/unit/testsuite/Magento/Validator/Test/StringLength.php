@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * String length test validator
  */

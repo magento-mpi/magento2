@@ -13,7 +13,7 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <!-- attribute name is required for tag rule -->
+            <!-- attribute name is required for rule element -->
             <rule>
                 <property_constraints>
                     <property name="sku">

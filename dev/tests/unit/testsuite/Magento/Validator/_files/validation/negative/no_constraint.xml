@@ -15,7 +15,7 @@
         <rules>
             <rule name="test_rule_a">
                 <entity_constraints>
-                    <!-- tag constraint is expected here -->
+                    <!-- constraint element is expected here -->
                 </entity_constraints>
             </rule>
         </rules>

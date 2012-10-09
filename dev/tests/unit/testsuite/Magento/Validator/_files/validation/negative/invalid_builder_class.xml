@@ -22,6 +22,7 @@
             </rule>
         </rules>
         <groups>
+            <!-- builder with class UnknownBuilderClass is not exists -->
             <group name="create" builder="UnknownBuilderClass">
                 <uses>
                     <use rule="name_sku_and_price"/>

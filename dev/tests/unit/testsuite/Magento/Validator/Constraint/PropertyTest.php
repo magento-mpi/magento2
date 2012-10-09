@@ -52,8 +52,9 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
      * @dataProvider isValidDataProvider
      *
      * @param mixed $value
+     * @param mixed $validateValue
      * @param bool $expectedResult
-     * @param array $expectedMessages
+     * @param array $validatorMessages
      */
     public function testIsValid($value, $validateValue, $expectedResult, $validatorMessages = array(),
         $expectedMessages = array()

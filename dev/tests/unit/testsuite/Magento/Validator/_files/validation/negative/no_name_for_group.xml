@@ -22,7 +22,7 @@
             </rule>
         </rules>
         <groups>
-            <!-- attribute name is required for tag group -->
+            <!-- attribute name is required for group element -->
             <group>
                 <uses>
                     <use rule="test_rule_entity"/>
