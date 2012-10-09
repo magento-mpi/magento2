@@ -17,7 +17,7 @@ class Magento_Di_TestAsset_BasicInjection
     protected $_object;
 
     /**
-     * @param Magento_Di_TestAsset_Basic $interface
+     * @param Magento_Di_TestAsset_Basic $object
      */
     public function __construct(Magento_Di_TestAsset_Basic $object)
     {

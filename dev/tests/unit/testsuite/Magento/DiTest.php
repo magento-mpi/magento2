@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-use \Zend\Di;
-
 /**
  * Test case for Magento_Di
  */
