@@ -27,10 +27,8 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
     /**
      * Class name
-     *
-     * @var string
      */
-    protected $_className = 'TestClassName';
+    const CLASS_NAME = 'TestClassName';
 
     /**
      * Arguments
@@ -43,18 +41,10 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * Object for create method
-     *
-     * @var string
+     * Objects for create and get method
      */
-    protected $_objectCreate = 'TestObjectCreate';
-
-    /**
-     * Object for get method
-     *
-     * @var string
-     */
-    protected $_objectGet = 'TestObjectGet';
+    const OBJECT_CREATE = 'TestObjectCreate';
+    const OBJECT_GET = 'TestObjectGet';
 
     /**
      * Create Magento_ObjectManager_Zend instance
@@ -66,7 +56,7 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         $this->_config = $this->getMock('Mage_Core_Model_Config', array('loadBase'), array(), '', false);
         $this->_config->expects($this->any())
             ->method('loadBase')
-            ->will($this->returnValue($this->_config));
+            ->will($this->returnSelf());
 
         $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'), array(), '', false);
         $diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'newInstance', 'get', 'setDefinitionList'));
@@ -94,28 +84,18 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         unset($this->_model);
     }
 
-    /**
-     * Test for create method
-     *
-     * @covers Magento_ObjectManager_Zend::create
-     */
     public function testCreate()
     {
         $this->_prepareObjectManagerForTests(true);
-        $actualObject = $this->_model->create($this->_className, $this->_arguments);
-        $this->assertEquals($this->_objectCreate, $actualObject);
+        $actualObject = $this->_model->create(self::CLASS_NAME, $this->_arguments);
+        $this->assertEquals(self::OBJECT_CREATE, $actualObject);
     }
 
-    /**
-     * Test for get method
-     *
-     * @covers Magento_ObjectManager_Zend::get
-     */
     public function testGet()
     {
         $this->_prepareObjectManagerForTests();
-        $actualObject = $this->_model->get($this->_className, $this->_arguments);
-        $this->assertEquals($this->_objectGet, $actualObject);
+        $actualObject = $this->_model->get(self::CLASS_NAME, $this->_arguments);
+        $this->assertEquals(self::OBJECT_GET, $actualObject);
     }
 
     /**
@@ -127,10 +107,10 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
      */
     public function verifyCreate($className, array $arguments = array())
     {
-        $this->assertEquals($this->_className, $className);
+        $this->assertEquals(self::CLASS_NAME, $className);
         $this->assertEquals($this->_arguments, $arguments);
 
-        return $this->_objectCreate;
+        return self::OBJECT_CREATE;
     }
 
     /**
@@ -146,9 +126,9 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
             return $this->_config;
         }
 
-        $this->assertEquals($this->_className, $className);
+        $this->assertEquals(self::CLASS_NAME, $className);
         $this->assertEquals($this->_arguments, $arguments);
 
-        return $this->_objectGet;
+        return self::OBJECT_GET;
     }
 }
