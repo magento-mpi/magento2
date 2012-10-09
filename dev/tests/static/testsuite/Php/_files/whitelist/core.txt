@@ -50,6 +50,10 @@ dev/tests/static
 dev/tests/unit
 dev/tools
 lib/Magento/Convert
+lib/Magento/Di
+lib/Magento/Di.php
+lib/Magento/ObjectManager
+lib/Magento/ObjectManager.php
 lib/Magento/Profiler
 lib/Magento/Profiler.php
 lib/Varien/Convert

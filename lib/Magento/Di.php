@@ -43,7 +43,7 @@ class Magento_Di extends Zend\Di\Di
         if (!$this->definitions()->hasClass($name)) {
             array_push($this->instanceContext, array('NEW', $name, $name));
 
-            if (!$this->_cachedInstances){
+            if (!$this->_cachedInstances) {
                 $this->_cachedInstances = array(
                     'eventManager' => $this->get('Mage_Core_Model_Event_Manager'),
                     'cache'        => $this->get('Mage_Core_Model_Cache'),
@@ -230,11 +230,11 @@ class Magento_Di extends Zend\Di\Di
         $isPositional = false;
         $injectionMethodParameterNames = array();
 
-        foreach($injectionMethodParameters as $param) {
+        foreach ($injectionMethodParameters as $param) {
             $injectionMethodParameterNames[] = $param[0];
         }
 
-        foreach($callTimeParamNames as $name) {
+        foreach ($callTimeParamNames as $name) {
             if (is_numeric($name)) {
                 $isPositional = true;
                 $callTimeUserParams[$injectionMethodParameterNames[$name]] = $callTimeUserParams[$name];
@@ -441,7 +441,8 @@ class Magento_Di extends Zend\Di\Di
             } elseif (isset($computedParams['required'][$fqParamPos])) {
 
                 // detect circular dependencies! (they can only happen in instantiators)
-                if ($isInstantiator && in_array($computedParams['required'][$fqParamPos][1], $this->currentDependencies)) {
+                if ($isInstantiator
+                    && in_array($computedParams['required'][$fqParamPos][1], $this->currentDependencies)) {
                     throw new Exception\CircularDependencyException(
                         "Circular dependency detected: $class depends on {$value[1]} and viceversa"
                     );
@@ -449,7 +450,8 @@ class Magento_Di extends Zend\Di\Di
                 array_push($this->currentDependencies, $class);
                 $dConfig = $this->instanceManager->getConfiguration($computedParams['required'][$fqParamPos][0]);
                 if ($dConfig['shared'] === false) {
-                    $resolvedParams[$index] = $this->newInstance($computedParams['required'][$fqParamPos][0], $callTimeUserParams, false);
+                    $resolvedParams[$index]
+                        = $this->newInstance($computedParams['required'][$fqParamPos][0], $callTimeUserParams, false);
                 } else {
                     $resolvedParams[$index] = $this->get($computedParams['required'][$fqParamPos][0]);
                 }
