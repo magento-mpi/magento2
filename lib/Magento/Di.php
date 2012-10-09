@@ -17,9 +17,10 @@ class Magento_Di extends Zend\Di\Di
      */
     protected $_cachedInstances;
 
-    protected $_baseDefinitions = array(
-
-    );
+    /**
+     * @var array
+     */
+    protected $_baseDefinitions = array();
 
     /**
      * Retrieve a new instance of a class

@@ -222,7 +222,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
      */
     public function callbackGetSharedInstance($classOrAlias)
     {
-        $this->_sharedInstances[$classOrAlias] = $mock = $this->getMock($classOrAlias, array(), array(), '', false);
+        $this->_sharedInstances[$classOrAlias] = $this->getMock($classOrAlias, array(), array(), '', false);
         return $this->_sharedInstances[$classOrAlias];
     }
 
@@ -511,6 +511,8 @@ class Mage_Test_Block_Stub extends Mage_Core_Block_Abstract
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
