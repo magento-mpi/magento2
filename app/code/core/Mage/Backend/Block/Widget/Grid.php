@@ -113,7 +113,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->setSaveParametersInSession($data['save_parameters_in_session']);
         }
 
-        if (isset($data['rssList'])) {
+        if (isset($data['rssList']) && is_array($data['rssList'])) {
             foreach ($data['rssList'] as $item) {
                 $this->addRssList($item['url'], $item['label']);
             }
