@@ -37,27 +37,34 @@ class Magento_Di extends Zend\Di\Di
     public function newInstance($name, array $params = array(), $isShared = true)
     {
         // localize dependencies
-        $definitions     = $this->definitions;
+        $definitions = $this->definitions;
 
         if (!$this->definitions()->hasClass($name)) {
             array_push($this->instanceContext, array('NEW', $name, $name));
 
+            if (!$this->_cachedInstances){
+                $this->_cachedInstances = array(
+                    'eventManager' => $this->get('Mage_Core_Model_Event_Manager'),
+                    'cache'        => $this->get('Mage_Core_Model_Cache'),
+                );
+            }
             if (preg_match('/\w*_\w*\_Model/', $name)) {
                 $instance = new $name(
-                    isset($this->_cachedInstances['eventManager']) ? $this->_cachedInstances['eventManager'] : $this->get('Mage_Core_Model_Event_Manager'),
-                    isset($this->_cachedInstances['cache']) ? $this->_cachedInstances['cache'] : $this->get('Mage_Core_Model_Cache'),
+                    $this->_cachedInstances['eventManager'],
+                    $this->_cachedInstances['cache'],
                     null,
                     null,
                     $params
                 );
             } else if (preg_match('/\w*_\w*\_Block/', $name)) {
                 if (!isset($this->_cachedInstances['request'])) {
-                    $this->_cachedInstances['request'] = $this->get('Mage_Core_Controller_Request_Http');
-                    $this->_cachedInstances['layout'] = $this->get('Mage_Core_Model_Layout');
-                    $this->_cachedInstances['translate'] = $this->get('Mage_Core_Model_Translate');
-                    $this->_cachedInstances['design'] = $this->get('Mage_Core_Model_Design_Package');
-                    $this->_cachedInstances['session'] = $this->get('Mage_Core_Model_Session');
-                    $this->_cachedInstances['storeConfig'] = $this->get('Mage_Core_Model_Store_Config');
+                    $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
+                    $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
+                    $this->_cachedInstances['translate']       = $this->get('Mage_Core_Model_Translate');
+                    $this->_cachedInstances['design']          = $this->get('Mage_Core_Model_Design_Package');
+                    $this->_cachedInstances['session']         = $this->get('Mage_Core_Model_Session');
+                    $this->_cachedInstances['storeConfig']     = $this->get('Mage_Core_Model_Store_Config');
+                    $this->_cachedInstances['frontController'] = $this->get('Mage_Core_Controller_Varien_Front');
                 }
                 $instance = new $name(
                     $this->_cachedInstances['request'],
@@ -68,6 +75,7 @@ class Magento_Di extends Zend\Di\Di
                     $this->_cachedInstances['design'],
                     $this->_cachedInstances['session'],
                     $this->_cachedInstances['storeConfig'],
+                    $this->_cachedInstances['frontController'],
                     $params
                 );
             } else {
@@ -79,12 +87,6 @@ class Magento_Di extends Zend\Di\Di
                 } else {
                     $this->instanceManager->addSharedInstance($instance, $name);
                 }
-            }
-            if (!$this->_cachedInstances){
-                $this->_cachedInstances = array(
-                    'eventManager' => $this->get('Mage_Core_Model_Event_Manager'),
-                    'cache' => $this->get('Mage_Core_Model_Cache'),
-                );
             }
             array_pop($this->instanceContext);
             return $instance;
@@ -109,7 +111,7 @@ class Magento_Di extends Zend\Di\Di
             );
         }
 
-        $instantiator     = $definitions->getInstantiator($class);
+        $instantiator = $definitions->getInstantiator($class);
 
         if ($instantiator === '__construct') {
             $instance = $this->createInstanceViaConstructor($class, $params, $alias);
