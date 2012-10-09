@@ -12,7 +12,7 @@
 /**
  * Stub for testing Magento_Validator_Builder
  */
-class Magento_Validator_Test_Stub implements Magento_Validator_Interface
+class Magento_Validator_Test_Stub implements Magento_Validator_ValidatorInterface
 {
     /**
      * @var array
