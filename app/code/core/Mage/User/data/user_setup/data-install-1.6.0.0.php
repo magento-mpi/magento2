@@ -13,7 +13,7 @@
  */
 
 /** @var $roleCollection Mage_User_Model_Resource_Role_Collection */
-$roleCollection = $admGroupRole->getCollection()
+$roleCollection = Mage::getModel('Mage_User_Model_Role')->getCollection()
     ->addFieldToFilter('parent_id', 0)
     ->addFieldToFilter('tree_level', 1)
     ->addFieldToFilter('role_type', 'G')
@@ -41,8 +41,8 @@ if ($roleCollection->count() == 0) {
 $rulesCollection = Mage::getModel('Mage_User_Model_Rules')->getCollection()
     ->addFieldToFilter('role_id', $admGroupRole->getId())
     ->addFieldToFilter('resource_id', 'all')
-    ->addFieldToFilter('role_type', 'G')
-    ->loadData();
+    ->addFieldToFilter('role_type', 'G');
+
 if ($rulesCollection->count() == 0) {
     Mage::getModel('Mage_User_Model_Rules')->setData(array(
         'role_id'       => $admGroupRole->getId(),
