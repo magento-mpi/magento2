@@ -102,6 +102,11 @@ abstract class Mage_Eav_Model_Form
     protected $_ignoreInvisible = true;
 
     /**
+     * @var Magento_Validator
+     */
+    protected $_validator = null;
+
+    /**
      * Checks correct module choice
      *
      * @throws Mage_Core_Exception
@@ -384,15 +389,26 @@ abstract class Mage_Eav_Model_Form
      * Get validator
      *
      * @param array $data
-     * @return Mage_Eav_Model_Validator_Attribute_Data
+     * @return Magento_Validator
      */
     protected function _getValidator(array $data)
     {
-        /** @var $validator Mage_Eav_Model_Validator_Attribute_Data */
-        $validator = Mage::getModel('Mage_Eav_Model_Validator_Attribute_Data');
-        $validator->setAttributes($this->getAllowedAttributes());
-        $validator->setData($data);
-        return $validator;
+        if (is_null($this->_validator)) {
+            $configFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
+            $validatorFactory = new Magento_Validator_Config($configFiles);
+            $builder = $validatorFactory->getValidatorBuilder('eav_entity', 'form');
+
+            $builder->addConfiguration('eav_data_validator', array(
+                'method' => 'setAttributes',
+                'arguments' => array($this->getAllowedAttributes())
+            ));
+            $builder->addConfiguration('eav_data_validator', array(
+                'method' => 'setData',
+                'arguments' => array($data)
+            ));
+            $this->_validator = $builder->createValidator();
+        }
+        return $this->_validator;
     }
 
     /**

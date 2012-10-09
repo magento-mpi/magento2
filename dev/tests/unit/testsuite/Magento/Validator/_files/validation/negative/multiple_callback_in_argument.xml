@@ -19,7 +19,7 @@
                         <constraint alias="some_validator" class="Magento_Validator_StringLenght">
                             <method name="setOptions">
                                 <argument>
-                                    <!-- attribute class is required for tag callback -->
+                                    <!-- argument element can contain only one callback element -->
                                     <callback method="getSomeValue" class="Magento_Validator_StringLenght"/>
                                     <callback method="getMethod" class="Magento_Validator_StringLenght"/>
                                 </argument>

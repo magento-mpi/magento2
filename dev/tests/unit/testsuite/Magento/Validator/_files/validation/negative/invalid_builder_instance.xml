@@ -22,6 +22,7 @@
             </rule>
         </rules>
         <groups>
+            <!-- builder class must implement Magento_Validator_Builder -->
             <group name="create" builder="stdClass">
                 <uses>
                     <use rule="name_sku_and_price"/>

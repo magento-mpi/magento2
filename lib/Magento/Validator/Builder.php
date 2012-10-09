@@ -186,7 +186,7 @@ class Magento_Validator_Builder
      *
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Validator_Interface
+     * @return Magento_Validator_ValidatorInterface
      */
     protected function _createConstraintValidator(array $data)
     {
@@ -201,9 +201,9 @@ class Magento_Validator_Builder
         }
 
         // Check validator type
-        if (!($validator instanceof Magento_Validator_Interface)) {
+        if (!($validator instanceof Magento_Validator_ValidatorInterface)) {
             throw new InvalidArgumentException(sprintf(
-                'Constraint class "%s" must implement Magento_Validator_Interface', $data['class']
+                'Constraint class "%s" must implement Magento_Validator_ValidatorInterface', $data['class']
             ));
         }
 
@@ -213,10 +213,10 @@ class Magento_Validator_Builder
     /**
      * Configure validator
      *
-     * @param Magento_Validator_Interface $validator
+     * @param Magento_Validator_ValidatorInterface $validator
      * @param array $options
      */
-    protected function _configureConstraintValidator(Magento_Validator_Interface $validator, array $options)
+    protected function _configureConstraintValidator(Magento_Validator_ValidatorInterface $validator, array $options)
     {
         // Call all validator methods according to configuration
         if (array_key_exists('methods', $options)) {

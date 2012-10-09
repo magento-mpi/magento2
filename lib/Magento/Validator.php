@@ -11,7 +11,7 @@
 /**
  * Validator class that represents chain of validators.
  */
-class Magento_Validator extends Magento_Validator_Abstract
+class Magento_Validator extends Magento_Validator_ValidatorAbstract
 {
     /**
      * Validator chain
@@ -23,11 +23,11 @@ class Magento_Validator extends Magento_Validator_Abstract
     /**
      * Adds a validator to the end of the chain
      *
-     * @param  Magento_Validator_Interface $validator
+     * @param  Magento_Validator_ValidatorInterface $validator
      * @param  bool $breakChainOnFailure
      * @return Magento_Validator
      */
-    public function addValidator(Magento_Validator_Interface $validator, $breakChainOnFailure = false)
+    public function addValidator(Magento_Validator_ValidatorInterface $validator, $breakChainOnFailure = false)
     {
         $this->_validators[] = array(
             'instance' => $validator,

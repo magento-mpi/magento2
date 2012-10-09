@@ -2,16 +2,39 @@
 <validation>
     <entity name="customer">
         <rules>
-            <rule name="password">
-                <constraints>
-                    <constraint class="Mage_Customer_Model_Customer_Validation_Password"/>
-                </constraints>
+            <rule name="check_password">
+                <entity_constraints>
+                    <constraint class="Mage_Customer_Model_Customer_Validation_Password" />
+                </entity_constraints>
+            </rule>
+            <rule name="check_form">
+                <entity_constraints>
+                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
+                </entity_constraints>
+            </rule>
+            <rule name="validate_form">
+                <property_constraints>
+                    <property name="firstname">
+                        <constraint class="Magento_Validator_NotEmpty" />
+                    </property>
+                    <property name="lastname">
+                        <constraint class="Magento_Validator_NotEmpty" />
+                    </property>
+                    <property name="email">
+                        <constraint class="Magento_Validator_NotEmpty" />
+                    </property>
+                </property_constraints>
             </rule>
         </rules>
         <groups>
-            <group name="adminhtml">
+            <group name="adminhtml_password_check">
                 <uses>
-                    <use rule="password"/>
+                    <use rule="check_password"/>
+                </uses>
+            </group>
+            <group name="adminhtml_check">
+                <uses>
+                    <use rule="check_form"/>
                 </uses>
             </group>
         </groups>

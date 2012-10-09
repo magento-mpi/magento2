@@ -33,7 +33,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      * @dataProvider isValidDataProvider
      *
      * @param mixed $value
-     * @param Magento_Validator_Interface[] $validators
+     * @param Magento_Validator_ValidatorInterface[] $validators
      * @param bool $expectedResult
      * @param array $expectedMessages
      * @param bool $breakChainOnFailure
@@ -60,13 +60,13 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         $value = 'test';
 
         // Case 1. Validators fails without breaking chain
-        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators1->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(false));
         $validators1->expects($this->once())->method('getMessages')
             ->will($this->returnValue(array('foo' => array('Foo message 1'), 'bar' => array('Foo message 2'))));
 
-        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators2->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(false));
         $validators2->expects($this->once())->method('getMessages')
@@ -78,25 +78,25 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         ));
 
         // Case 2. Validators fails with breaking chain
-        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators1->expects($this->once())->method('isValid')
             ->with($value)
             ->will($this->returnValue(false));
         $validators1->expects($this->once())->method('getMessages')
             ->will($this->returnValue(array('field' => 'Error message')));
 
-        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators2->expects($this->never())->method('isValid');
 
         $result[] = array($value, array($validators1, $validators2), false, array('field' => 'Error message'), true);
 
         // Case 3. Validators succeed
-        $validators1 = $this->getMock('Magento_Validator_Interface');
+        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators1->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(true));
         $validators1->expects($this->never())->method('getMessages');
 
-        $validators2 = $this->getMock('Magento_Validator_Interface');
+        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
         $validators2->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(true));
         $validators2->expects($this->never())->method('getMessages');
@@ -108,7 +108,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
 
     public function test()
     {
-        $fooValidator = $this->getMock('Magento_Validator_Interface');
+        $fooValidator = $this->getMock('Magento_Validator_ValidatorInterface');
         $classConstraint = new Magento_Validator_Constraint($fooValidator, 'id');
         $propertyValidator = new Magento_Validator_Constraint_Property($classConstraint, 'name', 'id');
         $this->_validator->addValidator($classConstraint);

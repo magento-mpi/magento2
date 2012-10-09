@@ -11,6 +11,6 @@
 /**
  * Validator interface
  */
-interface Magento_Validator_Interface extends Zend_Validate_Interface
+interface Magento_Validator_ValidatorInterface extends Zend_Validate_Interface
 {
 }

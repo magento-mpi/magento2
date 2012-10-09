@@ -23,11 +23,11 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
     /**
      * Constructor
      *
-     * @param Magento_Validator_Interface $validator
+     * @param Magento_Validator_ValidatorInterface $validator
      * @param string $property
      * @param string $alias
      */
-    public function __construct(Magento_Validator_Interface $validator, $property, $alias = null)
+    public function __construct(Magento_Validator_ValidatorInterface $validator, $property, $alias = null)
     {
         parent::__construct($validator, $alias);
         $this->_property = $property;

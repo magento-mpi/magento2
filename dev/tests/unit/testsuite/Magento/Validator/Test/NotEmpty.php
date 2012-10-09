@@ -9,10 +9,9 @@
  * @license     {license_link}
  */
 
-
 /**
  * Not empty test validator
  */
-class Magento_Validator_Test_NotEmpty extends Zend_Validate_NotEmpty implements Magento_Validator_Interface
+class Magento_Validator_Test_NotEmpty extends Zend_Validate_NotEmpty implements Magento_Validator_ValidatorInterface
 {
 }

@@ -19,7 +19,7 @@
                         <constraint alias="some_validator" class="Magento_Validator_StringLenght">
                             <method name="setOptions">
                                 <argument>
-                                    <!-- attribute class is required for tag callback -->
+                                    <!-- attribute class is required for callback element -->
                                     <callback method="getSomeValue"/>
                                 </argument>
                             </method>
@@ -29,7 +29,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="create" builder="ClassName">
+            <group name="create">
                 <uses>
                     <use rule="name_sku_and_price"/>
                 </uses>
