@@ -128,13 +128,6 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     . $this->helper('Mage_Core_Helper_Data')->currencyByStore($_value->getPrice(true), $store, false) . '" />'
                     . '<span class="label"><label for="options_' . $_option->getId() . '_' . $count . '">'
                     . $_value->getTitle() . ' ' . $priceStr . '</label></span>';
-                /* this is replaced by jQuery
-                if ($_option->getIsRequire()) {
-                    $selectHtml .= '<script type="text/javascript">' . '$(\'options_' . $_option->getId() . '_'
-                    . $count . '\').advaiceContainer = \'options-' . $_option->getId() . '-container\';'
-                    . '$(\'options_' . $_option->getId() . '_' . $count
-                    . '\').callbackFunction = \'validateOptionsCallback\';' . '</script>';
-                }*/
                 $selectHtml .= '</li>';
             }
             $selectHtml .= '</ul>';
