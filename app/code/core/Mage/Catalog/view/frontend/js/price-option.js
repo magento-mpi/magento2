@@ -77,8 +77,14 @@
             };
             $(priceOptionInit.productCustomOptionSelector).each(function() {
                 var element = $(this);
-                var optionIdStartIndex = element.attr('name').indexOf('[') + 1;
-                var optionIdEndIndex = element.attr('name').indexOf(']');
+                var optionIdStartIndex, optionIdEndIndex;
+                if (element.attr('type') === 'file') {
+                    optionIdStartIndex = element.attr('name').indexOf('_') + 1;
+                    optionIdEndIndex = element.attr('name').lastIndexOf('_');
+                } else {
+                    optionIdStartIndex = element.attr('name').indexOf('[') + 1;
+                    optionIdEndIndex = element.attr('name').indexOf(']');
+                }
                 var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex), 10);
                 if (priceOptionInit.optionConfig[optionId]) {
                     var configOptions = priceOptionInit.optionConfig[optionId];
@@ -105,6 +111,11 @@
                             optionPrice.update(configOptions.price, configOptions.excludeTax,
                                 configOptions.includeTax, configOptions.oldPrice);
                         }
+                    } else if (element.attr('type') === 'file') {
+                        if (element.val() || element.parent('div').siblings().length > 0) {
+                            optionPrice.update(configOptions.price, configOptions.excludeTax,
+                                configOptions.includeTax, configOptions.oldPrice);
+                        }
                     }
                 }
             });
@@ -117,6 +128,12 @@
             // Loop through each priceSelector and update price
             $.each(priceSelectors, function(index, value) {
                 var priceElement = $(value);
+                var clone = $(value + priceOptionInit.priceConfig.idSuffix);
+                var isClone = false;
+                if (priceElement.length === 0) {
+                    priceElement = clone;
+                    isClone = true;
+                }
                 if (priceElement.length === 1) {
                     var price = 0;
                     if (value.indexOf('price-including-tax-') >= 0) {
@@ -133,11 +150,10 @@
                         price = priceOptionInit.priceConfig.showIncludeTax ?
                             updatedPrice.priceInclTax : updatedPrice.priceExclTax;
                     }
-                    priceElement.html(formatCurrency(price, priceOptionInit.priceConfig.priceFormat));
+                    priceElement.html("<span class='price'>" + formatCurrency(price, priceOptionInit.priceConfig.priceFormat) + "</span>");
                     // If clone exists, update clone price as well
-                    var clone = $(value + priceOptionInit.priceConfig.idSuffix);
-                    if (clone.length === 1) {
-                        clone.html(formatCurrency(price, priceOptionInit.priceConfig.priceFormat));
+                    if (!isClone && clone.length === 1) {
+                        clone.html("<span class='price'>" + formatCurrency(price, priceOptionInit.priceConfig.priceFormat) + "</span>");
                     }
                 }
             });
@@ -151,9 +167,11 @@
             }
             else if (element.prop('tagName') === 'SELECT' ||
                 element.prop('tagName') === 'TEXTAREA' ||
-                element.attr('type') === 'text') {
+                element.attr('type') === 'text' || element.attr('type') === 'file') {
                 element.on('change', reloadPrice);
             }
         });
+
+        reloadPrice();
     });
 }(jQuery));
