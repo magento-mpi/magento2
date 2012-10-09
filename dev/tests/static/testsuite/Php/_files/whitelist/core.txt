@@ -43,9 +43,12 @@ app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/core/Mage/Cms/Controller/Router.php
 app/code/core/Mage/Page/Helper/Robots.php
 dev/shell
+dev/tests/functional/testsuite/themes
+dev/tests/functional/testsuite/Community2/Mage/ImportExport
+dev/tests/functional/testsuite/Community2/Mage/Tags
 dev/tests/integration
-dev/tests/performance
 dev/tests/js
+dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools
