@@ -30,14 +30,14 @@ class Magento_Performance_Scenario_Arguments extends ArrayObject
      * Constructor
      *
      * @param array $arguments
-     * @throws UnexpectedValueException
+     * @throws InvalidArgumentException
      */
     public function __construct(array $arguments)
     {
         $arguments += array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
         foreach (array(self::ARG_USERS, self::ARG_LOOPS) as $argName) {
             if (!is_int($arguments[$argName]) || $arguments[$argName] < 1) {
-                throw new UnexpectedValueException("Scenario argument '$argName' must be a positive integer.");
+                throw new InvalidArgumentException("Scenario argument '$argName' must be a positive integer.");
             }
         }
         parent::__construct($arguments);

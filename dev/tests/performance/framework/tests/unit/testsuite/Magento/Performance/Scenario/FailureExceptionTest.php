@@ -32,6 +32,7 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
     protected function tearDown()
     {
         $this->_object = null;
+        $this->_scenarioArgs = null;
     }
 
     public function testConstructor()

@@ -32,7 +32,7 @@ class Magento_Performance_Scenario_Handler_FileFormat implements Magento_Perform
     }
 
     /**
-     * Retrieve scenario handler for a certain file extension or NULL, if no handlers have been registered for it
+     * Retrieve scenario handler for a file extension
      *
      * @param string $fileExtension
      * @return Magento_Performance_Scenario_HandlerInterface|null

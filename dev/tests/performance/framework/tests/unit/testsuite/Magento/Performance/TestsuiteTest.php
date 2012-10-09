@@ -148,6 +148,14 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
         ), $notifications);
     }
 
+    /**
+     * @expectedException BadFunctionCallException
+     */
+    public function testOnScenarioRunException()
+    {
+        $this->_object->onScenarioRun('invalid_callback');
+    }
+
     public function testOnScenarioFailure()
     {
         $scenarioArgs = new Magento_Performance_Scenario_Arguments(array());
@@ -178,5 +186,13 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
         );
         $this->_object->run();
         $this->assertEquals(array('scenario_error.jmx', 'scenario_failure.jmx', 'scenario.jmx'), $notifications);
+    }
+
+    /**
+     * @expectedException BadFunctionCallException
+     */
+    public function testOnScenarioFailureException()
+    {
+        $this->_object->onScenarioFailure(array($this, 'invalid_callback'));
     }
 }

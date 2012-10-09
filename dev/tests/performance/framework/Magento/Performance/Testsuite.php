@@ -114,6 +114,7 @@ class Magento_Performance_Testsuite
      */
     public function onScenarioRun($callback)
     {
+        $this->_validateCallback($callback);
         $this->_onScenarioRun = $callback;
     }
 
@@ -124,7 +125,21 @@ class Magento_Performance_Testsuite
      */
     public function onScenarioFailure($callback)
     {
+        $this->_validateCallback($callback);
         $this->_onScenarioFailure = $callback;
+    }
+
+    /**
+     * Validate whether a callback refers to a valid function/method that can be invoked
+     *
+     * @param callable $callback
+     * @throws BadFunctionCallException
+     */
+    protected function _validateCallback($callback)
+    {
+        if (!is_callable($callback)) {
+            throw new BadFunctionCallException('Callback is invalid.');
+        }
     }
 
     /**

@@ -77,7 +77,7 @@ class Magento_Performance_Scenario_ArgumentsTest extends PHPUnit_Framework_TestC
      */
     public function testConstructorException(array $inputArgs, $expectedExceptionMsg)
     {
-        $this->setExpectedException('UnexpectedValueException', $expectedExceptionMsg);
+        $this->setExpectedException('InvalidArgumentException', $expectedExceptionMsg);
         new Magento_Performance_Scenario_Arguments($inputArgs);
     }
 
