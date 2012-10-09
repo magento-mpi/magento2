@@ -45,6 +45,16 @@ class Community2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $windowQty = $this->getAllWindowNames();
+        if (count($windowQty) > 1 && end($windowQty) != 'null') {
+            $this->selectWindow("name=" . end($windowQty));
+            $this->close();
+            $this->selectWindow(null);
+        }
+    }
+
     /**
      * <p>Create API User</p>
      * <p>Steps</p>
@@ -94,20 +104,74 @@ class Community2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      * <p>"User Name already exists' massage should be appear</p>
      *
      * @param array $userData
+     *
      * @test
-     * @author denis.poloka
      * @depends withRequiredFieldsCreateUser
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-6359
      */
     public function withRequiredFieldsDefaultValue ($userData)
     {
         $this->navigate('api_users');
         $this->clickButton('add_new_api_users', true);
+
         $this->fillField('api_user_name', $userData['api_user_name']);
         $this->fillField('api_user_secret', $userData['api_user_secret']);
         $this->fillDropdown('api_user_role', $userData['role_name']);
+        //$this->waitForPageToLoad();
 
-        $this->clickButton('save');
-        $this->assertMessagePresent('err', 'user_exist');
+        $this->clickButton('save', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->waitForAjax();
+        $this->assertMessagePresent('error', 'user_exist');
+    }
+
+    /**
+     * <p>Check required field</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add new API Users button</p>
+     * <p>2. Click "save API User"
+     * <p>Expected result:</p>
+     * <p>"This is a required field.' massage should be appear</p>
+     *
+     * @param string $emptyField
+     * @param string $messageCount
+     * @param array $userData
+     *
+     * @test
+     * @author denis.poloka
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends withRequiredFieldsCreateUser
+     * @TestlinkId TL-MAGE-6364
+     */
+    public function withRequiredFields ($emptyField, $messageCount, $userData)
+    {
+        //Loading data from data file
+        $fieldData = $this->loadDataSet('ApiUsers', 'new_api_users_create', array($emptyField => '%noValue%'));
+
+        $this->navigate('api_users');
+        $this->clickButton('add_new_api_users', true);
+        $this->fillDropdown('api_user_role', $userData['role_name']);
+
+        //Fill required fields except one
+        $this->fillForm($fieldData);
+        $this->clickButton('save', false);
+        $this->waitForAjax();
+        $this->validatePage();
+
+        //Verifying
+        $xpath = $this->_getControlXpath('field', $emptyField);
+        $this->addParameter('fieldXpath', $xpath);
+        $this->assertMessagePresent('error', 'api_user_empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
+    }
+
+    public function withRequiredFieldsEmptyDataProvider ()
+    {
+        return array (
+            array ('api_user_name', 1),
+            array ('api_user_secret', 1),
+        );
     }
 }

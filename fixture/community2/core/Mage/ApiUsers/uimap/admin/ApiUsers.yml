@@ -76,8 +76,8 @@ add_new_api_users:
                 save_and_continue_edit: //button[@title='Save and Continue Edit']
             messages: *pageMessages
 
-edit_api_user:
+edit_api_user_exist:
     mca: webapi_user/edit/user_id/%userId%/
-    title: %userName% / API Users / Web Services / System / Magento Admin
+    title: New User / API Users / Web Services / System / Magento Admin
     uimap:
         form: *edit_api_user_grid
