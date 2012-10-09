@@ -90,7 +90,7 @@ class Magento_Test_TestCase_ObjectManagerAbstractTest extends PHPUnit_Framework_
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
-        $model = $objectManager->getModel('Mage_Core_Model_Config_Data', array('data' => $arguments));
+        $model = $objectManager->getModel('Mage_Core_Model_Config_Data', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }
 }
