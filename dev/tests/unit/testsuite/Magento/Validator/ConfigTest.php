@@ -193,6 +193,49 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         $config = new Magento_Validator_Config($configFile);
         $builder = $config->getValidatorBuilder('test_entity_a', 'check_builder');
         $this->assertInstanceOf('Test_Builder_Stub', $builder);
+
+        $expected = array(
+            array(
+                'alias' => '',
+                'class' => 'Magento_Validator_Test_NotEmpty',
+                'options' => null,
+                'property' => 'int',
+                'type' => 'property'
+            ),
+            array(
+                'alias' => 'stub',
+                'class' => 'Validator_Stub',
+                'options' => array(
+                    'arguments' => array(
+                        new Magento_Validator_Constraint_Option('test_string_argument'),
+                        new Magento_Validator_Constraint_Option(array(
+                            'option1' => 'value1',
+                            'option2' => 'value2'
+                        )),
+                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId')
+                    ),
+                    'callback' => array(
+                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'configureValidator')
+                    ),
+                    'methods' => array(
+                        'setOptionThree' => array(
+                            'method' => 'setOptionThree',
+                            'arguments' => array(
+                                new Magento_Validator_Constraint_Option(array('argOption' => 'argOptionValue')),
+                                new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId'),
+                                new Magento_Validator_Constraint_Option('10')
+                            )
+                        ),
+                        'enableOptionFour' => array(
+                            'method' => 'enableOptionFour',
+                        )
+                    )
+                ),
+                'property' => 'int',
+                'type' => 'property'
+            ),
+        );
+        $this->assertEquals($expected, Test_Builder_Stub::getActualConstraints());
     }
 
     /**
@@ -243,13 +286,27 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Custom_Builder_Stub extends Magento_Validator_Builder
-{
-
-}
-
+/**
+ * Stub for testing builder configuration passed throw constructor
+ */
 class Test_Builder_Stub extends Magento_Validator_Builder
 {
+    /**
+     * @var array
+     */
+    public static $actual;
+
+    /**
+     * Get actual constraints for testing purposes
+     *
+     * @static
+     * @return array
+     */
+    public static function getActualConstraints()
+    {
+        return self::$actual;
+    }
+
     /**
      * Check constraint configuration
      *
@@ -257,48 +314,7 @@ class Test_Builder_Stub extends Magento_Validator_Builder
      */
     public function __construct($constraints)
     {
-        $expected = array(
-            array(
-                'alias' => '',
-                'class' => 'Magento_Validator_Test_NotEmpty',
-                'options' => null,
-                'property' => 'int',
-                'type' => 'property'
-            ),
-            array(
-                'alias' => 'stub',
-                'class' => 'Validator_Stub',
-                'options' => array(
-                    'arguments' => array(
-                        new Magento_Validator_Constraint_Option_Scalar('test_string_argument'),
-                        new Magento_Validator_Constraint_Option_Scalar(array(
-                            'option1' => 'value1',
-                            'option2' => 'value2'
-                        )),
-                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId')
-                    ),
-                    'callback' => array(
-                        new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'configureValidator')
-                    ),
-                    'methods' => array(
-                        'setOptionThree' => array(
-                            'method' => 'setOptionThree',
-                            'arguments' => array(
-                                new Magento_Validator_Constraint_Option_Scalar(array('argOption' => 'argOptionValue')),
-                                new Magento_Validator_Constraint_Option_Callback('Test_Builder_Stub', 'getId'),
-                                new Magento_Validator_Constraint_Option_Scalar('10')
-                            )
-                        ),
-                        'enableOptionFour' => array(
-                            'method' => 'enableOptionFour',
-                        )
-                    )
-                ),
-                'property' => 'int',
-                'type' => 'property'
-            ),
-        );
-        PHPUnit_Framework_TestCase::assertEquals($expected, $constraints);
+        self::$actual = $constraints;
     }
 
     /**
@@ -309,4 +325,3 @@ class Test_Builder_Stub extends Magento_Validator_Builder
         return new Magento_Validator();
     }
 }
-

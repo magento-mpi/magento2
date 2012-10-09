@@ -11,7 +11,7 @@
 /**
  * Constraint scalar option
  */
-class Magento_Validator_Constraint_Option_Scalar implements  Magento_Validator_Constraint_OptionInterface
+class Magento_Validator_Constraint_Option implements  Magento_Validator_Constraint_OptionInterface
 {
     /**
      * @var mixed

@@ -304,7 +304,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 } elseif ($options) {
                     $arguments[] = $options;
                 } else {
-                    $arguments[] = new Magento_Validator_Constraint_Option_Scalar((string)$node->textContent);
+                    $arguments[] = new Magento_Validator_Constraint_Option((string)$node->textContent);
                 }
 
             }
@@ -353,7 +353,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                     $data[] = (string)$option->textContent;
                 }
             }
-            return new Magento_Validator_Constraint_Option_Scalar($data);
+            return new Magento_Validator_Constraint_Option($data);
         }
         return null;
     }

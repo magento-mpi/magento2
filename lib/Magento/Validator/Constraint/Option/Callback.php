@@ -56,7 +56,11 @@ class Magento_Validator_Constraint_Option_Callback implements  Magento_Validator
     public function getValue()
     {
         if (is_string($this->_callback[0])) {
+            $autoLoader = Magento_Autoload::getInstance();
             $callbackClass = $this->_callback[0];
+            if (!$autoLoader->classExists($callbackClass)) {
+                throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callbackClass));
+            }
             $this->_callback[0] = new $callbackClass();
         }
         if (!is_callable($this->_callback)) {
