@@ -27,24 +27,26 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
     protected $_scenarioFile;
 
     /**
+     * @var Magento_Performance_Scenario
+     */
+    protected $_scenario;
+
+    /**
      * @var string
      */
     protected $_reportFile;
 
-    /**
-     * @var Magento_Performance_Scenario_Arguments
-     */
-    protected $_scenarioArgs;
-
     protected function setUp()
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.jmx');
+        $scenarioArgs = array(
+            Magento_Performance_Config_Scenario::ARG_HOST  => '127.0.0.1',
+            Magento_Performance_Config_Scenario::ARG_PATH  => '/',
+            Magento_Performance_Config_Scenario::ARG_USERS => 2,
+        );
+        $this->_scenario = new Magento_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs);
+
         $this->_reportFile = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR . 'scenario.jtl';
-        $this->_scenarioArgs = new Magento_Performance_Scenario_Arguments(array(
-            Magento_Performance_Scenario_Arguments::ARG_HOST  => '127.0.0.1',
-            Magento_Performance_Scenario_Arguments::ARG_PATH  => '/',
-            Magento_Performance_Scenario_Arguments::ARG_USERS => 2,
-        ));
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_object = new Magento_Performance_Scenario_Handler_Jmeter($this->_shell, false);
     }
@@ -53,7 +55,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
     {
         $this->_shell = null;
         $this->_object = null;
-        $this->_scenarioArgs = null;
+        $this->_scenario = null;
     }
 
     public function testValidateScenarioExecutable()
@@ -65,7 +67,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->method('execute')
             ->with('jmeter --version')
         ;
-        $object->run('scenario.jmx', $this->_scenarioArgs);
+        $object->run($this->_scenario);
 
         // validation must be performed only once
         $this->_shell
@@ -73,7 +75,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->method('execute')
             ->with($this->logicalNot($this->equalTo('jmeter --version')))
         ;
-        $object->run('scenario.jmx', $this->_scenarioArgs);
+        $object->run($this->_scenario);
     }
 
     public function testRunNoReport()
@@ -82,11 +84,11 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->expects($this->once())
             ->method('execute')
             ->with(
-                'jmeter -n -t %s %s %s %s %s',
-                array($this->_scenarioFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2', '-Jloops=1')
+                'jmeter -n -t %s %s %s %s',
+                array($this->_scenarioFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2')
             )
         ;
-        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs);
+        $this->_object->run($this->_scenario);
     }
 
     public function testRunReport()
@@ -95,13 +97,13 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->expects($this->once())
             ->method('execute')
             ->with(
-                'jmeter -n -t %s -l %s %s %s %s %s',
+                'jmeter -n -t %s -l %s %s %s %s',
                 array(
-                    $this->_scenarioFile, $this->_reportFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2', '-Jloops=1'
+                    $this->_scenarioFile, $this->_reportFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2',
                 )
             )
         ;
-        $this->_object->run($this->_scenarioFile, $this->_scenarioArgs, $this->_reportFile);
+        $this->_object->run($this->_scenario, $this->_reportFile);
     }
 
     /**
@@ -114,7 +116,8 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
     public function testRunException($scenarioFile, $reportFile, $expectedException, $expectedExceptionMsg = '')
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        $this->_object->run($scenarioFile, $this->_scenarioArgs, $reportFile);
+        $scenario = new Magento_Performance_Scenario('Scenario', $scenarioFile, array());
+        $this->_object->run($scenario, $reportFile);
     }
 
     public function runExceptionDataProvider()
@@ -125,7 +128,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
                 "$fixtureDir/scenario_without_report.jmx",
                 "$fixtureDir/scenario_without_report.jtl",
                 'Magento_Exception',
-                "Report file '$fixtureDir/scenario_without_report.jtl' has not been created.",
+                "Report file '$fixtureDir/scenario_without_report.jtl' for 'Scenario' has not been created.",
             ),
             'scenario failure in report' => array(
                 "$fixtureDir/scenario_failure.jmx",

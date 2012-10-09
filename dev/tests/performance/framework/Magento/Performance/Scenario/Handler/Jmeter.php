@@ -49,26 +49,28 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
     /**
      * Run scenario and optionally write results to report file
      *
-     * @param string $scenarioFile
-     * @param Magento_Performance_Scenario_Arguments $scenarioArguments
+     * @param Magento_Performance_Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
      * @throws Magento_Exception
      * @throws Magento_Performance_Scenario_FailureException
      */
-    public function run($scenarioFile, Magento_Performance_Scenario_Arguments $scenarioArguments, $reportFile = null)
+    public function run(Magento_Performance_Scenario $scenario, $reportFile = null)
     {
         $this->_validateScenarioExecutable();
-        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioArguments, $reportFile);
+
+        $cmd = $this->_buildScenarioCmd($scenario, $reportFile);
+        list($scenarioCmd, $scenarioCmdArgs) = $cmd;
         $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
+
         if ($reportFile) {
             if (!file_exists($reportFile)) {
-                throw new Magento_Exception("Report file '$reportFile' has not been created.");
+                throw new Magento_Exception(
+                    "Report file '$reportFile' for '{$scenario->getTitle()}' has not been created."
+                );
             }
             $reportErrors = $this->_getReportErrors($reportFile);
             if ($reportErrors) {
-                throw new Magento_Performance_Scenario_FailureException(
-                    $scenarioFile, $scenarioArguments, implode(PHP_EOL, $reportErrors)
-                );
+                throw new Magento_Performance_Scenario_FailureException($scenario, implode(PHP_EOL, $reportErrors));
             }
         }
     }
@@ -76,20 +78,19 @@ class Magento_Performance_Scenario_Handler_Jmeter implements Magento_Performance
     /**
      * Build and return scenario execution command and arguments for it
      *
-     * @param string $scenarioFile
-     * @param Traversable $scenarioArgs
+     * @param Magento_Performance_Scenario $scenario
      * @param string|null $reportFile
      * @return array
      */
-    protected function _buildScenarioCmd($scenarioFile, Traversable $scenarioArgs, $reportFile = null)
+    protected function _buildScenarioCmd(Magento_Performance_Scenario $scenario, $reportFile = null)
     {
         $command = 'jmeter -n -t %s';
-        $arguments = array($scenarioFile);
+        $arguments = array($scenario->getFile());
         if ($reportFile) {
             $command .= ' -l %s';
             $arguments[] = $reportFile;
         }
-        foreach ($scenarioArgs as $key => $value) {
+        foreach ($scenario->getArguments() as $key => $value) {
             $command .= ' %s';
             $arguments[] = "-J$key=$value";
         }

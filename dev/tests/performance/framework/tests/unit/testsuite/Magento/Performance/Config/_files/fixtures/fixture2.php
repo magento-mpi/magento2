@@ -9,6 +9,4 @@
  * @license     {license_link}
  */
 
-$result = require __DIR__ . '/config_data.php';
-$result['scenario']['scenarios'] = array('non_existing_scenario.jmx');
-return $result;
+// Fixture stub

@@ -37,10 +37,12 @@ return array(
             ),
         ),
         'scenarios' => array(
-            'scenario.jmx' => array(
+            'Scenario' => array(
+                'file' => 'scenario.jmx',
                 'arguments' => array(
                     'arg2' => 'overridden value 2',
                     'arg3' => 'custom value 3',
+                    Magento_Performance_Config_Scenario::ARG_HOST => 'no crosscutting params',
                 ),
                 'settings' => array(
                     'setting2' => 'overridden setting 2',
@@ -50,11 +52,9 @@ return array(
                     'fixture.php',
                 ),
             ),
-            'scenario_error.jmx',
-            'scenario_failure.jmx' => array(
-                'arguments' => array(
-                    Magento_Performance_Scenario_Arguments::ARG_HOST => 'crosscutting parameters cannot be redefined',
-                ),
+            'Scenario with Error' => 'scenario_error.jmx',
+            'Scenario with Failure' => array(
+                'file' => 'scenario_failure.jmx',
                 'settings' => array(
                     Magento_Performance_Testsuite::SETTING_SKIP_WARM_UP => true,
                 ),

@@ -39,8 +39,8 @@ class Magento_Performance_Testsuite
      * @var array
      */
     protected $_warmUpArguments = array(
-        Magento_Performance_Scenario_Arguments::ARG_USERS => 1,
-        Magento_Performance_Scenario_Arguments::ARG_LOOPS => 2,
+        Magento_Performance_Config_Scenario::ARG_USERS => 1,
+        Magento_Performance_Config_Scenario::ARG_LOOPS => 2,
     );
 
     /**
@@ -52,6 +52,13 @@ class Magento_Performance_Testsuite
      * @var callable
      */
     protected $_onScenarioFailure;
+
+    /**
+     * List of report files that have been used by scenarios
+     *
+     * @var array
+     */
+    protected $_reportFiles = array();
 
     /**
      * Constructor
@@ -73,38 +80,65 @@ class Magento_Performance_Testsuite
      */
     public function run()
     {
+        $this->_reportFiles = array();
         $scenarios = $this->_getOptimizedScenarioList();
+        foreach ($scenarios as $scenarioConfig) {
+            /** @var $scenarioConfig Magento_Performance_Config_Scenario */
+            $this->_application->applyFixtures($scenarioConfig->getFixtures());
 
-        foreach ($scenarios as $scenarioFile) {
-            $scenarioArguments = $this->_config->getScenarioArguments($scenarioFile);
-            $scenarioSettings = $this->_config->getScenarioSettings($scenarioFile);
-            $scenarioFixtures = $this->_config->getScenarioFixtures($scenarioFile);
-
-            $this->_application->applyFixtures($scenarioFixtures);
-
-            $this->_notifyScenarioRun($scenarioFile);
+            // Compose scenario to be run
+            $scenario = new Magento_Performance_Scenario(
+                $scenarioConfig->getTitle(),
+                $scenarioConfig->getFile(),
+                $scenarioConfig->getArguments()
+            );
+            $this->_notifyScenarioRun($scenario);
 
             /* warm up cache, if any */
-            if (empty($scenarioSettings[self::SETTING_SKIP_WARM_UP])) {
-                $warmUpArgs = new Magento_Performance_Scenario_Arguments(
-                    $this->_warmUpArguments + (array)$scenarioArguments
-                );
+            $settings = $scenarioConfig->getSettings();
+            if (empty($settings[self::SETTING_SKIP_WARM_UP])) {
                 try {
-                    $this->_scenarioHandler->run($scenarioFile, $warmUpArgs);
+                    $scenarioWarmUp = new Magento_Performance_Scenario(
+                        $scenarioConfig->getTitle(),
+                        $scenarioConfig->getFile(),
+                        $this->_warmUpArguments + $scenarioConfig->getArguments()
+                    );
+                    $this->_scenarioHandler->run($scenarioWarmUp);
                 } catch (Magento_Performance_Scenario_FailureException $scenarioFailure) {
                     // do not notify about failed warm up
                 }
             }
 
             /* full run with reports recording */
-            $scenarioName = pathinfo($scenarioFile, PATHINFO_FILENAME);
-            $reportFile = $this->_config->getReportDir() . DIRECTORY_SEPARATOR . $scenarioName . '.jtl';
+            $reportFile = $this->_getScenarioReportFile($scenario);
             try {
-                $this->_scenarioHandler->run($scenarioFile, $scenarioArguments, $reportFile);
+                $this->_scenarioHandler->run($scenario, $reportFile);
             } catch (Magento_Performance_Scenario_FailureException $scenarioFailure) {
                 $this->_notifyScenarioFailure($scenarioFailure);
             }
         }
+    }
+
+    /**
+     * Returns unique report file for the scenario.
+     * Used in order to generate unique report file paths for different scenarios that are represented by same files.
+     *
+     * @param Magento_Performance_Scenario $scenario
+     * @return string
+     */
+    protected function _getScenarioReportFile(Magento_Performance_Scenario $scenario)
+    {
+        $basePath = $this->_config->getReportDir() . DIRECTORY_SEPARATOR
+            . pathinfo($scenario->getFile(), PATHINFO_FILENAME);
+        $iteration = 1;
+        do {
+            $suffix = ($iteration == 1) ? '' : '_' . $iteration;
+            $reportFile = $basePath . $suffix . '.jtl';
+            $iteration++;
+        } while (isset($this->_reportFiles[$reportFile]));
+
+        $this->_reportFiles[$reportFile] = true;
+        return $reportFile;
     }
 
     /**
@@ -145,12 +179,12 @@ class Magento_Performance_Testsuite
     /**
      * Notify about scenario run event
      *
-     * @param string $scenarioFile
+     * @param Magento_Performance_Scenario $scenario
      */
-    protected function _notifyScenarioRun($scenarioFile)
+    protected function _notifyScenarioRun($scenario)
     {
         if ($this->_onScenarioRun) {
-            call_user_func($this->_onScenarioRun, $scenarioFile);
+            call_user_func($this->_onScenarioRun, $scenario);
         }
     }
 
@@ -167,17 +201,25 @@ class Magento_Performance_Testsuite
     }
 
     /**
-     * Compose optimal list of scenarios, so that Magento reinstalls will be reduced among scenario executions
+     * Compose optimal order of scenarios, so that Magento reinstalls will be reduced among scenario executions
      *
      * @return array
      */
     protected function _getOptimizedScenarioList()
     {
         $optimizer = new Magento_Performance_Testsuite_Optimizer();
-        $scenarios = array();
-        foreach ($this->_config->getScenarios() as $scenarioFile) {
-            $scenarios[$scenarioFile] = $this->_config->getScenarioFixtures($scenarioFile);
+        $scenarios = $this->_config->getScenarios();
+        $scenarioFixtures = array();
+        foreach ($scenarios as $scenario) {
+            /** @var $scenario Magento_Performance_Scenario */
+            $scenarioFixtures[] = $scenario->getFixtures();
         }
-        return $optimizer->optimizeScenarios($scenarios);
+        $keys = $optimizer->optimizeScenarios($scenarioFixtures);
+
+        $result = array();
+        foreach ($keys as $key) {
+            $result[] = $scenarios[$key];
+        }
+        return $result;
     }
 }

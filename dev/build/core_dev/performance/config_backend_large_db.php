@@ -47,7 +47,8 @@ return array(
             ),
         ),
         'scenarios' => array(
-            'testsuite/backend.jmx' => array(
+            'Backend Management with Lot of Entities' => array(
+                'file' => 'testsuite/backend.jmx',
                 'arguments' => array(
                     'products_number'  => 100000,
                     'customers_number' => 100000,

@@ -22,23 +22,23 @@ class Magento_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_Framew
     protected $_handler;
 
     /**
-     * @var Magento_Performance_Scenario_Arguments
+     * @var Magento_Performance_Scenario
      */
-    protected $_scenarioArgs;
+    protected $_scenario;
 
     protected function setUp()
     {
         $this->_handler = $this->getMockForAbstractClass('Magento_Performance_Scenario_HandlerInterface');
         $this->_object = new Magento_Performance_Scenario_Handler_FileFormat();
         $this->_object->register('jmx', $this->_handler);
-        $this->_scenarioArgs = new Magento_Performance_Scenario_Arguments(array());
+        $this->_scenario = new Magento_Performance_Scenario('Scenario', 'scenario.jmx', array());
     }
 
     protected function tearDown()
     {
         $this->_handler = null;
         $this->_object = null;
-        $this->_scenarioArgs = null;
+        $this->_scenario = null;
     }
 
     public function testRegisterGetHandler()
@@ -50,22 +50,22 @@ class Magento_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_Framew
 
     public function testRunDelegation()
     {
-        $scenarioFile = 'scenario.jmx';
         $reportFile = 'scenario.jtl';
         $this->_handler
             ->expects($this->once())
             ->method('run')
-            ->with($scenarioFile, $this->_scenarioArgs, $reportFile)
+            ->with($this->_scenario, $reportFile)
         ;
-        $this->_object->run($scenarioFile, $this->_scenarioArgs, $reportFile);
+        $this->_object->run($this->_scenario, $reportFile);
     }
 
     /**
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Unable to run scenario 'scenario.txt', format is not supported.
+     * @expectedExceptionMessage Unable to run scenario 'Scenario', format is not supported.
      */
     public function testRunUnsupportedFormat()
     {
-        $this->_object->run('scenario.txt', $this->_scenarioArgs);
+        $scenario = new Magento_Performance_Scenario('Scenario', 'scenario.txt', array());
+        $this->_object->run($scenario);
     }
 }

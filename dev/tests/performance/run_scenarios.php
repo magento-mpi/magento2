@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-/** @var $bootstrap Magento_Performance_Config */
+/** @var $config Magento_Performance_Config */
 $config = require_once __DIR__ . '/framework/bootstrap.php';
 
 $shell = new Magento_Shell(true);
@@ -25,14 +25,16 @@ $testsuite = new Magento_Performance_Testsuite($config, new Magento_Application(
 $scenarioTotalCount = count($config->getScenarios());
 $scenarioCount = 1;
 $scenarioFailCount = 0;
-$testsuite->onScenarioRun(function ($scenarioFile) use (&$scenarioCount, $scenarioTotalCount) {
-    echo "Scenario $scenarioCount of $scenarioTotalCount: '$scenarioFile'" . PHP_EOL;
+$testsuite->onScenarioRun(function ($scenario) use (&$scenarioCount, $scenarioTotalCount) {
+    /** @var $scenario Magento_Performance_Scenario */
+    echo "Scenario $scenarioCount of $scenarioTotalCount: '{$scenario->getTitle()}'" . PHP_EOL;
     $scenarioCount++;
 });
 $testsuite->onScenarioFailure(
     function (Magento_Performance_Scenario_FailureException $scenarioFailure) use (&$scenarioFailCount) {
-        $scenarioFile = $scenarioFailure->getScenarioFile();
-        echo "Scenario '$scenarioFile' has failed!" . PHP_EOL . $scenarioFailure->getMessage() . PHP_EOL . PHP_EOL;
+        $scenario = $scenarioFailure->getScenario();
+        echo "Scenario '{$scenario->getTitle()}' has failed!" . PHP_EOL
+            . $scenarioFailure->getMessage() . PHP_EOL . PHP_EOL;
         $scenarioFailCount++;
     }
 );

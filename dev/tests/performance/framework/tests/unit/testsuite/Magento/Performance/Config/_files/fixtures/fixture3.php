@@ -9,6 +9,4 @@
  * @license     {license_link}
  */
 
-$result = require __DIR__ . '/config_data.php';
-$result['scenario']['scenarios']['scenario.jmx']['fixtures'] = 'string_fixtures_*.php';
-return $result;
+// Fixture stub

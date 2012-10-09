@@ -17,22 +17,20 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
     protected $_object;
 
     /**
-     * @var Magento_Performance_Scenario_Arguments
+     * @var Magento_Performance_Scenario
      */
-    protected $_scenarioArgs;
+    protected $_scenario;
 
     protected function setUp()
     {
-        $this->_scenarioArgs = new Magento_Performance_Scenario_Arguments(array());
-        $this->_object = new Magento_Performance_Scenario_FailureException(
-            'scenario.jmx', $this->_scenarioArgs, 'scenario has failed'
-        );
+        $this->_scenario = new Magento_Performance_Scenario('', '', array());
+        $this->_object = new Magento_Performance_Scenario_FailureException($this->_scenario, 'scenario has failed');
     }
 
     protected function tearDown()
     {
         $this->_object = null;
-        $this->_scenarioArgs = null;
+        $this->_scenario = null;
     }
 
     public function testConstructor()
@@ -42,11 +40,6 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
 
     public function testGetScenarioFile()
     {
-        $this->assertEquals('scenario.jmx', $this->_object->getScenarioFile());
-    }
-
-    public function testGetScenarioArguments()
-    {
-        $this->assertSame($this->_scenarioArgs, $this->_object->getScenarioArguments());
+        $this->assertSame($this->_scenario, $this->_object->getScenario());
     }
 }
