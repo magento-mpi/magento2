@@ -82,7 +82,6 @@ class Community2_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCa
      * <p>4. Click "Save Condition" button</p>
      * <p>Expected:</p>
      * <p>T&C is not saved. Error Message appears: "Already name exists."</p>
-     * <p>MAGETWO-1708</p>
      *
      * @param $termsData
      *
@@ -92,7 +91,7 @@ class Community2_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCa
      */
     public function withAlreadyExistingTerms($termsData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-1708');
         //Steps
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         //Verifying

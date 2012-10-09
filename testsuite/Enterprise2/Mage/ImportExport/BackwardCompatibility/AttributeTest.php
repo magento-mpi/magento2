@@ -56,7 +56,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      */
     public function customerAttributeCreate()
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Steps 2-4
@@ -108,10 +108,11 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * @TestlinkId TL-MAGE-1310
      * @depends customerAttributeCreate
      * @TestlinkId TL-MAGE-1311
+     * @param array $attrData
      */
     public function customerAttributeUpdate($attrData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Step 2
@@ -177,7 +178,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      */
     public function customerAttributeDelete($attrData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
+        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->navigate('manage_customer_attributes');
         //Step 2

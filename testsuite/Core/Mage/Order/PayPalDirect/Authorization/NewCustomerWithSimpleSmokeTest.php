@@ -222,6 +222,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
+        $this->markTestIncomplete('MAGETWO-2706');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -248,6 +249,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function partialCreditMemo($captureType, $refundType, $orderData, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-2706');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo =
@@ -377,7 +379,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
@@ -387,7 +388,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('skip_due_to_bug');
         //Data
         $cardData = $orderData['payment_data']['payment_info'];
         //Steps

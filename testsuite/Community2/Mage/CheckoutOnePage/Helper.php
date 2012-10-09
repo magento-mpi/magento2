@@ -10,7 +10,7 @@
  */
 
 /**
- * Helper class Community_Mage_for OnePageCheckout
+ * Helper class Community_Mage for OnePageCheckout
  *
  * @package     selenium
  * @subpackage  functional_tests

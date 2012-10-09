@@ -29,7 +29,7 @@ class Community17_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestC
 
     /* Navigation to page
      * 
-     * @ test
+     * @test
      */
 
     public function navigationNewTermsAndConditions() {
