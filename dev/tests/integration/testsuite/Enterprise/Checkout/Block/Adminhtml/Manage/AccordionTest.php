@@ -78,7 +78,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
         $user->setId(1)->setRole(true);
         Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
         Mage::getSingleton(
-            'Mage_Core_Model_Authorization', array('policy' => new Magento_Authorization_Policy_Default())
-        );
+            'Mage_Core_Model_Authorization', array(
+                'data' => array('policy' => new Magento_Authorization_Policy_Default())
+        ));
     }
 }

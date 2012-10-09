@@ -130,11 +130,11 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     {
         if (!$this->_fallback) {
             $this->_fallback = Mage::getModel('Mage_Core_Model_Design_Fallback', array(
-                'area' => $this->_area,
-                'package' => $this->_package,
-                'theme' => $this->_theme,
-                'skin' => $this->_skin,
-                'locale' => $this->_locale
+                'data' => array('area' => $this->_area,
+                    'package' => $this->_package,
+                    'theme' => $this->_theme,
+                    'skin' => $this->_skin,
+                    'locale' => $this->_locale)
             ));
         }
         return $this->_fallback;

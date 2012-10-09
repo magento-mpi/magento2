@@ -157,7 +157,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             $this->_customerEntity = $data['customer_entity'];
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['customer'];
-            $this->_customerEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer', $data);
+            $this->_customerEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer',
+                array('data' => $data));
             unset($data['data_source_model']);
         }
         $this->_initCustomerAttributes();
@@ -180,7 +181,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['address'];
             $this->_addressEntity
-                = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address', $data);
+                = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address', array('data' => $data));
             unset($data['data_source_model']);
         }
         $this->_initAddressAttributes();

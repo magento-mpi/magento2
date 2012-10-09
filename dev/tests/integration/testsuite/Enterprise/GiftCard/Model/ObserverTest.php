@@ -37,7 +37,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($zendMailMock));
 
         $model = Mage::getModel('Enterprise_GiftCard_Model_Observer', array(
-            'email_template_model' => $emailTemplateMock,
+            'data' => array('email_template_model' => $emailTemplateMock,)
         ));
         $model->generateGiftCardAccounts($observer);
 

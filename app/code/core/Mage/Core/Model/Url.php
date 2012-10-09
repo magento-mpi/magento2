@@ -1016,7 +1016,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this;
         }
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session', $params);
+        $session = Mage::getSingleton('Mage_Core_Model_Session', array('data' => $params));
 
         $sessionId = $session->getSessionIdForHost($url);
         if (Mage::app()->getUseSessionVar() && !$sessionId) {

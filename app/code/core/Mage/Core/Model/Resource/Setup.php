@@ -361,7 +361,8 @@ class Mage_Core_Model_Resource_Setup
      */
     public function callbackQueryHook(&$sql, &$bind)
     {
-        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier', array($this->getConnection()))
+        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier',
+            array('adapter' => $this->getConnection()))
             ->processQuery($sql, $bind);
         return $this;
     }

@@ -895,7 +895,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                 /* @var $pdf Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
                                 $pdf = Mage::getModel(
                                     'Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf',
-                                    array('info' => $xml, 'request' => $this->_request)
+                                    array('arguments' => array('info' => $xml, 'request' => $this->_request))
                                 );
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (Exception $e) {
