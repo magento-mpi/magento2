@@ -1,12 +1,16 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: User
- * Date: 31.08.12
- * Time: 17:52
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
+/**
+ * Wishlist item collection filtered by customer
+ */
 class Enterprise_Wishlist_Model_Item_Collection extends Enterprise_Wishlist_Model_Resource_Item_Collection
 {
     public function __construct()

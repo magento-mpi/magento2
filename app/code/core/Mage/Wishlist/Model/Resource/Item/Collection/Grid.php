@@ -1,12 +1,16 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: User
- * Date: 31.08.12
- * Time: 17:52
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Wishlist
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
+/**
+ * Wishlist item collection grouped by customer id
+ */
 class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Model_Resource_Item_Collection
 {
     public function __construct($resource = null)
