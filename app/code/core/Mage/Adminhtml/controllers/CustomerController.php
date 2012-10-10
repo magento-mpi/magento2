@@ -359,19 +359,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _processCustomerPassword(&$customerData)
     {
-        if (!$this->_getValidator()->isValid($customerData)) {
-            $e = new Mage_Core_Exception();
-            /* @var $messageFactory Mage_Core_Model_Message */
-            $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
-            foreach ($this->_getValidator()->getMessages() as $errors) {
-                foreach ($errors as $error) {
-                    $e->addMessage($messageFactory->error($error));
-                }
-            }
-
-            throw $e;
-        }
-
         if (isset($customerData['new_password']) && $customerData['new_password'] !== false) {
             $customerData['password'] = $customerData['new_password'];
             unset($customerData['new_password']);
@@ -380,22 +367,27 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             unset($customerData['password']);
             $customerData['autogenerate_password'] = true;
         }
-    }
+        $customerData['confirmation'] = $customerData['password'];
 
-    /**
-     * Get input validator
-     *
-     * @return Magento_Validator
-     */
-    protected function _getValidator()
-    {
-        if (is_null($this->_validator)) {
-            $validatorConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
-            $validatorConfig = new Magento_Validator_Config($validatorConfigFiles);
-            $this->_validator = new Magento_Validator('customer', 'adminhtml', $validatorConfig);
+        if (!isset($customerData['autogenerate_password']) || !$customerData['autogenerate_password']) {
+            /** @var $validatorFactory Magento_Validator_Config */
+            $validatorFactory = Mage::getSingleton('Magento_Validator_Config',
+                Mage::getConfig()->getModuleConfigurationFiles('validation.xml'));
+            $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
+
+            if (!$passwordValidator->isValid($customerData)) {
+                $e = new Mage_Core_Exception();
+                /* @var $messageFactory Mage_Core_Model_Message */
+                $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
+                foreach ($passwordValidator->getMessages() as $error) {
+                    foreach ($error as $errorMessage) {
+                        $e->addMessage($messageFactory->error($errorMessage));
+                    }
+                }
+
+                throw $e;
+            }
         }
-
-        return $this->_validator;
     }
 
     /**
@@ -589,6 +581,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             } else {
                 $data['password'] = $accountData['password'];
             }
+            $data['confirmation'] = $data['password'];
 
             if ($customer->getWebsiteId()) {
                 unset($data['website_id']);
@@ -603,7 +596,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
         }
 
-        if ($errors !== true) {
+        if ($errors !== true && !empty($errors)) {
             foreach ($errors as $error) {
                 $this->_getSession()->addError($error);
             }

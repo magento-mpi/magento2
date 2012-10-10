@@ -617,7 +617,6 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function extractCustomerData(Zend_Controller_Request_Http $request, $formCode, $entity,
                                         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
-        // TODO: attributes data extraction and filtration should be done from service layer. Dependency on entity and request objects needs to be removed from eav form to be used from service layer.
         if (is_null($eavForm)) {
             $eavForm = Mage::getModel('Mage_Customer_Model_Form');
         }
@@ -631,7 +630,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
             $filteredData[$attributeCode] = isset($requestData[$attributeCode])
                 ? $requestData[$attributeCode] : false;
         }
-        // TODO: Temporary workaround. Currently during data extraction using EAV form missing fields are set to false. However this cause problems on frontend and should be avoided
+
         $formAttributes = $eavForm->getAttributes();
         /** @var Mage_Customer_Model_Attribute $attribute */
         foreach ($formAttributes as $attribute) {
