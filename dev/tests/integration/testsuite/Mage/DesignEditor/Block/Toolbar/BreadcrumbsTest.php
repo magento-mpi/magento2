@@ -22,7 +22,9 @@ class Mage_DesignEditor_Block_Toolbar_BreadcrumbsTest extends PHPUnit_Framework_
 
         $layoutUtility = new Mage_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/../../../Core/Model/Layout/_files/_handles.xml';
-        $this->_block = Mage::getModel('Mage_DesignEditor_Block_Toolbar_Breadcrumbs',
+        $this->_block = Mage::app()->getLayout()->createBlock(
+            'Mage_DesignEditor_Block_Toolbar_Breadcrumbs',
+            '',
             array('data' => array('template' => 'toolbar/breadcrumbs.phtml'))
         );
         $this->_block->setLayout($layoutUtility->getLayoutFromFixture($pageTypesFixture));

@@ -15,7 +15,7 @@ class Mage_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $block = Mage::getModel('Mage_Sales_Block_Order_Totals');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Totals');
         $block->setOrder(Mage::getModel('Mage_Sales_Model_Order'))
             ->setTemplate('order/totals.phtml');
         $layout = Mage::getModel('Mage_Core_Model_Layout');

@@ -18,6 +18,9 @@ class Mage_Adminhtml_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->assertInstanceOf('Mage_Backend_Block_Template', Mage::getModel('Mage_Adminhtml_Block_Template'));
+        $this->assertInstanceOf(
+            'Mage_Backend_Block_Template',
+            Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Template')
+        );
     }
 }

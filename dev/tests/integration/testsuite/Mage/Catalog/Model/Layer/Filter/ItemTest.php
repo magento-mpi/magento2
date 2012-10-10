@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
 
         $request = new Magento_Test_Request();
         $request->setParam('cat', 4);
-        $this->_model->getFilter()->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());
     }

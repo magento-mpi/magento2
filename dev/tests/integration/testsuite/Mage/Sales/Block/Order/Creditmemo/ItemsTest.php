@@ -31,7 +31,7 @@ class Mage_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_Test
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_block = Mage::getModel('Mage_Sales_Block_Order_Creditmemo_Items');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Creditmemo_Items');
         $this->_layout->addBlock($this->_block, 'block');
         $this->_creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
     }

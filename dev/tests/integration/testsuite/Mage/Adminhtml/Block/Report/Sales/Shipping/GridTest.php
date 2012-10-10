@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_GridTest extends PHPUnit_Framew
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::getModel('Mage_Adminhtml_Block_Report_Sales_Shipping_Grid');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Sales_Shipping_Grid');
 
         $filterData = new Varien_Object();
         if ($reportType) {

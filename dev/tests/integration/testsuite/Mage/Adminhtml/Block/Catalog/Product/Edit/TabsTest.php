@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framewo
 
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock('Mage_Core_Block_Text', 'head');
-        $block = Mage::getModel('Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs');
         $layout->addBlock($block);
         $this->assertArrayHasKey(0, $block->getTabsIds());
         $this->assertNotEmpty($layout->getBlock('catalog_product_edit_tabs'));

@@ -26,7 +26,7 @@ class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = Mage::getModel('Enterprise_Invitation_Block_Form');
+        $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Form');
     }
 
     protected function tearDown()

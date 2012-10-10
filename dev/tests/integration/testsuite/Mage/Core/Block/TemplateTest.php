@@ -20,7 +20,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_Core_Block_Template');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template');
     }
 
     protected function tearDown()
@@ -30,7 +30,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $block = Mage::getModel('Mage_Core_Block_Template',
+        $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template', '',
             array('data' => array('template' => 'value'))
         );
         $this->assertEquals('value', $block->getTemplate());

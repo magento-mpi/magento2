@@ -53,7 +53,10 @@ class Mage_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_Tes
 
     public function testApplyNothing()
     {
-        $this->_model->apply(new Magento_Test_Request(), Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply(
+            new Magento_Test_Request(),
+            Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text')
+        );
 
         $this->assertNull(Mage::registry('current_category_filter'));
     }
@@ -62,7 +65,7 @@ class Mage_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_Tes
     {
         $request = new Magento_Test_Request();
         $request->setParam('cat', 3);
-        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::registry('current_category_filter');

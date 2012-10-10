@@ -19,7 +19,7 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $block = Mage::getModel('Mage_Payment_Block_Info');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Payment_Block_Info');
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($block, 'block');
 

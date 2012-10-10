@@ -16,7 +16,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = Mage::getModel('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
+        $block = Mage::app()->getLayout()->createBlock(
+            'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links'
+        );
         self::performUploadButtonTest($block);
     }
 
@@ -32,7 +34,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
-        $text = Mage::getModel('Mage_Core_Block_Text',
+        $text = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text',
             array('data' => array('text' => $expected))
         );
         $block->unsetChild('upload_button');

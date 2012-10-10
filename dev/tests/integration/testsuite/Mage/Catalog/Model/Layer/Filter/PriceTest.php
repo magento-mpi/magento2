@@ -85,7 +85,10 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEmpty($this->_model->getData('price_range'));
 
-        $this->_model->apply(new Magento_Test_Request(), Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply(
+            new Magento_Test_Request(),
+            Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text')
+        );
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -96,7 +99,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
 
         $request = new Magento_Test_Request();
         $request->setParam('price', 'non-numeric');
-        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -108,7 +111,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
     {
         $request = new Magento_Test_Request();
         $request->setParam('price', '10-20');
-        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }

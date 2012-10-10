@@ -15,7 +15,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_SettingsTest extends 
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = Mage::getModel('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings');
+        $block = Mage::app()->getLayout()->createBlock(
+            'Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings'
+        );
         $options = $block->getPackageThemeOptionsArray();
         $this->assertArrayHasKey(0, $options); // -- please select --
         $this->assertArrayHasKey(1, $options); // at least one design package

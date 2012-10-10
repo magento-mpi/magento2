@@ -44,7 +44,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Fra
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = Mage::getModel('Mage_ImportExport_Block_Adminhtml_Export_Edit_Form');
+        $this->_model = Mage::app()->getLayout()->createBlock('Mage_ImportExport_Block_Adminhtml_Export_Edit_Form');
     }
 
     public function tearDown()

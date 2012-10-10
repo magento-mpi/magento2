@@ -20,7 +20,7 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_Sales_Block_Order_Comments');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Comments');
     }
 
     protected function tearDown()

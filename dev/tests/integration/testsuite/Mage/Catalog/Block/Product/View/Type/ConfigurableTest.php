@@ -29,7 +29,7 @@ class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Fram
 
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
-        $this->_block = Mage::getModel('Mage_Catalog_Block_Product_View_Type_Configurable');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_View_Type_Configurable');
         $this->_block->setProduct($this->_product);
     }
 

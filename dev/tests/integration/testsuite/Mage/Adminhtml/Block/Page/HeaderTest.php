@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = Mage::getModel('Mage_Adminhtml_Block_Page_Header');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Page_Header');
     }
 
     protected function tearDown()

@@ -33,7 +33,7 @@ class Mage_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_Test
         $this->_profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
         Mage::register('current_recurring_profile', $this->_profile);
 
-        $this->_block = Mage::getModel('Mage_Sales_Block_Recurring_Profile_View');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Recurring_Profile_View');
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_layout->addBlock($this->_block, 'block');
     }

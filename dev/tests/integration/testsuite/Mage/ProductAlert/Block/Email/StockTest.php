@@ -20,7 +20,7 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_ProductAlert_Block_Email_Stock');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_ProductAlert_Block_Email_Stock');
     }
 
     protected function tearDown()

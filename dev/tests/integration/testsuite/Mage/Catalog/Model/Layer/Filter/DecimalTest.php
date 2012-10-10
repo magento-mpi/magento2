@@ -50,7 +50,10 @@ class Mage_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_Test
     {
         $this->assertEmpty($this->_model->getData('range'));
 
-        $this->_model->apply(new Magento_Test_Request(), Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply(
+            new Magento_Test_Request(),
+            Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text')
+        );
 
         $this->assertEmpty($this->_model->getData('range'));
     }
@@ -61,7 +64,7 @@ class Mage_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_Test
 
         $request = new Magento_Test_Request();
         $request->setParam('decimal', 'non-decimal');
-        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         $this->assertEmpty($this->_model->getData('range'));
     }
@@ -70,7 +73,7 @@ class Mage_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_Test
     {
         $request = new Magento_Test_Request();
         $request->setParam('decimal', '1,100');
-        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
 
         $this->assertEquals(100, $this->_model->getData('range'));
     }

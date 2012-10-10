@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
 
-        $block = Mage::getModel('Mage_Adminhtml_Block_System_Config_FormStub');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_FormStub');
         $block->setScope(Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
             array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
         );
         Mage::app()->getRequest()->setParam('section', 'general');
-        $block = Mage::getModel('Mage_Adminhtml_Block_System_Config_Form');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Form');
         $block->setLayout(Mage::app()->getLayout());
         $block->initForm();
         $expectedIds = array(

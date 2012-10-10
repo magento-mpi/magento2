@@ -20,8 +20,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest exten
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel(
+        $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout',
+            '',
             array('data' => array('widget_instance' => Mage::getModel('Mage_Widget_Model_Widget_Instance')))
         );
         $this->_block->setLayout(Mage::app()->getLayout());

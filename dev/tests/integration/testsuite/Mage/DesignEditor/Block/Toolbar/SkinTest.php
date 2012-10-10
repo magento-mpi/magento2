@@ -23,7 +23,7 @@ class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_DesignEditor_Block_Toolbar_Skin');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_DesignEditor_Block_Toolbar_Skin');
     }
 
     protected function tearDown()

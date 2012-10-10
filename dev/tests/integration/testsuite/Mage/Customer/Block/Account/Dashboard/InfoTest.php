@@ -20,7 +20,7 @@ class Mage_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framework_T
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_Customer_Block_Account_Dashboard_Info');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Customer_Block_Account_Dashboard_Info');
     }
 
     public function tearDown()

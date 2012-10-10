@@ -34,7 +34,7 @@ class Mage_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_Test
         $this->_product->load(1);
         Mage::unregister('current_product');
         Mage::register('current_product', $this->_product);
-        $this->_block = Mage::getModel('Mage_Catalog_Block_Product_View_Options');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_View_Options');
     }
 
     public function testSetGetProduct()

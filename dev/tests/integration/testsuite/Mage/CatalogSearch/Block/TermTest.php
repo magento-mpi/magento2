@@ -20,7 +20,7 @@ class Mage_CatalogSearch_Block_TermTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_CatalogSearch_Block_Term');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_CatalogSearch_Block_Term');
     }
 
     protected function tearDown()

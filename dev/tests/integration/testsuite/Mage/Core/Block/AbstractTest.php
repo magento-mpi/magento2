@@ -183,7 +183,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         // Without layout
-        $child = Mage::getModel('Mage_Core_Block_Text');
+        $child = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $childAlias = 'child_alias';
         $childName = 'child';
         $parentName = 'parent';
@@ -263,7 +263,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetBlockHtml()
     {
         // Without layout
-        $block1 = Mage::getModel('Mage_Core_Block_Text');
+        $block1 = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');
         $html = $this->_block->getBlockHtml('block');
@@ -398,7 +398,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSetFrameTags()
     {
-        $block = Mage::getModel('Mage_Core_Block_Text');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block->setText('text');
 
         $block->setFrameTags('p');
@@ -454,7 +454,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
-        $messages = Mage::getModel('Mage_Core_Block_Messages');
+        $messages = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Messages');
         $this->_block->setMessagesBlock($messages);
         $this->assertSame($messages, $this->_block->getMessagesBlock());
     }
@@ -554,7 +554,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetCacheKeyInfo()
     {
         $name = uniqid('block.');
-        $block = Mage::getModel('Mage_Core_Block_Text');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block->setNameInLayout($name);
         $this->assertEquals(array($name), $block->getCacheKeyInfo());
     }
@@ -562,7 +562,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetCacheKey()
     {
         $name = uniqid('block.');
-        $block = Mage::getModel('Mage_Core_Block_Text');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block->setNameInLayout($name);
         $key = $block->getCacheKey();
         $this->assertNotEmpty($key);

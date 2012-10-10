@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
         $this->markTestIncomplete('Need to fix DI dependencies + block');
         
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
-        $block = Mage::getModel('Mage_Adminhtml_Block_Widget_Container');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Container');
         foreach ($titles as $id => $title) {
             $block->addButton($id, array('title' => $title));
         }

@@ -288,7 +288,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function testSetUnsetBlock()
     {
         $expectedBlockName = 'block_' . __METHOD__;
-        $expectedBlock = Mage::getModel('Mage_Core_Block_Text');
+        $expectedBlock = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
 
         $this->_layout->setBlock($expectedBlockName, $expectedBlock);
         $this->assertSame($expectedBlock, $this->_layout->getBlock($expectedBlockName));
@@ -358,7 +358,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $this->assertInstanceOf('Mage_Core_Block_Text', $this->_layout->addBlock('Mage_Core_Block_Text', 'block1'));
-        $block2 = Mage::getModel('Mage_Core_Block_Text');
+        $block2 = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 
@@ -538,7 +538,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $this->assertFalse($this->_layout->getBlock('test'));
-        $block = Mage::getModel('Mage_Core_Block_Text');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $this->_layout->setBlock('test', $block);
         $this->assertSame($block, $this->_layout->getBlock('test'));
     }

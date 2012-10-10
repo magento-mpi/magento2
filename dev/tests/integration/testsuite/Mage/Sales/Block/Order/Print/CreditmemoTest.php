@@ -25,7 +25,7 @@ class Mage_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_Test
         $order->setPayment($payment);
 
         $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $block = Mage::getModel('Mage_Sales_Block_Order_Print_Creditmemo');
+        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Print_Creditmemo');
         $layout->addBlock($block, 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'creditmemo_totals', 'block');
 

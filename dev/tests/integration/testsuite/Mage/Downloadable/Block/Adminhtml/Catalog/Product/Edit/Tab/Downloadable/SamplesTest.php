@@ -16,7 +16,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = Mage::getModel('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
+        $block = Mage::app()->getLayout()->createBlock(
+            'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples'
+        );
         Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_LinksTest
             ::performUploadButtonTest($block);
     }

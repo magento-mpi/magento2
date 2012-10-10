@@ -146,7 +146,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture + block');
 
-        $headBlock = Mage::getModel('Mage_Page_Block_Html_Head');
+        $headBlock = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($headBlock, 'head');
         $this->assertEmpty($headBlock->getDesignEditorActive());

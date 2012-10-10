@@ -20,7 +20,7 @@ class Mage_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_GiftMessage_Block_Message_Inline');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_GiftMessage_Block_Message_Inline');
     }
 
     protected function tearDown()

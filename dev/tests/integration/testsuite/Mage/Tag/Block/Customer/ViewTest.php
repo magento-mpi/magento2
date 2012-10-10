@@ -20,7 +20,7 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = Mage::getModel('Mage_Tag_Block_Customer_View');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Tag_Block_Customer_View');
     }
 
     protected function tearDown()
@@ -35,7 +35,9 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($this->_block, 'test');
         $expected = uniqid();
-        $toolbar = Mage::getModel('Mage_Core_Block_Text',
+        $toolbar = Mage::app()->getLayout()->createBlock(
+            'Mage_Core_Block_Text',
+            '',
             array('data' => array('current_mode' => $expected))
         );
         $this->_block->unsetChild('toolbar');

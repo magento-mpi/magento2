@@ -25,7 +25,7 @@ class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_block = Mage::getModel('Mage_Catalog_Block_Product_New');
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_New');
     }
 
     protected function tearDown()
