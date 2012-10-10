@@ -9,7 +9,7 @@
  */
 
 /**
- * Magento_Validator_EmailAddress
+ * E-mail address validator
  */
 class Magento_Validator_EmailAddress extends Zend_Validate_EmailAddress
     implements Magento_Validator_ValidatorInterface

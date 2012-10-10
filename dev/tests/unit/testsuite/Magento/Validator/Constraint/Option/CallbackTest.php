@@ -20,49 +20,47 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
     const TEST_VALUE = 'test';
 
     /**
-     * Test callback with 2 arguments passed
+     * Test getValue method
+     *
+     * @dataProvider getValueDataProvider
+     *
+     * @param callable $callback
+     * @param mixed $expectedResult
+     * @param null $arguments
+     * @param bool $createInstance
      */
-    public function testSetArgumentsAsArray()
+    public function testGetValue($callback, $expectedResult, $arguments = null, $createInstance = false)
     {
-        $callbackMock = $this->getMockBuilder('stdClass')
-            ->setMethods(array('checkArguments'))
-            ->getMock();
-        $callbackMock->expects($this->once())
-            ->method('checkArguments')
-            ->with(true, 'test')
-            ->will($this->returnValue(1));
-
-        $option = new Magento_Validator_Constraint_Option_Callback(array($callbackMock, 'checkArguments'),
-            array(true, 'test'));
-        $this->assertEquals(1, $option->getValue());
+        $option = new Magento_Validator_Constraint_Option_Callback($callback, $arguments, $createInstance);
+        $this->assertEquals($expectedResult, $option->getValue());
     }
 
     /**
-     * Test callback with 1 arguments passed
+     * Data provider for testGetValue
      */
-    public function testSetArgumentsAsSingleValue()
+    public function getValueDataProvider()
     {
-        $callbackMock = $this->getMockBuilder('stdClass')
-            ->setMethods(array('checkArguments'))
+        $functionName = create_function('', 'return "Value from function";');
+        $closure = function () {
+            return 'Value from closure';
+        };
+
+        $mock = $this->getMockBuilder('Foo')
+            ->setMethods(array('getValue'))
             ->getMock();
-        $callbackMock->expects($this->once())
-            ->method('checkArguments')
-            ->with('test')
-            ->will($this->returnValue(1));
+        $mock->expects($this->once())
+            ->method('getValue')
+            ->with('arg1', 'arg2')
+            ->will($this->returnValue('Value from mock'));
 
-        $option = new Magento_Validator_Constraint_Option_Callback(array($callbackMock, 'checkArguments'), 'test');
-        $this->assertEquals(1, $option->getValue());
-    }
-
-    /**
-     * Test getValue on class callback
-     */
-    public function testGetValueFromClassStaticMethod()
-    {
-        $option = new Magento_Validator_Constraint_Option_Callback(array(
-            __CLASS__, 'getTestValueStatically'
-        ));
-        $this->assertEquals(self::TEST_VALUE, $option->getValue());
+        return array(
+            array($functionName, 'Value from function'),
+            array($closure, 'Value from closure'),
+            array(array($this, 'getTestValue'), self::TEST_VALUE),
+            array(array(__CLASS__, 'getTestValueStatically'), self::TEST_VALUE),
+            array(array($mock, 'getValue'), 'Value from mock', array('arg1', 'arg2')),
+            array(array('Magento_Validator_Test_Callback', 'getId'), Magento_Validator_Test_Callback::ID, null, true)
+        );
     }
 
     /**
@@ -74,26 +72,88 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
     }
 
     /**
-     * Test getValue exception on not existing class
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Class "Not_Existing_Callback_Class" was not found
+     * Get TEST_VALUE
      */
-    public function testGetValueUnknownClassException()
+    public function getTestValue()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback(array('Not_Existing_Callback_Class', 'someMethod'));
+        return self::TEST_VALUE;
+    }
+
+    /**
+     * Test setArguments method
+     *
+     * @dataProvider setArgumentsDataProvider
+     *
+     * @param mixed $value
+     * @param mixed $expectedValue
+     */
+    public function testSetArguments($value, $expectedValue)
+    {
+        $option = new Magento_Validator_Constraint_Option_Callback(function() {});
+        $option->setArguments($value);
+        $this->assertAttributeEquals($expectedValue, '_arguments', $option);
+    }
+
+    /**
+     * Data provider for testGetValue
+     */
+    public function setArgumentsDataProvider()
+    {
+        return array(
+            array('baz', array('baz')),
+            array(array('foo', 'bar'), array('foo', 'bar'))
+        );
+    }
+
+    /**
+     * Test getValue method raises InvalidArgumentException
+     *
+     * @dataProvider getValueExceptionDataProvider
+     *
+     * @param mixed $callback
+     * @param string $expectedMessage
+     * @param bool $createInstance
+     */
+    public function testGetValueException($callback, $expectedMessage, $createInstance = false)
+    {
+        $option = new Magento_Validator_Constraint_Option_Callback($callback, null, $createInstance);
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
         $option->getValue();
     }
 
     /**
-     * Test getValue exception on invalid callback
+     * Data provider for testGetValueException
      *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Callback does not callable
+     * @return array
      */
-    public function testGetValueNotCallableException()
+    public function getValueExceptionDataProvider()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback(array($this, 'notExistingMethod'));
-        $option->getValue();
+        return array(
+            array(
+                array('Not_Existing_Callback_Class', 'someMethod'),
+                'Class "Not_Existing_Callback_Class" was not found'
+            ),
+            array(
+                array($this, 'notExistingMethod'),
+                'Callback does not callable'
+            ),
+            array(
+                array('object' => $this, 'method' => 'getTestValue'),
+                'Callback does not callable'
+            ),
+            array(
+                'unknown_function',
+                'Callback does not callable'
+            ),
+            array(
+                new stdClass(),
+                'Callback does not callable'
+            ),
+            array(
+                array($this, 'getTestValue'),
+                'Callable expected to be an array with class name as first element',
+                true,
+            )
+        );
     }
 }

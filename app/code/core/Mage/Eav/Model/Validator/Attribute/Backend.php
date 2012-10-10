@@ -32,14 +32,17 @@ class Mage_Eav_Model_Validator_Attribute_Backend implements Magento_Validator_Va
     public function isValid($entity)
     {
         $this->_messages = array();
-        /** @var $resource Mage_Eav_Model_Entity_Abstract */
+        if (!($entity instanceof Mage_Core_Model_Abstract)) {
+            throw new InvalidArgumentException('Model must be extended from Mage_Core_Model_Abstract');
+        }
+        /** @var Mage_Eav_Model_Entity_Abstract $resource */
         $resource = $entity->getResource();
         if (!($resource instanceof Mage_Eav_Model_Entity_Abstract)) {
             throw new InvalidArgumentException('Model resource must be extended from Mage_Eav_Model_Entity_Abstract');
         }
         $resource->loadAllAttributes($entity);
         $attributes = $resource->getAttributesByCode();
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+        /** @var Mage_Eav_Model_Entity_Attribute $attribute */
         foreach ($attributes as $attribute) {
             $backend = $attribute->getBackend();
             if (!method_exists($backend, 'validate')) {

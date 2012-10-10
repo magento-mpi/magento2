@@ -14,12 +14,14 @@
  */
 class Magento_Validator_Test_Callback
 {
+    const ID = 3;
+
     /**
      * @return int
      */
     public function getId()
     {
-        return 3;
+        return self::ID;
     }
 
     /**
