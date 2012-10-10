@@ -52,7 +52,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $this->fillForm($loginData);
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
-        $this->validatePage('dashboard');
+        $this->validatePage();
     }
 
     /**
