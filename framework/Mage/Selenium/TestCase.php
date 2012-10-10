@@ -2304,7 +2304,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements are not present on the page. \nLocators: \n"
+                      . self::messagesToString($locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement is not present on the page. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2314,7 +2318,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
     /**
@@ -2332,7 +2336,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n"
+                      . self::messagesToString($locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement(or alert) is not present on the page. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2344,7 +2352,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
     /**
@@ -2362,7 +2370,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements are not visible or not present on the page. \nLocators: \n"
+                      . self::messagesToString($locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement is not visible or not present on the page. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2380,8 +2392,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
-        throw new RuntimeException(
-            'Timeout after ' . $timeout . ' seconds. Element(s) not visible [locator = ' . $locator . ']');
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
     /**
@@ -2399,7 +2410,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements are not editable. \nLocators: \n" . self::messagesToString($locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement is not editable. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2417,7 +2431,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
     /**
