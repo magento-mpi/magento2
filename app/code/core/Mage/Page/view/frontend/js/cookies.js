@@ -12,11 +12,10 @@
         mage: {
             cookies: (function() {
                 this.set = function(name, value) {
-                    var argc = arguments.length;
-                    var expires = (argc > 2) ? arguments[2] : $.cookie.defaults.expires;
-                    var path = (argc > 3) ? arguments[3] : $.cookie.defaults.path;
-                    var domain = (argc > 4) ? arguments[4] : $.cookie.defaults.domain;
-                    var secure = (argc > 5) ? arguments[5] : $.cookie.defaults.secure;
+                    var expires = arguments[2] || $.cookie.defaults.expires;
+                    var path = arguments[3] || $.cookie.defaults.path;
+                    var domain = arguments[4] || $.cookie.defaults.domain;
+                    var secure = arguments[5] || $.cookie.defaults.secure;
                     document.cookie = name + "=" + encodeURIComponent(value) +
                         ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
                         ((path == null) ? "" : ("; path=" + path)) +

@@ -11,7 +11,6 @@
 (function ($) {
     $(document).ready(function () {
         var checkout = {
-            // Filled in initialization event
             cartSelector: null,
             isRecursive: undefined,
             url: null,
@@ -24,7 +23,7 @@
         $(checkout.cartSelector).decorate('list', checkout.isRecursive);
 
         $(checkout.button).on('click', function () {
-            $(location).attr('href', checkout.url);
+            location.href = checkout.url;
         });
         $(checkout.closeList).on('click', function () {
             return confirm(checkout.confirmMessage);

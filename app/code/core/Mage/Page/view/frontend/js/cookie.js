@@ -15,14 +15,7 @@
             domain: document.domain,
             secure: false
         };
-        // Trigger initialize event
         $.mage.event.trigger('mage.cookie.init', cookieInit);
-
-        $.cookie.defaults = {
-            expires: cookieInit.expires,
-            path: cookieInit.path,
-            domain: cookieInit.domain,
-            secure: cookieInit.secure
-        };
+        $.extend($.cookie.defaults, cookieInit);
     });
 })(jQuery);
