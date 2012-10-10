@@ -46,7 +46,7 @@ class Enterprise_CatalogEvent_CategoryControllerTest extends Mage_Adminhtml_Util
 
     public static function eventDataFixture()
     {
-        $event = new Enterprise_CatalogEvent_Model_Event;
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->setStoreId(0);
         $event->setCategoryId('3');
         $event->setStoreDateStart(date('Y-m-d H:i:s'))->setStoreDateEnd(date('Y-m-d H:i:s', time() + 3600));

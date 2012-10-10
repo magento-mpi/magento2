@@ -31,7 +31,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage
     {
         $this->markTestIncomplete('Need to fix DI dependencies + controller + fixtures');
 
-        $event = new Enterprise_CatalogEvent_Model_Event;
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->load(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE, 'display_state');
         $this->dispatch('backend/admin/catalog_event/edit/id/' . $event->getId());
         $body = $this->getResponse()->getBody();

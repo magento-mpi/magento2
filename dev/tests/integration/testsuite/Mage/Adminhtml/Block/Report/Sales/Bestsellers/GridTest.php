@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_GridTest extends PHPUnit_Fra
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid;
+        $this->_block = Mage::getModel('Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid');
     }
 
     protected function tearDown()

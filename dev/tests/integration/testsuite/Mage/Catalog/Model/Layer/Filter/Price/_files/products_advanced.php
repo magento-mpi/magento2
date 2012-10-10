@@ -15,11 +15,11 @@
 
 $prices = array(5, 10, 15, 20, 50, 100, 150);
 
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-$category = new Mage_Catalog_Model_Category();
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 
 $category->setId(3)
     ->setName('Root Category')
@@ -32,7 +32,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = new Mage_Catalog_Model_Category();
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 $category->setId(4)
     ->setName('PLN Category')
     ->setParentId(3)
@@ -47,7 +47,7 @@ $category->setId(4)
 
 $lastProductId = 0;
 foreach ($prices as $price) {
-    $product = new Mage_Catalog_Model_Product();
+    $product = Mage::getModel('Mage_Catalog_Model_Product');
     $productId = $lastProductId + 1;
     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setId($productId)

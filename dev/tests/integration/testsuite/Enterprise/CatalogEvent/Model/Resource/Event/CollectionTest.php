@@ -26,7 +26,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
         if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
             $this->markTestIncomplete('Bug MAGETWO-296');
         }
-        $this->_collection = new Enterprise_CatalogEvent_Model_Resource_Event_Collection;
+        $this->_collection = Mage::getResourceModel('Enterprise_CatalogEvent_Model_Resource_Event_Collection');
     }
 
     protected function tearDown()

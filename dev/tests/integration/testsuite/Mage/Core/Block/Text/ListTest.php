@@ -25,7 +25,7 @@ class Mage_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_layout = new Mage_Core_Model_Layout;
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Core_Block_Text_List');
     }
 

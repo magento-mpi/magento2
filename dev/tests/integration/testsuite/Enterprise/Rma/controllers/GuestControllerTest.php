@@ -22,7 +22,7 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $rma = new Enterprise_Rma_Model_Rma();
+        $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rma->load(1, 'increment_id');
 
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());

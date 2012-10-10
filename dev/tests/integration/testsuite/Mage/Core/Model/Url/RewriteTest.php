@@ -20,7 +20,7 @@ class Mage_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Url_Rewrite;
+        $this->_model = Mage::getModel('Mage_Core_Model_Url_Rewrite');
     }
 
     protected function tearDown()
@@ -38,7 +38,7 @@ class Mage_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = new Mage_Core_Model_Url_Rewrite;
+            $read = Mage::getModel('Mage_Core_Model_Url_Rewrite');
             $read->setStoreId(Mage::app()->getDefaultStoreView()->getId())
                 ->loadByRequestPath('fancy/url.html');
 
@@ -65,7 +65,7 @@ class Mage_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = new Mage_Core_Model_Url_Rewrite;
+            $read = Mage::getModel('Mage_Core_Model_Url_Rewrite');
             $read->setStoreId(Mage::app()->getDefaultStoreView()->getId())
                 ->loadByIdPath('product/1');
             $this->assertEquals($this->_model->getStoreId(), $read->getStoreId());

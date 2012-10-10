@@ -20,7 +20,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Design();
+        $this->_model = Mage::getModel('Mage_Core_Model_Design');
     }
 
     protected function tearDown()
@@ -41,9 +41,9 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $designPackage = new Mage_Core_Model_Design_Package('frontend', 'default', 'default', 'default');
+        $designPackage = Mage::getModel('Mage_Core_Model_Design_Package');
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
-        $design = new Mage_Core_Model_Design;
+        $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId)->changeDesign($designPackage);
         $this->assertEquals('default/modern/default', $designPackage->getDesignTheme());
     }
@@ -63,7 +63,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getId());
 
         try {
-            $model =  new Mage_Core_Model_Design();
+            $model =  Mage::getModel('Mage_Core_Model_Design');
             $model->loadChange(1);
             $this->assertEquals($this->_model->getId(), $model->getId());
 
@@ -82,7 +82,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             throw $e;
         }
 
-        $model =  new Mage_Core_Model_Design();
+        $model =  Mage::getModel('Mage_Core_Model_Design');
         $model->loadChange(1);
         $this->assertEmpty($model->getId());
     }
@@ -111,7 +111,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
-        $design = new Mage_Core_Model_Design;
+        $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
         $cachedDesign = Mage::app()->loadCache($cacheId);
@@ -123,7 +123,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $design->setDesign('default/default/default')->save();
 
-        $design = new Mage_Core_Model_Design;
+        $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
         $cachedDesign = Mage::app()->loadCache($cacheId);
@@ -161,7 +161,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $store = Mage::app()->getStore($storeCode);
         $store->setConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
 
-        $design = new Mage_Core_Model_Design;
+        $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($store->getId());
         $actualDesign = $design->getDesign();
 

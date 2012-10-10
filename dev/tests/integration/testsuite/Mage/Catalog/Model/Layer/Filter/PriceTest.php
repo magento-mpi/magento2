@@ -25,12 +25,12 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $category = new Mage_Catalog_Model_Category;
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load(4);
-        $this->_model = new Mage_Catalog_Model_Layer_Filter_Price();
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');
         $this->_model->setData(array(
-            'layer' => new Mage_Catalog_Model_Layer(array(
-                'current_category' => $category,
+            'layer' => Mage::getModel('Mage_Catalog_Model_Layer', array(
+                'data' => array('current_category' => $category)
             )),
         ));
     }
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
     {
         $this->assertEmpty($this->_model->getData('price_range'));
 
-        $this->_model->apply(new Magento_Test_Request(), new Mage_Core_Block_Text());
+        $this->_model->apply(new Magento_Test_Request(), Mage::getModel('Mage_Core_Block_Text'));
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
 
         $request = new Magento_Test_Request();
         $request->setParam('price', 'non-numeric');
-        $this->_model->apply($request, new Mage_Core_Block_Text());
+        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCa
     {
         $request = new Magento_Test_Request();
         $request->setParam('price', '10-20');
-        $this->_model->apply($request, new Mage_Core_Block_Text());
+        $this->_model->apply($request, Mage::getModel('Mage_Core_Block_Text'));
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }

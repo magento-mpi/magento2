@@ -23,9 +23,9 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_block = new Mage_Checkout_Block_Cart_Item_Renderer();
-        $item = new Mage_Sales_Model_Quote_Item();
-        $product = new Mage_Catalog_Model_Product();
+        $this->_block = Mage::getModel('Mage_Checkout_Block_Cart_Item_Renderer');
+        $item = Mage::getModel('Mage_Sales_Model_Quote_Item');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $item->setProduct($product);
         $this->_block->setItem($item);

@@ -20,7 +20,7 @@ class Enterprise_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Enterprise_TargetRule_Model_Rule();
+        $this->_model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
     }
 
     protected function tearDown()

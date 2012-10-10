@@ -20,11 +20,11 @@ class Mage_Catalog_Block_Product_List_RelatedTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(2);
         Mage::register('product', $product);
-        $block = new Mage_Catalog_Block_Product_List_Related();
-        $block->setLayout(new Mage_Core_Model_Layout());
+        $block = Mage::getModel('Mage_Catalog_Block_Product_List_Related');
+        $block->setLayout(Mage::getModel('Mage_Core_Model_Layout'));
         $block->setTemplate('product/list/related.phtml');
 
         $html = $block->toHtml();

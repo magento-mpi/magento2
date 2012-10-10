@@ -20,7 +20,7 @@ class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Enterprise_GiftRegistry_Block_Customer_Edit;
+        $this->_block = Mage::getModel('Enterprise_GiftRegistry_Block_Customer_Edit');
     }
 
     protected function tearDown()

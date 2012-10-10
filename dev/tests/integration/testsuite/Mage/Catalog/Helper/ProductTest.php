@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = new Mage_Catalog_Helper_Product;
+        $this->_helper = Mage::helper('Mage_Catalog_Helper_Product');
     }
 
     protected function tearDown()
@@ -36,7 +36,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
         // product as object
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $this->assertEquals($expectedUrl, $this->_helper->getProductUrl($product));
 
@@ -48,7 +48,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getPrice($product));
     }
@@ -57,7 +57,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setFinalPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getFinalPrice($product));
     }
@@ -66,7 +66,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertStringEndsWith('placeholder/image.jpg', $this->_helper->getImageUrl($product));
 
         $product->setImage('test_image.png');
@@ -77,7 +77,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertStringEndsWith('placeholder/small_image.jpg', $this->_helper->getSmallImageUrl($product));
 
         $product->setSmallImage('test_image.png');
@@ -88,16 +88,16 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->assertEmpty($this->_helper->getThumbnailUrl(new Mage_Catalog_Model_Product));
+        $this->assertEmpty($this->_helper->getThumbnailUrl(Mage::getModel('Mage_Catalog_Model_Product')));
     }
 
     public function testGetEmailToFriendUrl()
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(100);
-        $category = new Mage_Catalog_Model_Category;
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setId(10);
         Mage::register('current_category', $category);
 
@@ -125,7 +125,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
         // non-visible or disabled
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertFalse($this->_helper->canShow($product));
 
         // enabled and visible
@@ -199,7 +199,7 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $buyRequest = new Varien_Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();

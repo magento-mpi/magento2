@@ -15,7 +15,7 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $productModel = new Mage_Catalog_Model_Product;
+        $productModel = Mage::getModel('Mage_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
@@ -29,7 +29,7 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
             ->method('reindexAll')
             ->will($this->returnValue($model));
 
-        $operation = new Enterprise_ImportExport_Model_Scheduled_Operation;
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

@@ -27,7 +27,7 @@ class Mage_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_Catalog_Model_Category();
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Category');
     }
 
     protected function tearDown()

@@ -28,7 +28,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
+        $model = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -55,7 +55,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
+        $model = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -108,7 +108,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
+        $model = Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));

@@ -28,7 +28,7 @@ class Mage_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Frame
             'base_controller' => 'Mage_Backend_Controller_ActionAbstract',
             'frontName' => 'backend'
         );
-        new Mage_Backend_Controller_Router_Default($options);
+        Mage::getModel('Mage_Backend_Controller_Router_Default', array('options' => $options));
     }
 
     /**
@@ -44,6 +44,6 @@ class Mage_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Frame
             'base_controller' => 'Mage_Backend_Controller_ActionAbstract',
             'frontName' => 'backend'
         );
-        new Mage_Backend_Controller_Router_Default($options);
+        Mage::getModel('Mage_Backend_Controller_Router_Default', array('options' => $options));
     }
 }

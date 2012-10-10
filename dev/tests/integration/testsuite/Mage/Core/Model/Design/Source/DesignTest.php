@@ -25,7 +25,7 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Design_Source_Design;
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Source_Design');
     }
 
     protected function tearDown()

@@ -20,7 +20,7 @@ class Mage_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_GiftMessage_Block_Message_Inline();
+        $this->_block = Mage::getModel('Mage_GiftMessage_Block_Message_Inline');
     }
 
     protected function tearDown()
@@ -35,7 +35,7 @@ class Mage_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

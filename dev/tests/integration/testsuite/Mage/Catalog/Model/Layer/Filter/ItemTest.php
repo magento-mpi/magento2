@@ -21,9 +21,11 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = new Mage_Catalog_Model_Layer_Filter_Item(array(
-            'filter' => new Mage_Catalog_Model_Layer_Filter_Category(),
-            'value'  => array('valuePart1', 'valuePart2'),
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Item', array(
+            'data' => array(
+                'filter' => Mage::getModel('Mage_Catalog_Model_Layer_Filter_Category'),
+                'value'  => array('valuePart1', 'valuePart2'),
+            )
         ));
     }
 
@@ -44,7 +46,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
      */
     public function testGetFilterException()
     {
-        $model = new Mage_Catalog_Model_Layer_Filter_Item;
+        $model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Item');
         $model->getFilter();
     }
 
@@ -52,7 +54,10 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        new Mage_Core_Controller_Front_Action(new Magento_Test_Request(), new Magento_Test_Response());
+        Mage::getModel(
+            'Mage_Core_Controller_Front_Action',
+            array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response())
+        );
         /*
          * Mage::app()->getFrontController()->setAction($action); // done in action's constructor
          */
@@ -74,7 +79,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
 
         $request = new Magento_Test_Request();
         $request->setParam('cat', 4);
-        $this->_model->getFilter()->apply($request, new Mage_Core_Block_Text());
+        $this->_model->getFilter()->apply($request, Mage::getModel('Mage_Core_Block_Text'));
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());
     }

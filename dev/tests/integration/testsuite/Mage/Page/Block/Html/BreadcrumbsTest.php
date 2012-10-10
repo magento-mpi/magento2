@@ -20,7 +20,7 @@ class Mage_Page_Block_Html_BreadcrumbsTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_Page_Block_Html_Breadcrumbs();
+        $this->_block = Mage::getModel('Mage_Page_Block_Html_Breadcrumbs');
     }
 
     protected function tearDown()

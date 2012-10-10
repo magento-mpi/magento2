@@ -18,19 +18,19 @@ class Mage_Sales_Block_Order_Print_InvoiceTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $order = new Mage_Sales_Model_Order;
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         Mage::register('current_order', $order);
-        $payment = new Mage_Sales_Model_Order_Payment;
+        $payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = new Mage_Core_Model_Layout;
-        $block = new Mage_Sales_Block_Order_Print_Invoice;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $block = Mage::getModel('Mage_Sales_Block_Order_Print_Invoice');
         $layout->addBlock($block, 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $invoice = new Mage_Sales_Model_Order_Invoice;
+        $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
         $this->assertEmpty($childBlock->getInvoice());
         $this->assertNotEquals($expectedHtml, $block->getInvoiceTotalsHtml($invoice));
 

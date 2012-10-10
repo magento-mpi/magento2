@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 
 $installer->updateAttribute('catalog_product', 'weight', 'is_filterable', 1);
 

@@ -18,8 +18,8 @@ class Enterprise_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Fra
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $dateModel = new Mage_Core_Model_Date;
-        $collection = new Enterprise_Reminder_Model_Resource_Rule_Collection;
+        $dateModel = Mage::getModel('Mage_Core_Model_Date');
+        $collection = Mage::getResourceModel('Enterprise_Reminder_Model_Resource_Rule_Collection');
         $collection->addDateFilter($dateModel->date());
         $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());

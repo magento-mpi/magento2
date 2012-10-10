@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Mage_Wishlist_IndexControllerTest extends Magento_
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
         $this->markTestIncomplete('Bug MAGE-6447');
-        $session = new Mage_Customer_Model_Session;
+        $session = Mage::getModel('Mage_Customer_Model_Session');
         $this->assertTrue($session->login('customer@example.com', 'password')); // fixture
         $this->dispatch('wishlist/index/index');
         $this->assertContains('id="giftregistry-form">', $this->getResponse()->getBody());

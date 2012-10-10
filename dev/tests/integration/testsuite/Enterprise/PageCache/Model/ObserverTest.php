@@ -51,7 +51,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setActionName('view');
         $observerData = new Varien_Event_Observer();
         $observerData->setEvent(new Varien_Event(array(
-            'controller_action' => new Mage_Core_Controller_Front_Action($request, new Magento_Test_Response())
+            'controller_action' => Mage::getModel(
+                'Mage_Core_Controller_Front_Action',
+                array('request' => $request, 'response' => new Magento_Test_Response())
+            )
         )));
         $this->_cookie
             ->expects($this->once())
@@ -72,7 +75,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $request->setParam('no_cache', '1');
         $observerData = new Varien_Event_Observer();
         $observerData->setEvent(new Varien_Event(array(
-            'controller_action' => new Mage_Core_Controller_Front_Action($request, new Magento_Test_Response())
+            'controller_action' => Mage::getModel(
+                'Mage_Core_Controller_Front_Action',
+                array('request' => $request, 'response' => new Magento_Test_Response())
+            )
         )));
         $this->_cookie
             ->expects($this->once())

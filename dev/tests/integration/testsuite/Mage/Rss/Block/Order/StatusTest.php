@@ -15,7 +15,7 @@ class Mage_Rss_Block_Order_StatusTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = new Mage_Rss_Block_Order_Status;
+        $block = Mage::getModel('Mage_Rss_Block_Order_Status');
         $this->assertEmpty($block->toHtml());
 
         $uniqid = uniqid();

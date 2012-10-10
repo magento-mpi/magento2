@@ -28,7 +28,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_User_Model_User;
+        $this->_model = Mage::getModel('Mage_User_Model_User');
     }
 
     protected function tearDown()
@@ -79,7 +79,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = new Mage_User_Model_Role;
+        self::$_newRole = Mage::getModel('Mage_User_Model_Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -197,7 +197,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetAclRole()
     {
-        $newuser = new Mage_User_Model_User();
+        $newuser = Mage::getModel('Mage_User_Model_User');
         $newuser->setUserId(10);
         $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
     }

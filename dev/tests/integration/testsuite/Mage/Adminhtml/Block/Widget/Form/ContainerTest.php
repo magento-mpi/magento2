@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_T
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
         $block = $this->getMock('Mage_Adminhtml_Block_Widget_Form_Container', array('_prepareLayout'));
         $layout->addBlock($block, 'block');

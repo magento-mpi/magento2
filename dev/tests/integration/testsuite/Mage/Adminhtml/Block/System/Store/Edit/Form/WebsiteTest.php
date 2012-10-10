@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit_Fr
 
         $registryData = array(
             'store_type' => 'website',
-            'store_data' => new Mage_Core_Model_Website(),
+            'store_data' => Mage::getModel('Mage_Core_Model_Website'),
             'store_action' => 'add'
         );
         foreach ($registryData as $key => $value) {
@@ -42,9 +42,9 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit_Fr
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = new Mage_Adminhtml_Block_System_Store_Edit_Form_Website();
+        $this->_block = Mage::getModel('Mage_Adminhtml_Block_System_Store_Edit_Form_Website');
         $this->_block->setLayout($layout);
 
         $this->_block->toHtml();

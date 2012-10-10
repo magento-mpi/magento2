@@ -15,8 +15,8 @@ class Mage_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framework_T
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout;
-        $block = new Mage_Catalog_Block_Product_View_Additional;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $block = Mage::getModel('Mage_Catalog_Block_Product_View_Additional');
         $layout->addBlock($block, 'block');
 
         $child1 = $layout->addBlock('Mage_Core_Block_Text', 'child1', 'block');

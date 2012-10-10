@@ -23,14 +23,14 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $roleAdmin = new Mage_User_Model_Role();
+        $roleAdmin = Mage::getModel('Mage_User_Model_Role');
         $roleAdmin->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
 
         $aclMock = $this->getMock('Magento_Acl');
         $aclMock->expects($this->any())->method('has')->will($this->returnValue(true));
 
-        $this->_block = new Mage_User_Block_Role_Tab_Edit(array('acl' => $aclMock));
+        $this->_block = Mage::getModel('Mage_User_Block_Role_Tab_Edit', array('data' => array('acl' => $aclMock)));
     }
 
     protected function tearDown()

@@ -23,7 +23,7 @@ class Mage_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Catalog_Model_Design();
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Design');
     }
 
     protected function tearDown()

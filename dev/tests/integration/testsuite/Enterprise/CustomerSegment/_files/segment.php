@@ -13,6 +13,6 @@ $data = array(
     'name' => 'Customer Segment 1',
     'is_active' => '1',
 );
-$segment = new Enterprise_CustomerSegment_Model_Segment;
+$segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
 $segment->loadPost($data);
 $segment->save();

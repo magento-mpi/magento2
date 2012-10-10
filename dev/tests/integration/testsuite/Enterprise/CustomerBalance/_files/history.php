@@ -10,12 +10,12 @@
  */
 
 require __DIR__ . '/../../../Mage/Customer/_files/customer.php';
-$balance = new Enterprise_CustomerBalance_Model_Balance;
+$balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
 $balance->setCustomerId($customer->getId())
     ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $balance->save();
 
-$history = new Enterprise_CustomerBalance_Model_Balance_History;
+$history = Mage::getModel('Enterprise_CustomerBalance_Model_Balance_History');
 $history->setCustomerId($customer->getId())
     ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
     ->setBalanceModel($balance);

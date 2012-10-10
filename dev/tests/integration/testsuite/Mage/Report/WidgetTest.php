@@ -15,7 +15,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $model = new Mage_Widget_Model_Widget_Instance;
+        $model = Mage::getModel('Mage_Widget_Model_Widget_Instance');
         $config = $model->setType('Mage_Reports_Block_Product_Widget_Viewed')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');
         $templates = (array) $templates[0]->children();
@@ -36,7 +36,7 @@ class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $model = new Mage_Widget_Model_Widget_Instance;
+        $model = Mage::getModel('Mage_Widget_Model_Widget_Instance');
         $config = $model->setType('Mage_Reports_Block_Product_Widget_Compared')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');
         $templates = (array) $templates[0]->children();

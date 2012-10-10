@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Widget_Grid', 'block');
         $child = $layout->addBlock('Mage_Core_Block_Template', 'massaction', 'block');
         $this->assertSame($child, $block->getMassactionBlock());

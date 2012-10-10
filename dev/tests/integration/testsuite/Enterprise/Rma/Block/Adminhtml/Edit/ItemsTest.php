@@ -18,7 +18,7 @@ class Enterprise_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_Te
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $rma = new Enterprise_Rma_Model_Rma;
+        $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rma->load(1, 'increment_id');
         Mage::register('current_rma', $rma);
         $utility = new Mage_Core_Utility_Layout($this);

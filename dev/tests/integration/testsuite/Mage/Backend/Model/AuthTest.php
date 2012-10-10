@@ -25,7 +25,7 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Backend_Model_Auth();
+        $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
     }
 
     protected function tearDown()

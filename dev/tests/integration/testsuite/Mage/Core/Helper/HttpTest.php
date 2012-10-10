@@ -20,7 +20,7 @@ class Mage_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_helper = new Mage_Core_Helper_Http;
+        $this->_helper = Mage::helper('Mage_Core_Helper_Http');
     }
 
     protected function tearDown()

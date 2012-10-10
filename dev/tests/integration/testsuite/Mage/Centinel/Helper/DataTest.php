@@ -18,8 +18,8 @@ class Mage_Centinel_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = new Mage_Payment_Helper_Data();
-        $paymentInfo = new Mage_Payment_Model_Info;
+        $block = Mage::helper('Mage_Payment_Helper_Data');
+        $paymentInfo = Mage::getModel('Mage_Payment_Model_Info');
         $paymentInfo->setMethod('checkmo');
         $result = $block->getInfoBlock($paymentInfo);
         $this->assertInstanceOf('Mage_Payment_Block_Info_Checkmo', $result);

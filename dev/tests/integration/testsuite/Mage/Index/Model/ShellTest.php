@@ -19,7 +19,7 @@ class Mage_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return new Mage_Index_Model_Shell($entryPoint);
+        return Mage::getModel('Mage_Index_Model_Shell', array('entryPoint' => $entryPoint));
     }
 
     /**

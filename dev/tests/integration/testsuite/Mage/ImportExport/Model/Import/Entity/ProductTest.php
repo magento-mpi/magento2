@@ -23,7 +23,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_ImportExport_Model_Import_Entity_Product();
+        $this->_model = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product');
     }
 
     public function tearDown()
@@ -62,12 +62,15 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = new Mage_Catalog_Model_Product();
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
             $product->load($productId);
             $productsBeforeImport[] = $product;
         }
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = Mage::getModel(
+            'Mage_ImportExport_Model_Import_Adapter_Csv',
+            array('source' => __DIR__ . '/_files/products_to_import.csv')
+        );
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -78,7 +81,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         /** @var $productBeforeImport Mage_Catalog_Model_Product */
         foreach ($productsBeforeImport as $productBeforeImport) {
             /** @var $productAfterImport Mage_Catalog_Model_Product */
-            $productAfterImport = new Mage_Catalog_Model_Product();
+            $productAfterImport = Mage::getModel('Mage_Catalog_Model_Product');
             $productAfterImport->load($productBeforeImport->getId());
 
             $this->assertEquals(
@@ -103,12 +106,15 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $existingProductIds = array(10, 11, 12);
         $stockItems = array();
         foreach ($existingProductIds as $productId) {
-            $stockItem = new Mage_CatalogInventory_Model_Stock_Item();
+            $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
             $stockItem->loadByProduct($productId);
             $stockItems[$productId] = $stockItem;
         }
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = Mage::getModel(
+            'Mage_ImportExport_Model_Import_Adapter_Csv',
+            array('source' => __DIR__ . '/_files/products_to_import.csv')
+        );
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -120,7 +126,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         foreach ($stockItems as $productId => $stockItmBeforeImport) {
 
             /** @var $stockItemAfterImport Mage_CatalogInventory_Model_Stock_Item */
-            $stockItemAfterImport = new Mage_CatalogInventory_Model_Stock_Item();
+            $stockItemAfterImport = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals(
@@ -148,13 +154,13 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
 
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToFile);
+        $source = Mage::getModel('Mage_ImportExport_Model_Import_Adapter_Csv', array('source' => $pathToFile));
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
         $this->_model->importData();
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // product from fixture
         $options = $product->getProductOptionsCollection();
 

@@ -15,11 +15,11 @@ class Mage_Sales_Block_Order_Shipment_ItemsTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $block = new Mage_Sales_Block_Order_Shipment_Items;
-        $layout = new Mage_Core_Model_Layout;
+        $block = Mage::getModel('Mage_Sales_Block_Order_Shipment_Items');
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($block, 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'shipment_comments', 'block');
-        $shipment = new Mage_Sales_Model_Order_Shipment;
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

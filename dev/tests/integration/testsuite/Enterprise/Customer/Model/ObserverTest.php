@@ -21,14 +21,14 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = new Enterprise_Customer_Model_Observer;
+        $this->_observer = Mage::getModel('Enterprise_Customer_Model_Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $address = new Mage_Sales_Model_Order_Address();
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new Varien_Object(array('id' => $address->getId()));
@@ -52,7 +52,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $address = new Mage_Sales_Model_Order_Address();
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(array('id' => $address->getId())));

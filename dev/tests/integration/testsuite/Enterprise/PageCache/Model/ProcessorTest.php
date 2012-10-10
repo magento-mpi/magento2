@@ -23,7 +23,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_PageCache_Model_Processor;
+        $this->_model = Mage::getModel('Enterprise_PageCache_Model_Processor');
     }
 
     protected function tearDown()

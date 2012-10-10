@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Config_Form', 'block');
         $block->setArea('adminhtml');
 
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
 
-        $block = new Mage_Adminhtml_Block_System_Config_FormStub();
+        $block = Mage::getModel('Mage_Adminhtml_Block_System_Config_FormStub');
         $block->setScope(Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -80,7 +80,10 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
-        $section = new Mage_Core_Model_Config_Element(file_get_contents(__DIR__ . '/_files/test_section_config.xml'));
+        $section = Mage::getModel(
+            'Mage_Core_Model_Config_Element',
+            array('data' => file_get_contents(__DIR__ . '/_files/test_section_config.xml'))
+        );
         // @codingStandardsIgnoreStart
         $group = $section->groups->test_group;
         $field = $group->fields->test_field;
@@ -99,9 +102,12 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        new Mage_Core_Controller_Front_Action(Mage::app()->getRequest(), Mage::app()->getResponse());
+        Mage::getModel(
+            'Mage_Core_Controller_Front_Action',
+            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
+        );
         Mage::app()->getRequest()->setParam('section', 'general');
-        $block = new Mage_Adminhtml_Block_System_Config_Form();
+        $block = Mage::getModel('Mage_Adminhtml_Block_System_Config_Form');
         $block->setLayout(Mage::app()->getLayout());
         $block->initForm();
         $expectedIds = array(

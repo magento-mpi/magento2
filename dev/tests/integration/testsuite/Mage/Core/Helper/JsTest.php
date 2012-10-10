@@ -22,7 +22,7 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_helper = new Mage_Core_Helper_Js();
+        $this->_helper = Mage::helper('Mage_Core_Helper_Js');
     }
 
     protected function tearDown()

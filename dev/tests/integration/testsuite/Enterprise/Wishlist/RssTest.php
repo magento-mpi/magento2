@@ -19,7 +19,7 @@ class Enterprise_Wishlist_RssTest extends Magento_Test_TestCase_ControllerAbstra
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $wishlist = new Mage_Wishlist_Model_Wishlist;
+        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
         $this->dispatch('rss/index/wishlist');

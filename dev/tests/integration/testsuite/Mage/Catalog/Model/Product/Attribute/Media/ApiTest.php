@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_Catalog_Model_Product_Attribute_Media_Api;
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Media_Api');
     }
 
     protected function tearDown()
@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
 
     public static function productMediaFixture()
     {
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setTierPrice(array());
         $product->setData('media_gallery', array('images' => array(array('file' => '/m/a/magento_image.jpg',),)));

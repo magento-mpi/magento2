@@ -10,8 +10,8 @@
  */
 
 /* Create attribute */
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
-$attribute = new Mage_Catalog_Model_Resource_Eav_Attribute();
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$attribute = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute');
 $attribute->setData(
     array(
         'attribute_code'    => 'attribute_with_option',
@@ -33,11 +33,11 @@ $attribute->save();
 $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attribute->getId());
 
 /* Create simple products per each option */
-$options = new Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection();
+$options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {
-    $product = new Mage_Catalog_Model_Product();
+    $product = Mage::getModel('Mage_Catalog_Model_Product');
     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
         ->setWebsiteIds(array(1))

@@ -45,10 +45,10 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_giftRegistry->setMessage('Test');
         $this->_giftRegistry->save();
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
 
-        $model = new Mage_Catalog_Model_Product_Type_Configurable;
+        $model = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
 
         $attributes = $model->getConfigurableAttributesAsArray($product);
         $confAttribute = $attributes[0];

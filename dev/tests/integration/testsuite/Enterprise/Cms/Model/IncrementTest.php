@@ -20,7 +20,7 @@ class Enterprise_Cms_Model_IncrementTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_model = new Enterprise_Cms_Model_Increment;
+        $this->_model = Mage::getModel('Enterprise_Cms_Model_Increment');
     }
 
     protected function tearDown()

@@ -20,7 +20,7 @@ class Mage_Customer_Block_Widget_GenderTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_Customer_Block_Widget_Gender;
+        $this->_block = Mage::getModel('Mage_Customer_Block_Widget_Gender');
     }
 
     public function tearDown()

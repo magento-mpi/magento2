@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Customer_OnlineTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
         
-        $layout = new Mage_Core_Model_Layout(array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $block = $layout->createBlock('Mage_Adminhtml_Block_Customer_Online', 'block');
         $this->assertNotEmpty($block->getFilterFormHtml());
     }

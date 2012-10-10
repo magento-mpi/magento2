@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framework_T
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Newsletter_Subscriber', 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Template', 'grid', 'block');
 

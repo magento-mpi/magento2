@@ -28,7 +28,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_Catalog_Model_Product;
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
     }
 
     protected function tearDown()
@@ -234,7 +234,10 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isVirtual());
         $this->assertFalse($this->_model->getIsVirtual());
 
-        $model = new Mage_Catalog_Model_Product(array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL));
+        $model = Mage::getModel(
+            'Mage_Catalog_Model_Product',
+            array('data' => array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL))
+        );
         $this->assertTrue($model->isVirtual());
         $this->assertTrue($model->getIsVirtual());
     }
@@ -263,7 +266,10 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->isComposite());
 
-        $model = new Mage_Catalog_Model_Product(array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE));
+        $model = Mage::getModel(
+            'Mage_Catalog_Model_Product',
+            array('data' => array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE))
+        );
         $this->assertTrue($model->isComposite());
     }
 
@@ -324,7 +330,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(new Mage_Catalog_Model_Product_Option);
+        $this->_model->addOption(Mage::getModel('Mage_Catalog_Model_Product_Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 

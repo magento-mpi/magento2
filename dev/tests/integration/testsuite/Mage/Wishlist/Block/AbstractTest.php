@@ -35,7 +35,7 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getImageSize();

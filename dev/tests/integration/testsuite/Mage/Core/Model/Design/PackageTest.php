@@ -43,7 +43,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Design_Package();
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
         $this->_model->setDesignTheme('test/default/default', 'frontend');
     }
 

@@ -20,7 +20,7 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Website();
+        $this->_model = Mage::getModel('Mage_Core_Model_Website');
         $this->_model->load(1);
     }
 
@@ -51,7 +51,7 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = new Mage_Core_Model_Store_Group();
+        $expectedGroup = Mage::getModel('Mage_Core_Model_Store_Group');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -60,7 +60,7 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = new Mage_Core_Model_Store();
+        $expectedStore = Mage::getModel('Mage_Core_Model_Store');
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));

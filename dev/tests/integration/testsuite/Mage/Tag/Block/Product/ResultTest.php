@@ -35,12 +35,12 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Mage_Tag_Block_Product_Result;
-        $this->_layout = new Mage_Core_Model_Layout;
+        $this->_block = Mage::getModel('Mage_Tag_Block_Product_Result');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'root');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'head');
         $this->_layout->addBlock($this->_block, 'test');
-        $this->_child = new Mage_Core_Block_Text;
+        $this->_child = Mage::getModel('Mage_Core_Block_Text');
         $this->_layout->addBlock($this->_child, 'search_result_list', 'test');
     }
 

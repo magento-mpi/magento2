@@ -22,7 +22,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         parent::setUp();
-        $this->_layout = new Mage_Core_Model_Layout;
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Load');
     }
 

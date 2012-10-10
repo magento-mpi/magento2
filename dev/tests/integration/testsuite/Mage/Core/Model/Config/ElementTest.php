@@ -18,7 +18,7 @@ class Mage_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Config_Element(<<<XML
+        $xml = <<<XML
 <?xml version="1.0"?>
 <root>
     <is_test>
@@ -40,8 +40,8 @@ class Mage_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
         <none/>
     </no_classname_test>
 </root>
-XML
-        );
+XML;
+        $this->_model = Mage::getModel('Mage_Core_Model_Config_Element', array('data' => $xml));
     }
 
     protected function tearDown()

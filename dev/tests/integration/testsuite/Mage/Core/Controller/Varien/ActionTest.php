@@ -224,7 +224,10 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $request->setDispatched();
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_model = new Mage_Core_Controller_Front_Action($request, new Magento_Test_Response());
+        $this->_model = Mage::getModel(
+            'Mage_Core_Controller_Front_Action',
+            array('request' => $request, 'response' =>  new Magento_Test_Response())
+        );
         $this->_model->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());

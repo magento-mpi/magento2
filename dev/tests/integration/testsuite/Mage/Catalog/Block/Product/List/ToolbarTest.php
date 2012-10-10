@@ -15,7 +15,7 @@ class Mage_Catalog_Block_Product_List_ToolbarTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Catalog_Block_Product_List_Toolbar', 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'product_list_toolbar_pager', 'block');
 

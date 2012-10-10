@@ -19,11 +19,11 @@ class Mage_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $invoice = new Mage_Sales_Model_Order_Invoice();
+        $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
         $invoice->setOrder($order);
 
         $payment = $order->getPayment();

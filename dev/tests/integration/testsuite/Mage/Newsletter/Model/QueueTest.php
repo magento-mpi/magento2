@@ -37,7 +37,9 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $subscriberOne, $subscriberTwo
         ));
 
-        $queue = new Mage_Newsletter_Model_Queue(array('email_template' => $emailTemplate));
+        $queue = Mage::getModel('Mage_Newsletter_Model_Queue',
+            array('data' => array('email_template' => $emailTemplate))
+        );
         $queue->load('Subject', 'newsletter_subject'); // fixture
         $queue->sendPerSubscriber();
     }
@@ -57,9 +59,11 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $template = $this->getMock('Mage_Core_Model_Email_Template', array('_getMail'));
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
-        $queue = new Mage_Newsletter_Model_Queue(array('email_template' => $template));
+        $queue = Mage::getModel('Mage_Newsletter_Model_Queue',
+            array('data' => array('email_template' => $template))
+        );
         $queue->load('Subject', 'newsletter_subject'); // fixture
-        $problem = new Mage_Newsletter_Model_Problem;
+        $problem = Mage::getModel('Mage_Newsletter_Model_Problem');
         $problem->load($queue->getId(), 'queue_id');
         $this->assertEmpty($problem->getId());
 

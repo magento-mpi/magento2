@@ -20,10 +20,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUnit_
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $customer = new Mage_Customer_Model_Customer;
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->load(1);
         Mage::register('current_customer', $customer);
-        $layout = new Mage_Core_Model_Layout(array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $this->_block = $layout->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_View_Accordion');
     }
 

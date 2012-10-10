@@ -20,7 +20,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model= new Mage_Tag_Model_Tag();
+        $this->_model= Mage::getModel('Mage_Tag_Model_Tag');
     }
 
     protected function tearDown()

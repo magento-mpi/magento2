@@ -59,7 +59,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     public function testLaunchActionSingleStore()
     {
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
@@ -78,7 +78,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
         $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
 
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
@@ -95,7 +95,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertTrue($session->isDesignEditorActive());
         $this->dispatch('backend/admin/system_design_editor/exit');
 

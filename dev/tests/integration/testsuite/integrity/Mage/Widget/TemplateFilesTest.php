@@ -43,9 +43,9 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
     public function widgetTemplatesDataProvider()
     {
         $result = array();
-        $model = new Mage_Widget_Model_Widget;
+        $model = Mage::getModel('Mage_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            $instance = new Mage_Widget_Model_Widget_Instance;
+            $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             $class = Mage::getConfig()->getBlockClassName($row['type']);
             if (is_subclass_of($class, 'Mage_Core_Block_Template')) {

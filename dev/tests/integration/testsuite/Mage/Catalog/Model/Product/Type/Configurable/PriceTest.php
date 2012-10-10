@@ -18,9 +18,9 @@ class Mage_Catalog_Model_Product_Type_Configurable_PriceTest extends PHPUnit_Fra
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
-        $model = new Mage_Catalog_Model_Product_Type_Configurable_Price;
+        $model = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Price');
 
         // without configurable options
         $this->assertEquals(100.0, $model->getFinalPrice(1, $product));

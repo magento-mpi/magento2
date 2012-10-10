@@ -23,7 +23,7 @@ class Mage_User_Model_RoleTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_User_Model_Role();
+        $this->_model = Mage::getModel('Mage_User_Model_Role');
     }
 
     protected function tearDown()

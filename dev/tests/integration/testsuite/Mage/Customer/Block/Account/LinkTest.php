@@ -25,8 +25,8 @@ class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Mage_Customer_Block_Account_Link();
-        $layout = new Mage_Core_Model_Layout;
+        $this->_block = Mage::getModel('Mage_Customer_Block_Account_Link');
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block->setLayout($layout);
         $layout->addBlock('Mage_Page_Block_Template_Links', 'links');
         $this->_links = $layout->getBlock('links');

@@ -20,7 +20,7 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Enterprise_Invitation_Block_Link();
+        $this->_block = Mage::getModel('Enterprise_Invitation_Block_Link');
     }
 
     protected function tearDown()

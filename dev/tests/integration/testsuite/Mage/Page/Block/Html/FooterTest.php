@@ -15,7 +15,7 @@ class Mage_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = new Mage_Page_Block_Html_Footer;
+        $block = Mage::getModel('Mage_Page_Block_Html_Footer');
         $storeId = Mage::app()->getStore()->getId();
         $this->assertEquals(array('PAGE_FOOTER', $storeId, 0, 'default', 'default', null), $block->getCacheKeyInfo());
     }

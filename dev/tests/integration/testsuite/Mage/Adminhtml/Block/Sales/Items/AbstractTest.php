@@ -15,7 +15,7 @@ class Mage_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_Te
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $this->getMockForAbstractClass('Mage_Adminhtml_Block_Sales_Items_Abstract');
         $layout->addBlock($block, 'block');
 

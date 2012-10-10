@@ -22,7 +22,7 @@ class Mage_Review_Model_Resource_Review_Product_CollectionTest extends PHPUnit_F
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
         
-        $collection = new Mage_Review_Model_Resource_Review_Product_Collection();
+        $collection = Mage::getResourceModel('Mage_Review_Model_Resource_Review_Product_Collection');
         $collection->addStatusFilter(Mage_Review_Model_Review::STATUS_APPROVED)
             ->setOrder('rdt.title', Mage_Review_Model_Resource_Review_Product_Collection::SORT_ORDER_ASC);
         $actual = $collection->getResultingIds();

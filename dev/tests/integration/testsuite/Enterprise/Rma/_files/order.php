@@ -10,17 +10,17 @@
  */
 
 $addressData = include(__DIR__ . '/../../../Mage/Sales/_files/address_data.php');
-$billingAddress = new Mage_Sales_Model_Order_Address($addressData);
+$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$payment = new Mage_Sales_Model_Order_Payment();
+$payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
-$orderItem = new Mage_Sales_Model_Order_Item();
+$orderItem = Mage::getModel('Mage_Sales_Model_Order_Item');
 $orderItem->setProductId(1)
     ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setName('product name')
@@ -30,7 +30,7 @@ $orderItem->setProductId(1)
     ->setQtyShipped(1)
     ->setIsQtyDecimal(true);
 
-$order = new Mage_Sales_Model_Order();
+$order = Mage::getModel('Mage_Sales_Model_Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setSubtotal(100)

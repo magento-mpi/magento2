@@ -10,7 +10,7 @@
  */
 $defaultWebsiteId = Mage::app()->getStore()->getWebsiteId();
 
-$website = new Mage_Core_Model_Website();
+$website = Mage::getModel('Mage_Core_Model_Website');
 $website->setData(array(
     'code'             => 'base2',
     'name'             => 'Test Website',
@@ -28,7 +28,7 @@ $expectedBalances = array();
 $expectedRewards = array();
 
 //Create customer
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -60,7 +60,7 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$additionalWebsiteId] = 0;
 $expectedRewards[$customer->getId()][$additionalWebsiteId] = 0;
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -92,7 +92,7 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$defaultWebsiteId] = 0;
 $expectedRewards[$customer->getId()][$defaultWebsiteId] = 0;
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -141,7 +141,7 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$defaultWebsiteId] = 300;
 $expectedRewards[$customer->getId()][$defaultWebsiteId] = 300;
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(0)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)

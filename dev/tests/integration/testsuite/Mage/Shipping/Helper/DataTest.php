@@ -20,7 +20,7 @@ class Mage_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_helper = new Mage_Shipping_Helper_Data;
+        $this->_helper = Mage::helper('Mage_Shipping_Helper_Data');
     }
 
     protected function tearDown()

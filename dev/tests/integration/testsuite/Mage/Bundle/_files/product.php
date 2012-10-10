@@ -16,7 +16,7 @@
  */
 require __DIR__ . '/../../Catalog/_files/products.php';
 
-$product = new Mage_Catalog_Model_Product();
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('bundle')
     ->setId(3)
     ->setAttributeSetId(4)

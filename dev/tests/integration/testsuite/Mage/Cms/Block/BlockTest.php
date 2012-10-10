@@ -21,9 +21,9 @@ class Mage_Cms_Block_BlockTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $cmsBlock = new Mage_Cms_Model_Block;
+        $cmsBlock = Mage::getModel('Mage_Cms_Model_Block');
         $cmsBlock->load('fixture_block', 'identifier');
-        $block = new Mage_Cms_Block_Block;
+        $block = Mage::getModel('Mage_Cms_Block_Block');
         $block->setBlockId($cmsBlock->getId());
         $result = $block->toHtml();
         $this->assertContains('<a href="http://example.com/', $result);

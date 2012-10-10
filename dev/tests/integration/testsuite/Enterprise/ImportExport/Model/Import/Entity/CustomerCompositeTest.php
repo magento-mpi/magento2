@@ -78,7 +78,7 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_entityAdapter = new Mage_ImportExport_Model_Import_Entity_CustomerComposite();
+        $this->_entityAdapter = Mage::getModel('Mage_ImportExport_Model_Import_Entity_CustomerComposite');
     }
 
     protected function tearDown()

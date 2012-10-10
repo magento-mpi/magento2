@@ -41,9 +41,9 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_Catalog_Model_Layer_Filter_Price_Algorithm();
-        $this->_layer = new Mage_Catalog_Model_Layer();
-        $this->_filter = new Mage_Catalog_Model_Layer_Filter_Price();
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
+        $this->_layer = Mage::getModel('Mage_Catalog_Model_Layer');
+        $this->_filter = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');
         $this->_filter
             ->setLayer($this->_layer)
             ->setAttributeModel(new Varien_Object(array('attribute_code' => 'price')));

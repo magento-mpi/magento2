@@ -9,17 +9,21 @@
  * @license     {license_link}
  */
 
-$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => array(
-    'firstname'  => 'guest',
-    'lastname'   => 'guest',
-    'email'      => 'customer@example.com',
-    'street'     => 'street',
-    'city'       => 'Los Angeles',
-    'region'     => 'CA',
-    'postcode'   => '1',
-    'country_id' => 'US',
-    'telephone'  => '1',
-)));
+$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address',
+    array(
+        'data' => array(
+            'firstname'  => 'guest',
+            'lastname'   => 'guest',
+            'email'      => 'customer@example.com',
+            'street'     => 'street',
+            'city'       => 'Los Angeles',
+            'region'     => 'CA',
+            'postcode'   => '1',
+            'country_id' => 'US',
+            'telephone'  => '1',
+        )
+    )
+);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;

@@ -19,7 +19,7 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
         parent::setUp();
-        $quote = new Mage_Sales_Model_Quote();
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         Mage::getSingleton('Mage_Checkout_Model_Session')->setQuoteId($quote->getId());
     }

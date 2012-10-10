@@ -55,7 +55,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertSame($filter, $this->_model->getTemplateFilter());
         $this->assertEquals(Mage::app()->getStore()->getId(), $filter->getStoreId());
 
-        $filter = new Mage_Core_Model_Email_Template_Filter;
+        $filter = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
         $this->_model->setTemplateFilter($filter);
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }

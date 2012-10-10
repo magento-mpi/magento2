@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Tierprice;
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Backend_Tierprice');
         $this->_model->setAttribute(
             Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'tier_price')
         );
@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
 
     public function testAfterLoad()
     {
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $price = $product->getTierPrice();
@@ -108,7 +108,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     public function testAfterSave()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(
@@ -122,7 +122,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
 
         $this->_model->afterSave($product);
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEquals(3, count($product->getTierPrice()));
@@ -134,13 +134,13 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     public function testAfterSaveEmpty()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(array());
         $this->_model->afterSave($product);
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEmpty($product->getTierPrice());

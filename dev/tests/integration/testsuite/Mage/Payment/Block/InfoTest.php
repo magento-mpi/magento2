@@ -19,12 +19,12 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $block = new Mage_Payment_Block_Info;
-        $layout = new Mage_Core_Model_Layout;
+        $block = Mage::getModel('Mage_Payment_Block_Info');
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($block, 'block');
 
-        $paymentInfoBank = new Mage_Payment_Model_Info;
-        $paymentInfoBank->setMethodInstance(new Mage_Payment_Model_Method_Banktransfer);
+        $paymentInfoBank = Mage::getModel('Mage_Payment_Model_Info');
+        $paymentInfoBank->setMethodInstance(Mage::getModel('Mage_Payment_Model_Method_Banktransfer'));
         $childBank = $layout->addBlock('Mage_Payment_Block_Info_Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank)
             ->setArea('adminhtml');
@@ -33,8 +33,8 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
         $childHtml = $layout->addBlock('Mage_Core_Block_Text', 'child.html', 'block');
         $childHtml->setText($nonExpectedHtml);
 
-        $paymentInfoCheckmo = new Mage_Payment_Model_Info;
-        $paymentInfoCheckmo->setMethodInstance(new Mage_Payment_Model_Method_Checkmo);
+        $paymentInfoCheckmo = Mage::getModel('Mage_Payment_Model_Info');
+        $paymentInfoCheckmo->setMethodInstance(Mage::getModel('Mage_Payment_Model_Method_Checkmo'));
         $childCheckmo = $layout->addBlock('Mage_Payment_Block_Info_Checkmo', 'child.just.another', 'block');
         $childCheckmo->setInfo($paymentInfoCheckmo)
             ->setArea('adminhtml');

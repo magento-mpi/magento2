@@ -20,7 +20,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_model = new Mage_Adminhtml_Model_Sales_Order_Create();
+        $this->_model = Mage::getModel('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
     protected function tearDown()
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();

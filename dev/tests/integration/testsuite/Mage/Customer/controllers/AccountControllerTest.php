@@ -18,7 +18,7 @@ class Mage_Customer_AccountControllerTest extends Magento_Test_TestCase_Controll
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $session = new Mage_Customer_Model_Session;
+        $session = Mage::getModel('Mage_Customer_Model_Session');
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());

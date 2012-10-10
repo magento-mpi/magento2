@@ -22,7 +22,7 @@ class Mage_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_Tes
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_collection = new Mage_User_Model_Resource_Role_Collection();
+        $this->_collection = Mage::getResourceModel('Mage_User_Model_Resource_Role_Collection');
     }
 
     protected function tearDown()
@@ -32,7 +32,7 @@ class Mage_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_Tes
 
     public function testSetUserFilter()
     {
-        $user = new Mage_User_Model_User;
+        $user = Mage::getModel('Mage_User_Model_User');
         $user->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
         $this->_collection->setUserFilter($user->getId());
 

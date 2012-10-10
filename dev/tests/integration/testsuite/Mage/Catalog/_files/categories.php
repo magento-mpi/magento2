@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

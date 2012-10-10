@@ -28,10 +28,10 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_product = new Mage_Catalog_Model_Product;
+        $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1); // fixture
 
-        $this->_model = new Mage_Catalog_Model_Product_Type_Configurable;
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
     }

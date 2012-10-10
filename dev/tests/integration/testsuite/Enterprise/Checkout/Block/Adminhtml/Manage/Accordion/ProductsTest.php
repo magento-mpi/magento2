@@ -19,7 +19,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends 
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         parent::setUp();
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
     }
 

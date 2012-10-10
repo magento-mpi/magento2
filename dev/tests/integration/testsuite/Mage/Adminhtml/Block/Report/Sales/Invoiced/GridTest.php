@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_GridTest extends PHPUnit_Framew
      */
     protected function _createBlock($reportType = null)
     {
-        $block = new Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid();
+        $block = Mage::getModel('Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid');
 
         $filterData = new Varien_Object();
         if ($reportType) {

@@ -20,7 +20,10 @@ class Mage_DesignEditor_Block_Toolbar_ExitTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_DesignEditor_Block_Toolbar_Buttons(array('template' => 'toolbar/exit.phtml'));
+        $this->_block = Mage::getModel(
+            'Mage_DesignEditor_Block_Toolbar_Buttons',
+            array('data' => array('template' => 'toolbar/exit.phtml'))
+        );
     }
 
     protected function tearDown()

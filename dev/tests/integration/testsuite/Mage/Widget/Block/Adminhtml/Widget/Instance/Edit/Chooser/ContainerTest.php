@@ -20,7 +20,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest ext
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container;
+        $this->_block = Mage::getModel('Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container');
     }
 
     protected function tearDown()

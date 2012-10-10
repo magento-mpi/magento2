@@ -20,7 +20,7 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_CatalogInventory_Model_Stock_Item;
+        $this->_model = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
     }
 
     protected function tearDown()
@@ -33,7 +33,7 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
      */
     public static function simpleProductFixture()
     {
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)

@@ -59,7 +59,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_model = new Mage_ImportExport_Model_Import();
+        $this->_model = Mage::getModel('Mage_ImportExport_Model_Import');
     }
 
     protected function tearDown()

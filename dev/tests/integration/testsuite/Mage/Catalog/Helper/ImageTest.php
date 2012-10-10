@@ -50,7 +50,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         );
 
         // sample product with images
-        self::$_product = new Mage_Catalog_Model_Product;
+        self::$_product = Mage::getModel('Mage_Catalog_Model_Product');
         self::$_product
             ->addData(array(
                 'image'       => '/m/a/magento_image.jpg',
@@ -60,7 +60,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         ;
 
         // sample image cached URL
-        $helper = new Mage_Catalog_Helper_Image;
+        $helper = Mage::helper('Mage_Catalog_Helper_Image');
         self::$_sampleCachedUrl = (string)$helper->init(self::$_product, 'image');
     }
 
@@ -78,7 +78,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = new Mage_Catalog_Helper_Image;
+        $this->_helper = Mage::helper('Mage_Catalog_Helper_Image');
     }
 
     protected function tearDown()
@@ -179,7 +179,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 
     public function testGetPlaceholder()
     {
-        $model = new Mage_Catalog_Model_Product;
+        $model = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
         $this->assertEquals('Mage_Catalog::images/product/placeholder/image.jpg', $placeholder);

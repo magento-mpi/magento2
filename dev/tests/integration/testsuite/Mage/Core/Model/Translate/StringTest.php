@@ -20,7 +20,7 @@ class Mage_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Translate_String();
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate_String');
     }
 
     protected function tearDown()

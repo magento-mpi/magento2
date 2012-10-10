@@ -21,8 +21,8 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(
-            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
+        $source = Mage::getModel('Mage_ImportExport_Model_Import_Adapter_Csv',
+            array('source' => __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv')
         );
         $expected = $source->current();
         /** @var $model Mage_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */

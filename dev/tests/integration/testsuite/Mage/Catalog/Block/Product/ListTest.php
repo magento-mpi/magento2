@@ -25,7 +25,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $this->_block = new Mage_Catalog_Block_Product_List;
+        $this->_block = Mage::getModel('Mage_Catalog_Block_Product_List');
     }
 
     protected function tearDown()
@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareSortableFieldsByCategory()
     {
-        $category = new Mage_Catalog_Model_Category();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());

@@ -18,8 +18,8 @@ class Mage_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $role = new Mage_User_Model_Role();
-        $roleResource = new Mage_User_Model_Resource_Role();
+        $role = Mage::getModel('Mage_User_Model_Role');
+        $roleResource = Mage::getResourceModel('Mage_User_Model_Resource_Role');
 
         $this->assertEmpty($roleResource->getRoleUsers($role));
 

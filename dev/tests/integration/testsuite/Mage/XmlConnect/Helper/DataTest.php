@@ -20,7 +20,7 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_helper = new Mage_XmlConnect_Helper_Data();
+        $this->_helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         Mage::getDesign()->setDesignTheme('default/default/default', 'adminhtml');
     }
 
@@ -34,7 +34,7 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDefaultDesignTabs($appType)
     {
-        $application = new Mage_XmlConnect_Model_Application();
+        $application = Mage::getModel('Mage_XmlConnect_Model_Application');
         $application->setType($appType);
         $tabs = $this->_helper->getDeviceHelper($application)->getDefaultDesignTabs();
         $this->assertNotEmpty($tabs);

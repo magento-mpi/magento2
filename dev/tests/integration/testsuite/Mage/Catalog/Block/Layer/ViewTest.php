@@ -20,14 +20,14 @@ class Mage_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture + block');
 
-        $currentCategory = new Mage_Catalog_Model_Category;
+        $currentCategory = Mage::getModel('Mage_Catalog_Model_Category');
         $currentCategory->load(3);
 
         /** @var $layer Mage_Catalog_Model_Layer */
         $layer = Mage::getSingleton('Mage_Catalog_Model_Layer');
         $layer->setCurrentCategory($currentCategory);
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Catalog_Block_Layer_View', 'block');
 
         $filters = $block->getFilters();

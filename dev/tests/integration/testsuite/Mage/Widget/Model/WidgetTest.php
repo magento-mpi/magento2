@@ -20,7 +20,7 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Widget_Model_Widget;
+        $this->_model = Mage::getModel('Mage_Widget_Model_Widget');
     }
 
     protected function tearDown()

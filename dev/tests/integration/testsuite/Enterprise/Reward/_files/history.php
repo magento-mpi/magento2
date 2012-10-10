@@ -10,7 +10,7 @@
  */
 
 include __DIR__ . '/../../../Mage/Customer/_files/customer.php';
-$reward = new Enterprise_Reward_Model_Reward;
+$reward = Mage::getModel('Enterprise_Reward_Model_Reward');
 $reward->setCustomerId(1)
     ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $reward->save();

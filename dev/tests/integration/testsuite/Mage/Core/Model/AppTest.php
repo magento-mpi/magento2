@@ -35,7 +35,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model       = new Mage_Core_Model_App;
+        $this->_model       = Mage::getModel('Mage_Core_Model_App');
         $this->_mageModel   = Mage::app();
     }
 
@@ -100,7 +100,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testSetCurrentStore()
     {
-        $store = new Mage_Core_Model_Store();
+        $store = Mage::getModel('Mage_Core_Model_Store');
         $this->_model->setCurrentStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }

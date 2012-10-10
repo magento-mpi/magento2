@@ -19,8 +19,8 @@ class Mage_XmlConnect_Helper_Catalog_ImageTest extends PHPUnit_Framework_TestCas
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $helper = new Mage_XmlConnect_Helper_Catalog_Category_Image;
-        $helper->initialize(new Mage_Catalog_Model_Product, $name);
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Catalog_Category_Image');
+        $helper->initialize(Mage::getModel('Mage_Catalog_Model_Product'), $name);
         $this->assertFileExists(
             Mage::getDesign()->getSkinFile($helper->getPlaceholder())
         );

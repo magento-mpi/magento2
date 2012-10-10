@@ -19,7 +19,7 @@ class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Frame
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $session = new Mage_Customer_Model_Session;
+        $session = Mage::getModel('Mage_Customer_Model_Session');
         $session->login('customer@example.com', 'password');
 
         $utility = new Mage_Core_Utility_Layout($this);

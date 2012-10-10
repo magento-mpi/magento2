@@ -25,7 +25,7 @@ class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_block = new Mage_Backend_Block_Template;
+        $this->_block = Mage::getModel('Mage_Backend_Block_Template');
     }
 
     protected function tearDown()

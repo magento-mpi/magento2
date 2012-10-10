@@ -15,8 +15,8 @@ class Mage_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_Test
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $model = new Mage_Catalog_Model_Product_Type_Virtual;
-        $product = new Mage_Catalog_Model_Product;
+        $model = Mage::getModel('Mage_Catalog_Model_Product_Type_Virtual');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertTrue($model->isVirtual($product));
     }
 }

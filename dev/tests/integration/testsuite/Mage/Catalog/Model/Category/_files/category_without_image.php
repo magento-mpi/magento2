@@ -12,7 +12,7 @@
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-$category = new Mage_Catalog_Model_Category();
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 $category->setName('Category Without Image 1')
     ->setParentId(2)
     ->setLevel(2)

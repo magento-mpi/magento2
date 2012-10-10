@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setId(null);
         $this->assertEquals('simple', $product->getSku());
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
      */
     public function uniqueSkuDataProvider()
     {
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setId(1)
             ->setAttributeSetId(4)

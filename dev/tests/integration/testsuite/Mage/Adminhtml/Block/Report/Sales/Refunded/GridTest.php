@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_GridTest extends PHPUnit_Framew
      */
     protected function _createBlock($reportType = null)
     {
-        $block = new Mage_Adminhtml_Block_Report_Sales_Refunded_Grid();
+        $block = Mage::getModel('Mage_Adminhtml_Block_Report_Sales_Refunded_Grid');
 
         $filterData = new Varien_Object();
         if ($reportType) {

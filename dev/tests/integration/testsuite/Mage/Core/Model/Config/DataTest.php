@@ -49,13 +49,13 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Mage_Core_Model_Config_Data;
+        $this->_model = Mage::getModel('Mage_Core_Model_Config_Data');
     }
 
     public function testIsValueChanged()
     {
         // load the model
-        $collection = new Mage_Core_Model_Resource_Config_Data_Collection;
+        $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Config_Data_Collection');
         $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
             ->addFieldToFilter('scope', 'default')
         ;

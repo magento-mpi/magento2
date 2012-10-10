@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $layout = new Mage_Core_Model_Layout(array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', $blockAttributes);
@@ -199,14 +199,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
      */
     public function prepareLayoutDataProvider()
     {
-        $urlRewrite = new Mage_Core_Model_Url_Rewrite();
-        $cmsPage = new Mage_Cms_Model_Page(array(
-            'page_id' => 1,
-            'title' => 'Test CMS Page'
-        ));
-        $existingUrlRewrite = new Mage_Core_Model_Url_Rewrite(array(
-            'url_rewrite_id' => 1,
-        ));
+        $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+        $cmsPage = Mage::getModel('Mage_Cms_Model_Page',
+            array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
+        );
+        $existingUrlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite',
+            array('data' => array('url_rewrite_id' => 1))
+        );
 
         return array(
             // Creating URL rewrite when CMS page selected

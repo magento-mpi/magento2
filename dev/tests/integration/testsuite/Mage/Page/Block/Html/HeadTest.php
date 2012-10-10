@@ -25,7 +25,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_block = new Mage_Page_Block_Html_Head;
+        $this->_block = Mage::getModel('Mage_Page_Block_Html_Head');
     }
 
     protected function tearDown()

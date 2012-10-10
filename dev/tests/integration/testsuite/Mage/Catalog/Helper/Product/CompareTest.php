@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = new Mage_Catalog_Helper_Product_Compare;
+        $this->_helper = Mage::helper('Mage_Catalog_Helper_Product_Compare');
     }
 
     protected function tearDown()
@@ -33,7 +33,7 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $empty = new Mage_Catalog_Helper_Product_Compare;
+        $empty = Mage::helper('Mage_Catalog_Helper_Product_Compare');
         $this->assertContains('/catalog/product_compare/index/', $empty->getListUrl());
 
         $this->_populateCompareList();
@@ -114,7 +114,7 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
@@ -127,11 +127,11 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
      */
     protected function _populateCompareList()
     {
-        $productOne = new Mage_Catalog_Model_Product;
-        $productTwo = new Mage_Catalog_Model_Product;
+        $productOne = Mage::getModel('Mage_Catalog_Model_Product');
+        $productTwo = Mage::getModel('Mage_Catalog_Model_Product');
         $productOne->load(10);
         $productTwo->load(11);
-        $compareList = new Mage_Catalog_Model_Product_Compare_List;
+        $compareList = Mage::getModel('Mage_Catalog_Model_Product_Compare_List');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

@@ -18,9 +18,9 @@ class Mage_Paypal_Block_Express_ReviewTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $block = new Mage_Paypal_Block_Express_Review;
+        $block = Mage::getModel('Mage_Paypal_Block_Express_Review');
         $addressData = include(__DIR__ . '/../../../Sales/_files/address_data.php');
-        $address = new Mage_Sales_Model_Quote_Address($addressData);
+        $address = Mage::getModel('Mage_Sales_Model_Quote_Address', array('data' => $addressData));
         $address->setAddressType('billing');
         $this->assertContains('Los Angeles', $block->renderAddress($address));
     }

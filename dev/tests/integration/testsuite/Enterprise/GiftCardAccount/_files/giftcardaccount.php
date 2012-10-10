@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$model = new Enterprise_GiftCardAccount_Model_Giftcardaccount;
+$model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
 $model->setCode('giftcardaccount_fixture')
     ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
     ->setState(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)

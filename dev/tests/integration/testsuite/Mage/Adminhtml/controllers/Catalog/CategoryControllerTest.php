@@ -20,7 +20,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utili
     {
         $this->markTestIncomplete('Need to fix DI dependencies + fixture');
 
-        $store = new Mage_Core_Model_Store();
+        $store = Mage::getModel('Mage_Core_Model_Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utili
         $this->assertNotEmpty($messages, "Could not save category");
         $this->assertEquals('The category has been saved.', current($messages)->getCode());
 
-        $category = new Mage_Catalog_Model_Category();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setStoreId($storeId);
         $category->load(2);
 

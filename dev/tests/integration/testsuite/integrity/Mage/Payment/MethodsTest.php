@@ -63,7 +63,7 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
      */
     public function paymentMethodDataProvider()
     {
-        $helper = new Mage_Payment_Helper_Data;
+        $helper = Mage::helper('Mage_Payment_Helper_Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
             $result[] = array($code, $method['model']);

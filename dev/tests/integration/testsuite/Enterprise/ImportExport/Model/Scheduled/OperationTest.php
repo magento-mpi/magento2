@@ -22,7 +22,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     {
         $this->markTestIncomplete('Need to fix DI dependencies');
 
-        $this->_model = new Enterprise_ImportExport_Model_Scheduled_Operation();
+        $this->_model = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
     }
 
     /**
@@ -101,7 +101,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
 
         $this->_model->run();
 
-        $scheduledExport = new Enterprise_ImportExport_Model_Export();
+        $scheduledExport = Mage::getModel('Enterprise_ImportExport_Model_Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
