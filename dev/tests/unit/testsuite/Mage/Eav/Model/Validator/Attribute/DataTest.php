@@ -19,8 +19,8 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
      *
      * @dataProvider isValidDataProvider
      *
-     * @param $result
-     * @param $expected
+     * @param array|bool $result
+     * @param bool $expected
      * @param array $messages
      */
     public function testIsValid($result, $expected, $messages)
