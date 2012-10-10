@@ -36,6 +36,12 @@
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
+            <action method="addCss">
+                <file>Mage_Adminhtml::css/select2/jquery.select2.css</file>
+            </action>
+            <action method="addJs">
+                <file>Mage_Adminhtml::js/jquery.select2.js</file>
+            </action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
@@ -58,6 +64,12 @@
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
+            <action method="addCss">
+                <file>Mage_Adminhtml::css/select2/jquery.select2.css</file>
+            </action>
+            <action method="addJs">
+                <file>Mage_Adminhtml::js/jquery.select2.js</file>
+            </action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
