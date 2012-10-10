@@ -13,11 +13,12 @@
  */
 class Magento_Validator_Config extends Magento_Config_XmlAbstract
 {
-    /**
+    /**#@+
      * Constraints types
      */
     const CONSTRAINT_TYPE_ENTITY = 'entity';
     const CONSTRAINT_TYPE_PROPERTY = 'property';
+    /**#@-*/
 
     /**
      * @var string
@@ -37,11 +38,6 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     public function getSchemaFile()
     {
         return __DIR__ . '/validation.xsd';
-    }
-
-    public function getData()
-    {
-        return $this->_data;
     }
 
     /**
@@ -149,7 +145,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 'constraints' => $groupConstraints
             );
             if ($group->hasAttribute('builder')) {
-                $result[$group->getAttribute('name')]['builder'] = (string)$group->getAttribute('builder');
+                $result[$group->getAttribute('name')]['builder'] = $group->getAttribute('builder');
             }
         }
 
@@ -304,7 +300,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 } elseif ($options) {
                     $arguments[] = $options;
                 } else {
-                    $argument = (string)$node->textContent;
+                    $argument = $node->textContent;
                     $arguments[] = new Magento_Validator_Constraint_Option(trim($argument));
                 }
 
@@ -327,8 +323,8 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             /** @var $callbackData DOMElement */
             foreach ($children['callback'] as $callbackData) {
                 $callbacks[] = new Magento_Validator_Constraint_Option_Callback(
-                    (string)$callbackData->getAttribute('class'),
-                    (string)$callbackData->getAttribute('method')
+                    trim($callbackData->getAttribute('class')),
+                    trim($callbackData->getAttribute('method'))
                 );
             }
             return $callbacks;
@@ -348,9 +344,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             $data = array();
             /** @var $option DOMElement */
             foreach ($children['option'] as $option) {
-                $value = trim((string)$option->textContent);
+                $value = trim($option->textContent);
                 if ($option->hasAttribute('name')) {
-                    $data[(string)$option->getAttribute('name')] = $value;
+                    $data[$option->getAttribute('name')] = $value;
                 } else {
                     $data[] = $value;
                 }
@@ -387,7 +383,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             /** @var $method DOMElement */
             foreach ($children['method'] as $method) {
                 $children = $this->_collectChildren($method);
-                $methodName = (string)$method->getAttribute('name');
+                $methodName = $method->getAttribute('name');
                 $methodOptions = array(
                     'method' => $methodName
                 );

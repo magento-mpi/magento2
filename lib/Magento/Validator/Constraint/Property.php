@@ -45,9 +45,9 @@ class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
         $result = null;
 
         if ($value instanceof Varien_Object) {
-            return $result = $value->getDataUsingMethod($this->_property);
+            $result = $value->getDataUsingMethod($this->_property);
         } elseif ((is_array($value) || $value instanceof ArrayAccess) && isset($value[$this->_property])) {
-            return  $result = $value[$this->_property];
+            $result = $value[$this->_property];
         }
 
         return $result;

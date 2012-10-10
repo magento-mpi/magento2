@@ -25,11 +25,47 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
     }
 
     /**
+     * Test callback with 2 arguments passed
+     */
+    public function testSetArgumentsAsArray()
+    {
+        $callbackMock = $this->getMockBuilder('stdClass')
+            ->setMethods(array('checkArguments'))
+            ->getMock();
+        $callbackMock->expects($this->once())
+            ->method('checkArguments')
+            ->with(true, 'test')
+            ->will($this->returnValue(1));
+
+        $option = new Magento_Validator_Constraint_Option_Callback($callbackMock, 'checkArguments');
+        $option->setArguments(array(true, 'test'));
+        $this->assertEquals(1, $option->getValue());
+    }
+
+    /**
+     * Test callback with 1 arguments passed
+     */
+    public function testSetArgumentsAsSingleValue()
+    {
+        $callbackMock = $this->getMockBuilder('stdClass')
+            ->setMethods(array('checkArguments'))
+            ->getMock();
+        $callbackMock->expects($this->once())
+            ->method('checkArguments')
+            ->with('test')
+            ->will($this->returnValue(1));
+
+        $option = new Magento_Validator_Constraint_Option_Callback($callbackMock, 'checkArguments');
+        $option->setArguments('test');
+        $this->assertEquals(1, $option->getValue());
+    }
+
+    /**
      * Test getValue on new callback object
      */
     public function testGetValueExistingNewCallback()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback('Callback_Stub', 'getMax');
+        $option = new Magento_Validator_Constraint_Option_Callback('Magento_Validator_Test_Callback', 'getId');
         $this->assertEquals(3, $option->getValue());
     }
 
@@ -53,21 +89,7 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
      */
     public function testGetValueNotCallableException()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback('Callback_Stub', 'notExistingMethod');
+        $option = new Magento_Validator_Constraint_Option_Callback('stdClass', 'notExistingMethod');
         $option->getValue();
-    }
-}
-
-/**
- * Stub class for testing callback
- */
-class Callback_Stub
-{
-    /**
-     * @return int
-     */
-    public function getMax()
-    {
-        return 3;
     }
 }

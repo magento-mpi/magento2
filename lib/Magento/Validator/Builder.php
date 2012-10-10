@@ -22,12 +22,13 @@ class Magento_Validator_Builder
      * Set constraints
      *
      * @param array $constraints
+     * @throws InvalidArgumentException
      */
     public function __construct(array $constraints)
     {
         foreach ($constraints as $constraint) {
             if (array_key_exists('options', $constraint) && is_array($constraint['options'])) {
-                $this->_checkConfigurationArguments($constraint['options']);
+                $this->_checkConfigurationArguments($constraint['options'], true);
                 $this->_checkConfigurationCallback($constraint['options'], true);
             }
         }
@@ -38,19 +39,38 @@ class Magento_Validator_Builder
      * Check configuration arguments
      *
      * @param array $configuration
+     * @param bool $argumentsIsArray
      * @throws InvalidArgumentException
      */
-    protected function _checkConfigurationArguments(array $configuration)
+    protected function _checkConfigurationArguments(array $configuration, $argumentsIsArray)
     {
+        // Check method arguments
+        if ($argumentsIsArray) {
+            if (array_key_exists('methods', $configuration)) {
+                foreach ($configuration['methods'] as $method) {
+                    $this->_checkMethodArguments($method);
+                }
+            }
+        } elseif (array_key_exists('method', $configuration)) {
+            $this->_checkMethodArguments($configuration);
+        }
+
+        // Check constructor arguments
         if (array_key_exists('arguments', $configuration) && !is_array($configuration['arguments'])) {
             throw new InvalidArgumentException('Arguments must be an array');
         }
-        if (array_key_exists('methods', $configuration)) {
-            foreach ($configuration['methods'] as $method) {
-                if (array_key_exists('arguments', $method) && !is_array($method['arguments'])) {
-                    throw new InvalidArgumentException('Method arguments must be an array');
-                }
-            }
+    }
+
+    /**
+     * Check configuration method arguments
+     *
+     * @param array $configuration
+     * @throws InvalidArgumentException
+     */
+    protected function _checkMethodArguments(array $configuration)
+    {
+        if (array_key_exists('arguments', $configuration) && !is_array($configuration['arguments'])) {
+            throw new InvalidArgumentException('Method arguments must be an array');
         }
     }
 
@@ -112,7 +132,7 @@ class Magento_Validator_Builder
      */
     public function addConfiguration($alias, array $configuration)
     {
-        $this->_checkConfigurationArguments($configuration);
+        $this->_checkConfigurationArguments($configuration, false);
         $this->_checkConfigurationCallback($configuration, false);
         foreach ($this->_constraints as &$constraint) {
             if ($constraint['alias'] != $alias) {

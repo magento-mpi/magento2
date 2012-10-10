@@ -20,20 +20,25 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_config = null;
 
     /**
-     * Set up
-     */
-    protected function setUp()
-    {
-        $this->_config = new Magento_Validator_Config(glob(__DIR__ . '/_files/validation/positive/*/validation.xml'));
-    }
-
-    /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage There must be at least one configuration file specified.
      */
     public function testConstructException()
     {
-        new Magento_Validator_Config(array());
+        $this->_initConfig(array());
+    }
+
+    /**
+     * Inits $_config property with specific files or default valid configuration files
+     *
+     * @param array|null $files
+     */
+    protected function _initConfig(array $files = null)
+    {
+        if (null === $files) {
+            $files = glob(__DIR__ . '/_files/validation/positive/*/validation.xml');
+        }
+        $this->_config = new Magento_Validator_Config($files);
     }
 
     /**
@@ -42,6 +47,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidatorInvalidEntityName()
     {
+        $this->_initConfig();
         $this->_config->getValidatorBuilder('invalid_entity', null);
     }
 
@@ -51,6 +57,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidatorInvalidGroupName()
     {
+        $this->_initConfig();
         $this->_config->getValidatorBuilder('test_entity_a', 'invalid_group');
     }
 
@@ -60,9 +67,8 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidatorInvalidConstraintClass()
     {
-        $configFile = glob(__DIR__ . '/_files/validation/negative/invalid_constraint.xml');
-        $config = new Magento_Validator_Config($configFile);
-        $config->createValidator('test_entity', 'test_group');
+        $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_constraint.xml'));
+        $this->_config->createValidator('test_entity', 'test_group');
     }
 
     /**
@@ -71,9 +77,8 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidatorBuilderClassNotFound()
     {
-        $configFile = array(__DIR__ . '/_files/validation/negative/invalid_builder_class.xml');
-        $config = new Magento_Validator_Config($configFile);
-        $config->getValidatorBuilder('catalog_product', 'create');
+        $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_builder_class.xml'));
+        $this->_config->getValidatorBuilder('catalog_product', 'create');
     }
 
     /**
@@ -82,9 +87,8 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidatorBuilderInstanceInvalid()
     {
-        $configFile = array(__DIR__ . '/_files/validation/negative/invalid_builder_instance.xml');
-        $config = new Magento_Validator_Config($configFile);
-        $config->getValidatorBuilder('catalog_product', 'create');
+        $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_builder_instance.xml'));
+        $this->_config->getValidatorBuilder('catalog_product', 'create');
     }
 
     /**
@@ -92,6 +96,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidatorBuilderInstance()
     {
+        $this->_initConfig();
         $builder = $this->_config->getValidatorBuilder('test_entity_a', 'check_alnum');
         $this->assertInstanceOf('Magento_Validator_Builder', $builder);
     }
@@ -107,6 +112,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateValidator($entityName, $groupName, $value, $expectedResult, $expectedMessages)
     {
+        $this->_initConfig();
         $validator = $this->_config->createValidator($entityName, $groupName);
         $actualResult = $validator->isValid($value);
         $this->assertEquals($expectedMessages, $validator->getMessages());
@@ -189,9 +195,13 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testBuilderConfiguration()
     {
-        $configFile = array(__DIR__ . '/_files/validation/positive/builder/validation.xml');
-        $config = new Magento_Validator_Config($configFile);
-        $builder = $config->getValidatorBuilder('test_entity_a', 'check_builder');
+        $this->getMockBuilder('Magento_Validator_Builder')
+            ->setMockClassName('Magento_Validator_Test_Builder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_initConfig(array(__DIR__ . '/_files/validation/positive/builder/validation.xml'));
+        $builder = $this->_config->getValidatorBuilder('test_entity_a', 'check_builder');
         $this->assertInstanceOf('Magento_Validator_Test_Builder', $builder);
 
         $expected = array(
@@ -250,12 +260,11 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * @dataProvider getInvalidXmlFiles
      * @expectedException Magento_Exception
      *
-     * @param string $configFile
+     * @param array|string $configFile
      */
     public function testValidateInvalidConfigFiles($configFile)
     {
-        $configFile = array($configFile);
-        new Magento_Validator_Config($configFile);
+        $this->_initConfig((array)$configFile);
     }
 
     /**
@@ -288,6 +297,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSchemaFile()
     {
+        $this->_initConfig();
         $this->assertFileExists($this->_config->getSchemaFile());
     }
 }
