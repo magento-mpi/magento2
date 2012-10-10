@@ -119,7 +119,7 @@ create_order_for_new_customer:
     title: New Order / Orders / Sales / Magento Admin
     uimap: &create_order_for_new_customer
         form:
-            fieldsets: &newOrderForNewCustomerFieldsets
+            fieldsets:
                 -
                     order_customer_grid: &salesOrderCreateCustomerGrid
                         xpath: //div[@id='order-customer-selector']
@@ -387,7 +387,40 @@ create_order_for_existing_customer:
     uimap:
         form: &newOrderForExistCustomerForm
             fieldsets:
-                <<: *newOrderForNewCustomerFieldsets
+                -
+                    order_customer_grid: *salesOrderCreateCustomerGrid
+                -
+                    order_store_selector: *orderStoreSelector
+                -
+                    select_products_to_add: *selectProductsToAdd
+                -
+                    order_items_ordered: *orderItemsOrdered
+                -
+                    order_apply_coupon_code: *orderApplyCouponCode
+                -
+                    order_account_information: *orderAccountInformation
+                -
+                    order_billing_address: *orderBillingAddress
+                -
+                    order_shipping_address: *orderShippingAddress
+                -
+                    shipping_method: *shippingMethod
+                -
+                    order_payment_method: *orderPaymentMethod
+                -
+                    3d_secure_card_validation: *3DSecureCardValidation
+                -
+                    3d_secure_frame: *3DSecureFrame
+                -
+                    order_history: *orderHistory
+                -
+                    order_totals: *orderTotals
+                -
+                    product_composite_configure_form: *productCompositeConfigureForm
+                -
+                    gift_options: *giftMessage
+                -
+                    gift_options_for_order: *giftMessageForOrder
                 -
                     order_sidebar:
                         xpath: //div[@id='order-sidebar']

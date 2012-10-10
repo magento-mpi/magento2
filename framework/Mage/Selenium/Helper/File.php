@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require_once('SymfonyComponents/YAML/sfYaml.php');
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * File helper class
@@ -31,7 +31,7 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
     {
         $data = false;
         if ($fullFileName && file_exists($fullFileName)) {
-            $data = sfYaml::load($fullFileName);
+            $data = Yaml::parse($fullFileName);
         }
         return $data;
     }
