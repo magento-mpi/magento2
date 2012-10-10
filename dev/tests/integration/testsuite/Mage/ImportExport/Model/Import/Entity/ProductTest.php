@@ -371,7 +371,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
                 'Product description', 'Short desc.', '1',
                 Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
                 Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
-                $attribute->getId(), 'magento_image.jpg', '', '1', '0'
+                $attribute->getId(), 'magento_image.jpg', 'Image Label', '1', '0'
             ))
         );
 
@@ -393,6 +393,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         foreach ($gallery as $item) {
             $this->assertInstanceOf('Varien_Object', $item);
             $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+            $this->assertEquals('Image Label', $item->getLabel());
             break;
         }
     }

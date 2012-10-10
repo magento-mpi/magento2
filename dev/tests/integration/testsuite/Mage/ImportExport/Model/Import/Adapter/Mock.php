@@ -11,6 +11,9 @@
  */
 class Mage_ImportExport_Model_Import_Adapter_Mock extends Mage_ImportExport_Model_Import_Adapter_Abstract
 {
+    /**
+     * @var array
+     */
     protected $_values = array();
 
     /**
