@@ -216,4 +216,108 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * Check arguments validation passed into constructor
+     *
+     * @dataProvider invalidArgumentsDataProvider
+     *
+     * @param array $options
+     * @param string $exception
+     * @param string $exceptionMessage
+     */
+    public function testConstructorConfigValidation(array $options, $exception, $exceptionMessage)
+    {
+        $this->setExpectedException($exception, $exceptionMessage);
+        if (array_key_exists('method', $options)) {
+            $options = array(
+                'methods' => array(
+                    $options['method'] => $options
+                )
+            );
+        }
+        $constraints = array(array(
+            'alias' => 'alias',
+            'class' => 'Magento_Validator_Test_True',
+            'options' => $options,
+            'type' => 'entity'
+        ));
+        new Magento_Validator_Builder($constraints);
+    }
+
+    /**
+     * Check arguments validation passed into configuration
+     *
+     * @dataProvider invalidArgumentsDataProvider
+     *
+     * @param array $options
+     * @param string $exception
+     * @param string $exceptionMessage
+     */
+    public function testAddConfigurationConfigValidation(array $options, $exception, $exceptionMessage)
+    {
+        $this->setExpectedException($exception, $exceptionMessage);
+
+        $constraints = array(array(
+            'alias' => 'alias',
+            'class' => 'Magento_Validator_Test_True',
+            'options' => null,
+            'type' => 'entity'
+        ));
+        $builder = new Magento_Validator_Builder($constraints);
+        $builder->addConfiguration('alias', $options);
+    }
+
+    /**
+     * Data provider for testing configuration validation
+     *
+     * @return array
+     */
+    public function invalidArgumentsDataProvider()
+    {
+        return array(
+            'constructor invalid arguments' => array(
+                array(
+                    'arguments' => 'invalid_argument'
+                ),
+                'InvalidArgumentException',
+                'Arguments must be an array'
+            ),
+
+            'methods invalid arguments' => array(
+                array(
+                    'method' => 'setValue',
+                    'arguments' => 'invalid_argument'
+                ),
+                'InvalidArgumentException',
+                'Method arguments must be an array'
+            ),
+
+            'constructor arguments invalid callback' => array(
+                array(
+                    'callback' => array('invalid', 'callback')
+                ),
+                'InvalidArgumentException',
+                'Callback must be instance of Magento_Validator_Constraint_Option_Callback'
+            )
+        );
+    }
+
+    /**
+     * Check exception is thrown if validator is not an instance of Magento_Validator_ValidatorInterface
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Constraint class "Varien_Object" must implement Magento_Validator_ValidatorInterface
+     */
+    public function testCreateValidatorInvalidInstance()
+    {
+        $constraints = array(array(
+            'alias' => 'alias',
+            'class' => 'Varien_Object',
+            'options' => null,
+            'type' => 'entity'
+        ));
+        $builder = new Magento_Validator_Builder($constraints);
+        $builder->createValidator();
+    }
 }
