@@ -52,16 +52,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $this->fillForm($loginData);
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
-        $this->validatePage();
-        if ($this->controlIsPresent('link', 'go_to_notifications')) {
-            try {
-                $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
-            } catch (RuntimeException $e) {
-                if (strpos($e->getMessage(), 'Timeout after 5 seconds.') === false) {
-                    throw $e;
-                }
-            }
-        }
+        $this->validatePage('dashboard');
     }
 
     /**
