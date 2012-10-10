@@ -3535,11 +3535,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $jsCondition = "return document['readyState']";
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
+            usleep(500000);
             $result = $this->execute(array('script' => $jsCondition, 'args' => array()));
             if ($result === 'complete') {
                 return true;
             }
-            usleep(500000);
         }
         throw new RuntimeException('Time is out for waitForPageToLoad');
     }
