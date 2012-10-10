@@ -11,6 +11,10 @@
 
 /**
  * Test class for Mage_ImportExport_Model_Import_Entity_Product
+ *
+ * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framework_TestCase
 {
