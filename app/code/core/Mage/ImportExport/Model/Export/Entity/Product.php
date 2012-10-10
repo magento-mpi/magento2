@@ -312,7 +312,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $rowMediaGallery[$mediaRow['entity_id']][] = array(
                 '_media_attribute_id'   => $mediaRow['attribute_id'],
                 '_media_image'          => $mediaRow['filename'],
-                '_media_lable'          => $mediaRow['label'],
+                '_media_label'          => $mediaRow['label'],
                 '_media_position'       => $mediaRow['position'],
                 '_media_is_disabled'    => $mediaRow['disabled']
             );
@@ -746,7 +746,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     array(
                         '_media_attribute_id',
                         '_media_image',
-                        '_media_lable',
+                        '_media_label',
                         '_media_position',
                         '_media_is_disabled'
                     )

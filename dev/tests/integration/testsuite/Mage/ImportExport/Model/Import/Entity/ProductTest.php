@@ -350,6 +350,72 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     }
 
     /**
+     * @magentoDataIsolation enabled
+     * @magentoDataFixture copyMediaImportImage
+     */
+    public function testSaveMediaImage()
+    {
+        $attribute = new Mage_Catalog_Model_Entity_Attribute;
+        $attribute->loadByCode('catalog_product', 'media_gallery');
+        $fixture = new Mage_ImportExport_Model_Import_Adapter_Mock(
+            // minimum required set of attributes + media images
+            array('sku', '_attribute_set', '_type', '_product_websites', 'name', 'price',
+                'description', 'short_description', 'weight', 'status', 'visibility', 'tax_class_id',
+                '_media_attribute_id', '_media_image', '_media_label', '_media_position', '_media_is_disabled'
+            ),
+            array(array('sku', 'Default', Mage_Catalog_Model_Product_Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
+                'Product description', 'Short desc.', '1',
+                Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
+                $attribute->getId(), 'magento_image.jpg', '', '1', '0'
+            ))
+        );
+
+        foreach (new Mage_Catalog_Model_Resource_Product_Collection as $product) {
+            $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
+        }
+
+        $this->_model->setSource($fixture)
+            ->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND))
+            ->isDataValid();
+        $this->_model->importData();
+
+        $resource = new Mage_Catalog_Model_Resource_Product;
+        $productId = $resource->getIdBySku('sku'); // fixture
+        $product = new Mage_Catalog_Model_Product;
+        $product->load($productId);
+        $gallery = $product->getMediaGalleryImages();
+        $this->assertInstanceOf('Varien_Data_Collection', $gallery);
+        foreach ($gallery as $item) {
+            $this->assertInstanceOf('Varien_Object', $item);
+            $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+            break;
+        }
+    }
+
+    /**
+     * Copy a fixture image into media import directory
+     */
+    public static function copyMediaImportImage()
+    {
+        $dir = Mage::getBaseDir('media') . '/import';
+        mkdir($dir);
+        copy(__DIR__ . '/../../../../../Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
+    }
+
+    /**
+     * Cleanup media import and catalog directories
+     *
+     * The method name is conventional - intended to be used as a fixture
+     */
+    public static function copyMediaImportImageRollback()
+    {
+        $media = Mage::getBaseDir('media');
+        Varien_Io_File::rmdirRecursive("{$media}/import");
+        Varien_Io_File::rmdirRecursive("{$media}/catalog");
+    }
+
+    /**
      * Export CSV string to array
      *
      * @param string $content
