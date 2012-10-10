@@ -278,18 +278,13 @@ class Enterprise_SalesArchive_Model_Resource_Setup extends Mage_Core_Model_Resou
         $targetConstraints = $this->getConnection()->getForeignKeys($targetTable);
 
         $targetConstraintUsedInSource = array();
-        foreach ($sourceConstraints as $sourceConstraint => $constraintInfo) {
+        foreach ($sourceConstraints as $constraintInfo) {
             $targetConstraint = $this->getConnection()->getForeignKeyName(
                 $targetTable,
                 $constraintInfo['COLUMN_NAME'],
                 $constraintInfo['REF_TABLE_NAME'],
                 $constraintInfo['REF_COLUMN_NAME']
             );
-            if ($sourceConstraint == $targetConstraint) {
-                // Constraint have invalid prefix, we will have conflict in synchronizing
-                continue;
-            }
-
             if (!isset($targetConstraints[$targetConstraint]) ||
                 $this->_checkConstraintDifference($constraintInfo, $targetConstraints[$targetConstraint])) {
                 $this->getConnection()->addForeignKey(
