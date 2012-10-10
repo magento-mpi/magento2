@@ -15,6 +15,105 @@
 class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test createValidator method
+     *
+     * @dataProvider createValidatorDataProvider
+     *
+     * @param array $constraints
+     * @param Magento_Validator_ValidatorInterface $expectedValidator
+     */
+    public function testCreateValidator(array $constraints, $expectedValidator)
+    {
+        $builder = new Magento_Validator_Builder($constraints);
+        $actualValidator = $builder->createValidator();
+        $this->assertEquals($expectedValidator, $actualValidator);
+    }
+
+    /**
+     * Data provider for
+     *
+     * @return array
+     */
+    public function createValidatorDataProvider()
+    {
+        $result = array();
+
+        // Case 1. Check constructor with arguments
+        $actualConstraints = array(array(
+            'alias' => 'name_alias',
+            'class' => 'Magento_Validator_Test_StringLength',
+            'options' => array(
+                'arguments' => array(1, new Magento_Validator_Constraint_Option(20))
+            ),
+            'property' => 'name',
+            'type' => 'property',
+        ));
+
+        $expectedValidator = new Magento_Validator();
+        $expectedValidator->addValidator(
+            new Magento_Validator_Constraint_Property(
+                new Magento_Validator_Test_StringLength(1, 20), 'name', 'name_alias'
+            )
+        );
+
+        $result[] = array($actualConstraints, $expectedValidator);
+
+        // Case 2. Check method calls
+        $actualConstraints = array(array(
+            'alias' => 'description_alias',
+            'class' => 'Magento_Validator_Test_StringLength',
+            'options' => array(
+                'methods' => array (
+                    array(
+                        'method' => 'setMin',
+                        'arguments' => array(10)
+                    ),
+                    array(
+                        'method' => 'setMax',
+                        'arguments' => array(1000)
+                    )
+                ),
+            ),
+            'property' => 'description',
+            'type' => 'property',
+        ));
+
+        $expectedValidator = new Magento_Validator();
+        $expectedValidator->addValidator(
+            new Magento_Validator_Constraint_Property(
+                new Magento_Validator_Test_StringLength(10, 1000), 'description', 'description_alias'
+            )
+        );
+
+        $result[] = array($actualConstraints, $expectedValidator);
+
+        // Case 3. Check callback on validator
+        $actualConstraints = array(array(
+            'alias' => 'sku_alias',
+            'class' => 'Magento_Validator_Test_StringLength',
+            'options' => array(
+                'callback' => array(new Magento_Validator_Constraint_Option_Callback(function($validator) {
+                    $validator->setMin(20);
+                    $validator->setMax(100);
+                }))
+            ),
+            'property' => 'sku',
+            'type' => 'property',
+        ));
+
+        $expectedValidator = new Magento_Validator();
+        $expectedValidator->addValidator(
+            new Magento_Validator_Constraint_Property(
+                new Magento_Validator_Test_StringLength(20, 100), 'sku', 'sku_alias'
+            )
+        );
+
+        $result[] = array($actualConstraints, $expectedValidator);
+
+        return $result;
+    }
+
+    /**
      * Check addConfiguration logic
      *
      * @dataProvider configurationDataProvider
