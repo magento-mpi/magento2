@@ -15,206 +15,131 @@
 class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Validator_Constraint_Option_Callback
-     */
-    protected static $_callbackObject;
-
-    /**
-     * Test for Magento_Validator_Builder::createValidator()
+     * Check addConfiguration logic
+     *
+     * @dataProvider configurationDataProvider
      *
      * @param array $constraints
-     * @param array $constructorData
-     * @param array $expectedCallback
-     * @dataProvider getBuilderData
+     * @param string $alias
+     * @param array $configuration
+     * @param array $expected
      */
-    public function testCreateValidator(array $constraints, array $constructorData, array $expectedCallback = array())
+    public function testAddConfiguration($constraints, $alias, $configuration, $expected)
     {
-        if (isset($expectedCallback['return'])) {
-            self::$_callbackObject->expects($this->at(0))
-                ->method('getValue')
-                ->will($this->returnValue($expectedCallback['return']));
-        } elseif (isset($expectedCallback['entity_callback'])) {
-            self::$_callbackObject->expects($this->once())
-                ->method('getValue');
-            self::$_callbackObject->expects($this->once())
-                ->method('setArguments');
-        }
         $builder = new Magento_Validator_Builder($constraints);
-        $builder->createValidator();
-        $this->assertEquals($constructorData, Magento_Validator_Test_Stub::$constructorData);
+        $builder->addConfiguration($alias, $configuration);
+        $this->assertAttributeEquals($expected, '_constraints', $builder);
     }
 
     /**
-     * Data provider for testCreateValidator
+     * Check addConfigurations logic
+     *
+     * @dataProvider configurationDataProvider
+     *
+     * @param array $constraints
+     * @param string $alias
+     * @param array $configuration
+     * @param array $expected
+     */
+    public function testAddConfigurations($constraints, $alias, $configuration, $expected)
+    {
+        $builder = new Magento_Validator_Builder($constraints);
+        $configurations = array($alias => array($configuration));
+        $builder->addConfigurations($configurations);
+        $this->assertAttributeEquals($expected, '_constraints', $builder);
+    }
+
+    /**
+     * Builder configurations data provider
      *
      * @return array
      */
-    public function getBuilderData()
+    public function configurationDataProvider()
     {
-        self::$_callbackObject = $this->getMock('Magento_Validator_Constraint_Option_Callback',
-            array('getValue'), array(), '', false);
-        return $this->constructorDataProvider() + $this->methodsDataProvider() + array(
-            'callback_entity' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, 6),
-                            'callback' => array(self::$_callbackObject),
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    ),
-                ),
-                'constructorData' => array(5, 6),
-                'expectedCallback' => array(
-                    'entity_callback' => array()
-                )
+        $callback = new Magento_Validator_Constraint_Option_Callback(array('Magento_Validator_Test_Callback', 'getId'));
+        $someMethod = array('method' => 'getMessages');
+        $methodWithArgs = array('method' => 'setMax', 'arguments' => array(100));
+        $constructorArgs = array('arguments' => array(array('max' => '50')));
+        $callbackConfig = array('callback' => $callback);
+
+        $configuredConstraint = array(
+            'alias' => 'current_alias',
+            'class' => 'Magento_Validator_Test_NotEmpty',
+            'options' => array(
+                'arguments' => array(array('min' => 1)),
+                'callback' => array($callback),
+                'methods' => array($someMethod)
             ),
+            'property' => 'int',
+            'type' => 'property'
         );
-    }
-
-    /**
-     * Return data for testing validator constructor
-     *
-     * @return array
-     */
-    public function constructorDataProvider()
-    {
+        $emptyConstraint = array(
+            'alias' => 'current_alias',
+            'class' => 'Magento_Validator_Test_NotEmpty',
+            'options' => null,
+            'property' => 'int',
+            'type' => 'property'
+        );
+        $constraintWithArgs = array(
+            'alias' => 'current_alias',
+            'class' => 'Magento_Validator_Test_NotEmpty',
+            'options' => array('arguments' => array(array('min' => 1))),
+            'property' => 'int',
+            'type' => 'property'
+        );
         return array(
-            'constructor_argument' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, 6)
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array(5, 6),
+            'constraint is unchanged when alias not found' => array(
+                array($emptyConstraint), 'some_alias', $someMethod, array($emptyConstraint)),
+
+            'constraint options initialized with method' => array(array($emptyConstraint), 'current_alias', $someMethod,
+                array($this->_getExpectedConstraints($emptyConstraint, 'methods', array($someMethod)))),
+
+            'constraint options initialized with callback' => array(array($emptyConstraint), 'current_alias',
+                $callbackConfig, array($this->_getExpectedConstraints($emptyConstraint, 'callback', array($callback)))),
+
+            'constraint options initialized with arguments' => array(
+                array($emptyConstraint), 'current_alias', $constructorArgs,
+                array($this->_getExpectedConstraints($emptyConstraint, 'arguments', array(array('max' => '50'))))
             ),
-            'constructor_array' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, array(43, 84))
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array(5, array(43, 84)),
+
+            'methods initialized' => array(
+                array($constraintWithArgs), 'current_alias', $methodWithArgs,
+                array($this->_getExpectedConstraints($constraintWithArgs, 'methods', array($methodWithArgs)))
             ),
-            'constructor_callback' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(
-                                self::$_callbackObject,
-                                9
-                            )
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array(array(7, 8), 9),
-                'expectedCallback' => array(
-                    'return' => array(7, 8),
-                )
+
+            'method added' => array(
+                array($configuredConstraint), 'current_alias', $methodWithArgs,
+                array($this->_getExpectedConstraints($configuredConstraint, 'methods',
+                    array($someMethod, $methodWithArgs)))
+            ),
+
+            'callback initialized' => array(
+                array($constraintWithArgs), 'current_alias', $callbackConfig,
+                array($this->_getExpectedConstraints($constraintWithArgs, 'callback', array($callback)))
+            ),
+
+            'callback added' => array(
+                array($configuredConstraint), 'current_alias', $callbackConfig,
+                array($this->_getExpectedConstraints($configuredConstraint, 'callback', array($callback, $callback)))
             ),
         );
     }
 
     /**
-     * Return data for testing validator methods
+     * Get expected constraint configuration by actual and changes
      *
+     * @param array $constraint
+     * @param string $optionKey
+     * @param mixed $optionValue
      * @return array
      */
-    public function methodsDataProvider()
+    protected function _getExpectedConstraints($constraint, $optionKey, $optionValue)
     {
-        return array(
-            'method_arguments' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, 6),
-                            'methods' =>
-                            array (
-                                'setData' =>
-                                array (
-                                    'method' => 'setData',
-                                    'arguments' => array (3, 4),
-                                ),
-                            ),
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array(3, 4),
-            ),
-            'method_callback' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, 6),
-                            'methods' =>
-                            array (
-                                'setData' =>
-                                array (
-                                    'method' => 'setData',
-                                    'arguments' => array(
-                                        self::$_callbackObject,
-                                        'Second argument'
-                                    ),
-                                ),
-                            ),
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array(array('First param', 85), 'Second argument'),
-                'expectedCallback' => array(
-                    'return' => array('First param', 85),
-                )
-            ),
-            'method_array' => array(
-                'constraints' => array(
-                    0 => array (
-                        'alias' => 'notEmpty',
-                        'class' => 'Magento_Validator_Test_Stub',
-                        'options' => array(
-                            'arguments' => array(5, 6),
-                            'methods' =>
-                            array (
-                                'setData' =>
-                                array (
-                                    'method' => 'setData',
-                                    'arguments' => array (3, array(45, 83)),
-                                ),
-                            ),
-                        ),
-                        'property' => 'name',
-                        'type' => 'property',
-                    )
-                ),
-                'constructorData' => array (3, array(45, 83)),
-            ),
-        );
+        if (!is_array($constraint['options'])) {
+            $constraint['options'] = array();
+        }
+        $constraint['options'][$optionKey] = $optionValue;
+        return $constraint;
     }
 
     /**
@@ -231,9 +156,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException($exception, $exceptionMessage);
         if (array_key_exists('method', $options)) {
             $options = array(
-                'methods' => array(
-                    $options['method'] => $options
-                )
+                'methods' => array($options)
             );
         }
         $constraints = array(array(
@@ -293,6 +216,14 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 'Method arguments must be an array'
             ),
 
+            'methods invalid format' => array(
+                array(
+                    'method' => array('name' => 'setValue')
+                ),
+                'InvalidArgumentException',
+                'Method has to be passed as string'
+            ),
+
             'constructor arguments invalid callback' => array(
                 array(
                     'callback' => array('invalid', 'callback')
@@ -319,5 +250,55 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         ));
         $builder = new Magento_Validator_Builder($constraints);
         $builder->createValidator();
+    }
+
+    /**
+     * Test invalid configuration formats
+     *
+     * @dataProvider invalidConfigurationFormatDataProvider
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Configuration has incorrect format
+     *
+     * @param mixed $configuration
+     */
+    public function testAddConfigurationInvalidFormat($configuration)
+    {
+        $constraints = array(array(
+            'alias' => 'alias',
+            'class' => 'Magento_Validator_Test_True',
+            'options' => null,
+            'type' => 'entity'
+        ));
+        $builder = new Magento_Validator_Builder($constraints);
+        $builder->addConfigurations($configuration);
+    }
+
+    /**
+     * Data provider for incorrect configurations
+     *
+     * @return array
+     */
+    public function invalidConfigurationFormatDataProvider()
+    {
+        return array(
+            'configuration incorrect method call' => array(
+                array(
+                    'alias' => array(
+                        'method' => array('name' => 'incorrectMethodCall')
+                    )
+                )
+            ),
+
+            'configuration incorrect configuration' => array(
+                array(
+                    'alias' => array(
+                        array(
+                            'data' => array('incorrectData')
+                        )
+                    )
+                )
+            )
+        );
     }
 }

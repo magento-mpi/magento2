@@ -22,7 +22,6 @@ class Magento_Validator_Builder
      * Set constraints
      *
      * @param array $constraints
-     * @throws InvalidArgumentException
      */
     public function __construct(array $constraints)
     {
@@ -44,6 +43,10 @@ class Magento_Validator_Builder
      */
     protected function _checkConfigurationArguments(array $configuration, $argumentsIsArray)
     {
+        $allowedKeys = array('arguments', 'callback', 'method', 'methods');
+        if (!array_intersect($allowedKeys, array_keys($configuration))) {
+            throw new InvalidArgumentException('Configuration has incorrect format');
+        }
         // Check method arguments
         if ($argumentsIsArray) {
             if (array_key_exists('methods', $configuration)) {
@@ -69,6 +72,9 @@ class Magento_Validator_Builder
      */
     protected function _checkMethodArguments(array $configuration)
     {
+        if (!is_string($configuration['method'])) {
+            throw new InvalidArgumentException('Method has to be passed as string');
+        }
         if (array_key_exists('arguments', $configuration) && !is_array($configuration['arguments'])) {
             throw new InvalidArgumentException('Method arguments must be an array');
         }
@@ -138,7 +144,7 @@ class Magento_Validator_Builder
             if ($constraint['alias'] != $alias) {
                 continue;
             }
-            if (!array_key_exists('options', $constraint)) {
+            if (!array_key_exists('options', $constraint) || !is_array($constraint['options'])) {
                 $constraint['options'] = array();
             }
             if (!array_key_exists('method', $configuration)) {
@@ -146,7 +152,7 @@ class Magento_Validator_Builder
                     $constraint['options']['arguments'] = $configuration['arguments'];
                 } elseif (array_key_exists('callback', $configuration)) {
                     if (!array_key_exists('callback', $constraint['options'])) {
-                        $constraint['options'] = array();
+                        $constraint['options']['callback'] = array();
                     }
                     $constraint['options']['callback'][] = $configuration['callback'];
                 }
