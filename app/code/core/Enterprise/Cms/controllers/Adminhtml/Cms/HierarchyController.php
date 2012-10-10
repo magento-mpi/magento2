@@ -207,11 +207,10 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel Enterprise_Cms_Model_Hierarchy_Node */
-            $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
-                array(
-                    'scope' =>  $this->_scope,
-                    'scope_id' => $this->_scopeId,
-            )));
+            $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+                'data' => array('scope'    => $this->_scope,
+                                'scope_id' => $this->_scopeId)
+            ));
             $nodeHeritageModel = $nodeModel->getHeritage();
             try {
                 foreach (array_unique($scopes) as $value) {
@@ -251,11 +250,10 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $node       = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
-                array(
-                    'scope' =>  $this->_scope,
-                    'scope_id' => $this->_scopeId
-            )));
+            $node       = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+                'data' => array('scope'    => $this->_scope,
+                                'scope_id' => $this->_scopeId)
+            ));
             $data       = $this->getRequest()->getPost();
             $hasError   = true;
 
