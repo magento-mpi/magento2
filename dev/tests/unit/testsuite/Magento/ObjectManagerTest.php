@@ -82,14 +82,14 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->_prepareObjectManagerForGetTests(true);
+        $this->_prepareObjectManagerForGetCreateTests(true);
         $actualObject = $this->_objectManager->create(self::CLASS_NAME, $this->_arguments);
         $this->assertEquals(self::OBJECT_CREATE, $actualObject);
     }
 
     public function testGet()
     {
-        $this->_prepareObjectManagerForGetTests();
+        $this->_prepareObjectManagerForGetCreateTests();
         $actualObject = $this->_objectManager->get(self::CLASS_NAME, $this->_arguments);
         $this->assertEquals(self::OBJECT_GET, $actualObject);
     }
@@ -101,7 +101,9 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         unset($this->_objectManager);
         /** @var $modelConfigMock Mage_Core_Model_Config */
-        $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('getNode', 'loadBase'), array(), '', false);
+        $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('getNode', 'loadBase'),
+            array(), '', false
+        );
         $this->_magentoConfig->expects($this->exactly(2))
             ->method('getNode')
             ->will($this->returnCallback(
@@ -109,14 +111,14 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
         ));
 
         /** @var $instanceManagerMock Zend\Di\InstanceManager */
-        $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance', 'addAlias'),
-            array(), '', false
-        );
+        $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager',
+            array('addSharedInstance', 'addAlias'), array(), '', false);
         $this->_instanceManager->expects($this->exactly(2))
             ->method('addAlias');
 
         /** @var $diMock Zend\Di\Di */
-        $this->_diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'get'), array(), '', false);
+        $this->_diInstance = $this->getMock('Zend\Di\Di',
+            array('instanceManager', 'get'), array(), '', false);
         $this->_diInstance->expects($this->exactly(3))
             ->method('instanceManager')
             ->will($this->returnValue($this->_instanceManager));
@@ -132,16 +134,21 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
      *
      * @param bool $mockNewInstance
      */
-    protected function _prepareObjectManagerForGetTests($mockNewInstance = false)
+    protected function _prepareObjectManagerForGetCreateTests($mockNewInstance = false)
     {
         unset($this->_objectManager);
-        $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('loadBase'), array(), '', false);
+        $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config',
+            array('loadBase'), array(), '', false);
         $this->_magentoConfig->expects($this->any())
             ->method('loadBase')
             ->will($this->returnSelf());
 
-        $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'), array(), '', false);
-        $this->_diInstance = $this->getMock('Zend\Di\Di', array('instanceManager', 'newInstance', 'get', 'setDefinitionList'));
+        $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'),
+            array(), '', false
+        );
+        $this->_diInstance = $this->getMock('Zend\Di\Di',
+            array('instanceManager', 'newInstance', 'get', 'setDefinitionList')
+        );
         $this->_diInstance->expects($this->any())
             ->method('instanceManager')
             ->will($this->returnValue($this->_instanceManager));
@@ -166,7 +173,9 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     public function constructDataProvider()
     {
-        $this->_diInstance = $this->getMock('Zend\Di\Di', array('get', 'setDefinitionList', 'instanceManager'));
+        $this->_diInstance = $this->getMock('Zend\Di\Di',
+            array('get', 'setDefinitionList', 'instanceManager')
+        );
         $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('loadBase'),
             array(), '', false
         );
@@ -245,7 +254,6 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function getNodeCallback($path)
     {
         $this->assertEquals(self::AREA_CODE . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE, $path);
-
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false);
         $nodeMock->expects($this->once())
             ->method('asArray')
