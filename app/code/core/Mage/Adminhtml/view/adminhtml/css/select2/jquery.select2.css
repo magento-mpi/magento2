@@ -1,0 +1,569 @@
+/*
+ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
+
+ Copyright 2012 Igor Vaynberg
+
+ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
+
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work except in
+ compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software distributed under the License is
+ distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and limitations under the License.
+ */
+.select2-container {
+    position:relative;
+    display:inline-block;
+    vertical-align:top;
+    width:100%;
+}
+
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input {
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -khtml-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+.select2-container .select2-choice {
+    background-color:#fff;
+    background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(0.5, white));
+    background-image:-webkit-linear-gradient(center bottom, #eeeeee 0%, white 50%);
+    background-image:-moz-linear-gradient(center bottom, #eeeeee 0%, white 50%);
+    background-image:-o-linear-gradient(bottom, #eeeeee 0%, #ffffff 50%);
+    background-image:-ms-linear-gradient(top, #eeeeee 0%, #ffffff 50%);
+    background-image:linear-gradient(top, #eeeeee 0%, #ffffff 50%);
+    border-radius:4px;
+    background-clip:padding-box;
+    border:1px solid #aaa;
+    display:block;
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    height:26px;
+    line-height:26px;
+    padding:0 0 0 8px;
+    color:#444;
+    text-decoration:none;
+}
+
+.select2-container.select2-drop-above .select2-choice {
+    border-bottom-color:#aaa;
+    border-radius:0px 0px 4px 4px;
+    background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(0.9, white));
+    background-image:-webkit-linear-gradient(center bottom, #eeeeee 0%, white 90%);
+    background-image:-moz-linear-gradient(center bottom, #eeeeee 0%, white 90%);
+    background-image:-o-linear-gradient(bottom, #eeeeee 0%, white 90%);
+    background-image:-ms-linear-gradient(top, #eeeeee 0%, #ffffff 90%);
+    background-image:linear-gradient(top, #eeeeee 0%, #ffffff 90%);
+}
+
+.select2-container .select2-choice span {
+    margin-right:26px;
+    display:block;
+    overflow:hidden;
+    white-space:nowrap;
+    -o-text-overflow:ellipsis;
+    -ms-text-overflow:ellipsis;
+    text-overflow:ellipsis;
+}
+
+.select2-container .select2-choice abbr {
+    display:block;
+    position:absolute;
+    right:26px;
+    top:8px;
+    width:12px;
+    height:12px;
+    font-size:1px;
+    background:url('images/select2.png') right top no-repeat;
+    cursor:pointer;
+    text-decoration:none;
+    border:0;
+    outline:0;
+}
+.select2-container .select2-choice abbr:hover {
+    background-position:right -11px;
+    cursor:pointer;
+}
+
+.select2-drop {
+    background:#fff;
+    color:#000;
+    border:1px solid #ccc;
+    border-top:0;
+    position:absolute;
+    top:100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    z-index:9999;
+    width:100%;
+    margin-top:-3px;
+    border-radius:0 0 3px 3px;
+}
+
+.select2-drop.select2-drop-above {
+    border-radius:3px 3px 0 0;
+    margin-top:3px;
+    border-top:1px solid #ccc;
+    border-bottom:0;
+    box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.select2-container .select2-choice div {
+    border-radius:0 4px 4px 0;
+    background-clip:padding-box;
+    background:#ccc;
+    background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, #ccc), color-stop(0.6, #eee));
+    background-image:-webkit-linear-gradient(center bottom, #ccc 0%, #eee 60%);
+    background-image:-moz-linear-gradient(center bottom, #ccc 0%, #eee 60%);
+    background-image:-o-linear-gradient(bottom, #ccc 0%, #eee 60%);
+    background-image:-ms-linear-gradient(top, #cccccc 0%, #eeeeee 60%);
+    background-image:linear-gradient(top, #cccccc 0%, #eeeeee 60%);
+    border-left:1px solid #aaa;
+    position:absolute;
+    right:0;
+    top:0;
+    display:block;
+    height:100%;
+    width:18px;
+}
+
+.select2-container .select2-choice div b {
+    background:url('images/select2.png') no-repeat 0 1px;
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+.select2-search {
+    display:inline-block;
+    white-space:nowrap;
+    z-index:10000;
+    min-height:26px;
+    width:100%;
+    margin:0;
+    padding-left:4px;
+    padding-right:4px;
+}
+
+.select2-search-hidden {
+    display:block;
+    position:absolute;
+    left:-10000px;
+}
+
+.select2-search input {
+    background:#fff url('images/select2.png') no-repeat 100% -22px;
+    background:url('images/select2.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+    background:url('images/select2.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background:url('images/select2.png') no-repeat 100% -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background:url('images/select2.png') no-repeat 100% -22px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+    background:url('images/select2.png') no-repeat 100% -22px, -ms-linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+    background:url('images/select2.png') no-repeat 100% -22px, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+    padding:4px 20px 4px 5px;
+    outline:0;
+    border:1px solid #aaa;
+    font-family:sans-serif;
+    font-size:1em;
+    width:100%;
+    margin:0;
+    height:auto !important;
+    min-height:26px;
+    box-shadow:none;
+    border-radius:0;
+}
+
+.select2-drop.select2-drop-above .select2-search input {
+    margin-top:4px;
+}
+
+.select2-search input.select2-active {
+    background:#fff url('images/spinner.gif') no-repeat 100%;
+    background:url('images/spinner.gif') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+    background:url('images/spinner.gif') no-repeat 100%, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background:url('images/spinner.gif') no-repeat 100%, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+    background:url('images/spinner.gif') no-repeat 100%, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+    background:url('images/spinner.gif') no-repeat 100%, -ms-linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+    background:url('images/spinner.gif') no-repeat 100%, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+}
+
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices {
+    box-shadow:0 0 5px rgba(0, 0, 0, .3);
+    border:1px solid #74B9EF;
+    outline:none;
+}
+
+.select2-dropdown-open .select2-choice {
+    border:1px solid #aaa;
+    border-bottom-color:transparent;
+    box-shadow:0 1px 0 #fff inset;
+    background-color:#eee;
+    background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, white), color-stop(0.5, #eeeeee));
+    background-image:-webkit-linear-gradient(center bottom, white 0%, #eeeeee 50%);
+    background-image:-moz-linear-gradient(center bottom, white 0%, #eeeeee 50%);
+    background-image:-o-linear-gradient(bottom, white 0%, #eeeeee 50%);
+    background-image:-ms-linear-gradient(top, #ffffff 0%, #eeeeee 50%);
+    background-image:linear-gradient(top, #ffffff 0%, #eeeeee 50%);
+    -webkit-border-bottom-left-radius:0;
+    -webkit-border-bottom-right-radius:0;
+    -moz-border-radius-bottomleft:0;
+    -moz-border-radius-bottomright:0;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+}
+
+.select2-dropdown-open .select2-choice div {
+    background:transparent;
+    border-left:none;
+}
+.select2-dropdown-open .select2-choice div b {
+    background-position:-18px 1px;
+}
+
+/* results */
+.select2-results {
+    margin:4px 4px 4px 0;
+    padding:0 0 0 4px;
+    position:relative;
+    overflow-x:hidden;
+    overflow-y:auto;
+    max-height:200px;
+}
+
+.select2-results ul.select2-result-sub {
+    margin:0;
+    padding:0;
+}
+
+.select2-results ul.select2-result-sub > li .select2-result-label { padding-left:20px }
+.select2-results ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:40px }
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:60px }
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:80px }
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:100px }
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:110px }
+.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label { padding-left:120px }
+
+.select2-results li {
+    list-style:none;
+    display:list-item;
+}
+
+.select2-results li.select2-result-with-children > .select2-result-label {
+    font-weight:bold;
+}
+
+.select2-results .select2-result-label {
+    padding:3px 7px 4px;
+    margin:0;
+    cursor:pointer;
+}
+
+.select2-results .select2-highlighted {
+    background:#3875d7;
+    color:#fff;
+}
+.select2-results li em {
+    background:#feffde;
+    font-style:normal;
+}
+.select2-results .select2-highlighted em {
+    background:transparent;
+}
+.select2-results .select2-no-results {
+    padding:3px;
+}
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
+.select2-results .select2-selection-limit {
+    background:#f4f4f4;
+    display:list-item;
+}
+.select2-results .select2-disabled {
+    display:none;
+}
+.select2-more-results.select2-active {
+    background:#f4f4f4 url('images/spinner.gif') no-repeat 100%;
+}
+
+.select2-more-results {
+    background:#f4f4f4;
+    display:list-item;
+}
+
+/* disabled styles */
+.select2-container.select2-container-disabled .select2-choice {
+    background-color:#f4f4f4;
+    background-image:none;
+    border:1px solid #ddd;
+    cursor:default;
+}
+
+.select2-container.select2-container-disabled .select2-choice div {
+    background-color:#f4f4f4;
+    background-image:none;
+    border-left:0;
+}
+
+/* multiselect */
+
+.select2-container-multi .select2-choices {
+    background-color:#fff;
+    border:1px solid #ccc;
+    margin:0;
+    padding:0;
+    cursor:text;
+    overflow:hidden;
+    min-height:28px;
+    position:relative;
+    box-sizing:border-box;
+    border-radius:3px;
+    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition:border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition:border linear 0.2s, box-shadow linear 0.2s;
+    -ms-transition:border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition:border linear 0.2s, box-shadow linear 0.2s;
+    transition:border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.select2-container-multi.select2-container-active .select2-choices {
+    box-shadow:0 0 5px rgba(0, 0, 0, .3);
+    border:1px solid #74B9EF;
+    outline:none;
+}
+.select2-container-multi .select2-choices li {
+    float:left;
+    list-style:none;
+}
+.select2-container-multi .select2-choices .select2-search-field {
+    white-space:nowrap;
+    margin:0;
+    padding:0;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    color:#666;
+    background:transparent !important;
+    font-family:sans-serif;
+    font-size:100%;
+    height:22px;
+    padding:5px;
+    margin:1px 0;
+    outline:0;
+    border:0;
+    box-shadow:none;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+    background:#fff url('images/spinner.gif') no-repeat 100% !important;
+}
+
+.select2-default {
+    color:#999 !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    margin:3px 0 3px 5px;
+    padding-left:15px;
+    position:relative;
+    cursor:default;
+}
+.select2-container-multi .select2-choices .select2-search-choice span {
+    cursor:default;
+}
+.select2-container-multi .select2-choices .select2-search-choice-focus {
+    background:#d4d4d4;
+}
+
+.select2-search-choice-close {
+    display:block;
+    position:absolute;
+    right:3px;
+    top:4px;
+    width:12px;
+    height:13px;
+    font-size:1px;
+    background:url('images/select2.png') right top no-repeat;
+    outline:none;
+}
+
+.select2-container-multi .select2-search-choice-close {
+    left:3px;
+    top:7px;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close:hover {
+    background-position:right -11px;
+}
+.select2-container-multi .select2-choices .select2-search-choice-focus .select2-search-choice-close {
+    background-position:right -11px;
+}
+
+/* disabled styles */
+
+.select2-container-multi.select2-container-disabled .select2-choices {
+    background-color:#f4f4f4;
+    background-image:none;
+    border:1px solid #ddd;
+    cursor:default;
+}
+
+.select2-container-multi.select2-container-disabled .select2-choices .select2-search-choice {
+    background-image:none;
+    background-color:#f4f4f4;
+    border:1px solid #ddd;
+    padding:3px 5px 3px 5px;
+}
+
+.select2-container-multi.select2-container-disabled .select2-choices .select2-search-choice .select2-search-choice-close {
+    display:none;
+}
+/* end multiselect */
+
+.select2-result-selectable .select2-match,
+.select2-result-unselectable .select2-result-selectable .select2-match {
+    text-decoration:underline;
+}
+.select2-result-unselectable .select2-match {
+    text-decoration:none;
+}
+
+.select2-offscreen {
+    position:absolute; left:-10000px;
+}
+
+.select2-results li {
+    margin-bottom:1px;
+}
+
+.parent {
+    font-weight:bold;
+}
+.parent.level-1 {
+    margin-left:0;
+}
+.level-1,
+.parent.level-2 {
+    margin-left:15px;
+}
+.level-2,
+.parent.level-3 {
+    margin-left:25px;
+}
+.level-3,
+.parent.level-4 {
+    margin-left:35px;
+}
+.level-4,
+.parent.level-5{
+    margin-left:45px;
+}
+.level-5 {
+    margin-left:55px;
+}
+
+/* Retina-ize icons */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+    .select2-search input,
+    .select2-search-choice-close,
+    .select2-container .select2-choice abbr,
+    .select2-container .select2-choice div b {
+        background-image:url(images/select2x2.png) !important;
+        background-repeat:no-repeat !important;
+        background-size:60px 40px !important;
+    }
+    .select2-search input {
+        background-position:100% -21px !important;
+    }
+}
+
+/* TODO: remove after Magento User Interface framework integration */
+/* =============================================================================
+   Buttons
+   ========================================================================== */
+.button {
+    position:relative;
+    display: inline-block;
+    padding: 4px 10px;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: #333;
+    text-align: center;
+    text-decoration:none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNmU2ZTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #e6e6e6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e6e6e6));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#e6e6e6 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#e6e6e6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e6e6e6',GradientType=0 );
+    border: 1px solid #ccc;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.ie9 .button {
+    padding-top:5px;
+    padding-bottom:3px;
+    filter:none;
+}
+
+.button:hover {
+    color: #333;
+    text-decoration: none;
+    background: #f9f9f9;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y5ZjlmOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNmU2ZTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #f9f9f9 0%, #e6e6e6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#e6e6e6));
+    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#e6e6e6 100%);
+    background: -o-linear-gradient(top,  #f9f9f9 0%,#e6e6e6 100%);
+    background: -ms-linear-gradient(top,  #f9f9f9 0%,#e6e6e6 100%);
+    background: linear-gradient(to bottom,  #f9f9f9 0%,#e6e6e6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e6e6e6',GradientType=0 );
+}
+.button:focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+.button:active
+.button.active {
+    background-color: #e6e6e6;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.button[disabled] {
+    cursor: not-allowed;
+    background-color: #e6e6e6;
+    background-image: none;
+    opacity: 0.65;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.button:visited {
+    color:#333;
+}

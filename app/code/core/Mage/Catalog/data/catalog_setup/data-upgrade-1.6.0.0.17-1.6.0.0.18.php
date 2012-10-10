@@ -16,10 +16,11 @@ if ($attribute) {
     $properties = array(
         'sort_order' => 5,
         'is_visible' => true,
-        'label' => 'Categories',
+        'frontend_label' => 'Categories',
         'input' => 'categories',
         'group' => 'General Information',
-        'backend_model' => 'Mage_Catalog_Model_Product_Attribute_Backend_Category'
+        'backend_model' => 'Mage_Catalog_Model_Product_Attribute_Backend_Category',
+        'frontend_input_renderer' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
     );
 
     foreach ($properties as $key => $value) {
