@@ -249,18 +249,6 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($expected, '_constraints', $builder);
     }
 
-    public function testX()
-    {
-        $this->_initConfig();
-        $this->_config->getValidatorBuilder('test_entity_a', 'check_alnum', array(
-            'alias' => array(
-                array(
-                    'method' => 'sss'
-                )
-            )
-        ));
-    }
-
     /**
      * Check XSD schema validates invalid config files
      *
