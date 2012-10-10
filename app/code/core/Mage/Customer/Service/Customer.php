@@ -38,6 +38,13 @@ class Mage_Customer_Service_Customer
     protected $_customer;
 
     /**
+     * List of deprecated attributes
+     *
+     * @var array
+     */
+    protected $_deprecatedAttributes = array('store_id', 'website_id');
+
+    /**
      * Constructor
      */
     function __construct()
@@ -73,11 +80,6 @@ class Mage_Customer_Service_Customer
             ? $accountData['created_in'] : Mage::app()->getDefaultStoreView()->getName();
         $accountData['store_id'] = isset($accountData['store_id']) ? $accountData['store_id']
             : Mage::app()->getStore()->getWebsiteId();
-
-        $storeId = $this->_customer->getStoreId();
-        if ($storeId === null) {
-            $this->_customer->setStoreId($this->_getStoreId());
-        }
 
         /** @var Mage_Customer_Model_Customer $customer */
         $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -140,9 +142,12 @@ class Mage_Customer_Service_Customer
             'customer_service_customer_save_before',
             array('customer' => $this->_customer, 'customer_data' => $customerData)
         );
+
+        $this->_getAttributesToValidate($this->_customer,
+            $this->_deprecatedAttributes);
+
         $accountData = $this->_extractAccountData($customerData);
         $addresses = $this->_extractAddressesData($customerData);
-
         if (!empty($addresses)) {
             // TODO: Think about better implementation of default billing and shipping addresses setting
             // Set default billing and shipping flags to address
@@ -151,7 +156,7 @@ class Mage_Customer_Service_Customer
             $this->_processAddresses($addresses, $defaultBilling, $defaultShipping);
         }
 
-        $this->_validate();
+        $this->_validate($accountData);
         $this->_customer->save();
         $this->_sendWelcomeEmail($customerData);
 
@@ -165,15 +170,28 @@ class Mage_Customer_Service_Customer
     /**
      * Validate customer entity
      *
+     * @param array $customerData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _validate()
+    protected function _validate($customerData)
     {
-        /** @var $validator Mage_Eav_Model_Validator */
-        $validator = Mage::getModel('Mage_Eav_Model_Validator');
-        $isValid = $validator->isValid($this->_customer);
+        /** @var $validatorFactory Magento_Validator_Config */
+        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
+        $validatorFactory = new Magento_Validator_Config($configFiles);
+        $builder = $validatorFactory->getValidatorBuilder('customer', 'service_validator');
 
-        if (!$isValid) {
+        $builder->addConfiguration('eav_validator', array(
+            'method' => 'setAttributes',
+            'arguments' => array($this->_getAttributesToValidate($this->_customer,
+                $this->_deprecatedAttributes))
+        ));
+        $builder->addConfiguration('eav_validator', array(
+            'method' => 'setData',
+            'arguments' => array($customerData)
+        ));
+        $validator = $builder->createValidator();
+
+        if (!$validator->isValid($this->_customer)) {
             $this->_processValidationErrors($validator->getMessages());
         }
 
@@ -183,17 +201,57 @@ class Mage_Customer_Service_Customer
     /**
      * Gather error messages in one exception and throw it to presentation layer
      *
-     * @param $errorMessages
+     * @param array $errorMessages
      * @throws Mage_Core_Exception
      */
     protected function _processValidationErrors($errorMessages)
     {
         $exception = new Mage_Core_Exception();
         foreach ($errorMessages as $errorMessage) {
-            $exception->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($errorMessage[1]));
+            foreach ($errorMessage as $errorText) {
+                if (!empty($errorText)) {
+                    $exception->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($errorText));
+                }
+            }
         }
 
         throw $exception;
+    }
+
+    /**
+     * Get list of attributes to validate customer entity
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $deprecatedAttributes
+     * @return array
+     */
+    protected function _getAttributesToValidate($customer, $deprecatedAttributes = null)
+    {
+        $attributesList = $this->_getCustomerAttributesList($customer);
+
+        if (!empty($deprecatedAttributes)) {
+            /** @var Mage_Eav_Model_Attribute $attribute */
+            foreach ($attributesList as $attributeKey => $attribute) {
+                if (in_array($attribute->getAttributeCode(), $deprecatedAttributes)) {
+                    unset($attributesList[$attributeKey]);
+                }
+            }
+        }
+
+        return $attributesList;
+    }
+
+    /**
+     * Get list of attributes of customer without loading its into customer model
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return array
+     */
+    protected function _getCustomerAttributesList($customer)
+    {
+        /** @var Mage_Eav_Model_Resource_Entity_Attribute_Collection $attrCollection */
+        $attrCollection = $customer->getEntityType()->getAttributeCollection();
+        return $attrCollection->getItems();
     }
 
     /**

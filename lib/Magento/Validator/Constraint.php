@@ -66,6 +66,9 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
      */
     protected function _getValidatorValue($value)
     {
+        if (is_array($value)) {
+            $value = new Varien_Object($value);
+        }
         return $value;
     }
 
