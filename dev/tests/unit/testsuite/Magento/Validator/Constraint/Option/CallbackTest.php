@@ -15,14 +15,9 @@
 class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test getValue on existing callback object
+     * Value for test
      */
-    public function testGetValueExistingInstanceCallback()
-    {
-        $object = new Varien_Object(array('id' => 10));
-        $option = new Magento_Validator_Constraint_Option_Callback($object, 'getId');
-        $this->assertEquals(10, $option->getValue());
-    }
+    const TEST_VALUE = 'test';
 
     /**
      * Test callback with 2 arguments passed
@@ -37,8 +32,8 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
             ->with(true, 'test')
             ->will($this->returnValue(1));
 
-        $option = new Magento_Validator_Constraint_Option_Callback($callbackMock, 'checkArguments');
-        $option->setArguments(array(true, 'test'));
+        $option = new Magento_Validator_Constraint_Option_Callback(array($callbackMock, 'checkArguments'),
+            array(true, 'test'));
         $this->assertEquals(1, $option->getValue());
     }
 
@@ -55,18 +50,27 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
             ->with('test')
             ->will($this->returnValue(1));
 
-        $option = new Magento_Validator_Constraint_Option_Callback($callbackMock, 'checkArguments');
-        $option->setArguments('test');
+        $option = new Magento_Validator_Constraint_Option_Callback(array($callbackMock, 'checkArguments'), 'test');
         $this->assertEquals(1, $option->getValue());
     }
 
     /**
-     * Test getValue on new callback object
+     * Test getValue on class callback
      */
-    public function testGetValueExistingNewCallback()
+    public function testGetValueFromClassStaticMethod()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback('Magento_Validator_Test_Callback', 'getId');
-        $this->assertEquals(3, $option->getValue());
+        $option = new Magento_Validator_Constraint_Option_Callback(array(
+            __CLASS__, 'getTestValueStatically'
+        ));
+        $this->assertEquals(self::TEST_VALUE, $option->getValue());
+    }
+
+    /**
+     * Get TEST_VALUE from static scope
+     */
+    static public function getTestValueStatically()
+    {
+        return self::TEST_VALUE;
     }
 
     /**
@@ -77,7 +81,7 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
      */
     public function testGetValueUnknownClassException()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback('Not_Existing_Callback_Class', 'someMethod');
+        $option = new Magento_Validator_Constraint_Option_Callback(array('Not_Existing_Callback_Class', 'someMethod'));
         $option->getValue();
     }
 
@@ -89,7 +93,7 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
      */
     public function testGetValueNotCallableException()
     {
-        $option = new Magento_Validator_Constraint_Option_Callback('stdClass', 'notExistingMethod');
+        $option = new Magento_Validator_Constraint_Option_Callback(array($this, 'notExistingMethod'));
         $option->getValue();
     }
 }

@@ -154,8 +154,7 @@ class Magento_Validator_Builder
                 if (!array_key_exists('methods', $constraint['options'])) {
                     $constraint['options']['methods'] = array();
                 }
-                $constraint['options']['methods'][$configuration['method']]
-                    = $configuration;
+                $constraint['options']['methods'][] = $configuration;
             }
         }
 
@@ -240,7 +239,8 @@ class Magento_Validator_Builder
     {
         // Call all validator methods according to configuration
         if (array_key_exists('methods', $options)) {
-            foreach ($options['methods'] as $methodName => $methodData) {
+            foreach ($options['methods'] as $methodData) {
+                $methodName = $methodData['method'];
                 if (method_exists($validator, $methodName)) {
                     if (array_key_exists('arguments', $methodData)) {
                         $arguments = $this->_applyArgumentsCallback($methodData['arguments']);

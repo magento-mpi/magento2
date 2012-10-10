@@ -14,24 +14,32 @@
 class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_Constraint_OptionInterface
 {
     /**
-     * @var array
+     * @var callable
      */
-    protected $_callback;
+    protected $_callable;
 
     /**
-     * @var mixed
+     * @var array
      */
-    protected $_arguments = null;
+    protected $_arguments;
+
+    /**
+     * @var bool
+     */
+    protected $_createInstance;
 
     /**
      * Create callback
      *
-     * @param string $class
-     * @param string $method
+     * @param callable $callable
+     * @param mixed $arguments
+     * @param bool $createInstance If true than $callable[0] will be evaluated to new instance of class when get value
      */
-    public function __construct($class, $method)
+    public function __construct($callable, $arguments = null, $createInstance = false)
     {
-        $this->_callback = array($class, $method);
+        $this->_callable = $callable;
+        $this->setArguments($arguments);
+        $this->_createInstance = $createInstance;
     }
 
     /**
@@ -39,36 +47,49 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
      *
      * @param mixed $arguments
      */
-    public function setArguments($arguments)
+    public function setArguments($arguments = null)
     {
-        $this->_arguments = $arguments;
+        if (is_array($arguments)) {
+            $this->_arguments = $arguments;
+        } elseif (null !== $arguments) {
+            $this->_arguments = array($arguments);
+        } else {
+            $this->_arguments = null;
+        }
     }
 
     /**
      * Get callback value
      *
-     * @throws InvalidArgumentException
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function getValue()
     {
-        if (is_string($this->_callback[0])) {
-            $autoLoader = Magento_Autoload::getInstance();
-            $callbackClass = $this->_callback[0];
-            if (!$autoLoader->classExists($callbackClass)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callbackClass));
-            }
-            $this->_callback[0] = new $callbackClass();
+        $callable = $this->_callable;
+
+        if (isset($callable[0]) && is_string($callable[0])
+            && !Magento_Autoload::getInstance()->classExists($callable[0])
+        ) {
+            throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callable[0]));
         }
-        if (!is_callable($this->_callback)) {
+
+        if ($this->_createInstance) {
+            if (isset($callable[0]) && is_string($callable[0])) {
+                $callable[0] = new $callable[0]();
+            } else {
+                throw new InvalidArgumentException('First element of callable expected to be class name');
+            }
+        }
+
+        if (!is_callable($callable)) {
             throw new InvalidArgumentException('Callback does not callable');
         }
-        if (is_array($this->_arguments)) {
-            return call_user_func_array($this->_callback, $this->_arguments);
-        } elseif ($this->_arguments) {
-            return call_user_func($this->_callback, $this->_arguments);
+
+        if ($this->_arguments) {
+            return call_user_func_array($callable, $this->_arguments);
         } else {
-            return call_user_func($this->_callback);
+            return call_user_func($callable);
         }
     }
 }
