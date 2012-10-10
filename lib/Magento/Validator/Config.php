@@ -323,8 +323,8 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             /** @var $callbackData DOMElement */
             foreach ($children['callback'] as $callbackData) {
                 $callbacks[] = new Magento_Validator_Constraint_Option_Callback(
-                    $callbackData->getAttribute('class'),
-                    $callbackData->getAttribute('method')
+                    trim($callbackData->getAttribute('class')),
+                    trim($callbackData->getAttribute('method'))
                 );
             }
             return $callbacks;

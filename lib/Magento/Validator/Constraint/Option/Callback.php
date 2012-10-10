@@ -31,10 +31,7 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
      */
     public function __construct($class, $method)
     {
-        if (is_string($class)) {
-            $class = trim($class);
-        }
-        $this->_callback = array($class, trim($method));
+        $this->_callback = array($class, $method);
     }
 
     /**
