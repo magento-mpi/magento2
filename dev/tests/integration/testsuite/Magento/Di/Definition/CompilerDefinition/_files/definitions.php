@@ -83,10 +83,40 @@ return array(
                 array(
                     0 => 'varA',
                     1 => NULL,
+                    2 => true,
+                    3 => NULL,
+                ),
+                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:1' =>
+                array(
+                    0 => 'varB',
+                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',
+                    2 => false,
+                    3 => NULL,
+                ),
+            ),
+        ),
+    ),
+    'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments'            =>
+    array(
+        'supertypes'   =>
+        array(),
+        'instantiator' => '__construct',
+        'methods'      =>
+        array(
+            '__construct' => true,
+        ),
+        'parameters'   =>
+        array(
+            '__construct' =>
+            array(
+                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:0' =>
+                array(
+                    0 => 'varA',
+                    1 => NULL,
                     2 => false,
                     3 => 1,
                 ),
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:1' =>
+                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:1' =>
                 array(
                     0 => 'varB',
                     1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',

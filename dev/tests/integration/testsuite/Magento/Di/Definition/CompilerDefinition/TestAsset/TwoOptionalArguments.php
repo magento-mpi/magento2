@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments
+class Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments
 {
     /**
      * @var int
@@ -21,7 +21,7 @@ class Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalA
      */
     protected $_varB;
 
-    public function __construct($varA,
+    public function __construct($varA = 1,
         Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument $varB = null
     ) {
         $this->_varA = $varA;
