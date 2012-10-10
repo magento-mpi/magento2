@@ -43,20 +43,14 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
     {
         Magento_Profiler::start('di');
 
-        $definition = null;
-        if ($definitionsFile && file_exists($definitionsFile)) {
+        if (is_file($definitionsFile) && is_readable($definitionsFile)) {
             $definition = new Definition\ArrayDefinition(unserialize(file_get_contents($definitionsFile)));
         } else {
             $definition = new Definition\RuntimeDefinition();
         }
 
-        $definitionsList = new DefinitionList($definition);
-        if ($diInstance) {
-            $this->_di = $diInstance;
-            $this->_di->setDefinitionList($definitionsList);
-        } else {
-            $this->_di = new Magento_Di($definitionsList);
-        }
+        $this->_di = $diInstance ? $diInstance : new Magento_Di();
+        $this->_di->setDefinitionList(new DefinitionList($definition));
         $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
 
         /** @var $magentoConfiguration Mage_Core_Model_Config */
