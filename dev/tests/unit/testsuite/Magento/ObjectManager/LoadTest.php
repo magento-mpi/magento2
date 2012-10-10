@@ -20,11 +20,8 @@ class Magento_ObjectManager_LoadTest extends PHPUnit_Framework_TestCase
 
     /**
      * Area code
-     *
-     * @var string
      */
-    protected $_areaCode = 'global';
-
+    const AREA_CODE = 'global';
 
     protected function setUp()
     {
@@ -65,7 +62,7 @@ class Magento_ObjectManager_LoadTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadAreaConfiguration()
     {
-        $this->_objectManager->loadAreaConfiguration($this->_areaCode);
+        $this->_objectManager->loadAreaConfiguration(self::AREA_CODE);
     }
 
     /**
@@ -76,7 +73,7 @@ class Magento_ObjectManager_LoadTest extends PHPUnit_Framework_TestCase
      */
     public function getNodeCallback($path)
     {
-        $this->assertEquals($this->_areaCode . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE, $path);
+        $this->assertEquals(self::AREA_CODE . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE, $path);
 
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false);
         $nodeMock->expects($this->once())
