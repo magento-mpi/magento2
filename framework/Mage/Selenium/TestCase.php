@@ -2304,8 +2304,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
-            $output = "\nNone of the elements are not present on the page. \nLocators: \n"
-                      . self::messagesToString($locator);
+            $output = "\nNone of the elements are not present on the page. \nLocators: \n" . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
         } else {
             $output = "\nElement is not present on the page. \nLocator: " . $locator;
@@ -2336,8 +2335,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
-            $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n"
-                      . self::messagesToString($locator);
+            $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n" . implode("\n",
+                $locator);
             $locator = self::combineLocatorsToOne($locator);
         } else {
             $output = "\nElement(or alert) is not present on the page. \nLocator: " . $locator;
@@ -2371,7 +2370,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         if (is_array($locator)) {
             $output = "\nNone of the elements are not visible or not present on the page. \nLocators: \n"
-                      . self::messagesToString($locator);
+                      . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
         } else {
             $output = "\nElement is not visible or not present on the page. \nLocator: " . $locator;
@@ -2410,7 +2409,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout = $this->_browserTimeoutPeriod;
         }
         if (is_array($locator)) {
-            $output = "\nNone of the elements are not editable. \nLocators: \n" . self::messagesToString($locator);
+            $output = "\nNone of the elements are not editable. \nLocators: \n" . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
         } else {
             $output = "\nElement is not editable. \nLocator: " . $locator;
