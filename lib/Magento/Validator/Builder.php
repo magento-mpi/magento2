@@ -84,7 +84,7 @@ class Magento_Validator_Builder
      * Check configuration callbacks
      *
      * @param array $configuration
-     * @param $callbackIsArray
+     * @param bool $callbackIsArray
      * @throws InvalidArgumentException
      */
     protected function _checkConfigurationCallback(array $configuration, $callbackIsArray)
@@ -151,20 +151,46 @@ class Magento_Validator_Builder
                 if (array_key_exists('arguments', $configuration)) {
                     $constraint['options']['arguments'] = $configuration['arguments'];
                 } elseif (array_key_exists('callback', $configuration)) {
-                    if (!array_key_exists('callback', $constraint['options'])) {
-                        $constraint['options']['callback'] = array();
-                    }
-                    $constraint['options']['callback'][] = $configuration['callback'];
+                    $constraint = $this->_addConstraintCallback($constraint, $configuration['callback']);
                 }
             } else {
-                if (!array_key_exists('methods', $constraint['options'])) {
-                    $constraint['options']['methods'] = array();
-                }
-                $constraint['options']['methods'][] = $configuration;
+                $constraint = $this->_addConstraintMethod($constraint, $configuration);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Add callback to constraint configuration
+     *
+     * @param array $constraint
+     * @param Magento_Validator_Constraint_Option_Callback $callback
+     * @return array
+     */
+    protected function _addConstraintCallback(array $constraint, Magento_Validator_Constraint_Option_Callback $callback)
+    {
+        if (!array_key_exists('callback', $constraint['options'])) {
+            $constraint['options']['callback'] = array();
+        }
+        $constraint['options']['callback'][] = $callback;
+        return $constraint;
+    }
+
+    /**
+     * Add method to constraint configuration
+     *
+     * @param array $constraint
+     * @param array $configuration
+     * @return array
+     */
+    protected function _addConstraintMethod(array $constraint, array $configuration)
+    {
+        if (!array_key_exists('methods', $constraint['options'])) {
+            $constraint['options']['methods'] = array();
+        }
+        $constraint['options']['methods'][] = $configuration;
+        return $constraint;
     }
 
     /**
