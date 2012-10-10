@@ -12,16 +12,16 @@
 class Magento_ObjectManager_LoadTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Area code
+     */
+    const AREA_CODE = 'global';
+
+    /**
      * ObjectManager instance for tests
      *
      * @var Magento_ObjectManager_Zend
      */
     protected $_objectManager;
-
-    /**
-     * Area code
-     */
-    const AREA_CODE = 'global';
 
     protected function setUp()
     {

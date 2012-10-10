@@ -12,6 +12,18 @@
 class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Class name
+     */
+    const CLASS_NAME = 'TestClassName';
+
+    /**#@+
+     * Objects for create and get method
+     */
+    const OBJECT_CREATE = 'TestObjectCreate';
+    const OBJECT_GET = 'TestObjectGet';
+    /**#@-*/
+
+    /**
      * Test model
      *
      * @var Magento_ObjectManager_Zend
@@ -26,11 +38,6 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * Class name
-     */
-    const CLASS_NAME = 'TestClassName';
-
-    /**
      * Arguments
      *
      * @var array
@@ -39,12 +46,6 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         'argument_1' => 'value_1',
         'argument_2' => 'value_2',
     );
-
-    /**
-     * Objects for create and get method
-     */
-    const OBJECT_CREATE = 'TestObjectCreate';
-    const OBJECT_GET = 'TestObjectGet';
 
     /**
      * Create Magento_ObjectManager_Zend instance
