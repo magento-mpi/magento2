@@ -139,6 +139,8 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                     };
                     $.each(fieldsAssociations, function(generalTabField, advancedTabField){
                         $('#' + generalTabField + ', #' + advancedTabField).bind('focus blur change keyup click', filler);
+                        filler.call($('#' + generalTabField));
+                        filler.call($('#' + advancedTabField));
                     });
                 })(jQuery);
             });
