@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Mage_Catalog_Helper_Category');
+        $this->_helper = Mage::getModel('Mage_Catalog_Helper_Category');
     }
 
     protected function tearDown()
