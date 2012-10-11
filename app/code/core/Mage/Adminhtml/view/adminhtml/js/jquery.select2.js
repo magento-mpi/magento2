@@ -34,14 +34,16 @@
                 $list = $element.children(),
                 $this = $(this),
                 name = $this.attr('name'),
+                $searchField = $list.find('.select2-search-field'),
                 itemRenderer = function(value, text, data) {
-                    $list.prepend(
-                        $('<li class="select2-search-choice button"/>')
-                            .data(data || {})
-                            .append($('<input type="hidden" />').attr('name', name).val(value))
-                            .append($('<div/>').text(text))
-                            .append('<a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a>')
-                    );
+                    $('<li class="select2-search-choice button"/>')
+                        .data(data || {})
+                        .append($('<input type="hidden" />').attr('name', name).val(value))
+                        .append($('<div/>').text(text))
+                        .append('<a href="#" onclick="return false;" ' +
+                            'class="select2-search-choice-close" tabindex="-1"></a>'
+                        )
+                        .insertBefore($searchField);
                 };
             $this.find('option').each(function(){
                 itemRenderer($(this).val(), $(this).text());
@@ -61,12 +63,16 @@
                             name_part: request.term
                         },
                         success: function(data) {
-                            response(treeToList([], [data]), 0);
+                            response(treeToList([], data, 0));
                         }
                     });
                 },
                 minLength: 3,
                 select: function(event, ui) {
+                    var $el = $list.find('[name="product[category_ids][]"][value=' + parseInt(ui.item.value) + ']');
+                    if ($el.length) {
+                        return false;
+                    }
                     itemRenderer(ui.item.value, ui.item.label, ui.item);
                     $element.find('.select2-input').val('');
                     return false;
@@ -74,7 +80,15 @@
                 focus: function() {
                     return false;
                 }
-            });
+            }).data("autocomplete")._renderItem = function(ul, item) {
+                return $("<li>")
+                    .data("item.autocomplete", item)
+                    .append($("<a />")
+                        .text(item.label)
+                        .css({marginLeft: window.parseInt(item.level) * 16})
+                    )
+                    .appendTo(ul);
+            };
         });
     };
 })(jQuery);
