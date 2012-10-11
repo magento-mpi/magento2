@@ -56,9 +56,6 @@ class Magento_Test_Annotation_AppIsolation
                 'DB_ORACLE_DDL', // Varien_Db_Adapter_Oracle::DDL_CACHE_TAG
             )
         );
-
-        /* Clear Object Manager cache */
-        Mage::getObjectManager()->clearCache();
     }
 
     /**
