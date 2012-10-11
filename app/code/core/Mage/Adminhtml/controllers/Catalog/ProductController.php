@@ -604,17 +604,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
          */
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
-            $product->setRelatedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related']));
+            $product->setRelatedLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related'])
+            );
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
-            $product->setUpSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell']));
+            $product->setUpSellLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell'])
+            );
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
             $product->setCrossSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
         if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
-            $product->setGroupedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['grouped']));
+            $product->setGroupedLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['grouped'])
+            );
         }
 
         /**
@@ -683,6 +689,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories')
                 ->getCategoryChildrenJson($this->getRequest()->getParam('category'))
+        );
+    }
+
+    /**
+     * Category list suggestion based on already entered symbols
+     */
+    public function suggestCategoriesJsonAction()
+    {
+        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree')
+            ->getSuggestedCategoriesJson($this->getRequest()->getParam('name_part'))
         );
     }
 
