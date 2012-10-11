@@ -88,6 +88,7 @@ class Community2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->fillField('api_user_secret', $productData['api_user_secret']);
         $this->fillDropdown('api_user_role', $productData['role_name']);
 
+        //Save data
         $this->clickButton('save', true);
         $this->assertMessagePresent('success', 'success_user_saved');
 
@@ -112,14 +113,15 @@ class Community2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsDefaultValue ($userData)
     {
+        //Open API Users page and add new user
         $this->navigate('api_users');
         $this->clickButton('add_new_api_users', true);
 
         $this->fillField('api_user_name', $userData['api_user_name']);
         $this->fillField('api_user_secret', $userData['api_user_secret']);
         $this->fillDropdown('api_user_role', $userData['role_name']);
-        //$this->waitForPageToLoad();
 
+        //Save data
         $this->clickButton('save', false);
         $this->waitForPageToLoad();
         $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
@@ -173,5 +175,38 @@ class Community2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
             array ('api_user_name', 1),
             array ('api_user_secret', 1),
         );
+    }
+
+    /**
+     * <p>Check required field</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add new API Users button</p>
+     * <p>2. Click "save API User"
+     * <p>Expected result:</p>
+     * <p>"This is a required field.' massage should be appear</p>
+     *
+     * @param array $userData
+     *
+     * @test
+     * @author denis.poloka
+     * @depends withRequiredFieldsCreateUser
+     * @TestlinkId TL-MAGE-6365
+     */
+    public function withRequiredFieldsDeleteUser ($userData)
+    {
+        //Open APi users page and find in the grid users
+        $this->navigate('api_users');
+        $userSearch =array('filter_api_users_name' => $userData['api_user_name']);
+        $this->searchAndOpen($userSearch, false);
+        $this->waitForPageToLoad();
+        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('userName', $userData['api_user_name']);
+        $this->validatePage();
+
+        //User delete
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+
+        //Verifying
+        $this->assertMessagePresent('success', 'success_user_deleted');
     }
 }
