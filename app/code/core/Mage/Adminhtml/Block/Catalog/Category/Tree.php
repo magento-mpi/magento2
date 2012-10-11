@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         }
 
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-            $categoryById[Mage_Catalog_Model_Category::TREE_ROOT_ID]
+            $categoryById[Mage_Catalog_Model_Category::TREE_ROOT_ID]['children']
         );
     }
 
