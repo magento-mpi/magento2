@@ -156,7 +156,7 @@
         </currency>
         <system>
             <groups>
-                <currency translate="label">
+                <currency translate="label" module="Mage_Directory">
                     <label>Currency</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>50</sort_order>
