@@ -175,8 +175,11 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
             ), 'User Is Active')
         ->addColumn('extra', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
             ), 'User Extra Data')
-        ->addIndex($installer->getIdxName('admin_user', array('username'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-            array('username'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+        ->addIndex(
+            $installer->getIdxName('admin_user', array('username'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+            array('username'),
+            array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+        )
         ->setComment('Admin User Table');
     $installer->getConnection()->createTable($table);
 }
