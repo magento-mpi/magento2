@@ -88,7 +88,7 @@ class Magento_Performance_Config_Scenario
         }
         $file = realpath($baseDir . DIRECTORY_SEPARATOR . $scenarioConfig['file']);
         if (!file_exists($file)) {
-            throw new Magento_Exception("File path for scenario '{$title}' doesn't exist in $baseDir");
+            throw new Magento_Exception("File path ($file) for scenario '{$title}' doesn't exist in $baseDir");
         }
 
         // Compose config, using global config
@@ -118,7 +118,7 @@ class Magento_Performance_Config_Scenario
      *
      * @param array $input
      * @param array $supplement
-     * @param array $override
+     * @param array $merge
      * @return array
      */
     protected function _getCompletedArray(array $input, array $supplement, array $merge)

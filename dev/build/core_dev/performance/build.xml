@@ -47,4 +47,11 @@
         <antcall target="_performance_tests_magento"/>
     </target>
 
+    <target name="performance_tests_ce_mysql_indexers" depends="_community_edition" description="Performance tests of indexers on MySQL for CE">
+        <antcall target="_performance_tests_configuration">
+            <param name="performance_tests_config_file" value="${basedir}/dev/build/core_dev/performance/config_indexers.php"/>
+        </antcall>
+        <antcall target="_performance_tests_magento"/>
+    </target>
+
 </project>

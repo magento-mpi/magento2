@@ -51,6 +51,7 @@ while ($categoryIndex <= $categoriesNumber) {
 /**
  * Create products
  */
+$productsNumber = 80000;
 $pattern = array(
     '_attribute_set' => 'Default',
     '_type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
@@ -81,9 +82,34 @@ $pattern = array(
     'use_config_enable_qty_inc' => '1',
     'stock_id' => Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
 );
-$generator = new Magento_ImportExport_Fixture_Generator($pattern, 80000);
+$generator = new Magento_ImportExport_Fixture_Generator($pattern, $productsNumber);
 $import = new Mage_ImportExport_Model_Import(array('entity' => 'catalog_product', 'behavior' => 'append'));
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);
 // this converts import queue into actual entities
 $import->importSource();
+
+/**
+ * Create tags
+ */
+$customersNumber = $productsNumber;
+include(__DIR__ . '/customer_100k_customers.php');
+$customers = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')->getAllIds();
+
+$products = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')->getAllIds();
+
+if (count($products) != count($customers)) {
+    throw new Magento_Exception('Number of products (' . count($products) . ') is not equal to number of customers ('
+        . count($customers) . ')');
+}
+
+/** @var $tagModel Mage_Tag_Model_Tag */
+$tagModel = Mage::getModel('Mage_Tag_Model_Tag');
+foreach ($customers as $k => $customerId) {
+    $tagModel->setId(null)
+        ->setName("tag $k")
+        ->setFirstCustomerId($customerId)
+        ->setStatus($tagModel->getApprovedStatus())
+        ->save();
+    $tagModel->saveRelation($products[$k], $customerId, null);
+}
