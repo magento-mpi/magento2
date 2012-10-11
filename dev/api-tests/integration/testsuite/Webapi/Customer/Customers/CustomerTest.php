@@ -48,7 +48,7 @@ class Webapi_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Res
     public function testCreate()
     {
         $response = $this->callPost('customers', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -85,7 +85,7 @@ class Webapi_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Res
     public function testUpdate()
     {
         $response = $this->callPut('customers', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -96,6 +96,6 @@ class Webapi_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Res
     public function testDelete()
     {
         $response = $this->callDelete('customers', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

@@ -128,7 +128,7 @@ class Mage_Webapi_Model_Auth_Adapter_OauthTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_URI']        = '/testuri/';
         $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth realm="Test Realm"';
 
-        $this->setExpectedException('Mage_Webapi_Exception', '', Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+        $this->setExpectedException('Mage_Webapi_Exception', '', Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
 
         $this->_adapter->getUserParams($this->_request);
     }

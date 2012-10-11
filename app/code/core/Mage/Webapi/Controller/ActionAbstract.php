@@ -69,22 +69,27 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      *
      * @param Varien_Data_Collection_Db $collection
      * @return Varien_Data_Collection_Db
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     // TODO: Check and finish this method
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
-            throw new RuntimeException($this->_translationHelper->__("Page number is invalid."));
+            throw new Mage_Webapi_Exception(
+                $this->_translationHelper->__("Page number is invalid."),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
         }
         $pageSize = $this->getRequest()->getPageSize();
         if (null == $pageSize) {
             $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
-                throw new RuntimeException($this->_translationHelper
-                    ->__('The paging limit exceeds the allowed number.'));
+                throw new Mage_Webapi_Exception(
+                    $this->_translationHelper->__('The paging limit exceeds the allowed number.'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                );
             }
         }
         $orderField = $this->getRequest()->getOrderField();
@@ -92,8 +97,10 @@ abstract class Mage_Webapi_Controller_ActionAbstract
             if (!is_string($orderField)
                 // TODO: Check if order field is allowed for specified entity
             ) {
-                throw new RuntimeException($this->_translationHelper
-                    ->__('Collection "order" value is invalid.'));
+                throw new Mage_Webapi_Exception(
+                    $this->_translationHelper->__('Collection "order" value is invalid.'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST
+                );
             }
             $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());
         }

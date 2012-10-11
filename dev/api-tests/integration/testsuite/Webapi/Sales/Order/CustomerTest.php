@@ -83,7 +83,7 @@ class Webapi_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custo
     public function testGetUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/' . 'invalid_id');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -97,7 +97,7 @@ class Webapi_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**

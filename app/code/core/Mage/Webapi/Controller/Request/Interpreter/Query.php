@@ -34,7 +34,7 @@ class Mage_Webapi_Controller_Request_Interpreter_Query implements Mage_Webapi_Co
         }
         if (!$this->_validateQuery($body)) {
             throw new Mage_Webapi_Exception('Invalid data type. Check Content-Type.',
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $data = array();
         parse_str($body, $data);

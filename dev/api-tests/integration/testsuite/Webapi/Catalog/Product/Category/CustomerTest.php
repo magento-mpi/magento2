@@ -77,7 +77,7 @@ class Webapi_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservi
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -126,7 +126,7 @@ class Webapi_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservi
     public function testDelete()
     {
         $restResponse = $this->callDelete($this->_getResourcePath(1, 1));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -137,7 +137,7 @@ class Webapi_Catalog_Product_Category_CustomerTest extends Magento_Test_Webservi
     public function testCreate()
     {
         $restResponse = $this->callPost($this->_getResourcePath(1), array());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**

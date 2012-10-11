@@ -130,17 +130,18 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      * Load customer by id.
      *
      * @param int $id
-     * @throws Mage_Webapi_Exception
      * @return Mage_Customer_Model_Customer
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     protected function _loadCustomerById($id)
     {
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
-            throw new RuntimeException($this->_translationHelper->__("Customer with id %s does not exist.", $id),
-                Mage_Webapi_Controller_FrontAbstract::EXCEPTION_CODE_RESOURCE_NOT_FOUND);
+            throw new Mage_Webapi_Exception(
+                $this->_translationHelper->__("Customer with id %s does not exist.", $id),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
         }
         return $customer;
     }

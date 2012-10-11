@@ -101,7 +101,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
     public function testGetInvalidId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -174,7 +174,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
     public function testPostInvalidData($testData)
     {
         $restResponse = $this->callPost($this->_getResourcePath(), $testData['data']);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -250,7 +250,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $categoryData = $this->_getValidCategoryData();
         $categoryData['parent_id'] = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $restResponse = $this->callPost($this->_getResourcePath(null, $store->getId()), $categoryData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
 
         $body = $restResponse->getBody();
@@ -364,7 +364,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callPut($this->_getResourcePath($category->getId()), $testData['data']);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus(),
             "Invalid response code");
         $body = $restResponse->getBody();
         $errors = $body['messages']['error'];
@@ -592,7 +592,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $restResponse = $this->callPut($this->_getResourcePath('INVALID_ID'), array('parent_id' => 1));
         $expectedErrorMessage = "Resource not found.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -666,7 +666,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID'));
         $expectedErrorMessage = "Resource not found.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**

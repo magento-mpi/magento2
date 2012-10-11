@@ -66,6 +66,6 @@ class Mage_Webapi_Controller_Router_Rest
                 return $route;
             }
         }
-        throw new Mage_Webapi_Exception('Request does not match any route.', Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+        throw new Mage_Webapi_Exception('Request does not match any route.', Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 }

@@ -67,7 +67,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
     public function testGetUnavailableStockItemResource()
     {
         $restResponse = $this->callGet('stockitems/invalid_id');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -127,7 +127,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
     public function testUpdateUnavailableStockItem()
     {
         $restResponse = $this->callPut('stockitems/invalid_id', array('min_qty' => 0));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -142,7 +142,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $stockItem = $this->getFixture('stockItem');
         $dataForUpdate  = require TEST_FIXTURE_DIR . '/_data/CatalogInventory/Stock/Item/stock_item_invalid_data.php';
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $errors = $responseData['messages']['error'];
@@ -208,7 +208,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
 
         $expectedError = array(
             'message' => sprintf('StockItem #%d not found.', $invalidId),
-            'code'    => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            'code'    => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
             'item_id' => $invalidId
         );
         $this->assertEquals($errors[0], $expectedError);
@@ -235,7 +235,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $expectedError = array(
             'item_id' => '',
             'message' => 'Invalid value for "item_id" in request.',
-            'code'    => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            'code'    => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
         );
         $this->assertEquals($responseData['messages']['error'][0], $expectedError);
     }
@@ -262,7 +262,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $expectedError = array(
             'item_id' => 'invalid_id',
             'message' => 'Invalid value for "item_id" in request.',
-            'code'    => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            'code'    => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
         );
         $this->assertEquals($errors[0], $expectedError);
     }

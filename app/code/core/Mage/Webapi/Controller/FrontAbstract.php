@@ -15,10 +15,6 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
 {
     const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
-    const EXCEPTION_CODE_RESOURCE_FORBIDDEN = 403;
-    const EXCEPTION_CODE_RESOURCE_NOT_FOUND = 404;
-    const EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED = 405;
-
     /**#@+
      * Version limits
      */
@@ -118,23 +114,22 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * @param string $role
      * @param string $resource
      * @param string $method
-     *
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     protected function _checkResourceAcl($role, $resource, $method)
     {
         try {
             $isAllowed = Mage::getModel('Mage_Webapi_Model_Authorization')->isAllowed($role, $resource, $method);
             if (!$isAllowed) {
-                throw new RuntimeException(
+                throw new Mage_Webapi_Exception(
                     $this->_helper->__('Access to resource forbidden.'),
-                    self::EXCEPTION_CODE_RESOURCE_FORBIDDEN
+                    Mage_Webapi_Exception::HTTP_FORBIDDEN
                 );
             }
         } catch (Zend_Acl_Exception $e) {
-            throw new RuntimeException(
+            throw new Mage_Webapi_Exception(
                 $this->_helper->__('Resource not found.'),
-                self::EXCEPTION_CODE_RESOURCE_NOT_FOUND
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
     }
@@ -169,8 +164,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _addException(Exception $exception)
     {
-        $response = $this->getResponse();
-        $response->setException($exception);
+        $this->getResponse()->setException($exception);
         return $this;
     }
 
@@ -223,7 +217,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * @param string $operationName
      * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
      * @return string
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     protected function _getVersionSuffix($operationName, $controllerInstance)
     {
@@ -237,9 +231,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             }
             $methodVersion--;
         }
-        throw new RuntimeException(
+        throw new Mage_Webapi_Exception(
             $this->getHelper()->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
-            self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
     }
 
     /**
@@ -247,21 +242,24 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      *
      * @param string $operationName
      * @return int
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     protected function _getOperationVersion($operationName)
     {
         $requestedModules = $this->getRequest()->getRequestedModules();
         $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
         if (!isset($requestedModules[$moduleName])) {
-            throw new RuntimeException(
+            throw new Mage_Webapi_Exception(
                 $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
-                self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED);
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
         }
         $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
         if ($version > self::VERSION_MAX) {
-            throw new RuntimeException($this->getHelper()
-                ->__("Resource version cannot be greater than %s.", self::VERSION_MAX));
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
         }
         return $version;
     }
@@ -270,7 +268,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Check if operation is deprecated or removed. Throw exception when necessary.
      *
      * @param string $operationName
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
     protected function _checkOperationDeprecation($operationName)
@@ -287,13 +285,13 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
                 $versionToBeUsed = $deprecationPolicy['use_version'];
             }
             if (isset($deprecationPolicy['removed'])) {
-                throw new RuntimeException($this->getHelper()
-                        ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
-                        $operationName, $versionToBeUsed , $operationToBeUsed));
+                throw new Mage_Webapi_Exception($this->getHelper()
+                    ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
+                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_NOT_FOUND);
             } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
-                throw new RuntimeException($this->getHelper()
-                        ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
-                        $operationName, $versionToBeUsed , $operationToBeUsed));
+                throw new Mage_Webapi_Exception($this->getHelper()
+                    ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
+                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_NOT_FOUND);
             }
         }
     }

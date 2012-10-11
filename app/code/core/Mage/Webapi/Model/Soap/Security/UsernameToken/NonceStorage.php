@@ -23,6 +23,11 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
     const NONCE_TTL = 600;
 
     /**
+     * Acceptance time interval for nonce 'from future'. Helps to prevent errors due to time sync issues.
+     */
+    const NONCE_FROM_FUTURE_ACCEPTABLE_RANGE = 60;
+
+    /**
      * Nonce prefix in cache ID.
      */
     const NONCE_CACHE_ID_PREFIX = 'WEBAPI_NONCE_';
@@ -57,7 +62,9 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
     public function validateNonce($nonce, $timestamp)
     {
         $timestamp = (int) $timestamp;
-        if ($timestamp <= 0 || $timestamp <= (time() - self::NONCE_TTL) || $timestamp > time()) {
+        $isNonceUsed = $timestamp <= (time() - self::NONCE_TTL);
+        $isNonceFromFuture = $timestamp > (time() + self::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
+        if ($timestamp <= 0 || $isNonceUsed || $isNonceFromFuture) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException;
         }
 
@@ -65,8 +72,9 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException;
         }
 
+        $nonceCacheTtl = self::NONCE_TTL + self::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE;
         $this->_cacheInstance->save($timestamp, $this->getNonceCacheId($nonce),
-            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG), self::NONCE_TTL);
+            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG), $nonceCacheTtl);
     }
 
     /**

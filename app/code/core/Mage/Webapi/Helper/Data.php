@@ -31,7 +31,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $methodName
      * @param array $requestData Data to be passed to method
      * @return array Array of prepared method arguments
-     * @throws RuntimeException
+     * @throws Mage_Webapi_Exception
      */
     public function prepareMethodParams($class, $methodName, $requestData)
     {
@@ -47,7 +47,8 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
                 if ($parameter->isOptional()) {
                     $preparedParams[$parameterName] = $parameter->getDefaultValue();
                 } else {
-                    throw new RuntimeException($this->__('Required parameter "%s" is missing.', $parameterName));
+                    throw new Mage_Webapi_Exception($this->__('Required parameter "%s" is missing.', $parameterName),
+                        Mage_Webapi_Exception::HTTP_BAD_REQUEST);
                 }
             }
         }

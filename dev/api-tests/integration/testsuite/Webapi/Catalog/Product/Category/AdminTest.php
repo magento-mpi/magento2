@@ -148,7 +148,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -162,7 +162,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
 
         $restResponse = $this->callPost($this->_getResourcePath('INVALID_PRODUCT'), $categoryData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -239,7 +239,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -279,7 +279,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
         $categoryData = $this->_loadCategoryFixtureData('product_category_data');
         $restResponse = $this->callDelete($this->_getResourcePath('INVALID_ID', $categoryData['category_id']));
         $this->_checkErrorMessagesInResponse($restResponse, 'Resource not found.',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -297,7 +297,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
         $this->_checkErrorMessagesInResponse($restResponse, 'Category not found',
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -336,7 +336,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
 
     /**
      * Load category fixture data
-     * 
+     *
      * @param string $fixtureName
      * @return array
      */

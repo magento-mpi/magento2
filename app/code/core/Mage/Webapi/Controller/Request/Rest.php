@@ -121,7 +121,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     public function getContentType()
     {
         $headerValue = $this->getHeader('Content-Type');
-        $badRequestCode = Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST;
+        $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
 
         if (!$headerValue) {
             throw new Mage_Webapi_Exception('Content-Type header is empty', $badRequestCode);
@@ -147,7 +147,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
             throw new Mage_Webapi_Exception('Invalid request method',
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
@@ -226,7 +226,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
                 // TODO: change documentation link
                 . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
 
-            throw new Mage_Webapi_Exception($message, Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedModules;
     }

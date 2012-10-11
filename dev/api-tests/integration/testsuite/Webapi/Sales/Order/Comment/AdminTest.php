@@ -69,7 +69,7 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
     public function testCreate()
     {
         $response = $this->callPost('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 
     /**
@@ -121,7 +121,7 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
     public function testRetrieveUnavailableResource()
     {
         $response = $this->callGet('orders/invalid_id/comments');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 
     /**
@@ -132,7 +132,7 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
     public function testUpdate()
     {
         $response = $this->callPut('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 
     /**
@@ -143,6 +143,6 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
     public function testDelete()
     {
         $response = $this->callDelete('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 }

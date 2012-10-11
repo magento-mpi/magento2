@@ -78,12 +78,17 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $stdObj = new stdClass();
                 $stdObj->result = $obj;
                 return $stdObj;
-                // TODO: Implement proper exception handling
-            } catch (Mage_Api_Exception $e) {
-                $this->_soapFault($e->getCustomMessage(), self::FAULT_CODE_RECEIVER, $e);
+            } catch (Mage_Webapi_Exception $e) {
+                $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
+            } catch (Mage_Core_Exception $e) {
+                $this->_soapFault($e->getMessage(), self::FAULT_CODE_RECEIVER, $e);
             } catch (Exception $e) {
-                Mage::logException($e);
-                $this->_soapFault($e->getMessage());
+                if (!Mage::getIsDeveloperMode()) {
+                    Mage::logException($e);
+                    $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
+                } else {
+                    $this->_soapFault($this->_helper->__("Internal Error."), self::FAULT_CODE_RECEIVER, $e);
+                }
             }
         }
     }
@@ -210,7 +215,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $responseBody = $this->_getSoapServer()->handle();
             }
             $this->_setResponseBody($responseBody);
-        } catch (RuntimeException $e) {
+        } catch (Mage_Webapi_Exception $e) {
             self::_processBadRequest($e->getMessage());
         } catch (Exception $e) {
             self::_processBadRequest($this->_helper->__('Internal error.'));
@@ -393,16 +398,22 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _soapFault($reason = self::FAULT_REASON_INTERNAL, $code = self::FAULT_CODE_RECEIVER,
         Exception $e = null
     ) {
+        header('Content-type: application/soap+xml; charset=UTF-8');
         if ($this->_isSoapExtensionLoaded()) {
             $details = null;
             if (!is_null($e)) {
-                $details = (object)array('ExceptionCode' => $e->getCode());
+                $details = array('ExceptionCode' => $e->getCode());
                 // add detailed message only if it differs from fault reason
                 if ($e->getMessage() != $reason) {
-                    $details->ExceptionMessage = $e->getMessage();
+                    $details['ExceptionMessage'] = $e->getMessage();
+                }
+                if (Mage::getIsDeveloperMode()) {
+                    $details['ExceptionTrace'] = "<![CDATA[{$e->getTraceAsString()}]]>";
                 }
             }
-            throw new SoapFault($code, $reason, null, $details);
+            // TODO: Implement Current language definition
+            $language = 'en';
+            die($this->_getSoapFaultMessage($reason, $code, $language, $details));
         } else {
             die($this->_getSoapFaultMessage(self::FAULT_CODE_RECEIVER, 'SOAP extension is not loaded.'));
         }
@@ -413,10 +424,24 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      *
      * @param string $reason Human-readable explanation of the fault
      * @param string $code SOAP fault code
+     * @param string $language Reason message language
+     * @param string|array|null $details Detailed reason message(s)
      * @return string
      */
-    protected function _getSoapFaultMessage($reason = self::FAULT_REASON_INTERNAL, $code = self::FAULT_CODE_RECEIVER)
-    {
+    protected function _getSoapFaultMessage($reason = self::FAULT_REASON_INTERNAL, $code = self::FAULT_CODE_RECEIVER,
+        $language = 'en', $details = null
+    ) {
+        if (is_string($details)) {
+            $detailsXml = "<env:Detail>$details</env:Detail>";
+        } elseif (is_array($details)) {
+            $detailsXml = "<env:Detail>";
+            foreach ($details as $detailNode => $detailValue) {
+                $detailsXml .= "<$detailNode>$detailValue</$detailNode>";
+            }
+            $detailsXml .= "</env:Detail>";
+        } else {
+            $detailsXml = '';
+        }
         $message = <<<FAULT_MESSAGE
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
    <env:Body>
@@ -425,8 +450,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             <env:Value>$code</env:Value>
          </env:Code>
          <env:Reason>
-            <env:Text>$reason</env:Text>
+            <env:Text xml:lang="$language">$reason</env:Text>
          </env:Reason>
+         $detailsXml
       </env:Fault>
    </env:Body>
 </env:Envelope>

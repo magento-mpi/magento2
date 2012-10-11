@@ -146,7 +146,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
     public function testGetWithInvalidId()
     {
         $restResponse = $this->callGet($this->_getResourcePath('INVALID_ID'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -167,7 +167,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         Magento_Test_Webservice::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -205,7 +205,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         $store = $this->getFixture('store_on_new_website');
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), $store->getCode()));
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -221,7 +221,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId(), 'INVALID_STORE'));
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -235,7 +235,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -247,7 +247,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
     {
         $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
 
     /**
@@ -335,6 +335,6 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
     public function testCollectionGetFromInvalidStore()
     {
         $restResponse = $this->callGet($this->_getResourcePath(null, 'INVALID_STORE'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 }

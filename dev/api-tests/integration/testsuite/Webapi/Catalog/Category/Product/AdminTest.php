@@ -57,7 +57,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         $restResponse = $this->callGet($this->_getResourcePath(Mage_Catalog_Model_Category::TREE_ROOT_ID, 'product'));
         $expectedErrorMessage = "Request does not match any route.";
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrorMessage,
-            Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -94,7 +94,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
     public function testListInvalidCategory()
     {
         $restResponse = $this->callGet($this->_getResourcePath('invalid_id'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -169,7 +169,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
     {
         $assignedProduct = array('product_id' => 1);
         $restResponse = $this->callPost($this->_getResourcePath('invalid_id'), $assignedProduct);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -272,7 +272,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         );
         $restResponse = $this->callPost($this->_getResourcePath($categoryOnNewWebsite->getId(), null,
             Mage::app()->getDefaultStoreView()->getId()), reset($assignedProducts));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -313,7 +313,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         $product = $this->getFixture('product_simple');
         $assignedProducts = array('position' => 1);
         $restResponse = $this->callPut($this->_getResourcePath('invalid_id', $product->getId()), $assignedProducts);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -414,7 +414,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath('invalid_id', $product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 

@@ -34,10 +34,10 @@ class Mage_Webapi_Controller_Request_Interpreter_Json implements Mage_Webapi_Con
         try {
             $decodedBody = Zend_Json::decode($encodedBody);
         } catch (Zend_Json_Exception $e) {
-            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         if ($encodedBody != 'null' && $decodedBody === null) {
-            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $decodedBody;
     }

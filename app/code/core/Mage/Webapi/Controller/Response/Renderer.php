@@ -54,7 +54,7 @@ abstract class Mage_Webapi_Controller_Response_Renderer
         if (null === $adapterPath) {
             throw new Mage_Webapi_Exception(
                 'Server can not understand Accept HTTP header media type.',
-                Mage_Webapi_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
+                Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
             );
         }
 

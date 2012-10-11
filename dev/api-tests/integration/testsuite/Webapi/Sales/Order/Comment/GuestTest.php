@@ -26,7 +26,7 @@ class Webapi_Sales_Order_Comment_GuestTest extends Magento_Test_Webservice_Rest_
     public function testCreate()
     {
         $response = $this->callPost('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -37,7 +37,7 @@ class Webapi_Sales_Order_Comment_GuestTest extends Magento_Test_Webservice_Rest_
     public function testRetrieve()
     {
         $response = $this->callGet('orders/1/comments');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -48,7 +48,7 @@ class Webapi_Sales_Order_Comment_GuestTest extends Magento_Test_Webservice_Rest_
     public function testUpdate()
     {
         $response = $this->callPut('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -59,6 +59,6 @@ class Webapi_Sales_Order_Comment_GuestTest extends Magento_Test_Webservice_Rest_
     public function testDelete()
     {
         $response = $this->callDelete('orders/1/comments', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

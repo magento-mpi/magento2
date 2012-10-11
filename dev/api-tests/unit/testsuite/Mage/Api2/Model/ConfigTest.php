@@ -138,7 +138,7 @@ class Mage_Webapi_Model_ConfigTest extends Mage_PHPUnit_TestCase
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             sprintf('API type "%s" is not supported', $wrongApiType),
-            Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
 
         $this->_config->getRoutes($wrongApiType);

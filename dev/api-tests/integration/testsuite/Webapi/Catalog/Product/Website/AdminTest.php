@@ -132,7 +132,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             'website_id' => $websiteNotAssignedToProduct->getId()
         );
         $restResponse = $this->callPost('products/-1/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -154,7 +154,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             'website_id' => 'invalid_id'
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -177,7 +177,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             'website_id' => -1
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -201,7 +201,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             'website_id' => $websiteAssignedToProduct->getId()
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -238,7 +238,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -281,7 +281,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -328,7 +328,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -459,7 +459,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
                 $websiteNotAssignedToProduct->getId()
             )
         );
-        $this->assertEquals($messages['error'][0]['code'], Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+        $this->assertEquals($messages['error'][0]['code'], Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         $this->assertEquals($messages['error'][0]['product_id'], $product->getId());
         $this->assertEquals($messages['error'][0]['website_id'], $websiteNotAssignedToProduct->getId());
     }
@@ -498,7 +498,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
         $product = self::getFixture('product');
 
         $restResponse = $this->callDelete('products/' . $product->getId() . '/websites/invalid_website_id');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -519,7 +519,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
         $product = self::getFixture('product');
 
         $restResponse = $this->callDelete('products/product_invalid_id/websites/' . $websiteAssignedToProduct->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -541,7 +541,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
 
         $restResponse = $this->callDelete('products/' . $product->getId() . '/websites/'
             . $websiteNotAssignedToProduct->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('error', $responseData['messages']);
@@ -570,7 +570,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/websites/'
             . $websiteAssignedToProduct->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 
     /**
@@ -588,6 +588,6 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
 
         $restResponse = $this->callPut('products/' . $product->getId() . '/websites/'
             . $websiteAssignedToProduct->getId(), array('somedata'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $restResponse->getStatus());
     }
 }

@@ -54,7 +54,7 @@ class Mage_Webapi_Controller_Request_Interpreter_Xml implements Mage_Webapi_Cont
         libxml_disable_entity_loader(false);
         // Check if there was a error while loading file
         if ($this->_loadErrorStr !== null) {
-            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $xml = $this->_toArray($config);
         return $xml;

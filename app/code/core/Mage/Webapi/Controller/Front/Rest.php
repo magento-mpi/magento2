@@ -15,19 +15,12 @@
 class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
 {
     /**#@+
-     * HTTP Response Codes
+     * Success HTTP response codes.
      */
     const HTTP_OK = 200;
     const HTTP_CREATED = 201;
     const HTTP_MULTI_STATUS = 207;
-    const HTTP_BAD_REQUEST = 400;
-    const HTTP_UNAUTHORIZED = 401;
-    const HTTP_FORBIDDEN = 403;
-    const HTTP_NOT_FOUND = 404;
-    const HTTP_METHOD_NOT_ALLOWED = 405;
-    const HTTP_NOT_ACCEPTABLE = 406;
-    const HTTP_INTERNAL_ERROR = 500;
-    /**#@- */
+    /**#@-*/
 
     /**#@+
      * Resource types
@@ -78,7 +71,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
     /**
-     * @var Mage_Webapi_Controller_Request_Rest_Renderer_Interface
+     * @var Mage_Webapi_Controller_Response_RendererInterface
      */
     protected $_renderer;
 
@@ -143,33 +136,17 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
-        } catch (RuntimeException $e) {
-            // TODO: Implement proper error handling
-            switch ($e->getCode()) {
-                case self::EXCEPTION_CODE_RESOURCE_FORBIDDEN:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_FORBIDDEN));
-                    break;
-                case self::EXCEPTION_CODE_RESOURCE_NOT_FOUND:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_NOT_FOUND));
-                    break;
-                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
-                    break;
-                default:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_BAD_REQUEST));
-                    break;
-            }
         } catch (Mage_Webapi_Exception $e) {
             $this->_addException($e);
         } catch (Exception $e) {
-            Mage::logException($e);
-            switch ($e->getCode()) {
-                case self::EXCEPTION_CODE_RESOURCE_NOT_IMPLEMENTED:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_METHOD_NOT_ALLOWED));
-                    break;
-                default:
-                    $this->_addException(new Mage_Webapi_Exception($e->getMessage(), self::HTTP_INTERNAL_ERROR));
-                    break;
+            if (!Mage::getIsDeveloperMode()) {
+                Mage::logException($e);
+                $this->_addException(new Mage_Webapi_Exception(
+                    $this->_helper->__("Internal Error. Details are available in Magento log file."),
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                ));
+            } else {
+                $this->_addException($e);
             }
         }
 
@@ -264,7 +241,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 //            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
 //            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
 //        } catch (Exception $e) {
-//            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+//            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
 //        }
 //        // TODO: implement consumer role loading
 //        return $consumerKey;
@@ -295,9 +272,9 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         } catch (Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
             // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
-            $httpCode = $e->getCode() == Mage_Webapi_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
-                ? Mage_Webapi_Controller_Front_Rest::HTTP_NOT_ACCEPTABLE
-                : Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
+            $httpCode = $e->getCode() == Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
+                ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
+                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
 
             //if error appeared in "error rendering" process then use error renderer
             $this->_renderInternalError($e->getMessage(), $e->getTraceAsString(), $httpCode);
@@ -312,7 +289,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * @param string $trace exception trace
      * @param int|null $httpCode
      */
-    protected function _renderInternalError($errorMessage, $trace, $httpCode = null)
+    protected function _renderInternalError($errorMessage, $trace = 'Trace is not available.', $httpCode = null)
     {
         $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
@@ -332,18 +309,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         $lastExceptionHttpCode = null;
         /** @var Exception $exception */
         foreach ($response->getException() as $exception) {
-            if ($exception instanceof Mage_Webapi_Exception) {
-                $code = $exception->getCode();
-                $message = $exception->getMessage();
-                $trace = $exception->getTraceAsString();
-            } else {
-                $code = Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR;
-                $message = Mage_Webapi_Controller_Front_Rest::RESOURCE_INTERNAL_ERROR;
-                $trace = $exception->getMessage() . PHP_EOL . $exception->getTraceAsString();
-            }
-            $messageData = array('code' => $code, 'message' => $message);
+            $code = ($exception instanceof Mage_Webapi_Exception)
+                ? $exception->getCode()
+                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            $messageData = array('code' => $code, 'message' => $exception->getMessage());
             if (Mage::getIsDeveloperMode()) {
-                $messageData['trace'] = $trace;
+                $messageData['trace'] = $exception->getTraceAsString();
             }
             $formattedMessages['messages']['error'][] = $messageData;
             // keep HTTP code for response
@@ -359,7 +330,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Controller_Request_Rest_Renderer_Interface
+     * @return Mage_Webapi_Controller_Response_RendererInterface
      */
     protected function _getRenderer()
     {

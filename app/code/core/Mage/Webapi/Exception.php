@@ -1,35 +1,49 @@
 <?php
 /**
- * {license_notice}
+ * Webapi exception. Should be used in API resources implementation.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * {license}
  */
-
-/**
- * API exception
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-// TODO: Currently this exception class is highly tied to REST implementation, this should be changed
-class Mage_Webapi_Exception extends Exception
+class Mage_Webapi_Exception extends RuntimeException
 {
+    /**#@+
+     * Error HTTP response codes.
+     */
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_FORBIDDEN = 403;
+    const HTTP_NOT_FOUND = 404;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_NOT_ACCEPTABLE = 406;
+    const HTTP_INTERNAL_ERROR = 500;
+    /**#@-*/
+
+    const ORIGINATOR_SENDER = 'Sender';
+    const ORIGINATOR_RECEIVER = 'Receiver';
+
     /**
-     * Exception constructor
+     * Initialize exception with HTTP code.
      *
      * @param string $message
      * @param int $code
+     * @throws InvalidArgumentException
      */
     public function __construct($message, $code)
     {
-        if ($code <= 100 || $code >= 599) {
-            throw new Exception(sprintf('Invalid Exception code "%d"', $code));
+        /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
+        if ($code < 400 || $code > 599) {
+            throw new InvalidArgumentException(sprintf('Invalid code specified "%d".', $code));
         }
-
         parent::__construct($message, $code);
+    }
+
+    /**
+     * Identify exception originator: sender or receiver.
+     *
+     * @return string
+     */
+    public function getOriginator()
+    {
+        return ($this->getCode() < 500) ? self::ORIGINATOR_SENDER : self::ORIGINATOR_RECEIVER;
     }
 }

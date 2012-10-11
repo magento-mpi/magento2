@@ -102,7 +102,7 @@ class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Ad
     public function testCreate()
     {
         $response = $this->callPost('customers/1', array());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
     }
 
     /**
@@ -141,7 +141,7 @@ class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Ad
     public function testRetrieveUnavailableResource()
     {
         $response = $this->callGet('customers/invalid_id');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 
     /**
@@ -196,6 +196,6 @@ class Webapi_Customer_Customer_AdminTest extends Magento_Test_Webservice_Rest_Ad
     public function testDeleteUnavailableResource()
     {
         $response = $this->callDelete('customers/invalid_id');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 }

@@ -80,10 +80,10 @@ class Webapi_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Re
     public function testGetAddressForUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/invalid_id/address/billing');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
 
         $restResponse = $this->callGet('orders/invalid_id/address/shipping');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -133,7 +133,7 @@ class Webapi_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Re
     {
         $restResponse = $this->callGet('orders/invalid_id/addresses');
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -147,6 +147,6 @@ class Webapi_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Re
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('order');
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/addresses');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

@@ -127,7 +127,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      *
      * @return string
      * @throws Mage_Core_Exception
-     * @throws RuntimeException If requested API type is invalid.
+     * @throws Mage_Webapi_Exception If requested API type is invalid.
      */
     private function _determineApiType()
     {
@@ -137,12 +137,14 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
             $apiTypeRoute = new Mage_Webapi_Controller_Router_Route_ApiType();
 
             if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
-                throw new Mage_Core_Exception($this->_helper->__('Request does not match any API type route.'));
+                throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any API type route.'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
 
             $apiType = $apiTypeMatch['api_type'];
             if (!array_key_exists($apiType, $this->_concreteFrontControllers)) {
-                throw new RuntimeException($this->_helper->__('The "%s" API type is not defined.'));
+                throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.'),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             // TODO: required for multicall, needs refactoring
             $request->setParam('api_type', $apiType);

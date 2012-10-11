@@ -84,7 +84,7 @@ class Webapi_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Res
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost('products/' . $product->getId() . '/images', $imageData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
@@ -784,7 +784,7 @@ class Webapi_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Res
     {
         $resourceUri = 'products/12099999/images/';
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
     /**
@@ -806,7 +806,7 @@ class Webapi_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Res
 
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/12099999';
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $restResponse->getStatus());
     }
 
     /**
@@ -831,7 +831,7 @@ class Webapi_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Res
 
         $resourceUri = 'products/' . $product->getId() . '/images/' . $imageId . '/store/' . $store->getId();
         $restResponse = $this->callGet($resourceUri);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 
 

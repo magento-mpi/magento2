@@ -102,7 +102,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
     public function testCreate()
     {
         $response = $this->callPost('customers/1', array());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 
     /**
@@ -132,7 +132,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
     public function testRetrieveUnavailableResource()
     {
         $response = $this->callGet('customers/' . $this->_otherCustomer->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 
     /**
@@ -216,14 +216,14 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
         $this->_customer->setData($attributeCode, '');
 
         $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $response->getStatus());
         $responseData = $response->getBody();
 
         $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
         $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
 
         foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $error['code']);
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $error['code']);
         }
     }
 
@@ -239,14 +239,14 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
         $this->_customer->unsetData($attributeCode);
 
         $response = $this->callPut('customers/' . $this->_customer->getId(), $this->_customer->getData());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $response->getStatus());
         $responseData = $response->getBody();
 
         $this->assertArrayHasKey('messages', $responseData, "The response doesn't has messages.");
         $this->assertArrayHasKey('error', $responseData['messages'], "The response doesn't has errors.");
 
         foreach ($responseData['messages']['error'] as $error) {
-            $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST, $error['code']);
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_BAD_REQUEST, $error['code']);
         }
     }
 
@@ -280,7 +280,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
     public function testUpdateUnavailableResource()
     {
         $response = $this->callPut('customers/' . $this->_otherCustomer->getId(), array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 
     /**
@@ -291,6 +291,6 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
     public function testDelete()
     {
         $response = $this->callDelete('customers/1');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_FORBIDDEN, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_FORBIDDEN, $response->getStatus());
     }
 }

@@ -108,7 +108,7 @@ class Mage_Webapi_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(false));
 
         $this->setExpectedException(
-            'Mage_Webapi_Exception', 'Resource not found', Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND
+            'Mage_Webapi_Exception', 'Resource not found', Mage_Webapi_Exception::HTTP_NOT_FOUND
         );
 
         $this->_aclGlobal->isAllowed($this->_apiUserMock, self::RESOURCE_INVALID, 'any_operation');
@@ -128,7 +128,7 @@ class Mage_Webapi_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
             ->with(self::ROLE_INVALID)
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Mage_Webapi_Exception', 'Role not found', Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+        $this->setExpectedException('Mage_Webapi_Exception', 'Role not found', Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
 
         $this->_aclGlobal->isAllowed($this->_apiUserMock, 'any_resource', 'any_operation');
     }

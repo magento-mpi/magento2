@@ -32,7 +32,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
      * Identify versions of modules that should be used for API configuration file generation.
      *
      * @return array
-     * @throws RuntimeException when get paramters are invalid
+     * @throws RuntimeException When GET parameters are invalid
      */
     public function getRequestedModules()
     {
@@ -45,7 +45,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         if (count($notAllowedParameters)) {
             $message = $helper->__('Not allowed parameters: %s', implode(', ', $notAllowedParameters)) . PHP_EOL
                 . $helper->__('Please, use only "wsdl" and "modules". Example: ') . $exampleUrl;
-            throw new RuntimeException($message);
+            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $requestedModules = $this->getParam('modules');
@@ -53,7 +53,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
             $message = $helper->__('Missing requested modules. Example: ') . $exampleUrl . PHP_EOL
                 // TODO: change documentation link
                 . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
-            throw new RuntimeException($message);
+            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedModules;
     }

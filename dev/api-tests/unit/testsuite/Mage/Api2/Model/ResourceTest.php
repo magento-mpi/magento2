@@ -173,7 +173,7 @@ class Mage_Webapi_Model_ResourceTest extends Mage_PHPUnit_TestCase
     public function testCriticalWithPredefinedMessage()
     {
         $message = Mage_Webapi_Controller_Front_Rest::RESOURCE_METHOD_NOT_ALLOWED;
-        $this->setExpectedException('Mage_Webapi_Exception', $message, Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED);
+        $this->setExpectedException('Mage_Webapi_Exception', $message, Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED);
         $this->_resource->_critical($message);
     }
 
@@ -185,7 +185,7 @@ class Mage_Webapi_Model_ResourceTest extends Mage_PHPUnit_TestCase
         try {
             $this->_resource->_critical('Unknown error message');
         } catch (Exception $e) {
-            $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals(Mage_Webapi_Exception::HTTP_INTERNAL_ERROR, $e->getCode());
             return;
         }
         $this->fail('An expected exception has not been raised');

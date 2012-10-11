@@ -71,6 +71,6 @@ class Webapi_Sales_Order_Item_AdminTest extends Magento_Test_Webservice_Rest_Adm
     public function testGetItemsForUnavailableOrder()
     {
         $restResponse = $this->callGet('orders/invalid_id/items');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

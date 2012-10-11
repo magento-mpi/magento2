@@ -67,7 +67,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
     public function testMultiGetInvalidConfigurable()
     {
         $restResponse = $this->callGet($this->_getResourcePath('invalid_id'));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -215,7 +215,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
     {
         $associated = array('product_id' => 1);
         $restResponse = $this->callPost($this->_getResourcePath('invalid_id'), $associated);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 
@@ -325,7 +325,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
         $restResponse = $this->callDelete($this->_getResourcePath('invalid_id', $product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus(),
             "Response code is invalid.");
     }
 

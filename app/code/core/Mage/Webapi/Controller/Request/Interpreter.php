@@ -46,7 +46,7 @@ abstract class Mage_Webapi_Controller_Request_Interpreter
         if ($adapterModel === null) {
             throw new Mage_Webapi_Exception(
                 sprintf('Server can not understand Content-Type HTTP header media type "%s"', $type),
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
 

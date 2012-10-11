@@ -63,7 +63,7 @@ class Mage_Webapi_Controller_Request_Uploader_Image extends Mage_Webapi_Controll
         } catch (Exception $e) {
             $this->_filesystemAdapter->rmdir($this->_uploadedFilePath, true);
             throw new Mage_Webapi_Exception("File content is not an image file.",
-                Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST);
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
     }
 }

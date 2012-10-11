@@ -180,6 +180,6 @@ class Webapi_Catalog_Product_Image_GuestTest extends Magento_Test_Webservice_Res
         $imageId = $gallery['images'][0]['value_id'];
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/images/' . $imageId);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $restResponse->getStatus());
     }
 }

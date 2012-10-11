@@ -77,7 +77,7 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
             if (!isset($errors[$message])) {
                 throw new Exception(
                     sprintf('Invalid error "%s" or error code missed.', $message),
-                    Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
                 );
             }
             $code = $errors[$message];
@@ -93,14 +93,14 @@ class Mage_Webapi_Helper_Rest extends Mage_Core_Helper_Abstract
     protected function _getCriticalErrors()
     {
         return array(
-            '' => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_NOT_FOUND => Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND,
-            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_INTERNAL_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR,
-            self::RESOURCE_UNKNOWN_ERROR => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
-            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST,
+            '' => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
+            self::RESOURCE_NOT_FOUND => Mage_Webapi_Exception::HTTP_NOT_FOUND,
+            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED,
+            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
+            self::RESOURCE_INTERNAL_ERROR => Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            self::RESOURCE_UNKNOWN_ERROR => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
+            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Webapi_Exception::HTTP_BAD_REQUEST,
         );
     }
 }
