@@ -67,7 +67,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[] = $product;
         }
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -106,7 +106,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $stockItems[$productId] = $stockItem;
         }
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -144,7 +144,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     {
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToFile);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToFile);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
@@ -355,25 +355,27 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
 
     /**
      * @magentoDataIsolation enabled
-     * @magentoDataFixture copyMediaImportImage
+     * @magentoDataFixture mediaImportImageFixture
      */
     public function testSaveMediaImage()
     {
         $attribute = new Mage_Catalog_Model_Entity_Attribute;
         $attribute->loadByCode('catalog_product', 'media_gallery');
-        $fixture = new Mage_ImportExport_Model_Import_Adapter_Mock(
+        $data = implode(',', array(
             // minimum required set of attributes + media images
-            array('sku', '_attribute_set', '_type', '_product_websites', 'name', 'price',
-                'description', 'short_description', 'weight', 'status', 'visibility', 'tax_class_id',
-                '_media_attribute_id', '_media_image', '_media_label', '_media_position', '_media_is_disabled'
-            ),
-            array(array('sku', 'Default', Mage_Catalog_Model_Product_Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
-                'Product description', 'Short desc.', '1',
-                Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
-                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
-                $attribute->getId(), 'magento_image.jpg', 'Image Label', '1', '0'
-            ))
-        );
+            'sku', '_attribute_set', '_type', '_product_websites', 'name', 'price',
+            'description', 'short_description', 'weight', 'status', 'visibility', 'tax_class_id',
+            '_media_attribute_id', '_media_image', '_media_label', '_media_position', '_media_is_disabled'
+        )) . "\n";
+        $data .= implode(',', array(
+            'test_sku', 'Default', Mage_Catalog_Model_Product_Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
+            'Product description', 'Short desc.', '1',
+            Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
+            $attribute->getId(), 'magento_image.jpg', 'Image Label', '1', '0'
+        )) . "\n";
+        $data = 'data://text/plain;base64,' . base64_encode($data);
+        $fixture = new Mage_ImportExport_Model_Import_Source_Csv($data);
 
         foreach (new Mage_Catalog_Model_Resource_Product_Collection as $product) {
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
@@ -385,35 +387,33 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $this->_model->importData();
 
         $resource = new Mage_Catalog_Model_Resource_Product;
-        $productId = $resource->getIdBySku('sku'); // fixture
+        $productId = $resource->getIdBySku('test_sku'); // fixture
         $product = new Mage_Catalog_Model_Product;
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
         $this->assertInstanceOf('Varien_Data_Collection', $gallery);
-        foreach ($gallery as $item) {
-            $this->assertInstanceOf('Varien_Object', $item);
-            $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
-            $this->assertEquals('Image Label', $item->getLabel());
-            break;
-        }
+        $items = $gallery->getItems();
+        $this->assertCount(1, $items);
+        $item = array_pop($items);
+        $this->assertInstanceOf('Varien_Object', $item);
+        $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+        $this->assertEquals('Image Label', $item->getLabel());
     }
 
     /**
      * Copy a fixture image into media import directory
      */
-    public static function copyMediaImportImage()
+    public static function mediaImportImageFixture()
     {
         $dir = Mage::getBaseDir('media') . '/import';
         mkdir($dir);
-        copy(__DIR__ . '/../../../../../Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
+        copy(__DIR__ . '/../../../../Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
     }
 
     /**
      * Cleanup media import and catalog directories
-     *
-     * The method name is conventional - intended to be used as a fixture
      */
-    public static function copyMediaImportImageRollback()
+    public static function mediaImportImageFixtureRollback()
     {
         $media = Mage::getBaseDir('media');
         Varien_Io_File::rmdirRecursive("{$media}/import");

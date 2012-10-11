@@ -391,10 +391,10 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     /**
      * Source model setter
      *
-     * @param Mage_ImportExport_Model_Import_Adapter_Abstract $source
+     * @param Mage_ImportExport_Model_Import_SourceAbstract $source
      * @return Mage_ImportExport_Model_Import_EntityAbstract
      */
-    public function setSource(Mage_ImportExport_Model_Import_Adapter_Abstract $source)
+    public function setSource(Mage_ImportExport_Model_Import_SourceAbstract $source)
     {
         $this->_customerEntity->setSource($source);
         $this->_addressEntity->setSource($source);

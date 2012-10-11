@@ -108,6 +108,10 @@ return array(
     'Mage_GoogleOptimizer_IndexController' => array(
         'suggestion' => 'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'
     ),
+    'Mage_ImportExport_Model_Import_Adapter_Abstract' => array(
+        'suggestion' => 'Mage_ImportExport_Model_Import_SourceAbstract'
+    ),
+    'Mage_ImportExport_Model_Import_Adapter_Csv' => array('suggestion' => 'Mage_ImportExport_Model_Import_Source_Csv'),
     'Mage_Ogone_Model_Api_Debug',
     'Mage_Ogone_Model_Resource_Api_Debug',
     'Mage_Page_Block_Html_Toplinks',

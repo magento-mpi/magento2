@@ -53,7 +53,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
         $model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance();
         $model->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
@@ -116,7 +116,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
     public function testImportDataDelete()
     {
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance_delete.csv';
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
         $model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance();
         $model->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE)

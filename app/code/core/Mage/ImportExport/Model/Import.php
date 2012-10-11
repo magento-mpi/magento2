@@ -122,7 +122,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      * Returns source adapter object.
      *
      * @param string $sourceFile Full path to source file
-     * @return Mage_ImportExport_Model_Import_Adapter_Abstract
+     * @return Mage_ImportExport_Model_Import_SourceAbstract
      */
     protected function _getSourceAdapter($sourceFile)
     {
@@ -464,10 +464,10 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Validates source file and returns validation result.
      *
-     * @param Mage_ImportExport_Model_Import_Adapter_Abstract $source
+     * @param Mage_ImportExport_Model_Import_SourceAbstract $source
      * @return bool
      */
-    public function validateSource(Mage_ImportExport_Model_Import_Adapter_Abstract $source)
+    public function validateSource(Mage_ImportExport_Model_Import_SourceAbstract $source)
     {
         $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')->__('Begin data validation'));
         $adapter = $this->_getEntityAdapter()->setSource($source);
