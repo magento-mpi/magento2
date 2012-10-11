@@ -62,7 +62,7 @@ class Enterprise2_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      * <p>Message that Role name is required field is appear</p>
      *
      * @test
-     * @author Michael Banin
+     * @author Michael  Banin
      * @TestlinkId TL-MAGE-6358
      */
     public function requiredFields()
