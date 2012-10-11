@@ -348,6 +348,9 @@ class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
 
     /**
      * Prepares all mocks for tests with exceptions
+     *
+     * @param bool $noDefinition
+     * @param string|array $invalidInstantiator
      */
     protected function _prepareMockForNewInstanceExceptions($noDefinition = false, $invalidInstantiator = null)
     {
@@ -544,6 +547,7 @@ class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
         $this->_prepareMockForNewInstanceWithDefinitionsWithResolve($classAlias);
 
         $testModel = $this->_model->newInstance($className, $arguments, false);
+        $this->assertInstanceOf($classAlias, $testModel);
         $this->assertAttributeEquals($this->_expectedDataValue, '_data', $testModel);
     }
 

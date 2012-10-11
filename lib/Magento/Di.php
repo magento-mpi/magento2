@@ -28,12 +28,12 @@ class Magento_Di extends Zend\Di\Di
      * Forces retrieval of a discrete instance of the given class, using the
      * constructor parameters provided.
      *
-     * @param mixed $name Class name or service alias
-     * @param array $parameters Parameters to pass to the constructor
+     * @param mixed $name
+     * @param array $parameters
      * @param bool $isShared
-     * @return object|null
-     * @throws Exception\ClassNotFoundException
-     * @throws Exception\RuntimeException
+     * @return null|object
+     * @throws Zend\Di\Exception\RuntimeException
+     * @throws Zend\Di\Exception\ClassNotFoundException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -224,10 +224,12 @@ class Magento_Di extends Zend\Di\Di
      * @param string $class
      * @param string $method
      * @param array $callTimeUserParams
-     * @param bool $isInstantiator
      * @param string $alias
-     * @return array
-     * @throws Exception\CircularDependencyException
+     * @param bool $methodIsRequired
+     * @param bool $isInstantiator
+     * @return array|bool
+     * @throws Zend\Di\Exception\MissingPropertyException
+     * @throws Zend\Di\Exception\CircularDependencyException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
