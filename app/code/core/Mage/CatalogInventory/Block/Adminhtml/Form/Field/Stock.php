@@ -111,7 +111,35 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         }
                     };
                     disabler();
-                    qty.bind('keyup change blur', disabler)
+                    qty.bind('keyup change blur', disabler);
+
+                    //Associated fields
+                    var fieldsAssociations = {
+                        '$quantityFieldId' : 'inventory_qty',
+                        '$inStockFieldId'  : 'inventory_stock_availability'
+                    };
+                    //Fill corresponding field
+                    var filler = function() {
+                        var id = $(this).attr('id');
+                        if ('undefined' !== typeof fieldsAssociations[id]) {
+                            $('#' + fieldsAssociations[id]).val($(this).val());
+                        } else {
+                            $('#' + getKeyByValue(fieldsAssociations, id)).val($(this).val());
+                        }
+                    };
+                    //Get key by value form object
+                    var getKeyByValue = function(object, value) {
+                        var returnVal = false;
+                        $.each(object, function(objKey, objValue){
+                            if (value === objValue) {
+                                returnVal = objKey;
+                            }
+                        });
+                        return returnVal;
+                    };
+                    $.each(fieldsAssociations, function(generalTabField, advancedTabField){
+                        $('#' + generalTabField + ', #' + advancedTabField).bind('focus blur change keyup click', filler);
+                    });
                 })(jQuery);
             });
             </script>
