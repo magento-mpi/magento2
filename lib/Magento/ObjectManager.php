@@ -38,4 +38,12 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function loadAreaConfiguration($areaCode);
+
+    /**
+     * Clear DI instance cache
+     *
+     * @abstract
+     * @return mixed
+     */
+    public function clearCache();
 }

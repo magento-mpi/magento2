@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_ObjectManager_Zend
  */
-class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
+class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Area code
@@ -42,6 +42,16 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
     );
 
     /**
+     * Expected instance manager parametrized cache after clear
+     *
+     * @var array
+     */
+    protected $_instanceCache = array(
+        'hashShort' => array(),
+        'hashLong'  => array()
+    );
+
+    /**
      * ObjectManager instance for tests
      *
      * @var Magento_ObjectManager_Zend
@@ -49,19 +59,27 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_magentoConfig;
 
     /**
-     * @var Zend\Di\InstanceManager
+     * @var Zend\Di\InstanceManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_instanceManager;
 
     /**
-     * @var Zend\Di\Di
+     * @var Zend\Di\Di|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_diInstance;
+
+    protected function tearDown()
+    {
+        unset($this->_objectManager);
+        unset($this->_magentoConfig);
+        unset($this->_instanceManager);
+        unset($this->_diInstance);
+    }
 
     /**
      * @dataProvider constructDataProvider
@@ -99,7 +117,6 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareObjectManagerForLoadAreaConfigurationTests()
     {
-        unset($this->_objectManager);
         /** @var $modelConfigMock Mage_Core_Model_Config */
         $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('getNode', 'loadBase'),
             array(), '', false
@@ -136,7 +153,6 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareObjectManagerForGetCreateTests($mockNewInstance = false)
     {
-        unset($this->_objectManager);
         $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config',
             array('loadBase'), array(), '', false);
         $this->_magentoConfig->expects($this->any())
@@ -298,5 +314,57 @@ class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_arguments, $arguments);
 
         return self::OBJECT_GET;
+    }
+
+    public function testClearCache()
+    {
+        $this->_prepareObjectManagerForClearCacheTest();
+        $this->_objectManager->clearCache();
+    }
+
+    /**
+     * Prepare all required mocks for testClearCache
+     */
+    protected function _prepareObjectManagerForClearCacheTest()
+    {
+        $this->_diInstance = $this->getMock('Zend\Di\Di',
+            array('get', 'setDefinitionList', 'instanceManager', 'setInstanceManager')
+        );
+        $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('loadBase'),
+            array(), '', false
+        );
+        $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'),
+            array(), '', false
+        );
+        $this->_diInstance->expects($this->exactly(2))
+            ->method('instanceManager')
+            ->will($this->returnValue($this->_instanceManager));
+        $this->_diInstance->expects($this->exactly(4))
+            ->method('get')
+            ->with('Mage_Core_Model_Config')
+            ->will($this->returnCallback(array($this, 'getCallback')));
+        $this->_diInstance->expects($this->exactly(1))
+            ->method('setDefinitionList')
+            ->will($this->returnCallback(array($this, 'verifySetDefinitionListCallback')));
+        $this->_diInstance->expects($this->exactly(1))
+            ->method('setInstanceManager')
+            ->will($this->returnCallback(array($this, 'verifySetInstanceManager')));
+        $this->_instanceManager->expects($this->exactly(2))
+            ->method('addSharedInstance')
+            ->will($this->returnCallback(array($this, 'verifyAddSharedInstanceCallback')));
+
+        $this->_objectManager = new Magento_ObjectManager_Zend(null, $this->_diInstance);
+    }
+
+    /**
+     * Callback method for Zend\Di\Di::setInstanceManager
+     *
+     * @param \Zend\Di\InstanceManager $instanceManager
+     */
+    public function verifySetInstanceManager($instanceManager)
+    {
+        $this->assertInstanceOf('Zend\Di\InstanceManager', $instanceManager);
+        $this->assertAttributeEmpty('sharedInstances', $instanceManager);
+        $this->assertAttributeEquals($this->_instanceCache, 'sharedInstancesWithParams', $instanceManager);
     }
 }
