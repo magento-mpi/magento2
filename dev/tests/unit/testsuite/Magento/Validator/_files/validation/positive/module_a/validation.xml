@@ -29,7 +29,7 @@
             </rule>
             <rule name="always_true">
                 <entity_constraints>
-                    <constraint class="Magento_Validator_Test_True"/>
+                    <constraint alias="alias" class="Magento_Validator_Test_True"/>
                 </entity_constraints>
             </rule>
         </rules>

@@ -179,14 +179,6 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         );
         $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
 
-        // Case 5. Pass check witch custom builder class
-        $entityName = 'test_entity_b';
-        $groupName = 'custom_builder';
-        $value = new Varien_Object();
-        $expectedResult = true;
-        $expectedMessages = array();
-        $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
-
         return $result;
     }
 
@@ -222,23 +214,26 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                             'option1' => 'value1',
                             'option2' => 'value2'
                         )),
-                        new Magento_Validator_Constraint_Option_Callback('Magento_Validator_Test_Callback', 'getId')
+                        new Magento_Validator_Constraint_Option_Callback(array(
+                            'Magento_Validator_Test_Callback',
+                            'getId'
+                        ), null, true)
                     ),
                     'callback' => array(
-                        new Magento_Validator_Constraint_Option_Callback(
+                        new Magento_Validator_Constraint_Option_Callback(array(
                             'Magento_Validator_Test_Callback',
                             'configureValidator'
-                        )
+                        ), null, true)
                     ),
                     'methods' => array(
                         'setOptionThree' => array(
                             'method' => 'setOptionThree',
                             'arguments' => array(
                                 new Magento_Validator_Constraint_Option(array('argOption' => 'argOptionValue')),
-                                new Magento_Validator_Constraint_Option_Callback(
+                                new Magento_Validator_Constraint_Option_Callback(array(
                                     'Magento_Validator_Test_Callback',
                                     'getId'
-                                ),
+                                ), null, true),
                                 new Magento_Validator_Constraint_Option('10')
                             )
                         ),

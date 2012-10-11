@@ -22,7 +22,6 @@ class Magento_Validator_Builder
      * Set constraints
      *
      * @param array $constraints
-     * @throws InvalidArgumentException
      */
     public function __construct(array $constraints)
     {
@@ -44,6 +43,10 @@ class Magento_Validator_Builder
      */
     protected function _checkConfigurationArguments(array $configuration, $argumentsIsArray)
     {
+        $allowedKeys = array('arguments', 'callback', 'method', 'methods');
+        if (!array_intersect($allowedKeys, array_keys($configuration))) {
+            throw new InvalidArgumentException('Configuration has incorrect format');
+        }
         // Check method arguments
         if ($argumentsIsArray) {
             if (array_key_exists('methods', $configuration)) {
@@ -69,6 +72,9 @@ class Magento_Validator_Builder
      */
     protected function _checkMethodArguments(array $configuration)
     {
+        if (!is_string($configuration['method'])) {
+            throw new InvalidArgumentException('Method has to be passed as string');
+        }
         if (array_key_exists('arguments', $configuration) && !is_array($configuration['arguments'])) {
             throw new InvalidArgumentException('Method arguments must be an array');
         }
@@ -78,7 +84,7 @@ class Magento_Validator_Builder
      * Check configuration callbacks
      *
      * @param array $configuration
-     * @param $callbackIsArray
+     * @param bool $callbackIsArray
      * @throws InvalidArgumentException
      */
     protected function _checkConfigurationCallback(array $configuration, $callbackIsArray)
@@ -138,28 +144,53 @@ class Magento_Validator_Builder
             if ($constraint['alias'] != $alias) {
                 continue;
             }
-            if (!array_key_exists('options', $constraint)) {
+            if (!array_key_exists('options', $constraint) || !is_array($constraint['options'])) {
                 $constraint['options'] = array();
             }
             if (!array_key_exists('method', $configuration)) {
                 if (array_key_exists('arguments', $configuration)) {
                     $constraint['options']['arguments'] = $configuration['arguments'];
                 } elseif (array_key_exists('callback', $configuration)) {
-                    if (!array_key_exists('callback', $constraint['options'])) {
-                        $constraint['options'] = array();
-                    }
-                    $constraint['options']['callback'][] = $configuration['callback'];
+                    $constraint = $this->_addConstraintCallback($constraint, $configuration['callback']);
                 }
             } else {
-                if (!array_key_exists('methods', $constraint['options'])) {
-                    $constraint['options']['methods'] = array();
-                }
-                $constraint['options']['methods'][$configuration['method']]
-                    = $configuration;
+                $constraint = $this->_addConstraintMethod($constraint, $configuration);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Add callback to constraint configuration
+     *
+     * @param array $constraint
+     * @param Magento_Validator_Constraint_Option_Callback $callback
+     * @return array
+     */
+    protected function _addConstraintCallback(array $constraint, Magento_Validator_Constraint_Option_Callback $callback)
+    {
+        if (!array_key_exists('callback', $constraint['options'])) {
+            $constraint['options']['callback'] = array();
+        }
+        $constraint['options']['callback'][] = $callback;
+        return $constraint;
+    }
+
+    /**
+     * Add method to constraint configuration
+     *
+     * @param array $constraint
+     * @param array $configuration
+     * @return array
+     */
+    protected function _addConstraintMethod(array $constraint, array $configuration)
+    {
+        if (!array_key_exists('methods', $constraint['options'])) {
+            $constraint['options']['methods'] = array();
+        }
+        $constraint['options']['methods'][] = $configuration;
+        return $constraint;
     }
 
     /**
@@ -240,7 +271,8 @@ class Magento_Validator_Builder
     {
         // Call all validator methods according to configuration
         if (array_key_exists('methods', $options)) {
-            foreach ($options['methods'] as $methodName => $methodData) {
+            foreach ($options['methods'] as $methodData) {
+                $methodName = $methodData['method'];
                 if (method_exists($validator, $methodName)) {
                     if (array_key_exists('arguments', $methodData)) {
                         $arguments = $this->_applyArgumentsCallback($methodData['arguments']);

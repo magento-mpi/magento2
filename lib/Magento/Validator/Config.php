@@ -31,21 +31,11 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     protected $_validatorBuilders = array();
 
     /**
-     * Get absolute path to validation.xsd
+     * Get validator builder instance based on entity and group.
      *
-     * @return string
-     */
-    public function getSchemaFile()
-    {
-        return __DIR__ . '/validation.xsd';
-    }
-
-    /**
-     * Get validator builder instance
-     *
-     * @param $entityName
-     * @param $groupName
-     * @param array $builderConfig
+     * @param string $entityName
+     * @param string $groupName
+     * @param array|null $builderConfig
      * @throws InvalidArgumentException
      * @return Magento_Validator_Builder
      */
@@ -91,7 +81,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      *
      * @param string $entityName
      * @param string $groupName
-     * @param array $builderConfig
+     * @param array|null $builderConfig
      * @return Magento_Validator
      */
     public function createValidator($entityName, $groupName, array $builderConfig = null)
@@ -210,51 +200,51 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      */
     protected function _extractConstraintOptions(DOMElement $constraint)
     {
-        if ($constraint->hasChildNodes()) {
-            $options = array();
-            $children = $this->_collectChildren($constraint);
-
-            /**
-             * Read constructor arguments
-             *
-             * <constraint class="Constraint">
-             *     <argument>
-             *         <option name="minValue">123</option>
-             *         <option name="maxValue">234</option>
-             *     </argument>
-             *     <argument>0</argument>
-             *     <argument>
-             *         <callback class="Class" method="method" />
-             *     </argument>
-             * </constraint>
-             */
-            $arguments = $this->_readArguments($children);
-            if ($arguments) {
-                $options['arguments'] = $arguments;
-            }
-
-            /**
-             * Read constraint configurator callback
-             *
-             * <constraint class="Constraint">
-             *     <callback class="Mage_Customer_Helper_Data" method="configureValidator"/>
-             * </constraint>
-             */
-            $callback = $this->_readCallback($children);
-            if ($callback) {
-                $options['callback'] = $callback;
-            }
-
-            /**
-             * Read constraint method configuration
-             */
-            $methods = $this->_readMethods($children);
-            if ($methods) {
-                $options['methods'] = $methods;
-            }
-            return $options;
+        if (!$constraint->hasChildNodes()) {
+            return null;
         }
-        return null;
+        $options = array();
+        $children = $this->_collectChildren($constraint);
+
+        /**
+         * Read constructor arguments
+         *
+         * <constraint class="Constraint">
+         *     <argument>
+         *         <option name="minValue">123</option>
+         *         <option name="maxValue">234</option>
+         *     </argument>
+         *     <argument>0</argument>
+         *     <argument>
+         *         <callback class="Class" method="method" />
+         *     </argument>
+         * </constraint>
+         */
+        $arguments = $this->_readArguments($children);
+        if ($arguments) {
+            $options['arguments'] = $arguments;
+        }
+
+        /**
+         * Read constraint configurator callback
+         *
+         * <constraint class="Constraint">
+         *     <callback class="Mage_Customer_Helper_Data" method="configureValidator"/>
+         * </constraint>
+         */
+        $callback = $this->_readCallback($children);
+        if ($callback) {
+            $options['callback'] = $callback;
+        }
+
+        /**
+         * Read constraint method configuration
+         */
+        $methods = $this->_readMethods($children);
+        if ($methods) {
+            $options['methods'] = $methods;
+        }
+        return $options;
     }
 
     /**
@@ -322,10 +312,10 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             $callbacks = array();
             /** @var $callbackData DOMElement */
             foreach ($children['callback'] as $callbackData) {
-                $callbacks[] = new Magento_Validator_Constraint_Option_Callback(
+                $callbacks[] = new Magento_Validator_Constraint_Option_Callback(array(
                     trim($callbackData->getAttribute('class')),
                     trim($callbackData->getAttribute('method'))
-                );
+                ), null, true);
             }
             return $callbacks;
         }
@@ -396,6 +386,16 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             return $methods;
         }
         return null;
+    }
+
+    /**
+     * Get absolute path to validation.xsd
+     *
+     * @return string
+     */
+    public function getSchemaFile()
+    {
+        return __DIR__ . '/validation.xsd';
     }
 
     /**

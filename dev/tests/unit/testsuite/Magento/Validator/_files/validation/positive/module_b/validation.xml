@@ -36,20 +36,4 @@
             </group>
         </groups>
     </entity>
-    <entity name="test_entity_b">
-        <rules>
-            <rule name="always_true">
-                <entity_constraints>
-                    <constraint class="Magento_Validator_Test_True"/>
-                </entity_constraints>
-            </rule>
-        </rules>
-        <groups>
-            <group name="custom_builder">
-                <uses>
-                    <use rule="always_true"/>
-                </uses>
-            </group>
-        </groups>
-    </entity>
 </validation>
