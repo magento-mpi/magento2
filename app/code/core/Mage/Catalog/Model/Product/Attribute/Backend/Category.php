@@ -17,18 +17,15 @@
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_Category extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * Set category ids to product data
+     *
+     * @param Mage_Catalog_Model_Product $object
+     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     */
     public function afterLoad($object)
     {
         $object->setData($this->getAttribute()->getAttributeCode(), $object->getCategoryIds());
         return parent::afterLoad($object);
-    }
-
-    public function beforeSave($object)
-    {
-        $object->setData(
-            $this->getAttribute()->getAttributeCode(),
-            $object->getData($this->getAttribute()->getAttributeCode())
-        );
-        return parent::beforeSave($object);
     }
 }
