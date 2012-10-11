@@ -50,3 +50,7 @@ lib/Magento/Profiler.php
 lib/Varien/Convert
 lib/Varien/Date.php
 lib/Varien/Object.php
+lib/Magento/Validator
+app/code/core/Mage/Customer/Service
+app/code/core/Mage/Customer/Model/Customer/Validation
+app/code/core/Mage/Adminhtml/controllers/CustomerController.php

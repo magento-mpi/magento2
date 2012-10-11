@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validation>
+    <entity name="customer">
+        <rules>
+            <rule name="check_password">
+                <entity_constraints>
+                    <constraint class="Mage_Customer_Model_Customer_Validation_Password" />
+                </entity_constraints>
+            </rule>
+            <rule name="check_model">
+                <entity_constraints>
+                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
+                </entity_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="adminhtml_password_check">
+                <uses>
+                    <use rule="check_password"/>
+                </uses>
+            </group>
+            <group name="service_validator">
+                <uses>
+                    <use rule="check_model"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

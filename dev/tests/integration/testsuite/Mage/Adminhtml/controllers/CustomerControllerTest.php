@@ -68,6 +68,8 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
 
     public function testSaveActionWithInvalidCustomerAddressData()
     {
+        $this->markTestIncomplete('Before the implementation of address service layer');
+
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -98,6 +100,8 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
      */
     public function testSaveActionWithValidCustomerDataAndValidAddressData()
     {
+        $this->markTestIncomplete('Before the implementation of address service layer');
+
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',

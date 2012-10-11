@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
+ * @package     Magento_Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,24 +13,16 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_zend">
-            </rule>
-            <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint class="Magento_Validator_Test"/>
-                </constraints>
+            <rule name="test_rule_a">
+                <entity_constraints>
+                    <!-- constraint element is expected here -->
+                </entity_constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_a">
                 <uses>
-                    <use rule="test_rule_zend"/>
-                    <use rule="test_rule_constraint"/>
-                </uses>
-            </group>
-            <group name="test_group_b">
-                <uses>
-                    <use rule="test_rule_constraint"/>
+                    <use rule="test_rule_a"/>
                 </uses>
             </group>
         </groups>
