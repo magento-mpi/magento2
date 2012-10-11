@@ -146,17 +146,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
     }
 
-    public function testGridContainsMassactionColumnHtml()
-    {
-        $gridBlock = $this->_layout->getBlock('admin.test.grid');
-        $this->assertRegExp(
-            '#<th><span class="head-massaction"><select name="massaction" id="([\w\d_]+)_filter_massaction" '
-                . 'class="no-changes"><option value="">Any</option><option value="1">Yes</option>'
-                . '<option value="0">No</option></select></span></th>#',
-            $gridBlock->toHtml()
-        );
-    }
-
     public function testGridContainsMassactionColumn()
     {
         $this->_layout->getBlock('admin.test.grid')->toHtml();

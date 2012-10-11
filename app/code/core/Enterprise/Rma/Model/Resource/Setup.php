@@ -36,8 +36,6 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
             'data_model'                => $this->_getValue($attr, 'data', null),
             'sort_order'                => $this->_getValue($attr, 'position', 0)
         ));
-
-        $this->installEntities();
         return $data;
     }
 
