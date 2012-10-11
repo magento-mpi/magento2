@@ -8,6 +8,20 @@
  */
  (function ($, undefined) {
     "use strict";
+    var treeToList = function(list, nodes, level) {
+        $.each(nodes, function() {
+            list.push({
+                label: this.name,
+                value: this.id,
+                level: level,
+                item: this
+            });
+            if ('children' in this) {
+                treeToList(list, this.children, level + 1);
+            }
+        });
+        return list;
+    };
     $.fn.select2 = function (options) {
         this.each(function () {
             var $element = $(
@@ -47,13 +61,7 @@
                             name_part: request.term
                         },
                         success: function(data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: item.text,
-                                    value: item.id,
-                                    item: item
-                                }
-                            }));
+                            response(treeToList([], [data]), 0);
                         }
                     });
                 },
