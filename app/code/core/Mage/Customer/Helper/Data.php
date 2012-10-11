@@ -615,7 +615,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      * @return array Filtered customer data
      */
     public function extractCustomerData(Zend_Controller_Request_Http $request, $formCode, $entity,
-                                        $additionalAttributes = array(), $scope = null, $eavForm = null
+        $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
             $eavForm = Mage::getModel('Mage_Customer_Model_Form');

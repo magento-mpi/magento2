@@ -8,11 +8,10 @@
  * @license     {license_link}
  */
 
-
 /**
  * String length test validator
  */
-class Magento_Validator_StringLength extends Zend_Validate_StringLength implements Magento_Validator_Interface
+class Magento_Validator_StringLength extends Zend_Validate_StringLength implements Magento_Validator_ValidatorInterface
 {
 
 }

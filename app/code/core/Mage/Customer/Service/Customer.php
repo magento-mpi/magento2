@@ -42,12 +42,12 @@ class Mage_Customer_Service_Customer
      *
      * @var array
      */
-    protected $_deprecatedAttributes = array('store_id', 'website_id');
+    protected $_deprecatedAttr = array('store_id', 'website_id');
 
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_translateHelper = Mage::helper('Mage_Customer_Helper_Data');
         $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
@@ -56,7 +56,7 @@ class Mage_Customer_Service_Customer
     /**
      * Customer entity getter.
      *
-     * @return Mage_Customer_Model_Customer
+     * @return Mage_Customer_Model_Customer|null
      */
     public function getCustomer()
     {
@@ -79,7 +79,7 @@ class Mage_Customer_Service_Customer
         $accountData['created_in'] = (isset($accountData['created_in']) && $accountData['created_in'])
             ? $accountData['created_in'] : Mage::app()->getDefaultStoreView()->getName();
         $accountData['store_id'] = isset($accountData['store_id']) ? $accountData['store_id']
-            : Mage::app()->getStore()->getWebsiteId();
+            : Mage::app()->getStore()->getId();
 
         /** @var Mage_Customer_Model_Customer $customer */
         $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -96,10 +96,10 @@ class Mage_Customer_Service_Customer
      *
      * @param string|int $customerId
      * @param array $customerData
-     * @param bool $deleteMissingAddresses
+     * @param bool $deleteMissingAddr
      * @return Mage_Customer_Model_Customer
      */
-    public function update($customerId, $customerData, $deleteMissingAddresses = false)
+    public function update($customerId, $customerData, $deleteMissingAddr = false)
     {
         $accountData = $this->_extractAccountData($customerData);
 
@@ -109,7 +109,7 @@ class Mage_Customer_Service_Customer
 
         $this->_customer = $this->_loadCustomerById($customerId);
         $this->_customer->addData($accountData);
-        if ($deleteMissingAddresses) {
+        if ($deleteMissingAddr) {
             $this->_markMissingAddressesForDelete($customerData);
         }
         $this->_save($customerData);
@@ -124,10 +124,8 @@ class Mage_Customer_Service_Customer
      */
     public function delete($customerId)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->load($customerId);
-        $customer->delete();
+        $this->_customer = $this->_loadCustomerById($customerId);
+        $this->_customer->delete();
     }
 
     /**
@@ -144,7 +142,7 @@ class Mage_Customer_Service_Customer
         );
 
         $this->_getAttributesToValidate($this->_customer,
-            $this->_deprecatedAttributes);
+            $this->_deprecatedAttr);
 
         $accountData = $this->_extractAccountData($customerData);
         $addresses = $this->_extractAddressesData($customerData);
@@ -183,7 +181,7 @@ class Mage_Customer_Service_Customer
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setAttributes',
             'arguments' => array($this->_getAttributesToValidate($this->_customer,
-                $this->_deprecatedAttributes))
+                $this->_deprecatedAttr))
         ));
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setData',
@@ -207,10 +205,11 @@ class Mage_Customer_Service_Customer
     protected function _processValidationErrors($errorMessages)
     {
         $exception = new Mage_Core_Exception();
+        $message = Mage::getSingleton('Mage_Core_Model_Message');
         foreach ($errorMessages as $errorMessage) {
             foreach ($errorMessage as $errorText) {
                 if (!empty($errorText)) {
-                    $exception->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($errorText));
+                    $exception->addMessage($message->error($errorText));
                 }
             }
         }
@@ -305,7 +304,7 @@ class Mage_Customer_Service_Customer
     {
         // TODO: 'force_confirmed' should be set in admin area only
         $this->_customer->setForceConfirmed(true);
-        if ($this->_getAutogeneratePasswordFlag($customerAccountData)) {
+        if ($this->_isAutogeneratePassword($customerAccountData)) {
             $this->_customer->setPassword($this->_customer->generatePassword());
         } elseif (isset($customerAccountData['password'])) {
             $this->_customer->setPassword($customerAccountData['password']);
@@ -318,9 +317,9 @@ class Mage_Customer_Service_Customer
      * @param array $customerAccountData
      * @return bool
      */
-    protected function _getAutogeneratePasswordFlag($customerAccountData)
+    protected function _isAutogeneratePassword($customerAccountData)
     {
-        return (isset($customerAccountData['autogenerate_password']) && $customerAccountData['autogenerate_password']);
+        return isset($customerAccountData['autogenerate_password']) && $customerAccountData['autogenerate_password'];
     }
 
     /**
@@ -329,7 +328,7 @@ class Mage_Customer_Service_Customer
      * @param array $customerAccountData
      * @return bool
      */
-    protected function _getSendEmailFlag($customerAccountData)
+    protected function _isSendEmail($customerAccountData)
     {
         return isset($customerAccountData['sendemail']) && $customerAccountData['sendemail'];
     }
@@ -343,7 +342,7 @@ class Mage_Customer_Service_Customer
     protected function _changePassword($customerAccountData)
     {
         $passwordSet = isset($customerAccountData['password']) && !empty($customerAccountData['password']);
-        $autogeneratePassword = $this->_getAutogeneratePasswordFlag($customerAccountData);
+        $autogeneratePassword = $this->_isAutogeneratePassword($customerAccountData);
         if ($passwordSet || $autogeneratePassword) {
             if ($autogeneratePassword) {
                 $newPassword = $this->_customer->generatePassword();
@@ -369,7 +368,7 @@ class Mage_Customer_Service_Customer
     protected function _sendWelcomeEmail($accountData)
     {
         if ($this->_customer->getWebsiteId()
-            && ($this->_getSendEmailFlag($accountData) || $this->_getAutogeneratePasswordFlag($accountData))) {
+            && ($this->_isSendEmail($accountData) || $this->_isAutogeneratePassword($accountData))) {
             $isNewCustomer = $this->_customer->isObjectNew();
             $storeId = $this->_customer->getSendemailStoreId();
             if ($isNewCustomer) {
@@ -385,14 +384,14 @@ class Mage_Customer_Service_Customer
     /**
      * Load customer by its ID
      *
-     * @param int|string $id
-     * @throws Mage_Core_Exception
+     * @param int|string $customerId
      * @return Mage_Customer_Model_Customer
+     * @throws Mage_Core_Exception
      */
-    protected function _loadCustomerById($id)
+    protected function _loadCustomerById($customerId)
     {
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
         if (!$customer->getId()) {
             throw new Mage_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
         }
@@ -430,15 +429,14 @@ class Mage_Customer_Service_Customer
                 }
             }
         }
-        return $this;
-    }
 
-    /**
-     * Get Store Id
-     * @return int
-     */
-    protected function _getStoreId()
-    {
-        return Mage::app()->getStore()->getId();
+        // Mark not modified customer addresses for delete
+        foreach ($this->_customer->getAddressesCollection() as $customerAddress) {
+            if ($customerAddress->getId() && !in_array($customerAddress->getId(), $modifiedAddresses)) {
+                $customerAddress->setData('_deleted', true);
+            }
+        }
+
+        return $this;
     }
 }

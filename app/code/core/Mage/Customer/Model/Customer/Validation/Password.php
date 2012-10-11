@@ -34,14 +34,14 @@ class Mage_Customer_Model_Customer_Validation_Password implements Magento_Valida
     {
         $password = $value->getData('password');
         if (!empty($password)) {
-            if (!$this->_validatePassword($value, $password)) {
+            if (!$this->_validatePassword($value, 'password')) {
                 return false;
             }
         }
 
         $newPassword = $value->getData('new_password');
         if (!empty($newPassword)) {
-            if (!$this->_validatePassword($value, $newPassword)) {
+            if (!$this->_validatePassword($value, 'new_password')) {
                 return false;
             }
         }
@@ -54,18 +54,22 @@ class Mage_Customer_Model_Customer_Validation_Password implements Magento_Valida
      *
      * @param Varien_Object $value
      * @param string $passwordFieldName
+     * @return bool
      */
     public function _validatePassword($value, $passwordFieldName)
     {
         $password = $value->getData($passwordFieldName);
 
-        if (!$value->getId() && !Zend_Validate::is($password, 'NotEmpty')) {
+        $notEmptyValidator = new Magento_Validator_NotEmpty();
+        if (!$value->getId() && !$notEmptyValidator->isValid($password)) {
             $this->_addErrorMessage('password',
                 Mage::helper('Mage_Customer_Helper_Data')->__('The password cannot be empty.'));
             return false;
         }
 
-        if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(self::MIN_PASSWORD_LENGTH))) {
+        $strlenValidator = new Magento_Validator_StringLength();
+        $strlenValidator->setMin(self::MIN_PASSWORD_LENGTH);
+        if (!$strlenValidator->isValid($password)) {
             $this->_addErrorMessage('password',
                 Mage::helper('Mage_Customer_Helper_Data')->
                     __('The minimum password length is %s.', self::MIN_PASSWORD_LENGTH));
@@ -90,7 +94,12 @@ class Mage_Customer_Model_Customer_Validation_Password implements Magento_Valida
      */
     protected function _addErrorMessage($code, $message)
     {
-        $this->_messages[$code][] = $message;
+        if (isset($this->_messages[$code])) {
+            $this->_messages[$code][] = $message;
+        } else {
+            $this->_messages[$code] = array($message);
+        }
+
     }
 
     /**
