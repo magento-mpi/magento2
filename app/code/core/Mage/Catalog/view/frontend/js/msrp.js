@@ -1,11 +1,11 @@
 /**
-* {license_notice}
-*
-* @category    design
-* @package     base_default
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    frontend product msrp
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /*jshint browser:true jquery:true*/
 (function ($) {
