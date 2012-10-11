@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::getModel('Mage_Catalog_Helper_Category');
+        $this->_helper = Mage::helper('Mage_Catalog_Helper_Category');
     }
 
     protected function tearDown()
@@ -84,6 +84,9 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_helper->canShow($category));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetCategoryUrlSuffixDefault()
     {
         $this->assertEquals('.html', $this->_helper->getCategoryUrlSuffix());
@@ -91,12 +94,16 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoConfigFixture current_store catalog/seo/category_url_suffix .htm
+     * @magentoAppIsolation enabled
      */
     public function testGetCategoryUrlSuffix()
     {
         $this->assertEquals('.htm', $this->_helper->getCategoryUrlSuffix());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetCategoryUrlPathDefault()
     {
         $this->assertEquals('http://example.com/category',
@@ -110,6 +117,7 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoConfigFixture current_store catalog/seo/category_url_suffix .htm
+     * @magentoAppIsolation enabled
      */
     public function testGetCategoryUrlPath()
     {
