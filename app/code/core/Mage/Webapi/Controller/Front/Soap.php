@@ -48,55 +48,83 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-        $role = $this->_authenticate();
-        $this->_checkOperationDeprecation($operation);
-        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
-        if (!$resourceName) {
-            $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
-        }
-        $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
-        $controllerInstance = $this->_getActionControllerInstance($controllerClass);
-        $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
-        try {
-            $this->_checkResourceAcl($role, $resourceName, $method);
+        if (in_array($operation, $this->_getRequestedHeaders())){
+            $this->_processSoapHeader($operation, $arguments);
+        } else {
+            $role = $this->_authenticate();
+            $this->_checkOperationDeprecation($operation);
+            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
+            if (!$resourceName) {
+                $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
+            }
+            $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
+            $controllerInstance = $this->_getActionControllerInstance($controllerClass);
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
+            try {
+                $this->_checkResourceAcl($role, $resourceName, $method);
 
-            $arguments = reset($arguments);
-            /** @var Mage_Api_Helper_Data $apiHelper */
-            $apiHelper = Mage::helper('Mage_Api_Helper_Data');
-            $this->getHelper()->toArray($arguments);
-            $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
-            $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
+                $arguments = reset($arguments);
+                /** @var Mage_Api_Helper_Data $apiHelper */
+                $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+                $this->getHelper()->toArray($arguments);
+                $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
+                $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
-            $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
-            // TODO: Implement response preparation according to current presentation
+                $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
+                // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
-            // TODO: Move wsiArrayPacker from helper to this class
-            $obj = $apiHelper->wsiArrayPacker($outputData);
-            $stdObj = new stdClass();
-            $stdObj->result = $obj;
-            return $stdObj;
-            // TODO: Implement proper exception handling
-        } catch (Mage_Api_Exception $e) {
-            $this->_soapFault($e->getCustomMessage(), self::FAULT_CODE_RECEIVER, $e);
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $this->_soapFault($e->getMessage());
+                // TODO: Move wsiArrayPacker from helper to this class
+                $obj = $apiHelper->wsiArrayPacker($outputData);
+                $stdObj = new stdClass();
+                $stdObj->result = $obj;
+                return $stdObj;
+                // TODO: Implement proper exception handling
+            } catch (Mage_Api_Exception $e) {
+                $this->_soapFault($e->getCustomMessage(), self::FAULT_CODE_RECEIVER, $e);
+            } catch (Exception $e) {
+                Mage::logException($e);
+                $this->_soapFault($e->getMessage());
+            }
         }
     }
 
     /**
-     * WS-Security header handler.
+     * Handle SOAP headers.
      *
-     * @param stdClass $header
-     * @codingStandardsIgnoreStart
+     * @param string $header
+     * @param array $arguments
      */
-    public function Security($header)
+    protected function _processSoapHeader($header, $arguments)
     {
-        if (isset($header->UsernameToken)) {
-            $this->_usernameTokenRequest = $header->UsernameToken;
+        switch ($header) {
+            case 'Security':
+                foreach ($arguments as $argument) {
+                    if (is_object($argument) && isset($argument->UsernameToken)) {
+                        $this->_usernameTokenRequest = $argument->UsernameToken;
+                    }
+                }
+                break;
         }
     }
-    // @codingStandardsIgnoreEnd
+
+    /**
+     * Get SOAP Header names from request.
+     *
+     * @return array
+     */
+    protected function _getRequestedHeaders()
+    {
+        $dom = new DOMDocument();
+        $dom->loadXML($this->_getSoapServer()->getLastRequest());
+        $headers = array();
+        /** @var DOMElement $header */
+        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
+            list($headerNs, $headerName) = explode(":", $header->nodeName);
+            $headers[] = $headerName;
+        }
+
+        return $headers;
+    }
 
     /**
      * Authenticate user
