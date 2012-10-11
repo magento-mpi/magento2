@@ -16,7 +16,6 @@ interface Magento_Validator_Constraint_OptionInterface
     /**
      * Get option value
      *
-     * @abstract
      * @return mixed
      */
     public function getValue();

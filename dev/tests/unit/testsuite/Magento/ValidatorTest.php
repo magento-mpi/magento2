@@ -39,7 +39,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      * @param bool $breakChainOnFailure
      */
     public function testIsValid($value, $validators, $expectedResult, $expectedMessages = array(),
-                                $breakChainOnFailure = false
+        $breakChainOnFailure = false
     ) {
         foreach ($validators as $validator) {
             $this->_validator->addValidator($validator, $breakChainOnFailure);
@@ -60,48 +60,48 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         $value = 'test';
 
         // Case 1. Validators fails without breaking chain
-        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators1->expects($this->once())->method('isValid')
+        $validatorA = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorA->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(false));
-        $validators1->expects($this->once())->method('getMessages')
+        $validatorA->expects($this->once())->method('getMessages')
             ->will($this->returnValue(array('foo' => array('Foo message 1'), 'bar' => array('Foo message 2'))));
 
-        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators2->expects($this->once())->method('isValid')
+        $validatorB = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorB->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(false));
-        $validators2->expects($this->once())->method('getMessages')
+        $validatorB->expects($this->once())->method('getMessages')
             ->will($this->returnValue(array('foo' => array('Bar message 1'), 'bar' => array('Bar message 2'))));
 
-        $result[] = array($value, array($validators1, $validators2), false, array(
+        $result[] = array($value, array($validatorA, $validatorB), false, array(
             'foo' => array('Foo message 1', 'Bar message 1'),
             'bar' => array('Foo message 2', 'Bar message 2')
         ));
 
         // Case 2. Validators fails with breaking chain
-        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators1->expects($this->once())->method('isValid')
+        $validatorA = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorA->expects($this->once())->method('isValid')
             ->with($value)
             ->will($this->returnValue(false));
-        $validators1->expects($this->once())->method('getMessages')
+        $validatorA->expects($this->once())->method('getMessages')
             ->will($this->returnValue(array('field' => 'Error message')));
 
-        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators2->expects($this->never())->method('isValid');
+        $validatorB = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorB->expects($this->never())->method('isValid');
 
-        $result[] = array($value, array($validators1, $validators2), false, array('field' => 'Error message'), true);
+        $result[] = array($value, array($validatorA, $validatorB), false, array('field' => 'Error message'), true);
 
         // Case 3. Validators succeed
-        $validators1 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators1->expects($this->once())->method('isValid')
+        $validatorA = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorA->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(true));
-        $validators1->expects($this->never())->method('getMessages');
+        $validatorA->expects($this->never())->method('getMessages');
 
-        $validators2 = $this->getMock('Magento_Validator_ValidatorInterface');
-        $validators2->expects($this->once())->method('isValid')
+        $validatorB = $this->getMock('Magento_Validator_ValidatorInterface');
+        $validatorB->expects($this->once())->method('isValid')
             ->with($value)->will($this->returnValue(true));
-        $validators2->expects($this->never())->method('getMessages');
+        $validatorB->expects($this->never())->method('getMessages');
 
-        $result[] = array($value, array($validators1, $validators2), true);
+        $result[] = array($value, array($validatorA, $validatorB), true);
 
         return $result;
     }

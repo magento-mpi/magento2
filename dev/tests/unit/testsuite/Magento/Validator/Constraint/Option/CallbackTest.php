@@ -89,7 +89,10 @@ class Magento_Validator_Constraint_Option_CallbackTest extends PHPUnit_Framework
      */
     public function testSetArguments($value, $expectedValue)
     {
-        $option = new Magento_Validator_Constraint_Option_Callback(function() {});
+        $option = new Magento_Validator_Constraint_Option_Callback(
+            function () {
+            }
+        );
         $option->setArguments($value);
         $this->assertAttributeEquals($expectedValue, '_arguments', $option);
     }

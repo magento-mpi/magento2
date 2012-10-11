@@ -92,10 +92,12 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
             'alias' => 'sku_alias',
             'class' => 'Magento_Validator_Test_StringLength',
             'options' => array(
-                'callback' => array(new Magento_Validator_Constraint_Option_Callback(function($validator) {
-                    $validator->setMin(20);
-                    $validator->setMax(100);
-                }))
+                'callback' => array(new Magento_Validator_Constraint_Option_Callback(
+                    function ($validator) {
+                        $validator->setMin(20);
+                        $validator->setMax(100);
+                    }
+                ))
             ),
             'property' => 'sku',
             'type' => 'property',
