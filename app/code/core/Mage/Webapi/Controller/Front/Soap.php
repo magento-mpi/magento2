@@ -48,7 +48,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
-        if (in_array($operation, $this->_getRequestedHeaders())){
+        if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
             $role = $this->_authenticate();
