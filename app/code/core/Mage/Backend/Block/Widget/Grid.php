@@ -8,6 +8,13 @@
  * @license     {license_link}
  */
 
+/**
+ * Backend grid widget block
+ *
+ * @category   Mage
+ * @package    Mage_Backend
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 {
     /**

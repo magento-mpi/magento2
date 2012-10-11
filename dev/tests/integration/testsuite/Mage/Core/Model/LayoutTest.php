@@ -95,7 +95,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
             'notification_survey',
             'notification_security',
             'messages',
-            'ANONYMOUS_0',
+            'root_schedule_block',
             'index_notifications',
             'index_notifications_copy'
         );
@@ -166,8 +166,8 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
         $layout = new Mage_Core_Model_Layout();
         $layout->getUpdate()->load(array('layout_test_handle_action_for_anonymous_parent_block'));
         $layout->generateXml()->generateElements();
-        $this->assertEquals('ANONYMOUS_0', $layout->getParentName('test.block.insert'));
-        $this->assertEquals('ANONYMOUS_1', $layout->getParentName('test.block.append'));
+        $this->assertEquals('schedule_block', $layout->getParentName('test.block.insert'));
+        $this->assertEquals('schedule_block_1', $layout->getParentName('test.block.append'));
 
         /**
          * Test layout remove directive
@@ -281,7 +281,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
             'named block' => array(
                 'Mage_Core_Block_Template',
                 'some_block_name_full_class',
-                array('type' => 'Mage_Core_Block_Template'),
+                array('type' => 'Mage_Core_Block_Template', 'is_anonymous' => false),
                 '/^some_block_name_full_class$/'
             ),
             'no name block' => array(
@@ -289,9 +289,10 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
                 '',
                 array(
                     'type' => 'Mage_Core_Block_Text_List',
-                    'key1' => 'value1'
+                    'key1' => 'value1',
+                    'is_anonymous' => true
                 ),
-                '/^ANONYMOUS_.+/'
+                '/text_list/'
             ),
         );
     }
