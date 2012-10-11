@@ -19,9 +19,8 @@ class Mage_Authorizenet_Block_Directpost_IframeTest extends PHPUnit_Framework_Te
      */
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $xssString = '</script><script>alert("XSS")</script>';
+        /** @var $block Mage_Authorizenet_Block_Directpost_Iframe */
         $block = Mage::app()->getLayout()->createBlock('Mage_Authorizenet_Block_Directpost_Iframe');
         $block->setTemplate('directpost/iframe.phtml');
         $block->setParams(array(
