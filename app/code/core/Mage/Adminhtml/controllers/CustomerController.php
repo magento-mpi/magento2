@@ -270,7 +270,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customer = null;
         $returnToEdit = false;
-
         if ($originalRequestData = $this->getRequest()->getPost()) {
             try {
                 // optional fields might be set in request for future processing by observers in other modules
@@ -287,9 +286,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
-                if ($this->getRequest()->getParam('back', false)) {
-                    $returnToEdit = true;
-                }
+                $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
             } catch (Mage_Core_Exception $exception) {
                 $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
                 if (count($messages)) {
@@ -313,7 +310,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         if ($returnToEdit) {
-            if ($customer && $customer->getId()) {
+            if ($customer) {
                 $this->_redirect('*/*/edit', array('id' => $customer->getId(), '_current' => true));
             } else {
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -401,25 +398,23 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
         $customerData['confirmation'] = $customerData['password'];
 
-        if (isset($customerData['autogenerate_password']) && $customerData['autogenerate_password']) {
-            return;
-        }
-
-        /** @var $validatorFactory Magento_Validator_Config */
-        $validatorFactory = Mage::getSingleton('Magento_Validator_Config',
-            Mage::getConfig()->getModuleConfigurationFiles('validation.xml'));
-        $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
-        if (!$passwordValidator->isValid($customerData)) {
-            $exception = new Mage_Core_Exception();
-            /* @var $messageFactory Mage_Core_Model_Message */
-            $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
-            foreach ($passwordValidator->getMessages() as $error) {
-                foreach ($error as $errorMessage) {
-                    $exception->addMessage($messageFactory->error($errorMessage));
+        if (empty($customerData['autogenerate_password'])) {
+            /** @var $validatorFactory Magento_Validator_Config */
+            $validatorFactory = Mage::getSingleton('Magento_Validator_Config',
+                Mage::getConfig()->getModuleConfigurationFiles('validation.xml'));
+            $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
+            if (!$passwordValidator->isValid($customerData)) {
+                $exception = new Mage_Core_Exception();
+                /* @var $messageFactory Mage_Core_Model_Message */
+                $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
+                foreach ($passwordValidator->getMessages() as $error) {
+                    foreach ($error as $errorMessage) {
+                        $exception->addMessage($messageFactory->error($errorMessage));
+                    }
                 }
-            }
 
-            throw $exception;
+                throw $exception;
+            }
         }
     }
 

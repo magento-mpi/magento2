@@ -408,7 +408,6 @@ class Mage_Customer_Service_Customer
      */
     protected function _processAddresses($addresses, $defaultBillingIndex = null, $defaultShippingIndex = null)
     {
-        $modifiedAddresses = array();
         if (!empty($addresses)) {
             foreach ($addresses as $addressIndex => $addressData) {
                 $address = $this->_customer->getAddressItemById($addressIndex);
@@ -422,18 +421,9 @@ class Mage_Customer_Service_Customer
                 // TODO: Why do we need this setPostIndex() for?
                 // Set post_index for detect default billing and shipping addresses
                 $address->setPostIndex($addressIndex);
-                if ($address->getId()) {
-                    $modifiedAddresses[] = $address->getId();
-                } else {
+                if (!$address->getId()) {
                     $this->_customer->addAddress($address);
                 }
-            }
-        }
-
-        // Mark not modified customer addresses for delete
-        foreach ($this->_customer->getAddressesCollection() as $customerAddress) {
-            if ($customerAddress->getId() && !in_array($customerAddress->getId(), $modifiedAddresses)) {
-                $customerAddress->setData('_deleted', true);
             }
         }
 
