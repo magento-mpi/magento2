@@ -29,7 +29,7 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Config', array('objectManager' => Mage::getObjectManager()));
+        $this->_model = Mage::getModel('Mage_Core_Model_Config');
         $this->_model->init(self::$_options);
     }
 
