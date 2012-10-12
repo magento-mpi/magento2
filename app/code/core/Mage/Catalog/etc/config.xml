@@ -203,6 +203,7 @@
                         <status/>
                         <visibility/>
                         <weight/>
+                        <stock_and_qty/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>

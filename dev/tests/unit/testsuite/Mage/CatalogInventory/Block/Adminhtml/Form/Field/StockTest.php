@@ -13,8 +13,14 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit
 {
     const ATTRIBUTE_NAME = 'stock_and_qty';
 
+    /**
+     * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     */
     protected $_model;
 
+    /**
+     * @var Varien_Data_Form_Element_Text
+     */
     protected $_qty;
 
     protected function setUp()
