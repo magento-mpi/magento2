@@ -31,6 +31,10 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function ordersAction()
     {
+        $this->_title($this->__('Sales'))
+            ->_title($this->__('Archive'))
+            ->_title($this->__('Orders'));
+
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_orders');
         $this->renderLayout();
@@ -49,6 +53,10 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function invoicesAction()
     {
+        $this->_title($this->__('Sales'))
+            ->_title($this->__('Archive'))
+            ->_title($this->__('Invoices'));
+
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_invoices');
         $this->renderLayout();
@@ -68,6 +76,10 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function creditmemosAction()
     {
+        $this->_title($this->__('Sales'))
+            ->_title($this->__('Archive'))
+            ->_title($this->__('Creditmemos'));
+
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_creditmemos');
         $this->renderLayout();
@@ -86,6 +98,10 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
      */
     public function shipmentsAction()
     {
+        $this->_title($this->__('Sales'))
+            ->_title($this->__('Archive'))
+            ->_title($this->__('Shipments'));
+
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_shipments');
         $this->renderLayout();
