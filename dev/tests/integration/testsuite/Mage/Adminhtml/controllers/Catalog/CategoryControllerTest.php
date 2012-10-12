@@ -9,7 +9,7 @@
 class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoDbIsolation enabled
      * @dataProvider saveActionDataProvider
      * @param array $inputData
@@ -18,8 +18,9 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utili
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
+        /** @var $store Mage_Core_Model_Store */
         $store = Mage::getModel('Mage_Core_Model_Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
@@ -34,6 +35,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utili
         $this->assertNotEmpty($messages, "Could not save category");
         $this->assertEquals('The category has been saved.', current($messages)->getCode());
 
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setStoreId($storeId);
         $category->load(2);

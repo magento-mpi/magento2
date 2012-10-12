@@ -31,17 +31,15 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
     /**
      * @param $registryData
      * @param $expected
-     * dataProvider getStoreTypesForLayout
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
+     * @dataProvider getStoreTypesForLayout
      */
-    public function testStoreTypeFormCreated(/*$registryData, $expected*/)
+    public function testStoreTypeFormCreated($registryData, $expected)
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $this->_initStoreTypesInRegistry($registryData);
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
@@ -72,17 +70,15 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
     /**
      * @param $registryData
      * @param $expected
-     * dataProvider getStoreDataForBlock
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
+     * @dataProvider getStoreDataForBlock
      */
-    public function testGetHeaderText(/*$registryData, $expected*/)
+    public function testGetHeaderText($registryData, $expected)
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $this->_initStoreTypesInRegistry($registryData);
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);

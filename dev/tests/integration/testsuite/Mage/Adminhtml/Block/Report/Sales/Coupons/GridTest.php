@@ -35,8 +35,6 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_GridTest extends PHPUnit_Framewo
      */
     public function testGetResourceCollectionNameNormal()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = $this->_createBlock();
         $normalCollection = $block->getResourceCollectionName();
         $this->assertTrue(class_exists($normalCollection));
@@ -50,8 +48,6 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_GridTest extends PHPUnit_Framewo
      */
     public function testGetResourceCollectionNameWithFilter($normalCollection)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = $this->_createBlock('updated_at_order');
         $filteredCollection = $block->getResourceCollectionName();
         $this->assertTrue(class_exists($filteredCollection));

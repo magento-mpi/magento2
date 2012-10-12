@@ -17,8 +17,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Fram
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Options_Ajax');
     }
 
@@ -28,12 +26,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Fram
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_with_options.php
+     * @magentoDataFixture Mage/Catalog/_files/product_with_options.php
      */
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::register('import_option_products', array(1));
         $result = json_decode($this->_block->toHtml(), true);
         $this->assertEquals('test_option_code_1', $result[0]['title']);

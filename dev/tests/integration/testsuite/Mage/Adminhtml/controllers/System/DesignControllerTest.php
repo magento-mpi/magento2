@@ -16,6 +16,8 @@ class Mage_Adminhtml_System_DesignControllerTest extends Mage_Adminhtml_Utility_
      */
     public function testEditAction()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $this->dispatch('backend/admin/system_design/edit');
         $this->assertStringMatchesFormat('%A<a%Aid="design_tabs_general"%A', $this->getResponse()->getBody());
     }

@@ -15,6 +15,7 @@ class Mage_Adminhtml_Block_Tax_Class_EditTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Tax_Class_Edit', 'block');
         $childBlock = $block->getChildBlock('form');

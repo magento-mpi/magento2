@@ -17,18 +17,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
     /**
      * Test prepare layout
      *
-     * dataProvider prepareLayoutDataProvider
+     * @dataProvider prepareLayoutDataProvider
      *
      * @param array $blockAttributes
      * @param array $expected
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
      */
-    public function testPrepareLayout(/*$blockAttributes, $expected*/)
+    public function testPrepareLayout($blockAttributes, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */

@@ -13,8 +13,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest extends
 {
     public function testToHtmlFormId()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $block = $layout->addBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add', 'block');

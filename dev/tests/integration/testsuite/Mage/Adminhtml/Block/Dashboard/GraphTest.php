@@ -18,8 +18,6 @@ class Mage_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Graph');
         $this->_block->setDataHelperName('Mage_Adminhtml_Helper_Dashboard_Order');
     }

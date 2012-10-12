@@ -13,6 +13,8 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
 {
     public function testLoadBlockAction()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -20,11 +22,11 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testLoadBlockActionData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
         Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
@@ -42,6 +44,8 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
      */
     public function testLoadBlockActions($block, $expected)
     {
+        $this->markTestIncomplete('Need to fix DI dependencies');
+
         $this->getRequest()->setParam('block', $block);
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -61,11 +65,11 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testLoadBlockActionItems()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
         Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
@@ -76,11 +80,11 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testIndexAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
         /** @var $order Mage_Adminhtml_Model_Sales_Order_Create */
         $order = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');

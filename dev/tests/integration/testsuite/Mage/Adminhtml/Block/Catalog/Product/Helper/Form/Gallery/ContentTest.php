@@ -15,6 +15,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_ContentTest exten
     {
         $this->markTestIncomplete('Need to fix DI dependencies + block');
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content', 'block');
 

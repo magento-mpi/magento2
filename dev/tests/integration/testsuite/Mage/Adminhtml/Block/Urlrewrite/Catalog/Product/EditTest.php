@@ -17,18 +17,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
     /**
      * Test prepare layout
      *
-     * dataProvider prepareLayoutDataProvider
+     * @dataProvider prepareLayoutDataProvider
      *
      * @param array $blockAttributes
      * @param array $expected
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
      */
-    public function testPrepareLayout(/*$blockAttributes, $expected*/)
+    public function testPrepareLayout($blockAttributes, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit */
@@ -256,13 +254,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
      */
     public function prepareLayoutDataProvider()
     {
+        /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
         $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
+        /** @var $existingUrlRewrite Mage_Core_Model_Url_Rewrite */
         $existingUrlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );

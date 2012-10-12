@@ -31,13 +31,11 @@ class Mage_Adminhtml_Newsletter_QueueControllerTest extends Mage_Adminhtml_Utili
     }
 
     /**
-     * magentoDataFixture Mage/Adminhtml/controllers/_files/newsletter_sample.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/newsletter_sample.php
      * @magentoAppIsolation disabled
      */
     public function testSaveActionQueueTemplateAndVerifySuccessMessage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $postForQueue = array('sender_email'=>'johndoe_gieee@unknown-domain.com',
                               'sender_name'=>'john doe',
                               'subject'=>'test subject',

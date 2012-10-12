@@ -16,6 +16,8 @@ class Mage_Adminhtml_System_VariableControllerTest extends Mage_Adminhtml_Utilit
      */
     public function testEditAction()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $this->dispatch('backend/admin/system_variable/edit');
         $body = $this->getResponse()->getBody();
         $this->assertContains('function toggleValueElement(element) {', $body);

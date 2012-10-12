@@ -13,8 +13,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_SelectTest exte
 {
     public function testToHtmlFormId()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select', 'select');
         $html = $block->getPriceTypeSelectHtml();

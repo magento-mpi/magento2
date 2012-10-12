@@ -22,8 +22,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     protected function _getFormInstance($args = array())
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', $args);
@@ -48,6 +47,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testFormPostInitNew($productData, $categoryData, $action, $idPath, $requestPath, $targetPath)
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $args = array();
         if ($productData) {
             $args['product'] = new Varien_Object($productData);
@@ -71,7 +72,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      *
      * @dataProvider getEntityStoresDataProvider
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @param array $productData
      * @param array $categoryData
@@ -79,7 +80,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStores($productData, $categoryData, $expectedStores)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $args = array();
         if ($productData) {
@@ -96,14 +97,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * Check exception is thrown when product does not associated with stores
      *
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
      * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $args = array(
             'product' => new Varien_Object(array('id' => 1))
@@ -115,14 +116,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * Check exception is thrown when product stores in intersection with category stores is empty
      *
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
      * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresProductCategoryStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $args = array(
             'product' => new Varien_Object(array('id' => 1, 'store_ids' => array(1))),
@@ -135,14 +136,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * Check exception is thrown when category does not associated with stores
      *
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
      * @expectedExceptionMessage Chosen category does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresCategoryStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         $args = array(
             'category' => new Varien_Object(array('id' => 1))

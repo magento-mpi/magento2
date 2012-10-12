@@ -21,8 +21,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
+        /** @var _model Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots */
         $this->_model = Mage::getModel('Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
@@ -31,24 +30,20 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
     /**
      * Check that default value is empty when robots.txt not exists
      *
-     * magentoDataFixture Mage/Adminhtml/_files/no_robots_txt.php
+     * @magentoDataFixture Mage/Adminhtml/_files/no_robots_txt.php
      */
     public function testAfterLoadRobotsTxtNotExists()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $this->assertEmpty($this->_model->getValue());
+       $this->assertEmpty($this->_model->getValue());
     }
 
     /**
      * Check that default value equals to robots.txt content when it is available
      *
-     * magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
+     * @magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
      */
     public function testAfterLoadRobotsTxtExists()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertEquals('Sitemap: http://store.com/sitemap.xml', $this->_model->getValue());
     }
 
@@ -68,13 +63,11 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
     /**
      * Check robots.txt file changed when robots.txt exists
      *
-     * magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
+     * @magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
      * @magentoDbIsolation enabled
      */
     public function testAfterSaveFileExists()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $robotsTxtPath = Mage::getBaseDir() . DS . 'robots.txt';
         $this->assertFileExists($robotsTxtPath, 'robots.txt exists');
 

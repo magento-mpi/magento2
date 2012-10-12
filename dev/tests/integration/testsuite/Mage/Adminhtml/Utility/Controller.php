@@ -28,12 +28,11 @@ class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_Controller
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         parent::setUp();
 
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
+        /** @var _auth Mage_Backend_Model_Auth */
         $this->_auth = Mage::getModel('Mage_Backend_Model_Auth');
         $this->_session = $this->_auth->getAuthStorage();
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
@@ -41,8 +40,6 @@ class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_Controller
 
     protected function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;

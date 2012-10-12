@@ -13,28 +13,31 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
 {
     public function testIndexAction()
     {
+        $this->markTestIncomplete('Need to fix DI dependencies + block');
+
         $this->dispatch('backend/admin/sales_order/index');
         $this->assertContains('Total 0 records found', $this->getResponse()->getBody());
     }
 
     /**
-     * magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testIndexActionWithOrder()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
         $this->dispatch('backend/admin/sales_order/index');
         $this->assertContains('Total 1 records found', $this->getResponse()->getBody());
     }
 
     /**
-     * magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testOrderViewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
+        /** @var $order Mage_Sales_Model_Order */
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
         $this->dispatch('backend/admin/sales_order/view/order_id/' . $order->getId());
@@ -49,12 +52,13 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
     }
 
     /**
-     * magentoDataFixture Mage/Adminhtml/controllers/Sales/_files/address.php
+     * @magentoDataFixture Mage/Adminhtml/controllers/Sales/_files/address.php
      */
     public function testAddressActionNoVAT()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies');
 
+        /** @var $address Mage_Sales_Model_Order_Address */
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('a_unique_firstname', 'firstname');
         $this->getRequest()->setParam('address_id', $address->getId());

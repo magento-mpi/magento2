@@ -19,8 +19,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framewor
      */
     public function testPrepareGrid()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         /** @var Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
         $gridBlock = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
         $gridBlock->toHtml();
@@ -44,12 +42,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framewor
     /**
      * Test prepare grid when there is more than one store
      *
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
      */
     public function testPrepareGridForMultipleStores()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture + block');
-
         /** @var Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
         $gridBlock = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
         $gridBlock->toHtml();

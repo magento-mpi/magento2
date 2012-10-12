@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var $address Mage_Sales_Model_Order_Address */
 $address = Mage::getModel('Mage_Sales_Model_Order_Address');
 $address->setRegion('CA')
     ->setPostcode('90210')

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Controller_ActionTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Adminhtml_Controller_Action|PHPUnit_Framework_MockObject_MockObject
@@ -18,11 +18,13 @@ class Mage_Adminhtml_Controller_ActionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Adminhtml_Controller_Action',
-            array(new Magento_Test_Request(), new Magento_Test_Response())
+            array(
+                'request' => new Magento_Test_Request(),
+                'response' => new Magento_Test_Response(),
+                'objectManager' => Mage::getObjectManager(),
+                'frontController' => new Mage_Core_Controller_Varien_Front())
         );
     }
 
