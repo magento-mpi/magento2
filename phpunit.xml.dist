@@ -31,8 +31,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
+            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
     <php>
