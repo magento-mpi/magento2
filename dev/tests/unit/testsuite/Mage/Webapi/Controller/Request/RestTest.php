@@ -26,8 +26,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
+        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $requestMock = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
-            'isPost', 'isPut', 'isDelete'));
+            'isPost', 'isPut', 'isDelete'), array(null, $helper));
         $this->_requestMock = $requestMock;
     }
 
@@ -35,8 +37,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      * Test for getAcceptTypes() method
      *
      * @dataProvider providerAcceptType
-     *
-     * @param string $acceptHeader Value of Accpt HTTP header
+     * @param string $acceptHeader Value of Accept HTTP header
      * @param array $expectedResult Method call result
      */
     public function testGetAcceptTypes($acceptHeader, $expectedResult)
@@ -81,7 +82,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      * Test for getContentType() method
      *
      * @dataProvider providerContentType
-     *
      * @param string $contentTypeHeader 'Content-Type' header value
      * @param string $contentType Appropriate content type for header value
      * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)

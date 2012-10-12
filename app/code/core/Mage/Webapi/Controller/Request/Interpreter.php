@@ -18,6 +18,11 @@
 abstract class Mage_Webapi_Controller_Request_Interpreter
 {
     /**
+     * Request interpret adapters
+     */
+    const XML_PATH_WEBAPI_REQUEST_INTERPRETERS = 'global/webapi/rest/request/interpreters';
+
+    /**
      * Request body interpreters factory.
      *
      * @param string $type
@@ -26,9 +31,7 @@ abstract class Mage_Webapi_Controller_Request_Interpreter
      */
     public static function factory($type)
     {
-        /** @var $helper Mage_Webapi_Helper_Rest */
-        $helper = Mage::helper('Mage_Webapi_Helper_Rest');
-        $adapters = $helper->getRequestInterpreterAdapters();
+        $adapters = self::getRequestInterpreterAdapters();
 
         if (empty($adapters) || !is_array($adapters)) {
             throw new LogicException('Request interpreter adapter is not set.');
@@ -45,7 +48,8 @@ abstract class Mage_Webapi_Controller_Request_Interpreter
 
         if ($adapterModel === null) {
             throw new Mage_Webapi_Exception(
-                sprintf('Server can not understand Content-Type HTTP header media type "%s"', $type),
+                Mage::helper('Mage_Webapi_Helper_Data')
+                    ->__('Server can not understand Content-Type HTTP header media type "%s"', $type),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -56,5 +60,15 @@ abstract class Mage_Webapi_Controller_Request_Interpreter
         }
 
         return $adapter;
+    }
+
+    /**
+     * Retrieve list of available interpreters.
+     *
+     * @return array
+     */
+    public static function getRequestInterpreterAdapters()
+    {
+        return (array)Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
     }
 }

@@ -191,7 +191,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         $httpMethod = $this->getRequest()->getHttpMethod();
         $resourceType = $this->getRequest()->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
+            throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
         $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
@@ -241,6 +242,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 //            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
 //            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
 //        } catch (Exception $e) {
+//            TODO: Mage_Webapi_Exception must be translated
 //            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
 //        }
 //        // TODO: implement consumer role loading

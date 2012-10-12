@@ -54,7 +54,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
             'Timestamp is zero' => array(0),
             'Timestamp is a string' => array('abcdef'),
             'Timestamp is negative' => array(-1),
-            'Timestamp is from future' => array(time() + 60),
+            'Timestamp is from future more far than 60 seconds' => array(time() + 65),
             'Timestamp is too old' => array(
                 time() - Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
             ),
@@ -75,8 +75,9 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
             ->expects($this->once())
             ->method('save')
             ->with($timestamp, $this->_nonceStorage->getNonceCacheId($nonce),
-                array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG),
-                Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL);
+            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG),
+            Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
+                + Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
 
         $this->_nonceStorage->validateNonce($nonce, $timestamp);
     }

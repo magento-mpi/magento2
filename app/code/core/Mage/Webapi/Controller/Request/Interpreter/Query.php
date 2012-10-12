@@ -19,6 +19,19 @@ class Mage_Webapi_Controller_Request_Interpreter_Query implements Mage_Webapi_Co
 {
     const URI_VALIDATION_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
 
+    /** @var Mage_Core_Helper_Abstract */
+    protected $_helper;
+
+    /**
+     * Initialize helper.
+     *
+     * @param Mage_Core_Helper_Abstract|null $helper
+     */
+    function __construct(Mage_Core_Helper_Abstract $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
+
     /**
      * Parse request body into array of params.
      *
@@ -33,7 +46,7 @@ class Mage_Webapi_Controller_Request_Interpreter_Query implements Mage_Webapi_Co
             throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }
         if (!$this->_validateQuery($body)) {
-            throw new Mage_Webapi_Exception('Invalid data type. Check Content-Type.',
+            throw new Mage_Webapi_Exception($this->_helper->__('Invalid data type. Check Content-Type.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $data = array();

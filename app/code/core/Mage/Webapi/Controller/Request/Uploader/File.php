@@ -71,12 +71,19 @@ class Mage_Webapi_Controller_Request_Uploader_File
      */
     protected $_filesystemAdapter;
 
+    /** @var Mage_Core_Helper_Abstract */
+    protected $_helper;
+
     /**
-     * Initialize filesystem adapter
+     * Initialize helper and filesystem adapter.
+     *
+     * @param Mage_Core_Helper_Abstract $helper
+     * @param Varien_Io_File $filesystemAdapter
      */
-    public function __construct()
+    function __construct(Mage_Core_Helper_Abstract $helper = null, Varien_Io_File $filesystemAdapter = null)
     {
-        $this->_filesystemAdapter = new Varien_Io_File();
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_filesystemAdapter = $filesystemAdapter ? $filesystemAdapter : new Varien_Io_File();
         $this->_uploadDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . uniqid();
     }
 
@@ -84,27 +91,19 @@ class Mage_Webapi_Controller_Request_Uploader_File
      * Create temporary file on server using $fileData. File content is expected to be base64-encoded
      *
      * @param array $fileData
-     * format: array('file_content' => $base64EncodedFile, 'file_mime_type' => $mimeType, 'file_name' => $fileName)
+     *     format: array('file_content' => $base64EncodedFile, 'file_mime_type' => $mimeType, 'file_name' => $fileName)
      * @return string Path on server to uploaded temporary file
-     * @throws Mage_Webapi_Exception
      */
     public function upload($fileData)
     {
         $this->_validateFileData($fileData);
         $fileContent = base64_decode($fileData['file_content'], true);
         unset($fileData['file_content']);
-        try {
-            $this->_filesystemAdapter->checkAndCreateFolder($this->_uploadDirectory);
-            $this->_filesystemAdapter->open(array('path' => $this->_uploadDirectory));
-            $this->_uploadedFileName = $this->_getUniqueFileName($fileData);
-            $this->_filesystemAdapter->write($this->_uploadedFileName, $fileContent, self::CREATED_FILE_PERMISSIONS);
-            unset($fileContent);
-        } catch (Mage_Core_Exception $e) {
-            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        } catch (Exception $e) {
-            Mage::logException($e);
-            throw new Mage_Webapi_Exception('Resource unknown error.', Mage_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
+        $this->_filesystemAdapter->checkAndCreateFolder($this->_uploadDirectory);
+        $this->_filesystemAdapter->open(array('path' => $this->_uploadDirectory));
+        $this->_uploadedFileName = $this->_getUniqueFileName($fileData);
+        $this->_filesystemAdapter->write($this->_uploadedFileName, $fileContent, self::CREATED_FILE_PERMISSIONS);
+        unset($fileContent);
         $this->_uploadedFilePath = $this->_uploadDirectory . DS . $this->_uploadedFileName;
         return $this->_uploadedFilePath;
     }
@@ -192,21 +191,22 @@ class Mage_Webapi_Controller_Request_Uploader_File
     protected function _validateFileData($fileData)
     {
         if (!is_array($fileData)) {
-            throw new Mage_Webapi_Exception("File data is expected to be an array.",
+            throw new Mage_Webapi_Exception($this->_helper->__("File data is expected to be an array."),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         if (!isset($fileData['file_content']) || empty($fileData['file_content'])) {
-            throw new Mage_Webapi_Exception("'file_content' is not specified.", Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception($this->_helper->__("'file_content' is not specified."),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         if (!isset($fileData['file_mime_type']) || empty($fileData['file_mime_type'])) {
-            throw new Mage_Webapi_Exception("'file_mime_type' is not specified.",
+            throw new Mage_Webapi_Exception($this->_helper->__("'file_mime_type' is not specified."),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // if MIME type is invalid exception will be thrown
         $this->_getExtensionByMimeType($fileData['file_mime_type']);
         $fileContent = @base64_decode($fileData['file_content'], true);
         if (!$fileContent) {
-            throw new Mage_Webapi_Exception('File content must be base64 encoded.',
+            throw new Mage_Webapi_Exception($this->_helper->__('File content must be base64 encoded.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
     }
@@ -235,14 +235,15 @@ class Mage_Webapi_Controller_Request_Uploader_File
     /**
      * Retrieve file extension using its MIME type
      *
-     * @throws Mage_Webapi_Exception
      * @param string $mimeType
      * @return string
+     * @throws Mage_Webapi_Exception
      */
     protected function _getExtensionByMimeType($mimeType)
     {
         if (!is_string($mimeType) || !array_key_exists($mimeType, $this->_mimeTypes)) {
-            throw new Mage_Webapi_Exception('Unsuppoted file MIME type', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception($this->_helper->__('Unsuppoted file MIME type'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return '.' . $this->_mimeTypes[$mimeType];
     }

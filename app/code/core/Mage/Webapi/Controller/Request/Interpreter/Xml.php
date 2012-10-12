@@ -22,6 +22,19 @@ class Mage_Webapi_Controller_Request_Interpreter_Xml implements Mage_Webapi_Cont
      */
     const DEFAULT_INDEXED_ARRAY_ITEM_NAME = 'data_item';
 
+    /** @var Mage_Core_Helper_Abstract */
+    protected $_helper;
+
+    /**
+     * Initialize helper.
+     *
+     * @param Mage_Core_Helper_Abstract|null $helper
+     */
+    function __construct(Mage_Core_Helper_Abstract $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
+
     /**
      * Load error string.
      *
@@ -54,7 +67,8 @@ class Mage_Webapi_Controller_Request_Interpreter_Xml implements Mage_Webapi_Cont
         libxml_disable_entity_loader(false);
         // Check if there was a error while loading file
         if ($this->_loadErrorStr !== null) {
-            throw new Mage_Webapi_Exception('Decoding error.', Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new Mage_Webapi_Exception($this->_helper->__('Decoding error.'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         $xml = $this->_toArray($config);
         return $xml;

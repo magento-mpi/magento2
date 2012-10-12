@@ -24,6 +24,19 @@ class Mage_Webapi_Controller_Router_Rest
      */
     protected $_routes = array();
 
+    /** @var Mage_Core_Helper_Abstract */
+    protected $_helper;
+
+    /**
+     * Initialize helper.
+     *
+     * @param Mage_Core_Helper_Abstract $helper
+     */
+    function __construct(Mage_Core_Helper_Abstract $helper = null)
+    {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    }
+
     /**
      * Set routes
      *
@@ -52,12 +65,12 @@ class Mage_Webapi_Controller_Router_Rest
      * Find route that match current URL, set parameters of the route to Request object
      *
      * @param Mage_Webapi_Controller_RequestAbstract $request
-     * @throws Mage_Webapi_Exception
      * @return Mage_Webapi_Controller_Router_Route_Rest
+     * @throws Mage_Webapi_Exception
      */
     public function match(Mage_Webapi_Controller_RequestAbstract $request)
     {
-        /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
+        /** @var Mage_Webapi_Controller_Router_Route_Rest $route */
         foreach ($this->getRoutes() as $route) {
             $params = $route->match($request);
             if ($params !== false) {
@@ -66,6 +79,7 @@ class Mage_Webapi_Controller_Router_Rest
                 return $route;
             }
         }
-        throw new Mage_Webapi_Exception('Request does not match any route.', Mage_Webapi_Exception::HTTP_NOT_FOUND);
+        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 }

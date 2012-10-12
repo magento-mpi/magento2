@@ -19,18 +19,21 @@
 abstract class Mage_Webapi_Controller_Response_Renderer
 {
     /**
+     * Response render adapters
+     */
+    const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
+
+    /**
      * Get Renderer of given type
      *
      * @param array|string $acceptTypes
-     * @throws Mage_Webapi_Exception
-     * @throws Exception
      * @return Mage_Webapi_Controller_Response_RendererInterface
+     * @throws Mage_Webapi_Exception
+     * @throws LogicException
      */
     public static function factory($acceptTypes)
     {
-        /** @var $helper Mage_Webapi_Helper_Rest */
-        $helper = Mage::helper('Mage_Webapi_Helper_Rest');
-        $adapters = $helper->getResponseRenderAdapters();
+        $adapters = self::getResponseRenderAdapters();
 
         if (!is_array($acceptTypes)) {
             $acceptTypes = array($acceptTypes);
@@ -53,16 +56,26 @@ abstract class Mage_Webapi_Controller_Response_Renderer
         //if server can't respond in any of accepted types it SHOULD send 406(not acceptable)
         if (null === $adapterPath) {
             throw new Mage_Webapi_Exception(
-                'Server can not understand Accept HTTP header media type.',
+                Mage::helper('Mage_Webapi_Helper_Data')->__('Server can not understand Accept HTTP header media type.'),
                 Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
             );
         }
 
         $adapter = Mage::getModel($adapterPath);
         if (!$adapter) {
-            throw new Exception(sprintf('Response renderer adapter for content type "%s" not found.', $type));
+            throw new LogicException(sprintf('Response renderer adapter for content type "%s" not found.', $type));
         }
 
         return $adapter;
+    }
+
+    /**
+     * Retrieve list of available renderer adapters.
+     *
+     * @return array
+     */
+    public static function getResponseRenderAdapters()
+    {
+        return (array)Mage::app()->getConfig()->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
     }
 }

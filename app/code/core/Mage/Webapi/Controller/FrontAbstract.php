@@ -287,11 +287,11 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             if (isset($deprecationPolicy['removed'])) {
                 throw new Mage_Webapi_Exception($this->getHelper()
                     ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
-                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_NOT_FOUND);
+                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
                 throw new Mage_Webapi_Exception($this->getHelper()
                     ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
-                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_NOT_FOUND);
+                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
         }
     }

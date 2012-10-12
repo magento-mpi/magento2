@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Interpreter adapter.
      *
-     * @var Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
+     * @var Mage_Webapi_Controller_Request_InterpreterInterface
      */
     protected $_interpreter;
 
@@ -39,12 +39,19 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     protected $_bodyParams;
 
     /**
+     * @var Mage_Core_Helper_Abstract
+     */
+    protected $_helper;
+
+    /**
      * Initialize API type.
      *
      * @param string|null $uri
+     * @param Mage_Core_Helper_Abstract|null $helper
      */
-    public function __construct($uri = null)
+    public function __construct($uri = null, Mage_Core_Helper_Abstract $helper = null)
     {
+        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
         $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_REST);
         parent::__construct($uri);
     }
@@ -52,7 +59,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Get request interpreter.
      *
-     * @return Mage_Webapi_Controller_Request_Rest_Interpreter_Interface
+     * @return Mage_Webapi_Controller_Request_InterpreterInterface
      */
     protected function _getInterpreter()
     {
@@ -121,17 +128,19 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     public function getContentType()
     {
         $headerValue = $this->getHeader('Content-Type');
-        $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
 
         if (!$headerValue) {
-            throw new Mage_Webapi_Exception('Content-Type header is empty', $badRequestCode);
+            throw new Mage_Webapi_Exception($this->_helper->__('Content-Type header is empty'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Mage_Webapi_Exception('Invalid Content-Type header', $badRequestCode);
+            throw new Mage_Webapi_Exception($this->_helper->__('Invalid Content-Type header'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Mage_Webapi_Exception('UTF-8 is the only supported charset', $badRequestCode);
+            throw new Mage_Webapi_Exception($this->_helper->__('UTF-8 is the only supported charset'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         return $matches[1];
@@ -146,7 +155,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Mage_Webapi_Exception('Invalid request method',
+            throw new Mage_Webapi_Exception($this->_helper->__('Invalid request method'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // Map HTTP methods to classic CRUD verbs
@@ -220,11 +229,10 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             $requestedModules[reset($moduleVersion)] = end($moduleVersion);
         }
         if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            $helper = Mage::helper('Mage_Webapi_Helper_Data');
-            $message = $helper->__('Invalid "Modules" header value. Example: ')
+            $message = $this->_helper->__('Invalid "Modules" header value. Example: ')
                 . "Modules: Mage_Customer=v1;Mage_Catalog=v1;\n"
                 // TODO: change documentation link
-                . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
+                . $this->_helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
 
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
