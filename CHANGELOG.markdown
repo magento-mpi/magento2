@@ -4,9 +4,9 @@ Update as of 10/11/2012
 * Fixes:
   * Incorrect title for Manage Products page
   * 'Element with ID 'wishlist_column_qty' already exists.' error on Manage Shopping Cart page
-  * Incorrect redirect on "Print Shipping Labels" when shipment without shipping label selected
-  * Error message is displayed twice when restoring admin password
-  * Impossible to retrieve admin password when captcha is available
+  * Incorrect redirect on "Print Shipping Labels" action, when shipment without shipping label selected
+  * Error message is displayed twice, when restoring admin password with Captcha enabled
+  * Impossible to retrieve admin password, when captcha is enabled
 
 Update as of 10/09/2012
 ======================
