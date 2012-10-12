@@ -8,16 +8,17 @@
  */
  (function ($, undefined) {
     "use strict";
-    var treeToList = function(list, nodes, level) {
+    var treeToList = function(list, nodes, level, path) {
         $.each(nodes, function() {
             list.push({
                 label: this.name,
                 value: this.id,
                 level: level,
-                item: this
+                item: this,
+                path: path + this.name
             });
             if ('children' in this) {
-                treeToList(list, this.children, level + 1);
+                treeToList(list, this.children, level + 1, path + this.name + '/' );
             }
         });
         return list;
@@ -45,6 +46,7 @@
                         )
                         .insertBefore($searchField);
                 };
+            $element.append($('<input type="hidden" />').attr('name', name));
             $this.find('option').each(function(){
                 itemRenderer($(this).val(), $(this).text());
             });
@@ -63,7 +65,7 @@
                             name_part: request.term
                         },
                         success: function(data) {
-                            response(treeToList([], data, 0));
+                            response(treeToList([], data, 0, ''));
                         }
                     });
                 },
@@ -81,11 +83,17 @@
                     return false;
                 }
             }).data("autocomplete")._renderItem = function(ul, item) {
+                var level = window.parseInt(item.level);
                 return $("<li>")
                     .data("item.autocomplete", item)
-                    .append($("<a />")
+                    .append($("<a />", {
+                            'data-level': level,
+                            'data-ui-id': 'category-selector-' +item.value,
+                            class: 'level' + level,
+                            title: item.path
+                        })
                         .text(item.label)
-                        .css({marginLeft: window.parseInt(item.level) * 16})
+                        .css({marginLeft: level * 16})
                     )
                     .appendTo(ul);
             };
