@@ -46,6 +46,19 @@ return array(
             ),
         ),
         'scenarios' => array(
+            'Backend Management with Lot of Entities' => array(
+                'file' => 'testsuite/backend.jmx',
+                'arguments' => array(
+                    'products_number'  => 100000,
+                    'customers_number' => 100000,
+                    'orders_number' => 100000,
+                ),
+                'fixtures' => array(
+                    'testsuite/fixtures/catalog_100k_products.php',
+                    'testsuite/fixtures/customer_100k_customers.php',
+                    'testsuite/fixtures/sales_100k_orders.php',
+                ),
+            ),
             'Product Attributes Indexer' => array(
                 'file' => '/../../shell/indexer.php',
                 'fixtures' => array(
