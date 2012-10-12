@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_Fram
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Edit_Form_Group');
+        $this->_block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit_Form_Group');
 
         $this->_block->toHtml();
     }

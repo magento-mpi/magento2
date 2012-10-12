@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_Fram
 
     public static function setUpBeforeClass()
     {
-       $registryData = array(
+        $registryData = array(
             'store_type' => 'store',
             'store_data' => Mage::getModel('Mage_Core_Model_Store'),
             'store_action' => 'add'
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_Fram
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_System_Store_Edit_Form_Store');
+        $this->_block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit_Form_Store');
 
         $this->_block->toHtml();
     }

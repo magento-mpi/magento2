@@ -254,17 +254,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
      */
     public function prepareLayoutDataProvider()
     {
-        /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
         $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
-        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
-        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
-        /** @var $existingUrlRewrite Mage_Core_Model_Url_Rewrite */
         $existingUrlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );

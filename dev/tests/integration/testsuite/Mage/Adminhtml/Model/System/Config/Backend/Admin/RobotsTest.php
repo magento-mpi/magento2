@@ -34,7 +34,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
      */
     public function testAfterLoadRobotsTxtNotExists()
     {
-       $this->assertEmpty($this->_model->getValue());
+        $this->assertEmpty($this->_model->getValue());
     }
 
     /**
