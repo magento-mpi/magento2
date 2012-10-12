@@ -23,26 +23,26 @@
         });
         return list;
     };
-    $.fn.select2 = function (options) {
+    $.fn.categorySelector = function (options) {
         this.each(function () {
             var $element = $(
-                    '<div class="select2-container select2-container-multi">' +
-                    '<ul class="select2-choices">' +
-                    '<li class="select2-search-field">' +
-                    '<input type="text" autocomplete="off" class="select2-input">' +
+                    '<div class="category-selector-container category-selector-container-multi">' +
+                    '<ul class="category-selector-choices">' +
+                    '<li class="category-selector-search-field">' +
+                    '<input type="text" autocomplete="off" data-ui-id="category-selector-input" class="category-selector-input">' +
                     '</li></ul></div>'
                 ),
                 $list = $element.children(),
                 $this = $(this),
                 name = $this.attr('name'),
-                $searchField = $list.find('.select2-search-field'),
+                $searchField = $list.find('.category-selector-search-field'),
                 itemRenderer = function(value, text, data) {
-                    $('<li class="select2-search-choice button"/>')
+                    $('<li class="category-selector-search-choice button"/>')
                         .data(data || {})
                         .append($('<input type="hidden" />').attr('name', name).val(value))
                         .append($('<div/>').text(text))
                         .append('<a href="#" onclick="return false;" ' +
-                            'class="select2-search-choice-close" tabindex="-1"></a>'
+                            'class="category-selector-search-choice-close" tabindex="-1"></a>'
                         )
                         .insertBefore($searchField);
                 };
@@ -51,12 +51,12 @@
                 itemRenderer($(this).val(), $(this).text());
             });
             $this.attr('disabled', 'disabled').hide();
-            $this.data('select2-element', $element);
+            $this.data('category-selector-element', $element);
             $element.insertAfter($this);
-            $list.delegate(".select2-search-choice-close", "click", function() {
+            $list.delegate(".category-selector-search-choice-close", "click", function() {
                 $(this).parent().remove();
             });
-            $element.find('.select2-input').autocomplete({
+            $element.find('.category-selector-input').autocomplete({
                 source: function(request, response) {
                     $.ajax({
                         url: options.url,
@@ -76,7 +76,7 @@
                         return false;
                     }
                     itemRenderer(ui.item.value, ui.item.label, ui.item);
-                    $element.find('.select2-input').val('');
+                    $element.find('.category-selector-input').val('');
                     return false;
                 },
                 focus: function() {
@@ -88,10 +88,10 @@
                     .data("item.autocomplete", item)
                     .append($("<a />", {
                             'data-level': level,
-                            'data-ui-id': 'category-selector-' +item.value,
-                            class: 'level' + level,
-                            title: item.path
+                            'data-ui-id': 'category-selector-' + item.value
                         })
+                        .attr('title', item.path)
+                        .addClass('level-' + level)
                         .text(item.label)
                         .css({marginLeft: level * 16})
                     )
