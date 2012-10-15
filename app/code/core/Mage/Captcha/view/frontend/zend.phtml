@@ -20,7 +20,7 @@
 </li>
 <li id="captcha-image-box-<?php echo $this->getFormId()?>">
     <div class="captcha-image">
-        <img id="captcha-reload" class="captcha-reload" src="<?php echo $this->getSkinUrl('Mage_Captcha::reload.png') ?>" alt="<?php echo $this->__('Reload captcha') ?>" onclick="$('<?php echo $this->getFormId()?>').captcha.refresh(this)">
+        <img id="captcha-reload" class="captcha-reload" src="<?php echo $this->getSkinUrl('Mage_Captcha::reload.png') ?>" alt="<?php echo $this->__('Reload captcha') ?>">
         <img id="<?php echo $this->getFormId() ?>" class="captcha-img" height="<?php echo $this->getImgHeight() ?>" src="<?php echo $captcha->getImgSrc() ?>"/>
         <?php if ($captcha->isCaseSensitive()) :?>
         <div class="captcha-note">
@@ -29,6 +29,13 @@
         <?php endif; ?>
     </div>
     <script type="text/javascript">//<![CDATA[
-        $('<?php echo $this->getFormId() ?>').captcha = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
+    (function ($) {
+        $.mage.event.observe('mage.captcha.initialize', function (e, o) {
+            o.url = '<?php echo $this->getRefreshUrl() ?>',
+            o.formSelector = '#<?php echo $this->getFormId() ?>',
+            o.imageSelector = '#captcha-reload'
+        });
+        $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Captcha::captcha.js') ?>");
+    })(jQuery);
     //]]></script>
 </li>
