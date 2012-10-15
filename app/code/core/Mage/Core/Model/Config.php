@@ -194,6 +194,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_currentAreaCode = null;
 
     /**
+     * Validator config files
+     *
+     * @var array
+     */
+    protected $_validatorConfigFiles = null;
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -1680,5 +1687,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_currentAreaCode = $areaCode;
         return $this;
+    }
+
+    /**
+     * Get validator config object.
+     *
+     * Will instantiate Magento_Validator_Config
+     *
+     * @return Magento_Validator_Config
+     */
+    public function getValidatorConfig()
+    {
+        if (is_null($this->_validatorConfigFiles)) {
+            $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
+        }
+
+        return new Magento_Validator_Config($this->_validatorConfigFiles);
     }
 }
