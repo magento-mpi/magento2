@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Checkout/_files/simple_product.php';
+require __DIR__ . '/../../Catalog/_files/products.php';
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -19,4 +19,9 @@ $requestInfo = new Varien_Object(array(
     'qty' => 1
 ));
 
-require __DIR__ . '/../../Checkout/_files/cart.php';
+/** @var $cart Mage_Checkout_Model_Cart */
+$cart = Mage::getModel('Mage_Checkout_Model_Cart');
+$cart->addProduct($product, $requestInfo);
+$cart->save();
+
+Mage::unregister('_singleton/Mage_Checkout_Model_Session');
