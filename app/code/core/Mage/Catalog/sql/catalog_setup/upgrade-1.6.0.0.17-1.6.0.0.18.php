@@ -9,7 +9,7 @@
  */
 
 /** @var $this Mage_Catalog_Model_Resource_Setup */
-$this->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'quantity_and_stock_availability', array(
+$this->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'quantity_and_stock_status', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => 'Mage_Catalog_Model_Product_Attribute_Backend_Stock',
