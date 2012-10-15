@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- (function ($, undefined) {
+(function ($, undefined) {
     "use strict";
     var treeToList = function(list, nodes, level, path) {
         $.each(nodes, function() {
@@ -29,7 +29,8 @@
                     '<div class="category-selector-container category-selector-container-multi">' +
                     '<ul class="category-selector-choices">' +
                     '<li class="category-selector-search-field">' +
-                    '<input type="text" autocomplete="off" data-ui-id="category-selector-input" class="category-selector-input">' +
+                    '<input type="text" autocomplete="off" ' +
+                        'data-ui-id="category-selector-input" class="category-selector-input">' +
                     '</li></ul></div>'
                 ),
                 $list = $element.children(),
@@ -41,10 +42,15 @@
                         .data(data || {})
                         .append($('<input type="hidden" />').attr('name', name).val(value))
                         .append($('<div/>').text(text))
-                        .append('<a href="#" onclick="return false;" ' +
-                            'class="category-selector-search-choice-close" tabindex="-1"></a>'
+                        .append('<span ' +
+                            'class="category-selector-search-choice-close" tabindex="-1"></span>'
                         )
                         .insertBefore($searchField);
+                },
+                $input = $element.find('.category-selector-input'),
+                elementPressent = function(item) {
+                    var selector =  '[name="product[category_ids][]"][value=' + parseInt(item.value, 10) + ']';
+                    return $list.find(selector).length > 0;
                 };
             $element.append($('<input type="hidden" />').attr('name', name));
             $this.find('option').each(function(){
@@ -56,10 +62,22 @@
             $list.delegate(".category-selector-search-choice-close", "click", function() {
                 $(this).parent().remove();
             });
-            $element.find('.category-selector-input').autocomplete({
+            $input.bind('ajaxSend ajaxComplete', function(e) {
+                e.stopPropagation();
+                switch (e.type) {
+                    case 'ajaxSend': {
+                        $input.addClass('category-selector-active');
+                        } break;
+                    case 'ajaxComplete': {
+                        $input.removeClass('category-selector-active');
+                    } break;
+                }
+            });
+            $input.autocomplete({
                 source: function(request, response) {
                     $.ajax({
                         url: options.url,
+                        context: $input,
                         dataType: "json",
                         data: {
                             name_part: request.term
@@ -71,32 +89,51 @@
                 },
                 minLength: 3,
                 select: function(event, ui) {
-                    var $el = $list.find('[name="product[category_ids][]"][value=' + parseInt(ui.item.value) + ']');
-                    if ($el.length) {
+                    if (elementPressent(ui.item)) {
+                        event.preventDefault();
                         return false;
                     }
                     itemRenderer(ui.item.value, ui.item.label, ui.item);
                     $element.find('.category-selector-input').val('');
                     return false;
                 },
-                focus: function() {
+                close: function(event) {
+                    event.preventDefault();
                     return false;
                 }
-            }).data("autocomplete")._renderItem = function(ul, item) {
-                var level = window.parseInt(item.level);
-                return $("<li>")
-                    .data("item.autocomplete", item)
-                    .append($("<a />", {
+            });
+            $input.data("autocomplete")._renderItem = function(ul, item) {
+                var level = window.parseInt(item.level),
+                    $li = $("<li>");
+                $li.data("item.autocomplete", item);
+                $li.append($("<a />", {
                             'data-level': level,
                             'data-ui-id': 'category-selector-' + item.value
                         })
                         .attr('title', item.path)
                         .addClass('level-' + level)
-                        .text(item.label)
+                        .html(item.label.replace(this.term, '<b>' + this.term + '</b>'))
                         .css({marginLeft: level * 16})
-                    )
-                    .appendTo(ul);
+                    );
+                if (window.parseInt(item.item.is_active, 10) == 0) {
+                    $li.addClass('category-disabled');
+                }
+                if (elementPressent(item)) {
+                    $li.addClass('category-selected');
+                }
+                $li.appendTo(ul);
+
+                return $li;
             };
+            var selectCallback = $input.data("autocomplete").menu.options.selected;
+            $input.data("autocomplete").menu.options.selected = function(event, ui) {
+                if (ui.item) {
+                    var item = ui.item.data('item.autocomplete');
+                    if (!elementPressent(item)) {
+                       selectCallback.apply(this, arguments);
+                    }
+                }
+            }
         });
     };
 })(jQuery);

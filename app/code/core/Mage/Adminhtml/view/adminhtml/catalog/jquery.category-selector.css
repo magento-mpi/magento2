@@ -414,6 +414,14 @@
     padding:3px 5px 3px 5px;
 }
 
+.category-disabled a{
+   color: #808080;
+}
+
+.category-selected a{
+    background-color: #0000ff;
+    color: #FFF;
+}
 .category-selector-container-multi.category-selector-container-disabled .category-selector-choices .category-selector-search-choice .category-selector-search-choice-close {
     display:none;
 }
