@@ -11,7 +11,7 @@
 
 class Mage_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_Framework_TestCase
 {
-    const ATTRIBUTE_NAME = 'stock_and_qty';
+    const ATTRIBUTE_NAME = 'quantity_and_stock';
 
     /**
      * @var Mage_Catalog_Model_Product_Attribute_Backend_Stock

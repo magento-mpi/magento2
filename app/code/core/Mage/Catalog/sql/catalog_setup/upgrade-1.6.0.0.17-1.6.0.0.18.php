@@ -9,12 +9,12 @@
  */
 
 /** @var $this Mage_Catalog_Model_Resource_Setup */
-$this->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'stock_and_qty', array(
+$this->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'quantity_and_stock', array(
     'group'             => 'General',
     'type'              => 'int',
     'backend'           => 'Mage_Catalog_Model_Product_Attribute_Backend_Stock',
     'frontend'          => '',
-    'label'             => 'Quantity and Stock',
+    'label'             => 'Quantity and Stock Availability',
     'input'             => 'select',
     'class'             => '',
     'input_renderer'    => 'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
