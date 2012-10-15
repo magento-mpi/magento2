@@ -103,7 +103,6 @@
                 }
             });
             $input.data("autocomplete")._renderItem = function(ul, item) {
-                var matcher = new RegExp($.ui.autocomplete.escapeRegex(this.term), "i");
                 var level = window.parseInt(item.level),
                     $li = $("<li>");
                 $li.data("item.autocomplete", item);
@@ -126,15 +125,6 @@
 
                 return $li;
             };
-            var selectCallback = $input.data("autocomplete").menu.options.selected;
-            $input.data("autocomplete").menu.options.selected = function(event, ui) {
-                if (ui.item) {
-                    var item = ui.item.data('item.autocomplete');
-                    if (!elementPressent(item)) {
-                       selectCallback.apply(this, arguments);
-                    }
-                }
-            }
         });
     };
 })(jQuery);
