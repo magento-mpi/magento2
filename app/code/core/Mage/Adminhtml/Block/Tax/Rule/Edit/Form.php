@@ -192,7 +192,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         $config = array(
             'new_url' => $this->getUrl('*/tax_class/ajaxSave/'),
             'save_url' => $this->getUrl('*/tax_class/ajaxSave/'),
-            'delete_url' => $this->getTaxClassDeleteUrl($classType),
+            'delete_url' => $this->getUrl('*/tax_class/ajaxDelete/'),
             'delete_confirm_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
@@ -205,21 +205,6 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'is_entity_editable' => true
         );
         return $config;
-    }
-
-    /**
-     * Retrieve tax class delete URL
-     *
-     * @param string $classType
-     * @return string
-     */
-    public function getTaxClassDeleteUrl($classType)
-    {
-        $url = $this->getUrl('*/tax_class_product/ajaxDelete/');
-        if ($classType == Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER) {
-            $url = $this->getUrl('*/tax_class_customer/ajaxDelete/');
-        }
-        return $url;
     }
 
     /**

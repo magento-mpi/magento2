@@ -583,8 +583,6 @@
                     <mage_adminhtml_block_tax_rate_toolbar_add>removeTaxRateAddButton</mage_adminhtml_block_tax_rate_toolbar_add>
                     <mage_adminhtml_block_tax_rate_toolbar_save>removeTaxRateControlButtons</mage_adminhtml_block_tax_rate_toolbar_save>
                     <mage_adminhtml_block_tax_rate_ImportExport>removeTaxRateImport</mage_adminhtml_block_tax_rate_ImportExport>
-                    <mage_adminhtml_block_tax_class>removeTaxRuleAddButton</mage_adminhtml_block_tax_class>
-                    <mage_adminhtml_block_tax_class_edit>removeTaxRuleControlButtons</mage_adminhtml_block_tax_class_edit>
                     <enterprise_customer_block_adminhtml_customer_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute>
                     <enterprise_customer_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute>
                     <enterprise_customer_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute_edit>
