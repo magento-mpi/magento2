@@ -18,8 +18,8 @@
         if ($(initData.updateCartActionContainer).length > 0) { /* <!--[if lt IE 8]> Only */
             $(initData.emptyCartButton).on('click', function() {
                 $(initData.emptyCartButton).attr('name', 'update_cart_action_temp');
-                $(initData.updateCartActionContainer).attr('name', 'update_cart_action');
-                $(initData.updateCartActionContainer).attr('value', 'empty_cart');
+                $(initData.updateCartActionContainer)
+                    .attr('name', 'update_cart_action').attr('value', 'empty_cart');
             });
         }
 
