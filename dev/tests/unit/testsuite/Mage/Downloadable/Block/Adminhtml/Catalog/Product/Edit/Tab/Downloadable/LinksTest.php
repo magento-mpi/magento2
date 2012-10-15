@@ -16,7 +16,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         parent::setUp();
 
-        $this->_block = $this->_getBlockInstance(
+        $this->_block = $this->getBlock(
             'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links'
         );
     }

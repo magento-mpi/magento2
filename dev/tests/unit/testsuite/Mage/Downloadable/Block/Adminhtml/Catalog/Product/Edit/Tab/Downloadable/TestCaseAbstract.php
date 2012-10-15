@@ -13,7 +13,7 @@
  * Abstract class for downloadable tab tests
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_TestCaseAbstract
-        extends PHPUnit_Framework_TestCase
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
@@ -43,8 +43,6 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Te
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->_oldDisplayErrors  = ini_get('display_errors');
         $this->_oldErrorLevel = error_reporting();
         $this->_oldIsDeveloperMode = Mage::getIsDeveloperMode();
@@ -57,32 +55,5 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Te
         Mage::setIsDeveloperMode($this->_oldIsDeveloperMode);
 
         unset($this->_block);
-
-        parent::tearDown();
-    }
-
-    /**
-     * Return block will dependencies
-     *
-     * @param string $className
-     * @return Mage_Backend_Block_Template|null
-     */
-    protected function _getBlockInstance($className)
-    {
-        if (Magento_Autoload::getInstance()->classExists($className)) {
-            return new $className(
-                $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false),
-                $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false)
-            );
-        }
-
-        return null;
     }
 }
