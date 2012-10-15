@@ -103,6 +103,7 @@
                 }
             });
             $input.data("autocomplete")._renderItem = function(ul, item) {
+                var matcher = new RegExp($.ui.autocomplete.escapeRegex(this.term), "i");
                 var level = window.parseInt(item.level),
                     $li = $("<li>");
                 $li.data("item.autocomplete", item);
@@ -112,7 +113,7 @@
                         })
                         .attr('title', item.path)
                         .addClass('level-' + level)
-                        .html(item.label.replace(this.term, '<b>' + this.term + '</b>'))
+                        .text(item.label)
                         .css({marginLeft: level * 16})
                     );
                 if (window.parseInt(item.item.is_active, 10) == 0) {
