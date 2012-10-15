@@ -15,7 +15,7 @@ require __DIR__ . '/../../Catalog/_files/product_configurable.php';
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->load(1);
-/* Create simple products per each option */
+
 $options = new Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection();
 $option = $options->setAttributeFilter($attribute->getId())->getFirstItem();
 
@@ -26,4 +26,9 @@ $requestInfo = new Varien_Object(array(
     )
 ));
 
-require __DIR__ . '/../../Checkout/_files/cart.php';
+/** @var $cart Mage_Checkout_Model_Cart */
+$cart = Mage::getModel('Mage_Checkout_Model_Cart');
+$cart->addProduct($product, $requestInfo);
+$cart->save();
+
+Mage::unregister('_singleton/Mage_Checkout_Model_Session');
