@@ -54,6 +54,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     public function getElementHtml()
     {
+        $this->_disableIfComposite($this->_qty->getForm()->getDataObject()->isComposite());
         return $this->_qty->getElementHtml() . parent::getElementHtml()
             . $this->_getJs(self::QUANTITY_FIELD_HTML_ID, $this->getId());
     }
@@ -95,6 +96,27 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
         parent::setName($name . '[is_in_stock]');
     }
 
+    /**
+     * Disable quantity field if product is composite
+     *
+     * @param bool $isComposite
+     * @return Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     */
+    protected function _disableIfComposite($isComposite)
+    {
+        if ($isComposite) {
+            $this->_qty->setDisabled('disabled');
+        }
+        return $this;
+    }
+
+    /**
+     * Get js for quantity and in stock synchronisation
+     *
+     * @param $quantityFieldId
+     * @param $inStockFieldId
+     * @return string
+     */
     protected function _getJs($quantityFieldId, $inStockFieldId)
     {
         return "
