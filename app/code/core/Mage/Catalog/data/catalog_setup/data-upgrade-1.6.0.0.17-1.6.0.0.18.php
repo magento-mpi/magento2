@@ -13,8 +13,14 @@
 $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'category_ids');
 
 if ($attribute) {
+    $this->addAttributeToSet(
+        $attribute['entity_type_id'],
+        $this->getAttributeSetId($attribute['entity_type_id'], 'Minimal'),
+        $this->getGeneralGroupName(),
+        $attribute['attribute_id']
+    );
     $properties = array(
-        'sort_order' => 5,
+        'sort_order' => 9,
         'is_visible' => true,
         'frontend_label' => 'Categories',
         'input' => 'categories',
@@ -22,7 +28,6 @@ if ($attribute) {
         'backend_model' => 'Mage_Catalog_Model_Product_Attribute_Backend_Category',
         'frontend_input_renderer' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
     );
-
     foreach ($properties as $key => $value) {
         $this->updateAttribute(
             $attribute['entity_type_id'],

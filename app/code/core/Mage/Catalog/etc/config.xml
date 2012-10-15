@@ -203,6 +203,7 @@
                         <status/>
                         <visibility/>
                         <weight/>
+                        <category_ids/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>
