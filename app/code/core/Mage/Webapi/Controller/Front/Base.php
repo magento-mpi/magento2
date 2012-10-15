@@ -62,6 +62,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     public function init()
     {
+        // TODO: Handle situation when invalid area_code was passed. Currently there is no solution for how to render HTML from here in the most correct manner.
         $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
         $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
 
