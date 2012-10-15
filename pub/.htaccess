@@ -203,7 +203,7 @@
 	
 ###########################################
 ## Deny access  to cron.php
-	<Files cron.php>
-       order allow,deny
-       deny from all
-   </Files>
+    <Files cron.php>
+        order allow,deny
+        deny from all
+    </Files>
