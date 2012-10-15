@@ -83,7 +83,7 @@
                             name_part: request.term
                         },
                         success: function(data) {
-                            response(treeToList([], data, 0, ''));
+                            response(treeToList([], data || [], 0, ''));
                         }
                     });
                 },
