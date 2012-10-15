@@ -70,19 +70,8 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     {
         parent::_prepareMassaction();
 
-        $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('shipment_ids');
-        $this->getMassactionBlock()->setUseSelectAll(false);
-
-        $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-            'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('PDF Packing Slips'),
-            'url'  => $this->getUrl('*/sales_shipment/pdfshipments'),
-        ));
-
-        $this->getMassactionBlock()->addItem('print_shipping_label', array(
-            'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('Print Shipping Labels'),
-            'url'  => $this->getUrl('*/sales_archive/massPrintShippingLabel'),
-        ));
+        $this->getMassactionBlock()->getItem('print_shipping_label')
+            ->setUrl($this->getUrl('*/sales_archive/massPrintShippingLabel'));
 
         return $this;
     }
