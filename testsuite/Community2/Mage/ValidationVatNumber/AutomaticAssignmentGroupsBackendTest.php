@@ -73,153 +73,65 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroupsBackendTest e
     }
 
     /**
-     * <p>Customer registration. Without VAT Number</p>
+     * <p>Creating customers from back-end with VAT Number</p>
+     * <p>Preconditions:</p>
+     * <p>1.Product is created.</p>
      * <p>Steps:</p>
-     * <p>1. Goto on back-end and open Manage Customers area</p>
-     * <p>2. Create new customer without address and VAT Number</p>
-     * <p>3. Save Customer</p>
-     * <p>4. Select your customer and verify value of Group</p>
+     * <p>1. Goto Manage Customer Page</p>
+     * <p>2. Click button "Add New Customer"</p>
+     * <p>3. Fill required fields and save customer</p>
+     * <p>4. Open your customer and goto tab "Addresses"</p>
+     * <p>5. Click button "Add New Address" and fill address fields</p>
+     * <p>6. Enter VAT Number</p>
+     * <p>7. Save customer</p>
      * <p>Expected result:</p>
-     * <p>Customer should be assigned to Default Group</p>
+     * <p>customer should be saved. Customer should be assigned to corresponding group</p>
+     *
+     * @param array $vatGroup
+     * @param array|string $accountType
+     * @param array|string $vatType
+     * @param array $vatNumber
+     * @param array|string $customerGroup
      *
      * @test
-     * @return array
+     * @depends preconditionsForTests
+     * @dataProvider dataForCustomersDataProvider
      *
-     * @TestlinkId TL-MAGE-6202
+     * @TestlinkId TL-MAGE-6203, TL-MAGE-6204,  TL-MAGE-6205
      * @author andrey.vergeles
      */
-    public function customerWithoutVatNumber()
+    public function automaticAssignmentGroupsBackendTest($accountType, $vatType, $vatNumber, $customerGroup, $vatGroup)
     {
         //Data
-        $userRegisterData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
+        $userData = $this->loadDataSet('Customers', $accountType);
+        $addressData = $this->loadDataSet('Customers', $vatType, $vatNumber);
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userRegisterData);
-        //Verifying
+        $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        //Verifying Customer Group on back-end
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         $this->addParameter('customer_first_last_name', $userDataParam);
-        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
-        $this->openTab('account_information');
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+        $this->customerHelper()->addAddress($addressData);
+        $this->saveForm('save_customer');
         //Verifying
-        $this->verifyForm(array('group' => 'General'),'account_information');
-
-        return $userDataParam;
+        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userData);
+        $verificationData = $vatGroup[$customerGroup];
+        $this->verifyForm(array('group' => $verificationData, 'account_information'));
     }
 
-    /**
-     * <p>Customer registration. With domestic VAT Number</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on back-end and open Manage Customers area</p>
-     * <p>2. Create new customer with address and domestic VAT Number</p>
-     * <p>3. Save Customer</p>
-     * <p>4. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to "Group for Valid VAT ID - Domestic"</p>
-     *
-     * @param array $processedGroupNames
-     * @param string $userDataParam
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends customerWithoutVatNumber
-     *
-     * @TestlinkId TL-MAGE-6203
-     * @author andrey.vergeles
-     */
-    public function customerWithValidVatDomestic(array $processedGroupNames, $userDataParam)
+    public function dataForCustomersDataProvider()
     {
-        //Data
-        $userRegisterData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $addressData = $this->loadDataSet('Customers', 'generic_address_vat_valid_domestic');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userRegisterData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Filling Address Book and VAT Number
-        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying Customer Group
-        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_domestic']),'account_information');
-    }
-
-    /**
-     * <p>Customer registration. With invalid VAT Number</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on back-end and open Manage Customers area</p>
-     * <p>2. Create new customer with address and invalid VAT Number</p>
-     * <p>3. Save Customer</p>
-     * <p>4. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to "Group for Invalid VAT ID"</p>
-     *
-     * @param array $processedGroupNames
-     * @param string $userDataParam
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends customerWithoutVatNumber
-     *
-     * @TestlinkId TL-MAGE-6204
-     * @author andrey.vergeles
-     */
-    public function customerWithInvalidVat(array $processedGroupNames, $userDataParam)
-    {
-        //Data
-        $userRegisterData = $this->loadDataSet('Customers','generic_customer_account');
-        $addressData = $this->loadDataSet('Customers', 'generic_address_vat_invalid');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userRegisterData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Filling Address Book and VAT Number
-        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying Customer Group
-        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames['group_invalid_vat']),'account_information');
-    }
-
-    /**
-     * <p>Customer registration. With valid VAT Number</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on back-end and open Manage Customers area</p>
-     * <p>2. Create new customer with country from Europe Union (but not the same as store country)</p>
-     * <p>4. Enter valid VAT Number </p>
-     * <p>5. Save Customer</p>
-     * <p>6. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to "Group for Valid VAT ID - Intra-Union"</p>
-     *
-     * @param array $processedGroupNames
-     * @param string $userDataParam
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @depends customerWithoutVatNumber
-     *
-     * @TestlinkId TL-MAGE-6205
-     * @author andrey.vergeles
-     */
-    public function customerWithValidVatIntraUnion(array $processedGroupNames, $userDataParam)
-    {
-        //Data
-        $userRegisterData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $addressData = $this->loadDataSet('Customers', 'generic_address_vat_valid_intraunion');
-        //Steps
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userRegisterData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Filling Address Book and VAT Number
-        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
-        //Verifying Customer Group
-        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']),'account_information');
+        return array(
+            array('generic_customer_account', 'generic_address_vat_valid_domestic',
+                  array('billing_vat_number'   => '111607872'), 'group_valid_vat_domestic'),
+            array('generic_customer_account', 'generic_address_vat_invalid',
+                  array('billing_vat_number'   => '1111111111'), 'group_invalid_vat'),
+            array('generic_customer_account', 'generic_address_vat_valid_intraunion',
+                  array('billing_vat_number'   => '37441119989',
+                        'country'              => 'France',
+                        'state'                => 'Ain'), 'group_valid_vat_intraunion')
+        );
     }
 }

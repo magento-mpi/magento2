@@ -108,17 +108,18 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegister
      *
      * @test
      * @depends preconditionsForTests
-     * @dataProvider dataForCustomers
+     * @dataProvider dataForCustomersDataProvider
+     *
      * @TestlinkId TL-MAGE-3942
      * @author andrey.vergeles
      */
-    public function customerWithoutVatNumber($accountType, $paymentType, $vatNumber, $customerGroup, $vatGroup)
+    public function orderForRegisteredCustomers($accountType, $paymentType, $vatNumber, $customerGroup, $vatGroup)
     {
         //Data
         $userData = $this->loadDataSet('Customers', $accountType);
         $vatNumber = array_merge($vatNumber,
             array('general_name'        => $vatGroup['simple'],
-                'email_address'         => $userData['email']));
+                  'email_address'       => $userData['email']));
         $checkoutData = $this->loadDataSet('OnePageCheckout', $paymentType, $vatNumber);
         $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
@@ -151,7 +152,7 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegister
         $this->verifyForm(array('group'=> $verificationData[$customerGroup]), 'account_information');
     }
 
-    public function dataForCustomers()
+    public function dataForCustomersDataProvider()
     {
         return array(
             array('customer_account_register', 'exist_flatrate_checkmoney', array(), 'group_default'),
