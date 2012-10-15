@@ -11,7 +11,7 @@
 
 class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
 {
-    const ATTRIBUTE_NAME = 'quantity_and_stock';
+    const ATTRIBUTE_NAME = 'quantity_and_stock_availability';
 
     /**
      * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
