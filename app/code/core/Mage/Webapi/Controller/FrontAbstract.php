@@ -74,11 +74,16 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Initialize resources config based on requested modules and versions.
      *
      * @param array $requestedModules
+     * @throws Mage_Webapi_Exception
      */
     protected function _initResourceConfig($requestedModules)
     {
         if (is_null($this->getResourceConfig())) {
-            $resourceConfigFiles = $this->_applicationConfig->getModulesApiConfigurationFiles($requestedModules);
+            try {
+                $resourceConfigFiles = $this->_applicationConfig->getModulesApiConfigurationFiles($requestedModules);
+            } catch (RuntimeException $e) {
+                throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            }
             /** @var Mage_Webapi_Model_Config_Resource $resourceConfig */
             $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource', $resourceConfigFiles);
             $this->setResourceConfig($resourceConfig);

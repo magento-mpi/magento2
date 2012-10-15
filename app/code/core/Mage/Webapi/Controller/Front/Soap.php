@@ -443,6 +443,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $detailsXml = '';
         }
         $message = <<<FAULT_MESSAGE
+<?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
    <env:Body>
       <env:Fault>

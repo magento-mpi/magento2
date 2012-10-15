@@ -77,13 +77,14 @@ class Mage_Webapi_Controller_Request_Uploader_File
     /**
      * Initialize helper and filesystem adapter.
      *
-     * @param Mage_Core_Helper_Abstract $helper
-     * @param Varien_Io_File $filesystemAdapter
+     * @param array $options
      */
-    function __construct(Mage_Core_Helper_Abstract $helper = null, Varien_Io_File $filesystemAdapter = null)
+    function __construct($options = array())
     {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
-        $this->_filesystemAdapter = $filesystemAdapter ? $filesystemAdapter : new Varien_Io_File();
+        $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_filesystemAdapter = isset($options['filesystemAdapter'])
+            ? $options['filesystemAdapter']
+            : new Varien_Io_File();
         $this->_uploadDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . uniqid();
     }
 
