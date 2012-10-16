@@ -38,20 +38,20 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
     }
 
     /**
-     * Getter for MSSQL external command name
+     * Determine and retrieve the SQL client command line utility name
      *
      * @return string
      * @throws Magento_Exception
      */
-    public function getSqlClientCmd()
+    protected function _getSqlClientCmd()
     {
         if (!$this->_sqlClientCmd) {
-            if ($this->_validateCommand('tsql -C')) {
-                $this->_sqlClientCmd = 'tsql';
-            } else if ($this->_validateCommand('sqlcmd -?')) {
+            if ($this->_validateCommand('sqlcmd -?')) {
                 $this->_sqlClientCmd = 'sqlcmd';
+            } else if ($this->_validateCommand('tsql -C')) {
+                $this->_sqlClientCmd = 'tsql';
             } else {
-                throw new Magento_Exception('Neither command line utility "tsql" nor "sqlcmd" is installed.');
+                throw new Magento_Exception('Neither command line utility "sqlcmd" nor "tsql" is installed.');
             }
         }
         return $this->_sqlClientCmd;
@@ -59,12 +59,10 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
 
     /**
      * Remove all DB objects
-     *
-     * @return bool
      */
     public function cleanup()
     {
-        $cleanupFile = $this->_varPath . '/mssql_cleanup_database.sql';
+        $cleanupFile = $this->_varPath . DIRECTORY_SEPARATOR . 'mssql_cleanup_database.sql';
         $script = "USE [master]
 GO
 ALTER DATABASE [{$this->_schema}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
@@ -79,7 +77,7 @@ exit
 ";
         $this->_createScript($cleanupFile, $script);
         $this->_shell->execute(
-            $this->getSqlClientCmd() . ' -S %s -U %s -P %s < %s',
+            $this->_getSqlClientCmd() . ' -S %s -U %s -P %s < %s',
             array($this->_host, $this->_user, $this->_password, $cleanupFile)
         );
     }

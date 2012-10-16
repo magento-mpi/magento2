@@ -43,7 +43,7 @@ abstract class Magento_Test_Db_DbAbstract
     protected $_schema = '';
 
     /**
-     * DB backup file
+     * Path to a temporary directory in the file system
      *
      * @var string
      */

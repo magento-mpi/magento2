@@ -12,11 +12,6 @@
 class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     */
-    protected $_varDir;
-
-    /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
@@ -28,12 +23,11 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_varDir  = $this->_varDir = sys_get_temp_dir();
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_model = $this->getMock(
             'Magento_Test_Db_Mssql',
             array('_createScript'),
-            array('host', 'user', 'pass', 'schema', $this->_varDir, $this->_shell)
+            array('host', 'user', 'pass', 'schema', __DIR__, $this->_shell)
         );
     }
 
@@ -63,38 +57,13 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetSqlClientCmdTsql()
-    {
-        $this->_expectCommand('tsql -C', $this->once());
-        $this->assertEquals('tsql', $this->_model->getSqlClientCmd());
-        // command validation should happen only once
-        $this->assertEquals('tsql', $this->_model->getSqlClientCmd());
-    }
-
-    public function testGetSqlClientCmdSqlcmd()
-    {
-        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException(new Magento_Exception('tsql not found')));
-        $this->_expectCommand('sqlcmd -?', $this->at(1));
-        $this->assertEquals('sqlcmd', $this->_model->getSqlClientCmd());
-        // command validation should happen only once
-        $this->assertEquals('sqlcmd', $this->_model->getSqlClientCmd());
-    }
-
     /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Neither command line utility "tsql" nor "sqlcmd" is installed.
+     * Setup expectation for a SQL file creation
+     *
+     * @param string $expectedSqlFile
      */
-    public function testGetSqlClientCmdNotInstalled()
+    protected function _expectSqlFileCreation($expectedSqlFile)
     {
-        $commandException = new Magento_Exception('command not found');
-        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException($commandException));
-        $this->_expectCommand('sqlcmd -?', $this->at(1), $this->throwException($commandException));
-        $this->_model->getSqlClientCmd();
-    }
-
-    public function testCleanup()
-    {
-        $expectedSqlFile = $this->_varDir . '/mssql_cleanup_database.sql';
         $expectedSql = "USE [master]
 GO
 ALTER DATABASE [schema] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
@@ -112,9 +81,42 @@ exit
             ->method('_createScript')
             ->with($expectedSqlFile, $expectedSql)
         ;
-        $this->_expectCommand('tsql -C', $this->at(0));
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Neither command line utility "sqlcmd" nor "tsql" is installed.
+     */
+    public function testCleanupSqlClientNotInstalled()
+    {
+        $commandException = new Magento_Exception('command not found');
+        $this->_expectCommand('sqlcmd -?', $this->at(0), $this->throwException($commandException));
+        $this->_expectCommand('tsql -C', $this->at(1), $this->throwException($commandException));
+        $this->_model->cleanup();
+    }
+
+    public function testCleanupSqlClientSqlcmd()
+    {
+        $expectedSqlFile = __DIR__ . DIRECTORY_SEPARATOR . 'mssql_cleanup_database.sql';
+        $this->_expectCommand('sqlcmd -?', $this->at(0));
+        $this->_expectSqlFileCreation($expectedSqlFile);
         $this->_shell
             ->expects($this->at(1))
+            ->method('execute')
+            ->with('sqlcmd -S %s -U %s -P %s < %s', array('host', 'user', 'pass', $expectedSqlFile))
+        ;
+        $this->_model->cleanup();
+    }
+
+    public function testCleanupSqlClientTsql()
+    {
+        $expectedSqlFile = __DIR__ . DIRECTORY_SEPARATOR . 'mssql_cleanup_database.sql';
+        $commandException = new Magento_Exception('sqlcmd not found');
+        $this->_expectCommand('sqlcmd -?', $this->at(0), $this->throwException($commandException));
+        $this->_expectCommand('tsql -C', $this->at(1));
+        $this->_expectSqlFileCreation($expectedSqlFile);
+        $this->_shell
+            ->expects($this->at(2))
             ->method('execute')
             ->with('tsql -S %s -U %s -P %s < %s', array('host', 'user', 'pass', $expectedSqlFile))
         ;

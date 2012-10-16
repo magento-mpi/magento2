@@ -199,7 +199,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('_cleanupFilesystem')
         ;
-        $this->_callBootstrapConstructor(null);
+        $this->_callBootstrapConstructor(null, false);
     }
 
     public function testConstructorCleanupEnabled()

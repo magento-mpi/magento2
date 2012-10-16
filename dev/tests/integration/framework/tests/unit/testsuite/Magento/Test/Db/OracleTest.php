@@ -12,11 +12,6 @@
 class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     */
-    protected $_varDir;
-
-    /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
@@ -28,12 +23,11 @@ class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_varDir = sys_get_temp_dir();
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_model = $this->getMock(
             'Magento_Test_Db_Oracle',
             array('_createScript'),
-            array('host', 'user', 'pass', 'schema/sid', $this->_varDir, $this->_shell)
+            array('host', 'user', 'pass', 'schema/sid', __DIR__, $this->_shell)
         );
     }
 
@@ -49,7 +43,7 @@ class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Magento_Test_Db_Oracle('host', 'user', 'pass', 'schema', $this->_varDir, $this->_shell);
+        new Magento_Test_Db_Oracle('host', 'user', 'pass', 'schema', __DIR__, $this->_shell);
     }
 
     public function testCleanup()

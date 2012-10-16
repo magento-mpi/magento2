@@ -12,11 +12,6 @@
 class Magento_Test_Db_MysqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     */
-    protected $_varDir;
-
-    /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
@@ -28,12 +23,11 @@ class Magento_Test_Db_MysqlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_varDir  = $this->_varDir = sys_get_temp_dir();
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_model = $this->getMock(
             'Magento_Test_Db_Mysql',
             array('_createScript'),
-            array('host', 'user', 'pass', 'schema', $this->_varDir, $this->_shell)
+            array('host', 'user', 'pass', 'schema', __DIR__, $this->_shell)
         );
     }
 
@@ -45,7 +39,7 @@ class Magento_Test_Db_MysqlTest extends PHPUnit_Framework_TestCase
 
     public function testCleanup()
     {
-        $expectedSqlFile = $this->_varDir . DIRECTORY_SEPARATOR . 'drop_create_database.sql';
+        $expectedSqlFile = __DIR__ . DIRECTORY_SEPARATOR . 'drop_create_database.sql';
         $this->_model
             ->expects($this->once())
             ->method('_createScript')

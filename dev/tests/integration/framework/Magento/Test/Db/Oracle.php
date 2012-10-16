@@ -47,12 +47,10 @@ class Magento_Test_Db_Oracle extends Magento_Test_Db_DbAbstract
 
     /**
      * Remove all DB objects
-     *
-     * @return bool
      */
     public function cleanup()
     {
-        $script = dirname(__FILE__) . '/cleanup_database.oracle.sql';
+        $script = __DIR__ . DIRECTORY_SEPARATOR . 'cleanup_database.oracle.sql';
         $this->_shell->execute(
             'sqlplus %s/%s@%s/%s @%s',
             array($this->_user, $this->_password, $this->_host, $this->_sid, $script)
