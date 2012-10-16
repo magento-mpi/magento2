@@ -27,6 +27,13 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     protected $_qty;
 
+    /**
+     * Is product composite (grouped or configurable)
+     *
+     * @var bool
+     */
+    protected $_isProductComposite;
+
     public function __construct(array $data = array())
     {
         $this->_qty = $data['qty'] ? : $this->_createQtyElement();
@@ -54,7 +61,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     public function getElementHtml()
     {
-        $this->_disableIfComposite($this->_qty->getForm()->getDataObject()->isComposite());
+        $this->_disableFields();
         return $this->_qty->getElementHtml() . parent::getElementHtml()
             . $this->_getJs(self::QUANTITY_FIELD_HTML_ID, $this->getId());
     }
@@ -97,14 +104,29 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     }
 
     /**
-     * Disable quantity field if product is composite
+     * Get whether product is configurable or grouped
      *
-     * @param bool $isComposite
+     * @return bool
+     */
+    protected function _getIsProductComposite()
+    {
+        if (null === $this->_isProductComposite) {
+            $this->_isProductComposite = $this->_qty->getForm()->getDataObject()->isComposite();
+        }
+        return $this->_isProductComposite;
+    }
+
+    /**
+     * Disable fields depending on product type
+     *
      * @return Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
      */
-    protected function _disableIfComposite($isComposite)
+    protected function _disableFields()
     {
-        if ($isComposite) {
+        if (!$this->_getIsProductComposite() && null === $this->_qty->getValue()) {
+            $this->setDisabled('disabled');
+        }
+        if ($this->_getIsProductComposite()) {
             $this->_qty->setDisabled('disabled');
         }
         return $this;
@@ -132,7 +154,6 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                             isInStock.removeAttr('disabled');
                         }
                     };
-                    disabler();
                     qty.bind('keyup change blur', disabler);
 
                     //Associated fields
