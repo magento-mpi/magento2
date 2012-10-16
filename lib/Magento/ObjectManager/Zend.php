@@ -63,11 +63,12 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
      *
      * @param string $className
      * @param array $arguments
+     * @param bool $isShared
      * @return object
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = array(), $isShared = true)
     {
-        $object = $this->_di->newInstance($className, $arguments);
+        $object = $this->_di->newInstance($className, $arguments, $isShared);
         return $object;
     }
 
@@ -130,5 +131,17 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $this->_initializeInstanceManager();
 
         return $this;
+    }
+
+    /**
+     * Add shared instance
+     *
+     * @param object $instance
+     * @param string $classOrAlias
+     * @throws Zend\Di\Exception\InvalidArgumentException
+     */
+    public function addSharedInstance($instance, $classOrAlias)
+    {
+        $this->_di->instanceManager()->addSharedInstance($instance, $classOrAlias);
     }
 }

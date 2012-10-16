@@ -98,6 +98,13 @@ final class Mage
     static private $_loggers = array();
 
     /**
+     * Design object
+     *
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected static $_design;
+
+    /**
      * Magento edition constants
      */
     const EDITION_COMMUNITY    = 'Community';
@@ -168,7 +175,8 @@ final class Mage
      */
     public static function reset()
     {
-        self::$_registry        = array();
+        self::resetRegistry();
+
         self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
@@ -178,7 +186,21 @@ final class Mage
         self::$_isDeveloperMode = false;
         self::$_isInstalled     = null;
         self::$_loggers         = array();
+        self::$_design          = null;
         // do not reset $headersSentThrowsException
+    }
+
+    /**
+     * Reset registry
+     */
+    public static function resetRegistry()
+    {
+        /** @var $value */
+        foreach (self::$_registry as $key => $value) {
+            self::unregister($key);
+        }
+
+        self::$_registry = array();
     }
 
     /**
@@ -370,7 +392,6 @@ final class Mage
             ->getUrl($route, $params);
     }
 
-    protected static $_design;
     /**
      * Get design package singleton
      *
@@ -402,8 +423,10 @@ final class Mage
      *
      * @param string $eventName
      * @param callback $callback
-     * @param array $arguments
+     * @param array $data
      * @param string $observerName
+     * @param string $observerClass
+     * @return Varien_Event_Collection
      */
     public static function addObserver($eventName, $callback, $data = array(), $observerName = '', $observerClass = '')
     {
@@ -446,7 +469,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return self::getObjectManager()->create($modelClass, $arguments, false);
     }
 
     /**

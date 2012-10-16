@@ -16,9 +16,10 @@ interface Magento_ObjectManager
      * @abstract
      * @param string $className
      * @param array $arguments
+     * @param bool $isShared
      * @return mixed
      */
-    public function create($className, array $arguments = array());
+    public function create($className, array $arguments = array(), $isShared = true);
 
     /**
      * Retrieve cached object instance
@@ -34,7 +35,7 @@ interface Magento_ObjectManager
      * Load DI configuration for specified ares
      *
      * @abstract
-     * @param $areaCode
+     * @param string $areaCode
      * @return mixed
      */
     public function loadAreaConfiguration($areaCode);
@@ -46,4 +47,12 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function clearCache();
+
+    /**
+     * Add shared instance
+     *
+     * @param object $instance
+     * @param string $classOrAlias
+     */
+    public function addSharedInstance($instance, $classOrAlias);
 }

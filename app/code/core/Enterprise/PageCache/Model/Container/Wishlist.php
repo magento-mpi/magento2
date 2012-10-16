@@ -45,16 +45,15 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
 
-        $block = new $block;
+        /** @var $block Mage_Core_Block_Template */
+        $block = Mage::getObjectManager()->create($block, array(), false);
         $block->setTemplate($template);
 
-        $blockPrice = new Mage_Catalog_Block_Product_Price_Template();
-        $blockPrice->addPriceBlockType('msrp','Mage_Catalog_Block_Product_Price','catalog/product/price_msrp.phtml');
+        /** @var $blockPrice Mage_Catalog_Block_Product_Price_Template */
+        $blockPrice = Mage::getObjectManager()->create('Mage_Catalog_Block_Product_Price_Template', array(), false);
+        $blockPrice->addPriceBlockType('msrp', 'Mage_Catalog_Block_Product_Price', 'catalog/product/price_msrp.phtml');
 
-        $layout = Mage::app()->getLayout();
-        $layout->addBlock($blockPrice,'catalog_product_price_template');
-
-        $block->setLayout($layout);
+        Mage::app()->getLayout()->addBlock($blockPrice, 'catalog_product_price_template');
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();

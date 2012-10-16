@@ -252,9 +252,11 @@ class Magento_Test_Bootstrap
      */
     public function initialize()
     {
-        $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
+        Mage::setRoot();
+        $resource = Mage::getObjectManager()->get('Mage_Core_Model_Resource');
         $this->_resetApp();
         if ($resource) {
+            Mage::getObjectManager()->addSharedInstance($resource, 'Mage_Core_Model_Resource');
             Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
         }
         Mage::setIsDeveloperMode($this->_developerMode);

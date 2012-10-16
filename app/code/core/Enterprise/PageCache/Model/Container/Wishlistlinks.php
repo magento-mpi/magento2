@@ -42,8 +42,10 @@ class Enterprise_PageCache_Model_Container_Wishlistlinks extends Enterprise_Page
     protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
-        $block = new $block;
-        $block->setLayout(Mage::app()->getLayout());
+
+        /** @var $block Mage_Core_Block_Template */
+        $block = Mage::getObjectManager()->create($block, array(), false);
+
         Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
