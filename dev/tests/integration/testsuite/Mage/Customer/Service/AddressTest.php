@@ -66,9 +66,9 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
         $addresses = $this->_service->getByCustomerId(1);
         $this->assertInternalType('array', $addresses);
         $this->assertCount(2, $addresses);
-        $address = array_shift($addresses);
-        $this->assertInstanceOf('Mage_Customer_Model_Address', $address);
-        $address = array_shift($addresses);
-        $this->assertInstanceOf('Mage_Customer_Model_Address', $address);
+        foreach ($addresses as $addressId => $addressModel) {
+            $this->assertInstanceOf('Mage_Customer_Model_Address', $addressModel);
+            $this->assertEquals($addressId, $addressModel->getId());
+        }
     }
 }
