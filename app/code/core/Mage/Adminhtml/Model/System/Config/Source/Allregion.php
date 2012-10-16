@@ -41,8 +41,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Allregion
             }
         }
         $options = $this->_options;
-        if($isMultiselect){
-            array_unshift($options, array('value'=>'0', 'label'=> '--Please Select--'));
+        if(!$isMultiselect){
+            array_unshift($options, array('value'=>'0', 'label'=> ''));
         }
 
         return $options;
