@@ -32,10 +32,15 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $customerData
+     * @param string $exceptionName
      * @dataProvider initCreateCustomerDataProvider
      */
-    public function testCreate($customerData)
+    public function testCreate($customerData, $exceptionName = '')
     {
+        if (!empty($exceptionName)) {
+            $this->setExpectedException($exceptionName);
+        }
+
         $customer = $this->_model->create($customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
         $this->assertGreaterThan(1, $customer->getId());
@@ -43,9 +48,10 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $customerData
+     * @param string $exceptionName
      * @dataProvider initUpdateCustomerDataProvider
      */
-    public function testUpdate($customerData)
+    public function testUpdate($customerData, $exceptionName = '')
     {
         $customerInitData = $this->initCreateCustomerDataProvider();
         $customer = $this->_model->create($customerInitData[0][0]);
@@ -53,11 +59,18 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
         $this->assertGreaterThan(1, $customer->getId());
 
+        if (!empty($exceptionName)) {
+            $this->setExpectedException($exceptionName);
+        }
+
         $updatedCustomer = $this->_model->update($customer->getId(), $customerData);
 
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
         $this->assertGreaterThan(1, $updatedCustomer->getId());
-        $this->assertEquals($customerData['account']['password'], $updatedCustomer->getPassword());
+
+        foreach ($customerData['account'] as $key => $val) {
+            $this->assertEquals($val, $updatedCustomer->getData($key));
+        }
     }
 
     /**
@@ -70,20 +83,48 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
-                'firstname' => 'Alexander',
+                'firstname' => 'SomeName',
                 'middlename' => null,
-                'lastname' => 'Makeev',
+                'lastname' => 'SomeSurname',
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => null,
                 'taxvat' => null,
                 'gender' => 1,
                 'password' => '123123q',
-                'new_password' => null,
                 'default_billing' => null,
                 'default_shipping' => null,
-                'confirmation' => '123123q'
             ))),
+            array(array('account' => array('website_id' => 0,
+                'group_id' => 1,
+                'disable_auto_group_change' => 0,
+                'prefix' => null,
+                'firstname' => null,
+                'lastname' => 'SomeSurname',
+                'suffix' => null,
+                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+                'password' => '123123q',
+            )), 'Mage_Core_Exception'),
+            array(array('account' => array('website_id' => 0,
+                'group_id' => 1,
+                'disable_auto_group_change' => 0,
+                'prefix' => null,
+                'firstname' => 'SomeName',
+                'lastname' => 'SomeSurname',
+                'suffix' => null,
+                'email' => '111@111',
+                'password' => '123123q',
+            )), 'Mage_Core_Exception'),
+            array(array('account' => array('website_id' => 0,
+                'group_id' => 1,
+                'disable_auto_group_change' => 0,
+                'prefix' => null,
+                'firstname' => 'SomeName',
+                'lastname' => 'SomeSurname',
+                'suffix' => null,
+                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+                'password' => '123',
+            )), 'Mage_Eav_Model_Entity_Attribute_Exception'),
         );
     }
 
@@ -94,9 +135,17 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(array('account' => array(
-                'new_password' => '111',
-                'confirmation' => '222'
+                'password' => '111111'
             ))),
+            array(array('account' => array(
+                'password' => '111'
+            )), 'Mage_Eav_Model_Entity_Attribute_Exception'),
+            array(array('account' => array(
+                'firstname' => null
+            )), 'Mage_Core_Exception'),
+            array(array('account' => array(
+                'email' => '3434@23434'
+            )), 'Mage_Core_Exception'),
         );
     }
 }

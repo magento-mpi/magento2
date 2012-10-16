@@ -49,20 +49,6 @@ class Mage_Customer_Service_Customer
     }
 
     /**
-     * Obtain a customer entity
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function getCustomer()
-    {
-        if (!$this->_customer) {
-            /** @var Mage_Customer_Model_Customer $customer */
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
-        }
-        return $this->_customer;
-    }
-
-    /**
      * Create customer entity. Customer Addresses are also processed
      *
      * @param array $customerData
@@ -147,6 +133,7 @@ class Mage_Customer_Service_Customer
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setAttributes',
             'arguments' => array($this->_getAttributesToValidate($this->_customer,
+                $customerData,
                 $this->_forbiddenAttr))
         ));
         $builder->addConfiguration('eav_validator', array(
@@ -189,17 +176,29 @@ class Mage_Customer_Service_Customer
      * Get list of attributes to validate customer entity
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $deprecatedAttributes
+     * @param array $customerData
+     * @param array $forbiddenAttributes
      * @return array
      */
-    protected function _getAttributesToValidate($customer, $deprecatedAttributes = null)
+    protected function _getAttributesToValidate($customer, $customerData = null, $forbiddenAttributes = null)
     {
         $attributesList = $this->_getCustomerAttributesList($customer);
 
-        if (!empty($deprecatedAttributes)) {
+        // remove forbidden attributes
+        if (!empty($forbiddenAttributes)) {
             /** @var Mage_Eav_Model_Attribute $attribute */
             foreach ($attributesList as $attributeKey => $attribute) {
-                if (in_array($attribute->getAttributeCode(), $deprecatedAttributes)) {
+                if (in_array($attribute->getAttributeCode(), $forbiddenAttributes)) {
+                    unset($attributesList[$attributeKey]);
+                }
+            }
+        }
+
+        // remove attributes which don't exists in incoming customer data
+        if (!empty($customerData)) {
+            /** @var Mage_Eav_Model_Attribute $attribute */
+            foreach ($attributesList as $attributeKey => $attribute) {
+                if (!array_key_exists($attribute->getAttributeCode(), $customerData)) {
                     unset($attributesList[$attributeKey]);
                 }
             }
@@ -341,5 +340,19 @@ class Mage_Customer_Service_Customer
         }
 
         return $customer;
+    }
+
+    /**
+     * Obtain a customer entity
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomer()
+    {
+        if (!$this->_customer) {
+            /** @var Mage_Customer_Model_Customer $customer */
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
+        }
+        return $this->_customer;
     }
 }
