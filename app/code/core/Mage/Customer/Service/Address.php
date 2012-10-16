@@ -10,32 +10,14 @@
 
 /**
  * Customer address service.
- *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Service_Address
+class Mage_Customer_Service_Address extends Mage_Core_Service_Abstract
 {
-
     /**
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_translateHelper;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->_translateHelper = Mage::helper('Mage_Customer_Helper_Data');
-    }
-
-    /**
-     * Get Customer address by customer_id.
+     * Get all customer addresses by customer id.
      *
-     * @param $customerId
-     * @return array
+     * @param int $customerId
+     * @return Mage_Customer_Model_Customer[] Array of addresses models; array keys - addresses' ids
      * @throws Mage_Core_Exception
      */
     public function getByCustomerId($customerId)
