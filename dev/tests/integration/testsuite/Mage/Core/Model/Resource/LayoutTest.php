@@ -12,14 +12,12 @@
 class Mage_Core_Model_Resource_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Resource_Layout
+     * @var Mage_Core_Model_Resource_Layout_Update
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-        
         $this->_model = Mage::getResourceModel('Mage_Core_Model_Resource_Layout_Update');
     }
 

@@ -71,15 +71,6 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core_Helper_Http', $this->_model->getHelperClassName('Mage_Core_Helper_Http'));
     }
 
-    public function testGetResourceHelper()
-    {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Resource_Helper_Abstract', $this->_model->getResourceHelper('Mage_Core')
-        );
-    }
-
     public function testGetModelClassName()
     {
         $this->assertEquals('Mage_Core_Model_Config', $this->_model->getModelClassName('Mage_Core_Model_Config'));
@@ -100,8 +91,6 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetResourceModelInstance()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertInstanceOf(
             'Mage_Core_Model_Resource_Config',
             $this->_model->getResourceModelInstance('Mage_Core_Model_Resource_Config')

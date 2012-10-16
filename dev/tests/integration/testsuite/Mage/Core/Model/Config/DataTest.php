@@ -47,8 +47,6 @@ class Mage_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Core_Model_Config_Data');
     }
 

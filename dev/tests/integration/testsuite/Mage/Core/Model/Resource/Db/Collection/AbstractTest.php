@@ -15,10 +15,9 @@ class Mage_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
+        $resourceModel = Mage::getObjectManager()->get('Mage_Core_Model_Resource');
         $resource = $this->getMockForAbstractClass('Mage_Core_Model_Resource_Db_Abstract',
-            array(), '', true, true, true, array('getMainTable', 'getIdFieldName')
+            array('resource' => $resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );
 
         $resource->expects($this->any())

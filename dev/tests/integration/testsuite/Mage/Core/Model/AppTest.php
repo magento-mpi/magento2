@@ -33,8 +33,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model       = Mage::getModel('Mage_Core_Model_App');
         $this->_mageModel   = Mage::app();
     }

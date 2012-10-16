@@ -17,8 +17,6 @@ class Mage_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testSetDesignConfigException($config)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $model = Mage::getModel('Mage_Core_Model_Email_Template'); // Mage_Core_Model_Template is an abstract class
         $model->setDesignConfig($config);
     }

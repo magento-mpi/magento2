@@ -25,10 +25,34 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
+        $this->_block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',
+            $this->_getBlockDependencies()
+        );
+    }
 
-        $this->_block = $this->getMockForAbstractClass(
-            'Mage_Core_Block_Abstract', array(array('module_name' => 'Mage_Core'))
+    /**
+     * Retrieve block dependencies
+     *
+     * @return array
+     */
+    protected function _getBlockDependencies()
+    {
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $layoutParams = array(
+            'structure' => $dataStructure
+        );
+
+        return array(
+            'request'         => Mage::getObjectManager()->create('Mage_Core_Controller_Request_Http', array(), false),
+            'layout'          => Mage::getObjectManager()->create('Mage_Core_Model_Layout', $layoutParams),
+            'eventManager'    => Mage::getObjectManager()->create('Mage_Core_Model_Event_Manager', array(), false),
+            'translator'      => Mage::getObjectManager()->create('Mage_Core_Model_Translate', array(), false),
+            'cache'           => Mage::getObjectManager()->create('Mage_Core_Model_Cache', array(), false),
+            'designPackage'   => Mage::getObjectManager()->get('Mage_Core_Model_Design_Package'),
+            'session'         => Mage::getObjectManager()->create('Mage_Core_Model_Session', array(), false),
+            'storeConfig'     => Mage::getObjectManager()->create('Mage_Core_Model_Store_Config', array(), false),
+            'frontController' => Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Front', array(), false),
+            'data'            => array('module_name' => 'Mage_Core')
         );
     }
 
@@ -115,11 +139,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetUnsetChild()
     {
-        // Without layout
-        $child = clone $this->_block;
-        $this->_block->setChild('child', $child);
-        $this->assertFalse($this->_block->getChildBlock('child'));
-
         // With layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
 
@@ -180,8 +199,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetChildBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         // Without layout
         $child = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $childAlias = 'child_alias';
@@ -197,7 +214,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block->setChild($childAlias, $child);
         $result = $this->_block->getChildBlock($childAlias);
         $this->assertInstanceOf('Mage_Core_Block_Text', $result);
-        $this->assertEquals($childName, $result->getNameInLayout());
+        $this->assertEquals($parentName . '.' .  $childAlias, $result->getNameInLayout());
         $this->assertEquals($child, $result);
     }
 
@@ -280,12 +297,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $html);
     }
 
-    public function testInsertWithoutLayout()
-    {
-        $child = clone $this->_block;
-        $this->assertFalse($this->_block->insert($child));
-    }
-
     public function testInsertBlockWithoutName()
     {
         $parent = $this->_createBlockWithLayout('parent', 'parent');
@@ -365,10 +376,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testAddToParentGroup()
     {
-        // Without layout
-        $this->assertFalse($this->_block->addToParentGroup('default_group'));
-
-        // With layout
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block1 = $this->_createBlockWithLayout('block1', 'block1');
         $block2 = $this->_createBlockWithLayout('block2', 'block2');
@@ -639,11 +646,11 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Mage_Core_Block_Abstract'
     ) {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $mockClass = $type . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
-            self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(), $type . 'Mock');
+            self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, $this->_getBlockDependencies(),
+                $type . 'Mock'
+            );
         }
         if (is_null($this->_layout)) {
             $this->_layout = Mage::getModel('Mage_Core_Model_Layout');

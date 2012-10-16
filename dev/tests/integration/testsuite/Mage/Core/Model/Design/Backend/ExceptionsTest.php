@@ -18,8 +18,6 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Core_Model_Design_Backend_Exceptions');
         $this->_model->setScope('default');
         $this->_model->setScopeId(0);

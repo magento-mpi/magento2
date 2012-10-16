@@ -18,8 +18,6 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
     }
 

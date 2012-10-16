@@ -33,9 +33,12 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $layoutParams = array(
+            'structure' => $dataStructure
+        );
 
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', $layoutParams);
         $this->_layout->getUpdate()->addHandle('layout_test_handle_main');
         $this->_layout->getUpdate()->load('layout_test_handle_extra');
     }
@@ -73,18 +76,8 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($layout->hasElement('test.container'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorWrongStructure()
-    {
-        Mage::getModel('Mage_Core_Model_Layout', array('structure' => false));
-    }
-
     public function testDestructor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addBlock('Mage_Core_Block_Text', 'test');
         $this->assertNotEmpty($this->_layout->getAllBlocks());
         $this->_layout->__destruct();
@@ -246,7 +239,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function testRenderElement()
     {
         $utility = new Mage_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml',
+            $utility->getLayoutDependencies()
+        );
         $layout->getUpdate()->load(array('first_handle', 'a_handle', 'another_handle'));
         $layout->generateXml()->generateElements();
         $this->assertEmpty($layout->renderElement('nonexisting_element'));
@@ -256,8 +251,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetElementProperty()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $name = 'test';
         $this->_layout->addContainer($name, 'Test', array('option1' => 1, 'option2' => 2));
         $this->assertEquals('Test', $this->_layout->getElementProperty(
@@ -275,8 +268,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testIsBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->assertFalse($this->_layout->isBlock('container'));
         $this->assertFalse($this->_layout->isBlock('block'));
         $this->_layout->addContainer('container', 'Container');
@@ -303,8 +294,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateBlock($blockType, $blockName, array $blockData, $expectedName)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $expectedData = $blockData + array('type' => $blockType);
 
         $block = $this->_layout->createBlock($blockType, $blockName, $blockData);
@@ -355,8 +344,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testAddBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->assertInstanceOf('Mage_Core_Block_Text', $this->_layout->addBlock('Mage_Core_Block_Text', 'block1'));
         $block2 = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $block2->setNameInLayout('block2');
@@ -380,8 +367,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetChildBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addContainer('parent', 'Parent');
         $block = $this->_layout->addBlock('Mage_Core_Block_Text', 'block', 'parent', 'block_alias');
         $this->_layout->addContainer('container', 'Container', array(), 'parent', 'container_alias');
@@ -394,8 +379,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testSetChild()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addContainer('one', 'One');
         $this->_layout->addContainer('two', 'Two');
         $this->_layout->addContainer('three', 'Three');
@@ -445,8 +428,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testSortSpecialCases($handle, $expectedResult)
     {
-        $utility = new Mage_Core_Utility_Layout($this);;
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/sort_special_cases.xml');
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/sort_special_cases.xml',
+            $utility->getLayoutDependencies()
+        );
         $layout->getUpdate()->load($handle);
         $layout->generateXml()->generateElements();
         $this->assertEquals($expectedResult, $layout->renderElement('root'));
@@ -464,8 +449,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetChildBlocks()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addContainer('parent', 'Parent');
         $block1 = $this->_layout->addBlock('Mage_Core_Block_Text', 'block1', 'parent');
         $this->_layout->addContainer('container', 'Container', array(), 'parent');
@@ -478,15 +461,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testAddBlockInvalidType()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addBlock('invalid_name', 'child');
     }
 
     public function testIsContainer()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = 'block';
         $container = 'container';
         $this->_layout->addBlock('Mage_Core_Block_Text', $block);
@@ -498,8 +477,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testIsManipulationAllowed()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_layout->addBlock('Mage_Core_Block_Text', 'block1');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'block2', 'block1');
         $this->assertFalse($this->_layout->isManipulationAllowed('block1'));
@@ -515,8 +492,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testRenameElement()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $blockName = 'block';
         $expBlockName = 'block_renamed';
         $containerName = 'container';
@@ -535,8 +510,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->assertFalse($this->_layout->getBlock('test'));
         $block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
         $this->_layout->setBlock('test', $block);
@@ -551,10 +524,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBlockUnscheduled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $utility = new Mage_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml',
+            $utility->getLayoutDependencies()
+        );
         $layout->getUpdate()->load(array('get_block_special_case'));
         $layout->generateXml()->generateElements();
         $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block1'));
@@ -566,10 +539,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBlockUnscheduledException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $utility = new Mage_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml',
+            $utility->getLayoutDependencies()
+        );
         $layout->getUpdate()->load(array('get_block_special_case_exception'));
         $layout->generateXml();
         $layout->generateElements();
@@ -581,8 +554,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testGetParentNameAndAlias()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         /**
          * Test get name
          */
@@ -607,8 +578,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOutput()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $blockName = 'block_' . __METHOD__;
         $expectedText = "some_text_for_$blockName";
 

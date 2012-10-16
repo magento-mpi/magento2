@@ -22,8 +22,6 @@ class Mage_Core_Model_App_EmulationTest extends PHPUnit_Framework_TestCase
      */
     public function testEnvironmentEmulation()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Core_Model_App_Emulation');
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 

@@ -18,8 +18,6 @@ class Mage_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getResourceModel('Mage_Core_Model_Resource_Transaction');
     }
 
