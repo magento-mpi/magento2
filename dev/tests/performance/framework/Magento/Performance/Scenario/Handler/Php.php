@@ -62,7 +62,7 @@ class Magento_Performance_Scenario_Handler_Php implements Magento_Performance_Sc
 
         $scenarioArguments = $scenario->getArguments();
         $reportRows = array();
-        for ($i = 0; $i < $scenarioArguments[Magento_Performance_Config_Scenario::ARG_LOOPS]; $i++) {
+        for ($i = 0; $i < $scenarioArguments[Magento_Performance_Scenario::ARG_LOOPS]; $i++) {
             $oneReportRow = $this->_executeScenario($scenario);
             $reportRows[] = $oneReportRow;
         }

@@ -9,9 +9,4 @@
  * @license     {license_link}
  */
 
-return array(
-    'title' => 'Test title',
-    'config' => array(),
-    'defaultConfig' => array(),
-    'fixedArguments' => array(),
-);
+throw new LogicException('Fixture 2 has been applied.');

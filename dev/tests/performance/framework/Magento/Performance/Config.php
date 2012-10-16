@@ -16,6 +16,11 @@ class Magento_Performance_Config
     /**
      * @var string
      */
+    protected $_testsBaseDir;
+
+    /**
+     * @var string
+     */
     protected $_applicationBaseDir;
 
     /**
@@ -60,10 +65,12 @@ class Magento_Performance_Config
     public function __construct(array $configData, $testsBaseDir, $appBaseDir)
     {
         $this->_validateData($configData);
+
         if (!is_dir($testsBaseDir)) {
             throw new Magento_Exception("Base directory '$testsBaseDir' does not exist.");
         }
-        $this->_reportDir = $testsBaseDir . DIRECTORY_SEPARATOR . $configData['report_dir'];
+        $this->_testsBaseDir = $testsBaseDir;
+        $this->_reportDir = $this->_getTestsRelativePath($configData['report_dir']);
 
         $applicationOptions = $configData['application'];
         $this->_applicationBaseDir = $appBaseDir;
@@ -75,7 +82,7 @@ class Magento_Performance_Config
             $this->_installOptions = $applicationOptions['installation']['options'];
         }
 
-        $this->_expandScenarios($configData['scenario'], $testsBaseDir);
+        $this->_parseScenarios($configData['scenario']);
     }
 
     /**
@@ -104,14 +111,23 @@ class Magento_Performance_Config
     }
 
     /**
-     * Expands scenario file paths, options and settings with the values, common to all scenarios
+     * Compose full file path, as relative to the tests directory
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _getTestsRelativePath($path)
+    {
+        return $this->_testsBaseDir . DIRECTORY_SEPARATOR . $path;
+    }
+
+    /**
+     * Parse scenario configuration
      *
      * @param array $scenarios
-     * @param string $baseDir
      * @throws InvalidArgumentException
-     * @throws Magento_Exception
      */
-    protected function _expandScenarios($scenarios, $baseDir)
+    protected function _parseScenarios(array $scenarios)
     {
         if (!isset($scenarios['scenarios'])) {
             return;
@@ -120,34 +136,151 @@ class Magento_Performance_Config
             throw new InvalidArgumentException("'scenario' => 'scenarios' option must be an array");
         }
 
-        // Compose additional configuration for scenarios
         $commonConfig = isset($scenarios['common_config']) ? $scenarios['common_config'] : array();
-        $fixedArguments = $this->_getScenarioFixedArguments();
+        if (!is_array($commonConfig)) {
+            throw new InvalidArgumentException("Common scenario config must be represented by an array'");
+        }
 
-        // Parse scenario config data and add scenarios to config
+        // Parse scenarios one by one
         foreach ($scenarios['scenarios'] as $scenarioTitle => $scenarioConfigData) {
-            $scenario = new Magento_Performance_Config_Scenario($scenarioTitle, $scenarioConfigData, $commonConfig,
-                $fixedArguments, $baseDir);
-            $this->_scenarios[] = $scenario;
+            $this->_scenarios[] = $this->_parseScenario($scenarioTitle, $scenarioConfigData, $commonConfig);
         }
     }
 
     /**
-     * Compose list of default parameters for all scenarios, based on common scenario config and internal values
+     * Parses config data into set of configured values
+     *
+     * @param string $title
+     * @param array $config
+     * @param array $commonConfig
+     * @return Magento_Performance_Scenario
+     * @throws InvalidArgumentException
+     */
+    protected function _parseScenario($title, array $config, array $commonConfig)
+    {
+        // Title
+        if (!strlen($title)) {
+            throw new InvalidArgumentException("Scenario must have a title");
+        }
+
+        // General config validation
+        if (!is_array($config)) {
+            throw new InvalidArgumentException("Configuration of scenario '{$title}' must be represented by an array");
+        }
+
+        // File
+        if (!isset($config['file'])) {
+            throw new InvalidArgumentException("File is not defined for scenario '{$title}'");
+        }
+        $file = realpath($this->_getTestsRelativePath($config['file']));
+        if (!file_exists($file)) {
+            throw new InvalidArgumentException("File {$config['file']} doesn't exist for scenario '{$title}'");
+        }
+
+        // Validate sub arrays
+        $subArrays = $this->_validateScenarioSubArrays($title, $config, $commonConfig);
+
+        return new Magento_Performance_Scenario($title, $file, $subArrays['arguments'], $subArrays['settings'],
+            $subArrays['fixtures']);
+    }
+
+    /**
+     * Validate and process scenario arguments, settings and fixtures
+     *
+     * @param string $title
+     * @param array $config
+     * @param array $commonConfig
+     * @return array
+     * @throws InvalidArgumentException
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function _validateScenarioSubArrays($title, array $config, array $commonConfig)
+    {
+        foreach (array('arguments', 'settings', 'fixtures') as $configKey) {
+            if (isset($config[$configKey]) && !is_array($config[$configKey])) {
+                throw new InvalidArgumentException(
+                    "'$configKey' for scenario '{$title}' must be represented by an array"
+                );
+            }
+        }
+
+        // Compose arguments, settings and fixtures
+        $config = $this->_extendScenarioConfig($config, $commonConfig);
+
+        $arguments = isset($config['arguments']) ? $config['arguments'] : array();
+        $arguments = array_merge($arguments, $this->_getFixedScenarioArguments());
+
+        $settings = isset($config['settings']) ? $config['settings'] : array();
+
+        $fixtures = isset($config['fixtures']) ? $config['fixtures'] : array();
+        $fixtures = $this->_expandFixtures($fixtures);
+
+        return array(
+            'arguments' => $arguments,
+            'settings' => $settings,
+            'fixtures' => $fixtures,
+        );
+    }
+
+    /**
+     * Extend scenario config by adding default values from common scenarios config
+     *
+     * @param array $config
+     * @param array $commonConfig
+     * @return array
+     */
+    protected function _extendScenarioConfig(array $config, array $commonConfig)
+    {
+        foreach ($commonConfig as $key => $commonVal) {
+            if (empty($config[$key])) {
+                $config[$key] = $commonVal;
+            } else {
+                if ($key == 'fixtures') {
+                    $config[$key] = array_merge($config[$key], $commonVal);
+                } else {
+                    $config[$key] += $commonVal;
+                }
+            }
+        }
+        return $config;
+    }
+
+    /**
+     * Compose list of scenario arguments, calculated by the framework
      *
      * @return array
      */
-    protected function _getScenarioFixedArguments()
+    protected function _getFixedScenarioArguments()
     {
         $adminOptions = $this->getAdminOptions();
         return array(
-            Magento_Performance_Config_Scenario::ARG_HOST            => $this->getApplicationUrlHost(),
-            Magento_Performance_Config_Scenario::ARG_PATH            => $this->getApplicationUrlPath(),
-            Magento_Performance_Config_Scenario::ARG_BASEDIR         => $this->getApplicationBaseDir(),
-            Magento_Performance_Config_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
-            Magento_Performance_Config_Scenario::ARG_ADMIN_USERNAME  => $adminOptions['username'],
-            Magento_Performance_Config_Scenario::ARG_ADMIN_PASSWORD  => $adminOptions['password'],
+            Magento_Performance_Scenario::ARG_HOST            => $this->getApplicationUrlHost(),
+            Magento_Performance_Scenario::ARG_PATH            => $this->getApplicationUrlPath(),
+            Magento_Performance_Scenario::ARG_BASEDIR         => $this->getApplicationBaseDir(),
+            Magento_Performance_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+            Magento_Performance_Scenario::ARG_ADMIN_USERNAME  => $adminOptions['username'],
+            Magento_Performance_Scenario::ARG_ADMIN_PASSWORD  => $adminOptions['password'],
         );
+    }
+
+    /**
+     * Process fixture file names from scenario config and compose array of their full file paths
+     *
+     * @param array $fixtures
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _expandFixtures(array $fixtures)
+    {
+        $result = array();
+        foreach ($fixtures as $fixtureName) {
+            $fixtureFile = realpath($this->_getTestsRelativePath($fixtureName));
+            if (!file_exists($fixtureFile)) {
+                throw new InvalidArgumentException("Fixture '$fixtureName' doesn't exist in {$this->_testsBaseDir}");
+            }
+            $result[] = $fixtureFile;
+        }
+        return $result;
     }
 
     /**
@@ -201,7 +334,7 @@ class Magento_Performance_Config
     }
 
     /**
-     * Retrieve scenario configurations - array of Magento_Performance_Config_Scenario
+     * Retrieve scenario configurations - array of Magento_Performance_Scenario
      *
      * @return array
      */

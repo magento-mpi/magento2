@@ -9,11 +9,8 @@
  * @license     {license_link}
  */
 
-return array(
-    'title' => null,
-    'config' => array(
-        'file' => 'scenarios/test.php',
-    ),
-    'defaultConfig' => array(),
-    'fixedArguments' => array(),
+$result = require __DIR__ . '/config_data.php';
+$result['scenario']['scenarios']['Scenario']['arguments'] = array(
+    Magento_Performance_Scenario::ARG_USERS => 'A'
 );
+return $result;

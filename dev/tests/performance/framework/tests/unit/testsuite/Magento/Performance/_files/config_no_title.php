@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-return array(
-    'title' => 'Test title',
-    'config' => 'scenarios/test.php',
-    'defaultConfig' => array(),
-    'fixedArguments' => array(),
-);
+$result = require __DIR__ . '/config_data.php';
+$result['scenario']['scenarios'][''] = $result['scenario']['scenarios']['Scenario'];
+return $result;

@@ -167,7 +167,8 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
 
     public function testOnScenarioFailure()
     {
-        $scenario = new Magento_Performance_Scenario('Scenario with Error', 'scenario_error.jmx', array());
+        $scenario = new Magento_Performance_Scenario('Scenario with Error', 'scenario_error.jmx', array(), array(),
+            array());
         $scenarioOneFailure = $this->throwException(
             new Magento_Performance_Scenario_FailureException($scenario)
         );
@@ -175,13 +176,14 @@ class Magento_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
         $this->_expectScenarioRun('Scenario with Error', 'scenario_error.jmx', 1, $scenarioOneFailure);
 
         /* Warm up is disabled for scenario */
-        $scenario = new Magento_Performance_Scenario('Scenario with Failure', 'scenario_failure.jmx', array());
+        $scenario = new Magento_Performance_Scenario('Scenario with Failure', 'scenario_failure.jmx', array(), array(),
+            array());
         $scenarioTwoFailure = $this->throwException(
             new Magento_Performance_Scenario_FailureException($scenario)
         );
         $this->_expectScenarioRun('Scenario with Failure', 'scenario_failure.jmx', 2, $scenarioTwoFailure);
 
-        $scenario = new Magento_Performance_Scenario('Scenario', 'scenario.jmx', array());
+        $scenario = new Magento_Performance_Scenario('Scenario', 'scenario.jmx', array(), array(), array());
         $scenarioThreeFailure = $this->throwException(
             new Magento_Performance_Scenario_FailureException($scenario)
         );

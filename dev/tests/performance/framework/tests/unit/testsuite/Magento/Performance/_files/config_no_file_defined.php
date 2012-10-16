@@ -9,4 +9,6 @@
  * @license     {license_link}
  */
 
-// Fixture stub
+$result = require __DIR__ . '/config_data.php';
+unset($result['scenario']['scenarios']['Scenario']['file']);
+return $result;

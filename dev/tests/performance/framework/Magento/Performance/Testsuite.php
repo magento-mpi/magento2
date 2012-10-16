@@ -39,8 +39,8 @@ class Magento_Performance_Testsuite
      * @var array
      */
     protected $_warmUpArguments = array(
-        Magento_Performance_Config_Scenario::ARG_USERS => 1,
-        Magento_Performance_Config_Scenario::ARG_LOOPS => 2,
+        Magento_Performance_Scenario::ARG_USERS => 1,
+        Magento_Performance_Scenario::ARG_LOOPS => 2,
     );
 
     /**
@@ -82,26 +82,22 @@ class Magento_Performance_Testsuite
     {
         $this->_reportFiles = array();
         $scenarios = $this->_getOptimizedScenarioList();
-        foreach ($scenarios as $scenarioConfig) {
-            /** @var $scenarioConfig Magento_Performance_Config_Scenario */
-            $this->_application->applyFixtures($scenarioConfig->getFixtures());
+        foreach ($scenarios as $scenario) {
+            /** @var $scenario Magento_Performance_Scenario */
+            $this->_application->applyFixtures($scenario->getFixtures());
 
-            // Compose scenario to be run
-            $scenario = new Magento_Performance_Scenario(
-                $scenarioConfig->getTitle(),
-                $scenarioConfig->getFile(),
-                $scenarioConfig->getArguments()
-            );
             $this->_notifyScenarioRun($scenario);
 
             /* warm up cache, if any */
-            $settings = $scenarioConfig->getSettings();
+            $settings = $scenario->getSettings();
             if (empty($settings[self::SETTING_SKIP_WARM_UP])) {
                 try {
                     $scenarioWarmUp = new Magento_Performance_Scenario(
-                        $scenarioConfig->getTitle(),
-                        $scenarioConfig->getFile(),
-                        $this->_warmUpArguments + $scenarioConfig->getArguments()
+                        $scenario->getTitle(),
+                        $scenario->getFile(),
+                        $this->_warmUpArguments + $scenario->getArguments(),
+                        $scenario->getSettings(),
+                        $scenario->getFixtures()
                     );
                     $this->_scenarioHandler->run($scenarioWarmUp);
                 } catch (Magento_Performance_Scenario_FailureException $scenarioFailure) {
