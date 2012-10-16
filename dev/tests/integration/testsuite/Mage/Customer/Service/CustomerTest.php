@@ -148,4 +148,65 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
             )), 'Mage_Core_Exception'),
         );
     }
+
+    /**
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testGet()
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+        $actual = $this->_model->get(1);
+
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $actual);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testGetList()
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+        $this->_model->setAttributesToLoad('*');
+        $actual = $this->_model->getList(array(
+            'page' => 1,
+            'limit' => 1,
+            'order' => 'entity_id',
+            'dir' => 'asc',
+            'filter' => array(
+                array(
+                    'attribute' => 'entity_id',
+                    'eq' => 1
+                )
+            )
+        ));
+
+        $this->assertInternalType('array', $actual);
+        $this->assertCount(1, $actual);
+        $this->assertEquals($expected->toArray(), $actual[1]->toArray());
+    }
+
+    /**
+     * @dataProvider attributesDataProvider
+     */
+    public function testSetAttributesToLoad($attributes)
+    {
+        $this->_model->setAttributesToLoad($attributes);
+        $this->assertAttributeEquals($attributes, '_attributesToLoad', $this->_model);
+    }
+
+    /**
+     * Data provider for testSetAttributesToLoad
+     *
+     * @return array
+     */
+    public function attributesDataProvider()
+    {
+        return array(
+            array('*'),
+            array(array('first_name', 'last_name'))
+        );
+    }
 }

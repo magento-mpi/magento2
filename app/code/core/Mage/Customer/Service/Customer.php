@@ -15,18 +15,8 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Service_Customer
+class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
 {
-    /**
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_translateHelper;
-
-    /**
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
     /**
      * @var Mage_Customer_Model_Customer
      */
@@ -40,12 +30,19 @@ class Mage_Customer_Service_Customer
     protected $_forbiddenAttr = array('store_id', 'website_id');
 
     /**
+     * @var string|array
+     */
+    protected $_attributesToLoad = null;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(array $args = array())
     {
-        $this->_translateHelper = Mage::helper('Mage_Customer_Helper_Data');
-        $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        if (!isset($args['helper'])) {
+            $args['helper'] = Mage::helper('Mage_Customer_Helper_Data');
+        }
+        parent::__construct($args);
     }
 
     /**
@@ -354,5 +351,43 @@ class Mage_Customer_Service_Customer
             $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
         }
         return $this->_customer;
+    }
+    
+    /**
+     * Get customer by id
+     *
+     * @param int $customerId
+     * @return Mage_Customer_Model_Customer
+     */
+    public function get($customerId)
+    {
+        return $this->_loadCustomerById($customerId);
+    }
+
+    /**
+     * Set list of attributes to load.
+     *
+     * '*' mean load all attributes.
+     *
+     * @param array|string $attributes
+     */
+    public function setAttributesToLoad($attributes)
+    {
+        $this->_attributesToLoad = $attributes;
+    }
+
+    /**
+     * Get customer collection instance
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCollection()
+    {
+        /** @var Mage_Customer_Model_Resource_Customer_Collection $collection */
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        if ($this->_attributesToLoad) {
+            $collection->addAttributeToSelect($this->_attributesToLoad);
+        }
+        return $collection;
     }
 }
