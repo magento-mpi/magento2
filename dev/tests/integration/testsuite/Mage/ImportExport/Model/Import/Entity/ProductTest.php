@@ -359,6 +359,9 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
      */
     public function testSaveMediaImage()
     {
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            $this->markTestIncomplete('bug: MAGETWO-4227');
+        }
         $attribute = new Mage_Catalog_Model_Entity_Attribute;
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
