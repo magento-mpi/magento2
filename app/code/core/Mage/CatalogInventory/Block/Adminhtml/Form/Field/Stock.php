@@ -14,7 +14,7 @@
  *
  * @category   Mage
  * @package    Mage_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data_Form_Element_Select
 {
@@ -23,7 +23,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     /**
      * Quantity field element
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Varien_Data_Form_Element_Text
      */
     protected $_qty;
 
@@ -36,7 +36,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
 
     public function __construct(array $data = array())
     {
-        $this->_qty = $data['qty'] ? : $this->_createQtyElement();
+        $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
         unset($data['qty']);
         parent::__construct($data);
         $this->setName($data['name']);
@@ -45,7 +45,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     /**
      * Create quantity field
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Varien_Data_Form_Element_Text
      */
     protected function _createQtyElement()
     {
@@ -70,7 +70,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      * Set form to quantity element in addition to current element
      *
      * @param $form
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Varien_Data_Form
      */
     public function setForm($form)
     {
@@ -82,7 +82,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      * Set value to quantity element in addition to current element
      *
      * @param $value
-     * @return mixed
+     * @return Varien_Data_Form_Element_Select
      */
     public function setValue($value)
     {
@@ -143,8 +143,8 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     {
         return "
             <script>
-            Event.observe(window, 'load', function() {
-                (function ($) {
+            //<![CDATA[
+                jQuery(function($) {
                     var qty = $('#$quantityFieldId');
                     var isInStock = $('#$inStockFieldId');
                     var disabler = function(){
@@ -185,8 +185,8 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         filler.call($('#' + generalTabField));
                         filler.call($('#' + advancedTabField));
                     });
-                })(jQuery);
-            });
+                });
+            //]]>
             </script>
         ";
     }
