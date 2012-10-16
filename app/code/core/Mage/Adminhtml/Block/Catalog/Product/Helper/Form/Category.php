@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     {
         return parent::getElementHtml()
             . "<script>//<![CDATA[\n jQuery("
-            . json_encode('#' . $this->getHtmlId())
+            . $this->_getCodeHelper()->jsonEncode('#' . $this->getHtmlId())
             . ").categorySelector(" . $this->_getCodeHelper()->jsonEncode($this->_getSelectorOptions()) . ");
             \n//]]></script>";
     }
