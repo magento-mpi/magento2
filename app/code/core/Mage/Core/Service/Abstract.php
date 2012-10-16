@@ -13,12 +13,12 @@
  */
 abstract class Mage_Core_Service_Abstract
 {
-    const PAGE_KEY = 'offset';
+    const PAGE_KEY = 'page';
     const LIMIT_KEY = 'limit';
     const FILTER_KEY = 'filter';
     const FILTER_FIELD_KEY = 'attribute';
-    const SORT_FIELD_KEY = 'sort_field';
-    const SORT_ORDER_KEY = 'sort_order';
+    const SORT_FIELD_KEY = 'order';
+    const SORT_ORDER_KEY = 'dir';
     const DEFAULT_SORT_ORDER = Varien_Data_Collection::SORT_ORDER_ASC;
 
     /**
@@ -41,6 +41,36 @@ abstract class Mage_Core_Service_Abstract
         $this->_translateHelper = isset($args['helper']) ? $args['helper'] : Mage::helper('Mage_Core_Helper_Data');
         $this->_eventManager = isset($args['eventManager'])
             ? $args['eventManager'] : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+    }
+
+    /**
+     * Get collection instance
+     *
+     * @return Varien_Data_Collection_Db|null
+     */
+    protected function _getCollection()
+    {
+        return null;
+    }
+
+    /**
+     * Get list
+     *
+     * @param array $data
+     * @return array
+     * @throws RuntimeException
+     */
+    public function getList(array $data = null)
+    {
+        $collection = $this->_getCollection();
+        if (!$collection instanceof Varien_Data_Collection_Db) {
+            throw new RuntimeException(
+                $this->_translateHelper->__('To use getList _getCollection must be implemented'));
+        }
+        if ($data) {
+            $this->_prepareCollection($collection, $data);
+        }
+        return $collection->getItems();
     }
 
     /**
@@ -71,20 +101,19 @@ abstract class Mage_Core_Service_Abstract
      */
     protected function _applyCollectionPager(Varien_Data_Collection_Db $collection, array $data)
     {
-        if (isset($data[self::PAGE_KEY]) && isset($data[self::LIMIT_KEY])) {
-            $page = (int)$data[self::PAGE_KEY] - 1;
+        if (isset($data[self::LIMIT_KEY])) {
+            $page = isset($data[self::PAGE_KEY]) ? (int)$data[self::PAGE_KEY] : 1;
             $limit = (int)$data[self::LIMIT_KEY];
-            if ($page < 0) {
-                throw new InvalidArgumentException($this->_translateHelper->__('Page size is incorrect'));
+            if ($page < 1) {
+                throw new InvalidArgumentException($this->_translateHelper->__('Page number is incorrect'));
             }
             if ($limit < 1) {
-                throw new InvalidArgumentException($this->_translateHelper->__('Offset is incorrect'));
+                throw new InvalidArgumentException($this->_translateHelper->__('Limit is incorrect'));
             }
-            $collection
-                ->setCurPage($page)
-                ->setPageSize($limit);
-        } elseif (isset($data[self::PAGE_KEY]) || isset($data[self::LIMIT_KEY])) {
-            throw new InvalidArgumentException($this->_translateHelper->__('Offset should be used with limit'));
+            $collection->setCurPage($page);
+            $collection->setPageSize($limit);
+        } elseif (isset($data[self::PAGE_KEY])) {
+            throw new InvalidArgumentException($this->_translateHelper->__('Page number must be used with limit'));
         }
         return $this;
     }
@@ -103,7 +132,7 @@ abstract class Mage_Core_Service_Abstract
             $dir = self::DEFAULT_SORT_ORDER;
             $allowedSortOrder = array(Varien_Data_Collection::SORT_ORDER_ASC, Varien_Data_Collection::SORT_ORDER_DESC);
             if (isset($data[self::SORT_ORDER_KEY])) {
-                if (!in_array($data[self::SORT_ORDER_KEY], $allowedSortOrder)) {
+                if (!in_array(strtoupper($data[self::SORT_ORDER_KEY]), $allowedSortOrder)) {
                     throw new InvalidArgumentException($this->_translateHelper->__('Sort order is invalid'));
                 }
                 $dir = $data[self::SORT_ORDER_KEY];
@@ -130,9 +159,12 @@ abstract class Mage_Core_Service_Abstract
         }
 
         $filter = $data[self::FILTER_KEY];
+        if (!$filter || !is_array($filter)) {
+            throw new InvalidArgumentException($this->_translateHelper->__('Invalid filter format'));
+        }
         foreach ($filter as $filterEntry) {
             if (!is_array($filterEntry) || !array_key_exists(self::FILTER_FIELD_KEY, $filterEntry)) {
-                throw new InvalidArgumentException($this->_translateHelper->__('Invalid filter'));
+                throw new InvalidArgumentException($this->_translateHelper->__('Invalid filter format'));
             }
             $attributeCode = $filterEntry[self::FILTER_FIELD_KEY];
             unset($filterEntry[self::FILTER_FIELD_KEY]);
@@ -144,7 +176,7 @@ abstract class Mage_Core_Service_Abstract
                     $collection->addFieldToFilter($attributeCode, $filterEntry);
                 }
             } catch(Exception $e) {
-                throw new RuntimeException($this->_translateHelper->__('Error occurred during filtering collection'));
+                throw new RuntimeException($this->_translateHelper->__('Error occurred during filtering data'));
             }
         }
         return $this;

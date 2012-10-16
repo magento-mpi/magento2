@@ -28,6 +28,11 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
     );
 
     /**
+     * @var string|array
+     */
+    protected $_attributesToLoad = null;
+
+    /**
      * List of fields which forbidden for updating
      *
      * @var array
@@ -348,5 +353,43 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
         }
 
         return $customer;
+    }
+    
+    /**
+     * Get customer by id
+     *
+     * @param int $customerId
+     * @return Mage_Customer_Model_Customer
+     */
+    public function get($customerId)
+    {
+        return $this->_loadCustomerById($customerId);
+    }
+
+    /**
+     * Set list of attributes to load.
+     *
+     * '*' mean load all attributes.
+     *
+     * @param array|string $attributes
+     */
+    public function setAttributesToLoad($attributes)
+    {
+        $this->_attributesToLoad = $attributes;
+    }
+
+    /**
+     * Get customer collection instance
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCollection()
+    {
+        /** @var Mage_Customer_Model_Resource_Customer_Collection $collection */
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        if ($this->_attributesToLoad) {
+            $collection->addAttributeToSelect($this->_attributesToLoad);
+        }
+        return $collection;
     }
 }
