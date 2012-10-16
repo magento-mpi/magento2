@@ -665,7 +665,7 @@ country_of_manufacture:
 
 quantity_and_stock_status:
     attribute_code: quantity_and_stock_status
-    admin_title: Quantity and Stock
+    admin_title: Quantity
     option_1:
         admin_option_name: In Stock
     option_2:
