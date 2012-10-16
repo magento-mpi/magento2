@@ -341,11 +341,10 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
             }
-        }
-        else {
+        } else {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
         }
-        $this->_redirect('*/*/importExport');
+        $this->_redirectReferer();
     }
 
     protected function _importRates()

@@ -24,6 +24,7 @@
             <block type="Mage_Adminhtml_Block_Tax_Rule_Edit"></block>
             <block type="Mage_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-edit" template="Mage_Adminhtml::tax/rule/edit.phtml"></block>
             <block type="Mage_Adminhtml_Block_Tax_Rate_Form" name="tax-rate-form" template="tax/rule/rate/form.phtml"></block>
+            <block type="Mage_Adminhtml_Block_Tax_Rate_ImportExport" name="tax-rate-importExport" template="tax/importExport.phtml"></block>
         </reference>
     </adminhtml_tax_rule_edit>
 </layout>
