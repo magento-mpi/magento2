@@ -289,7 +289,8 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
             array('status'),
             array('tax_class_id'),
             array('visibility'),
-            array('weight')
+            array('weight'),
+            array('quantity_and_stock_status')
         );
     }
 }
