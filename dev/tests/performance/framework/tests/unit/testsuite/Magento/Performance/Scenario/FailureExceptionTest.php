@@ -38,7 +38,7 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
         $this->assertEquals('scenario has failed', $this->_object->getMessage());
     }
 
-    public function testGetScenarioFile()
+    public function testGetScenario()
     {
         $this->assertSame($this->_scenario, $this->_object->getScenario());
     }
