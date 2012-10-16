@@ -112,6 +112,11 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(array('fixture2'), $this->_fixtureEvents, 'One missing fixture must be applied');
 
             $this->_fixtureEvents = array();
+            $this->_object->applyFixtures($allFixtures);
+            $this->assertEquals(array(), $this->_fixtureEvents,
+                'No fixtures must be applied, when the same set is tried to be applied again.');
+
+            $this->_fixtureEvents = array();
             $this->_object->applyFixtures($fixture1);
             $this->assertEquals(array('fixture1'), $this->_fixtureEvents,
                 'Fixture must be re-applied after excessive fixtures');
