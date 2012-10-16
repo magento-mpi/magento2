@@ -207,7 +207,10 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      */
     public function productTypeDataProvider()
     {
-        return array(array('configurable'), array('grouped'));
+        return array(
+            array('configurable'),
+            array('grouped')
+        );
     }
 
     /**
@@ -296,7 +299,10 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      */
     public function qtyGeneralDataProvider()
     {
-        return array(array($this->generate('string', 9, ':punct:')), array($this->generate('string', 9, ':alnum:')));
+        return array(
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alnum:'))
+        );
     }
 
     /**
@@ -531,7 +537,7 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
         $this->assertEquals($productData['general_stock_availability'], $this->getText(
                 $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"),
             'Stock Availability is not saved after product duplication');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()
-            ->getGeneratedSku($productData['general_sku'])));
+        $this->productHelper()->verifyProductInfo(array('general_sku' =>
+        $this->productHelper()->getGeneratedSku($productData['general_sku'])));
     }
 }
