@@ -18,6 +18,7 @@
  * @method int getWebsiteId() getWebsiteId()
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
+ * @method Mage_Customer_Model_Resource_Customer _getResource()
  */
 class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 {

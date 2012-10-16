@@ -9,11 +9,6 @@
  */
 
 /**
- * TODO: Think about welcome emails during customer create and update from backend and frontend.
- * Currently these emails are sent in all cases, however in the native implementation they were not sent during customer update from frontend
- */
-
-/**
  * Customer service is responsible for customer business workflows encapsulation
  *
  * @category    Mage
@@ -38,11 +33,11 @@ class Mage_Customer_Service_Customer
     protected $_customer;
 
     /**
-     * List of deprecated attributes
+     * List of attributes which forbidden for validation
      *
      * @var array
      */
-    protected $_deprecatedAttr = array('store_id', 'website_id');
+    protected $_forbiddenAttr = array('store_id', 'website_id');
 
     /**
      * Constructor
@@ -54,12 +49,16 @@ class Mage_Customer_Service_Customer
     }
 
     /**
-     * Customer entity getter.
+     * Obtain a customer entity
      *
-     * @return Mage_Customer_Model_Customer|null
+     * @return Mage_Customer_Model_Customer
      */
     public function getCustomer()
     {
+        if (!$this->_customer) {
+            /** @var Mage_Customer_Model_Customer $customer */
+            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
+        }
         return $this->_customer;
     }
 
@@ -73,22 +72,13 @@ class Mage_Customer_Service_Customer
     {
         $accountData = $this->_extractAccountData($customerData);
 
-        // TODO: Move website_id and created_in initialization with default values to attribute
-        $accountData['website_id'] = isset($accountData['website_id']) ? $accountData['website_id']
-            : Mage::app()->getStore()->getWebsiteId();
-        $accountData['created_in'] = (isset($accountData['created_in']) && $accountData['created_in'])
-            ? $accountData['created_in'] : Mage::app()->getDefaultStoreView()->getName();
-        $accountData['store_id'] = isset($accountData['store_id']) ? $accountData['store_id']
-            : Mage::app()->getStore()->getId();
+        $customer = $this->getCustomer()
+            ->setData($accountData);
 
-        /** @var Mage_Customer_Model_Customer $customer */
-        $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $this->_customer->setData($accountData);
-         // Initialize customer group id if it was not set
-        $this->_customer->getGroupId();
         $this->_preparePasswordForSave($accountData);
         $this->_save($customerData);
-        return $this->_customer;
+
+        return $customer;
     }
 
     /**
@@ -96,25 +86,21 @@ class Mage_Customer_Service_Customer
      *
      * @param string|int $customerId
      * @param array $customerData
-     * @param bool $deleteMissingAddr
      * @return Mage_Customer_Model_Customer
      */
-    public function update($customerId, $customerData, $deleteMissingAddr = false)
+    public function update($customerId, $customerData)
     {
         $accountData = $this->_extractAccountData($customerData);
-
-        // TODO: Move this logic to attributes
         unset($accountData['created_in']);
         unset($accountData['website_id']);
 
-        $this->_customer = $this->_loadCustomerById($customerId);
-        $this->_customer->addData($accountData);
-        if ($deleteMissingAddr) {
-            $this->_markMissingAddressesForDelete($customerData);
-        }
+        $customer = $this->_loadCustomerById($customerId)
+            ->addData($accountData);
+
         $this->_save($customerData);
         $this->_changePassword($accountData);
-        return $this->_customer;
+
+        return $customer;
     }
 
     /**
@@ -124,8 +110,8 @@ class Mage_Customer_Service_Customer
      */
     public function delete($customerId)
     {
-        $this->_customer = $this->_loadCustomerById($customerId);
-        $this->_customer->delete();
+        $this->_loadCustomerById($customerId)
+            ->delete();
     }
 
     /**
@@ -136,32 +122,12 @@ class Mage_Customer_Service_Customer
      */
     protected function _save($customerData)
     {
-        $this->_eventManager->dispatch(
-            'customer_service_customer_save_before',
-            array('customer' => $this->_customer, 'customer_data' => $customerData)
-        );
-
-        $this->_getAttributesToValidate($this->_customer,
-            $this->_deprecatedAttr);
-
         $accountData = $this->_extractAccountData($customerData);
-        $addresses = $this->_extractAddressesData($customerData);
-        if (!empty($addresses)) {
-            // TODO: Think about better implementation of default billing and shipping addresses setting
-            // Set default billing and shipping flags to address
-            $defaultBilling = isset($accountData['default_billing']) ? $accountData['default_billing'] : null;
-            $defaultShipping = isset($accountData['default_shipping']) ? $accountData['default_shipping'] : null;
-            $this->_processAddresses($addresses, $defaultBilling, $defaultShipping);
-        }
 
         $this->_validate($accountData);
-        $this->_customer->save();
+        $this->getCustomer()->save();
         $this->_sendWelcomeEmail($customerData);
 
-        $this->_eventManager->dispatch(
-            'customer_service_customer_save_after',
-            array('customer' => $this->_customer, 'customer_data' => $customerData)
-        );
         return $this;
     }
 
@@ -181,7 +147,7 @@ class Mage_Customer_Service_Customer
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setAttributes',
             'arguments' => array($this->_getAttributesToValidate($this->_customer,
-                $this->_deprecatedAttr))
+                $this->_forbiddenAttr))
         ));
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setData',
@@ -189,7 +155,8 @@ class Mage_Customer_Service_Customer
         ));
         $validator = $builder->createValidator();
 
-        if (!$validator->isValid($this->_customer)) {
+        $customer = $this->getCustomer();
+        if (!$validator->isValid($customer)) {
             $this->_processValidationErrors($validator->getMessages());
         }
 
@@ -205,6 +172,7 @@ class Mage_Customer_Service_Customer
     protected function _processValidationErrors($errorMessages)
     {
         $exception = new Mage_Core_Exception();
+        /** @var Mage_Core_Model_Message $message */
         $message = Mage::getSingleton('Mage_Core_Model_Message');
         foreach ($errorMessages as $errorMessage) {
             foreach ($errorMessage as $errorText) {
@@ -254,26 +222,6 @@ class Mage_Customer_Service_Customer
     }
 
     /**
-     * Mark all customer addresses that were not passed in data for future removal
-     *
-     * @param array $customerData
-     */
-    protected function _markMissingAddressesForDelete($customerData)
-    {
-        $addresses = $this->_extractAddressesData($customerData);
-        $modifiedAddressIds = array();
-        foreach (array_keys($addresses) as $addressId) {
-            $modifiedAddressIds[] = $addressId;
-        }
-        /** @var Mage_Customer_Model_Address $customerAddress */
-        foreach ($this->_customer->getAddressesCollection() as $customerAddress) {
-            if ($customerAddress->getId() && !in_array($customerAddress->getId(), $modifiedAddressIds)) {
-                $customerAddress->setData('_deleted', true);
-            }
-        }
-    }
-
-    /**
      * Extract customer account data
      *
      * @param array $customerData
@@ -285,29 +233,23 @@ class Mage_Customer_Service_Customer
     }
 
     /**
-     * Extract customer addresses data
-     *
-     * @param array $customerData
-     * @return array
-     */
-    protected function _extractAddressesData($customerData)
-    {
-        return isset($customerData['addresses']) ? $customerData['addresses'] : array();
-    }
-
-    /**
      * Set customer password
      *
      * @param array $customerAccountData
      */
     protected function _preparePasswordForSave($customerAccountData)
     {
-        // TODO: 'force_confirmed' should be set in admin area only
-        $this->_customer->setForceConfirmed(true);
+        $customer = $this->getCustomer();
+
+        // 'force_confirmed' should be set in admin area only
+        if (Mage::app()->getStore()->getId() == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            $customer->setForceConfirmed(true);
+        }
+
         if ($this->_isAutogeneratePassword($customerAccountData)) {
-            $this->_customer->setPassword($this->_customer->generatePassword());
+            $customer->setPassword($customer->generatePassword());
         } elseif (isset($customerAccountData['password'])) {
-            $this->_customer->setPassword($customerAccountData['password']);
+            $customer->setPassword($customerAccountData['password']);
         }
     }
 
@@ -343,19 +285,18 @@ class Mage_Customer_Service_Customer
     {
         $passwordSet = isset($customerAccountData['password']) && !empty($customerAccountData['password']);
         $autogeneratePassword = $this->_isAutogeneratePassword($customerAccountData);
+
         if ($passwordSet || $autogeneratePassword) {
             if ($autogeneratePassword) {
-                $newPassword = $this->_customer->generatePassword();
+                $newPassword = $this->getCustomer()->generatePassword();
             } else {
                 $newPassword = $customerAccountData['password'];
             }
-            $this->_customer->changePassword($newPassword);
-            /**
-             * TODO: If reminder sending is uncommented, the following exception occurs:
-             * "Design config must have area and store."
-             */
-//            $this->_customer->sendPasswordReminderEmail();
+
+            $this->getCustomer()->changePassword($newPassword)
+                ->sendPasswordReminderEmail();
         }
+
         return $this;
     }
 
@@ -367,15 +308,18 @@ class Mage_Customer_Service_Customer
      */
     protected function _sendWelcomeEmail($accountData)
     {
-        if ($this->_customer->getWebsiteId()
+        $customer = $this->getCustomer();
+        if ($customer->getWebsiteId()
             && ($this->_isSendEmail($accountData) || $this->_isAutogeneratePassword($accountData))) {
-            $isNewCustomer = $this->_customer->isObjectNew();
-            $storeId = $this->_customer->getSendemailStoreId();
+
+            $isNewCustomer = $customer->isObjectNew();
+            $storeId = $customer->getSendemailStoreId();
+
             if ($isNewCustomer) {
-                $this->_customer->sendNewAccountEmail('registered', '', $storeId);
-            } elseif ((!$this->_customer->getConfirmation())) {
+                $customer->sendNewAccountEmail('registered', '', $storeId);
+            } elseif ((!$customer->getConfirmation())) {
                 // Confirm not confirmed customer
-                $this->_customer->sendNewAccountEmail('confirmed', '', $storeId);
+                $customer->sendNewAccountEmail('confirmed', '', $storeId);
             }
         }
         return $this;
@@ -390,43 +334,12 @@ class Mage_Customer_Service_Customer
      */
     protected function _loadCustomerById($customerId)
     {
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($customerId);
+        /** @var Mage_Customer_Model_Customer $_customer */
+        $customer = $this->getCustomer()->load($customerId);
         if (!$customer->getId()) {
             throw new Mage_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
         }
+
         return $customer;
-    }
-
-    /**
-     * Prepare customer addresses for save
-     *
-     * @param array $addresses
-     * @param int|null $defaultBillingIndex
-     * @param int|null $defaultShippingIndex
-     * @return Mage_Customer_Service_Customer
-     */
-    protected function _processAddresses($addresses, $defaultBillingIndex = null, $defaultShippingIndex = null)
-    {
-        if (!empty($addresses)) {
-            foreach ($addresses as $addressIndex => $addressData) {
-                $address = $this->_customer->getAddressItemById($addressIndex);
-                if (!$address) {
-                    $address = Mage::getModel('Mage_Customer_Model_Address');
-                }
-                $addressData['is_default_billing'] = ($defaultBillingIndex == $addressIndex);
-                $addressData['is_default_shipping'] = ($defaultShippingIndex == $addressIndex);
-                $address->addData($addressData);
-
-                // TODO: Why do we need this setPostIndex() for?
-                // Set post_index for detect default billing and shipping addresses
-                $address->setPostIndex($addressIndex);
-                if (!$address->getId()) {
-                    $this->_customer->addAddress($address);
-                }
-            }
-        }
-
-        return $this;
     }
 }
