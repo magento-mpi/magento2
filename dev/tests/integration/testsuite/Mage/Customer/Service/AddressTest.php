@@ -15,14 +15,26 @@
 class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Mage_Customer_Service_Address
+     */
+    protected $_service;
+
+    /**
+     * Set up.
+     */
+    protected function setUp()
+    {
+        $this->_service = new Mage_Customer_Service_Address;
+    }
+
+    /**
      * Test for Mage_Customer_Service_Address::getByCustomerId with no addresses.
      *
      * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testGetByCustomerIdNoAddresses()
     {
-        $service = new Mage_Customer_Service_Address;
-        $addresses = $service->getByCustomerId(1);
+        $addresses = $this->_service->getByCustomerId(1);
         $this->assertInternalType('array', $addresses);
         $this->assertEmpty($addresses);
     }
@@ -35,8 +47,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      */
     public function testGetByCustomerIdWithAddress()
     {
-        $service = new Mage_Customer_Service_Address;
-        $addresses = $service->getByCustomerId(1);
+        $addresses = $this->_service->getByCustomerId(1);
         $this->assertInternalType('array', $addresses);
         $this->assertCount(1, $addresses);
         $address = array_shift($addresses);
@@ -52,8 +63,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      */
     public function testGetByCustomerIdWithTwoAddresses()
     {
-        $service = new Mage_Customer_Service_Address;
-        $addresses = $service->getByCustomerId(1);
+        $addresses = $this->_service->getByCustomerId(1);
         $this->assertInternalType('array', $addresses);
         $this->assertCount(2, $addresses);
         $address = array_shift($addresses);

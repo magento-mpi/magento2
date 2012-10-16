@@ -14,10 +14,10 @@
 class Mage_Customer_Service_Address extends Mage_Core_Service_Abstract
 {
     /**
-     * Get Customer address by customer_id.
+     * Get Customer address by customer id.
      *
-     * @param $customerId
-     * @return array
+     * @param int $customerId
+     * @return Mage_Customer_Model_Customer[]
      * @throws Mage_Core_Exception
      */
     public function getByCustomerId($customerId)
