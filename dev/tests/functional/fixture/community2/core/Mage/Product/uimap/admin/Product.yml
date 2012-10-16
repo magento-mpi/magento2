@@ -24,8 +24,10 @@ new_product:
                                         general_min_tax_class: //select[@id='tax_class_id']
                                         general_min_price_view_bundle: //select[@id='price_view']
                                         general_user_attr_dropdown: //*[@id='%attributeCodeDropdown%']
+                                        general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                     fields:
                                         general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span

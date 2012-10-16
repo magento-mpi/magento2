@@ -109,7 +109,7 @@ new_product:
                                         product_price_to: //*[@id='productGrid_product_filter_price_to']
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
-                                        
+
             fieldsets:
                 -
                     product_information:
@@ -180,7 +180,6 @@ manage_products:
                 add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
             fieldsets:
                 -
-                      product_grid:
-                          pageelements:
-                              product_grid_columns_price: //div[@id='productGrid']//span[@class='sort-title' and text()='Price']
-
+                    product_grid:
+                        pageelements:
+                            product_grid_columns_price: //div[@id='productGrid']//span[@class='sort-title' and text()='Price']
