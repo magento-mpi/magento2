@@ -83,7 +83,7 @@
                         }
                     });
                 },
-                minLength: 3,
+                minLength: 1,
                 select: function(event, ui) {
                     if (elementPresent(ui.item)) {
                         event.preventDefault();
