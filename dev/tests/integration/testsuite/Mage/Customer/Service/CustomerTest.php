@@ -9,12 +9,20 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
+/**
+ * Test service layer Mage_Service_Customer
+ */
+class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Customer_Service_Customer
      */
     protected $_model;
+
+    /**
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_createdCustomer;
 
     protected function setUp()
     {
@@ -24,8 +32,8 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
-        if ($this->_model && $this->_model->getCustomer()->getId() > 0) {
-            $this->_model->delete($this->_model->getCustomer()->getId());
+        if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
+            $this->_createdCustomer->delete();
         }
         $this->_model = null;
     }
@@ -41,9 +49,9 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
             $this->setExpectedException($exceptionName);
         }
 
-        $customer = $this->_model->create($customerData);
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
-        $this->assertGreaterThan(1, $customer->getId());
+        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
+        $this->assertGreaterThan(0, $this->_createdCustomer->getId());
     }
 
     /**
@@ -54,22 +62,44 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testUpdate($customerData, $exceptionName = '')
     {
         $customerInitData = $this->initCreateCustomerDataProvider();
-        $customer = $this->_model->create($customerInitData[0][0]);
+        $this->_createdCustomer = $this->_model->create($customerInitData[0][0]);
 
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
-        $this->assertGreaterThan(1, $customer->getId());
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
+        $this->assertGreaterThan(1, $this->_createdCustomer->getId());
 
         if (!empty($exceptionName)) {
             $this->setExpectedException($exceptionName);
         }
 
-        $updatedCustomer = $this->_model->update($customer->getId(), $customerData);
+        $updatedCustomer = $this->_model->update($this->_createdCustomer->getId(), $customerData);
 
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
         $this->assertGreaterThan(1, $updatedCustomer->getId());
 
         foreach ($customerData['account'] as $key => $val) {
             $this->assertEquals($val, $updatedCustomer->getData($key));
+        }
+    }
+
+    /**
+     * @param array $customerData
+     * @dataProvider initForbiddenFieldsUpdateDataProvider
+     */
+    public function testForbiddenFieldsUpdate($customerData)
+    {
+        $customerInitData = $this->initCreateCustomerDataProvider();
+        $this->_createdCustomer = $this->_model->create($customerInitData[0][0]);
+
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
+        $this->assertGreaterThan(1, $this->_createdCustomer->getId());
+
+        $updatedCustomer = $this->_model->update($this->_createdCustomer->getId(), $customerData);
+
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
+        $this->assertGreaterThan(1, $updatedCustomer->getId());
+
+        foreach ($customerData['account'] as $key => $val) {
+            $this->assertNotEquals($val, $updatedCustomer->getData($key));
         }
     }
 
@@ -135,7 +165,7 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(array('account' => array(
-                'password' => '111111'
+                'password' => '111111',
             ))),
             array(array('account' => array(
                 'password' => '111'
@@ -146,6 +176,19 @@ class Mage_Catalog_Service_CustomerTest extends PHPUnit_Framework_TestCase
             array(array('account' => array(
                 'email' => '3434@23434'
             )), 'Mage_Core_Exception'),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function initForbiddenFieldsUpdateDataProvider()
+    {
+        return array(
+            array(array('account' => array(
+                'website_id' => 111,
+                'entity_type_id' => 555,
+            ))),
         );
     }
 }

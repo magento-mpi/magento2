@@ -15,38 +15,29 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Service_Customer
+class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
 {
-    /**
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_translateHelper;
-
-    /**
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
-     * @var Mage_Customer_Model_Customer
-     */
-    protected $_customer;
-
     /**
      * List of attributes which forbidden for validation
      *
      * @var array
      */
-    protected $_forbiddenAttr = array('store_id', 'website_id');
+    protected $_forbiddenAttr = array(
+        'store_id',
+        'website_id'
+    );
 
     /**
-     * Constructor
+     * List of fields which forbidden for updating
+     *
+     * @var array
      */
-    public function __construct()
-    {
-        $this->_translateHelper = Mage::helper('Mage_Customer_Helper_Data');
-        $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
-    }
+    protected $_forbiddenFields = array(
+        'entity_id',
+        'entity_type_id',
+        'created_in',
+        'website_id',
+    );
 
     /**
      * Create customer entity. Customer Addresses are also processed
@@ -58,11 +49,11 @@ class Mage_Customer_Service_Customer
     {
         $accountData = $this->_extractAccountData($customerData);
 
-        $customer = $this->getCustomer()
-            ->setData($accountData);
-
-        $this->_preparePasswordForSave($accountData);
-        $this->_save($customerData);
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer->setData($accountData);
+        $this->_preparePasswordForSave($customer, $accountData);
+        $this->_save($customer, $customerData);
 
         return $customer;
     }
@@ -77,14 +68,14 @@ class Mage_Customer_Service_Customer
     public function update($customerId, $customerData)
     {
         $accountData = $this->_extractAccountData($customerData);
-        unset($accountData['created_in']);
-        unset($accountData['website_id']);
+        $this->_removeForbiddenFields($accountData);
 
+        /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_loadCustomerById($customerId)
             ->addData($accountData);
 
-        $this->_save($customerData);
-        $this->_changePassword($accountData);
+        $this->_save($customer, $customerData);
+        $this->_changePassword($customer, $accountData);
 
         return $customer;
     }
@@ -103,16 +94,17 @@ class Mage_Customer_Service_Customer
     /**
      * Save customer entity. Perform supplementary business workflow actions
      *
+     * @param Mage_Customer_Model_Customer $customer
      * @param array $customerData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _save($customerData)
+    protected function _save($customer, $customerData)
     {
         $accountData = $this->_extractAccountData($customerData);
 
-        $this->_validate($accountData);
-        $this->getCustomer()->save();
-        $this->_sendWelcomeEmail($customerData);
+        $this->_validate($customer, $accountData);
+        $customer->save();
+        $this->_sendWelcomeEmail($customer, $customerData);
 
         return $this;
     }
@@ -120,10 +112,11 @@ class Mage_Customer_Service_Customer
     /**
      * Validate customer entity
      *
+     * @param Mage_Customer_Model_Customer $customer
      * @param array $customerData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _validate($customerData)
+    protected function _validate($customer, $customerData)
     {
         /** @var $validatorFactory Magento_Validator_Config */
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
@@ -132,7 +125,7 @@ class Mage_Customer_Service_Customer
 
         $builder->addConfiguration('eav_validator', array(
             'method' => 'setAttributes',
-            'arguments' => array($this->_getAttributesToValidate($this->_customer,
+            'arguments' => array($this->_getAttributesToValidate($customer,
                 $customerData,
                 $this->_forbiddenAttr))
         ));
@@ -142,7 +135,6 @@ class Mage_Customer_Service_Customer
         ));
         $validator = $builder->createValidator();
 
-        $customer = $this->getCustomer();
         if (!$validator->isValid($customer)) {
             $this->_processValidationErrors($validator->getMessages());
         }
@@ -232,14 +224,28 @@ class Mage_Customer_Service_Customer
     }
 
     /**
+     * Remove forbidden fields
+     *
+     * @param array $customerData
+     * @return array
+     */
+    protected function _removeForbiddenFields(&$customerData)
+    {
+        foreach (array_keys($customerData) as $customerDataKey) {
+            if (in_array($customerDataKey, $this->_forbiddenFields)) {
+                unset($customerData[$customerDataKey]);
+            }
+        }
+    }
+
+    /**
      * Set customer password
      *
+     * @param Mage_Customer_Model_Customer $customer
      * @param array $customerAccountData
      */
-    protected function _preparePasswordForSave($customerAccountData)
+    protected function _preparePasswordForSave($customer, $customerAccountData)
     {
-        $customer = $this->getCustomer();
-
         // 'force_confirmed' should be set in admin area only
         if (Mage::app()->getStore()->getId() == Mage_Core_Model_App::ADMIN_STORE_ID) {
             $customer->setForceConfirmed(true);
@@ -277,22 +283,23 @@ class Mage_Customer_Service_Customer
     /**
      * Change customer password
      *
+     * @param Mage_Customer_Model_Customer $customer
      * @param array $customerAccountData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _changePassword($customerAccountData)
+    protected function _changePassword($customer, $customerAccountData)
     {
         $passwordSet = isset($customerAccountData['password']) && !empty($customerAccountData['password']);
         $autogeneratePassword = $this->_isAutogeneratePassword($customerAccountData);
 
         if ($passwordSet || $autogeneratePassword) {
             if ($autogeneratePassword) {
-                $newPassword = $this->getCustomer()->generatePassword();
+                $newPassword = $customer->generatePassword();
             } else {
                 $newPassword = $customerAccountData['password'];
             }
 
-            $this->getCustomer()->changePassword($newPassword)
+            $customer->changePassword($newPassword)
                 ->sendPasswordReminderEmail();
         }
 
@@ -302,12 +309,12 @@ class Mage_Customer_Service_Customer
     /**
      * Send welcome email to customer
      *
+     * @param Mage_Customer_Model_Customer $customer
      * @param array $accountData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _sendWelcomeEmail($accountData)
+    protected function _sendWelcomeEmail($customer, $accountData)
     {
-        $customer = $this->getCustomer();
         if ($customer->getWebsiteId()
             && ($this->_isSendEmail($accountData) || $this->_isAutogeneratePassword($accountData))) {
 
@@ -333,26 +340,13 @@ class Mage_Customer_Service_Customer
      */
     protected function _loadCustomerById($customerId)
     {
-        /** @var Mage_Customer_Model_Customer $_customer */
-        $customer = $this->getCustomer()->load($customerId);
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer->load($customerId);
         if (!$customer->getId()) {
             throw new Mage_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
         }
 
         return $customer;
-    }
-
-    /**
-     * Obtain a customer entity
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function getCustomer()
-    {
-        if (!$this->_customer) {
-            /** @var Mage_Customer_Model_Customer $customer */
-            $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
-        }
-        return $this->_customer;
     }
 }

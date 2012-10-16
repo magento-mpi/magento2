@@ -298,13 +298,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $this->_getSession()->addError($exception->getMessage());
                 }
                 $this->_getSession()->setCustomerData($originalRequestData);
-                $customer = $this->_customerService->getCustomer();
                 $returnToEdit = true;
             } catch (Exception $exception) {
                 $this->_getSession()->addException($exception,
                     $this->_getHelper()->__('An error occurred while saving the customer.'));
                 $this->_getSession()->setCustomerData($originalRequestData);
-                $customer = $this->_customerService->getCustomer();
                 $returnToEdit = true;
             }
         }
