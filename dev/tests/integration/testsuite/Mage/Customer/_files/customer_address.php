@@ -15,10 +15,10 @@ $customerAddress->setCustomerId(1)
         'telephone' => 3468676,
         'postcode' => 75477,
         'country_id' => 'AL',
-        'city' => '57u8iol',
-        'street' => array('sdr6tyukj'),
-        'lastname' => 'fyuikl',
-        'firstname' => 'awefgaregv',
+        'city' => 'CityM',
+        'street' => array('Green str, 67'),
+        'lastname' => 'Smith',
+        'firstname' => 'John',
         'parent_id' => 1
     ));
 $customerAddress->save();

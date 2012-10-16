@@ -14,13 +14,13 @@ require 'customer_address.php';
 $customerAddress = new Mage_Customer_Model_Address();
 $customerAddress->setCustomerId(1)
     ->setData(array(
-    'telephone' => 3234676,
-    'postcode' => 47676,
-    'country_id' => 'AL',
-    'city' => '57u8iol',
-    'street' => array('asgvsaigevs srieg jsreigjv salrzdfv'),
-    'lastname' => 'Smith',
-    'firstname' => 'John',
-    'parent_id' => 1
-));
+        'telephone' => 3234676,
+        'postcode' => 47676,
+        'country_id' => 'AL',
+        'city' => 'CityX',
+        'street' => array('Black str, 48'),
+        'lastname' => 'Smith',
+        'firstname' => 'John',
+        'parent_id' => 1
+    ));
 $customerAddress->save();
