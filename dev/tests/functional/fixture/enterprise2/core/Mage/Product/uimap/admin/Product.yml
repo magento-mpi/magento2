@@ -28,6 +28,21 @@ new_product:
                                     fields:
                                         general_min_price: //input[@id='price' and not(@disabled)]
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
+                                        categories: //*[@data-ui-id='category-selector-input']
+                                category_search:
+                                    xpath: //*[@id='html-body']/ul
+                                    links:
+                                        category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
+                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                    pageelements:
+                                        category_list: //*[@class='ui-menu-item']
+                                        all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                                chosen_category:
+                                    xpath: //*[@class='category-selector-search-choice button']
+                                    links:
+                                        delete_category: //*[@class='category-selector-search-choice-close']
+                                    pageelements:
+                                        category_name: //*[contains(., '%categoryName%')]
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span
