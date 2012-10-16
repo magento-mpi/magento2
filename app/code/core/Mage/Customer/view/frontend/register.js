@@ -19,6 +19,9 @@
             month = parseInt(dobElement.find(registerInit.dobMonthSelector).first().val(), 10) || 0,
             year = parseInt(dobElement.find(registerInit.dobYearSelector).first().val(), 10)  || 0,
             curYear = (new Date()).getFullYear();
+        if (dobElement.length === 0) {
+            return;
+        }
         function showError(msg) {
             dobElement.children('.validation-advice').html($.mage.__(msg)).show();
             dobElement.find('.validate-custom').addClass('mage-error').after(function (){
