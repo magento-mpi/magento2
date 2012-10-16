@@ -280,7 +280,9 @@
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
                 isStoreViewLevel = $('store') && $('store').value;
 
-            if (isStoreViewLevel && isNodeSaved) {
+            var isNodePreviewAvailable = <?php echo (int)$this->isNodePreviewAvailable(); ?>;
+
+            if ((isStoreViewLevel || isNodePreviewAvailable) && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
                     $('node_preview').up(1).show();

@@ -1,0 +1,21 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_StoreManagement
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+--- #Manage Stores and related pages
+
+# 'Manage Stores' page
+manage_stores:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    manage_stores:
+                        pageelements:
+                            grid_head: //*[@id='storeGrid_table']/thead/tr[@class='headings']
+                            stores_table: //*[@id='storeGrid_table']/tbody

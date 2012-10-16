@@ -8,4 +8,10 @@
  * @license     {license_link}
  */
 ?>
-<input type="submit" class="form-button" value="<?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Login')?>" title="<?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Login')?>"/>
+<input
+    type="submit"
+    class="form-button"
+    value="<?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Login')?>"
+    title="<?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Login')?>"
+    <?php $this->getUiId(); ?>
+    />
