@@ -12,7 +12,7 @@
  */
 
 /**
- * Products creation tests with synchronized Inventory ans Stock field on Product Details tab
+ * Products creation tests with synchronized Inventory and Stock field on Product Details tab
  */
 class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_TestCase
 {
@@ -43,8 +43,8 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      * <p>Preconditions for creating configurable product.</p>
      * <p>Create dropdown attribute, Global scope and assign it to Default Attribute Set</p>
      *
-     * @test
      * @return array
+     * @test
      */
     public function preconditionsForTests()
     {
@@ -72,8 +72,8 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
     /**
      *<p>Set Default value "In Stock" for quantity_and_stock_status attribute</p>
      *
-     * @test
      * @return array
+     * @test
      */
     public function setDefaultValue()
     {
@@ -96,8 +96,8 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
     /**
      *<p>Create Attribute Set, based on Minimal Attribute Set</p>
      *
-     * @test
      * @return array
+     * @test
      */
     public function createAttributeSet()
     {
@@ -119,13 +119,14 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      *  <p>3. Start to create simple product</p>
      *  <p>4. Fulfill information about quantity in field Quantity and Stock (e.g. 15)</p>
      *  <p>select Stock Availability in dropdown (e.g. In Stock) on Product Details tab</p>
-     *  <p>5. Fulfill another required fields except Qty on Inventory tab and press the "Save" button</p>
+     *  <p>5. Fulfill another required fields except Qty and Stock Availability on Inventory tab</p>
+     *  <p> and press the "Save" button</p>
      *  <p>6. Search created product in Manage Products grid and open it - General tab</p>
      *  <p>7. Open Inventory tab</p>
      *
      * <p>Expected Results:</p>
      *  <p>After Step 5:  Product has been successfully created, success message appears</p>
-     *  <p>After Step 6: Values in Quantity ans Stock fields is the same as entered data</p>
+     *  <p>After Step 6: Values in Quantity and Stock fields is the same as entered data</p>
      *  <p>After Step 7: Values in Qty field (e.g. 15) and Stock Availability dropdown (e.g. In Stock)</p>
      *  <p>on the Inventory tab are the same as entered on General tab data</p>
      *
@@ -232,8 +233,8 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      *
      * @param array $defaultValue
      *
-     * @depends setDefaultValue
      * @test
+     * @depends setDefaultValue
      * @TestlinkId TL-MAGE-6370
      */
 
@@ -336,13 +337,12 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
         $this->assertEquals($productData['inventory_qty'],
             $this->getValue($this->_getControlXpath('field', 'general_qty')));
         $this->assertEquals($productData['inventory_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"));
+            $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"));
         $this->openTab('inventory');
         $this->assertEquals($productData['inventory_qty'],
             $this->getValue($this->_getControlXpath('field', 'inventory_qty')));
         $this->assertEquals($productData['inventory_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'inventory_stock_availability')
-                . "//option[@selected='selected']"));
+            $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"));
     }
 
     /**
@@ -413,7 +413,7 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
      *  <p>8. Open General tab</p>
      *
      * <p>Expected Results:</p>
-     *  <p>After Step 6: Qty data ans Stock Availability is the same as entered on General tab</p>
+     *  <p>After Step 6: Qty data and Stock Availability is the same as entered on General tab</p>
      *  <p>After Step 8: Qty data and Stock Availability is the same as entered on Inventory tab</p>
      *
      * @test
@@ -442,9 +442,11 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
         $this->fillField('inventory_qty', $qty);
         $this->openTab('general');
         //Verifying
-        $this->assertEquals($qty, $this->getValue($this->_getControlXpath('field', 'general_qty')));
+        $this->assertEquals($qty, $this->getValue($this->_getControlXpath('field', 'general_qty')),
+            'Qty is not synchronized for General tab');
         $this->assertEquals($newStockData, $this->getText(
-            $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"));
+                $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"),
+            'Stock Availability is not synchronized for General tab');
     }
 
     /**
@@ -518,18 +520,18 @@ class Community2_Mage_Product_Create_QuantityStockControlTest extends Mage_Selen
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->openTab('inventory');
-        //Verifying
         $this->assertEquals($productData['general_qty'],
-            $this->getValue($this->_getControlXpath('field', 'inventory_qty')));
+            $this->getValue($this->_getControlXpath('field', 'inventory_qty')),
+            'Qty is not saved after product duplication');
         $this->assertEquals($productData['general_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'inventory_stock_availability')
-                . "//option[@selected='selected']"));
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $productData['general_sku'] . '-1'));
+                $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"),
+            'Stock Availability is not saved after product duplication');
+        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()
+            ->getGeneratedSku($productData['general_sku'])));
     }
 }
