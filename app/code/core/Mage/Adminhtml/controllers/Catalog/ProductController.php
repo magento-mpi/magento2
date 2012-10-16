@@ -682,26 +682,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
     }
 
-    public function categoriesJsonAction()
-    {
-        $product = $this->_initProduct();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories')
-                ->getCategoryChildrenJson($this->getRequest()->getParam('category'))
-        );
-    }
-
-    /**
-     * Category list suggestion based on already entered symbols
-     */
-    public function suggestCategoriesJsonAction()
-    {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Category_Tree')
-            ->getSuggestedCategoriesJson($this->getRequest()->getParam('name_part'))
-        );
-    }
-
     /**
      * Save product action
      */
