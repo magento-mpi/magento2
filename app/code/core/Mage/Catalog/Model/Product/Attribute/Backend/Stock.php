@@ -10,7 +10,7 @@
 
 
 /**
- *
+ * Quantity and Stock Status attribute processing
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -25,7 +25,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_
 
     public function __construct(array $data = array())
     {
-        $this->_inventory = $data['inventory'] ? : Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        $this->_inventory = isset($data['inventory'])
+            ? $data['inventory']
+            : Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
     }
 
     /**
