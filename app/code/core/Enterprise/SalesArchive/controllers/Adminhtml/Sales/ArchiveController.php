@@ -277,6 +277,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     protected function _export($type)
     {
         $action = strtolower((string)$this->getRequest()->getParam('action'));
+        $this->loadLayout(false);
         $layout = $this->getLayout();
 
         switch ($action) {
@@ -294,7 +295,9 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
-                $grid = $layout->createBlock('Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid');
+                /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $grid  */
+                $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
+                break;
         }
 
         if ($type == 'csv') {
