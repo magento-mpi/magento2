@@ -47,6 +47,7 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
 
         /** @var $block Mage_Core_Block_Template */
         $block = Mage::app()->getLayout()->createBlock($block);
+        $block->setTemplate($template);
 
         /** @var $blockPrice Mage_Catalog_Block_Product_Price_Template */
         $blockPrice = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_Price_Template');
