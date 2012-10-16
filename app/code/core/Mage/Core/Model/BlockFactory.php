@@ -23,8 +23,13 @@ class Mage_Core_Model_BlockFactory
         $this->_objectManager = $objectManager;
     }
 
-    public function createBlock($blockName, $arguments)
+    /**
+     * @param string $blockName
+     * @param array $arguments
+     * @return Mage_Core_Block_Abstract
+     */
+    public function createBlock($blockName, array $arguments = array())
     {
-        return $this->_objectManager->create($blockName, $arguments);
+        return $this->_objectManager->create($blockName, $arguments, false);
     }
 }

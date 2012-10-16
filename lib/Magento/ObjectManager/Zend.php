@@ -11,8 +11,7 @@
 use Zend\Di\Di,
     Zend\Di\DefinitionList,
     Zend\Di\Configuration,
-    Zend\Di\Definition,
-    Zend\Di\InstanceManager;
+    Zend\Di\Definition;
 
 /**
  * General implementation of Magento_ObjectManager based on Zend DI

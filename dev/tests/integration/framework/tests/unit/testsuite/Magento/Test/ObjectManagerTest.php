@@ -3,8 +3,8 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_ObjectManager_Zend
- * @subpackage  unit_tests
+ * @package     Magento
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
