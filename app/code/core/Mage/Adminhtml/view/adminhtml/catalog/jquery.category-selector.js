@@ -48,8 +48,8 @@
                         .insertBefore($searchField);
                 },
                 $input = $element.find('.category-selector-input'),
-                elementPressent = function(item) {
-                    var selector =  '[name="product[category_ids][]"][value=' + parseInt(item.value, 10) + ']';
+                elementPresent = function(item) {
+                    var selector = '[name="product[category_ids][]"][value=' + parseInt(item.value, 10) + ']';
                     return $list.find(selector).length > 0;
                 };
             $element.append($('<input type="hidden" />').attr('name', name));
@@ -65,12 +65,8 @@
             $input.bind('ajaxSend ajaxComplete', function(e) {
                 e.stopPropagation();
                 switch (e.type) {
-                    case 'ajaxSend': {
-                        $input.addClass('category-selector-active');
-                        } break;
-                    case 'ajaxComplete': {
-                        $input.removeClass('category-selector-active');
-                    } break;
+                    case 'ajaxSend': $input.addClass('category-selector-active'); break;
+                    case 'ajaxComplete': $input.removeClass('category-selector-active'); break;
                 }
             });
             $input.autocomplete({
@@ -89,7 +85,7 @@
                 },
                 minLength: 3,
                 select: function(event, ui) {
-                    if (elementPressent(ui.item)) {
+                    if (elementPresent(ui.item)) {
                         event.preventDefault();
                         return false;
                     }
@@ -118,7 +114,7 @@
                 if (window.parseInt(item.item.is_active, 10) == 0) {
                     $li.addClass('category-disabled');
                 }
-                if (elementPressent(item)) {
+                if (elementPresent(item)) {
                     $li.addClass('category-selected');
                 }
                 $li.appendTo(ul);
