@@ -493,11 +493,14 @@ final class Mage
      *
      * @static
      * @param string $definitionsFile
+     * @param Magento_ObjectManager $objectManager
      */
-    public static function initializeObjectManager($definitionsFile = null)
-    {
+    public static function initializeObjectManager(
+        $definitionsFile = null,
+        Magento_ObjectManager $objectManager = null
+    ) {
         if (!self::$_objectManager) {
-            self::$_objectManager = new Magento_ObjectManager_Zend($definitionsFile);
+            self::$_objectManager = $objectManager ?: new Magento_ObjectManager_Zend($definitionsFile);
         }
     }
 

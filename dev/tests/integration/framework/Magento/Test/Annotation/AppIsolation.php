@@ -58,7 +58,9 @@ class Magento_Test_Annotation_AppIsolation
         );
 
         // Clear Object Manager cache
-        Mage::getObjectManager()->clearCache();
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $objectManager->clearCache();
     }
 
     /**

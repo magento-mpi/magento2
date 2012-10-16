@@ -119,29 +119,4 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
 
         return $this;
     }
-
-    /**
-     * Clear InstanceManager cache
-     *
-     * @return Magento_ObjectManager_Zend
-     */
-    public function clearCache()
-    {
-        $this->_di->setInstanceManager(new InstanceManager());
-        $this->_initializeInstanceManager();
-
-        return $this;
-    }
-
-    /**
-     * Add shared instance
-     *
-     * @param object $instance
-     * @param string $classOrAlias
-     * @throws Zend\Di\Exception\InvalidArgumentException
-     */
-    public function addSharedInstance($instance, $classOrAlias)
-    {
-        $this->_di->instanceManager()->addSharedInstance($instance, $classOrAlias);
-    }
 }

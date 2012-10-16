@@ -39,20 +39,4 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function loadAreaConfiguration($areaCode);
-
-    /**
-     * Clear DI instance cache
-     *
-     * @abstract
-     * @return mixed
-     */
-    public function clearCache();
-
-    /**
-     * Add shared instance
-     *
-     * @param object $instance
-     * @param string $classOrAlias
-     */
-    public function addSharedInstance($instance, $classOrAlias);
 }
