@@ -33,6 +33,8 @@ abstract class Mage_Core_Service_Abstract
 
     /**
      * Constructor
+     *
+     * @param array $args
      */
     public function __construct(array $args = array())
     {
