@@ -10,10 +10,6 @@
 
 /**
  * Customer address service.
- *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Service_Address extends Mage_Core_Service_Abstract
 {
