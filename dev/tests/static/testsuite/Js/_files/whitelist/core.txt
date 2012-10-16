@@ -8,3 +8,4 @@ app/code/core/Mage/Poll
 app/code/core/Mage/CatalogSearch
 app/code/core/Mage/Checkout
 app/code/core/Mage/Captcha
+app/code/core/Mage/Customer
