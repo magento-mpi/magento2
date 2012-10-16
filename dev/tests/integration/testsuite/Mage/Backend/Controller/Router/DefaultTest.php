@@ -23,8 +23,6 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $options = array(
             'area' => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
             'base_controller' => 'Mage_Backend_Controller_ActionAbstract',

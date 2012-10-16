@@ -26,8 +26,6 @@ class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_auth  = Mage::getModel('Mage_Backend_Model_Auth');
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth_Session');
         $this->_auth->setAuthStorage($this->_model);

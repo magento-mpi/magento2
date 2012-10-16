@@ -23,8 +23,6 @@ class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_Template');
     }
 
@@ -38,8 +36,6 @@ class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFormKey()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->assertGreaterThan(15, strlen($this->_block->getFormKey()));
     }
 
@@ -48,15 +44,11 @@ class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block->setData('module_name', 'dummy');
         Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
         $this->assertFalse($this->_block->isOutputEnabled());
 
         Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
-
-
     }
 }

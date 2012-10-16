@@ -21,8 +21,6 @@ class Mage_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         parent::setUp();
         $this->_block = Mage::getModel('Mage_Core_Model_Layout')
             ->createBlock('Mage_Checkout_Block_Onepage_Payment_Methods');

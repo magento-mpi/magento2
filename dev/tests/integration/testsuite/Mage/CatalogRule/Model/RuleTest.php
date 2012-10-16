@@ -21,8 +21,6 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_object = Mage::getModel('Mage_CatalogRule_Model_Rule');
     }
 
@@ -37,7 +35,7 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
-        $catalogRule = $this->getMock('Mage_CatalogRule_Model_Rule', array('_getRulesFromProduct'));
+        $catalogRule = $this->getMock('Mage_CatalogRule_Model_Rule', array('_getRulesFromProduct'), array(), '', false);
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));

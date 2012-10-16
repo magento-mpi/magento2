@@ -80,8 +80,6 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCurrentUserId()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertFalse($this->_helper->getCurrentUserId());
 
         /**

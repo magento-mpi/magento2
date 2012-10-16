@@ -18,8 +18,6 @@ class Mage_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
         $this->_model = Mage::getModel('Mage_Cms_Model_Wysiwyg_Config');
     }

@@ -13,12 +13,10 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Cms/_files/pages.php
+     * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testRenderPage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $page = Mage::getSingleton('Mage_Cms_Model_Page');
         $page->load('page_design_modern', 'identifier'); // fixture
         $helper = Mage::helper('Mage_Cms_Helper_Page');

@@ -23,8 +23,6 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
     }
 

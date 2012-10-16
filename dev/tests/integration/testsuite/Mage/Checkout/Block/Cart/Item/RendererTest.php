@@ -10,7 +10,7 @@
  */
 
 /**
- * magentoDataFixture Mage/Catalog/_files/product_with_image.php
+ * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
  */
 class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestCase
 {
@@ -21,8 +21,6 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Checkout_Block_Cart_Item_Renderer');
         $item = Mage::getModel('Mage_Sales_Model_Quote_Item');
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -45,7 +43,6 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         $this->assertContains('/'.$size, $this->_block->getProductThumbnailUrl());
         $this->assertContains('/'.$sidebarSize, $this->_block->getProductThumbnailSidebarUrl());
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getProductThumbnailUrl());
-        $this->assertStringEndsWith('magento_image.jpg', $this->_block->getProductThumbnailSidebarUrl()
-        );
+        $this->assertStringEndsWith('magento_image.jpg', $this->_block->getProductThumbnailSidebarUrl());
     }
 }
