@@ -17,94 +17,108 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
     protected $_varDir;
 
     /**
-     * @var Magento_Test_Db_Mssql
+     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_shell;
+
+    /**
+     * @var Magento_Test_Db_Mssql|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
-    /**
-     * @var string
-     */
-    protected $_commandPrefix;
-
     protected function setUp()
     {
-        $this->_varDir  = $this->_varDir  = sys_get_temp_dir();
+        $this->_varDir  = $this->_varDir = sys_get_temp_dir();
+        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_model = $this->getMock(
             'Magento_Test_Db_Mssql',
-            array('_exec', '_createScript', 'getExternalProgram'),
-            array('host', 'user', 'pass', 'schema', $this->_varDir)
+            array('_createScript'),
+            array('host', 'user', 'pass', 'schema', $this->_varDir, $this->_shell)
         );
-        $this->_model->expects($this->any())
-            ->method('getExternalProgram')
-            ->will($this->returnValue('sqlcmd'));
-        $this->_commandPrefix = 'sqlcmd -S ' . escapeshellarg('host') . ' -U ' . escapeshellarg('user')
-            . ' -P ' . escapeshellarg('pass');
+    }
+
+    protected function tearDown()
+    {
+        $this->_shell = null;
+        $this->_model = null;
+    }
+
+    /**
+     * Setup expectation for an command to be invoked
+     *
+     * @param string $command
+     * @param PHPUnit_Framework_MockObject_Matcher_Invocation $invocation
+     * @param PHPUnit_Framework_MockObject_Stub $stub
+     */
+    protected function _expectCommand($command, $invocation, PHPUnit_Framework_MockObject_Stub $stub = null)
+    {
+        /** @var $invocationMocker PHPUnit_Framework_MockObject_Builder_InvocationMocker */
+        $invocationMocker = $this->_shell->expects($invocation);
+        $invocationMocker
+            ->method('execute')
+            ->with($command)
+        ;
+        if ($stub) {
+            $invocationMocker->will($stub);
+        }
+    }
+
+    public function testGetSqlClientCmdTsql()
+    {
+        $this->_expectCommand('tsql -C', $this->once());
+        $this->assertEquals('tsql', $this->_model->getSqlClientCmd());
+        // command validation should happen only once
+        $this->assertEquals('tsql', $this->_model->getSqlClientCmd());
+    }
+
+    public function testGetSqlClientCmdSqlcmd()
+    {
+        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException(new Magento_Exception('tsql not found')));
+        $this->_expectCommand('sqlcmd -?', $this->at(1));
+        $this->assertEquals('sqlcmd', $this->_model->getSqlClientCmd());
+        // command validation should happen only once
+        $this->assertEquals('sqlcmd', $this->_model->getSqlClientCmd());
     }
 
     /**
      * @expectedException Magento_Exception
+     * @expectedExceptionMessage Neither command line utility "tsql" nor "sqlcmd" is installed.
      */
-    public function testGetExternalProgram()
+    public function testGetSqlClientCmdNotInstalled()
     {
-        $this->_model = $this->getMock('Magento_Test_Db_Mssql', array('_exec'),
-            array('host', 'user', 'pass', 'schema', $this->_varDir)
-        );
-        $this->_model->expects($this->exactly(2))
-            ->method('_exec')
-            ->will($this->returnValue(false));
-        $this->_model->getExternalProgram();
-    }
-
-    public function testVerifyEmptyDatabase()
-    {
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_backup_script.sql'));
-        $this->_model->verifyEmptyDatabase();
+        $commandException = new Magento_Exception('command not found');
+        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException($commandException));
+        $this->_expectCommand('sqlcmd -?', $this->at(1), $this->throwException($commandException));
+        $this->_model->getSqlClientCmd();
     }
 
     public function testCleanup()
     {
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_cleanup_database.sql'));
-        $this->_model->cleanup();
-    }
-
-    public function testCreateBackup()
-    {
-        $query = "BACKUP DATABASE [schema] TO DISK=N'schema_test.bak' WITH NOFORMAT, NOINIT, SKIP, NOREWIND, NOUNLOAD"
-            . "\nGO\nexit\n";
-
-        $this->_model->expects($this->once())
-            ->method('_createScript')
-            ->with($this->_varDir . '/mssql_backup_script.sql', $query);
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_backup_script.sql'));
-        $this->_model->createBackup('test');
-    }
-
-    public function testRestoreBackup()
-    {
-        $this->_model->expects($this->once())
-            ->method('_createScript')
-            ->with(
-                $this->_varDir . '/mssql_restore_script.sql',
-                'USE [master]
+        $expectedSqlFile = $this->_varDir . '/mssql_cleanup_database.sql';
+        $expectedSql = "USE [master]
 GO
 ALTER DATABASE [schema] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 GO
-RESTORE DATABASE [schema] FROM DISK=N\'schema_test.bak\' WITH REPLACE
+DROP DATABASE [schema]
 GO
-ALTER DATABASE [schema] SET MULTI_USER WITH NO_WAIT
+CREATE DATABASE [schema]
+GO
+USE [schema]
 GO
 exit
-');
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_restore_script.sql'));
-        $this->_model->restoreBackup('test');
+";
+        $this->_model
+            ->expects($this->once())
+            ->method('_createScript')
+            ->with($expectedSqlFile, $expectedSql)
+        ;
+        $this->_expectCommand('tsql -C', $this->at(0));
+        $this->_shell
+            ->expects($this->at(1))
+            ->method('execute')
+            ->with('tsql -S %s -U %s -P %s < %s', array('host', 'user', 'pass', $expectedSqlFile))
+        ;
+        $this->_model->cleanup();
     }
 }
 
