@@ -23,8 +23,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
      */
     public function getValues()
     {
-        /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
+        $collection = $this->_getCategoriesCollection();
         $values = $this->getValue();
         if (!is_array($values)) {
             $values = explode(',', $values);
@@ -44,6 +43,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     }
 
     /**
+     * Get categories collection
+     * @return Mage_Catalog_Model_Resource_Category_Collection
+     */
+    protected function _getCategoriesCollection()
+    {
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
+    }
+
+    /**
      * Get html for element
      *
      * @return string
@@ -53,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         return parent::getElementHtml()
             . "<script>//<![CDATA[\n jQuery("
             . json_encode('#' . $this->getHtmlId())
-            . ").categorySelector(" . json_encode($this->_getSelectorOptions()) . ");
+            . ").categorySelector(" . $this->_getCodeHelper()->jsonEncode($this->_getSelectorOptions()) . ");
             \n//]]></script>";
     }
 
@@ -65,16 +73,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     protected function _getSelectorOptions()
     {
         return array(
-            'url' => $this->getUrl(),
+            'url' => $this->_getBackendHelper()->getUrl('adminhtml/catalog_category/suggestCategories'),
         );
     }
 
     /**
-     * Get suggest url
-     * @return string
+     * Get backend area helper
+     *
+     * @return Mage_Backend_Helper_Data"
      */
-    private function getUrl()
+    protected function _getBackendHelper()
     {
-        return Mage::helper("Mage_Adminhtml_Helper_Data")->getUrl('adminhtml/catalog_product/suggestCategoriesJson');
+        return Mage::helper("Mage_Backend_Helper_Data");
     }
+
+    /**
+     * Get code module helper
+     *
+     * @return Mage_Backend_Helper_Data"
+     */
+    protected function _getCodeHelper()
+    {
+        return Mage::helper("Mage_Core_Helper_Data");
+    }
+
 }
