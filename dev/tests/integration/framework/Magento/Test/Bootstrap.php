@@ -254,13 +254,7 @@ class Magento_Test_Bootstrap
     {
         Mage::setRoot();
         Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
-
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $resource = $objectManager->get('Mage_Core_Model_Resource');
         $this->_resetApp();
-        $objectManager->addSharedInstance($resource, 'Mage_Core_Model_Resource');
-        Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
         Mage::setIsDeveloperMode($this->_developerMode);
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
