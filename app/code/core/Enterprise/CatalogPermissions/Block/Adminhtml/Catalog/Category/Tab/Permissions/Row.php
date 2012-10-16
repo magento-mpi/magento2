@@ -26,15 +26,13 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-            ->addData(array(
-                //'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Remove Permission'),
-                'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
-                'disabled' => $this->isReadonly(),
-                'type'  => 'button',
-                'id'    => '{{html_id}}_delete_button'
-            ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            //'label' => $this->helper('Enterprise_CatalogPermissions_Helper_Data')->__('Remove Permission'),
+            'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
+            'disabled' => $this->isReadonly(),
+            'type'  => 'button',
+            'id'    => '{{html_id}}_delete_button'
+        ));
 
         return parent::_prepareLayout();
     }
@@ -46,7 +44,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function canEditWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !Mage::app()->hasSingleStore();
     }
 
     /**

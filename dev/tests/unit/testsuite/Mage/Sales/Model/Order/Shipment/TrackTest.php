@@ -3,8 +3,8 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Sale
- * @subpackage  integration_tests
+ * @package     Mage_Sales
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

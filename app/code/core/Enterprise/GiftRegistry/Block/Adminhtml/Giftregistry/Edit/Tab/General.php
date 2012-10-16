@@ -32,7 +32,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
 
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element'
+                'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element',
+                $this->getNameInLayout() . '_element'
             )
         );
     }

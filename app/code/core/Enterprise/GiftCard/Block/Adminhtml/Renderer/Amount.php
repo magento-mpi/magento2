@@ -35,14 +35,12 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
-                    'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
-                    'class'     => 'add',
-                    'disabled'  => $isAddButtonDisabled
-                )));
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
+            'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
+            'class'     => 'add',
+            'disabled'  => $isAddButtonDisabled
+        ));
 
         return $this->toHtml();
     }
@@ -65,7 +63,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !Mage::app()->hasSingleStore();
     }
 
     public function getWebsites()
@@ -79,7 +77,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
             'currency'  => Mage::app()->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->isSingleStoreMode() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(

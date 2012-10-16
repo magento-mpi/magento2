@@ -118,3 +118,7 @@ system_configuration_website:
 
 system_configuration_store:
     uimap: *systemConfiguration
+
+system_configuration_website_base:
+    uimap: *systemConfiguration
+

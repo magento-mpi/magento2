@@ -1,0 +1,58 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for One Page Checkout(Frontend)
+#<--------------With Registration---------------->
+billing_with_register_req_physical_withshipping: &billingWithRegisterReqWithShipping
+    billing_address_choice: New Address
+    billing_first_name: Steven(billing.req)
+    billing_last_name: Stevenson(billing.req)
+    billing_email: onepage_checkout_%randomize%@unknown-domain.com
+    billing_company: %noValue%
+    billing_street_address_1: street address 1(billing.req)
+    billing_street_address_2: %noValue%
+    billing_city: Berlin
+    billing_country: Germany
+    billing_vat_number: %noValue%
+    billing_state: Berlin
+    billing_region: %noValue%
+    billing_zip_code: 26313
+    billing_telephone: (091)019-019(billing.req)
+    billing_fax: %noValue%
+    billing_password: 123123q
+    billing_confirm_password: 123123q
+    ship_to_this_address: Yes
+    ship_to_different_address: %noValue%
+
+################################################################################
+#                                                                              #
+#                                 Checkout Method                              #
+#                                                                              #
+################################################################################
+register: &register
+    checkout_method: register
+
+################################################################################
+#                                                                              #
+#               Order Data for With Registration                               #
+#                                                                              #
+################################################################################
+with_register_flatrate_checkmoney: &withRegisterFlatrateCheck
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingWithRegisterReqWithShipping
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
+

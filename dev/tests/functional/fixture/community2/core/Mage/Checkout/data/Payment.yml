@@ -1,0 +1,50 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  test_data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#<------------ELSE------------>
+andp_visa: &visaAndp
+    card_type: 'Visa'
+    card_number: '4000000000000002'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
+
+#*********************************************
+#*          Purchase Order Data              *
+#*********************************************
+purchase_order: &OrderNumber
+    purchase_order_number: 11111
+
+#*********************************************
+#*              Payment Data                 *
+#*********************************************
+payment_banktransfer:
+    payment_method: Bank Transfer Payment
+
+payment_cashondelivery:
+    payment_method: Cash On Delivery
+
+payment_purchaseorder:
+    payment_method: Purchase Order
+    payment_info: *OrderNumber
+
+#*********************************************
+#*         Authorize.net Direct Post         *
+#*********************************************
+
+payment_authorizenetdp:
+    payment_method: Credit Card Direct Post (Authorize.net)
+    payment_info: *visaAndp
+
+#*********************************************
+#*         Zero Subtotal Checkout            *
+#*********************************************
+payment_zerosubtotal:
+    payment_method: No Payment Information Required
