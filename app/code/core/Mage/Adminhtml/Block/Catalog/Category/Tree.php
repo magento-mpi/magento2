@@ -14,7 +14,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
@@ -115,19 +115,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             ->addAttributeToSelect(array('name', 'is_active', 'parent_id'))
             ->setStoreId($storeId);
 
-        $categoryById = array(array('id' => 0, 'children' => array()));
+        $categoryById = array(
+            Mage_Catalog_Model_Category::TREE_ROOT_ID => array(
+                'id' => Mage_Catalog_Model_Category::TREE_ROOT_ID,
+                'children' => array()
+            )
+        );
         foreach ($collection as $category) {
-            if (!isset($categoryById[$category->getId()])) {
-                $categoryById[$category->getId()] = array(
-                    'id'       => $category->getId(),
-                    'children' => array()
-                );
-            }
-            if (!isset($categoryById[$category->getParentId()])) {
-                $categoryById[$category->getParentId()] = array(
-                    'id'       => $category->getParentId(),
-                    'children' => array()
-                );
+            foreach (array($category->getId(), $category->getParentId()) as $categoryId) {
+                if (!isset($categoryById[$categoryId])) {
+                    $categoryById[$categoryId] = array('id' => $categoryId, 'children' => array());
+                }
             }
             $categoryById[$category->getId()]['is_active'] = $category->getIsActive();
             $categoryById[$category->getId()]['name'] = $category->getName();
