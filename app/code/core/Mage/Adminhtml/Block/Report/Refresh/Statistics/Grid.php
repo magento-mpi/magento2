@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $this->getMassactionBlock()->addItem('refresh_recent', array(
             'label'    => Mage::helper('Mage_Reports_Helper_Data')->__('Refresh Statistics for the Last Day'),
             'url'      => $this->getUrl('*/*/refreshRecent'),
-            'confirm'  => Mage::helper('Mage_Reports_Helper_Data')->__('Are you sure?'),
+            'confirm'  => Mage::helper('Mage_Reports_Helper_Data')->__('Are you sure you want to refresh statistics for last day?'),
             'selected' => true
         ));
 
