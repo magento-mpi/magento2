@@ -31,6 +31,7 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
      */
     public static function simpleProductFixture()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setTypeId('simple')
             ->setId(1)

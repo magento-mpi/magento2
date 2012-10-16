@@ -12,6 +12,7 @@
 /**
  * Create dummy user
  */
+/** @var $user Mage_User_Model_User */
 $user = Mage::getModel('Mage_User_Model_User');
 $user->setFirstname('Dummy')
     ->setLastname('Dummy')

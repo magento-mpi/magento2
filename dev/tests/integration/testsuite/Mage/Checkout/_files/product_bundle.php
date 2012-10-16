@@ -11,6 +11,7 @@
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
 
+/** @var $bundleProduct Mage_Catalog_Model_Product */
 $bundleProduct = Mage::getModel('Mage_Catalog_Model_Product');
 $bundleProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
     ->setId(3)

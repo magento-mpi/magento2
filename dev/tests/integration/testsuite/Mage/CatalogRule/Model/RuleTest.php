@@ -35,6 +35,7 @@ class Mage_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
+        /** @var $catalogRule Mage_CatalogRule_Model_Rule */
         $catalogRule = $this->getMock('Mage_CatalogRule_Model_Rule', array('_getRulesFromProduct'), array(), '', false);
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')

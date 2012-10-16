@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $page Mage_Cms_Model_Page */
 $page = Mage::getModel('Mage_Cms_Model_Page');
 $page//->setId(100) // doesn't work: it triggers update
     ->setTitle('Cms Page 100')

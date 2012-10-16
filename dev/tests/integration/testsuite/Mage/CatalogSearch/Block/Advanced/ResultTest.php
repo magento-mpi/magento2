@@ -66,6 +66,7 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
 
     public function testSetListModes()
     {
+        /** @var $childBlock Mage_Core_Block_Text */
         $childBlock = $this->_layout->addBlock('Mage_Core_Block_Text', 'search_result_list', 'block');
         $this->assertEmpty($childBlock->getModes());
         $this->_block->setListModes();
@@ -74,6 +75,7 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
 
     public function testSetListCollection()
     {
+        /** @var $childBlock Mage_Core_Block_Text */
         $childBlock = $this->_layout->addBlock('Mage_Core_Block_Text', 'search_result_list', 'block');
         $this->assertEmpty($childBlock->getCollection());
         $this->_block->setListCollection();

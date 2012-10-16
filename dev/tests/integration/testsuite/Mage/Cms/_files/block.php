@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $block Mage_Cms_Model_Block */
 $block = Mage::getModel('Mage_Cms_Model_Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')

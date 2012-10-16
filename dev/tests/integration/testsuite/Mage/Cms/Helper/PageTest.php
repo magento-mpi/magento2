@@ -19,6 +19,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
     {
         $page = Mage::getSingleton('Mage_Cms_Model_Page');
         $page->load('page_design_modern', 'identifier'); // fixture
+        /** @var $helper Mage_Cms_Helper_Page */
         $helper = Mage::helper('Mage_Cms_Helper_Page');
         $result = $helper->renderPage(
             Mage::getModel(

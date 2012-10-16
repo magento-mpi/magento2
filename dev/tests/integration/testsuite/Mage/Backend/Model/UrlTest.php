@@ -84,6 +84,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
+        /** @var $request Mage_Core_Controller_Request_Http */
         $request = Mage::getModel('Mage_Core_Controller_Request_Http');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
@@ -118,7 +119,8 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-         $request = Mage::getModel('Mage_Core_Controller_Request_Http');
+        /** @var $request Mage_Core_Controller_Request_Http */
+        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
