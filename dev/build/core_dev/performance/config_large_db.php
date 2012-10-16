@@ -42,13 +42,14 @@ return array(
         'common_config' => array(
             'arguments' => array(
                 'users' => 1,
-                'loops' => 100,
+                'loops' => 1,
             ),
         ),
         'scenarios' => array(
             'Backend Management with Lot of Entities' => array(
                 'file' => 'testsuite/backend.jmx',
                 'arguments' => array(
+                    'loops' => 100,
                     'products_number'  => 100000,
                     'customers_number' => 100000,
                     'orders_number' => 100000,
