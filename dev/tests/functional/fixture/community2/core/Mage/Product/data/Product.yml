@@ -282,7 +282,7 @@ simple_product_zero_price:
     categories: Default Category
     custom_options_data: %noValue%
 
-# Dataset for Add New Product for each types for inventory controls on General tab
+# Dataset for Add New Product per inventory controls on General tab
 simple_product_sync_inventory:
     product_attribute_set: Default
     general_name: Simple Product Sync Inventory (%randomize%)
@@ -301,4 +301,3 @@ simple_product_sync_inventory:
     websites: Main Website
     categories: Default Category
     custom_options_data: %noValue%
-
