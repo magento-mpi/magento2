@@ -11,6 +11,9 @@
     var registerInit = {};
     $.mage.event.trigger("mage.register.initialize", registerInit);
 
+    if (registerInit.autocomplete === 'off') {
+        $(registerInit.formSelector).find('input:text').attr('autocomplete', 'off');
+    }
     // Custom validation for DOB field
     $.mage.event.observe('mage.form.afterValidation', function(evernt, oldForm) {
         var dobElement = $(registerInit.dobSelector),
