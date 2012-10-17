@@ -10,19 +10,14 @@
  */
 
 /**
- * Test class for Mage_Core_Service_Abstract
+ * Test class for Mage_Core_Service_ServiceAbstract
  */
-class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Service_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Service_ServiceAbstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_service;
-
-    /**
-     * @var Varien_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_collection;
 
     /**
      * Initialize service abstract for testing
@@ -40,46 +35,44 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
             ->method('__')
             ->will($this->returnArgument(0));
 
-        $this->_service = $this->getMockBuilder('Mage_Core_Service_Abstract')
+        $this->_service = $this->getMockBuilder('Mage_Core_Service_ServiceAbstract')
             ->setConstructorArgs(array(array(
                 'helper' => $helper,
                 'eventManager' => $eventManager
             )))
-            ->setMethods(array('_getCollection'))
             ->getMock();
     }
 
     protected function tearDown()
     {
         unset($this->_service);
-        unset($this->_collection);
     }
 
     /**
-     * Initialize collection mock
+     * Get collection mock
      *
      * @param array $methods
+     * @return PHPUnit_Framework_MockObject_MockObject|Varien_Data_Collection_Db
      */
-    protected function _initCollectionMock(array $methods)
+    protected function _getCollectionMock(array $methods)
     {
-        $this->_collection = $this->getMockBuilder('Varien_Data_Collection_Db')
+        return $this->getMockBuilder('Varien_Data_Collection_Db')
             ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_service->expects($this->any())
-            ->method('_getCollection')
-            ->will($this->returnValue($this->_collection));
     }
 
     /**
-     * Check exception is thrown when collection not specified
+     * Call _prepareCollection of service
      *
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage To use getList _getCollection must be implemented
+     * @param Varien_Data_Collection_Db $collection
+     * @param array $data
      */
-    public function testNoCollectionException()
+    protected function _checkPrepareCollection($collection, $data)
     {
-        $this->_service->getList(array());
+        $method = new ReflectionMethod($this->_service, '_prepareCollection');
+        $method->setAccessible(true);
+        $method->invokeArgs($this->_service, array($collection, $data));
     }
 
     /**
@@ -93,9 +86,9 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionExceptions(array $data, $exception, $exceptionMessage)
     {
-        $this->_initCollectionMock(array('setCurPage', 'setPageSize', 'setOrder'));
+        $collection = $this->_getCollectionMock(array('setCurPage', 'setPageSize', 'setOrder'));
         $this->setExpectedException($exception, $exceptionMessage);
-        $this->_service->getList($data);
+        $this->_checkPrepareCollection($collection, $data);
     }
 
     /**
@@ -150,12 +143,12 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
         $throwException = function() {
             throw new Exception('Some exception');
         };
-        $this->_initCollectionMock(array('addFieldToFilter'));
-        $this->_collection->expects($this->once())
+        $collection = $this->_getCollectionMock(array('addFieldToFilter'));
+        $collection->expects($this->once())
             ->method('addFieldToFilter')
             ->with('id', array('eq' => 10))
             ->will($this->returnCallback($throwException));
-        $this->_service->getList(array(
+        $this->_checkPrepareCollection($collection, array(
             'filter' => array(
                 array('attribute' => 'id', 'eq' => 10)
             )
@@ -173,17 +166,17 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionPager(array $data, $page, $limit)
     {
-        $this->_initCollectionMock(array('setCurPage', 'setPageSize', 'getItems'));
-        $this->_collection->expects($this->once())
+        $collection = $this->_getCollectionMock(array('setCurPage', 'setPageSize'));
+        $collection->expects($this->once())
             ->method('setCurPage')
             ->with($page)
             ->will($this->returnSelf());
 
-        $this->_collection->expects($this->once())
+        $collection->expects($this->once())
             ->method('setPageSize')
             ->with($limit)
             ->will($this->returnSelf());
-        $this->_service->getList($data);
+        $this->_checkPrepareCollection($collection, $data);
     }
 
     /**
@@ -214,13 +207,13 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionSorting(array $data, $order, $dir)
     {
-        $this->_initCollectionMock(array('setCurPage', 'setPageSize', 'setOrder', 'getItems'));
-        $this->_collection->expects($this->once())
+        $collection = $this->_getCollectionMock(array('setOrder'));
+        $collection->expects($this->once())
             ->method('setOrder')
             ->with($order, $dir)
             ->will($this->returnSelf());
 
-        $this->_service->getList($data);
+        $this->_checkPrepareCollection($collection, $data);
     }
 
     /**
@@ -232,16 +225,13 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'default dir' => array(
-                array('page' => 1, 'limit' => 1, 'order' => 'name'), 'name', 'ASC'
+                array('order' => 'name'), 'name', 'ASC'
             ),
             'dir asc' => array(
-                array('page' => 1, 'limit' => 1, 'order' => 'name', 'dir' => 'aSc'), 'name', 'aSc'
+                array('order' => 'name', 'dir' => 'aSc'), 'name', 'aSc'
             ),
             'dir desc' => array(
-                array('page' => 1, 'limit' => 1, 'order' => 'name', 'dir' => 'DeSc'), 'name', 'DeSc'
-            ),
-            'dir asc no pager' => array(
-                array('order' => 'name', 'dir' => 'asc'), 'name', 'asc'
+                array('order' => 'name', 'dir' => 'DeSc'), 'name', 'DeSc'
             ),
         );
     }
@@ -257,13 +247,14 @@ class Mage_Core_Service_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionFilter(array $data, $attribute, array $filter)
     {
-        $this->_initCollectionMock(array('setCurPage', 'setPageSize', 'setOrder', 'addAttributeToFilter', 'getItems'));
-        $this->_collection->expects($this->once())
+        $collection = $this
+            ->_getCollectionMock(array('addAttributeToFilter'));
+        $collection->expects($this->once())
             ->method('addAttributeToFilter')
             ->with($attribute, $filter)
             ->will($this->returnSelf());
 
-        $this->_service->getList($data);
+        $this->_checkPrepareCollection($collection, $data);
     }
 
     /**
