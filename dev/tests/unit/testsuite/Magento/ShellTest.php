@@ -73,8 +73,8 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $phpCommand
      * @param bool $isVerbose
-     * @param string $expectedError
      * @param string $expectedOutput
+     * @param string $expectedError
      * @dataProvider executeDataProvider
      */
     public function testExecuteFailureDetails($phpCommand, $isVerbose, $expectedOutput, $expectedError)
