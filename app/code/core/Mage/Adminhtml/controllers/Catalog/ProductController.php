@@ -117,8 +117,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->addData($data)
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
-        if ($product->dataHasChangedFor('attribute_set_id')) {
+
+        if ($setId != $this->_getSession()->getAttributeSetId()) {
             $this->_initProductSave($product);
+            $this->_getSession()->setAttributeSetId($setId);
         }
 
         Mage::register('product', $product);

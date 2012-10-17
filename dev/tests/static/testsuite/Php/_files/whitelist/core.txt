@@ -14,6 +14,7 @@ app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
+app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Model/Config/Module.php

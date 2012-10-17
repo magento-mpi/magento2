@@ -204,6 +204,7 @@
                         <visibility/>
                         <weight/>
                         <category_ids/>
+                        <quantity_and_stock_status/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>
