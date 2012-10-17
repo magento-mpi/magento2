@@ -166,7 +166,7 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionPager(array $data, $page, $limit)
     {
-        $collection = $this->_getCollectionMock(array('setCurPage', 'setPageSize', 'getItems'));
+        $collection = $this->_getCollectionMock(array('setCurPage', 'setPageSize'));
         $collection->expects($this->once())
             ->method('setCurPage')
             ->with($page)
@@ -207,7 +207,7 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyCollectionSorting(array $data, $order, $dir)
     {
-        $collection = $this->_getCollectionMock(array('setCurPage', 'setPageSize', 'setOrder', 'getItems'));
+        $collection = $this->_getCollectionMock(array('setOrder'));
         $collection->expects($this->once())
             ->method('setOrder')
             ->with($order, $dir)
@@ -248,7 +248,7 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
     public function testApplyCollectionFilter(array $data, $attribute, array $filter)
     {
         $collection = $this
-            ->_getCollectionMock(array('setCurPage', 'setPageSize', 'setOrder', 'addAttributeToFilter', 'getItems'));
+            ->_getCollectionMock(array('addAttributeToFilter'));
         $collection->expects($this->once())
             ->method('addAttributeToFilter')
             ->with($attribute, $filter)
