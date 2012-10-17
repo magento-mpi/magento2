@@ -44,6 +44,9 @@ return array(
                 'users' => 1,
                 'loops' => 1,
             ),
+            'settings' => array(
+                'skip_warm_up' => true,
+            ),
         ),
         'scenarios' => array(
             'Backend Management with Lot of Entities' => array(
@@ -53,6 +56,9 @@ return array(
                     'products_number'  => 100000,
                     'customers_number' => 100000,
                     'orders_number' => 100000,
+                ),
+                'settings' => array(
+                    'skip_warm_up' => false,
                 ),
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_100k_products.php',
