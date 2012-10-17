@@ -13,8 +13,6 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
 {
     public function testGetButtonsHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $titles = array(1 => 'Title 1', 'Title 2', 'Title 3');
         $block = $this->_buildBlock($titles);
         $html = $block->getButtonsHtml();
@@ -27,8 +25,6 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
 
     public function testUpdateButton()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $originalTitles = array(1 => 'Title 1', 'Title 2', 'Title 3');
         $newTitles = array(1 => 'Button A', 'Button B', 'Button C');
 
@@ -56,8 +52,12 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
      */
     protected function _buildBlock($titles)
     {
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array(
+            'area'      => Mage_Core_Model_App_Area::AREA_ADMINHTML,
+            'structure' => $dataStructure,
+        ));
         /** @var $block Mage_Adminhtml_Block_Widget_Container */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Widget_Container', 'block');
         foreach ($titles as $id => $title) {

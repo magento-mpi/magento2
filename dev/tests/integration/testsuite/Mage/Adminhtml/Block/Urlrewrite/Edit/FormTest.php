@@ -22,8 +22,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     protected function _getFormInstance($args = array())
     {
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', $args);
         $block->toHtml();
@@ -35,8 +36,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testPrepareForm()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         // Test form was configured correctly
         $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
         $this->assertInstanceOf('Varien_Data_Form', $form);
@@ -66,8 +65,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testSessionRestore()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         // Set urlrewrite data to session
         $sessionValues = array(
             'store_id'     => 1,
@@ -94,8 +91,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementSingleStore()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
         /** @var $storeElement Varien_Data_Form_Element_Abstract */
         $storeElement = $form->getElement('store_id');
@@ -114,8 +109,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementMultiStores()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
         /** @var $storeElement Varien_Data_Form_Element_Abstract */
         $storeElement = $form->getElement('store_id');
@@ -140,8 +133,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testDisabledFields($urlRewrite, $fields)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $form = $this->_getFormInstance(array('url_rewrite' => $urlRewrite));
         foreach ($fields as $fieldKey => $expected) {
             $this->assertEquals($expected, $form->getElement($fieldKey)->getDisabled());

@@ -24,10 +24,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array(
+            'area'      => Mage_Core_Model_App_Area::AREA_ADMINHTML,
+            'structure' => $dataStructure,
+        ));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', $blockAttributes);
@@ -254,13 +256,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
      */
     public function prepareLayoutDataProvider()
     {
+        /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
         $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
+        /** @var $existingUrlRewrite Mage_Core_Model_Url_Rewrite */
         $existingUrlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
@@ -285,9 +291,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
                 array('product' => $product, 'url_rewrite' => $urlRewrite, 'is_category_mode' => true),
                 array(
                     'selector' => false,
-                    'product_link' => array(
-                        'name' => $product->getName()
-                    ),
+                    'product_link' => array('name' => $product->getName()),
                     'category_link' => false,
                     'back_button' => true,
                     'reset_button' => false,
@@ -303,9 +307,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_F
                 array('product' => $product, 'url_rewrite' => $urlRewrite),
                 array(
                     'selector' => false,
-                    'product_link' => array(
-                        'name' => $product->getName()
-                    ),
+                    'product_link' => array('name' => $product->getName()),
                     'category_link' => false,
                     'back_button' => true,
                     'reset_button' => false,

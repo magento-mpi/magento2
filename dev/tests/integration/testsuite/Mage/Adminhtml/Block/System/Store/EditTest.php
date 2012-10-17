@@ -35,12 +35,12 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
      */
     public function testStoreTypeFormCreated($registryData, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_initStoreTypesInRegistry($registryData);
 
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
+        /** @var $block Mage_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 
@@ -74,12 +74,12 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
      */
     public function testGetHeaderText($registryData, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_initStoreTypesInRegistry($registryData);
 
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
+        /** @var $block Mage_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 

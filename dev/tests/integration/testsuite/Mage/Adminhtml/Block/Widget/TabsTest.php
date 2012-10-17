@@ -16,8 +16,6 @@ class Mage_Adminhtml_Block_Widget_TabsTest extends PHPUnit_Framework_TestCase
      */
     public function testAddTab()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         /** @var $widgetInstance Mage_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
         Mage::register('current_widget_instance', $widgetInstance);

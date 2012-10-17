@@ -22,8 +22,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     protected function _getFormInstance($args = array())
     {
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', $args);
         $block->toHtml();
@@ -46,8 +47,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     public function testFormPostInit($cmsPageData, $action, $idPath, $requestPath, $targetPath)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array();
         if ($cmsPageData) {
             $args['cms_page'] = new Varien_Object($cmsPageData);
@@ -71,8 +70,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     public function testGetEntityStores()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array(
             'cms_page' => $this->_getCmsPageWithStoresMock(array(1))
         );
@@ -107,8 +104,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array(
             'cms_page' => $this->_getCmsPageWithStoresMock(array())
         );
@@ -142,6 +137,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
     {
         $resourceMock = $this->getMockBuilder('Mage_Cms_Model_Resource_Page')
             ->setMethods(array('lookupStoreIds'))
+            ->disableOriginalConstructor()
             ->getMock();
         $resourceMock->expects($this->any())
             ->method('lookupStoreIds')
@@ -149,6 +145,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
 
         $cmsPageMock = $this->getMockBuilder('Mage_Cms_Model_Page')
             ->setMethods(array('getResource', 'getId'))
+            ->disableOriginalConstructor()
             ->getMock();
         $cmsPageMock->expects($this->any())
             ->method('getId')

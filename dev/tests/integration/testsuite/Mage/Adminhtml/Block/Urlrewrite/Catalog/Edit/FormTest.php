@@ -22,8 +22,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     protected function _getFormInstance($args = array())
     {
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', $args);
         $block->toHtml();
@@ -47,8 +48,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testFormPostInitNew($productData, $categoryData, $action, $idPath, $requestPath, $targetPath)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array();
         if ($productData) {
             $args['product'] = new Varien_Object($productData);
@@ -80,8 +79,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStores($productData, $categoryData, $expectedStores)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array();
         if ($productData) {
             $args['product'] = new Varien_Object($productData);
@@ -104,8 +101,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array(
             'product' => new Varien_Object(array('id' => 1))
         );
@@ -123,8 +118,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStoresProductCategoryStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array(
             'product' => new Varien_Object(array('id' => 1, 'store_ids' => array(1))),
             'category' => new Varien_Object(array('id' => 1, 'store_ids' => array(3)))
@@ -143,8 +136,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStoresCategoryStoresException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $args = array(
             'category' => new Varien_Object(array('id' => 1))
         );

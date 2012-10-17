@@ -24,10 +24,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array(
+            'area'      => Mage_Core_Model_App_Area::AREA_ADMINHTML,
+            'structure' => $dataStructure,
+        ));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', $blockAttributes);
