@@ -73,6 +73,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     public function tunnelAction()
     {
         $httpClient = new Varien_Http_Client();
+        $error = $this->__('invalid request');
         $gaData = $this->getRequest()->getParam('ga');
         $gaHash = $this->getRequest()->getParam('h');
         if ($gaData && $gaHash) {
@@ -81,21 +82,26 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
                 if ($params = unserialize(base64_decode(urldecode($gaData)))) {
                     try {
                         $response = $httpClient->setUri(Mage_Adminhtml_Block_Dashboard_Graph::API_URL)
-                                ->setParameterGet($params)
-                                ->setConfig(array('timeout' => 5))
-                                ->request('GET');
+                            ->setParameterGet($params)
+                            ->setConfig(array('timeout' => 5))
+                            ->request('GET');
 
                         $headers = $response->getHeaders();
 
                         $this->getResponse()
                             ->setHeader('Content-type', $headers['Content-type'])
                             ->setBody($response->getBody());
-                    } catch (Zend_Http_Client_Exception $e) {
+                        return;
+                    } catch (Exception $e) {
                         Mage::logException($e);
+                        $error = $this->__('see error log for details');
                     }
                 }
             }
         }
+        $this->getResponse()->setBody($this->__('Service unavailable: %s', $error))
+            ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
+            ->setHttpResponseCode(503);
     }
 
     protected function _isAllowed()
