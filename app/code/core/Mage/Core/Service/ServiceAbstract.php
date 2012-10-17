@@ -160,7 +160,7 @@ abstract class Mage_Core_Service_ServiceAbstract
      * @param string $action
      * @param array $data
      */
-    protected function _removeForbiddenFields(string $module, string $action, array &$data)
+    protected function _removeForbiddenFields($module, $action, &$data)
     {
         $forbiddenFields = $this->_getForbiddenFields($module, $action);
         if (!empty($forbiddenFields)) {
@@ -179,7 +179,7 @@ abstract class Mage_Core_Service_ServiceAbstract
      * @param string $action
      * @return array
      */
-    protected function _getForbiddenFields(string $module, string $action)
+    protected function _getForbiddenFields($module, $action)
     {
         $forbiddenFields = array();
 

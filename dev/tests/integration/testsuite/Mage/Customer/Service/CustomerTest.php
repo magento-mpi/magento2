@@ -64,16 +64,22 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      * @param $customerId
      * @param $customerData
      * @param $assertFunction
+     * @param $forbiddenFields
+     * @return Mage_Customer_Model_Customer
      */
-    protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction)
+    protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction, $forbiddenFields = array())
     {
         $updatedCustomer = $this->_model->update($customerId, $customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
         $this->assertGreaterThan(0, $updatedCustomer->getId());
 
         foreach ($customerData as $key => $val) {
-            $this->$assertFunction($val, $updatedCustomer->getData($key));
+            if (!in_array($key, $forbiddenFields)) {
+                $this->$assertFunction($val, $updatedCustomer->getData($key));
+            }
         }
+
+        return $updatedCustomer;
     }
 
     /**
@@ -97,7 +103,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initCreateCustomerDataProvider()
     {
         return array(
-            array('Valid data' => array('website_id' => 0,
+            'Valid data' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -113,7 +119,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'default_billing' => null,
                 'default_shipping' => null,
             )),
-            array('First name is required field' => array('website_id' => 0,
+            'First name is required field' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -123,7 +129,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
             ), 'Mage_Core_Exception'),
-            array('Invalid email' => array('website_id' => 0,
+            'Invalid email' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -133,7 +139,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => '111@111',
                 'password' => '123123q',
             ), 'Mage_Core_Exception'),
-            array('Invalid password' => array('website_id' => 0,
+            'Invalid password' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -171,19 +177,19 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initUpdateCustomerDataProvider()
     {
         return array(
-            array('Change name' => array(
+            'Change name' => array(array(
                 'firstname' => 'SomeName2',
             )),
-            array('Change password' => array(
+            'Change password' => array(array(
                 'password' => '111111',
             )),
-            array('Invalid password' => array(
+            'Invalid password' => array(array(
                 'password' => '111'
             ), 'Mage_Eav_Model_Entity_Attribute_Exception'),
-            array('Invalid name' => array(
+            'Invalid name' => array(array(
                 'firstname' => null
             ), 'Mage_Core_Exception'),
-            array('Invalid email' => array(
+            'Invalid email' => array(array(
                 'email' => '3434@23434'
             ), 'Mage_Core_Exception'),
         );
@@ -209,7 +215,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initForbiddenFieldsUpdateDataProvider()
     {
         return array(
-            array('Fields must not be changed' => array(
+            'Fields must not be changed' => array(array(
                 'website_id' => 111,
                 'entity_type_id' => 555,
             )),
@@ -227,6 +233,37 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_model->delete(1);
 
         Mage::app()->setCurrentStore($previousStoreId);
+    }
+
+    /**
+     * @param array $customerData
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @dataProvider initAutoGeneratePasswordDataProvider
+     */
+    public function testAutoGeneratePassword($customerData)
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+
+        $this->_updateAndCheckCustomer($expected->getId(),
+            $customerData, 'assertEquals', array('autogenerate_password'));
+
+        $actual = new Mage_Customer_Model_Customer();
+        $actual->load(1);
+
+        $this->assertNotEquals($expected->getPasswordHash(), $actual->getPasswordHash());
+    }
+
+    /**
+     * @return array
+     */
+    public function initAutoGeneratePasswordDataProvider()
+    {
+        return array(
+            'Auto generate password' => array(array(
+                'autogenerate_password' => true,
+            )),
+        );
     }
 
     /**
