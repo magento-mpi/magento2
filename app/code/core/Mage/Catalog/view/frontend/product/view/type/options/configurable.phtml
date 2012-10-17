@@ -23,11 +23,14 @@ $_attributes = Mage::helper('Mage_Core_Helper_Data')->decorateArray($this->getAl
                     <option><?php echo $this->__('Choose an Option...') ?></option>
                   </select>
               </div>
-
         </dd>
     <?php endforeach; ?>
     </dl>
     <script type="text/javascript">
-        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+        (function ($) {
+            $.mage.event.observe('mage.spConfigData.initialize', function (event, initData) {
+                initData.spConfig = <?php echo $this->getJsonConfig() ?>;
+            });
+        })(jQuery);
     </script>
 <?php endif;?>
