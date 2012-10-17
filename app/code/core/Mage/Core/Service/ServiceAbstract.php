@@ -20,9 +20,7 @@ abstract class Mage_Core_Service_ServiceAbstract
     const SORT_FIELD_KEY = 'order';
     const SORT_ORDER_KEY = 'dir';
     const DEFAULT_SORT_ORDER = Varien_Data_Collection::SORT_ORDER_ASC;
-    const XML_CONFIG_FORBIDDEN_FIELDS_PATH = 'service_layer/customer/forbidden_fields/';
-
-    protected $_valid_actions = array('create', 'update', 'validate');
+    const XML_CONFIG_FORBIDDEN_FIELDS_PATH = 'service_layer/%s/forbidden_fields/%s';
 
     /**
      * @var Mage_Core_Helper_Abstract
@@ -158,12 +156,13 @@ abstract class Mage_Core_Service_ServiceAbstract
     /**
      * Remove forbidden fields for specified action
      *
+     * @param string $module
      * @param string $action
      * @param array $data
      */
-    protected function _removeForbiddenFields(string $action, array &$data)
+    protected function _removeForbiddenFields(string $module, string $action, array &$data)
     {
-        $forbiddenFields = $this->_getForbiddenFields($action);
+        $forbiddenFields = $this->_getForbiddenFields($module, $action);
         if (!empty($forbiddenFields)) {
             foreach (array_keys($data) as $dataKey) {
                 if (in_array($dataKey, $forbiddenFields)) {
@@ -176,23 +175,21 @@ abstract class Mage_Core_Service_ServiceAbstract
     /**
      * Get forbidden fields for specified action
      *
+     * @param string $module
      * @param string $action
      * @return array
-     * @throws InvalidArgumentException
      */
-    protected function _getForbiddenFields(string $action) {
-        $fields = array();
+    protected function _getForbiddenFields(string $module, string $action)
+    {
+        $forbiddenFields = array();
 
-        if (in_array($action, $this->_valid_actions)) {
-            /** @var Mage_Core_Model_Config_Element $rr */
-            $forbidden_fields = Mage::getConfig()->getNode(self::XML_CONFIG_FORBIDDEN_FIELDS_PATH . $action);
-            if (!empty($forbidden_fields)) {
-                $fields = array_keys($forbidden_fields->asArray());
-            }
-        } else {
-            throw new InvalidArgumentException($this->_translateHelper->__('Invalid code of action'));
+        $xmlPath = sprintf(self::XML_CONFIG_FORBIDDEN_FIELDS_PATH, $module, $action);
+        /** @var Mage_Core_Model_Config_Element $forbiddenFields */
+        $forbiddenFieldsNodes = Mage::getConfig()->getNode($xmlPath);
+        if (!empty($forbiddenFieldsNodes)) {
+            $forbiddenFields = array_keys($forbiddenFieldsNodes->asArray());
         }
 
-        return $fields;
+        return $forbiddenFields;
     }
 }

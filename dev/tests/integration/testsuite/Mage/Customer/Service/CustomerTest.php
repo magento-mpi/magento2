@@ -10,7 +10,7 @@
  */
 
 /**
- * Test service layer Mage_Service_Customer
+ * Test service layer Mage_Customer_Service_Customer
  */
 class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
@@ -33,15 +33,19 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $previousStoreId = Mage::app()->getStore();
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
-
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->delete();
         }
+        Mage::app()->setCurrentStore($previousStoreId);
 
         $this->_model = null;
-        Mage::app()->setCurrentStore($previousStoreId);
     }
 
+    /**
+     * Create and check customer
+     *
+     * @param $customerData
+     */
     protected function _createAndCheckCustomer($customerData)
     {
         $this->_createdCustomer = $this->_model->create($customerData);
@@ -54,6 +58,13 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Update and check customer
+     *
+     * @param $customerId
+     * @param $customerData
+     * @param $assertFunction
+     */
     protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction)
     {
         $updatedCustomer = $this->_model->update($customerId, $customerData);
@@ -203,6 +214,28 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'entity_type_id' => 555,
             )),
         );
+    }
+
+    /**
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testDelete()
+    {
+        $previousStoreId = Mage::app()->getStore();
+        Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
+
+        $this->_model->delete(1);
+
+        Mage::app()->setCurrentStore($previousStoreId);
+    }
+
+    /**
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @expectedException Mage_Core_Exception
+     */
+    public function testLoadCustomerByIdException()
+    {
+        $this->_model->delete(100);
     }
 
     /**

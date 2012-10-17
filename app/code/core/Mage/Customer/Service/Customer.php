@@ -38,7 +38,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function create($customerData)
     {
-        $this->_removeForbiddenFields('create', $customerData);
+        $this->_removeForbiddenFields('customer', 'create', $customerData);
 
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -58,7 +58,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function update($customerId, $customerData)
     {
-        $this->_removeForbiddenFields('update', $customerData);
+        $this->_removeForbiddenFields('customer', 'update', $customerData);
 
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_loadCustomerById($customerId)
@@ -108,7 +108,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _validate($customer, $customerData)
     {
-        $forbiddenFields = $this->_getForbiddenFields('validate');
+        $forbiddenFields = $this->_getForbiddenFields('customer', 'validate');
 
         /** @var $validatorFactory Magento_Validator_Config */
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
