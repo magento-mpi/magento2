@@ -136,6 +136,10 @@ return array(
     'catalogCategoryChangeProducts' => array('class_scope' => 'Mage_Catalog_Model_Product_Flat_Observer'),
     'catalogEventProductCollectionAfterLoad' => array('class_scope' => 'Mage_GiftMessage_Model_Observer'),
     'catalogProductLoadAfter' => array('class_scope' => 'Mage_Bundle_Model_Observer'),
+    'categoriesJsonAction' => array(
+        'class_scope' => 'Mage_Adminhtml_Catalog_ProductController',
+        'suggestion' => 'Mage_Adminhtml_Catalog_CategoryController::suggestCategoriesAction()'
+    ),
     'chechAllowedExtension',
     'checkConfigurableProducts' => array('class_scope' => 'Mage_Eav_Model_Resource_Entity_Attribute_Collection'),
     'checkDatabase' => array('class_scope' => 'Mage_Install_Model_Installer_Db'),

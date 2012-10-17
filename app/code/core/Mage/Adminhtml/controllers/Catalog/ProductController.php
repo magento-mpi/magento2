@@ -604,28 +604,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
          */
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
-            $product->setRelatedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related']));
+            $product->setRelatedLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['related'])
+            );
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
-            $product->setUpSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell']));
+            $product->setUpSellLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['upsell'])
+            );
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
             $product->setCrossSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
         if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
-            $product->setGroupedLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['grouped']));
-        }
-
-        /**
-         * Initialize product categories
-         */
-        $categoryIds = $this->getRequest()->getPost('category_ids');
-        if (null !== $categoryIds) {
-            if (empty($categoryIds)) {
-                $categoryIds = array();
-            }
-            $product->setCategoryIds($categoryIds);
+            $product->setGroupedLinkData(
+                Mage::helper('Mage_Adminhtml_Helper_Js')->decodeGridSerializedInput($links['grouped'])
+            );
         }
 
         /**
@@ -685,16 +680,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (!isset($stockData['is_decimal_divided']) || $stockData['is_qty_decimal'] == 0) {
             $stockData['is_decimal_divided'] = 0;
         }
-    }
-
-    public function categoriesJsonAction()
-    {
-        $product = $this->_initProduct();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories')
-                ->getCategoryChildrenJson($this->getRequest()->getParam('category'))
-        );
     }
 
     /**

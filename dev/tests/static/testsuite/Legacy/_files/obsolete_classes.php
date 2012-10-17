@@ -68,6 +68,7 @@ return array(
     'Mage_Adminhtml_Block_Permissions_Usernroles',
     'Mage_Adminhtml_Permissions_UserController',
     'Mage_Adminhtml_Permissions_RoleController',
+    'Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs',
     'Mage_Adminhtml_Block_Report_Product_Ordered',
     'Mage_Adminhtml_Block_Report_Product_Ordered_Grid',
     'Mage_Adminhtml_Block_Sales',
