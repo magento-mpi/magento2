@@ -15,12 +15,11 @@ Update as of 10/16/2012
 * Denied the public access to the `pub/cron.php`
 * Fixes:
   * Fixed the broken Billing Agreement View page
-  * Fixed displaying of the Default and Minimal attribute sets in the Manage Attribute Sets grid
-  * Fixed typos in the Sales Order page
-  * Fixed typos in the Sales Order's Packing Slips printed to PDF
-  * Fixed search by a column in the Customer Wishlist grid
+  * Fixed absence of the Default and Minimal attribute sets in the Manage Attribute Sets grid, if the total number of records is 22 and the view of 20 rows per page is chosen
+  * Fixed typos on the Sales Order page
+  * Fixed typos on the Sales Order's Packing Slips printed to PDF
   * Fixed preserving selected rows after searching in the Sales Order grid
-  * Fixed sorting by the "Product Name" in the Catalog Pending Reviews grid
+  * Fixed "column not found" SQL error while sorting by the "Product Name" in the Catalog Pending Reviews grid
 
 Update as of 10/11/2012
 ======================
