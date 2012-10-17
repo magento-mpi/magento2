@@ -28,8 +28,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_columnMock = $this->getMock('Mage_Backend_Block_Widget_Grid_Column',
             array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
             array(), '', false
@@ -39,7 +37,9 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             array($this->_columnMock)
         ));
 
-        $this->_block = new Mage_Backend_Block_Widget_Grid_ColumnSet(array('layout' => $this->_layoutMock));
+        $this->_block = Mage::app()->getLayout()->createBlock(
+            'Mage_Backend_Block_Widget_Grid_ColumnSet', '', array('layout' => $this->_layoutMock)
+        );
     }
 
     public function testBeforeToHtmlAddsClassToLastColumn()
