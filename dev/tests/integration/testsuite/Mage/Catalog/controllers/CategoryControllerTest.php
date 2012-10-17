@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_CategoryController.
  *
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -66,8 +66,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testViewAction($categoryId, $expectedProductCount, array $expectedHandles, array $expectedContent)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch("catalog/category/view/id/$categoryId");
 
         /** @var $currentCategory Mage_Catalog_Model_Category */
@@ -97,8 +95,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
 
     public function testViewActionNoCategoryId()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('catalog/category/view/');
 
         $this->assert404NotFound();
@@ -106,8 +102,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
 
     public function testViewActionInactiveCategory()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('catalog/category/view/id/8');
 
         $this->assert404NotFound();

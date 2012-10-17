@@ -31,12 +31,10 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testGetStoreCategories()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $categories = $this->_helper->getStoreCategories();
         $this->assertInstanceOf('Varien_Data_Tree_Node_Collection', $categories);
         $index = 0;
@@ -51,9 +49,7 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategoryUrl()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $url = 'http://example.com/';
+         $url = 'http://example.com/';
         $category = Mage::getModel('Mage_Catalog_Model_Category', array('data' => array('url' => $url)));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
 
@@ -62,20 +58,17 @@ class Mage_Catalog_Helper_CategoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testCanShow()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // by ID of a category that is not a root
         $this->assertTrue($this->_helper->canShow(7));
     }
 
     public function testCanShowFalse()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $this->assertFalse($this->_helper->canShow($category));
         $category->setId(1);

@@ -15,12 +15,13 @@
 
 $prices = array(5, 10, 15, 20, 50, 100, 150);
 
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
+/** @var $category Mage_Catalog_Model_Category */
 $category = Mage::getModel('Mage_Catalog_Model_Category');
-
 $category->setId(3)
     ->setName('Root Category')
     ->setParentId(2) /**/

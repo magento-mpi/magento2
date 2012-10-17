@@ -25,8 +25,6 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_helper = Mage::helper('Mage_Catalog_Helper_Product_View');
         $request = new Magento_Test_Request();
         $request->setRouteName('catalog')
@@ -43,8 +41,6 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         Mage::getSingleton('Mage_Catalog_Model_Session')->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
@@ -56,6 +52,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testInitProductLayout()
     {
         $uniqid = uniqid();
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         Mage::register('product', $product);
@@ -69,27 +66,23 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRender()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
         $this->assertEquals(10, Mage::getSingleton('Mage_Catalog_Model_Session')->getLastViewedProductId());
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @expectedException Mage_Core_Exception
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRenderWrongController()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $controller = Mage::getModel(
             'Mage_Core_Controller_Front_Action',
             array('request' => new Magento_Test_Request, 'response' => new Magento_Test_Response)
@@ -108,14 +101,12 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     /**
      * Test for _getSessionMessageModels
      *
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      * @covers Mage_Catalog_Helper_Product_View::_getSessionMessageModels
      */
     public function testGetSessionMessageModels()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $expectedMessages = array(
             'Mage_Catalog_Model_Session'  => 'catalog message',
             'Mage_Checkout_Model_Session' => 'checkout message',

@@ -12,8 +12,8 @@
 /**
  * Test class for Mage_Catalog_Block_Product_Abstract.
  *
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
- * magentoDataFixture Mage/Catalog/_files/product_image.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_image.php
  */
 class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -29,9 +29,9 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $this->_block = $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract');
+        $stubClass = 'Mage_Catalog_Block_Product_Abstract_Stub';
+        $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract', array(), $stubClass, false);
+        $this->_block = Mage::app()->getLayout()->createBlock($stubClass);
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
         $this->_product->addData(array(

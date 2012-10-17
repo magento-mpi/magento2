@@ -29,8 +29,6 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        self::markTestIncomplete('Need to fix DI dependencies + fixture');
-
         parent::setUpBeforeClass();
 
         self::$_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
@@ -40,8 +38,6 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
 
     public static function tearDownAfterClass()
     {
-        self::markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::app()->getStore()->setConfig('dev/log/active', self::$_oldLogActive);
         self::$_oldLogActive = null;
 
@@ -68,8 +64,8 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
      * Test that there is no exception '$_FILES array is empty' in Varien_File_Uploader::_setUploadFileId()
      * if category image was not set
      *
-     * magentoDataFixture Mage/Catalog/Model/Category/_files/stub_zend_log_writer_stream.php
-     * magentoDataFixture Mage/Catalog/Model/Category/_files/category_without_image.php
+     * @magentoDataFixture Mage/Catalog/Model/Category/_files/stub_zend_log_writer_stream.php
+     * @magentoDataFixture Mage/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
     {

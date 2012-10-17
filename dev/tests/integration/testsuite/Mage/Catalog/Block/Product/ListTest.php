@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Block_Product_List.
  *
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  */
 class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 {
@@ -23,8 +23,6 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_List');
     }
 
@@ -58,8 +56,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
      */
     public function testToolbarCoverage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
+        /** @var $parent Mage_Catalog_Block_Product_List */
         $parent = $this->_getLayout()->createBlock('Mage_Catalog_Block_Product_List', 'parent');
 
         /* Prepare toolbar block */
@@ -82,9 +79,8 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testGetAdditionalHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $layout = $this->_getLayout();
+        /** @var $parent Mage_Catalog_Block_Product_List */
         $parent = $layout->createBlock('Mage_Catalog_Block_Product_List');
         $childBlock = $layout->createBlock('Mage_Core_Block_Text', 'test', array('text' => 'test'));
         $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
@@ -106,6 +102,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareSortableFieldsByCategory()
     {
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);

@@ -15,7 +15,7 @@
  *
  * @see Mage_Catalog_Model_ProductExternalTest
  * @see Mage_Catalog_Model_ProductPriceTest
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 {
@@ -26,8 +26,6 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
     }
 
@@ -79,6 +77,7 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton
+        /** @var $otherProduct Mage_Catalog_Model_Product */
         $otherProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
@@ -154,6 +153,7 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 
     public function testGetMediaGalleryImages()
     {
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertEmpty($model->getMediaGalleryImages());
 

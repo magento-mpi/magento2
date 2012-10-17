@@ -12,8 +12,8 @@
 /**
  * Test class for Mage_Catalog_Model_Product_Attribute_Media_Api.
  *
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
- * magentoDataFixture productMediaFixture
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture productMediaFixture
  */
 class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -34,8 +34,6 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Media_Api');
     }
 
@@ -55,12 +53,14 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     public static function tearDownAfterClass()
     {
         Varien_Io_File::rmdirRecursive(self::$_mediaTmpDir);
+        /** @var $config Mage_Catalog_Model_Product_Media_Config */
         $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
         Varien_Io_File::rmdirRecursive($config->getBaseMediaPath());
     }
 
     public static function productMediaFixture()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setTierPrice(array());

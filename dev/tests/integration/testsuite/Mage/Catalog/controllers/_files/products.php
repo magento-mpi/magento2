@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $productOne Mage_Catalog_Model_Product */
 $productOne = Mage::getModel('Mage_Catalog_Model_Product');
 $productOne->setId(1)
     ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
@@ -39,6 +40,7 @@ $productOne->setId(1)
 
     ->save();
 
+/** @var $productTwo Mage_Catalog_Model_Product */
 $productTwo = Mage::getModel('Mage_Catalog_Model_Product');
 $productTwo->setId(2)
     ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)

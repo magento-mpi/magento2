@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Model_Product_Attribute_Backend_Tierprice.
  *
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit_Framework_TestCase
 {
@@ -23,8 +23,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Backend_Tierprice');
         $this->_model->setAttribute(
             Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'tier_price')
@@ -97,6 +95,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
 
     public function testAfterLoad()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
@@ -108,6 +107,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     public function testAfterSave()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setOrigData();
@@ -134,6 +134,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
     public function testAfterSaveEmpty()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setOrigData();

@@ -33,8 +33,6 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::markTestIncomplete('Need to fix DI dependencies');
-
         // image fixtures
         self::$_fixtureMediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         mkdir(self::$_fixtureMediaDir . '/m/a', 0777, true);
@@ -163,6 +161,8 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     /**
      * placeholder()
      * getPlaceholder()
+     *
+     * @magentoAppIsolation enabled
      */
     public function testPlaceholder()
     {
@@ -177,8 +177,12 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($placeholder, $defaultPlaceholder);
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetPlaceholder()
     {
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();

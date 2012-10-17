@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Model_Layer.
  *
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 {
@@ -23,8 +23,6 @@ class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Layer');
         $this->_model->setCurrentCategory(4);
     }
@@ -105,6 +103,7 @@ class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $existingCategory->load(5);
 
         /* Category object */
+        /** @var $model Mage_Catalog_Model_Layer */
         $model = Mage::getModel('Mage_Catalog_Model_Layer');
         $model->setCurrentCategory($existingCategory);
         $this->assertSame($existingCategory, $model->getCurrentCategory());

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Block_Product_View_Type_Configurable.
  *
- * magentoDataFixture Mage/Catalog/_files/product_configurable.php
+ * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
  */
 class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Framework_TestCase
 {
@@ -21,12 +21,13 @@ class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Fram
      */
     protected $_block;
 
+    /**
+     * @var Mage_Catalog_Model_Product
+     */
     protected $_product;
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_View_Type_Configurable');
@@ -52,8 +53,8 @@ class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Fram
     {
         $products = $this->_block->getAllowProducts();
         $this->assertGreaterThanOrEqual(2, count($products));
-        foreach ($products as $products) {
-            $this->assertInstanceOf('Mage_Catalog_Model_Product', $products);
+        foreach ($products as $product) {
+            $this->assertInstanceOf('Mage_Catalog_Model_Product', $product);
         }
     }
 

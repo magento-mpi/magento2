@@ -17,6 +17,7 @@ require dirname(__FILE__) . '/url_rewrites.php';
 /**
  * Invalid rewrite for product assigned to different category
  */
+/** @var $rewrite Mage_Core_Model_Url_Rewrite */
 $rewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
 $rewrite->setStoreId(1)
     ->setIdPath('product/1/4')

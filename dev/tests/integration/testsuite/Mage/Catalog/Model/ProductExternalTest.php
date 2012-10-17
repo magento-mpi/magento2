@@ -15,7 +15,7 @@
  *
  * @see Mage_Catalog_Model_ProductTest
  * @see Mage_Catalog_Model_ProductPriceTest
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
 {
@@ -26,8 +26,6 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
     }
 
@@ -101,6 +99,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetCategoryIds()
     {
         // none
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
@@ -130,6 +129,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetWebsiteIds()
     {
         // set
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel('Mage_Catalog_Model_Product',
             array('data' => array('website_ids' => array(1, 2)))
         );
@@ -143,6 +143,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetStoreIds()
     {
         // set
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel('Mage_Catalog_Model_Product',
             array('data' => array('store_ids' => array(1, 2)))
         );
@@ -249,6 +250,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->_model->setUrlPath('test');
         $this->assertEquals('test', $this->_model->getUrlPath());
 
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));

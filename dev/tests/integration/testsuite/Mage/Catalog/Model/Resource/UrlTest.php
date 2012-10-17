@@ -18,8 +18,6 @@ class Mage_Catalog_Model_Resource_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
     }
 
@@ -29,7 +27,7 @@ class Mage_Catalog_Model_Resource_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/Model/Resource/_files/url_rewrites.php
+     * @magentoDataFixture Mage/Catalog/Model/Resource/_files/url_rewrites.php
      */
     public function testGetLastUsedRewriteRequestIncrement()
     {

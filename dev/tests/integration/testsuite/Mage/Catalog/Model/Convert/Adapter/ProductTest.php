@@ -13,6 +13,7 @@ class Mage_Catalog_Model_Convert_Adapter_ProductTest extends PHPUnit_Framework_T
 {
     public function testLoadWithoutIssues()
     {
+        /** @var $model Mage_Catalog_Model_Convert_Adapter_Product */
         $model = $this->getMock('Mage_Catalog_Model_Convert_Adapter_Product', array('addException'));
 
         $exceptionWas = false;

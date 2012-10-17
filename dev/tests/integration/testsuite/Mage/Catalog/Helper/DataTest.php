@@ -27,12 +27,10 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testGetBreadcrumbPath()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load(5);
         Mage::register('current_category', $category);
@@ -52,8 +50,6 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         Mage::register('current_category', $category);
         try {
@@ -67,8 +63,6 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         Mage::register('current_product', $product);
         try {

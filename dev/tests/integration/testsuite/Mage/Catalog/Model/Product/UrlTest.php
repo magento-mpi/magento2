@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Model_Product_Url.
  *
- * magentoDataFixture Mage/Catalog/_files/url_rewrites.php
+ * @magentoDataFixture Mage/Catalog/_files/url_rewrites.php
  */
 class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 {
@@ -23,8 +23,6 @@ class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Url');
     }
 
@@ -56,7 +54,7 @@ class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetProductUrl()
     {
-        $product = new  Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $this->assertStringEndsWith('simple-product.html', $this->_model->getProductUrl($product));
     }
@@ -68,9 +66,11 @@ class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetUrlPath()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setUrlPath('product.html');
 
+        /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setUrlPath('category.html');
         $this->assertEquals('product.html', $this->_model->getUrlPath($product));
@@ -79,11 +79,12 @@ class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetUrl()
     {
-        $product = new  Mage_Catalog_Model_Product();
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $this->assertStringEndsWith('simple-product.html', $this->_model->getUrl($product));
 
-        $product = new  Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(100);
         $this->assertStringEndsWith('catalog/product/view/id/100/', $this->_model->getUrl($product));
     }

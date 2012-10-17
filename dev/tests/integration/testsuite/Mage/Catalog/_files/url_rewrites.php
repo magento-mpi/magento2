@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $category Mage_Catalog_Model_Category */
 $category = Mage::getModel('Mage_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Category 1')

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Model_Layer_Filter_Price.
  *
- * magentoDataFixture Mage/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
+ * @magentoDataFixture Mage/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
 class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUnit_Framework_TestCase
 {
@@ -25,9 +25,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUni
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
+         $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
     }
 
     protected function tearDown()
@@ -43,9 +41,11 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUni
      */
     protected function _prepareFilter($request = null)
     {
+        /** @var $layer Mage_Catalog_Model_Layer */
         $layer = Mage::getModel('Mage_Catalog_Model_Layer');
         $layer->setCurrentCategory(4);
         $layer->setState(Mage::getModel('Mage_Catalog_Model_Layer_State'));
+        /** @var $filter Mage_Catalog_Model_Layer_Filter_Price */
         $filter = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');
         $filter->setLayer($layer)->setAttributeModel(new Varien_Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {

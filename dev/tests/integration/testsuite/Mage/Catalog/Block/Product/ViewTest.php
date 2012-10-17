@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Block_Product_View.
  *
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  */
 class Mage_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
@@ -26,12 +26,9 @@ class Mage_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected $_product;
 
-
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_View');
+        $this->_block = Mage::getObjectManager()->create('Mage_Catalog_Block_Product_View');
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
         Mage::unregister('product');
@@ -46,11 +43,10 @@ class Mage_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testSetLayout()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $headBlock = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template');
-        $layout->addBlock($headBlock, 'head');
+        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
+        $headBlock = $layout->createBlock('Mage_Core_Block_Template', 'head');
         $layout->addBlock($this->_block);
 
         $this->assertNotEmpty($headBlock->getTitle());

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Catalog_Model_Layer_Filter_Price.
  *
- * magentoDataFixture Mage/Catalog/Model/Layer/Filter/Price/_files/products_base.php
+ * @magentoDataFixture Mage/Catalog/Model/Layer/Filter/Price/_files/products_base.php
  */
 class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Framework_TestCase
 {
@@ -39,8 +39,6 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price_Algorithm');
         $this->_layer = Mage::getModel('Mage_Catalog_Model_Layer');
         $this->_filter = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');

@@ -15,12 +15,11 @@
 class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGenerateUniqueSkuExistingProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
         $product->setId(null);
@@ -31,15 +30,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
 
     /**
      * @param $product Mage_Catalog_Model_Product
-     * dataProvider uniqueSkuDataProvider
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
+     * @dataProvider uniqueSkuDataProvider
      */
-    public function testGenerateUniqueSkuNotExistingProduct(/*$product*/)
+    public function testGenerateUniqueSkuNotExistingProduct($product)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertEquals('simple', $product->getSku());
         $product->getResource()->getAttribute('sku')->getBackend()->beforeSave($product);
         $this->assertEquals('simple', $product->getSku());
@@ -52,6 +46,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
      */
     public function uniqueSkuDataProvider()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setId(1)

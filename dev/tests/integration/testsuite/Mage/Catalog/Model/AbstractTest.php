@@ -18,9 +18,9 @@ class Mage_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->_model = $this->getMockForAbstractClass('Mage_Catalog_Model_Abstract');
+        $stubClass = 'Mage_Catalog_Model_Abstract_Stub';
+        $this->getMockForAbstractClass('Mage_Catalog_Model_Abstract', array(), $stubClass, false);
+        $this->_model = Mage::getModel($stubClass);
 
         $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);
@@ -111,12 +111,10 @@ class Mage_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/products.php
+     * @magentoDataFixture Mage/Catalog/_files/products.php
      */
     public function testLoadByAttribute()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $object = $this->_model->loadByAttribute('sku', 'simple');
         $this->assertNotSame($object, $this->_model);
         $this->assertEquals(1, $object->getId()); // fixture

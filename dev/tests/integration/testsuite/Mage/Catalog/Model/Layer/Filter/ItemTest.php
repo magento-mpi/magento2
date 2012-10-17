@@ -46,14 +46,13 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
      */
     public function testGetFilterException()
     {
+        /** @var $model Mage_Catalog_Model_Layer_Filter_Item */
         $model = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Item');
         $model->getFilter();
     }
 
     public function testGetUrl()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         Mage::getModel(
             'Mage_Core_Controller_Front_Action',
             array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response())
@@ -65,12 +64,10 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
      */
     public function testGetRemoveUrl()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::app()->getRequest()->setRoutingInfo(array(
             'requested_route'      => 'x',
             'requested_controller' => 'y',

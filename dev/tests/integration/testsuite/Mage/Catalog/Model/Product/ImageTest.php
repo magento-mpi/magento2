@@ -16,8 +16,7 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetBaseFilePlaceholder()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
+        /** @var $model Mage_Catalog_Model_Product_Image */
         $model = Mage::getModel('Mage_Catalog_Model_Product_Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());

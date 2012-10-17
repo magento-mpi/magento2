@@ -10,7 +10,7 @@
  */
 
 /**
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  */
 class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCase
 {
@@ -21,8 +21,6 @@ class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Type_Price');
     }
 
@@ -38,6 +36,7 @@ class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCa
 
     public function testGetFinalPrice()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
 
@@ -60,6 +59,7 @@ class Mage_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_TestCa
      */
     public function testGetChildFinalPrice()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
 

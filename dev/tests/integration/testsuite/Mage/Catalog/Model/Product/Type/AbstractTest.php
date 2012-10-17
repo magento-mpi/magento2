@@ -44,12 +44,10 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetSetAttributes()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $attributes = $this->_model->getSetAttributes($product);
@@ -75,12 +73,10 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetEditableAttributes()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertArrayNotHasKey('_cache_editable_attributes', $product->getData());
@@ -96,8 +92,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetAttributeById()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertNull($this->_model->getAttributeById(-1, $product));
@@ -115,19 +109,15 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testIsVirtual()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertFalse($this->_model->isVirtual($product));
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testIsSalable()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertTrue($this->_model->isSalable($product));
 
@@ -138,14 +128,13 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     /**
      * @param array $requestData
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * multiple_products.php because there are products without options, and they don't intersect
      * with product_simple.php by ID
      */
     public function testPrepareForCart()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(10); // fixture
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
@@ -162,12 +151,10 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testPrepareForCartOptionsException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals(
@@ -184,33 +171,29 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testCheckProductBuyState()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setSkipCheckRequiredOption('_');
         $this->_model->checkProductBuyState($product);
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      * @expectedException Mage_Core_Exception
      */
     public function testCheckProductBuyStateException()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->_model->checkProductBuyState($product);
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetOrderOptions()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertEquals(array(), $this->_model->getOrderOptions($product));
 
@@ -241,12 +224,11 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testBeforeSave()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $product->setData('links_purchased_separately', 'value'); // this attribute is applicable only for downloadable
@@ -256,24 +238,21 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetSku()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals('simple', $this->_model->getSku($product));
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetOptionSku()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertEmpty($this->_model->getOptionSku($product));
 
@@ -333,15 +312,11 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetForceChildItemQtyChanges()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertFalse($this->_model->getForceChildItemQtyChanges(Mage::getModel('Mage_Catalog_Model_Product')));
     }
 
     public function testPrepareQuoteItemQty()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertEquals(3.0, $this->_model->prepareQuoteItemQty(3, Mage::getModel('Mage_Catalog_Model_Product')));
     }
 
@@ -364,8 +339,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
      */
     public function testSetConfig()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertFalse($this->_model->isComposite(Mage::getModel('Mage_Catalog_Model_Product')));
         $this->assertTrue($this->_model->canUseQtyDecimals());
         $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
@@ -375,12 +348,10 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGetSearchableData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $data = $this->_model->getSearchableData($product);

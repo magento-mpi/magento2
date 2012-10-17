@@ -10,7 +10,9 @@
  */
 
 /* Create attribute */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
 $attribute = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute');
 $attribute->setData(
     array(
@@ -33,10 +35,12 @@ $attribute->save();
 $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attribute->getId());
 
 /* Create simple products per each option */
+/** @var $options Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection */
 $options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {
+    /** @var $product Mage_Catalog_Model_Product */
     $product = Mage::getModel('Mage_Catalog_Model_Product');
     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))

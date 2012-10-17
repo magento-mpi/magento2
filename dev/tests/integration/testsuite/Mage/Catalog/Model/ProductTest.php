@@ -15,7 +15,7 @@
  *
  * @see Mage_Catalog_Model_ProductExternalTest
  * @see Mage_Catalog_Model_ProductPriceTest
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 {
@@ -26,8 +26,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
     }
 
@@ -38,6 +36,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        /** @var $config Mage_Catalog_Model_Product_Media_Config */
         $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
         Varien_Io_File::rmdirRecursive($config->getBaseMediaPath());
         Varien_Io_File::rmdirRecursive($config->getBaseTmpMediaPath());
@@ -234,6 +233,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isVirtual());
         $this->assertFalse($this->_model->getIsVirtual());
 
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel(
             'Mage_Catalog_Model_Product',
             array('data' => array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL))
@@ -266,6 +266,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->isComposite());
 
+        /** @var $model Mage_Catalog_Model_Product */
         $model = Mage::getModel(
             'Mage_Catalog_Model_Product',
             array('data' => array('type_id' => Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE))
@@ -356,12 +357,10 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      */
     public function testIsProductsHasSku()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertTrue($this->_model->isProductsHasSku(array(10, 11)));
     }
 

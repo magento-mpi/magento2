@@ -11,7 +11,7 @@
 
 /**
  * Test class for Mage_Catalog_Model_Product_Attribute_Backend_Media.
- * magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Mage/Catalog/_files/product_simple.php
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Framework_TestCase
 {
@@ -52,8 +52,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Backend_Media');
         $this->_model->setAttribute(
             Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery')
@@ -95,6 +93,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
      */
     public function testBeforeSave()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setData('media_gallery', array('images' => array(
             'image'   => array('file' => 'magento_image.jpg'),
@@ -175,6 +174,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testClearMediaAttribute()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setData(array(
             'test_media1' => 'test1',
@@ -196,6 +196,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testSetMediaAttribute()
     {
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setMediaAttributes(array('test_media1', 'test_media2', 'test_media3'));
         $this->_model->setMediaAttribute($product, 'test_media1', 'test1');

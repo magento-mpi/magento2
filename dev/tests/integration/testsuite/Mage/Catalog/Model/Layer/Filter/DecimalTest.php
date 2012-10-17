@@ -12,8 +12,8 @@
 /**
  * Test class for Mage_Catalog_Model_Layer_Filter_Decimal.
  *
- * magentoDataFixture Mage/Catalog/Model/Layer/Filter/_files/attribute_weight_filterable.php
- * magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDataFixture Mage/Catalog/Model/Layer/Filter/_files/attribute_weight_filterable.php
+ * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_TestCase
 {
@@ -24,11 +24,10 @@ class Mage_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load(4);
 
+        /** @var $attribute Mage_Catalog_Model_Entity_Attribute */
         $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute');
         $attribute->loadByCode('catalog_product', 'weight');
 

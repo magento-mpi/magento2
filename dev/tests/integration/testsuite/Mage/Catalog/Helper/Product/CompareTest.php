@@ -27,13 +27,12 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      */
     public function testGetListUrl()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
-        $empty = Mage::helper('Mage_Catalog_Helper_Product_Compare');
+        /** @var $empty Mage_Catalog_Helper_Product_Compare */
+        $empty = Mage::getObjectManager()->create('Mage_Catalog_Helper_Product_Compare');
         $this->assertContains('/catalog/product_compare/index/', $empty->getListUrl());
 
         $this->_populateCompareList();
@@ -79,12 +78,11 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
      * calculate()
      * getItemCount()
      * hasItems()
-     * magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      */
     public function testCalculate()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+         /** @var $session Mage_Catalog_Model_Session */
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         try {
             $session->unsCatalogCompareItemsCount();
@@ -112,8 +110,6 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
@@ -131,6 +127,7 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
         $productTwo = Mage::getModel('Mage_Catalog_Model_Product');
         $productOne->load(10);
         $productTwo->load(11);
+        /** @var $compareList Mage_Catalog_Model_Product_Compare_List */
         $compareList = Mage::getModel('Mage_Catalog_Model_Product_Compare_List');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }

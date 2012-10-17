@@ -21,8 +21,6 @@ class Mage_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Catalog_Model_Design');
     }
 
