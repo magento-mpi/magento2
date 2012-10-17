@@ -279,9 +279,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                 $customerId = (int)$this->getRequest()->getPost('customer_id');
                 if ($customerId) {
-                    $customer = $this->_customerService->update($customerId, $customerData, true);
+                    $customer = $this->_customerService->update($customerId, $customerData['account'], true);
                 } else {
-                    $customer = $this->_customerService->create($customerData);
+                    $customer = $this->_customerService->create($customerData['account']);
                 }
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));

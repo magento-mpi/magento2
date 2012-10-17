@@ -12,7 +12,7 @@
 /**
  * Test service layer Mage_Service_Customer
  */
-class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
+class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Customer_Service_Customer
@@ -31,76 +31,53 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        $previousStoreId = Mage::app()->getStore();
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
+
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->delete();
         }
+
         $this->_model = null;
+        Mage::app()->setCurrentStore($previousStoreId);
     }
 
-    /**
-     * @param array $customerData
-     * @param string $exceptionName
-     * @dataProvider initCreateCustomerDataProvider
-     */
-    public function testCreate($customerData, $exceptionName = '')
+    protected function _createAndCheckCustomer($customerData)
     {
-        if (!empty($exceptionName)) {
-            $this->setExpectedException($exceptionName);
-        }
-
         $this->_createdCustomer = $this->_model->create($customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
-        $this->assertGreaterThan(0, $this->_createdCustomer->getId());
+        $this->assertFalse($this->_createdCustomer->isObjectNew());
+        $this->assertNotEmpty($this->_createdCustomer->getId());
+
+        foreach ($customerData as $key => $val) {
+            $this->assertEquals($val, $this->_createdCustomer->getData($key));
+        }
+    }
+
+    protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction)
+    {
+        $updatedCustomer = $this->_model->update($customerId, $customerData);
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
+        $this->assertGreaterThan(0, $updatedCustomer->getId());
+
+        foreach ($customerData as $key => $val) {
+            $this->$assertFunction($val, $updatedCustomer->getData($key));
+        }
     }
 
     /**
      * @param array $customerData
      * @param string $exceptionName
-     * @dataProvider initUpdateCustomerDataProvider
+     * @param string $exceptionText
+     * @dataProvider initCreateCustomerDataProvider
      */
-    public function testUpdate($customerData, $exceptionName = '')
+    public function testCreate($customerData, $exceptionName, $exceptionText = '')
     {
-        $customerInitData = $this->initCreateCustomerDataProvider();
-        $this->_createdCustomer = $this->_model->create($customerInitData[0][0]);
-
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
-        $this->assertGreaterThan(1, $this->_createdCustomer->getId());
-
         if (!empty($exceptionName)) {
-            $this->setExpectedException($exceptionName);
+            $this->setExpectedException($exceptionName, $exceptionText);
         }
 
-        $updatedCustomer = $this->_model->update($this->_createdCustomer->getId(), $customerData);
-
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
-        $this->assertGreaterThan(1, $updatedCustomer->getId());
-
-        foreach ($customerData['account'] as $key => $val) {
-            $this->assertEquals($val, $updatedCustomer->getData($key));
-        }
-    }
-
-    /**
-     * @param array $customerData
-     * @dataProvider initForbiddenFieldsUpdateDataProvider
-     */
-    public function testForbiddenFieldsUpdate($customerData)
-    {
-        $customerInitData = $this->initCreateCustomerDataProvider();
-        $this->_createdCustomer = $this->_model->create($customerInitData[0][0]);
-
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
-        $this->assertGreaterThan(1, $this->_createdCustomer->getId());
-
-        $updatedCustomer = $this->_model->update($this->_createdCustomer->getId(), $customerData);
-
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
-        $this->assertGreaterThan(1, $updatedCustomer->getId());
-
-        foreach ($customerData['account'] as $key => $val) {
-            $this->assertNotEquals($val, $updatedCustomer->getData($key));
-        }
+        $this->_createAndCheckCustomer($customerData);
     }
 
     /**
@@ -109,7 +86,7 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initCreateCustomerDataProvider()
     {
         return array(
-            array(array('account' => array('website_id' => 0,
+            array('Valid data' => array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -124,8 +101,8 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'default_billing' => null,
                 'default_shipping' => null,
-            ))),
-            array(array('account' => array('website_id' => 0,
+            )),
+            array('First name is required field' => array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -134,8 +111,8 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
-            )), 'Mage_Core_Exception'),
-            array(array('account' => array('website_id' => 0,
+            ), 'Mage_Core_Exception'),
+            array('Invalid email' => array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -144,8 +121,8 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
-            )), 'Mage_Core_Exception'),
-            array(array('account' => array('website_id' => 0,
+            ), 'Mage_Core_Exception'),
+            array('Invalid password' => array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -154,8 +131,27 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
-            )), 'Mage_Eav_Model_Entity_Attribute_Exception'),
+            ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.'),
         );
+    }
+
+    /**
+     * @param array $customerData
+     * @param string $exceptionName
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @dataProvider initUpdateCustomerDataProvider
+     */
+    public function testUpdate($customerData, $exceptionName = '')
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+
+        if (!empty($exceptionName)) {
+            $this->setExpectedException($exceptionName);
+        }
+
+        $this->_updateAndCheckCustomer($expected->getId(),
+            $customerData, 'assertEquals');
     }
 
     /**
@@ -164,19 +160,36 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initUpdateCustomerDataProvider()
     {
         return array(
-            array(array('account' => array(
+            array('Change name' => array(
+                'firstname' => 'SomeName2',
+            )),
+            array('Change password' => array(
                 'password' => '111111',
-            ))),
-            array(array('account' => array(
+            )),
+            array('Invalid password' => array(
                 'password' => '111'
-            )), 'Mage_Eav_Model_Entity_Attribute_Exception'),
-            array(array('account' => array(
+            ), 'Mage_Eav_Model_Entity_Attribute_Exception'),
+            array('Invalid name' => array(
                 'firstname' => null
-            )), 'Mage_Core_Exception'),
-            array(array('account' => array(
+            ), 'Mage_Core_Exception'),
+            array('Invalid email' => array(
                 'email' => '3434@23434'
-            )), 'Mage_Core_Exception'),
+            ), 'Mage_Core_Exception'),
         );
+    }
+
+    /**
+     * @param array $customerData
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @dataProvider initForbiddenFieldsUpdateDataProvider
+     */
+    public function testForbiddenFieldsUpdate($customerData)
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+
+        $this->_updateAndCheckCustomer($expected->getId(),
+            $customerData, 'assertNotEquals');
     }
 
     /**
@@ -185,10 +198,10 @@ class Mage_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function initForbiddenFieldsUpdateDataProvider()
     {
         return array(
-            array(array('account' => array(
+            array('Fields must not be changed' => array(
                 'website_id' => 111,
                 'entity_type_id' => 555,
-            ))),
+            )),
         );
     }
 

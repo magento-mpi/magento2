@@ -20,6 +20,9 @@ abstract class Mage_Core_Service_Abstract
     const SORT_FIELD_KEY = 'order';
     const SORT_ORDER_KEY = 'dir';
     const DEFAULT_SORT_ORDER = Varien_Data_Collection::SORT_ORDER_ASC;
+    const XML_CONFIG_FORBIDDEN_FIELDS_PATH = 'service_layer/customer/forbidden_fields/';
+
+    protected $_valid_actions = array('create', 'update', 'validate');
 
     /**
      * @var Mage_Core_Helper_Abstract
@@ -180,5 +183,46 @@ abstract class Mage_Core_Service_Abstract
             }
         }
         return $this;
+    }
+
+    /**
+     * Remove forbidden fields for specified action
+     *
+     * @param string $action
+     * @param array $data
+     */
+    protected function _removeForbiddenFields(string $action, array &$data)
+    {
+        $forbiddenFields = $this->_getForbiddenFields($action);
+        if (!empty($forbiddenFields)) {
+            foreach (array_keys($data) as $dataKey) {
+                if (in_array($dataKey, $forbiddenFields)) {
+                    unset($data[$dataKey]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get forbidden fields for specified action
+     *
+     * @param string $action
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _getForbiddenFields(string $action) {
+        $fields = array();
+
+        if (in_array($action, $this->_valid_actions)) {
+            /** @var Mage_Core_Model_Config_Element $rr */
+            $forbidden_fields = Mage::getConfig()->getNode(self::XML_CONFIG_FORBIDDEN_FIELDS_PATH . $action);
+            if (!empty($forbidden_fields)) {
+                $fields = array_keys($forbidden_fields->asArray());
+            }
+        } else {
+            throw new InvalidArgumentException($this->_translateHelper->__('Invalid code of action'));
+        }
+
+        return $fields;
     }
 }

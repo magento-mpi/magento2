@@ -232,4 +232,24 @@ T: {{var telephone}}
             </address_templates>
         </customer>
     </default>
+    <service_layer>
+        <customer>
+            <forbidden_fields>
+                <create>
+                    <entity_id/>
+                    <entity_type_id/>
+                </create>
+                <update>
+                    <entity_id/>
+                    <entity_type_id/>
+                    <created_in/>
+                    <website_id/>
+                </update>
+                <validate>
+                    <store_id/>
+                    <website_id/>
+                </validate>
+            </forbidden_fields>
+        </customer>
+    </service_layer>
 </config>
