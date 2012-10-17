@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
+            'legend' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
         ));
 
         $rates = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
@@ -84,7 +84,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 'value' => $selectedCustomerTax,
                 'required' => true,
                 'after_element_html' => $selectAfterHtml,
-            )
+            ),
+            false,
+            true
         );
 
         // Editable multiselect for product tax class
@@ -110,7 +112,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 'value' => $selectedProductTax,
                 'required' => true,
                 'after_element_html' => $selectAfterHtml,
-            )
+            ),
+            false,
+            true
         );
 
         $fieldset->addField('tax_rate', 'multiselect',
@@ -131,7 +135,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 'value'     => (int) $model->getPriority(),
                 'required'  => true,
                 'note'      => Mage::helper('Mage_Tax_Helper_Data')->__('Tax rates at the same priority are added, others are compounded.'),
-            )
+            ),
+            false,
+            true
         );
         $fieldset->addField('position', 'text',
             array(
@@ -140,7 +146,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPosition(),
                 'required'  => true,
-            )
+            ),
+            false,
+            true
         );
 
         if ($model->getId() > 0 ) {
@@ -152,6 +160,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 )
             );
         }
+
+        $fieldset->setAdvancedLabel(Mage::helper('Mage_Tax_Helper_Data')->__('Additional Settings for Tax Rules (collapsed) including Customer & Product Tax Classes'));
 
         $form->addValues($model->getData());
         $form->setAction($this->getUrl('*/tax_rule/save'));

@@ -157,6 +157,7 @@
                 },
                 dataType: 'json',
                 url: this.newUrl,
+                context: select,
                 success: function(result, status) {
                     if (result.success) {
                         // Add item to initial select element
@@ -209,6 +210,7 @@
                 },
                 dataType: 'json',
                 url: this.deleteUrl,
+                context: select,
                 success: function(result, status) {
                     if (result.success) {
                         deleteButton.parent().remove();
