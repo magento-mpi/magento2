@@ -46,12 +46,12 @@ class Magento_Test_Db_Mssql extends Magento_Test_Db_DbAbstract
     protected function _getSqlClientCmd()
     {
         if (!$this->_sqlClientCmd) {
-            if ($this->_validateCommand('sqlcmd -?')) {
-                $this->_sqlClientCmd = 'sqlcmd';
-            } else if ($this->_validateCommand('tsql -C')) {
+            if ($this->_validateCommand('tsql -C')) {
                 $this->_sqlClientCmd = 'tsql';
+            } else if ($this->_validateCommand('sqlcmd -?')) {
+                $this->_sqlClientCmd = 'sqlcmd';
             } else {
-                throw new Magento_Exception('Neither command line utility "sqlcmd" nor "tsql" is installed.');
+                throw new Magento_Exception('Neither command line utility "tsql" nor "sqlcmd" is installed.');
             }
         }
         return $this->_sqlClientCmd;

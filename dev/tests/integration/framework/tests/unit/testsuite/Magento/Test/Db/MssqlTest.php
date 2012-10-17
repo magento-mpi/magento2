@@ -85,23 +85,24 @@ exit
 
     /**
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Neither command line utility "sqlcmd" nor "tsql" is installed.
+     * @expectedExceptionMessage Neither command line utility "tsql" nor "sqlcmd" is installed.
      */
     public function testCleanupSqlClientNotInstalled()
     {
         $commandException = new Magento_Exception('command not found');
-        $this->_expectCommand('sqlcmd -?', $this->at(0), $this->throwException($commandException));
-        $this->_expectCommand('tsql -C', $this->at(1), $this->throwException($commandException));
+        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException($commandException));
+        $this->_expectCommand('sqlcmd -?', $this->at(1), $this->throwException($commandException));
         $this->_model->cleanup();
     }
 
     public function testCleanupSqlClientSqlcmd()
     {
         $expectedSqlFile = __DIR__ . DIRECTORY_SEPARATOR . 'mssql_cleanup_database.sql';
-        $this->_expectCommand('sqlcmd -?', $this->at(0));
+        $this->_expectCommand('tsql -C', $this->at(0), $this->throwException(new Magento_Exception('tsql not found')));
+        $this->_expectCommand('sqlcmd -?', $this->at(1));
         $this->_expectSqlFileCreation($expectedSqlFile);
         $this->_shell
-            ->expects($this->at(1))
+            ->expects($this->at(2))
             ->method('execute')
             ->with('sqlcmd -S %s -U %s -P %s < %s', array('host', 'user', 'pass', $expectedSqlFile))
         ;
@@ -111,12 +112,10 @@ exit
     public function testCleanupSqlClientTsql()
     {
         $expectedSqlFile = __DIR__ . DIRECTORY_SEPARATOR . 'mssql_cleanup_database.sql';
-        $commandException = new Magento_Exception('sqlcmd not found');
-        $this->_expectCommand('sqlcmd -?', $this->at(0), $this->throwException($commandException));
-        $this->_expectCommand('tsql -C', $this->at(1));
+        $this->_expectCommand('tsql -C', $this->at(0));
         $this->_expectSqlFileCreation($expectedSqlFile);
         $this->_shell
-            ->expects($this->at(2))
+            ->expects($this->at(1))
             ->method('execute')
             ->with('tsql -S %s -U %s -P %s < %s', array('host', 'user', 'pass', $expectedSqlFile))
         ;
