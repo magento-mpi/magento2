@@ -1,56 +1,90 @@
 <?php
 /**
- * {license_notice}
+ * Magento API Resources config.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
+use Zend\Code\Scanner\DirectoryScanner,
+    Zend\Server\Reflection;
 
-/**
- * API Resource Config
- *
- * @category Mage
- * @package  Mage_Webapi
- * @author   Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
+class Mage_Webapi_Model_Config_Resource
 {
-
-    const MAGENTO_NAMESPACE = 'tns';
+    /**
+     * @var DirectoryScanner
+     */
+    protected $_directoryScanner;
 
     /**
-     * List of all defined custom data types
+     * @var Magento_Autoload
      */
-    protected $_dataTypes = array();
+    protected $_autoloader;
 
     /**
-     * List of all defined parameter sets
+     * @var Mage_Core_Model_Config
      */
-    protected $_params = array();
-
-    /**
-     * Array of names of <element> tags with parameters indexed by corresponding <message> tag name
-     */
-    protected $_paramsElementNameByMessageName = array();
-
-    /** @var Mage_Core_Model_Config */
     protected $_applicationConfig;
 
+    /**
+     * @var Reflection
+     */
+    protected $_serverReflection;
 
     /**
-     * Initialize Magento config.
+     * Resources configuration data.
      *
-     * @param array $configFiles
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @var array
      */
-    public function __construct(array $configFiles, Mage_Core_Model_Config $applicationConfig = null)
-    {
-        $this->_applicationConfig = $applicationConfig ? $applicationConfig : Mage::getConfig();
-        parent::__construct($configFiles);
-    }
+    protected $_data;
 
+    /**
+     * Class map for auto loader.
+     *
+     * @var array
+     */
+    protected $_classMap;
+
+
+    /**
+     * Initialize API resources config.
+     *
+     * @param array $options
+     */
+    public function __construct(array $options)
+    {
+        if (isset($options['directoryScanner']) && $options['directoryScanner'] instanceof DirectoryScanner) {
+            $this->_directoryScanner = $options['directoryScanner'];
+        } else {
+            $directories = array();
+            /** @var Mage_Core_Model_Config_Element $module */
+            foreach (Mage::getConfig()->getNode('modules')->children() as $moduleName => $module) {
+                if ($module->is('active')) {
+                    $directory = Mage::getConfig()->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
+                    if (is_dir($directory)) {
+                        $directories[] = $directory;
+                    }
+                }
+            }
+            $this->_directoryScanner = new DirectoryScanner($directories);
+        }
+
+        if (isset($options['autoloader']) && $options['autoloader'] instanceof Magento_Autoload) {
+            $this->_autoloader = $options['autoloader'];
+        } else {
+            $this->_autoloader = Magento_Autoload::getInstance();
+        }
+
+        if (isset($options['applicationConfig']) && $options['applicationConfig'] instanceof Mage_Core_Model_Config) {
+            $this->_applicationConfig = $options['applicationConfig'];
+        } else {
+            $this->_applicationConfig = Mage::getConfig();
+        }
+
+        if (isset($options['serverReflection']) && $options['serverReflection'] instanceof Reflection) {
+            $this->_serverReflection = $options['serverReflection'];
+        } else {
+            $this->_serverReflection = new Reflection();
+        }
+    }
 
     /**
      * Retrieve method data for given resource name and method name.
@@ -96,6 +130,13 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     public function getResources()
     {
         return $this->_data['resources'];
+    }
+
+    public function getResource($resourceName, $resourceVersion)
+    {
+        $this->_extractData();
+
+        return $this->_data[$resourceName]['versions'][$resourceVersion];
     }
 
     /**
@@ -162,309 +203,122 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Extract configuration data from the DOM structure
+     * Extract configuration data from the action controllers files.
      *
-     * @param DOMDocument $dom
-     * @throws Magento_Exception
+     * @throws InvalidArgumentException
+     * @throws LogicException
      * @return array
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData()
     {
-        $this->_paramsElementNameByMessageName = $this->_extractMessages($dom);
-        $this->_dataTypes = $this->_extractDataTypes($dom);
-        $this->_params = $this->_extractOperationsParams($dom);
-
-        $result = array();
-        $result['resources'] = array();
-        $result['operations'] = array();
-        $result['types'] = $this->_dataTypes;
-
-        /** @var DOMElement $portType */
-        foreach ($dom->getElementsByTagName('portType') as $portType) {
-            $resourceName = $portType->getAttribute('name');
-            $moduleName = $portType->getAttribute(self::MAGENTO_NAMESPACE . ':moduleName');
-            /** @var DOMElement $operation */
-            foreach ($portType->getElementsByTagName('operation') as $operation) {
-                $operationName = $operation->getAttribute('name');
-                // operation name consists of resource name and method name
-                if (strpos($operationName, $resourceName) !== 0) {
-                    throw new Magento_Exception(
-                        sprintf('Operation "%s" is not related to resource "%s".', $operationName, $resourceName));
+        if (is_null($this->_data)) {
+            /** @var \Zend\Code\Scanner\FileScanner $file */
+            foreach ($this->_directoryScanner->getFiles(true) as $file) {
+                $filename = $file->getFile();
+                $classes = $file->getClasses();
+                if (count($classes) > 1) {
+                    throw new LogicException(sprintf('There can be only one class in controller file "%s".', $filename));
                 }
-                $methodName = lcfirst(substr($operationName, strlen($resourceName)));
-                $result['resources'][$resourceName][$methodName] = $this->_getOperationData($operation);
-                $result['operations'][$operationName] = array(
-                    'resource_name' => $resourceName,
-                    'method_name' => $methodName,
-                    'module_name' => $moduleName
-                );
+                /** @var \Zend\Code\Scanner\ClassScanner $class */
+                $class = reset($classes);
+                $className = $class->getName();
+                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
+                    $resourceData = array();
+                    $resourceData['controller'] = $className;
+                    $this->_addFileToClassMap($className, $filename);
+                    /** @var \Zend\Server\Reflection\ReflectionMethod $method */
+                    foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
+                        $methodName = $method->getName();
+                        $regEx = sprintf('/(%s)(V\d+)/', implode('|', $this->_getAllowedMethods()));
+                        if (preg_match($regEx, $methodName, $methodMatches)) {
+                            $operation = $methodMatches[1];
+                            $version = lcfirst($methodMatches[2]);
+                            $resourceData['versions'][$version]['operations'][$operation] = $this->_getMethodData($method);
+                        }
+                    }
+
+                    // TODO: implement duplicates & 'Mage' removal
+                    $resourceName = $matches[1] . '_' . $matches[2];
+                    $this->_data[$resourceName] = $resourceData;
+                }
+            }
+
+            if (empty($this->_data)) {
+                throw new InvalidArgumentException('Can not populate config - no action controllers were found.');
             }
         }
-        return $result;
+
+        return $this->_data;
     }
 
     /**
-     * Get array of names of <element> tags with parameters.
-     * Returned array is indexed by corresponding <message> tag name.
-     *
-     * @param DOMDocument $dom
+     * @param Zend\Server\Reflection\ReflectionMethod $method
+     * @throws InvalidArgumentException
      * @return array
      */
-    protected function _extractMessages(DOMDocument $dom)
+    protected function _getMethodData(\Zend\Server\Reflection\ReflectionMethod $method)
     {
-        $messages = array();
-        /** @var DOMElement $message */
-        foreach ($dom->getElementsByTagName('message') as $message) {
-            // definitions/message/part
-            $part = $message->getElementsByTagName('part')->item(0);
-            $elementName = $this->_truncateNamespace($part->getAttribute('element'));
-            $messages[$message->getAttribute('name')] = $elementName;
+        $methodData = array(
+            'documentation' => $method->getDescription(),
+        );
+
+        // TODO: copy-past from Zend_Soap_AutoDiscover, review
+        $prototype = null;
+        $maxNumArgumentsOfPrototype = -1;
+        /** @var \Zend\Server\Reflection\Prototype $tmpPrototype */
+        foreach ($method->getPrototypes() as $tmpPrototype) {
+            $numParams = count($tmpPrototype->getParameters());
+            if ($numParams > $maxNumArgumentsOfPrototype) {
+                $maxNumArgumentsOfPrototype = $numParams;
+                $prototype = $tmpPrototype;
+            }
         }
-        return $messages;
-    }
-
-    /**
-     * Get data about all sets of parameters
-     *
-     * @param DOMDocument $dom
-     * @return array
-     */
-    protected function _extractOperationsParams(DOMDocument $dom)
-    {
-        $result = array();
-        $xpath = new DOMXPath($dom);
-        $elements = $xpath->query('/wsdl:definitions/wsdl:types/xs:schema/xs:element');
-        /** @var DOMElement $element */
-        foreach ($elements as $element) {
-            $result[$element->getAttribute('name')] = $this->_getParams($element);
-        }
-        return $result;
-    }
-
-    /**
-     * Get all defined custom data types
-     *
-     * @param DOMDocument $dom
-     * @return array
-     */
-    protected function _extractDataTypes(DOMDocument $dom)
-    {
-        $result = array();
-        $xpath = new DOMXPath($dom);
-        $types = $xpath->query('/wsdl:definitions/wsdl:types/xs:schema/xs:complexType');
-        /** @var DOMElement $type */
-        foreach ($types as $type) {
-            $result[$type->getAttribute('name')] = $this->_getParams($type);
-        }
-        return $result;
-    }
-
-    /**
-     * Get full operation description: description, input and output parameters
-     *
-     * @param DOMElement $operation
-     * @return array
-     */
-    protected function _getOperationData(DOMElement $operation)
-    {
-        $result = array();
-        $result['description'] = $operation->getElementsByTagName('documentation')->item(0)->nodeValue;
-        $result['input'] = $this->_getOperationParams($operation->getElementsByTagName('input')->item(0));
-        $result['output'] = $this->_getOperationParams($operation->getElementsByTagName('output')->item(0));
-
-        return $result;
-    }
-
-    /**
-     * Get operation's parameters for its given input or output element
-     *
-     * @param DOMElement $operationInputOutputElement
-     * @return array
-     * @throws Magento_Exception
-     */
-    protected function _getOperationParams(DOMElement $operationInputOutputElement)
-    {
-        // definitions/portType/operation/input[@message]
-        // definitions/portType/operation/output[@message]
-        $messageName = $this->_truncateNamespace($operationInputOutputElement->getAttribute('message'));
-        if (!array_key_exists($messageName, $this->_paramsElementNameByMessageName)) {
-            throw new Magento_Exception(
-                sprintf('There is no proper element with parameters for message "%s".', $messageName));
+        if (is_null($prototype)) {
+            throw new InvalidArgumentException(sprintf('No prototypes could be found for the "%s" function.',
+                $method->getName()));
         }
 
-        $paramsElementName = $this->_paramsElementNameByMessageName[$messageName];
-        if (!array_key_exists($paramsElementName, $this->_params)) {
-            throw new Magento_Exception(
-                sprintf('There is no element "%s" with parameters.', $paramsElementName));
-        }
-        return $this->_params[$paramsElementName];
-    }
-
-    /**
-     * Get list of parameters for given element
-     *
-     * @param DOMElement $element
-     * @return array
-     */
-    protected function _getParams(DOMElement $element)
-    {
-        $result = array();
-        $params = $element->getElementsByTagName('element');
-        foreach ($params as $param) {
-            $result[$param->getAttribute('name')] = array(
-                'type' => $this->_getType($param),
-                'required' => $this->_getIsRequired($param),
-                'maxOccurs' => $this->_getMaxOccurs($param),
+        /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
+        foreach ($prototype->getParameters() as $parameter) {
+            $methodData['interface']['in']['parameters'][$parameter->getName()] = array(
+                'type' => $parameter->getType(),
+                'required' => !$parameter->isOptional(),
+                'documentation' => $parameter->getDescription(),
             );
         }
-        return $result;
-    }
 
-    /**
-     * Get if given parameter is required
-     *
-     * @param DOMElement $param
-     * @return boolean
-     */
-    protected function _getIsRequired(DOMElement $param)
-    {
-        return (bool)$param->getAttribute('minOccurs');
-    }
-
-    /**
-     * Get the number of occurrences for given parameter in request or response
-     * Can be numeric string or "unbounded"
-     *
-     * @param DOMElement $param
-     * @return string
-     */
-    protected function _getMaxOccurs(DOMElement $param)
-    {
-        $maxOccurs = $param->getAttribute('maxOccurs');
-        if ($maxOccurs === '') {
-            $maxOccurs = '1';
+        if ($prototype->getReturnType() != 'void') {
+            $methodData['interface']['out']['result'] = array(
+                'type' => $prototype->getReturnType(),
+                'documentation' => $prototype->getReturnValue()->getDescription()
+            );
         }
-        return $maxOccurs;
+
+        return $methodData;
     }
 
     /**
-     * Get type for given parameter.
-     * Can be simple type (string, int, etc) or complex type defined in config
+     * Add path to class to class map and auto loader.
      *
-     * @param DOMElement $param
-     * @return string
+     * @param string $className
+     * @param string $filename
      */
-    protected function _getType(DOMElement $param)
+    protected function _addFileToClassMap($className, $filename)
     {
-        return $this->_truncateNamespace($param->getAttribute('type'));
+        $relativePath = str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $filename);
+        $this->_classMap[$className] = $relativePath;
+
+        $this->_autoloader->addFilesMap($this->_classMap);
     }
 
     /**
-     * Remove namespace prefix from given string
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function _truncateNamespace($string)
-    {
-        if (strpos($string, ':') !== false) {
-            $array = explode(':', $string);
-            $string = $array[1];
-        }
-        return $string;
-    }
-
-    /**
-     * Get absolute path to validation.xsd
-     *
-     * @return string
-     */
-    public function getSchemaFile()
-    {
-        return __DIR__ . '/resource.xsd';
-    }
-
-    /**
-     * Retrieve config DOM Document
-     *
-     * @return DOMDocument
-     */
-    public function getDom()
-    {
-        return $this->_domConfig->getDom();
-    }
-
-    /**
-     * Get initial XML of a valid document
-     *
-     * @return string
-     */
-    protected function _getInitialXml()
-    {
-        return '<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="Magento"
-              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-              xmlns:' . self::MAGENTO_NAMESPACE . '="urn:Magento"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
-              targetNamespace="urn:Magento"></wsdl:definitions>';
-    }
-
-    /**
-     * Merge the config XML-files.
-     * Additionally, moduleName attribute is dynamically added to all portType nodes.
-     *
-     * @param array $configFiles
-     * @return DOMDocument
-     * @throws Magento_Exception if a non-existing or invalid XML-file passed
-     */
-    protected function _merge($configFiles)
-    {
-        foreach ($configFiles as $configPath) {
-            if (!file_exists($configPath)) {
-                throw new Magento_Exception("File does not exist: {$configPath}");
-            }
-            $moduleConfigDom = new DOMDocument();
-            $moduleConfigDom->loadXML(file_get_contents($configPath));
-            $this->_addModuleNameToPortType($moduleConfigDom, $configPath);
-            $this->_getDomConfigModel()->merge($moduleConfigDom->saveXML());
-            if ($this->_isRuntimeValidated()) {
-                $this->_performValidate($configPath);
-            }
-        }
-        return $this->_getDomConfigModel()->getDom();
-    }
-
-    /**
-     * Dynamically add 'moduleName' attribute to 'portType' node of $moduleConfigDom
-     *
-     * @param DOMDocument $moduleConfigDom
-     * @param string $configPath
-     */
-    protected function _addModuleNameToPortType(&$moduleConfigDom, $configPath)
-    {
-        $configPathWithoutCodeDir = str_replace($this->_applicationConfig->getOptions()->getCodeDir(), '', $configPath);
-        list($codePool, $namespace, $moduleName) = explode(DS, trim($configPathWithoutCodeDir, DS));
-        $configModuleIdentifier = "{$namespace}_{$moduleName}";
-        /** @var DOMElement $portType */
-        foreach ($moduleConfigDom->getElementsByTagName('portType') as $portType) {
-            $portType->setAttribute(self::MAGENTO_NAMESPACE . ':moduleName', $configModuleIdentifier);
-        }
-    }
-
-    /**
-     * Define id attributes for entities
+     * Retrieve list of allowed method names in action controllers.
      *
      * @return array
      */
-    protected function _getIdAttributes()
+    protected function  _getAllowedMethods()
     {
-        return array(
-            '/wsdl:definitions/wsdl:portType' => 'name',
-            '/wsdl:definitions/wsdl:portType/wsdl:operation' => 'name',
-            '/wsdl:definitions/wsdl:message' => 'name',
-            '/wsdl:definitions/wsdl:types/xs:schema/xs:complexType' => 'name',
-            '/wsdl:definitions/wsdl:types/xs:schema/xs:complexType/xs:sequence/xs:element' => 'name',
-            '/wsdl:definitions/wsdl:types/xs:schema/xs:element' => 'name',
-        );
+        // TODO: move to constants?
+        return array('create', 'get', 'list', 'update', 'delete', 'multiUpdate', 'multiDelete');
     }
 }

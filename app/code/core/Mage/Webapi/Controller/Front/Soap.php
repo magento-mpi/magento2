@@ -204,7 +204,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
+            $this->_initResourceConfig();
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
@@ -245,6 +245,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getWsdlContent()
     {
         $requestedModules = $this->getRequest()->getRequestedModules();
+
+        $resources = array();
+        // TODO: implement resources loading and wsdl generation
+        foreach ($requestedModules as $moduleName => $moduleVersion) {
+            $resources[$moduleName] = $this->getResourceConfig()->getResource($moduleName, $moduleVersion);
+        }
+
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
