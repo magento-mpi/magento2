@@ -151,6 +151,11 @@
                 </observers>
             </show_synchronize_message>
         </events>
+        <di>
+            <preferences>
+                <Mage_Core_Model_Url>Mage_Backend_Model_Url</Mage_Core_Model_Url>
+            </preferences>
+        </di>
     </adminhtml>
     <install>
         <translate>
