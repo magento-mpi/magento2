@@ -1,0 +1,23 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Category
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+category_page_before_reindex:
+    uimap: &categoryUIMap
+        form:
+            fieldsets:
+                -
+                    category_view:
+                        links:
+                            click_for_price: //a[contains(text(),'Click for price')]
+
+
+

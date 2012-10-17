@@ -11,7 +11,7 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form: &searchProductGrid
@@ -19,6 +19,8 @@ manage_products:
                 -
                     product_grid:
                         xpath: //div[@id='productGrid']
+                        links:
+                            selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -61,6 +63,7 @@ manage_products:
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
             no_records_found: //td[text()='No records found.']
+            sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
@@ -134,7 +137,7 @@ new_product:
                                         general_url_key: //input[@id='url_key']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                     multiselects:
-                                        general_user_attr_multiselect: //input[@id='%attributeCodeMultiselect%']
+                                        general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span
@@ -389,7 +392,8 @@ new_product:
                                 custom_option_set:
                                     xpath: //div[@class='option-box']
                                     buttons:
-                                        delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
+                                        delete_option: //button[span='Delete Option' and ancestor::div[@id ='option_%optionId%']]
+                                        delete_custom_option: //button[span='Delete Option']
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
                                     dropdowns:
@@ -407,6 +411,9 @@ new_product:
                                         custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
                                         custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
                                         custom_options_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                                        custom_options_rows: //tbody[@id='select_option_type_row_%optionId%']/tr
+                                    checkboxes:
+                                        custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
                 -
                     bundle_items: &bundleItemsTab
                         xpath: //a[@title='Bundle Items']/span
@@ -619,6 +626,27 @@ edit_product:
                                         tag_search_name: //input[@name='name']
                                         tag_search_num_of_use_from: //input[@name='popularity[from]']
                                         tag_search_num_of_use_to: //input[@name='popularity[to]']
+                                    pageelements:
+                                        tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
+                                        tags_grid: //table[@id='tag_grid_table']
+                -
+                    customer_tags:
+                        xpath: //a[@title='Customers Tagged Product']/span
+                        fieldsets:
+                            -
+                                customer_tags:
+                                    xpath: //div[@id='tag_customers_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        tag_customer_search_name: //input[@name='name']
+                                        tag_customer_search_first_name: //input[@name='firstname']
+                                        tag_customer_search_last_name: //input[@name='lastname']
+                                        tag_customer_search_email: //input[@name='email']
+                                    pageelements:
+                                        tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
+                                        tags_grid: //table[@id='tag_customers_grid_table']
                 -
                     custom_options: *customOptionsTab
                 -
@@ -676,6 +704,16 @@ edit_product_save_and_continue:
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
+edit_new_product_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_new_configurable_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/attributes/%attributeTitle%/set/%setId%/type/%productType%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
 create_empty_simple_from_configurable:
     mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/
     title: New Product / Manage Products / Catalog / Magento Admin
@@ -703,3 +741,13 @@ created_empty_simple_from_configurable:
         buttons:
             close_window: //button[span='Close Window']
         messages: *productMesssages
+
+new_product_after_changed_attribute_set:
+    mca: catalog_product/new/type/%productType%/?set=%setId%
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
