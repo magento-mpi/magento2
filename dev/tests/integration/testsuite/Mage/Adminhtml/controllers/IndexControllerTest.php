@@ -19,8 +19,6 @@ class Mage_Adminhtml_IndexControllerTest extends Mage_Adminhtml_Utility_Controll
      */
     public function testChangeLocaleAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $expected = 'de_DE';
         $this->getRequest()->setParam('locale', $expected);
         $this->dispatch('backend/admin/index/changeLocale');

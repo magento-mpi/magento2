@@ -18,8 +18,6 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utili
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         /** @var $store Mage_Core_Model_Store */
         $store = Mage::getModel('Mage_Core_Model_Store');
         $store->load('fixturestore', 'code');

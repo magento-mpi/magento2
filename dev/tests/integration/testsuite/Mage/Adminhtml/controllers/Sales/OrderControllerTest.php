@@ -13,8 +13,6 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
 {
     public function testIndexAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->dispatch('backend/admin/sales_order/index');
         $this->assertContains('Total 0 records found', $this->getResponse()->getBody());
     }
@@ -24,8 +22,6 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testIndexActionWithOrder()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->dispatch('backend/admin/sales_order/index');
         $this->assertContains('Total 1 records found', $this->getResponse()->getBody());
     }
@@ -35,8 +31,6 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testOrderViewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
@@ -56,8 +50,6 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testAddressActionNoVAT()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         /** @var $address Mage_Sales_Model_Order_Address */
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('a_unique_firstname', 'firstname');

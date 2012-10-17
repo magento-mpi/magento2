@@ -21,10 +21,11 @@ class Mage_Adminhtml_Controller_ActionTest extends Magento_Test_TestCase_Control
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Adminhtml_Controller_Action',
             array(
-                'request' => new Magento_Test_Request(),
-                'response' => new Magento_Test_Response(),
-                'objectManager' => Mage::getObjectManager(),
-                'frontController' => new Mage_Core_Controller_Varien_Front())
+                'request'         => new Magento_Test_Request(),
+                'response'        => new Magento_Test_Response(),
+                'objectManager'   => Mage::getObjectManager(),
+                'frontController' => Mage::getModel('Mage_Core_Controller_Varien_Front')
+            )
         );
     }
 

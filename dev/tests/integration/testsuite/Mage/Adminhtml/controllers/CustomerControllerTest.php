@@ -40,8 +40,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
 
     public function testSaveActionWithEmptyPostData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->getRequest()->setPost(array());
         $this->dispatch('backend/admin/customer/save');
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key'));
@@ -49,8 +47,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
 
     public function testSaveActionWithInvalidFormData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -72,8 +68,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
 
     public function testSaveActionWithInvalidCustomerAddressData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -104,8 +98,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
      */
     public function testSaveActionWithValidCustomerDataAndValidAddressData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
