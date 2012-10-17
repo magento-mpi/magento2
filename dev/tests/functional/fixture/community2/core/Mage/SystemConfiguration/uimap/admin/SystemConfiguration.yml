@@ -201,6 +201,12 @@ system_configuration:
                             -
                                 minimum_advertised_price:
                                     xpath: //fieldset[@id='sales_msrp']
+                            -
+                                general:
+                                    xpath: //fieldset[@id='sales_general']
+                            -
+                                dashboard_sales:
+                                    xpath: //fieldset[@id='sales_dashboard']
                 -
                     sales_sales_emails:
                         fieldsets:
@@ -298,10 +304,10 @@ system_configuration:
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
-    uimap: *systemConfiguration
+    uimap: *system_configuration_uimap
 
 system_configuration_website:
-    uimap: *systemConfiguration
+    uimap: *system_configuration_uimap
 
 system_configuration_store:
-    uimap: *systemConfiguration
+    uimap: *system_configuration_uimap

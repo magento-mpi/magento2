@@ -66,7 +66,6 @@ configuration_menu_default:
     catalog_catalog:
         product_reviews:
         frontend:
-        sitemap:
         product_alerts:
         product_alerts_run_settings:
         product_image_placeholders:
@@ -120,6 +119,9 @@ configuration_menu_default:
         reward_reward_points:
         reward_reward_actions:
         reward_email:
+    customers_promotions:
+        customer_automated_email_rule:
+        auto_generated_specific_coupon_codes:
     customer_gift_registry:
         gift_registry_general:
         order_notification:
@@ -313,7 +315,6 @@ configuration_menu_website:
     catalog_catalog:
         product_reviews:
         frontend:
-        sitemap:
         product_alerts:
         product_image_placeholders:
         recently_viewed_compared_products:
@@ -480,4 +481,3 @@ configuration_menu_website:
         log_settings:
         javascript_settings:
         css_settings:
-
