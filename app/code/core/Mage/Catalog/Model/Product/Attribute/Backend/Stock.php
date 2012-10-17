@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_
     {
         /** @var $object Mage_Catalog_Model_Product  */
         $stockData = $object->getData($this->getAttribute()->getAttributeCode());
-        $object->setStockData(array_replace($object->getStockData(), $stockData));
+        $object->setStockData(array_replace((array)$object->getStockData(), (array)$stockData));
         $object->unsetData($this->getAttribute()->getAttributeCode());
         parent::beforeSave($object);
     }
