@@ -7,15 +7,6 @@
  * @license     {license_link}
  */
 
-/**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
 .dialog { border:1px solid #555; }
 .dialog .bot { display:none !important; }
 .overlay_magento { background-color:#000; filter:alpha(opacity=60); -moz-opacity:.6; opacity:.6; -webkit-opacity:.6; }

@@ -11,7 +11,21 @@
 -->
 <layout>
     <adminhtml_customer_wishlist>
-        <block type="Enterprise_Wishlist_Block_Adminhtml_Customer_Edit_Tab_Wishlist" name="customer.wishlist.edit.tab" output="1" />
+        <reference name="customer.wishlist.edit.tab">
+            <arguments>
+                <dataSource>
+                    <updater>Enterprise_Wishlist_Model_Resource_Item_Collection_Updater</updater>
+                </dataSource>
+            </arguments>
+            <reference name="customer.wishlist.edit.tab.columnSet">
+                <block type="Mage_Backend_Block_Widget_Grid_Column" as="wishlist_name" before="-">
+                    <arguments>
+                        <header translate="true" module="Enterprise_Wishlist">Wishlist</header>
+                        <index>wishlist_name</index>
+                    </arguments>
+                </block>
+            </reference>
+        </reference>
     </adminhtml_customer_wishlist>
     <adminhtml_sales_order_create_index>
         <reference name="sidebar">

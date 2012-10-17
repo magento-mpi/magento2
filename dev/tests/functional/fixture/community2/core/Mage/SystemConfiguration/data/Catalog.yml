@@ -1,0 +1,26 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+enable_tag_rss:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_rss_feeds
+        configuration:
+            general_enable_rss: Enable
+            tags_products: Enable
+disable_tag_rss:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_rss_feeds
+        configuration:
+            general_enable_rss: Enable
+            tags_products: Disable

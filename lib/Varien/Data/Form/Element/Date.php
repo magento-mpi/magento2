@@ -33,7 +33,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
     }
 
     /**
-     * If script executes on x64 system, converts large 
+     * If script executes on x64 system, converts large
      * numeric values to timestamp limit
      */
     protected function _toTimestamp($value)
@@ -46,7 +46,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
 
         return $value;
     }
-    
+
 
     /**
      * Set date value
@@ -139,8 +139,10 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         $this->addClass('input-text');
 
         $html = sprintf(
-            '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />',
-            $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes())
+            '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" ' . $this->_getUiId('hidden') . '/>'
+            .' <img src="%s" alt="" class="v-middle" id="%s_trig" title="%s" style="%s" ' . $this->_getUiId('calendar-button') . '/>',
+            $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes()),
+            $this->getImage(), $this->getHtmlId(), 'Select Date', ($this->getDisabled() ? 'display:none;' : '')
         );
         $dateFormat = $this->getDateFormat();
         $timeFormat = $this->getTimeFormat();

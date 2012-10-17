@@ -24,7 +24,7 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Item extends Mage_Backend_Block_
     /**
      * Set parent massaction block
      *
-     * @param  Mage_Backend_Block_Widget_Grid_Massaction_Abstract $massaction
+     * @param  Mage_Backend_Block_Widget_Grid_Massaction_Extended $massaction
      * @return Mage_Backend_Block_Widget_Grid_Massaction_Item
      */
     public function setMassaction($massaction)
@@ -36,7 +36,7 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Item extends Mage_Backend_Block_
     /**
      * Retrive parent massaction block
      *
-     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Extended
      */
     public function getMassaction()
     {

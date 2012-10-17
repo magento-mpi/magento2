@@ -182,15 +182,15 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         ))->setSize(5);
 
         if ($attribute->getId()) {
-            $elements = array();
             if ($attribute->getIsSystem()) {
-                $elements = array('sort_order', 'is_visible', 'is_required', 'used_in_forms');
+                foreach (array('sort_order', 'is_visible', 'is_required', 'used_in_forms') as $elementId) {
+                    $form->getElement($elementId)->setDisabled(true)->setIsSystem(true);
+                }
             }
             if (!$attribute->getIsUserDefined() && !$attribute->getIsSystem()) {
-                $elements = array('sort_order', 'used_in_forms');
-            }
-            foreach ($elements as $elementId) {
-                $form->getElement($elementId)->setDisabled(true);
+                foreach (array('sort_order', 'used_in_forms') as $elementId) {
+                    $form->getElement($elementId)->setDisabled(true);
+                }
             }
 
             $inputTypeProp = $helper->getAttributeInputTypes($attribute->getFrontendInput());
@@ -219,6 +219,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         // apply scopes
         foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
+            if ($element->getDisabled()) {
+                continue;
+            }
             $element->setScope($scope);
             if ($this->getAttributeObject()->getWebsite()->getId()) {
                 $element->setName('scope_' . $element->getName());
