@@ -15,7 +15,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
+class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 {
     /**
      * List of attributes which forbidden for validation
@@ -26,11 +26,6 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
         'store_id',
         'website_id'
     );
-
-    /**
-     * @var string|array
-     */
-    protected $_attributesToLoad = null;
 
     /**
      * List of fields which forbidden for updating
@@ -354,42 +349,24 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_Abstract
 
         return $customer;
     }
-    
-    /**
-     * Get customer by id
-     *
-     * @param int $customerId
-     * @return Mage_Customer_Model_Customer
-     */
-    public function get($customerId)
-    {
-        return $this->_loadCustomerById($customerId);
-    }
 
     /**
-     * Set list of attributes to load.
+     * Get customers list
      *
-     * '*' mean load all attributes.
-     *
-     * @param array|string $attributes
+     * @param array $data
+     * @param null|string|array $attributes
+     * @return array
      */
-    public function setAttributesToLoad($attributes)
-    {
-        $this->_attributesToLoad = $attributes;
-    }
-
-    /**
-     * Get customer collection instance
-     *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
-     */
-    protected function _getCollection()
+    public function getList(array $data = null, $attributes = null)
     {
         /** @var Mage_Customer_Model_Resource_Customer_Collection $collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        if ($this->_attributesToLoad) {
-            $collection->addAttributeToSelect($this->_attributesToLoad);
+        if ($attributes) {
+            $collection->addAttributeToSelect($attributes);
         }
-        return $collection;
+        if ($data) {
+            $this->_prepareCollection($collection, $data);
+        }
+        return $collection->getItems();
     }
 }

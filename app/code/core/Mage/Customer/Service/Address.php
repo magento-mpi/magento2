@@ -11,7 +11,7 @@
 /**
  * Customer address service.
  */
-class Mage_Customer_Service_Address extends Mage_Core_Service_Abstract
+class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
 {
     /**
      * Get all customer addresses by customer id.

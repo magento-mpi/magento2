@@ -11,7 +11,7 @@
 /**
  * Abstract Service Layer
  */
-abstract class Mage_Core_Service_Abstract
+abstract class Mage_Core_Service_ServiceAbstract
 {
     const PAGE_KEY = 'page';
     const LIMIT_KEY = 'limit';
@@ -44,41 +44,11 @@ abstract class Mage_Core_Service_Abstract
     }
 
     /**
-     * Get collection instance
-     *
-     * @return Varien_Data_Collection_Db|null
-     */
-    protected function _getCollection()
-    {
-        return null;
-    }
-
-    /**
-     * Get list
-     *
-     * @param array $data
-     * @return array
-     * @throws RuntimeException
-     */
-    public function getList(array $data = null)
-    {
-        $collection = $this->_getCollection();
-        if (!$collection instanceof Varien_Data_Collection_Db) {
-            throw new RuntimeException(
-                $this->_translateHelper->__('To use getList _getCollection must be implemented'));
-        }
-        if ($data) {
-            $this->_prepareCollection($collection, $data);
-        }
-        return $collection->getItems();
-    }
-
-    /**
      * Apply pager, sorting and filters to collection
      *
      * @param Varien_Data_Collection_Db $collection
      * @param array $data
-     * @return Mage_Core_Service_Abstract
+     * @return Mage_Core_Service_ServiceAbstract
      * @throws InvalidArgumentException
      */
     protected function _prepareCollection(Varien_Data_Collection_Db $collection, array $data)
@@ -96,7 +66,7 @@ abstract class Mage_Core_Service_Abstract
      *
      * @param Varien_Data_Collection_Db $collection
      * @param array $data
-     * @return Mage_Core_Service_Abstract
+     * @return Mage_Core_Service_ServiceAbstract
      * @throws InvalidArgumentException
      */
     protected function _applyCollectionPager(Varien_Data_Collection_Db $collection, array $data)
@@ -123,7 +93,7 @@ abstract class Mage_Core_Service_Abstract
      *
      * @param Varien_Data_Collection_Db $collection
      * @param array $data
-     * @return Mage_Core_Service_Abstract
+     * @return Mage_Core_Service_ServiceAbstract
      * @throws InvalidArgumentException
      */
     protected function _applyCollectionSorting(Varien_Data_Collection_Db $collection, array $data)
@@ -148,7 +118,7 @@ abstract class Mage_Core_Service_Abstract
      *
      * @param Varien_Data_Collection_Db $collection
      * @param array $data
-     * @return Mage_Core_Service_Abstract
+     * @return Mage_Core_Service_ServiceAbstract
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -159,7 +129,7 @@ abstract class Mage_Core_Service_Abstract
         }
 
         $filter = $data[self::FILTER_KEY];
-        if (!$filter || !is_array($filter)) {
+        if (!is_array($filter)) {
             throw new InvalidArgumentException($this->_translateHelper->__('Invalid filter format'));
         }
         foreach ($filter as $filterEntry) {
