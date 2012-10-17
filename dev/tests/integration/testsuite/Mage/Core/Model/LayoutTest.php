@@ -15,37 +15,6 @@
 class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {
     /**
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
-
-    public static function setUpBeforeClass()
-    {
-        /* Point application to predefined layout fixtures */
-        Mage::getConfig()->setOptions(array(
-            'design_dir' => dirname(__FILE__) . '/_files/design',
-        ));
-        Mage::getDesign()->setDesignTheme('test/default/default');
-
-        /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
-    }
-
-    protected function setUp()
-    {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_layout->getUpdate()->addHandle('layout_test_handle_main');
-        $this->_layout->getUpdate()->load('layout_test_handle_extra');
-    }
-
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
-    /**
      * @param array $inputArguments
      * @param string $expectedArea
      * @dataProvider constructorDataProvider
@@ -144,33 +113,14 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
     public function testLayoutDirectives()
     {
         /**
-         * Test correct move
-         */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $layout->getUpdate()->load(array('layout_test_handle_move'));
-        $layout->generateXml()->generateElements();
-        $this->assertEquals('container2', $layout->getParentName('container1'));
-        $this->assertEquals('container1', $layout->getParentName('no.name2'));
-        $this->assertEquals('block_container', $layout->getParentName('no_name3'));
-
-        // verify `after` attribute
-        $this->assertEquals('block_container', $layout->getParentName('no_name'));
-        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name')));
-        $positionAfter = array_search('child_block1', $childrenOrderArray);
-        $positionToVerify = array_search('no_name', $childrenOrderArray);
-        $this->assertEquals($positionAfter, --$positionToVerify);
-
-        // verify `before` attribute
-        $this->assertEquals('block_container', $layout->getParentName('no_name4'));
-        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name4')));
-        $positionBefore = array_search('child_block2', $childrenOrderArray);
-        $positionToVerify = array_search('no_name4', $childrenOrderArray);
-        $this->assertEquals($positionBefore, ++$positionToVerify);
-
-        /**
          * Test move with the same alias
          */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure', array(), false);
+        $layoutParams = array(
+            'structure' => $dataStructure
+        );
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout', $layoutParams);
         $layout->getUpdate()->load(array('layout_test_handle_move_the_same_alias'));
         $layout->generateXml()->generateElements();
         $this->assertEquals('container1', $layout->getParentName('no_name3'));
@@ -201,6 +151,30 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
         $this->assertFalse($layout->getBlock('no_name2'));
         $this->assertFalse($layout->getBlock('child_block1'));
         $this->assertTrue($layout->isBlock('child_block2'));
+
+        /**
+         * Test correct move
+         */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout->getUpdate()->load(array('layout_test_handle_move'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('container2', $layout->getParentName('container1'));
+        $this->assertEquals('container1', $layout->getParentName('no.name2'));
+        $this->assertEquals('block_container', $layout->getParentName('no_name3'));
+
+        // verify `after` attribute
+        $this->assertEquals('block_container', $layout->getParentName('no_name'));
+        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name')));
+        $positionAfter = array_search('child_block1', $childrenOrderArray);
+        $positionToVerify = array_search('no_name', $childrenOrderArray);
+        $this->assertEquals($positionAfter, --$positionToVerify);
+
+        // verify `before` attribute
+        $this->assertEquals('block_container', $layout->getParentName('no_name4'));
+        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name4')));
+        $positionBefore = array_search('child_block2', $childrenOrderArray);
+        $positionToVerify = array_search('no_name4', $childrenOrderArray);
+        $this->assertEquals($positionBefore, ++$positionToVerify);
     }
 
     /**
@@ -342,7 +316,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
     public function testAddBlock()
     {
         $this->assertInstanceOf('Mage_Core_Block_Text', $this->_layout->addBlock('Mage_Core_Block_Text', 'block1'));
-        $block2 = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
+        $block2 = Mage::getObjectManager()->create('Mage_Core_Block_Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 

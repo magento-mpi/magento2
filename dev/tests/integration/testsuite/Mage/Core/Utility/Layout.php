@@ -71,8 +71,15 @@ class Mage_Core_Utility_Layout
     public function getLayoutDependencies()
     {
         return array(
-            'blockFactory' => Mage::getObjectManager()->create('Mage_Core_Model_BlockFactory', array(), false),
-            'structure'    => Mage::getObjectManager()->create('Magento_Data_Structure', array(), false)
+            'blockFactory'       => Mage::getObjectManager()->create('Mage_Core_Model_BlockFactory', array(), false),
+            'structure'          => Mage::getObjectManager()->create('Magento_Data_Structure', array(), false),
+            'argumentProcessor'  => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Argument_Processor',
+                array(), false
+            ),
+            'translator' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_Translator', array(), false),
+            'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
+                array(), false
+            )
         );
     }
 }
