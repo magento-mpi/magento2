@@ -85,15 +85,23 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
         $this->flushCache();
-        return array('catName' => $category['name'],
-            'names'   => array($simple['general_name'], $virtual['general_name']),
-            'verify'  => array('product_1_name' => $simple['general_name'],
+        return array(
+            'catName' => $category['name'],
+            'names'   => array(
+                $simple['general_name'],
+                $virtual['general_name']
+            ),
+            'verify'  => array(
+                'product_1_name' => $simple['general_name'],
                 'product_1_sku'  => $simple['general_sku'],
                 'product_2_name' => $virtual['general_name'],
-                'product_2_sku'  => $virtual['general_sku']));
+                'product_2_sku'  => $virtual['general_sku']
+            )
+        );
     }
 
     /**
+     * <p>Bug present MAGETWO-2829</p>
      * <p>Adds a product to Compare Products from Product Details page.</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
@@ -108,11 +116,10 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021
      * @author artem.anokhin
-     * @group skip_due_to_bug
-     * MAGETWO-2829
      */
     public function addProductToCompareListFromProductPage($data)
     {
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Data
         $verify = $this->loadDataSet('CompareProducts', 'verify_compare_data', null, $data['verify']);
         //Steps
@@ -131,6 +138,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Bug present MAGETWO-2829</p>
      * <p>Adds a products to Compare Products from Category page.</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
@@ -144,11 +152,10 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId @TestlinkId TL-MAGE-2020, TL-MAGE-2021
      * @author artem.anokhin
-     * @group skip_due_to_bug
-     * MAGETWO-2829
      */
     public function addProductToCompareListFromCatalogPage($data)
     {
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($value, $data['catName']);
@@ -165,6 +172,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Bug present MAGETWO-2829</p>
      * <p>Remove a product from CompareProducts block</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
@@ -180,11 +188,10 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3236
      * @author artem.anokhin
-     * @group skip_due_to_bug
-     * MAGETWO-2829
      */
     public function removeProductFromCompareBlockList($data)
     {
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($value, $data['catName']);
@@ -198,6 +205,7 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
     }
 
     /**
+     * <p>Bug present MAGETWO-2829</p>
      * <p>Compare Products block is not displayed without products</p>
      * <p>Steps:</p>
      * <p>1. Open product</p>
@@ -212,11 +220,10 @@ class Community2_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Seleniu
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3235
      * @author artem.anokhin
-     * @group skip_due_to_bug
-     * MAGETWO-2829
      */
     public function emptyCompareListIsNotAvailable($data)
     {
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($data['names'][0], $data['catName']);
         //Verifying
