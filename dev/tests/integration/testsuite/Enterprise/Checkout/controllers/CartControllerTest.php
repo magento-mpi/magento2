@@ -9,80 +9,161 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/../../../Mage/Checkout/controllers/CartControllerTest.php';
-class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControllerTest
+/**
+ * Test class for Enterprise_Checkout_CartController
+ */
+class Enterprise_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    protected $_products = array(
-        'bundle_product' => array(
-            'fixture' => 'Mage/Bundle/_files/product.php',
-            'expected' => array('<button type="button" title="Update Cart" class="button btn-cart"')
-        ),
-        'simple_product' => array(
-            'fixture' => 'Mage/Catalog/_files/product_simple.php',
-            'expected' => array('<button type="button" title="Update Cart" class="button btn-cart"')
-        ),
-        'downloadable_product' => array(
-            'fixture' => 'Mage/Downloadable/_files/product.php',
-            'expected' => array(
-                '<ul id="downloadable-links-list" class="options-list">',
-                '<button type="button" title="Update Cart" class="button btn-cart"')
-        ),
-        'configurable_product' => array(
-            'fixture' => 'Mage/Catalog/_files/product_configurable.php',
-            'expected' => array(
-                '<select name="super_attribute',
-                '<button type="button" title="Update Cart" class="button btn-cart"')
-        ),
-        'gift_card' => array(
-            'fixture' => 'Enterprise/GiftCard/_files/gift_card.php',
-            'expected' => array(
-                '<input type="text" id="giftcard_amount_input"',
-                '<button type="button" title="Update Cart" class="button btn-cart"')
-        )
-    );
-
     /**
-     * Test for Mage_Catalog_ProductController::configureAction()
+     * Test for Enterprise_Checkout_CartController::configureAction() with gift card product
+     *
+     * @magentoDataFixture Enterprise/Checkout/_files/quote_with_gift_card_product.php
      */
-    public function testConfigureAction()
+    public function testConfigureActionWithGiftCardProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
 
-        $this->_configureAction['gift_card'] = array(
-            'fixture' => 'Enterprise/Checkout/_files/product_gift.php',
-            'must_have' => array(
-                '<input type="text" id="giftcard_amount_input"',
-                '<button type="button" title="Update Cart" class="button btn-cart"')
-        );
-        parent::testConfigureAction();
+        $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
+
+        $this->dispatch('checkout/cart/configure/id/' . $quoteItem->getId());
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for gift card product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for gift card product doesn\'t contain "Update Cart" button');
+
+        $this->assertSelectCount('input#giftcard_amount_input[type="text"]', 1, $response->getBody(),
+            'Response for gift card product doesn\'t contain gift card amount input field');
     }
 
     /**
-     * @magentoAppIsolation enabled
+     * Test for Enterprise_Checkout_CartController::configureFailedAction() with simple product
+     *
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
-    public function testConfigureFailedAction()
+    public function testConfigureFailedActionWithSimpleProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
 
-        $this->setUp();
-        $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
-        foreach ($this->_products as $testCode => $testParams) {
-            $product = null;
-            $adapter->beginTransaction();
-            require __DIR__ . '/../../../' . $testParams['fixture'];
-            $this->getResponse()->clearBody();
-            $this->dispatch('checkout/cart/configureFailed/id/' . $product->getId());
-            $out = $this->getResponse()->getBody();
-            $adapter->rollBack();
-            foreach ($testParams['expected'] as $expected) {
-                $this->assertContains($expected, $out, 'Route checkout/cart/configureFailed ' . $testCode);
+        $this->dispatch('checkout/cart/configureFailed/id/1');
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for simple product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for simple product doesn\'t contain "Update Cart" button');
+    }
+
+    /**
+     * Test for Enterprise_Checkout_CartController::configureFailedAction() with bundle product
+     *
+     * @magentoDataFixture Mage/Bundle/_files/product.php
+     */
+    public function testConfigureFailedActionWithBundleProduct()
+    {
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+
+        $this->dispatch('checkout/cart/configureFailed/id/3');
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for bundle product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for bundle product doesn\'t contain "Update Cart" button');
+    }
+
+    /**
+     * Test for Enterprise_Checkout_CartController::configureFailedAction() with downloadable product
+     *
+     * @magentoDataFixture Mage/Downloadable/_files/product.php
+     */
+    public function testConfigureFailedActionWithDownloadableProduct()
+    {
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+
+        $this->dispatch('checkout/cart/configureFailed/id/1');
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for downloadable product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for downloadable product doesn\'t contain "Update Cart" button');
+
+        $this->assertSelectCount('ul#downloadable-links-list.options-list', 1, $response->getBody(),
+            'Response for downloadable product doesn\'t contain links for download');
+    }
+
+    /**
+     * Test for Enterprise_Checkout_CartController::configureFailedAction() with configurable product
+     *
+     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     */
+    public function testConfigureFailedActionWithConfigurableProduct()
+    {
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+
+        $this->dispatch('checkout/cart/configureFailed/id/1');
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for configurable product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for configurable product doesn\'t contain "Update Cart" button');
+
+        $this->assertSelectCount('select.super-attribute-select', 1, $response->getBody(),
+            'Response for configurable product doesn\'t contain select for super attribute');
+    }
+
+    /**
+     * Test for Enterprise_Checkout_CartController::configureFailedAction() with gift card product
+     *
+     * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
+     */
+    public function testConfigureFailedActionWithGiftCardProduct()
+    {
+        /** @var $session Mage_Checkout_Model_Session  */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+
+        $this->dispatch('checkout/cart/configureFailed/id/1');
+        $response = $this->getResponse();
+
+        $this->assertCount(0, $session->getMessages()->getErrors(),
+            'Response for gift card product contains errors');
+
+        $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
+            'Response for gift card product doesn\'t contain "Update Cart" button');
+
+        $this->assertSelectCount('input#giftcard_amount_input[type="text"]', 1, $response->getBody(),
+            'Response for gift card product doesn\'t contain gift card amount input field');
+    }
+
+    /**
+     * Gets Mage_Sales_Model_Quote_Item from Mage_Sales_Model_Quote by product id
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param $productId
+     * @return Mage_Sales_Model_Quote_Item|null
+     */
+    private function _getQuoteItemIdByProductId($quote, $productId)
+    {
+        /** @var $quoteItems Mage_Sales_Model_Quote_Item[] */
+        $quoteItems = $quote->getAllItems();
+        foreach ($quoteItems as $quoteItem) {
+            if ($productId == $quoteItem->getProductId()) {
+                return $quoteItem;
             }
-            Mage::unregister('application_params');
-            Mage::unregister('current_product');
-            Mage::unregister('product');
-            Mage::unregister('_singleton/Mage_Eav_Model_Config');
-            Mage::unregister('_singleton/Mage_Catalog_Model_Product_Option');
-            Mage::unregister('_singleton/Mage_Core_Model_Layout');
         }
+        return null;
     }
 }

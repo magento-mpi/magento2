@@ -12,7 +12,6 @@
  * Abstract class for basic object tests, such as blocks, models etc...
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Framework_TestCase
 {

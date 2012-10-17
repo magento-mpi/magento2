@@ -91,6 +91,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected static $_urlModel;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * Application front controller
      *
      * @var Mage_Core_Controller_Varien_Front
@@ -599,7 +604,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
         $html = $this->_loadCache();
         if ($html === false) {
-            /** @var $translate Mage_Core_Model_Translate */
             if ($this->hasData('translate_inline')) {
                 $this->_translator->setTranslateInline($this->getData('translate_inline'));
             }
