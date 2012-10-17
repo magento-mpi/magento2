@@ -27,41 +27,41 @@ class Magento_Performance_Testsuite_OptimizerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @param array $scenarioFixtures
+     * @param array $fixtureSets
      * @param array $expected
-     * @dataProvider runDataProvider
+     * @dataProvider optimizeFixtureSetsDataProvider
      */
-    public function testOptimizeScenarios($scenarioFixtures, $expected)
+    public function testOptimizeFixtureSets($fixtureSets, $expected)
     {
-        $actualScenarios = $this->_optimizer->optimizeScenarios($scenarioFixtures);
-        $this->assertEquals($actualScenarios, $expected);
+        $optimized = $this->_optimizer->optimizeFixtureSets($fixtureSets);
+        $this->assertEquals($optimized, $expected);
     }
 
     /**
      * @return array
      */
-    public function runDataProvider()
+    public function optimizeFixtureSetsDataProvider()
     {
         return array(
             'empty_list' => array(
-                'scenarioFixtures' => array(),
+                'fixtureSets' => array(),
                 'expected' => array(),
             ),
             'single_scenario' => array(
-                'scenarioFixtures' => array(
+                'fixtureSets' => array(
                     'a' => array('f1', 'f2')
                 ),
                 'expected' => array('a'),
             ),
             'empty_fixtures' => array(
-                'scenarioFixtures' => array(
+                'fixtureSets' => array(
                     'a' => array(),
                     'b' => array()
                 ),
                 'expected' => array('a', 'b'),
             ),
             'from_smaller_to_bigger' => array(
-                'scenarioFixtures' => array(
+                'fixtureSets' => array(
                     'a' => array('f1', 'f2'),
                     'b' => array('f2'),
                     'c' => array('f3')
@@ -69,7 +69,7 @@ class Magento_Performance_Testsuite_OptimizerTest extends PHPUnit_Framework_Test
                 'expected' => array('b', 'a', 'c'),
             ),
             'same_together' => array(
-                'scenarioFixtures' => array(
+                'fixtureSets' => array(
                     'a' => array('f1', 'f2'),
                     'b' => array('f1'),
                     'c' => array('f1'),

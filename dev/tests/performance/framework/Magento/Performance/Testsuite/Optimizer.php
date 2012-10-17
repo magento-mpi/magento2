@@ -10,96 +10,80 @@
 
 /**
  * Optimizer for scenario queue.
- * Reorders scenario list in order to minimize number of Magento reinstalls between scenario executions.
+ * Sorts sets of fixtures in order to minimize number of Magento reinstalls between their scenario executions.
  */
 class Magento_Performance_Testsuite_Optimizer
 {
     /**
-     * Sort scenarios, according to their fixtures in such an order, that number of Magento reinstalls
-     * among future scenario executions is reduced. Return ids of scenarios in an optimized order.
+     * Sort sets of fixtures in such an order, that number of Magento reinstalls between executions of their scenarios
+     * would be reduced.
      *
-     * @param array $scenarioFixtures Map of scenario ids to their fixture arrays
-     * @return array
+     * @param array $sets Array of fixture sets
+     * @return array Keys of $sets, sorted in an optimized order
      */
-    public function optimizeScenarios(array $scenarioFixtures)
+    public function optimizeFixtureSets(array $sets)
     {
-        $result = array();
-        $currentFixtures = null;
-        while ($scenarioFixtures) {
-            $scenarioId = $this->_selectNextScenario($currentFixtures, $scenarioFixtures);
-            $result[] = $scenarioId;
+        $sorted = array();
+        $currentSet = null;
+        while ($sets) {
+            $chosenKey = null;
+            if ($currentSet) {
+                $chosenKey = $this->_chooseSmallestSuperSet($currentSet, $sets);
+            }
+            if (!$chosenKey) {
+                $chosenKey = $this->_chooseSmallestSet($sets);
+            }
+            $sorted[] = $chosenKey;
 
-            $currentFixtures = $scenarioFixtures[$scenarioId];
-            unset($scenarioFixtures[$scenarioId]);
+            $currentSet = $sets[$chosenKey];
+            unset($sets[$chosenKey]);
         }
 
-        return $result;
+        return $sorted;
     }
 
     /**
-     * Choose scenario, most suitable to be added next to queue.
+     * Search through $pileOfSets to find a set, that contains same items as in $set plus some additional items.
+     * Prefer the set with the smallest number of items.
      *
-     * If $fixtures is not null, then a try is made to choose scenario, compatible with it. If a scenario is not found,
-     * or $fixtures is not provided - then just any entry with minimal number of fixtures is chosen.
-     *
-     * @param array|null $fixtures
-     * @param array $scenarioFixtures
-     * @return string
+     * @param array $set
+     * @param array $pileOfSets
+     * @return mixed Key or null, if key not found
      */
-    protected function _selectNextScenario($fixtures, array $scenarioFixtures)
+    protected function _chooseSmallestSuperSet(array $set, array $pileOfSets)
     {
-        $result = null;
-        if ($fixtures) {
-            $result = $this->_selectCompatibleScenario($fixtures, $scenarioFixtures);
+        $chosenKey = null;
+        $chosenNumItems = null;
+        foreach ($pileOfSets as $key => $checkSet) {
+            if (array_diff($set, $checkSet)) {
+                continue; // $checkSet is not a super set, as it doesn't have some items of $set
+            }
+
+            $numItems = count($checkSet);
+            if (($chosenKey === null) || ($chosenNumItems > $numItems)) {
+                $chosenKey = $key;
+                $chosenNumItems = $numItems;
+            }
         }
-        if (!$result) {
-            $result = $this->_selectScenarioWithMinFixtures($scenarioFixtures);
-        }
-        return $result;
+
+        return $chosenKey;
     }
 
     /**
-     * Find id of a scenario that contains same fixtures as $fixtures + some additional fixtures.
-     * Prefer the scenario with minimal number of additional fixtures.
+     * Find a set that has the smallest number of items
      *
-     * @param array $fixtures
-     * @param array $scenarioFixtures
-     * @return string|null
+     * @param array $sets
+     * @return mixed Key of a selected set
      */
-    protected function _selectCompatibleScenario(array $fixtures, array $scenarioFixtures)
+    protected function _chooseSmallestSet(array $sets)
     {
-        $result = null;
-        $chosenNumFixtures = null;
-        foreach ($scenarioFixtures as $currentId => $currentFixtures) {
-            if (array_diff($fixtures, $currentFixtures)) {
-                continue; // Fixture lists are incompatible
-            }
-
-            $numFixtures = count($currentFixtures);
-            if (($result === null) || ($chosenNumFixtures > $numFixtures)) {
-                $result = $currentId;
-                $chosenNumFixtures = $numFixtures;
+        $chosenKey = key($sets);
+        foreach ($sets as $key => $set) {
+            if (count($sets[$chosenKey]) > count($set)) {
+                $chosenKey = $key;
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * Find id of a scenario that has minimal number of fixtures.
-     *
-     * @param array $scenarioFixtures
-     * @return string
-     */
-    protected function _selectScenarioWithMinFixtures(array $scenarioFixtures)
-    {
-        $result = key($scenarioFixtures);
-        foreach ($scenarioFixtures as $currentId => $currentFixtures) {
-            if (count($scenarioFixtures[$result]) > count($currentFixtures)) {
-                $result = $currentId;
-            }
-        }
-
-        return $result;
+        return $chosenKey;
     }
 }
