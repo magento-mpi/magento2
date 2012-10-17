@@ -17,10 +17,9 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildPdfAsArray()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = Mage::app()->getLayout()->createBlock('Mage_Payment_Block_Info');
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $structure = Mage::getModel('Magento_Data_Structure');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
         $layout->addBlock($block, 'block');
 
         $paymentInfoBank = Mage::getModel('Mage_Payment_Model_Info');

@@ -22,12 +22,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
      */
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $arguments = array(array(Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product')));
+        $arguments = array(Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
             'Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract',
-            $arguments
+            array('params' => $arguments)
         );
     }
 

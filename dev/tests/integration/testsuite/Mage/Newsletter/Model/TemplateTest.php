@@ -10,7 +10,7 @@
  */
 
 /**
- * magentoDataFixture Mage/Core/_files/store.php
+ * @magentoDataFixture Mage/Core/_files/store.php
  */
 class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {
@@ -21,8 +21,6 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Mage_Newsletter_Model_Template');
     }
 
@@ -32,10 +30,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoConfigFixture                    install/design/theme/full_name   default/default/default
-     * magentoConfigFixture                    adminhtml/design/theme/full_name default/default/default
-     * magentoConfigFixture current_store      design/theme/full_name           default/iphone/default
-     * magentoConfigFixture fixturestore_store design/theme/full_name           default/default/blue
+     * @magentoConfigFixture                    install/design/theme/full_name   default/default/default
+     * @magentoConfigFixture                    adminhtml/design/theme/full_name default/default/default
+     * @magentoConfigFixture current_store      design/theme/full_name           default/iphone/default
+     * @magentoConfigFixture fixturestore_store design/theme/full_name           default/default/blue
      * @magentoAppIsolation  enabled
      * @dataProvider         getProcessedTemplateDataProvider
      */
@@ -66,7 +64,7 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoConfigFixture current_store system/smtp/disable 0
+     * @magentoConfigFixture current_store system/smtp/disable 0
      * @magentoAppIsolation enabled
      * @dataProvider isValidToSendDataProvider
      */

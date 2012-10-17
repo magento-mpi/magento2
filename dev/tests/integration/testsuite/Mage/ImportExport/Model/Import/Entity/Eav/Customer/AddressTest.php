@@ -80,8 +80,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      */
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_entityAdapter = new $this->_testClassName();
     }
 
@@ -96,12 +94,10 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test constructor
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
      */
     public function testConstruct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // check entity table
         $this->assertAttributeInternalType('string', '_entityTable', $this->_entityAdapter,
             'Entity table must be a string.');
@@ -135,13 +131,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test _initAddresses
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_initAddresses
      */
     public function testInitAddresses()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // get addressed from fixture
         $customers = Mage::registry($this->_fixtureKey);
         $correctAddresses = array();
@@ -187,13 +181,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test _saveAddressEntity
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressEntities
      */
     public function testSaveAddressEntities()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // invoke _saveAddressEntities
         list($customerId, $addressId) = $this->_addTestAddress($this->_entityAdapter);
 
@@ -241,13 +233,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test _saveAddressAttributes
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressAttributes
      */
     public function testSaveAddressAttributes()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // get attributes list
         $attributesReflection = new ReflectionProperty($this->_testClassName, '_attributes');
         $attributesReflection->setAccessible(true);
@@ -286,13 +276,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test _saveCustomerDefaults
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveCustomerDefaults
      */
     public function testSaveCustomerDefaults()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // get not default address
         $customers = Mage::registry($this->_fixtureKey);
         /** @var $notDefaultAddress Mage_Customer_Model_Address */
@@ -357,13 +345,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test import data method with add/update behaviour
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
      */
     public function testImportDataAddUpdate()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // set behaviour
         $this->_entityAdapter->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
@@ -441,13 +427,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Test import data method with delete behaviour
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
      */
     public function testImportDataDelete()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // set behaviour
         $this->_entityAdapter->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE)

@@ -19,8 +19,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testSaveValidatedBunches()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $source = Mage::getModel('Mage_ImportExport_Model_Import_Adapter_Csv',
             array('source' => __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv')
         );

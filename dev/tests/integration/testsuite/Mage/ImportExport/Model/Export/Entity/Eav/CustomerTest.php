@@ -34,12 +34,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
     /**
      * Test export method
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers.php
      */
     public function testExport()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $expectedAttributes = array();
         /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
@@ -141,12 +139,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
     /**
      * Test for method filterEntityCollection()
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers.php
      */
     public function testFilterEntityCollection()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $createdAtDate = '2013-01-01';
         /**
          * Change created_at date of first customer for future filter test.

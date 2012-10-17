@@ -18,8 +18,6 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_ProductAlert_Block_Email_Stock');
     }
 
@@ -29,12 +27,10 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
      */
     public function testThumbnail()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 

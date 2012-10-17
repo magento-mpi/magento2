@@ -13,8 +13,6 @@ class Mage_Rss_Block_Order_StatusTest extends PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $block = Mage::app()->getLayout()->createBlock('Mage_Rss_Block_Order_Status');
         $this->assertEmpty($block->toHtml());
 

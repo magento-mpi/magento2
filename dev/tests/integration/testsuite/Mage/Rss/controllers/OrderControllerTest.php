@@ -18,19 +18,15 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
     public function testNewActionAuthorizationFailed()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
 
     /**
-     * magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testNewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->getRequest()->setServer(array(
             'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
             'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
@@ -42,8 +38,6 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
     public function testNotLoggedIn()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
@@ -52,13 +46,11 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
      * @param string $login
      * @param string $password
      * @dataProvider invalidAccessDataProvider
-     * magentoDataFixture Mage/User/_files/dummy_user.php
+     * @magentoDataFixture Mage/User/_files/dummy_user.php
      * @covers Mage_Rss_OrderController::authenticateAndAuthorizeAdmin
      */
     public function testInvalidAccess($login, $password)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->getRequest()->setServer(array('PHP_AUTH_USER' => $login, 'PHP_AUTH_PW' => $password));
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');

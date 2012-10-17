@@ -12,7 +12,7 @@
 /**
  * Test Import Data resource model
  *
- * magentoDataFixture Mage/ImportExport/_files/import_data.php
+ * @magentoDataFixture Mage/ImportExport/_files/import_data.php
  */
 class Mage_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framework_TestCase
 {
@@ -23,8 +23,6 @@ class Mage_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         parent::setUp();
 
         $this->_model = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_Data');

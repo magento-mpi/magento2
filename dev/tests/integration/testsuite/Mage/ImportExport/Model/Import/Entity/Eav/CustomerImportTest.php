@@ -23,8 +23,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         parent::setUp();
 
         $this->_model = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer');
@@ -45,12 +43,10 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerEntity
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerAttributes
      *
-     * magentoDataFixture Mage/ImportExport/_files/customer.php
+     * @magentoDataFixture Mage/ImportExport/_files/customer.php
      */
     public function testImportData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
@@ -108,12 +104,10 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer::_importData
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer::_deleteCustomers
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers.php
      */
     public function testDeleteData()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $source = Mage::getModel(
             'Mage_ImportExport_Model_Import_Adapter_Csv',
             array('source' => __DIR__ . '/_files/customers_to_import.csv')

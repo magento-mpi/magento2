@@ -12,7 +12,7 @@
 /**
  * Test for class Mage_ImportExport_Model_Import_Entity_Eav_Customer which covers validation logic
  *
- * magentoDataFixture Mage/ImportExport/_files/customers.php
+ * @magentoDataFixture Mage/ImportExport/_files/customers.php
  */
 class Mage_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHPUnit_Framework_TestCase
 {
@@ -35,8 +35,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHP
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         parent::setUp();
 
         $this->_model = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer');
