@@ -40,11 +40,13 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.jmx');
         $scenarioArgs = array(
-            Magento_Performance_Config_Scenario::ARG_HOST  => '127.0.0.1',
-            Magento_Performance_Config_Scenario::ARG_PATH  => '/',
-            Magento_Performance_Config_Scenario::ARG_USERS => 2,
+            Magento_Performance_Scenario::ARG_HOST  => '127.0.0.1',
+            Magento_Performance_Scenario::ARG_PATH  => '/',
+            Magento_Performance_Scenario::ARG_USERS => 2,
+            Magento_Performance_Scenario::ARG_LOOPS => 3,
         );
-        $this->_scenario = new Magento_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs);
+        $this->_scenario = new Magento_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs, array(),
+            array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR . 'scenario.jtl';
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
@@ -84,8 +86,8 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->expects($this->once())
             ->method('execute')
             ->with(
-                'jmeter -n -t %s %s %s %s',
-                array($this->_scenarioFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2')
+                'jmeter -n -t %s %s %s %s %s',
+                array($this->_scenarioFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2', '-Jloops=3')
             )
         ;
         $this->_object->run($this->_scenario);
@@ -97,9 +99,9 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
             ->expects($this->once())
             ->method('execute')
             ->with(
-                'jmeter -n -t %s -l %s %s %s %s',
+                'jmeter -n -t %s -l %s %s %s %s %s',
                 array(
-                    $this->_scenarioFile, $this->_reportFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2',
+                    $this->_scenarioFile, $this->_reportFile, '-Jhost=127.0.0.1', '-Jpath=/', '-Jusers=2', '-Jloops=3',
                 )
             )
         ;
@@ -116,7 +118,7 @@ class Magento_Performance_Scenario_Handler_JmeterTest extends PHPUnit_Framework_
     public function testRunException($scenarioFile, $reportFile, $expectedException, $expectedExceptionMsg = '')
     {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        $scenario = new Magento_Performance_Scenario('Scenario', $scenarioFile, array());
+        $scenario = new Magento_Performance_Scenario('Scenario', $scenarioFile, array(), array(), array());
         $this->_object->run($scenario, $reportFile);
     }
 

@@ -16,7 +16,7 @@ class Magento_Performance_Testsuite_Optimizer
 {
     /**
      * Sort scenarios, according to their fixtures in such an order, that number of Magento reinstalls
-     * among future scenario executions is reduced.
+     * among future scenario executions is reduced. Return ids of scenarios in an optimized order.
      *
      * @param array $scenarioFixtures Map of scenario ids to their fixture arrays
      * @return array

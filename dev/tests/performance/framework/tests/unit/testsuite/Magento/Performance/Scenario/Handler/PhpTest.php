@@ -40,10 +40,12 @@ class Magento_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_Tes
     {
         $this->_scenarioFile = realpath(__DIR__ . '/../../_files/scenario.php');
         $scenarioArgs = array(
-            Magento_Performance_Config_Scenario::ARG_LOOPS => 3,
+            Magento_Performance_Scenario::ARG_USERS => 2,
+            Magento_Performance_Scenario::ARG_LOOPS => 3,
             'custom' => 'custom_value',
         );
-        $this->_scenario = new Magento_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs);
+        $this->_scenario = new Magento_Performance_Scenario('Scenario', $this->_scenarioFile, $scenarioArgs, array(),
+            array());
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files/scenario.jtl');
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
@@ -83,8 +85,8 @@ class Magento_Performance_Scenario_Handler_PhpTest extends PHPUnit_Framework_Tes
             ->expects($this->exactly(3))
             ->method('execute')
             ->with(
-                'php -f %s -- --loops %s --custom %s',
-                array($this->_scenarioFile, 3, 'custom_value')
+                'php -f %s -- --users %s --loops %s --custom %s',
+                array($this->_scenarioFile, 2, 3, 'custom_value')
             )
         ;
         $this->_object->run($this->_scenario);

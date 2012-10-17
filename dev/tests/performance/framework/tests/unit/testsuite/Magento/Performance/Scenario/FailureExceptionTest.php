@@ -23,7 +23,7 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_scenario = new Magento_Performance_Scenario('', '', array());
+        $this->_scenario = new Magento_Performance_Scenario('Title', '', array(), array(), array());
         $this->_object = new Magento_Performance_Scenario_FailureException($this->_scenario, 'scenario has failed');
     }
 
@@ -38,7 +38,7 @@ class Magento_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framewor
         $this->assertEquals('scenario has failed', $this->_object->getMessage());
     }
 
-    public function testGetScenarioFile()
+    public function testGetScenario()
     {
         $this->assertSame($this->_scenario, $this->_object->getScenario());
     }

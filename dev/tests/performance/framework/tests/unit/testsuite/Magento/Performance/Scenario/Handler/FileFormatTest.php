@@ -31,7 +31,7 @@ class Magento_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_Framew
         $this->_handler = $this->getMockForAbstractClass('Magento_Performance_Scenario_HandlerInterface');
         $this->_object = new Magento_Performance_Scenario_Handler_FileFormat();
         $this->_object->register('jmx', $this->_handler);
-        $this->_scenario = new Magento_Performance_Scenario('Scenario', 'scenario.jmx', array());
+        $this->_scenario = new Magento_Performance_Scenario('Scenario', 'scenario.jmx', array(), array(), array());
     }
 
     protected function tearDown()
@@ -65,7 +65,7 @@ class Magento_Performance_Scenario_Handler_FileFormatTest extends PHPUnit_Framew
      */
     public function testRunUnsupportedFormat()
     {
-        $scenario = new Magento_Performance_Scenario('Scenario', 'scenario.txt', array());
+        $scenario = new Magento_Performance_Scenario('Scenario', 'scenario.txt', array(), array(), array());
         $this->_object->run($scenario);
     }
 }

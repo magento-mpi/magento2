@@ -25,8 +25,7 @@ $testsuite = new Magento_Performance_Testsuite($config, new Magento_Application(
 $scenarioTotalCount = count($config->getScenarios());
 $scenarioCount = 1;
 $scenarioFailCount = 0;
-$testsuite->onScenarioRun(function ($scenario) use (&$scenarioCount, $scenarioTotalCount) {
-    /** @var $scenario Magento_Performance_Scenario */
+$testsuite->onScenarioRun(function (Magento_Performance_Scenario $scenario) use (&$scenarioCount, $scenarioTotalCount) {
     echo "Scenario $scenarioCount of $scenarioTotalCount: '{$scenario->getTitle()}'" . PHP_EOL;
     $scenarioCount++;
 });

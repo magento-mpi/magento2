@@ -35,6 +35,9 @@ return array(
                 'setting1' => 'setting 1',
                 'setting2' => 'setting 2',
             ),
+            'fixtures' => array(
+                'fixture2.php'
+            ),
         ),
         'scenarios' => array(
             'Scenario' => array(
@@ -42,7 +45,7 @@ return array(
                 'arguments' => array(
                     'arg2' => 'overridden value 2',
                     'arg3' => 'custom value 3',
-                    Magento_Performance_Config_Scenario::ARG_HOST => 'no crosscutting params',
+                    Magento_Performance_Scenario::ARG_HOST => 'no crosscutting params',
                 ),
                 'settings' => array(
                     'setting2' => 'overridden setting 2',
@@ -52,7 +55,9 @@ return array(
                     'fixture.php',
                 ),
             ),
-            'Scenario with Error' => 'scenario_error.jmx',
+            'Scenario with Error' => array (
+                'file' => 'scenario_error.jmx',
+            ),
             'Scenario with Failure' => array(
                 'file' => 'scenario_failure.jmx',
                 'settings' => array(

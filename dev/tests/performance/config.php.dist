@@ -77,7 +77,9 @@ return array(
                     'testsuite/fixtures/catalog_product.php',
                 ),
             ),
-            'Home Page' => 'testsuite/home_page.jmx',
+            'Home Page' => array(
+                'file' => 'testsuite/home_page.jmx',
+            ),
             'Product Edit' => array(
                 'file' => 'testsuite/product_edit.jmx',
                 'fixtures' => array(
