@@ -18,6 +18,11 @@
 class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Stub class name for class under test
+     */
+    const STUB_CLASS = 'Mage_Catalog_Block_Product_Abstract_Stub';
+
+    /**
      * @var Mage_Catalog_Block_Product_Abstract
      */
     protected $_block;
@@ -36,13 +41,12 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $stubClass = 'Mage_Catalog_Block_Product_Abstract_Stub';
         if (!self::$_isStubClass) {
-            $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract', array(), $stubClass, false);
+            $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract', array(), self::STUB_CLASS, false);
             self::$_isStubClass = true;
         }
 
-        $this->_block = Mage::app()->getLayout()->createBlock($stubClass);
+        $this->_block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
         $this->_product->addData(array(
