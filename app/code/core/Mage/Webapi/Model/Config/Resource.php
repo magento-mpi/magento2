@@ -245,17 +245,9 @@ class Mage_Webapi_Model_Config_Resource
     protected function _extractData()
     {
         if (is_null($this->_data)) {
-            /** @var \Zend\Code\Scanner\FileScanner $file */
-            foreach ($this->_directoryScanner->getFiles(true) as $file) {
-                $filename = $file->getFile();
-                $classes = $file->getClasses();
-                if (count($classes) > 1) {
-                    throw new LogicException(sprintf('There can be only one class in controller file "%s".', $filename));
-                }
-                /** @var \Zend\Code\Scanner\ClassScanner $class */
-                $class = reset($classes);
-                $className = $class->getName();
-                $this->_addFileToClassMap($className, $filename);
+            $this->_populateClassMap();
+
+            foreach ($this->_classMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $resourceData = array();
                     $resourceData['controller'] = $className;
@@ -281,6 +273,31 @@ class Mage_Webapi_Model_Config_Resource
         }
 
         return $this->_data;
+    }
+
+    /**
+     * Walk all files from directory scanner and set them into autoloader class map.
+     *
+     * @throws LogicException
+     */
+    protected function _populateClassMap()
+    {
+        $classMap = array();
+        /** @var \Zend\Code\Scanner\FileScanner $file */
+        foreach ($this->_directoryScanner->getFiles(true) as $file) {
+            $filename = $file->getFile();
+            $classes = $file->getClasses();
+            if (count($classes) > 1) {
+                throw new LogicException(sprintf('There can be only one class in controller file "%s".', $filename));
+            }
+            /** @var \Zend\Code\Scanner\ClassScanner $class */
+            $class = reset($classes);
+            $relativePath = str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $filename);
+            $classMap[$class->getName()] = $relativePath;
+        }
+
+        $this->_classMap = $classMap;
+        $this->_autoloader->addFilesMap($this->_classMap);
     }
 
     /**
@@ -470,20 +487,6 @@ class Mage_Webapi_Model_Config_Resource
     public function isTypeSimple($type)
     {
         return in_array($type, array('string', 'integer', 'float', 'double', 'boolean', 'array'));
-    }
-
-    /**
-     * Add path to class to class map and auto loader.
-     *
-     * @param string $className
-     * @param string $filename
-     */
-    protected function _addFileToClassMap($className, $filename)
-    {
-        $relativePath = str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $filename);
-        $this->_classMap[$className] = $relativePath;
-
-        $this->_autoloader->addFilesMap($this->_classMap);
     }
 
     /**
