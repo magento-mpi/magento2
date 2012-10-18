@@ -25,7 +25,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
         $arguments = array(Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
             'Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract',
-            array('params' => $arguments)
+            array($arguments)
         );
     }
 

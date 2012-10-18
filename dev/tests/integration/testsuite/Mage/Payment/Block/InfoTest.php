@@ -17,10 +17,9 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildPdfAsArray()
     {
-        $block = Mage::app()->getLayout()->createBlock('Mage_Payment_Block_Info');
-        $structure = Mage::getModel('Magento_Data_Structure');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
-        $layout->addBlock($block, 'block');
+        $block = $layout->createBlock('Mage_Payment_Block_Info', 'block');
 
         $paymentInfoBank = Mage::getModel('Mage_Payment_Model_Info');
         $paymentInfoBank->setMethodInstance(Mage::getModel('Mage_Payment_Model_Method_Banktransfer'));
