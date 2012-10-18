@@ -17,6 +17,37 @@
  */
 class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Helper_Registry
+     */
+    protected $_helperRegistry;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_helperRegistry = isset($data['helperRegistry'])
+            ? isset($data['helperRegistry'])
+            : null;
+
+        parent::__construct($data);
+    }
+
+    /**
+     * Get helper registry object
+     *
+     * @return Mage_Core_Model_Helper_Registry
+     */
+    protected function _getHelperRegistry()
+    {
+        if (null === $this->_helperRegistry) {
+            $this->_helperRegistry = Mage::getSingleton('Mage_Core_Model_Helper_Registry');
+        }
+        return $this->_helperRegistry;
+    }
+
+
     public function getId()
     {
         if ($this->getData('id')===null) {

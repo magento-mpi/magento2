@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,68 +12,105 @@
  * Config edit page
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widget
+class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
 {
-    const DEFAULT_SECTION_BLOCK = 'Mage_Adminhtml_Block_System_Config_Form';
+    const DEFAULT_SECTION_BLOCK = 'Mage_Backend_Block_System_Config_Form';
 
+    /**
+     * Sections configuration
+     *
+     * @var array
+     */
     protected $_section;
 
-    public function __construct()
+    /**
+     * @var Mage_Backend_Model_System_ConfigInterface
+     */
+    protected $_systemConfig;
+
+    /**
+     * @var Mage_Backend_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
-        $this->setTemplate('system/config/edit.phtml');
+        $this->_systemConfig = isset($data['systemConfig']) ?
+            $data['systemConfig'] :
+            Mage::getSingleton('Mage_Backend_Model_System_Config');
 
+        $this->_helper = isset($data['helper']) ? isset($data['helper']) : null;
+
+        parent::__construct($data);
+
+        $this->setTemplate('Mage_Backend::system/config/edit.phtml');
         $sectionCode = $this->getRequest()->getParam('section');
-        $sections = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getSections();
 
-        $this->_section = $sections->$sectionCode;
+        $this->_section = $this->_systemConfig->getSection($sectionCode);
 
-        $this->setTitle((string)$this->_section->label);
-        $this->setHeaderCss((string)$this->_section->header_css);
+        $this->setTitle($this->_section['label']);
+        $this->setHeaderCss(isset($this->_section['header_css']) ? $this->_section['header_css'] : '');
     }
 
+    /**
+     * Get helper object
+     *
+     * @return Mage_Backend_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        if (null === $this->_helper) {
+            $this->_helper = $this->_getHelperRegistry()->get('Mage_Backend_Helper_Data');
+        }
+        return $this->_helper;
+    }
+
+    /**
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Config'),
+        $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
+            'label'     => $this->_getHelper()->__('Save Config'),
             'onclick'   => 'configForm.submit()',
             'class' => 'save',
         ));
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        return $this->getUrl('*/*/save', array('_current' => true));
     }
 
+    /**
+     * @return Mage_Backend_Block_System_Config_Edit
+     */
     public function initForm()
     {
-        /*
-        $this->setChild('dwstree',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Config_Dwstree')
-                ->initTabs()
-        );
-        */
-
-        $blockName = (string)$this->_section->frontend_model;
+        $blockName = isset($this->_section['frontend_model']) ? $this->_section['frontend_model'] : '';
         if (empty($blockName)) {
             $blockName = self::DEFAULT_SECTION_BLOCK;
         }
-        $this->setChild('form',
-            $this->getLayout()->createBlock($blockName)
-                ->initForm()
-        );
+
+        $this->setChild('form', $this->getLayout()->createBlock($blockName)->initForm());
         return $this;
     }
-
-
 }

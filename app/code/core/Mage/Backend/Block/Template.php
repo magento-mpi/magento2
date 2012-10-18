@@ -18,6 +18,32 @@
 class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : null;
+    }
+
+    /**
+     * Get object factory model
+     *
+     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Config
+     */
+    protected function _getObjectFactory()
+    {
+        if (null === $this->_objectFactory) {
+            $this->_objectFactory = Mage::getSingleton('Mage_Core_Model_Config');
+        }
+
+        return $this->_objectFactory;
+    }
+
+
+    /**
      * Enter description here...
      *
      * @return string
