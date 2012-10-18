@@ -120,6 +120,13 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
         foreach ($collection as $attribute) {
             $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Configurable_Attribute', $attribute);
             $this->assertEquals($testConfigurable->getId(), $attribute->getAttributeId());
+            $prices = $attribute->getPrices();
+            $this->assertCount(2, $prices); // fixture
+            $this->assertArrayHasKey('pricing_value', $prices[0]);
+            $this->assertEquals('Option 1', $prices[0]['label']);
+            $this->assertEquals(5, $prices[0]['pricing_value']);
+            $this->assertEquals('Option 2', $prices[1]['label']);
+            $this->assertEquals(5, $prices[1]['pricing_value']);
             break;
         }
     }
