@@ -108,7 +108,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      *
      * @return bool
      */
-    protected function _getIsProductComposite()
+    protected function _isProductComposite()
     {
         if (null === $this->_isProductComposite) {
             $this->_isProductComposite = $this->_qty->getForm()->getDataObject()->isComposite();
@@ -123,10 +123,10 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     protected function _disableFields()
     {
-        if (!$this->_getIsProductComposite() && null === $this->_qty->getValue()) {
+        if (!$this->_isProductComposite() && null === $this->_qty->getValue()) {
             $this->setDisabled('disabled');
         }
-        if ($this->_getIsProductComposite()) {
+        if ($this->_isProductComposite()) {
             $this->_qty->setDisabled('disabled');
         }
         return $this;
@@ -180,8 +180,9 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         });
                         return returnVal;
                     };
-                    $.each(fieldsAssociations, function(generalTabField, advancedTabField){
-                        $('#' + generalTabField + ', #' + advancedTabField).bind('focus blur change keyup click', filler);
+                    $.each(fieldsAssociations, function(generalTabField, advancedTabField) {
+                        $('#' + generalTabField + ', #' + advancedTabField)
+                            .bind('focus blur change keyup click', filler);
                         filler.call($('#' + generalTabField));
                         filler.call($('#' + advancedTabField));
                     });
