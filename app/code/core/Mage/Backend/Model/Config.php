@@ -9,14 +9,15 @@
  */
 
 /**
- * Adminhtml config data model
+ * Backend config model
+ * Used to save configuration
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Model_Config_Data extends Varien_Object
+class Mage_Backend_Model_Config extends Varien_Object
 {
     /**
      * Save config section
@@ -42,7 +43,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             return $this;
         }
 
-        $sections = Mage::getModel('Mage_Adminhtml_Model_Config')->getSections();
+        $sections = Mage::getModel('Mage_Backend_Model_System_Config_Structure')->getSections();
         /* @var $sections Mage_Core_Model_Config_Element */
 
         $oldConfig = $this->_getConfig(true);

@@ -58,7 +58,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        $configFields = Mage::getSingleton('Mage_Adminhtml_Model_Config');
+        $configFields = Mage::getSingleton('Mage_Backend_Model_System_Config_Structure');
 
         $sections     = $configFields->getSections($current);
         $section      = $sections->$current;
@@ -248,7 +248,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $resourceId = (string) Mage::getSingleton('Mage_Adminhtml_Model_Config')
+            $resourceId = (string) Mage::getSingleton('Mage_Backend_Model_System_Config_Structure')
                 ->getSection($section)->resource;
             if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($resourceId)) {
                 throw new Exception('');
