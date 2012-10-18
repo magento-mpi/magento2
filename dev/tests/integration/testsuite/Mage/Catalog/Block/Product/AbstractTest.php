@@ -27,10 +27,21 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_product;
 
+    /**
+     * Flag is stub class was created
+     *
+     * @var bool
+     */
+    protected static $_isStubClass = false;
+
     protected function setUp()
     {
         $stubClass = 'Mage_Catalog_Block_Product_Abstract_Stub';
-        $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract', array(), $stubClass, false);
+        if (!self::$_isStubClass) {
+            $this->getMockForAbstractClass('Mage_Catalog_Block_Product_Abstract', array(), $stubClass, false);
+            self::$_isStubClass = true;
+        }
+
         $this->_block = Mage::app()->getLayout()->createBlock($stubClass);
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
