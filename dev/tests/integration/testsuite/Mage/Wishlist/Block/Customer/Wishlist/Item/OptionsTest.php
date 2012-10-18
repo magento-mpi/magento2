@@ -16,8 +16,6 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_OptionsTest extends PHPUnit_Fra
 {
     public function testGetTemplate()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $block = Mage::app()->getLayout()->createBlock('Mage_Wishlist_Block_Customer_Wishlist_Item_Options');
         $this->assertEmpty($block->getTemplate());
         $product = new Varien_Object(array('type_id' => 'test'));

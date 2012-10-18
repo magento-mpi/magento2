@@ -28,19 +28,16 @@ class Mage_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_profile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
         Mage::register('current_recurring_profile', $this->_profile);
 
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Recurring_Profile_View');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_layout->addBlock($this->_block, 'block');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        $this->_block = $this->_layout->createBlock('Mage_Sales_Block_Recurring_Profile_View', 'block');
     }
 
     public function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
         Mage::unregister('current_recurring_profile');
         $this->_profile = null;
@@ -59,15 +56,15 @@ class Mage_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_Test
     public function testToHtmlPropagatesUrl()
     {
         $this->_block->setShouldPrepareInfoTabs(true);
-        $child1 = $this->_layout->addBlock('Mage_Core_Block_Text', 'child1', 'block');
+        $childOne = $this->_layout->addBlock('Mage_Core_Block_Text', 'child1', 'block');
         $this->_layout->addToParentGroup('child1', 'info_tabs');
-        $child2 = $this->_layout->addBlock('Mage_Core_Block_Text', 'child2', 'block');
+        $childTwo = $this->_layout->addBlock('Mage_Core_Block_Text', 'child2', 'block');
         $this->_layout->addToParentGroup('child2', 'info_tabs');
 
-        $this->assertEmpty($child1->getViewUrl());
-        $this->assertEmpty($child2->getViewUrl());
+        $this->assertEmpty($childOne->getViewUrl());
+        $this->assertEmpty($childTwo->getViewUrl());
         $this->_block->toHtml();
-        $this->assertNotEmpty($child1->getViewUrl());
-        $this->assertNotEmpty($child2->getViewUrl());
+        $this->assertNotEmpty($childOne->getViewUrl());
+        $this->assertNotEmpty($childTwo->getViewUrl());
     }
 }

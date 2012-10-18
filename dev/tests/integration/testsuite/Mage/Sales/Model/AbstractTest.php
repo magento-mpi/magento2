@@ -11,12 +11,10 @@
 class Mage_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testAfterCommitCallbackOrderGrid()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $order) {
@@ -27,8 +25,6 @@ class Mage_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testAfterCommitCallbackOrderGridNotInvoked()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $adapter = Mage::getResourceSingleton('Mage_Core_Model_Resource')->getConnection('write');
         $this->assertEquals(0, $adapter->getTransactionLevel(), 'This test must be outside a transaction.');
 

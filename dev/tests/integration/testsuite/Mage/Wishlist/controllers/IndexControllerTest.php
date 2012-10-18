@@ -24,12 +24,10 @@ class Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_Controller
      * - Mage_Wishlist_Block_Customer_Wishlist_Button
      * - that Mage_Wishlist_Block_Customer_Wishlist_Item_Options doesn't throw a fatal error
      *
-     * magentoDataFixture Mage/Wishlist/_files/wishlist.php
+     * @magentoDataFixture Mage/Wishlist/_files/wishlist.php
      */
     public function testItemColumnBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $session = Mage::getModel('Mage_Customer_Model_Session');
         $session->login('customer@example.com', 'password');
         $this->dispatch('wishlist/index/index');

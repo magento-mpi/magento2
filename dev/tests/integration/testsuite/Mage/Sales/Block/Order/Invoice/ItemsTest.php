@@ -28,11 +28,10 @@ class Mage_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
 
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Invoice_Items');
-        $this->_layout->addBlock($this->_block, 'block');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        $this->_block = $this->_layout->createBlock('Mage_Sales_Block_Order_Invoice_Items', 'block');
         $this->_invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
     }
 

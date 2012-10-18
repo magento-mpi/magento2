@@ -18,8 +18,6 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model= Mage::getModel('Mage_Tag_Model_Tag');
     }
 

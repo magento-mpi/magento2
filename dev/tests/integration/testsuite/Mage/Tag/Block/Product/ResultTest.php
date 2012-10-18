@@ -33,14 +33,14 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Tag_Block_Product_Result');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
         $this->_layout->addBlock('Mage_Core_Block_Text', 'root');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'head');
-        $this->_layout->addBlock($this->_block, 'test');
-        $this->_child = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
+        $this->_block = $this->_layout->createBlock('Mage_Tag_Block_Product_Result', 'test',
+            array('layout' => $this->_layout)
+        );
+        $this->_child = Mage::getObjectManager()->create('Mage_Core_Block_Text');
         $this->_layout->addBlock($this->_child, 'search_result_list', 'test');
     }
 

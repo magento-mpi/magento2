@@ -18,8 +18,6 @@ class Mage_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Sales_Model_Order_Shipment_Track');
     }
 

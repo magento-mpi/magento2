@@ -18,8 +18,6 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_helper = Mage::helper('Mage_XmlConnect_Helper_Data');
         Mage::getDesign()->setDesignTheme('default/default/default', 'adminhtml');
     }
@@ -28,7 +26,6 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = null;
     }
-
     /**
      * @dataProvider getDefaultDesignTabsDataProvider
      */

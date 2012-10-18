@@ -13,12 +13,10 @@ class Mage_Sales_Model_Order_ShipmentTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture current_store design/theme/full_name default/default/default
-     * magentoDataFixture Mage/Sales/_files/order.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testSendEmail()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');

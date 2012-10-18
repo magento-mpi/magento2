@@ -21,8 +21,6 @@ class Mage_User_Block_Role_GridTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $layout->createBlock('Mage_User_Block_Role_Grid');
     }

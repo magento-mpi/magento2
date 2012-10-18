@@ -16,8 +16,6 @@ class Mage_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_Test
      */
     public function testGetTotalsHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $order = Mage::getModel('Mage_Sales_Model_Order');
         Mage::register('current_order', $order);
         $payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
@@ -25,8 +23,7 @@ class Mage_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_Test
         $order->setPayment($payment);
 
         $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Print_Creditmemo');
-        $layout->addBlock($block, 'block');
+        $block = $layout->createBlock('Mage_Sales_Block_Order_Print_Creditmemo', 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';

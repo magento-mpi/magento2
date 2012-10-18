@@ -12,13 +12,11 @@
 class Mage_Sales_Model_QuoteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_virtual.php
-     * magentoDataFixture Mage/Sales/_files/quote.php
+     * @magentoDataFixture Mage/Catalog/_files/product_virtual.php
+     * @magentoDataFixture Mage/Sales/_files/quote.php
      */
     public function testCollectTotalsWithVirtual()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
 

@@ -18,8 +18,6 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_Widget_Model_Widget_Instance');
     }
 

@@ -18,8 +18,6 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Comments');
     }
 
@@ -31,12 +29,9 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     /**
      * @param mixed $commentedEntity
      * @param string $expectedClass
-     * dataProvider getCommentsDataProvider
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
+     * @dataProvider getCommentsDataProvider
      */
-    public function testGetComments(/*$commentedEntity, $expectedClass*/)
+    public function testGetComments($commentedEntity, $expectedClass)
     {
         $this->_block->setEntity($commentedEntity);
         $comments = $this->_block->getComments();

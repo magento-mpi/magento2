@@ -16,11 +16,22 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_block;
 
+    protected $_blockInjections = array(
+        'Mage_Core_Controller_Request_Http',
+        'Mage_Core_Model_Layout',
+        'Mage_Core_Model_Event_Manager',
+        'Mage_Core_Model_Translate',
+        'Mage_Core_Model_Cache',
+        'Mage_Core_Model_Design_Package',
+        'Mage_Core_Model_Session',
+        'Mage_Core_Model_Store_Config',
+        'Mage_Core_Controller_Varien_Front',
+    );
+
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->_block = $this->getMockForAbstractClass('Mage_Wishlist_Block_Abstract');
+        $this->_block = $this->getMockForAbstractClass('Mage_Wishlist_Block_Abstract',
+            $this->_prepareConstructorArguments());
     }
 
     protected function tearDown()
@@ -29,12 +40,10 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
@@ -42,6 +51,14 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertGreaterThan(1, $size);
         $this->assertContains('/'.$size, $this->_block->getImageUrl($product));
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getImageUrl($product));
+    }
+    protected function _prepareConstructorArguments()
+    {
+        $arguments = array();
+        foreach ($this->_blockInjections as $injectionClass) {
+            $arguments[] = Mage::getModel($injectionClass);
+        }
+        return $arguments;
     }
 }
 

@@ -18,9 +18,7 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Tag_Block_Customer_View');
+        $this->_block = Mage::getObjectManager()->create('Mage_Tag_Block_Customer_View');
     }
 
     protected function tearDown()
@@ -30,9 +28,8 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testGetMode()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
         $layout->addBlock($this->_block, 'test');
         $expected = uniqid();
         $toolbar = Mage::app()->getLayout()->createBlock(
@@ -46,12 +43,10 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 

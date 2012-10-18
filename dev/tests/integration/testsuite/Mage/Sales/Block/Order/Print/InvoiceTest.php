@@ -16,8 +16,6 @@ class Mage_Sales_Block_Order_Print_InvoiceTest extends PHPUnit_Framework_TestCas
      */
     public function testGetInvoiceTotalsHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $order = Mage::getModel('Mage_Sales_Model_Order');
         Mage::register('current_order', $order);
         $payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
@@ -25,8 +23,7 @@ class Mage_Sales_Block_Order_Print_InvoiceTest extends PHPUnit_Framework_TestCas
         $order->setPayment($payment);
 
         $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Order_Print_Invoice');
-        $layout->addBlock($block, 'block');
+        $block = $layout->createBlock('Mage_Sales_Block_Order_Print_Invoice', 'block');
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';

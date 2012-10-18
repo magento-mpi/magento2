@@ -18,8 +18,6 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest ext
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container'
         );
