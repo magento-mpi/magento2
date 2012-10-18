@@ -130,4 +130,14 @@ abstract class Magento_Config_XmlAbstract
      * @return array
      */
     abstract protected function _getIdAttributes();
+
+    /**
+     * Serialize configuration data
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array('_data');
+    }
 }
