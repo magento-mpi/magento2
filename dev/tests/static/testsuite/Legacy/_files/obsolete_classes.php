@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 return array(
+    'Mage_Admin_Helper_Date' => array('suggestion' => 'Mage_Backend_Helper_Data'),
     'Mage_Admin_Model_Acl' => array('suggestion' => 'Magento_Acl'),
     'Mage_Admin_Model_Acl_Role',
     'Mage_Admin_Model_Acl_Resource' => array('suggestion' => 'Magento_Acl_Resource'),
@@ -16,6 +17,7 @@ return array(
     'Mage_Admin_Model_Acl_Role_Generic' => array('suggestion' => 'Mage_User_Model_Acl_Role_Generic'),
     'Mage_Admin_Model_Acl_Role_Group' => array('suggestion' => 'Mage_User_Model_Acl_Role_Group'),
     'Mage_Admin_Model_Acl_Role_User' => array('suggestion' => 'Mage_User_Model_Acl_Role_User'),
+    'Mage_Admin_Model_Config',
     'Mage_Admin_Model_Resource_Acl' => array('suggestion' => 'Mage_User_Model_Resource_Acl'),
     'Mage_Admin_Model_Observer',
     'Mage_Admin_Model_Session' => array('suggestion' => 'Mage_Backend_Model_Auth_Session'),
