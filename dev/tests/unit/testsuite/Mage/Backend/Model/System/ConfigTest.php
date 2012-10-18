@@ -18,6 +18,16 @@ class Mage_Backend_Model_System_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new Mage_Backend_Model_System_Config();
+        $filePath = dirname(__DIR__) . '/_files';
+
+        $this->_model = new Mage_Backend_Model_System_Config(array(
+            $filePath . '/system_1.xml',
+            $filePath . '/system_2.xml'
+        ));
+    }
+
+    public function testGetSectionsReturnsAllSections()
+    {
+        $this->_model->getSections();
     }
 }

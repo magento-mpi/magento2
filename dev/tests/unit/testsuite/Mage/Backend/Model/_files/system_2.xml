@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Backend
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <tab id="tab_1">
+            <label>Tab 1 New</label>
+        </tab>
+        <section id="section_1">
+            <label>Section 1 New</label>
+            <group id="group_1">
+                <label>Group 1 New</label>
+                <field id="field_2" translate="label" showInWebsite="1">
+                    <label>Field 2</label>
+                </field>
+            </group>
+            <group id="group_2">
+                <label>Group 2</label>
+                <field id="field_3" translate="label" showInWebsite="1">
+                    <label>Field 3</label>
+                </field>
+            </group>
+        </section>
+        <section id="section_2">
+            <label>Section 2</label>
+        </section>
+    </system>
+</config>
