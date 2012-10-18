@@ -13,7 +13,7 @@
 
 # 'System Configuration' page
 system_configuration:
-    uimap: &system_configuration_uimap
+    uimap: &systemConfigurationUimap
         form: &systemConfiguration
             tabs:
                 -
@@ -304,10 +304,10 @@ system_configuration:
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfigurationUimap
 
 system_configuration_website:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfigurationUimap
 
 system_configuration_store:
-    uimap: *system_configuration_uimap
+    uimap: *systemConfigurationUimap
