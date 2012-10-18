@@ -43,7 +43,7 @@ class Mage_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testSetLayout()
     {
-        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         $headBlock = $layout->createBlock('Mage_Core_Block_Template', 'head');
