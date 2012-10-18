@@ -47,21 +47,11 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             'legend'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
         ));
 
-        $productClasses = Mage::getModel('Mage_Tax_Model_Class')
-            ->getCollection()
-            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
-            ->toOptionArray();
-
-        $customerClasses = Mage::getModel('Mage_Tax_Model_Class')
-            ->getCollection()
-            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
-            ->toOptionArray();
-
         $rates = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
             ->getCollection()
             ->toOptionArray();
 
-        $fieldset->addField('code', 'text',
+         $fieldset->addField('code', 'text',
             array(
                 'name'      => 'code',
                 'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Name'),
@@ -81,14 +71,17 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 . 'customerTaxClassMultiselect.init(); }); })(jQuery);'
             . '/*]]>*/'
             . '</script>';
+        $selectedCustomerTax = $model->getId() ?
+            $model->getCustomerTaxClasses() :
+            $model->getCustomerTaxClassWithDefault();
         $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
             'multiselect',
             array(
                 'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
                 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
                 'class' => 'required-entry',
-                'values' => $customerClasses,
-                'value' => $model->getCustomerTaxClasses(),
+                'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+                'value' => $selectedCustomerTax,
                 'required' => true,
                 'after_element_html' => $selectAfterHtml,
             )
@@ -105,13 +98,16 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
                 . 'productTaxClassMultiselect.init(); }); })(jQuery);'
             . '/*]]>*/'
             . '</script>';
+        $selectedProductTax = $model->getId() ?
+            $model->getProductTaxClasses() :
+            $model->getProductTaxClassWithDefault();
         $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT), 'multiselect',
             array(
                 'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
                 'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
                 'class' => 'required-entry',
-                'values' => $productClasses,
-                'value' => $model->getProductTaxClasses(),
+                'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+                'value' => $selectedProductTax,
                 'required' => true,
                 'after_element_html' => $selectAfterHtml,
             )
