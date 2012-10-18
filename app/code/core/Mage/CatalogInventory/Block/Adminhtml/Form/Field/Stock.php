@@ -86,7 +86,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     public function setValue($value)
     {
-        if (is_array($value)) {
+        if (is_array($value) && isset($value['qty'])) {
             $this->_qty->setValue($value['qty']);
         }
         return parent::setValue($value['is_in_stock']);
