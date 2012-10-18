@@ -55,6 +55,7 @@
 
         $.each(_helpLinkData.helpText, function (index, value) {
             $(value.helpLinkId).on('click', function (e) {
+                $('#map-popup-heading').text(value.productName);
                 var width = $('#map-popup').width();
                 var offsetX = e.pageX - (width / 2) + "px";
                 $('#map-popup').css({left: offsetX, top: e.pageY}).show();

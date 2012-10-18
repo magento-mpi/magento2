@@ -90,7 +90,8 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
         (function ($) {
             $.mage.event.observe('mage.popup.whatsthislink', function (event, helpLinkData) {
                 var helpText = {
-                    helpLinkId: "#<?php echo($helpLinkId);?>"
+                    helpLinkId: "#<?php echo($helpLinkId);?>",
+                    productName: '<?php echo $_product->getName() ?>'
                 };
                 helpLinkData.helpText.push(helpText);
             });
