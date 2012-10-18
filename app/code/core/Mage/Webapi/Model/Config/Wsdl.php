@@ -47,6 +47,9 @@ class Mage_Webapi_Model_Config_Wsdl
         if (!isset($options['resource_config'])) {
             throw new InvalidArgumentException('"resource_config" option is required.');
         }
+        if (!isset($options['requested_resources'])) {
+            throw new InvalidArgumentException('"requested_resources" option is required.');
+        }
         if (!isset($options['endpoint_url'])) {
             throw new InvalidArgumentException('"endpoint_url" option is required.');
         }

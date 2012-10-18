@@ -1,5 +1,6 @@
 <?php
 use Zend\Code\Scanner\DirectoryScanner,
+    Zend\Code\Reflection\ClassReflection,
     Zend\Server\Reflection;
 
 /**
@@ -35,6 +36,13 @@ class Mage_Webapi_Model_Config_Resource
      * @var array
      */
     protected $_data;
+
+    /**
+     * Resources complex types
+     *
+     * @var array
+     */
+    protected $_types;
 
     /**
      * Class map for auto loader.
@@ -118,10 +126,10 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getDataType($typeName)
     {
-        if (!array_key_exists($typeName, $this->_data['types'])) {
+        if (!isset($this->_types[$typeName])) {
             throw new InvalidArgumentException(sprintf('Data type "%s" is not found in config.', $typeName));
         }
-        return $this->_data['types'][$typeName];
+        return $this->_types[$typeName];
     }
 
     /**
@@ -134,9 +142,34 @@ class Mage_Webapi_Model_Config_Resource
         return $this->_data['resources'];
     }
 
+    /**
+     * Retrieve specific resource version interface data.
+     *
+     * @param string $resourceName
+     * @param string $resourceVersion
+     * @return array
+     * @throws RuntimeException
+     */
     public function getResource($resourceName, $resourceVersion)
     {
-        return $this->_data[$resourceName]['versions'][$resourceVersion];
+        $helper = Mage::helper('Mage_Webapi_Helper_Data');
+        if (!isset($this->_data[$resourceName])) {
+            throw new RuntimeException($helper->__('Unknown resource "%s".', $resourceName));
+        }
+        if (!isset($this->_data[$resourceName]['versions'][$resourceVersion])) {
+            throw new RuntimeException($helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
+                $resourceName));
+        }
+
+        $resource = array();
+        foreach ($this->_data[$resourceName]['versions'] as $version => $data) {
+            $resource = array_replace_recursive($resource, $data);
+            if ($version == $resourceVersion) {
+                break;
+            }
+        }
+
+        return $resource;
     }
 
     /**
@@ -222,10 +255,10 @@ class Mage_Webapi_Model_Config_Resource
                 /** @var \Zend\Code\Scanner\ClassScanner $class */
                 $class = reset($classes);
                 $className = $class->getName();
-                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $controllerNameMatches)) {
+                $this->_addFileToClassMap($className, $filename);
+                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $resourceData = array();
                     $resourceData['controller'] = $className;
-                    $this->_addFileToClassMap($className, $filename);
                     /** @var \Zend\Server\Reflection\ReflectionMethod $method */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
                         $methodName = $method->getName();
@@ -236,8 +269,9 @@ class Mage_Webapi_Model_Config_Resource
                             $resourceData['versions'][$version]['operations'][$operation] = $this->_getMethodData($method);
                         }
                     }
-
-                    $this->_data[$this->_translateResourceName($controllerNameMatches)] = $resourceData;
+                    // Sort versions array for further fallback.
+                    ksort($resourceData['versions']);
+                    $this->_data[$this->translateResourceName($className)] = $resourceData;
                 }
             }
 
@@ -247,25 +281,6 @@ class Mage_Webapi_Model_Config_Resource
         }
 
         return $this->_data;
-    }
-
-    /**
-     * Translate parts from controller name into resource name.
-     *
-     * @param $matches
-     * @return string
-     */
-    protected function _translateResourceName($matches)
-    {
-        list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
-        $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
-
-        $controllerNameParts = explode('_', $matches[2]);
-        if ($moduleName == $controllerNameParts[0]) {
-            array_shift($controllerNameParts);
-        }
-
-        return lcfirst($moduleNamespace . $moduleName . implode('', $controllerNameParts));
     }
 
     /**
@@ -300,7 +315,7 @@ class Mage_Webapi_Model_Config_Resource
         /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
         foreach ($prototype->getParameters() as $parameter) {
             $methodData['interface']['in']['parameters'][$parameter->getName()] = array(
-                'type' => $parameter->getType(),
+                'type' => $this->_processType($parameter->getType()),
                 'required' => !$parameter->isOptional(),
                 'documentation' => $parameter->getDescription(),
             );
@@ -308,12 +323,153 @@ class Mage_Webapi_Model_Config_Resource
 
         if ($prototype->getReturnType() != 'void') {
             $methodData['interface']['out']['result'] = array(
-                'type' => $prototype->getReturnType(),
+                'type' => $this->_processType($prototype->getReturnType()),
                 'documentation' => $prototype->getReturnValue()->getDescription()
             );
         }
 
         return $methodData;
+    }
+
+    /**
+     * Process type name.
+     * In case parameter type is a complex type (class) process it's properties.
+     *
+     * @param string $type
+     * @param string $previouslyProcessedType
+     * @return string
+     */
+    protected function _processType($type, $previouslyProcessedType = null)
+    {
+        $typeName = $this->normalizeType($type);
+        if (!$this->isTypeSimple($typeName)) {
+            $complexTypeName = $this->translateTypeName($type);
+            if (!isset($this->_types[$complexTypeName])) {
+                $typeData = $this->_processComplexType($type, $previouslyProcessedType);
+                $this->_types[$complexTypeName] = $typeData;
+            }
+            $typeName = $complexTypeName;
+        }
+
+        return $typeName;
+    }
+
+    /**
+     * Retrieve complex type information from class public properties.
+     *
+     * @param string $class
+     * @param string $previouslyProcessedClass
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _processComplexType($class, $previouslyProcessedClass = null)
+    {
+        $class = str_replace('[]', '', $class);
+        if (!class_exists($class)) {
+            throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type', $class));
+        }
+
+        $typeData = array();
+        $reflection = new ClassReflection($class);
+        $defaultProperties = $reflection->getDefaultProperties();
+        /** @var \Zend\Code\Reflection\PropertyReflection $property */
+        foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            $propertyName = $property->getName();
+            $doc = $property->getDocBlock();
+            $tags = $doc->getTags('var');
+            if (empty($tags)) {
+                throw new InvalidArgumentException('Property type must be defined with @var tag.');
+            }
+            /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
+            $varTag = current($tags);
+            $varType = str_replace('[]', '', $varTag->returnValue(0));
+            $propertyType = ($varType == $class || $varType == $previouslyProcessedClass)
+                ? $this->translateTypeName($varTag->returnValue(0))
+                : $this->_processType($varType, $class);
+            $typeData[$propertyName] = array(
+                'type' => $propertyType,
+                'required' => is_null($defaultProperties[$propertyName]),
+                'default' => $defaultProperties[$propertyName],
+                'documentation' => $doc->getShortDescription() . $doc->getLongDescription()
+            );
+        }
+
+        return $typeData;
+    }
+
+    /**
+     * Translate controller class name into resource name.
+     *
+     * @param string $class
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function translateResourceName($class)
+    {
+        if (preg_match('/(.*)_Webapi_(.*)Controller*/', $class, $matches)) {
+            list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
+            $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
+
+            $controllerNameParts = explode('_', $matches[2]);
+            if ($moduleName == $controllerNameParts[0]) {
+                array_shift($controllerNameParts);
+            }
+
+            return lcfirst($moduleNamespace . $moduleName . implode('', $controllerNameParts));
+        }
+
+        throw new InvalidArgumentException('Invalid controller class name.');
+    }
+
+    /**
+     * Translate complex type class name into type name.
+     *
+     * @param string $class
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function translateTypeName($class)
+    {
+        if (preg_match('/(.*)_(.*)_Webapi_(.*)/', $class, $matches)) {
+            $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
+            $moduleName = $matches[2];
+            $typeNameParts = explode('_', $matches[3]);
+            if ($moduleName == $typeNameParts[0]) {
+                array_shift($typeNameParts);
+            }
+
+            return lcfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
+        }
+
+        throw new InvalidArgumentException('Invalid parameter type.');
+    }
+
+    /**
+     * Normalize short type names to full type names.
+     *
+     * @param string $type
+     * @return string
+     */
+    public function normalizeType($type)
+    {
+        $normalizationMap = array(
+            'str' => 'string',
+            'int' => 'integer',
+            'bool' => 'boolean',
+        );
+
+        return isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
+    }
+
+    /**
+     * Check if given type is a simple type.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function isTypeSimple($type)
+    {
+        return in_array($type, array('string', 'integer', 'float', 'double', 'boolean', 'array'));
     }
 
     /**
@@ -335,7 +491,7 @@ class Mage_Webapi_Model_Config_Resource
      *
      * @return array
      */
-    protected function  _getAllowedMethods()
+    protected function _getAllowedMethods()
     {
         return array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,

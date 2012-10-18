@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Zend\Soap\Server;
 
 /**
  * Front controller for SOAP API. At the same time it is a handler for SOAP server
@@ -25,7 +26,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
     const WSDL_CACHE_ID = 'WSDL';
 
-    /** @var Zend_Soap_Server */
+    /** @var Server */
     protected $_soapServer;
 
     /** @var Mage_Webapi_Model_Config_Soap */
@@ -246,12 +247,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $requestedModules = $this->getRequest()->getRequestedModules();
 
-        $resources = array();
-        // TODO: implement resources loading and wsdl generation
-        foreach ($requestedModules as $moduleName => $moduleVersion) {
-            $resources[$moduleName] = $this->getResourceConfig()->getResource($moduleName, $moduleVersion);
-        }
-
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
@@ -263,6 +258,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
         $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
             'resource_config' => $this->getResourceConfig(),
+            'requested_resources' => $requestedModules,
             'endpoint_url' => $this->_getEndpointUrl(),
         ));
         $wsdlContent = $wsdlConfig->generate();
@@ -277,7 +273,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /**
      * Retrieve SOAP server. Instantiate it during the first execution
      *
-     * @return Zend_Soap_Server
+     * @return Server
      * @throws SoapFault
      */
     protected function _getSoapServer()
@@ -288,7 +284,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             do {
                 $soapSchemaImportFailed = false;
                 try {
-                    $this->_soapServer = new Zend_Soap_Server($this->_getWsdlUrl(),
+                    $this->_soapServer = new Server($this->_getWsdlUrl(),
                         array('encoding' => $this->_getApiCharset()));
                 } catch (SoapFault $e) {
                     if (false !== strpos($e->getMessage(),
