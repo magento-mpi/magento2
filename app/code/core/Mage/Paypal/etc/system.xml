@@ -491,7 +491,7 @@
                         </allow_ba_signup>
                         <!-- heading_sftp translate="label">
                             <label>some text</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>75</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -701,7 +701,7 @@
                         </line_items_enabled>
                         <heading_cc translate="label">
                             <label>Credit Card Settings</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -727,7 +727,7 @@
                         </useccv>
                         <heading_3dsecure translate="label">
                             <label>3D Secure</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -939,7 +939,7 @@
                         </line_items_enabled>
                         <heading_api translate="label">
                             <label>API/Integration</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1016,7 +1016,7 @@
                         </proxy_port>
                         <heading_cc translate="label">
                             <label>Credit Card Settings</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>85</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1042,7 +1042,7 @@
                         </useccv>
                         <heading_3dsecure translate="label">
                             <label>3D Secure</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1148,7 +1148,7 @@
                         </debug>
                         <heading_payflow translate="label">
                             <label>API/Integration</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1225,7 +1225,7 @@
                         </proxy_port>
                         <heading_cc translate="label">
                             <label>Credit Card Settings</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1251,7 +1251,7 @@
                         </useccv>
                         <heading_3dsecure translate="label">
                             <label>3D Secure</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>95</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1393,7 +1393,7 @@
                     <fields>
                         <heading_sftp translate="label">
                             <label>SFTP Credentials</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1448,7 +1448,7 @@
                         </settlement_reports_ftp_path>
                         <heading_schedule translate="label">
                             <label>Scheduled Fetching</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1503,7 +1503,7 @@
                         </logo>
                         <paypal_pages translate="label">
                             <label>PayPal Merchant Pages Style</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1632,7 +1632,7 @@
                         </debug>
                         <heading_payflowlink translate="label">
                             <label>API/Integration</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1784,7 +1784,7 @@
                         </debug>
                         <heading_payflowlink translate="label">
                             <label>API/Integration</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -74,6 +74,27 @@ return array(
     'Mage_Adminhtml_Block_System_Config_Edit' => array('suggestion' => 'Mage_Backend_Block_System_Config_Edit'),
     'Mage_Adminhtml_Block_System_Config_Form' => array('suggestion' => 'Mage_Backend_Block_System_Config_Form'),
     'Mage_Adminhtml_Block_System_Config_Tabs' => array('suggestion' => 'Mage_Backend_Block_System_Config_Tabs'),
+    'Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Regexceptions'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Notification' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Notification'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Heading' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Heading'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Datetime' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Datetime'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Array_Abstract'
+    ),
     'Mage_Adminhtml_Block_System_Config_Form_Fieldset' => array(
         'suggestion' => 'Mage_Backend_Block_System_Config_Form_Fieldset'
     ),

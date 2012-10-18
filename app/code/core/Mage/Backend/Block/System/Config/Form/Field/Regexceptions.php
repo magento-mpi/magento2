@@ -3,32 +3,33 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml system config array field renderer
+ * Backend system config array field renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
+    extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
 {
     public function __construct()
     {
         $this->addColumn('search', array(
-            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search String'),
+            'label' => $this->helper('Mage_Backend_Helper_Data')->__('Search String'),
             'style' => 'width:120px',
         ));
         $this->addColumn('value', array(
-            'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Design Theme'),
+            'label' => $this->helper('Mage_Backend_Helper_Data')->__('Design Theme'),
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Exception');
+        $this->_addButtonLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Add Exception');
         parent::__construct();
     }
 

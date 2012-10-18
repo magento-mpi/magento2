@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Synchronize button renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
+class Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize
     extends Mage_Backend_Block_System_Config_Form_Field
 {
     /*
@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('system/config/system/storage/media/synchronize.phtml');
+        $this->setTemplate('Mage_Backend::system/config/system/storage/media/synchronize.phtml');
     }
 
     /**
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getAjaxSyncUrl()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/system_config_system_storage/synchronize');
+        return $this->getUrl('*/system_config_system_storage/synchronize');
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getAjaxStatusUpdateUrl()
     {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/system_config_system_storage/status');
+        return $this->getUrl('*/system_config_system_storage/status');
     }
 
     /**
@@ -78,10 +78,10 @@ class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'synchronize_button',
-                'label'     => $this->helper('Mage_Adminhtml_Helper_Data')->__('Synchronize'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Synchronize'),
                 'onclick'   => 'javascript:synchronize(); return false;'
             ));
 

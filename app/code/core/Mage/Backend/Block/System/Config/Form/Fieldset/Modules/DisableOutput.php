@@ -3,19 +3,35 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
+class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
+    /**
+     * @var Varien_Object
+     */
     protected $_dummyElement;
+
+
+    /**
+     * @var Mage_Backend_Block_System_Config_Form_Field
+     */
     protected $_fieldRenderer;
+
+    /**
+     * @var array
+     */
     protected $_values;
 
+    /**
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
@@ -23,8 +39,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
         $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
 
         $dispatchResult = new Varien_Object($modules);
-        Mage::dispatchEvent(
-            'adminhtml_system_config_advanced_disableoutput_render_before',
+        $this->_getEventManager()->dispatch('adminhtml_system_config_advanced_disableoutput_render_before',
             array('modules' => $dispatchResult)
         );
         $modules = $dispatchResult->toArray();
@@ -32,7 +47,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
         sort($modules);
 
         foreach ($modules as $moduleName) {
-            if ($moduleName==='Mage_Adminhtml') {
+            if ($moduleName === 'Mage_Adminhtml' || $moduleName === 'Mage_Backend') {
                 continue;
             }
             $html.= $this->_getFieldHtml($element, $moduleName);
@@ -42,14 +57,20 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
         return $html;
     }
 
+    /**
+     * @return Varien_Object
+     */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Varien_Object(array('show_in_default'=>1, 'show_in_website'=>1));
+            $this->_dummyElement = new Varien_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
 
+    /**
+     * @return Mage_Backend_Block_System_Config_Form_Field
+     */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
@@ -58,21 +79,29 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
         return $this->_fieldRenderer;
     }
 
+    /**
+     * @return array
+     */
     protected function _getValues()
     {
         if (empty($this->_values)) {
             $this->_values = array(
-                array('label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Enable'), 'value'=>0),
-                array('label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disable'), 'value'=>1),
+                array('label' => $this->helper('Mage_Backend_Helper_Data')->__('Enable'), 'value' => 0),
+                array('label' => $this->helper('Mage_Backend_Helper_Data')->__('Disable'), 'value' => 1),
             );
         }
         return $this->_values;
     }
 
+    /**
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param string $moduleName
+     * @return mixed
+     */
     protected function _getFieldHtml($fieldset, $moduleName)
     {
         $configData = $this->getConfigData();
-        $path = 'advanced/modules_disable_output/'.$moduleName; //TODO: move as property of form
+        $path = 'advanced/modules_disable_output/' . $moduleName; //TODO: move as property of form
         if (isset($configData[$path])) {
             $data = $configData[$path];
             $inherit = false;

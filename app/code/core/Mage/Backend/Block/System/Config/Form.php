@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * System config form block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Form
@@ -31,9 +31,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_configData;
 
     /**
-     * Adminhtml config data instance
+     * Backend config data instance
      *
-     * @var Mage_Adminhtml_Model_Config_Data
+     * @var Mage_Backend_Model_System_Config_Data
      */
     protected $_configDataObject;
 

@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml system config array field renderer
+ * Backend system config array field renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
     extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
@@ -35,7 +35,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
     /**
      * Label of add button
      *
-     * @var unknown_type
+     * @var string
      */
     protected $_addButtonLabel;
 
@@ -60,11 +60,11 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
     public function __construct()
     {
         if (!$this->_addButtonLabel) {
-            $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add');
+            $this->_addButtonLabel = $this->helper('Mage_Backend_Helper_Data')->__('Add');
         }
         parent::__construct();
         if (!$this->getTemplate()) {
-            $this->setTemplate('Mage_Adminhtml::system/config/form/field/array.phtml');
+            $this->setTemplate('Mage_Backend::system/config/form/field/array.phtml');
         }
     }
 

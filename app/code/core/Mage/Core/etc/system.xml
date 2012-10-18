@@ -76,7 +76,7 @@
                 <modules_disable_output translate="label">
                     <label>Disable Modules Output</label>
                     <frontend_type>text</frontend_type>
-                    <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput</frontend_model>
+                    <frontend_model>Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput</frontend_model>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -277,7 +277,7 @@
                         </full_name>
                         <ua_regexp translate="label comment tooltip">
                             <label>User-Agent Exceptions</label>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Regexceptions</frontend_model>
                             <backend_model>Mage_Core_Model_Design_Backend_Exceptions</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
@@ -888,7 +888,7 @@
                         </media_database>
                         <synchronize translate="label comment">
                             <frontend_type>button</frontend_type>
-                            <frontend_model>Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize</frontend_model>
+                            <frontend_model>Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize</frontend_model>
                             <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
