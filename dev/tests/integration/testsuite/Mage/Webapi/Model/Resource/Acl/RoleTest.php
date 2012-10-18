@@ -53,4 +53,30 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($roleName, $role->getRoleName());
         }
     }
+
+    /**
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::_initUniqueFields()
+     *
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Role Name already exists.
+     *
+     * @magentoDataFixture Mage/Webapi/_files/role.php
+     */
+    public function testInitUniqueFields()
+    {
+        /** @var $roleResource Mage_Webapi_Model_Resource_Acl_Role */
+        $roleResource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
+        $uniqueFields = $roleResource->getUniqueFields();
+        $expectedUnique = array(
+            array(
+                'field' => 'role_name',
+                'title' => 'Role Name'
+            ),
+        );
+        $this->assertEquals($expectedUnique, $uniqueFields);
+
+        Mage::getModel('Mage_Webapi_Model_Acl_Role')
+            ->setRoleName('test_role')
+            ->save();
+    }
 }
