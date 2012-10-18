@@ -91,12 +91,6 @@
         </reference>
     </adminhtml_catalog_product_edit>
 
-    <adminhtml_catalog_product_categories>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories" name="catalog.product.edit.tab.categories"/>
-        </container>
-    </adminhtml_catalog_product_categories>
-
     <adminhtml_catalog_product_reviews>
         <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews" name="admin.product.reviews"/>
