@@ -80,11 +80,12 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
+        /**
+         * @TODO: Need to use ObjectManager instead 'new'.
+         * On this moment we have next bug MAGETWO-4274 which blocker for this key.
+         */
         /** @var $section Mage_Core_Model_Config_Element */
-        $section = Mage::getModel(
-            'Mage_Core_Model_Config_Element',
-            array('data' => file_get_contents(__DIR__ . '/_files/test_section_config.xml'))
-        );
+        $section = new Mage_Core_Model_Config_Element(__DIR__ . '/_files/test_section_config.xml', 0, true);
         // @codingStandardsIgnoreStart
         $group = $section->groups->test_group;
         $field = $group->fields->test_field;
