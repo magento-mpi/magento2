@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,18 +13,16 @@
  * Custom import CSV file field for shipping table rates
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Import extends Varien_Data_Form_Element_Abstract
+class Mage_Backend_Block_System_Config_Form_Field_Import extends Varien_Data_Form_Element_Abstract
 {
 
     /**
-     * Enter description here...
-     *
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct(array $data = array())
     {
         parent::__construct($data);
         $this->setType('file');
@@ -39,7 +37,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Import extends Varien_Data_F
     {
         $html = '';
 
-        $html .= '<input id="time_condition" type="hidden" name="'.$this->getName().'" value="'.time().'" />';
+        $html .= '<input id="time_condition" type="hidden" name="' . $this->getName() . '" value="'.time().'" />';
 
         $html .= <<<EndHTML
         <script type="text/javascript">

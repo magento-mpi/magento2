@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Abstract config form element renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field
-    extends Mage_Adminhtml_Block_Abstract
+class Mage_Backend_Block_System_Config_Form_Field
+    extends Mage_Backend_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
 
@@ -121,9 +121,9 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
      */
     protected function _getInheritCheckboxLabel(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkboxLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Use Default');
+        $checkboxLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Use Default');
         if ($element->getCanUseWebsiteValue()) {
-            $checkboxLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Use Website');
+            $checkboxLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Use Website');
         }
         return $checkboxLabel;
     }
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
      * Render scope label
      *
      * @param Varien_Data_Form_Element_Abstract $element
-     * @return Mage_Adminhtml_Block_System_Config_Form_Field
+     * @return Mage_Backend_Block_System_Config_Form_Field
      */
     protected function _renderScopeLabel(Varien_Data_Form_Element_Abstract $element)
     {

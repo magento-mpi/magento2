@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Image config field renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Image extends Varien_Data_Form_Element_Image
+class Mage_Backend_Block_System_Config_Form_Field_Image extends Varien_Data_Form_Element_Image
 {
 
     /**

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+    extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
      * Set template to itself

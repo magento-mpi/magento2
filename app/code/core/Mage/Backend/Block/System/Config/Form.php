@@ -54,14 +54,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * Enter description here...
      *
-     * @var Mage_Adminhtml_Block_System_Config_Form_Fieldset
+     * @var Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected $_defaultFieldsetRenderer;
 
     /**
      * Enter description here...
      *
-     * @var Mage_Adminhtml_Block_System_Config_Form_Field
+     * @var Mage_Backend_Block_System_Config_Form_Field
      */
     protected $_defaultFieldRenderer;
 
@@ -398,7 +398,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * Retrieve field renderer block
      *
      * @param array $element
-     * @return Mage_Adminhtml_Block_System_Config_Form_Field
+     * @return Mage_Backend_Block_System_Config_Form_Field
      */
     protected function _getFieldRenderer($element)
     {

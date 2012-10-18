@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark extends Ma
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Field');
+        $renderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
 
         $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 

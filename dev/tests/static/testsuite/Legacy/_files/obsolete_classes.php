@@ -74,6 +74,27 @@ return array(
     'Mage_Adminhtml_Block_System_Config_Edit' => array('suggestion' => 'Mage_Backend_Block_System_Config_Edit'),
     'Mage_Adminhtml_Block_System_Config_Form' => array('suggestion' => 'Mage_Backend_Block_System_Config_Form'),
     'Mage_Adminhtml_Block_System_Config_Tabs' => array('suggestion' => 'Mage_Backend_Block_System_Config_Tabs'),
+    'Mage_Adminhtml_Block_System_Config_Form_Fieldset' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Fieldset'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Import' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Import'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Image' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Image'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Export' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Export'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Select_Allowspecific' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_Select_Allowspecific'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_File' => array(
+        'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_File'
+    ),
     'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage',
     'Mage_Adminhtml_Block_Tag_Tag_Edit',
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',

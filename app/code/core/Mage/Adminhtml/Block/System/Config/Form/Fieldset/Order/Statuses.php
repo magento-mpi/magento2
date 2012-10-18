@@ -10,7 +10,7 @@
 
 
 class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
-    extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
+    extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     protected $_dummyElement;
     protected $_fieldRenderer;
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
         }
         return $this->_fieldRenderer;
     }

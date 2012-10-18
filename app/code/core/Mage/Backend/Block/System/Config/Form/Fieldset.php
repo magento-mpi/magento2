@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +13,11 @@
  * Config form fieldset renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Fieldset
-    extends Mage_Adminhtml_Block_Abstract
+class Mage_Backend_Block_System_Config_Form_Fieldset
+    extends Mage_Backend_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
 
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
                        }
                    };";
         }
-        return Mage::helper('Mage_Adminhtml_Helper_Js')->getScript($js);
+        return Mage::helper('Mage_Core_Helper_Js')->getScript($js);
     }
 
     /**

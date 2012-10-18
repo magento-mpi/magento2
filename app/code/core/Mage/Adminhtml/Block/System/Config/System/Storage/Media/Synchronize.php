@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_System_Config_System_Storage_Media_Synchronize
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+    extends Mage_Backend_Block_System_Config_Form_Field
 {
     /*
      * Set template
