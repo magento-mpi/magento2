@@ -13,20 +13,6 @@
 <?php $_options = Mage::helper('Mage_Core_Helper_Data')->decorateArray($this->getOptions()) ?>
 <?php if (count($_options)):?>
     <script type="text/javascript">
-    //<![CDATA[
-    var optionTextCounter = {
-        count : function(field,cntfield,maxlimit){
-            if (field.value.length > maxlimit){
-                field.value = field.value.substring(0, maxlimit);
-            } else {
-                cntfield.innerHTML = maxlimit - field.value.length;
-            }
-        }
-    }
-    //]]>
-    </script>
-
-    <script type="text/javascript">
     (function ($) {
         $.mage.event.observe('mage.priceOption.initialize', function (event, initData) {
             initData.optionConfig = <?php echo $this->getJsonConfig() ?>;

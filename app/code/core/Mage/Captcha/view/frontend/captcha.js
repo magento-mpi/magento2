@@ -15,11 +15,11 @@
             url: null,
             formSelector: null,
             imageSelector: null,
-            refreshSelector: 'refreshing'
+            refreshClass: 'refreshing'
         };
         $.mage.event.trigger("mage.captcha.initialize", captcha);
         $(captcha.imageSelector).on('click', function () {
-            $(captcha.imageSelector).addClass(captcha.refreshSelector);
+            $(captcha.imageSelector).addClass(captcha.refreshClass);
             $.ajax({
                 url: captcha.url,
                 type: 'post',
@@ -29,10 +29,10 @@
                     if (response.imgSrc) {
                         $(captcha.formSelector).attr('src', response.imgSrc);
                     }
-                    $(captcha.imageSelector).removeClass(captcha.refreshSelector);
+                    $(captcha.imageSelector).removeClass(captcha.refreshClass);
                 },
                 error: function () {
-                    $(captcha.imageSelector).removeClass(captcha.refreshSelector);
+                    $(captcha.imageSelector).removeClass(captcha.refreshClass);
                 }
             });
         });

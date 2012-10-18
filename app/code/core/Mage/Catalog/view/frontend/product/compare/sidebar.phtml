@@ -41,7 +41,7 @@ $_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
                 $.mage.event.observe('mage.compare.initialize', function (e, o) {
                     o.listSelector = '#compare-items',
                     o.removeConfirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>',
-                    o.removeSelector = '.btn-remove',
+                    o.removeSelector = '#compare-items .btn-remove',
                     o.clearAllConfirmMessage = '<?php echo $this->__('Are you sure you would like to remove all products from your comparison?') ?>',
                     o.clearAllSelector = '#compare-clear-all'
                 });
