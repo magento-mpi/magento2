@@ -3,36 +3,17 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Admin configuration model
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * System configuration structure reader
  */
-class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
+class Mage_Backend_Model_System_Config_Structure extends Magento_Config_XmlAbstract
+    implements Mage_Backend_Model_System_ConfigInterface
 {
-
-    /**
-     * Enter description here...
-     *
-     * @var Varien_Simplexml_Element
-     */
-    protected $_sections;
-
-    /**
-     * Tabs
-     *
-     * @var Varien_Simplexml_Element
-     */
-    protected $_tabs;
-
     /**
      * Main Application object
      *
@@ -41,79 +22,93 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     protected $_app;
 
     /**
-     * Initializes XML for this configuration
-     *
-     * @param array $arguments
+     * @param array $data
      */
-    public function __construct(array $arguments = array())
+    public function __construct(array $data = array())
     {
-        $this->_app = isset($arguments['app']) ? $arguments['app'] : Mage::app();
-        $sourceData = isset($arguments['data']) ? $arguments['data'] : array();
-        return parent::__construct($sourceData);
+        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
     }
 
     /**
-     * Enter description here...
+     * Get absolute path to the XML-schema file
      *
-     * @param string $sectionCode
-     * @param string $websiteCode
-     * @param string $storeCode
-     * @return Varien_Simplexml_Element
+     * @return string
      */
-    public function getSections($sectionCode=null, $websiteCode=null, $storeCode=null)
+    public function getSchemaFile()
     {
-        if (empty($this->_sections)) {
-            $this->_initSectionsAndTabs();
-        }
-
-        return $this->_sections;
+        return __DIR__ . '/config/system.xsd';
     }
 
     /**
-     * Retrive tabs
+     * Extract configuration data from the DOM structure
      *
-     * @return Varien_Simplexml_Element
+     * @param DOMDocument $dom
+     * @return array|DOMNodeList
+     */
+    protected function _extractData(DOMDocument $dom)
+    {
+        $converter = new Mage_Backend_Model_System_Config_Converter();
+        $data = $converter->convert($dom);
+        return $data['config']['system'];
+    }
+
+    /**
+     * Get XML-contents, initial for merging
+     *
+     * @return string
+     */
+    protected function _getInitialXml()
+    {
+        return '<?xml version="1.0" encoding="utf-8"?><config><system></system></config>';
+    }
+
+    /**
+     * Get list of paths to identifiable nodes
+     *
+     * @return array
+     */
+    protected function _getIdAttributes()
+    {
+        return array(
+            '/config/system/tab' => 'id',
+            '/config/system/section' => 'id',
+            '/config/system/section/group' => 'id',
+            '/config/system/section/group/field' => 'id',
+        );
+    }
+
+    /**
+     * Retrieve all sections system configuration layout
+     *
+     * @return array
+     */
+    public function getSections()
+    {
+        return $this->_data['sections'];
+    }
+
+    /**
+     * Retrieve list of tabs from
+     *
+     * @return array
      */
     public function getTabs()
     {
-        if (empty($this->_tabs)) {
-            $this->_initSectionsAndTabs();
-        }
-
-        return $this->_tabs;
+        return $this->_data['tabs'];
     }
-
-    protected function _initSectionsAndTabs()
-    {
-        $mergeConfig = Mage::getModel('Mage_Core_Model_Config_Base');
-
-        $config = Mage::getConfig()->loadModulesConfiguration('system.xml');
-
-        $this->_sections = $config->getNode('sections');
-
-        $this->_tabs = $config->getNode('tabs');
-    }
-
-
 
     /**
-     * Enter description here...
+     * Retrieve defined section
      *
      * @param string $sectionCode
      * @param string $websiteCode
      * @param string $storeCode
-     * @return Varien_Simplexml_Element
+     * @return array
      */
     public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
     {
-
-        if ($sectionCode){
-            return  $this->getSections()->$sectionCode;
-        } elseif ($websiteCode) {
-            return  $this->getSections()->$websiteCode;
-        } elseif ($storeCode) {
-            return  $this->getSections()->$storeCode;
-        }
+        $key = $sectionCode ?: $websiteCode ?: $storeCode;
+        return $this->_data['sections'][$key];
     }
 
     /**
@@ -130,10 +125,10 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
             return false;
         }
 
-        if (isset($node->groups)) {
-            $children = $node->groups->children();
-        } elseif (isset($node->fields)) {
-            $children = $node->fields->children();
+        if (isset($node['groups'])) {
+            $children = $node['groups'];
+        } elseif (isset($node['fields'])) {
+            $children = $node['fields'];
         } else {
             return true;
         }
@@ -149,7 +144,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     /**
      * Checks whether it is possible to show the node
      *
-     * @param Varien_Simplexml_Element $node
+     * @param mixed $node
      * @param string $websiteCode
      * @param string $storeCode
      * @return boolean
@@ -158,15 +153,16 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     {
         $showTab = false;
         if ($storeCode) {
-            $showTab = (int)$node->show_in_store;
+            $showTab = isset($node['showInStore']) ? (int)$node['showInStore'] : 0;
         } elseif ($websiteCode) {
-            $showTab = (int)$node->show_in_website;
-        } elseif (!empty($node->show_in_default)) {
+            $showTab = isset($node['showInWebsite']) ? (int)$node['showInWebsite'] : 0;
+        } elseif (isset($node['showInDefault']) && (int)$node['showInWebsite']) {
             $showTab = true;
         }
 
         $showTab = $showTab || $this->_app->isSingleStoreMode();
-        $showTab = $showTab && !($this->_app->isSingleStoreMode() && (int)$node->hide_in_single_store_mode);
+        $showTab = $showTab && !($this->_app->isSingleStoreMode()
+            && isset($node['hide_in_single_store_mode']) && $node['hide_in_single_store_mode']);
         return $showTab;
     }
 
@@ -258,4 +254,5 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
         }
         return $paths;
     }
+
 }
