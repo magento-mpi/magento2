@@ -296,6 +296,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['apply_to'] = array();
             }
 
+            if ('1' !== $model->getIsUserDefined()) {
+                unset($data['apply_to']);
+            }
+
             //filter
             $data = $this->_filterPostData($data);
             $model->addData($data);
