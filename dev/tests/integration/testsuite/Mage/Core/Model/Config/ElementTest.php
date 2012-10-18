@@ -41,7 +41,11 @@ class Mage_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
     </no_classname_test>
 </root>
 XML;
-        $this->_model = Mage::getModel('Mage_Core_Model_Config_Element', array('data' => $xml));
+        /**
+         * @TODO: Need to use ObjectManager instead 'new'.
+         * On this moment we have next bug MAGETWO-4274 which blocker for this key.
+         */
+        $this->_model = new Mage_Core_Model_Config_Element($xml);
     }
 
     protected function tearDown()
