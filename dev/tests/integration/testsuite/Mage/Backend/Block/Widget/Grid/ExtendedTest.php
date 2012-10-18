@@ -23,7 +23,7 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
         $this->_layoutMock = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         $this->_block = $this->_layoutMock->createBlock(
             'Mage_Backend_Block_Widget_Grid_Extended', 'grid', array('layout' => $this->_layoutMock)
