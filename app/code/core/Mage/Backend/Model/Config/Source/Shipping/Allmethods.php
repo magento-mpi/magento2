@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods
+class Mage_Backend_Model_Config_Source_Shipping_Allmethods
 {
     /**
      * Return array of carriers.

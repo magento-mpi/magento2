@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Log_Cron extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Log_Cron extends Mage_Core_Model_Config_Data
 {
     const CRON_STRING_PATH  = 'crontab/jobs/log_clean/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/log_clean/run/model';
@@ -24,7 +24,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Log_Cron extends Mage_Core_Mode
     /**
      * Cron settings after save
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Log_Cron
+     * @return Mage_Backend_Model_Config_Backend_Log_Cron
      */
     protected function _afterSave()
     {
@@ -33,9 +33,9 @@ class Mage_Adminhtml_Model_System_Config_Backend_Log_Cron extends Mage_Core_Mode
         $frequncy   = $this->getData('groups/log/fields/frequency/value');
         $errorEmail = $this->getData('groups/log/fields/error_email/value');
 
-        $frequencyDaily     = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY;
-        $frequencyWeekly    = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;
-        $frequencyMonthly   = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY;
+        $frequencyDaily     = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY;
+        $frequencyWeekly    = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY;
+        $frequencyMonthly   = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronDayOfWeek = date('N');

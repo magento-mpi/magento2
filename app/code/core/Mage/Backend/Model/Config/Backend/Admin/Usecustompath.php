@@ -16,12 +16,12 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustompath extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Admin_Usecustompath extends Mage_Core_Model_Config_Data
 {
     /**
      * Check whether redirect should be set
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustompath
+     * @return Mage_Backend_Model_Config_Backend_Admin_Usecustompath
      */
     protected function _beforeSave()
     {

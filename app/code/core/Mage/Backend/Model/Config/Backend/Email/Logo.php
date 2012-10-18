@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Email_Logo extends Mage_Adminhtml_Model_System_Config_Backend_Image
+class Mage_Backend_Model_Config_Backend_Email_Logo extends Mage_Backend_Model_Config_Backend_Image
 {
     /**
      * The tail part of directory path for uploading
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Email_Logo extends Mage_Adminht
      *
      * Save changes and delete file if "delete" option passed
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Email_Logo
+     * @return Mage_Backend_Model_Config_Backend_Email_Logo
      */
     protected function _beforeSave()
     {

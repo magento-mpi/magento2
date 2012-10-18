@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Object
+class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
 {
     /**
      * Generate list of email templates

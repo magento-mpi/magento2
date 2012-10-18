@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods
+class Mage_Backend_Model_Config_Source_Payment_Allmethods
 {
     public function toOptionArray()
     {

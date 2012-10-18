@@ -18,12 +18,12 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Currency_Base extends Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract
+class Mage_Backend_Model_Config_Backend_Currency_Base extends Mage_Backend_Model_Config_Backend_Currency_Abstract
 {
     /**
      * Check base currency is available in installed currencies
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Currency_Base
+     * @return Mage_Backend_Model_Config_Backend_Currency_Base
      */
     protected function _afterSave()
     {

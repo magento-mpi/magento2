@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_File extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 {
     /**
      * Upload max file size in kilobytes
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_File extends Mage_Core_Model_Co
     /**
      * Save uploaded file before saving config value
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_File
+     * @return Mage_Backend_Model_Config_Backend_File
      */
     protected function _beforeSave()
     {

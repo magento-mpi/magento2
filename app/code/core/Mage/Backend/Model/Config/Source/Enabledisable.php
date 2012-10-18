@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Enabledisable
+class Mage_Backend_Model_Config_Source_Enabledisable
 {
     public function toOptionArray()
     {

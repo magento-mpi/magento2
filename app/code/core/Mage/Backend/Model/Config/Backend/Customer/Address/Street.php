@@ -15,12 +15,12 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Customer_Address_Street extends Mage_Core_Model_Config_Data
 {
     /**
      * Actions after save
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street
+     * @return Mage_Backend_Model_Config_Backend_Customer_Address_Street
      */
     protected function _afterSave()
     {

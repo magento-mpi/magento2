@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon
+class Mage_Backend_Model_Config_Source_Tax_Basedon
 {
     public function toOptionArray()
     {

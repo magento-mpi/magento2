@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Customer_Group_Multiselect
+class Mage_Backend_Model_Config_Source_Customer_Group_Multiselect
 {
     /**
      * Customer groups options array

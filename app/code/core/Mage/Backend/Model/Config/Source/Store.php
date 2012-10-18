@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Store
+class Mage_Backend_Model_Config_Source_Store
 {
     protected $_options;
     

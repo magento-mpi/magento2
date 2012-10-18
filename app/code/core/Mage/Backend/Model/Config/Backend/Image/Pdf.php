@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Image_Pdf extends Mage_Adminhtml_Model_System_Config_Backend_Image
+class Mage_Backend_Model_Config_Backend_Image_Pdf extends Mage_Backend_Model_Config_Backend_Image
 {
     protected function _getAllowedExtensions()
     {

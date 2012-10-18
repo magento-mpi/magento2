@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Currency_Service
+class Mage_Backend_Model_Config_Source_Currency_Service
 {
     protected $_options;
 

@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Admin_Custom extends Mage_Core_Model_Config_Data
 {
     const CONFIG_SCOPE                      = 'stores';
     const CONFIG_SCOPE_ID                   = 0;
@@ -29,7 +29,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom extends Mage_Core_
     /**
      * Validate value before save
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom
+     * @return Mage_Backend_Model_Config_Backend_Admin_Custom
      */
     protected function _beforeSave()
     {
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom extends Mage_Core_
     /**
      * Change secure/unsecure base_url after use_custom_url was modified
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom
+     * @return Mage_Backend_Model_Config_Backend_Admin_Custom
      */
     public function _afterSave()
     {

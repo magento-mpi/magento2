@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Catalog_TimeFormat
+class Mage_Backend_Model_Config_Source_Catalog_TimeFormat
 {
     public function toOptionArray()
     {

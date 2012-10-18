@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Admin_Robots extends Mage_Core_Model_Config_Data
 {
     /**
      * Return content of default robot.txt
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots extends Mage_Core_
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots
+     * @return Mage_Backend_Model_Config_Backend_Admin_Robots
      */
     protected function _afterLoad()
     {
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots extends Mage_Core_
     /**
      * Check and process robots file
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots
+     * @return Mage_Backend_Model_Config_Backend_Admin_Robots
      */
     protected function _afterSave()
     {

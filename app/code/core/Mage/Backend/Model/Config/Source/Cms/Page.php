@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_System_Config_Source_Cms_Page
+class Mage_Backend_Model_Config_Source_Cms_Page
 {
 
     protected $_options;

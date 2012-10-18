@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer
+class Mage_Backend_Model_Config_Backend_Admin_Observer
 {
     /**
      * Log out user and redirect him to new admin custom url

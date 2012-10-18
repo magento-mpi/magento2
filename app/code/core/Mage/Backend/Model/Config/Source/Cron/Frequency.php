@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency
+class Mage_Backend_Model_Config_Source_Cron_Frequency
 {
 
     protected static $_options;

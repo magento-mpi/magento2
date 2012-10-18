@@ -11,7 +11,7 @@
 /**
  * Generate options for media database selection
  */
-class Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database
+class Mage_Backend_Model_Config_Source_Storage_Media_Database
 {
     /**
      * Store all detected connections

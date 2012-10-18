@@ -12,7 +12,7 @@
  * Used in creating options for Yes|No|Specified config value selection
  *
  */
-class Mage_Adminhtml_Model_System_Config_Source_Yesnocustom
+class Mage_Backend_Model_Config_Source_Yesnocustom
 {
 
     /**

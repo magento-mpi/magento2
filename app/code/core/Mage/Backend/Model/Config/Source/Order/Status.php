@@ -11,7 +11,7 @@
 /**
  * Order Statuses source model
  */
-class Mage_Adminhtml_Model_System_Config_Source_Order_Status
+class Mage_Backend_Model_Config_Source_Order_Status
 {
     // set null to enable all possible
     protected $_stateStatuses = array(

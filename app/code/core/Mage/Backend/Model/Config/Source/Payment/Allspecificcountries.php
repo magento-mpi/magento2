@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries
+class Mage_Backend_Model_Config_Source_Payment_Allspecificcountries
 {
     public function toOptionArray()
     {

@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Image_Adapter
+class Mage_Backend_Model_Config_Source_Image_Adapter
 {
     /**
      * Return hash of image adapter codes and labels

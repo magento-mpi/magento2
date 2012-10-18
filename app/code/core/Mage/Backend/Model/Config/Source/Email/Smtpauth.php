@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Email_Smtpauth
+class Mage_Backend_Model_Config_Source_Email_Smtpauth
 {
     public function toOptionArray()
     {

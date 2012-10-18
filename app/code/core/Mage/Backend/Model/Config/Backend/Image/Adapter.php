@@ -16,13 +16,13 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Image_Adapter extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Config_Data
 {
     /**
      * Checks if choosen image adapter available
      *
      * @throws Mage_Core_Exception if some of adapter dipendencies was not loaded
-     * @return Mage_Adminhtml_Model_System_Config_Backend_File
+     * @return Mage_Backend_Model_Config_Backend_File
      */
     protected function _beforeSave()
     {

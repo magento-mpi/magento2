@@ -12,7 +12,7 @@
  * Backend for serialized array data
  *
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array extends Mage_Adminhtml_Model_System_Config_Backend_Serialized
+class Mage_Backend_Model_Config_Backend_Serialized_Array extends Mage_Backend_Model_Config_Backend_Serialized
 {
     /**
      * Unset array element with '__empty' key

@@ -9,12 +9,12 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Backend_Seo_Product extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Seo_Product extends Mage_Core_Model_Config_Data
 {
     /**
      * Refresh category url rewrites if configuration was changed
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Seo_Product
+     * @return Mage_Backend_Model_Config_Backend_Seo_Product
      */
     protected function _afterSave()
     {

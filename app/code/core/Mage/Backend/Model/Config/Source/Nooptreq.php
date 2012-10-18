@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_System_Config_Source_Nooptreq
+class Mage_Backend_Model_Config_Source_Nooptreq
 {
     public function toOptionArray()
     {

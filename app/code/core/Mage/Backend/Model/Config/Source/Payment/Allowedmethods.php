@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Payment_Allowedmethods
-    extends Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods
+class Mage_Backend_Model_Config_Source_Payment_Allowedmethods
+    extends Mage_Backend_Model_Config_Source_Payment_Allmethods
 {
     protected function _getPaymentMethods()
     {

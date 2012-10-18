@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Translate extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Translate extends Mage_Core_Model_Config_Data
 {
     /**
      * Path to config node with list of caches
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Translate extends Mage_Core_Mod
     /**
      * Set status 'invalidate' for blocks and other output caches
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Translate
+     * @return Mage_Backend_Model_Config_Backend_Translate
      */
     protected function _afterSave()
     {

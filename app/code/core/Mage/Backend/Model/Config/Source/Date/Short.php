@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Date_Short
+class Mage_Backend_Model_Config_Source_Date_Short
 {
     public function toOptionArray()
     {

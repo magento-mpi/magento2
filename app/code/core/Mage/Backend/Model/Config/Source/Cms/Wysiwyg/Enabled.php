@@ -15,7 +15,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Source_Cms_Wysiwyg_Enabled
+class Mage_Backend_Model_Config_Source_Cms_Wysiwyg_Enabled
 {
     public function toOptionArray()
     {

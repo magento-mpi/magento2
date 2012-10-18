@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Sitemap_Cron extends Mage_Core_Model_Config_Data
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
@@ -29,9 +29,9 @@ class Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron extends Mage_Core_
         $frequncy = $this->getData('groups/generate/frequency/value');
         $errorEmail = $this->getData('groups/generate/error_email/value');
 
-        $frequencyDaily = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY;
-        $frequencyWeekly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY;
+        $frequencyDaily = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY;
+        $frequencyWeekly = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY;
 
         $cronDayOfWeek = date('N');
 
