@@ -4,13 +4,13 @@
  *
  * @copyright {}
  */
-class NamespaceA_ModuleA_Webapi_ResourceA_SubresourceBController extends Mage_Webapi_Controller_ActionAbstract
+class NamespaceA_ModuleA_Webapi_ModuleA_SubresourceBController extends Mage_Webapi_Controller_ActionAbstract
 {
     /**
      * Subresource description.
      *
      * @param int $subresourceId ID of subresource.
-     * @return NamespaceA_ModuleA_Webapi_ResourceA_DataStructure Data of resource
+     * @return NamespaceA_ModuleA_Webapi_ModuleA_DataStructure Data of resource
      */
     public function getV1($subresourceId)
     {
@@ -20,7 +20,7 @@ class NamespaceA_ModuleA_Webapi_ResourceA_SubresourceBController extends Mage_We
     /**
      * List description.
      *
-     * @return NamespaceA_ModuleA_Webapi_ResourceA_DataStructure[] list of resources
+     * @return NamespaceA_ModuleA_Webapi_ModuleA_DataStructure[] list of resources
      */
     public function listV1()
     {

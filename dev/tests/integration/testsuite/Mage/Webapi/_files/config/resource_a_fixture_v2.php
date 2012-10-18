@@ -30,7 +30,7 @@ Multiline <b>with html</b>.",
             )
         ),
         'get' => array(
-            'documentation' => 'Get resource.',
+            'documentation' => 'Get resource v2.',
             'interface' => array(
                 'in' => array(
                     'parameters' => array(
@@ -38,7 +38,12 @@ Multiline <b>with html</b>.",
                             'type' => 'integer',
                             'required' => true,
                             'documentation' => 'ID of resource'
-                        )
+                        ),
+                        'newParameter' => array(
+                            'type' => 'string',
+                            'required' => true,
+                            'documentation' => 'new parameter in version 2'
+                        ),
                     )
                 ),
                 'out' => array(
@@ -49,5 +54,5 @@ Multiline <b>with html</b>.",
                 ),
             )
         ),
-    ),
+    )
 );

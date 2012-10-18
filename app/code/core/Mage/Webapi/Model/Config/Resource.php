@@ -249,8 +249,8 @@ class Mage_Webapi_Model_Config_Resource
 
             foreach ($this->_classMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
-                    $resourceData = array();
-                    $resourceData['controller'] = $className;
+                    $data = array();
+                    $data['controller'] = $className;
                     /** @var \Zend\Server\Reflection\ReflectionMethod $method */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
                         $methodName = $method->getName();
@@ -258,12 +258,12 @@ class Mage_Webapi_Model_Config_Resource
                         if (preg_match($regEx, $methodName, $methodMatches)) {
                             $operation = $methodMatches[1];
                             $version = lcfirst($methodMatches[2]);
-                            $resourceData['versions'][$version]['operations'][$operation] = $this->_getMethodData($method);
+                            $data['versions'][$version]['operations'][$operation] = $this->_getMethodData($method);
                         }
                     }
                     // Sort versions array for further fallback.
-                    ksort($resourceData['versions']);
-                    $this->_data[$this->translateResourceName($className)] = $resourceData;
+                    ksort($data['versions']);
+                    $this->_data[$this->translateResourceName($className)] = $data;
                 }
             }
 
@@ -350,7 +350,7 @@ class Mage_Webapi_Model_Config_Resource
 
     /**
      * Process type name.
-     * In case parameter type is a complex type (class) process it's properties.
+     * In case parameter type is a complex type (class) - process it's properties.
      *
      * @param string $type
      * @param string $previouslyProcessedType
@@ -362,8 +362,7 @@ class Mage_Webapi_Model_Config_Resource
         if (!$this->isTypeSimple($typeName)) {
             $complexTypeName = $this->translateTypeName($type);
             if (!isset($this->_types[$complexTypeName])) {
-                $typeData = $this->_processComplexType($type, $previouslyProcessedType);
-                $this->_types[$complexTypeName] = $typeData;
+                $this->_types[$complexTypeName] = $this->_processComplexType($type, $previouslyProcessedType);
             }
             $typeName = $complexTypeName;
         }
@@ -383,7 +382,7 @@ class Mage_Webapi_Model_Config_Resource
     {
         $class = str_replace('[]', '', $class);
         if (!class_exists($class)) {
-            throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type', $class));
+            throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
         }
 
         $typeData = array();
@@ -399,9 +398,10 @@ class Mage_Webapi_Model_Config_Resource
             }
             /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
             $varTag = current($tags);
-            $varType = str_replace('[]', '', $varTag->returnValue(0));
-            $propertyType = ($varType == $class || $varType == $previouslyProcessedClass)
-                ? $this->translateTypeName($varTag->returnValue(0))
+            $varType = $varTag->returnValue(0);
+            $varTypeArrayClean = str_replace('[]', '', $varType);
+            $propertyType = ($varTypeArrayClean == $class || $varTypeArrayClean == $previouslyProcessedClass)
+                ? $this->translateTypeName($varType)
                 : $this->_processType($varType, $class);
             $typeData[$propertyName] = array(
                 'type' => $propertyType,

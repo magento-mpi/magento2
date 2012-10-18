@@ -13,7 +13,7 @@ return array(
                 'in' => array(
                     'parameters' => array(
                         'subresourceId' => array(
-                            'type' => 'int',
+                            'type' => 'integer',
                             'required' => true,
                             'documentation' => 'ID of subresource.'
                         )
@@ -21,7 +21,7 @@ return array(
                 ),
                 'out' => array(
                     'result' => array(
-                        'type' => 'NamespaceA_ModuleA_Webapi_ResourceA_DataStructure',
+                        'type' => 'namespaceAModuleADataStructure',
                         'documentation' => 'Data of resource'
                     )
                 ),
@@ -32,7 +32,7 @@ return array(
             'interface' => array(
                 'out' => array(
                     'result' => array(
-                        'type' => 'NamespaceA_ModuleA_Webapi_ResourceA_DataStructure[]',
+                        'type' => 'namespaceAModuleADataStructure[]',
                         'documentation' => 'list of resources'
                     )
                 ),
