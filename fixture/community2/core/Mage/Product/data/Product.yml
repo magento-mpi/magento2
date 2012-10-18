@@ -173,3 +173,27 @@ simple_product_zero_price:
     websites: Main Website
     categories: Default Category
     custom_options_data: %noValue%
+
+#*********************************************
+#*         Group Price Data                   *
+#*********************************************
+
+prices_group_price_1: &groupPrice1
+    group_price_website: All Websites [USD]
+    group_customer_group: %group_1%
+    group_price_price: 10.99
+
+prices_group_price_2: &groupPrice2
+    group_price_website: All Websites [USD]
+    group_customer_group: %group_2%
+    group_price_price: 8.99
+
+prices_group_price_3: &groupPrice3
+    group_price_website: All Websites [USD]
+    group_customer_group: %group_3%
+    group_price_price: 5.99
+
+prices_group_price_data: &groupPriceData
+    prices_group_price_1: *groupPrice1
+    prices_group_price_2: *groupPrice2
+    prices_group_price_3: *groupPrice3

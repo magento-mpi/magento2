@@ -145,3 +145,27 @@ updating_products:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
+
+new_product:
+    uimap:
+        form:
+            tabs:
+                -
+                    prices: &pricesTab
+                        xpath: //a[@title='Prices']/span
+                        fieldsets:
+                            -
+                                product_prices:
+                                    xpath: //div[contains(div/div/h4,'Prices')]
+                                    buttons:
+                                        add_group_price: //button[span='Add Group Price']
+                                        delete_group_price: //button[@id='group_price_row_%groupPriceId%_delete_button']
+                            -
+                                group_price_row:
+                                    xpath: //tbody[@id='group_price_container']/tr
+                                    dropdowns:
+                                        group_price_website: //select[@id='group_price_row_%groupPriceId%_website']
+                                        group_customer_group: //select[@id='group_price_row_%groupPriceId%_cust_group']
+                                    fields:
+                                        group_price_price: //input[@id='group_price_row_%groupPriceId%_price']
+

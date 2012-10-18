@@ -24,3 +24,4 @@ product_page:
                         pageelements:
                             price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
                             map_popup: //div[@id='map-popup']
+                            group_price: //div[@class='product-shop']//p[@class='special-price']/span[normalize-space(text())='%symbol%%price%']
