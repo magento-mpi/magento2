@@ -268,7 +268,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         foreach ($fields as $elements) {
             /** @var array $elements  */
 
-            // sort either by sort_order or by child node values bypassing the sort_order
+            // sort either by sortOrder or by child node values by passing the sortOrder
             $elements = $this->_sortElements($group, $fieldset, $elements);
 
             foreach ($elements as $element) {
@@ -379,10 +379,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'scope_id' => $this->getScopeId(),
             'scope_label' => $this->getScopeLabel($element),
             'can_use_default_value' => $this->canUseDefaultValue(
-                isset($element['show_in_default']) ? (int)$element['show_in_default'] : 0
+                isset($element['showInDefault']) ? (int)$element['showInDefault'] : 0
             ),
             'can_use_website_value' => $this->canUseWebsiteValue(
-                isset($element['show_in_website']) ? (int)$element['show_in_website'] : 0
+                isset($element['showInWebsite']) ? (int)$element['showInWebsite'] : 0
             ),
         ));
         $this->_applyFieldConfiguration($field, $element);
@@ -684,9 +684,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             false == $this->_getHelperRegistry()->get('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
             return false;
         }
-        $showInDefault = array_key_exists($field, 'show_in_default') ? (bool)$field['show_in_default'] : false;
-        $showInWebsite = array_key_exists($field, 'show_in_website') ? (bool)$field['show_in_website'] : false;
-        $showInStore = array_key_exists($field, 'show_in_store') ? (bool)$field['show_in_store'] : false;
+        $showInDefault = array_key_exists($field, 'showInDefault') ? (bool)$field['showInDefault'] : false;
+        $showInWebsite = array_key_exists($field, 'showInWebsite') ? (bool)$field['showInWebsite'] : false;
+        $showInStore = array_key_exists($field, 'showInStore') ? (bool)$field['showInStore'] : false;
         $hideIfSingleStore = array_key_exists($field, 'hide_in_single_store_mode') ?
             (int)$field['hide_in_single_store_mode'] : 0;
 
@@ -741,8 +741,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     public function getScopeLabel($element)
     {
-        $showInStore = array_key_exists($element, 'show_in_store') ? (int)$element['show_in_store'] : 0;
-        $showInWebsite = array_key_exists($element, 'show_in_website') ? (int)$element['show_in_website'] : 0;
+        $showInStore = array_key_exists($element, 'showInStore') ? (int)$element['showInStore'] : 0;
+        $showInWebsite = array_key_exists($element, 'showInWebsite') ? (int)$element['showInWebsite'] : 0;
 
         if ($showInStore == 1) {
             return $this->_scopeLabels[self::SCOPE_STORES];

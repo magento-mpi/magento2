@@ -131,7 +131,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
                 array('section' => $section)
             );
 
-            $code = $section['name'];
+            $code = $section['id'];
             $sectionAllowed = $this->checkSectionPermissions($section['resource']);
             if ((empty($current) && $sectionAllowed)) {
                 $current = $code;
@@ -177,7 +177,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
             $helperName = $this->_systemConfig->getAttributeModule($tab);
             $label = $this->_getHelperRegistry()->get($helperName)->__($tab['label']);
 
-            $this->addTab($tab['name'], array(
+            $this->addTab($tab['id'], array(
                 'label' => $label,
                 'class' => isset($tab['class']) ? $tab['class'] : ''
             ));
@@ -261,7 +261,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         $options = array();
         $options['default'] = array(
             'label'    => $this->_getHelper()->__('Default Config'),
-            'url'      => $this->getUrl('*/*/*', array('section'=>$section)),
+            'url'      => $this->getUrl('*/*/*', array('section' => $section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
         );
