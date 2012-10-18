@@ -13,8 +13,6 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_Fram
 {
     public function testBeforeToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->markTestIncomplete('Mage_GoogleShopping is not implemented yet');
 
         $block  = Mage::app()->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product');

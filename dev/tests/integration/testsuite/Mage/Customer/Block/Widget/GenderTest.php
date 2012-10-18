@@ -18,8 +18,6 @@ class Mage_Customer_Block_Widget_GenderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Customer_Block_Widget_Gender');
     }
 

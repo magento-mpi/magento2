@@ -26,8 +26,6 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_observer = Mage::getModel('Mage_DesignEditor_Model_Observer');
 
         $this->_eventObserver = new Varien_Event_Observer();
@@ -41,13 +39,11 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @magentoConfigFixture current_store admin/security/session_lifetime 100
      */
     public function testPreDispatchDeactivateDesignEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         /** @var $session Mage_DesignEditor_Model_Session */
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->assertNotEmpty($session->getData(Mage_DesignEditor_Model_Session::SESSION_DESIGN_EDITOR_ACTIVE));
@@ -62,12 +58,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testPreDispatchApplyDesign()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $newSkin = 'default/default/blank';
         $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
         Mage::getSingleton('Mage_DesignEditor_Model_Session')->setSkin($newSkin);
@@ -77,12 +71,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testPreDispatchApplyDesignIgnoreNoSkin()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $currentSkin = Mage::getDesign()->getDesignTheme();
         $this->assertEmpty(Mage::getSingleton('Mage_DesignEditor_Model_Session')->getSkin());
         $this->_observer->preDispatch($this->_eventObserver);
@@ -104,12 +96,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testAddToolbar()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $layoutUpdate = Mage::app()->getLayout()->getUpdate();
         $this->assertNotContains(Mage_DesignEditor_Model_Observer::HANDLE_TOOLBAR, $layoutUpdate->getHandles());
         $this->_observer->addToolbar($this->_eventObserver);
@@ -128,26 +118,23 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testDisableBlocksOutputCachingActive()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
         $this->_observer->disableBlocksOutputCaching(new Varien_Event_Observer());
         $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testSetDesignEditorFlag()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture + block');
-
         $headBlock = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $structure = Mage::getModel('Magento_Data_Structure');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
         $layout->addBlock($headBlock, 'head');
         $this->assertEmpty($headBlock->getDesignEditorActive());
         $observerData = new Varien_Event_Observer(array('event' => new Varien_Object(array('layout' => $layout))));
@@ -160,13 +147,11 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @param string $elementHtml
      * @param string $expectedOutput
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @dataProvider wrapPageElementDataProvider
      */
     public function testWrapPageElement($elementName, $elementHtml, $expectedOutput)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         //@TODO Consider remaking the test cause now it's very fragile.
         // Trivial change of wrapper template requires modifications in data provider
 
@@ -248,7 +233,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testWrapPageElementHighlightingDisabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture. Depends on controller fix');
 
         //@TODO Consider remaking the test cause now it's very fragile.
         // Trivial change of wrapper template requires modifications in data provider
@@ -288,8 +273,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         // create a layout object mock with fixture data
         $utility = new Mage_Core_Utility_Layout($this);;
-        $layoutMock = $utility->getLayoutFromFixture(
-            __DIR__ . '/../_files/observer_test.xml', array(array('structure' => new Magento_Data_Structure))
+        $layoutMock = $utility->getLayoutFromFixture(__DIR__ . '/../_files/observer_test.xml',
+            $utility->getLayoutDependencies()
         );
 
         // load the fixture data. This will populate layout structure as well
@@ -310,12 +295,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testAdminSessionUserLogout()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         /** @var $session Mage_DesignEditor_Model_Session */
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->assertTrue($session->isDesignEditorActive());

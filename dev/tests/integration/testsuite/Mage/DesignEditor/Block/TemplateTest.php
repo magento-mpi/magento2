@@ -13,7 +13,7 @@ class Mage_DesignEditor_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     public function testIsHighlightingDisabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
+        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
 
         $block = Mage::app()->getLayout()->createBlock('Mage_DesignEditor_Block_Template');
         $this->assertFalse($block->isHighlightingDisabled());

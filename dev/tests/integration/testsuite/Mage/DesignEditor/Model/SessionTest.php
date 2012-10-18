@@ -23,8 +23,6 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model = Mage::getModel('Mage_DesignEditor_Model_Session');
     }
 
@@ -39,34 +37,30 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testIsDesignEditorActiveTrue()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertTrue($this->_model->isDesignEditorActive());
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @magentoConfigFixture current_store admin/security/session_lifetime 100
      */
     public function testIsDesignEditorActiveAdminSessionExpired()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertTrue($this->_model->isDesignEditorActive());
         $this->_model->setUpdatedAt(time() - 101);
         $this->assertFalse($this->_model->isDesignEditorActive());
     }
 
     /**
-     * magentoDataFixture loginAdmin
+     * @magentoDataFixture loginAdmin
      */
     public function testActivateDesignEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
 
         $this->assertFalse($this->_model->isDesignEditorActive());
         $this->_model->activateDesignEditor();
@@ -88,12 +82,10 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testDeactivateDesignEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->assertTrue($this->_model->isDesignEditorActive());
         $this->_model->deactivateDesignEditor();
         $this->assertFalse($this->_model->isDesignEditorActive());
@@ -101,7 +93,7 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 
     public function testIsHighlightingDisabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
+        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
 
         $this->assertFalse($this->_model->isHighlightingDisabled());
         Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
@@ -111,14 +103,12 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @depends testDeactivateDesignEditor
      * @depends testIsHighlightingDisabled
      */
     public function testIsHighlightingDisabledOnDeactivateDesignEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
         $this->assertTrue($this->_model->isHighlightingDisabled());
         $this->_model->deactivateDesignEditor();

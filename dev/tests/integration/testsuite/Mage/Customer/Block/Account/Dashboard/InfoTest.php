@@ -18,8 +18,6 @@ class Mage_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Customer_Block_Account_Dashboard_Info');
     }
 

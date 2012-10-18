@@ -12,8 +12,8 @@
 /**
  * Test for presence of the design editor toolbar on frontend pages
  *
- * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
- * magentoDataFixture Mage/Catalog/controllers/_files/products.php
+ * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+ * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
  */
 class Mage_DesignEditor_Block_ToolbarCrosscuttingTest extends Magento_Test_TestCase_ControllerAbstract
 {
@@ -29,32 +29,24 @@ class Mage_DesignEditor_Block_ToolbarCrosscuttingTest extends Magento_Test_TestC
 
     public function testCmsHomePage()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('cms/index/index');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCustomerAccountLogin()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('customer/account/login');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCatalogProductView()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('catalog/product/view/id/1');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCheckoutCart()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('checkout/cart/index');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }

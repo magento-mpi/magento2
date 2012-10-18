@@ -14,8 +14,6 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
 {
     public function testGetUploadButtonsHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $block = Mage::app()->getLayout()->createBlock(
             'Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples'
         );
