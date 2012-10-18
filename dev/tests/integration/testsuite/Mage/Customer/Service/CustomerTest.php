@@ -44,7 +44,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * Create and check customer
      *
-     * @param $customerData
+     * @param array $customerData
      */
     protected function _createAndCheckCustomer($customerData)
     {
@@ -53,18 +53,17 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_createdCustomer->isObjectNew());
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
-        foreach ($customerData as $key => $val) {
-            $this->assertEquals($val, $this->_createdCustomer->getData($key));
-        }
+        $createdData = $this->_createdCustomer->toArray(array_keys($customerData));
+        $this->assertEquals($createdData, $customerData);
     }
 
     /**
      * Update and check customer
      *
-     * @param $customerId
-     * @param $customerData
-     * @param $assertFunction
-     * @param $forbiddenFields
+     * @param int $customerId
+     * @param array $customerData
+     * @param string $assertFunction
+     * @param array $forbiddenFields
      * @return Mage_Customer_Model_Customer
      */
     protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction, $forbiddenFields = array())
@@ -88,7 +87,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      * @param string $exceptionText
      * @dataProvider initCreateCustomerDataProvider
      */
-    public function testCreate($customerData, $exceptionName, $exceptionText = '')
+    public function testCreate($customerData, $exceptionName = '', $exceptionText = '')
     {
         if (!empty($exceptionName)) {
             $this->setExpectedException($exceptionName, $exceptionText);
@@ -224,15 +223,17 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
      */
     public function testDelete()
     {
-        $previousStoreId = Mage::app()->getStore();
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
 
         $this->_model->delete(1);
 
-        Mage::app()->setCurrentStore($previousStoreId);
+        $customer = new Mage_Customer_Model_Customer();
+        $customer->load(1);
+        $this->assertEmpty($customer->getId());
     }
 
     /**

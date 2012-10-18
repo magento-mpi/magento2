@@ -58,13 +58,12 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function update($customerId, $customerData)
     {
-        $this->_removeForbiddenFields('customer', 'update', $customerData);
-
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = $this->_loadCustomerById($customerId)
-            ->addData($customerData);
+        $customer = $this->_loadCustomerById($customerId);
 
+        $this->_removeForbiddenFields('customer', 'update', $customerData);
         if (!empty($customerData)) {
+            $customer->addData($customerData);
             $this->_save($customer, $customerData);
             $this->_changePassword($customer, $customerData);
         }
