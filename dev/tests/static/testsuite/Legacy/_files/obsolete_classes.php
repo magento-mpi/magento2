@@ -116,6 +116,17 @@ return array(
     'Mage_Adminhtml_Block_System_Config_Form_Field_File' => array(
         'suggestion' => 'Mage_Backend_Block_System_Config_Form_Field_File'
     ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct' => array(
+        'suggestion' => 'Mage_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduct'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatcatalog' => array(
+        'suggestion' => 'Mage_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatcatalog'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses' => array(
+        'suggestion' => 'Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses'
+    ),
+    'Mage_Adminhtml_Block_System_Config_Dwstree' => array('suggestion' => 'Mage_Backend_Block_System_Config_Dwstree'),
+    'Mage_Adminhtml_Block_System_Config_Switcher' => array('suggestion' => 'Mage_Backend_Block_System_Config_Switcher'),
     'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage',
     'Mage_Adminhtml_Block_Tag_Tag_Edit',
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',

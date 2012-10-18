@@ -3,17 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_Template
+class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Template
 {
+    /**
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
-        $this->setTemplate('system/config/switcher.phtml');
+        $this->setTemplate('Mage_Backend::system/config/switcher.phtml');
         return parent::_prepareLayout();
     }
 
@@ -25,19 +27,16 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
     public function getStoreSelectOptions()
     {
         $section = $this->getRequest()->getParam('section');
-
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
         $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
         /* @var $storeModel Mage_Core_Model_System_Store */
 
-        $url = Mage::getModel('Mage_Adminhtml_Model_Url');
-
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Config'),
-            'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
+            'label'    => $this->helper('Mage_Backend_Helper_Data')->__('Default Config'),
+            'url'      => $this->getUrl('*/*/*', array('section' => $section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
         );
@@ -57,7 +56,9 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
                         $websiteShow = true;
                         $options['website_' . $website->getCode()] = array(
                             'label'    => $website->getName(),
-                            'url'      => $url->getUrl('*/*/*', array('section'=>$section, 'website'=>$website->getCode())),
+                            'url'      => $this->getUrl('*/*/*',
+                                array('section' => $section, 'website' => $website->getCode())
+                            ),
                             'selected' => !$curStore && $curWebsite == $website->getCode(),
                             'style'    => 'padding-left:16px; background:#DDD; font-weight:bold;',
                         );
@@ -73,7 +74,9 @@ class Mage_Adminhtml_Block_System_Config_Switcher extends Mage_Adminhtml_Block_T
                     }
                     $options['store_' . $store->getCode()] = array(
                         'label'    => $store->getName(),
-                        'url'      => $url->getUrl('*/*/*', array('section'=>$section, 'website'=>$website->getCode(), 'store'=>$store->getCode())),
+                        'url'      => $this->getUrl('*/*/*',
+                            array('section' => $section, 'website' => $website->getCode(), 'store' => $store->getCode())
+                        ),
                         'selected' => $curStore == $store->getCode(),
                         'style'    => '',
                     );

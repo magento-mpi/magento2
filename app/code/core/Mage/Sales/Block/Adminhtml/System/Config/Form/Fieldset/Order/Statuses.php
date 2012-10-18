@@ -3,41 +3,59 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
+class Mage_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
+    /**
+     * @var Varien_Object
+     */
     protected $_dummyElement;
+
+    /**
+     * @var Mage_Backend_Block_System_Config_Form_Field
+     */
     protected $_fieldRenderer;
+
+    /**
+     * @var array
+     */
     protected $_values;
 
+    /**
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = ''; //$this->_getHeaderHtml($element);
+        $html = '';
 
         $statuses = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection')->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
             $html.= $this->_getFieldHtml($element, $id, $status);
         }
-        #$html .= $this->_getFooterHtml($element);
-
         return $html;
     }
 
+    /**
+     * @return Varien_Object
+     */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Varien_Object(array('show_in_default'=>1, 'show_in_website'=>1));
+            $this->_dummyElement = new Varien_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
 
+    /**
+     * @return Mage_Backend_Block_System_Config_Form_Field
+     */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
@@ -46,6 +64,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
         return $this->_fieldRenderer;
     }
 
+    /**
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param string $id
+     * @param string $status
+     * @return string
+     */
     protected function _getFieldHtml($fieldset, $id, $status)
     {
         $configData = $this->getConfigData();
@@ -68,5 +92,4 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
 
         return $field->toHtml();
     }
-
 }

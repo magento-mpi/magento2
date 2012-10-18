@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Adminhtml Config Field Select Flat Product Block
+ * Catalog Config Field Select Flat Product Block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct
+class Mage_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduct
     extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct
      * @return string
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
-        if (!Mage::helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
+        if (!$this->helper('Mage_Catalog_Helper_Product_Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }
