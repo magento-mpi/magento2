@@ -27,7 +27,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected $_section;
 
     /**
-     * @var Mage_Backend_Model_System_ConfigInterface
+     * @var Mage_Backend_Model_ConfigInterface
      */
     protected $_systemConfig;
 
@@ -43,7 +43,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     {
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
-            Mage::getSingleton('Mage_Backend_Model_System_Config');
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
         $this->_helper = isset($data['helper']) ? isset($data['helper']) : null;
 

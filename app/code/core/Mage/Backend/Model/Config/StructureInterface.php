@@ -16,7 +16,7 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Backend_Model_System_ConfigInterface
+interface Mage_Backend_Model_Config_StructureInterface
 {
     /**
      * Get all sections configuration

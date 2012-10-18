@@ -14,7 +14,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Backend_Model_Config extends Varien_Object
@@ -23,7 +23,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      * Save config section
      * Require set: section, website, store and groups
      *
-     * @return Mage_Adminhtml_Model_Config_Data
+     * @return Mage_Backend_Model_Config
      */
     public function save()
     {
@@ -43,7 +43,7 @@ class Mage_Backend_Model_Config extends Varien_Object
             return $this;
         }
 
-        $sections = Mage::getModel('Mage_Backend_Model_System_Config_Structure')->getSections();
+        $sections = Mage::getModel('Mage_Backend_Model_Config_Structure')->getSections();
         /* @var $sections Mage_Core_Model_Config_Element */
 
         $oldConfig = $this->_getConfig(true);

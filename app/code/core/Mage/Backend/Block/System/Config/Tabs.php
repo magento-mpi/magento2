@@ -34,7 +34,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     protected $_helper;
 
     /**
-     * @var Mage_Backend_Model_System_ConfigInterface
+     * @var Mage_Backend_Model_Config_StructureInterface
      */
     protected $_systemConfig;
 
@@ -47,7 +47,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
-            Mage::getSingleton('Mage_Backend_Model_System_Config');
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
         parent::__construct($data);
         

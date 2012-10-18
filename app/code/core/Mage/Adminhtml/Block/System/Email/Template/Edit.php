@@ -371,16 +371,16 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
                     }
                 }
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('Mage_Backend_Model_System_Config_Structure')
+                    'title' => Mage::getSingleton('Mage_Backend_Model_Config_Structure')
                         ->getSystemConfigNodeLabel($sectionName),
                     'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('Mage_Backend_Model_System_Config_Structure')
+                    'title' => Mage::getSingleton('Mage_Backend_Model_Config_Structure')
                         ->getSystemConfigNodeLabel($sectionName, $groupName)
                 );
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('Mage_Backend_Model_System_Config_Structure')
+                    'title' => Mage::getSingleton('Mage_Backend_Model_Config_Structure')
                         ->getSystemConfigNodeLabel($sectionName, $groupName, $fieldName),
                     'scope' => $scopeLabel
                 );

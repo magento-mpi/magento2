@@ -16,7 +16,7 @@ class Mage_Backend_Model_Config_Source_Email_Identity
     {
         if (is_null($this->_options)) {
             $this->_options = array();
-            $config = Mage::getSingleton('Mage_Backend_Model_System_Config_Structure')
+            $config = Mage::getSingleton('Mage_Backend_Model_Config_Structure')
                 ->getSection('trans_email');
 
             $fields = $config['groups']['fields'];

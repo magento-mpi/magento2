@@ -17,7 +17,7 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_System_Config_Structure_Converter
+class Mage_Backend_Model_Config_Structure_Converter
 {
     protected $nameMap = array(
         'tab' => 'tabs',

@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_System_Config_ReaderTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Model_System_Config_Reader
+     * @var Mage_Backend_Model_Config_Structure_Reader
      */
     protected $_model;
 
@@ -32,7 +32,7 @@ class Mage_Backend_Model_System_Config_ReaderTest extends PHPUnit_Framework_Test
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
         $this->_cacheMock->expects($this->any())->method('canUse')->will($this->returnValue(true));
 
-        $this->_model = new Mage_Backend_Model_System_Config_Reader(array(
+        $this->_model = new Mage_Backend_Model_Config_Structure_Reader(array(
             'config' => $this->_appConfigMock,
             'cache' => $this->_cacheMock
         ));
@@ -46,7 +46,7 @@ class Mage_Backend_Model_System_Config_ReaderTest extends PHPUnit_Framework_Test
         $cachedData = serialize($cachedObject);
 
         $this->_cacheMock->expects($this->once())->method('load')
-            ->with(Mage_Backend_Model_System_Config_Reader::CACHE_SYSTEM_CONFIGURATION)
+            ->with(Mage_Backend_Model_Config_Structure_Reader::CACHE_SYSTEM_CONFIGURATION_STRUCTURE)
             ->will($this->returnValue($cachedData));
 
         $this->assertEquals($cachedObject, $this->_model->getConfiguration());
@@ -67,7 +67,7 @@ class Mage_Backend_Model_System_Config_ReaderTest extends PHPUnit_Framework_Test
 
         $this->_appConfigMock->expects($this->once())
             ->method('getModelInstance')
-            ->with('Mage_Backend_Model_System_Config', $testFiles)
+            ->with('Mage_Backend_Model_Config_Structure', $testFiles)
             ->will($this->returnValue($configMock));
 
         $this->_cacheMock->expects($this->once())->method('save')->with(

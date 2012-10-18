@@ -33,7 +33,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * Backend config data instance
      *
-     * @var Mage_Backend_Model_System_Config_Data
+     * @var Mage_Backend_Model_Config
      */
     protected $_configDataObject;
 
@@ -47,7 +47,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * System configuration
      *
-     * @var Mage_Backend_Model_System_ConfigInterface
+     * @var Mage_Backend_Model_Config_StructureInterface
      */
     protected $_systemConfig;
 
@@ -93,7 +93,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $this->_helper = isset($data['helper']) ? isset($data['helper']) : null;
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
-            Mage::getSingleton('Mage_Backend_Model_System_Config');
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
         parent::__construct($data);
 
@@ -126,7 +126,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configDataObject = $this->_objectFactory->getModelInstance('Mage_Backend_Model_System_Config_Data')
+        $this->_configDataObject = $this->_objectFactory->getModelInstance('Mage_Backend_Model_Config')
             ->setSection($this->getSectionCode())
             ->setWebsite($this->getWebsiteCode())
             ->setStore($this->getStoreCode());

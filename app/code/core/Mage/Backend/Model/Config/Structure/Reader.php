@@ -17,9 +17,9 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_System_Config_Structure_Reader
+class Mage_Backend_Model_Config_Structure_Reader
 {
-    const CACHE_SYSTEM_CONFIGURATION_LAYOUT = 'backend_system_configuration_layout';
+    const CACHE_SYSTEM_CONFIGURATION_STRUCTURE = 'backend_system_configuration_structure';
 
     /**
      * @var Mage_Core_Model_Cache
@@ -44,24 +44,24 @@ class Mage_Backend_Model_System_Config_Structure_Reader
     /**
      * Load system configuration
      *
-     * @return Mage_Backend_Model_System_Config
+     * @return Mage_Backend_Model_Config_Structure
      */
     public function getConfiguration()
     {
         if ($this->_cache->canUse('config')) {
-            $cache = $this->_cache->load(self::CACHE_SYSTEM_CONFIGURATION_LAYOUT);
+            $cache = $this->_cache->load(self::CACHE_SYSTEM_CONFIGURATION_STRUCTURE);
             if ($cache) {
                 return unserialize($cache);
             }
         }
 
         $fileNames = $this->_appConfig->getModuleConfigurationFiles('adminhtml' . DIRECTORY_SEPARATOR . 'system.xml');
-        $config = $this->_appConfig->getModelInstance('Mage_Backend_Model_System_Config_Layout', $fileNames);
+        $config = $this->_appConfig->getModelInstance('Mage_Backend_Model_Config_Structure', $fileNames);
 
         if ($this->_cache->canUse('config')) {
             $this->_cache->save(
                 serialize($config),
-                self::CACHE_SYSTEM_CONFIGURATION_LAYOUT,
+                self::CACHE_SYSTEM_CONFIGURATION_STRUCTURE,
                 array(Mage_Core_Model_Config::CACHE_TAG)
             );
         }

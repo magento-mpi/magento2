@@ -11,8 +11,8 @@
 /**
  * System configuration structure reader
  */
-class Mage_Backend_Model_System_Config_Structure extends Magento_Config_XmlAbstract
-    implements Mage_Backend_Model_System_ConfigInterface
+class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
+    implements Mage_Backend_Model_Config_StructureInterface
 {
     /**
      * Main Application object
@@ -47,7 +47,7 @@ class Mage_Backend_Model_System_Config_Structure extends Magento_Config_XmlAbstr
      */
     protected function _extractData(DOMDocument $dom)
     {
-        $converter = new Mage_Backend_Model_System_Config_Converter();
+        $converter = new Mage_Backend_Model_Config_Structure_Converter();
         $data = $converter->convert($dom);
         return $data['config']['system'];
     }
