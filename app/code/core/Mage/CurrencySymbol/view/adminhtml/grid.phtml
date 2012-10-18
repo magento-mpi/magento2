@@ -67,7 +67,7 @@
     </div>
 </form>
 <script type="text/javascript">
-    var currencySymbolsForm = new varienForm('currency_symbols_form');
+    jQuery('#currency_symbols_form').form().validation();
 
     function toggleUseDefault(code, value)
     {

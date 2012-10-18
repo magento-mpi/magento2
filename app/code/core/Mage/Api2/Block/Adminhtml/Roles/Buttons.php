@@ -47,8 +47,11 @@ class Mage_Api2_Block_Adminhtml_Roles_Buttons extends Mage_Adminhtml_Block_Templ
             ),
             'saveButton'    => array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Role'),
-                'onclick'   => 'roleForm.submit(); return false;',
-                'class'     => 'save'
+                //'onclick'   => 'roleForm.submit(); return false;',
+                'class'     => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#role_edit_form')
+                )
             ),
             'deleteButton'  => array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Role'),

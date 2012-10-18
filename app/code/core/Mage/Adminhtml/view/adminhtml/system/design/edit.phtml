@@ -26,5 +26,6 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-    var designForm = new varienForm('design_edit_form');
+    jQuery('#design_edit_form').form().validation();
+    //var designForm = new varienForm('design_edit_form');
 </script>

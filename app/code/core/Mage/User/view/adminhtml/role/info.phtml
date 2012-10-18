@@ -25,5 +25,6 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-    var roleForm = new varienForm('role_edit_form');
+    jQuery('#role_edit_form').form().validation();
+    //var roleForm = new varienForm('role_edit_form');
 </script>

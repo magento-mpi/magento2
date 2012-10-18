@@ -33,5 +33,5 @@
     <?php echo $this->getChildHtml('form') ?>
 </form>
 <script type="text/javascript">
-    var configForm = new varienForm('config_edit_form');
+    jQuery('#config_edit_form').form().validation();
 </script>

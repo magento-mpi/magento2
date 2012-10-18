@@ -24,8 +24,9 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-var attributesForm = new varienForm('attributes_edit_form', '<?php echo $this->getValidationUrl() ?>');
-attributesForm._processValidationResult = function(transport) {
+    jQuery('#attributes_edit_form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+//var attributesForm = new varienForm('attributes_edit_form', '<?php echo $this->getValidationUrl() ?>');
+/*attributesForm._processValidationResult = function(transport) {
     var response = transport.responseText.evalJSON();
 
     if (response.error){
@@ -41,5 +42,5 @@ attributesForm._processValidationResult = function(transport) {
     } else {
         attributesForm._submit();
     }
-}; 
+};*/
 </script>
