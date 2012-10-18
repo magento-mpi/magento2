@@ -151,7 +151,7 @@ Update as of 9/05/2012
 * Fixes:
   * Fixed Magento console installer to enable write permission recursively to the `var` directory
   * Fixed performance tests to enable write permission recursively to the `var` directory
-  * Fixed integration test `Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest::testToOptionArray` to not produce "Warning: DOMDocument::loadHTML(): htmlParseEntityRef: expecting ';' in Entity" in the developer mode
+  * Fixed integration test `Mage_Backend_Model_Config_Source_Admin_PageTest::testToOptionArray` to not produce "Warning: DOMDocument::loadHTML(): htmlParseEntityRef: expecting ';' in Entity" in the developer mode
 * GitHub requests:
   * [#43](https://github.com/magento/magento2/pull/43) -- implemented logging of executed setup files
   * [#44](https://github.com/magento/magento2/pull/44)

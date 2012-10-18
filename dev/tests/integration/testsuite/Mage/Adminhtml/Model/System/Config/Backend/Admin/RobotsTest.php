@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots
+     * @var Mage_Backend_Model_Config_Backend_Admin_Robots
      */
     protected $_model = null;
 
@@ -21,7 +21,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_model = new Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots();
+        $this->_model = new Mage_Backend_Model_Config_Backend_Admin_Robots();
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }

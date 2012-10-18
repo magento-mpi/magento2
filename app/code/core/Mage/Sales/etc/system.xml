@@ -40,7 +40,7 @@
                             <label>Hide Customer IP</label>
                             <comment>Controls whether customer IP is shown in orders, invoices, shipments, credit memos.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -108,7 +108,7 @@
                         <allow translate="label">
                             <label>Allow Reorder</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -126,7 +126,7 @@
                         <logo translate="label comment">
                             <label>Logo for PDF Print-outs (200x50)</label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image_Pdf</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Image_Pdf</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo</upload_dir>
                             <base_url type="media" scope_info="1">sales/store/logo</base_url>
                             <sort_order>100</sort_order>
@@ -138,7 +138,7 @@
                         <logo_html translate="label comment">
                             <label>Logo for HTML Print View</label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo_html</upload_dir>
                             <base_url type="media" scope_info="1">sales/store/logo_html</base_url>
                             <sort_order>150</sort_order>
@@ -169,7 +169,7 @@
                             <label>Enable</label>
                             <sort_order>5</sort_order>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -203,7 +203,7 @@
                             <label>Validate Each Address Separately in Multi-address Checkout</label>
                             <sort_order>40</sort_order>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -239,7 +239,7 @@
                             <label>Use Aggregated Data (beta)</label>
                             <sort_order>10</sort_order>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -270,7 +270,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -279,7 +279,7 @@
                         <identity translate="label">
                             <label>New Order Confirmation Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -288,7 +288,7 @@
                         <template translate="label">
                             <label>New Order Confirmation Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -297,7 +297,7 @@
                         <guest_template translate="label">
                             <label>New Order Confirmation Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -315,7 +315,7 @@
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -335,7 +335,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -344,7 +344,7 @@
                         <identity translate="label">
                             <label>Order Comment Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -353,7 +353,7 @@
                         <template translate="label">
                             <label>Order Comment Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -362,7 +362,7 @@
                         <guest_template translate="label">
                             <label>Order Comment Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -380,7 +380,7 @@
                         <copy_method translate="label">
                             <label>Send Order Comments Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -400,7 +400,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -409,7 +409,7 @@
                         <identity translate="label">
                             <label>Invoice Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -418,7 +418,7 @@
                         <template translate="label">
                             <label>Invoice Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -427,7 +427,7 @@
                         <guest_template translate="label">
                             <label>Invoice Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -445,7 +445,7 @@
                         <copy_method translate="label">
                             <label>Send Invoice Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -464,7 +464,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -473,7 +473,7 @@
                         <identity translate="label">
                             <label>Invoice Comment Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -482,7 +482,7 @@
                         <template translate="label">
                             <label>Invoice Comment Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -491,7 +491,7 @@
                         <guest_template translate="label">
                             <label>Invoice Comment Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -509,7 +509,7 @@
                         <copy_method translate="label">
                             <label>Send Invoice Comments Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -529,7 +529,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -538,7 +538,7 @@
                         <identity translate="label">
                             <label>Shipment Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -547,7 +547,7 @@
                         <template translate="label">
                             <label>Shipment Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -556,7 +556,7 @@
                         <guest_template translate="label">
                             <label>Shipment Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -574,7 +574,7 @@
                         <copy_method translate="label">
                             <label>Send Shipment Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -593,7 +593,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -602,7 +602,7 @@
                         <identity translate="label">
                             <label>Shipment Comment Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -611,7 +611,7 @@
                         <template translate="label">
                             <label>Shipment Comment Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -620,7 +620,7 @@
                         <guest_template translate="label">
                             <label>Shipment Comment Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -638,7 +638,7 @@
                         <copy_method translate="label">
                             <label>Send Shipment Comments Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -658,7 +658,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -667,7 +667,7 @@
                         <identity translate="label">
                             <label>Credit Memo Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -676,7 +676,7 @@
                         <template translate="label">
                             <label>Credit Memo Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -685,7 +685,7 @@
                         <guest_template translate="label">
                             <label>Credit Memo Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -703,7 +703,7 @@
                         <copy_method translate="label">
                             <label>Send Credit Memo Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -722,7 +722,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -731,7 +731,7 @@
                         <identity translate="label">
                             <label>Credit Memo Comment Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -740,7 +740,7 @@
                         <template translate="label">
                             <label>Credit Memo Comment Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -749,7 +749,7 @@
                         <guest_template translate="label">
                             <label>Credit Memo Comment Email Template for Guest</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -767,7 +767,7 @@
                         <copy_method translate="label">
                             <label>Send Credit Memo Comments Email Copy Method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Method</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Method</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -798,7 +798,7 @@
                         <put_order_id translate="label">
                             <label>Display Order ID in Header</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -817,7 +817,7 @@
                         <put_order_id translate="label">
                             <label>Display Order ID in Header</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -836,7 +836,7 @@
                         <put_order_id translate="label">
                             <label>Display Order ID in Header</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

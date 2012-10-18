@@ -10,10 +10,10 @@
  */
 
 /**
- * Test class for Mage_Adminhtml_Model_System_Config_Source_Admin_Page
+ * Test class for Mage_Backend_Model_Config_Source_Admin_Page
  */
 
-class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Model_Menu
@@ -31,7 +31,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends PHPUnit_F
     protected $_factoryMock;
 
     /**
-     * @var Mage_Adminhtml_Model_System_Config_Source_Admin_Page
+     * @var Mage_Backend_Model_Config_Source_Admin_Page
      */
     protected $_model;
 
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends PHPUnit_F
         $item2->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
         $this->_menuSubModel->add($item2);
 
-        $this->_model = new Mage_Adminhtml_Model_System_Config_Source_Admin_Page(
+        $this->_model = new Mage_Backend_Model_Config_Source_Admin_Page(
             array(
                 'menu' => $this->_menuModel,
                 'objectFactory' => $this->_factoryMock,

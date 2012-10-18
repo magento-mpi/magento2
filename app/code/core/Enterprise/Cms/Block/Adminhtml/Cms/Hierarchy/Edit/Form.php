@@ -145,7 +145,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes

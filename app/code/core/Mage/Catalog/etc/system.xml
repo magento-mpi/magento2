@@ -85,7 +85,7 @@
                         <list_mode translate="label">
                             <label>List Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_ListMode</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Catalog_ListMode</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -96,7 +96,7 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -107,7 +107,7 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -118,7 +118,7 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -129,7 +129,7 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_ListPerPage</source_model>-->
+                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_ListPerPage</source_model>-->
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -140,7 +140,7 @@
                             <frontend_type>select</frontend_type>
                             <frontend_model>Mage_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatcatalog</frontend_model>
                             <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Category_Flat</backend_model>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -152,7 +152,7 @@
                             <frontend_type>select</frontend_type>
                             <frontend_model>Mage_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduct</frontend_model>
                             <backend_model>Mage_Catalog_Model_System_Config_Backend_Catalog_Product_Flat</backend_model>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -161,7 +161,7 @@
                         <default_sort_by translate="label comment">
                             <label>Product Listing Sort by</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_ListSort</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Catalog_ListSort</source_model>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -171,7 +171,7 @@
                             <label>Allow All Products per Page</label>
                             <comment>Whether to show "All" option in the "Show X Per Page" dropdown.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -181,7 +181,7 @@
                             <label>Allow Dynamic Media URLs in Products and Categories</label>
                             <comment>E.g. {{media url="path/to/image.jpg"}} {{skin url="path/to/picture.gif"}}. Dynamic directives parsing impacts catalog performance.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -192,7 +192,7 @@
                 <placeholder translate="label">
                     <label>Product Image Placeholders</label>
                     <clone_fields>1</clone_fields>
-                    <clone_model>Mage_Adminhtml_Model_System_Config_Clone_Media_Image</clone_model>
+                    <clone_model>Mage_Backend_Model_Config_Clone_Media_Image</clone_model>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -201,7 +201,7 @@
                         <placeholder>
                             <label></label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/placeholder</upload_dir>
                             <base_url type="media" scope_info="1">catalog/product/placeholder</base_url>
                             <sort_order>1</sort_order>
@@ -243,8 +243,8 @@
                         <product_use_categories translate="label">
                             <label>Use Categories Path for Product URLs</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Seo_Product</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Seo_Product</backend_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -253,7 +253,7 @@
                         <save_rewrites_history translate="label">
                             <label>Create Permanent Redirect for URLs if URL Key Changed</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -270,7 +270,7 @@
                         <category_canonical_tag translate="label">
                             <label>Use Canonical Link Meta Tag For Categories</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -279,7 +279,7 @@
                         <product_canonical_tag translate="label">
                             <label>Use Canonical Link Meta Tag For Products</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -300,8 +300,8 @@
                             <label>Catalog Price Scope</label>
                             <comment><![CDATA[Defines the base currency scope ("Currency Setup" > "Currency Options" > "Base Currency")]]>.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Price_Scope</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Price_Scope</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Price_Scope</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Price_Scope</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -321,7 +321,7 @@
                             <label>Display Product Count</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>5</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -329,7 +329,7 @@
                         <price_range_calculation translate="label">
                             <label>Price Navigation Step Calculation</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Price_Step</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Price_Step</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -360,7 +360,7 @@
                             <label>Display Price Interval as One Price</label>
                             <comment>This setting will be applied when all prices in the specific price interval are equal.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -407,7 +407,7 @@
                         <use_calendar translate="label">
                             <label>Use JavaScript Calendar</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -425,7 +425,7 @@
                         <time_format translate="label">
                             <label>Time Format</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Catalog_TimeFormat</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Catalog_TimeFormat</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -450,7 +450,7 @@
                 <watermark translate="label">
                     <label>Product Image Watermarks</label>
                     <clone_fields>1</clone_fields>
-                    <clone_model>Mage_Adminhtml_Model_System_Config_Clone_Media_Image</clone_model>
+                    <clone_model>Mage_Backend_Model_Config_Clone_Media_Image</clone_model>
                     <sort_order>400</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -476,7 +476,7 @@
                         <image translate="label">
                             <label>Watermark</label>
                             <frontend_type>image</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/watermark</upload_dir>
                             <base_url type="media" scope_info="1">catalog/product/watermark</base_url>
                             <sort_order>200</sort_order>
@@ -488,7 +488,7 @@
                         <position translate="label">
                             <label>Watermark Position</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Watermark_Position</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Watermark_Position</source_model>
                             <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -505,7 +505,7 @@
                         <use_static_urls_in_catalog translate="label comment">
                             <label>Use Static URLs for Media Content in WYSIWYG for Catalog</label>
                             <comment>Applicable to catalog products and categories only. Any media content will be inserted into editor as a static URL. It is not updated if the system configuration base URL changes.</comment>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -529,7 +529,7 @@
                         <enabled translate="label">
                             <label>Enable MAP</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -538,7 +538,7 @@
                         <apply_for_all translate="label comment">
                             <label>Apply MAP (Default Value)</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

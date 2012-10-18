@@ -32,7 +32,7 @@
                         <active translate="label">
                             <label>Enabled for Checkout</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -63,7 +63,7 @@
                         <free_shipping_enable translate="label">
                             <label>Free Shipping with Minimum Order Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Enabledisable</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                             <sort_order>1210</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -81,7 +81,7 @@
                         <dutiable translate="label">
                             <label>Shipment Dutiable</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -153,7 +153,7 @@
                         <id translate="label">
                             <label>Access ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -162,7 +162,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -189,7 +189,7 @@
                         <shipping_intlkey translate="label">
                             <label>Shipping Key (International)</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -198,7 +198,7 @@
                         <shipping_key translate="label">
                             <label>Shipping Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -225,7 +225,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -234,7 +234,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>1910</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -245,7 +245,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1940</sort_order>
                             <frontend_class>shipping-skip-hide</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -262,7 +262,7 @@
                         <additional_protection_enabled translate="label">
                             <label>Additional Protection Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -309,7 +309,7 @@
                         <hazardous_materials translate="label">
                             <label>Shipment Contains Hazardous Materials</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1350</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -344,7 +344,7 @@
                         <shipment_days translate="label">
                             <label>Domestic Shipment Days</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale_Weekdays</source_model>
                             <sort_order>1390</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -355,7 +355,7 @@
                         <intl_shipment_days translate="label">
                             <label>International Shipment Days</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale_Weekdays</source_model>
                             <sort_order>1400</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -365,7 +365,7 @@
                         <debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1950</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -384,7 +384,7 @@
                         <active translate="label">
                             <label>Enabled for Checkout</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -401,7 +401,7 @@
                         <account translate="label comment">
                             <label>Account ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -411,7 +411,7 @@
                         <meter_number translate="label">
                             <label>Meter Number</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -420,7 +420,7 @@
                         <key translate="label">
                             <label>Key</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -429,7 +429,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -438,7 +438,7 @@
                         <sandbox_mode translate="label">
                             <label>Sandbox Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>75</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -511,7 +511,7 @@
                             <label>Residential Delivery</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>140</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -548,7 +548,7 @@
                         <free_shipping_enable translate="label">
                             <label>Free Shipping with Minimum Order Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Enabledisable</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -576,7 +576,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>200</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -585,7 +585,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>210</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -594,7 +594,7 @@
                         <debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -605,7 +605,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>230</sort_order>
                             <frontend_class>shipping-skip-hide</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -631,7 +631,7 @@
                         <access_license_number translate="label">
                             <label>Access License Number</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -640,7 +640,7 @@
                         <active translate="label">
                             <label>Enabled for Checkout</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -677,7 +677,7 @@
                         <free_shipping_enable translate="label">
                             <label>Free Shipping with Minimum Order Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Enabledisable</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                             <sort_order>210</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -784,7 +784,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -844,7 +844,7 @@
                         <username translate="label">
                             <label>User ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -853,7 +853,7 @@
                         <negotiated_active translate="label">
                             <label>Enable Negotiated Rates</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -873,7 +873,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -882,7 +882,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>910</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -893,7 +893,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>920</sort_order>
                             <frontend_class>shipping-skip-hide</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -919,7 +919,7 @@
                         <debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>920</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -938,7 +938,7 @@
                         <active translate="label">
                             <label>Enabled for Checkout</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -971,7 +971,7 @@
                         <userid translate="label">
                             <label>User ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -980,7 +980,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>53</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1126,7 +1126,7 @@
                         <free_shipping_enable translate="label">
                             <label>Free Shipping with Minimum Order Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Enabledisable</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                             <sort_order>1500</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1154,7 +1154,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>180</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1163,7 +1163,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>190</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1172,7 +1172,7 @@
                         <debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1183,7 +1183,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>210</sort_order>
                             <frontend_class>shipping-skip-hide</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1209,7 +1209,7 @@
                         <active translate="label">
                             <label>Enabled for Checkout</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1234,7 +1234,7 @@
                         <id translate="label">
                             <label>Access ID</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1243,7 +1243,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1298,7 +1298,7 @@
                             <label>Divide Order Weight</label>
                             <comment>Allows breaking total order weight into smaller pieces if it exeeds 70 kg to ensure accurate calculation of shipping charges.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1416,7 +1416,7 @@
                         <free_shipping_enable translate="label">
                             <label>Free Shipping with Minimum Order Amount</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Enabledisable</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                             <sort_order>1210</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1436,7 +1436,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1445,7 +1445,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>1910</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1456,7 +1456,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1940</sort_order>
                             <frontend_class>shipping-skip-hide</frontend_class>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1472,7 +1472,7 @@
                         <debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1950</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

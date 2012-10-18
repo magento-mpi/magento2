@@ -230,9 +230,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $cronExprArray = array(
             intval($time[1]),
             intval($time[0]),
-            ($frequency == Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY) ? '1' : '*',
+            ($frequency == Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY) ? '1' : '*',
             '*',
-            ($frequency == Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY) ? '1' : '*'
+            ($frequency == Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY) ? '1' : '*'
         );
 
         $cronExprString = join(' ', $cronExprArray);

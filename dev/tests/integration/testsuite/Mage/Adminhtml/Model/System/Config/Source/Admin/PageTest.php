@@ -10,9 +10,9 @@
  */
 
 /**
- * Test Mage_Adminhtml_Model_System_Config_Source_Admin_Page
+ * Test Mage_Backend_Model_Config_Source_Admin_Page
  */
-class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Backend_Model_Config_Source_Admin_PageTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testToOptionArray()
     {

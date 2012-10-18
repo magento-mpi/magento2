@@ -65,7 +65,7 @@ class Enterprise_Cms_Model_Observer
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray()
+                'values'    => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {

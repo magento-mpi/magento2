@@ -54,8 +54,8 @@
                         <default translate="label">
                             <label>Default</label>
                             <frontend_type>multiselect</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Datashare</backend_model>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Store</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Datashare</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Store</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -64,8 +64,8 @@
                         <default translate="label">
                             <label>Default</label>
                             <frontend_type>multiselect</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Datashare</backend_model>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Store</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Datashare</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Store</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -107,7 +107,7 @@
                             <label>Sender Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -116,7 +116,7 @@
                         <name translate="label">
                             <label>Sender Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Sender</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Sender</backend_model>
                             <validate>validate-emailSender</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -137,7 +137,7 @@
                             <label>Sender Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -146,7 +146,7 @@
                         <name translate="label">
                             <label>Sender Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Sender</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Sender</backend_model>
                             <validate>validate-emailSender</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -167,7 +167,7 @@
                             <label>Sender Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -176,7 +176,7 @@
                         <name translate="label">
                             <label>Sender Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Sender</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Sender</backend_model>
                             <validate>validate-emailSender</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -197,7 +197,7 @@
                             <label>Sender Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -206,7 +206,7 @@
                         <name translate="label">
                             <label>Sender Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Sender</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Sender</backend_model>
                             <validate>validate-emailSender</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -227,7 +227,7 @@
                             <label>Sender Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -236,7 +236,7 @@
                         <name translate="label">
                             <label>Sender Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Sender</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Sender</backend_model>
                             <validate>validate-emailSender</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -346,7 +346,7 @@
                             <label>Logo Image</label>
                             <comment>Allowed file types: jpg, jpeg, gif, png</comment>
                             <frontend_type>image</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Logo</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Logo</backend_model>
                             <base_url type="media" scope_info="1">email/logo</base_url>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -405,7 +405,7 @@
                         <template_hints translate="label">
                             <label>Template Path Hints</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>0</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -414,7 +414,7 @@
                         <template_hints_blocks translate="label">
                             <label>Add Block Names to Hints</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>21</sort_order>
                             <show_in_default>0</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -433,7 +433,7 @@
                         <allow_symlink translate="label comment">
                             <label>Allow Symlinks</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -453,8 +453,8 @@
                         <active translate="label">
                             <label>Enabled for Frontend</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Translate</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Translate</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -463,8 +463,8 @@
                         <active_admin translate="label comment">
                             <label>Enabled for Admin</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Translate</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Translate</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -484,7 +484,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -493,7 +493,7 @@
                         <file translate="label comment">
                             <label>System Log File Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Filename</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Filename</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -503,7 +503,7 @@
                         <exception_file translate="label comment">
                             <label>Exceptions Log File Name</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Filename</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Filename</backend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -523,7 +523,7 @@
                         <merge_files translate="label">
                             <label>Merge JavaScript Files</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -542,7 +542,7 @@
                         <merge_css_files translate="label">
                             <label>Merge CSS Files</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -561,8 +561,8 @@
                         <adapter translate="label">
                             <label>Image Adapter</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Image_Adapter</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Image_Adapter</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Image_Adapter</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Image_Adapter</backend_model>
                             <comment>When the adapter was changed, please, flush Catalog Images Cache.</comment>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -582,7 +582,7 @@
                         <sign translate="label">
                             <label>Sign Static Files</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -613,7 +613,7 @@
                         <allow translate="label">
                             <label>Allow Countries</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -623,7 +623,7 @@
                         <default translate="label">
                             <label>Default Country</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -632,7 +632,7 @@
                         <eu_countries translate="label">
                             <label>European Union Countries</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -651,8 +651,8 @@
                         <timezone translate="label">
                             <label>Timezone</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale_Timezone</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Locale_Timezone</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale_Timezone</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Locale_Timezone</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -661,7 +661,7 @@
                         <code translate="label">
                             <label>Locale</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -670,7 +670,7 @@
                         <firstday translate="label">
                             <label>First Day of Week</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale_Weekdays</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -679,7 +679,7 @@
                         <weekend translate="label">
                             <label>Weekend Days</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Locale_Weekdays</source_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -715,7 +715,7 @@
                         <merchant_country translate="label">
                             <label>Country</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -752,7 +752,7 @@
                         <enabled translate="label comment">
                             <label>Enable Single-Store Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -785,7 +785,7 @@
                         <disable translate="label">
                             <label>Disable Email Communications</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -813,7 +813,7 @@
                         <auth translate="label">
                             <label>Authentication method</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Smtpauth</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Smtpauth</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -839,7 +839,7 @@
                         <set_return_path translate="label">
                             <label>Set Return-Path</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesnocustom</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesnocustom</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -849,7 +849,7 @@
                             <label>Return-Path Email</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-email</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Email_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Email_Address</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -869,7 +869,7 @@
                         <media_storage translate="label">
                             <label>Media Storage</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Storage</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Storage_Media_Storage</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -878,8 +878,8 @@
                         <media_database translate="label">
                             <label>Select Media Database</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Storage_Media_Database</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Storage_Media_Database</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Storage_Media_Database</backend_model>
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -930,7 +930,7 @@
                         <forgot_email_template translate="label">
                             <label>Forgot Password Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -939,7 +939,7 @@
                         <forgot_email_identity translate="label">
                             <label>Forgot Password Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -950,7 +950,7 @@
                             <comment>Please enter a number 1 or greater in this field.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Password_Link_Expirationperiod</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Password_Link_Expirationperiod</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -969,7 +969,7 @@
                         <menu_item_id translate="label">
                             <label>Startup Page</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Admin_Page</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Admin_Page</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -988,8 +988,8 @@
                         <use_custom translate="label">
                             <label>Use Custom Admin URL</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Usecustom</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -998,7 +998,7 @@
                         <custom translate="label comment">
                             <label>Custom Admin URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Custom</backend_model>
                             <depends><use_custom>1</use_custom></depends>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1009,8 +1009,8 @@
                         <use_custom_path translate="label">
                             <label>Use Custom Admin Path</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustompath</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Usecustompath</backend_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1020,7 +1020,7 @@
                             <label>Custom Admin Path</label>
                             <frontend_type>text</frontend_type>
                             <validate>required-entry validate-alphanum</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Custompath</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Custompath</backend_model>
                             <depends><use_custom_path>1</use_custom_path></depends>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1041,8 +1041,8 @@
                         <use_form_key translate="label">
                             <label>Add Secret Key to URLs</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Admin_Usesecretkey</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Admin_Usesecretkey</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1051,7 +1051,7 @@
                         <use_case_sensitive_login translate="label">
                             <label>Login is Case Sensitive</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1078,7 +1078,7 @@
                         <enable_charts translate="label">
                             <label>Enable Charts</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1109,8 +1109,8 @@
                         <use_store translate="label comment">
                             <label>Add Store Code to Urls</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Store</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Store</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1120,7 +1120,7 @@
                         <redirect_to_base translate="label">
                             <label>Auto-redirect to Base URL</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Web_Redirect</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Web_Redirect</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1140,7 +1140,7 @@
                         <use_rewrites translate="label">
                             <label>Use Web Server Rewrites</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1159,7 +1159,7 @@
                         <base_url translate="label">
                             <label>Base URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1168,7 +1168,7 @@
                         <base_link_url translate="label">
                             <label>Base Link URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1177,7 +1177,7 @@
                         <base_public_url translate="label comment">
                             <label>Base URL for Public Static Files</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1187,7 +1187,7 @@
                         <base_media_url translate="label">
                             <label>Base Media URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1206,7 +1206,7 @@
                         <base_url translate="label comment">
                             <label>Base URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1216,7 +1216,7 @@
                         <base_link_url translate="label comment">
                             <label>Base Link URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1226,7 +1226,7 @@
                         <base_public_url translate="label comment">
                             <label>Base URL for Public Static Files</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1236,7 +1236,7 @@
                         <base_media_url translate="label">
                             <label>Base Media URL</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Baseurl</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1245,8 +1245,8 @@
                         <use_in_frontend translate="label">
                             <label>Use Secure URLs in Frontend</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Secure</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Secure</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1255,8 +1255,8 @@
                         <use_in_adminhtml translate="label">
                             <label>Use Secure URLs in Admin</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Secure</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Secure</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1341,7 +1341,7 @@
                         <cookie_httponly translate="label">
                             <label>Use HTTP Only</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1350,8 +1350,8 @@
                         <cookie_restriction translate="label">
                             <label>Cookie Restriction Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Cookie</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Cookie</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1370,7 +1370,7 @@
                         <use_remote_addr translate="label">
                             <label>Validate REMOTE_ADDR</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1379,7 +1379,7 @@
                         <use_http_via translate="label">
                             <label>Validate HTTP_VIA</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1388,7 +1388,7 @@
                         <use_http_x_forwarded_for translate="label">
                             <label>Validate HTTP_X_FORWARDED_FOR</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1397,7 +1397,7 @@
                         <use_http_user_agent translate="label">
                             <label>Validate HTTP_USER_AGENT</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1407,7 +1407,7 @@
                             <label>Use SID on Frontend</label>
                             <comment>Allows customers to stay logged in when switching between different stores.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1426,7 +1426,7 @@
                         <cookies translate="label" module="Mage_Cms">
                             <label>Redirect to CMS-page if Cookies are Disabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1435,7 +1435,7 @@
                         <javascript translate="label" module="Mage_Cms">
                             <label>Show Notice if JavaScript is Disabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -256,7 +256,7 @@
                             <label>API Username</label>
                             <config_path>paypal/wpp/api_username</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -265,7 +265,7 @@
                             <label>API Password</label>
                             <config_path>paypal/wpp/api_password</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -273,7 +273,7 @@
                         <api_signature translate="label">
                             <label>API Signature</label>
                             <config_path>paypal/wpp/api_signature</config_path>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
@@ -305,7 +305,7 @@
                             <label>Sandbox Mode</label>
                             <config_path>paypal/wpp/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -314,7 +314,7 @@
                             <label>API Uses Proxy</label>
                             <config_path>paypal/wpp/use_proxy</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -382,7 +382,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_express/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -401,7 +401,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypal_express/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -410,7 +410,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypal_express/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -421,7 +421,7 @@
                             <tooltip>If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</tooltip>
                             <comment>Notice that PayPal can handle up to 10 shipping options. That is why Magento will transfer only first 10 cheapest shipping options if there are more than 10 available.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -432,7 +432,7 @@
                             <config_path>payment/paypal_express/visible_on_cart</config_path>
                             <comment>Also affects mini-shopping cart.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -442,7 +442,7 @@
                             <label>Shortcut on Product View</label>
                             <config_path>payment/paypal_express/visible_on_product</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -568,7 +568,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_standard/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -587,7 +587,7 @@
                             <label>Sandbox Mode</label>
                             <config_path>payment/paypal_standard/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -596,7 +596,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypal_standard/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -605,7 +605,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypal_standard/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -666,7 +666,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_direct/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -685,7 +685,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypal_direct/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -694,7 +694,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypal_direct/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -720,7 +720,7 @@
                             <label>Require CVV Entry</label>
                             <config_path>payment/paypal_direct/useccv</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -736,7 +736,7 @@
                             <label>3D Secure Card Validation</label>
                             <config_path>payment/paypal_direct/centinel</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -746,7 +746,7 @@
                             <config_path>payment/paypal_direct/centinel_is_mode_strict</config_path>
                             <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -757,7 +757,7 @@
                             <config_path>payment/paypal_direct/centinel_api_url</config_path>
                             <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
                             <frontend_type>text</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -779,7 +779,7 @@
                             <comment><![CDATA[Will appear as a payment option only for customers who have at least one active billing agreement.]]></comment>
                             <config_path>payment/paypal_billing_agreement/active</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -816,7 +816,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_billing_agreement/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -835,7 +835,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypal_billing_agreement/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -844,7 +844,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypal_billing_agreement/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -853,7 +853,7 @@
                             <label>Allow in Billing Agreement Wizard</label>
                             <config_path>payment/paypal_billing_agreement/allow_billing_agreement_wizard</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -904,7 +904,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypaluk_direct/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -923,7 +923,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypaluk_direct/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -932,7 +932,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypaluk_direct/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -956,7 +956,7 @@
                             <label>User</label>
                             <frontend_type>obscure</frontend_type>
                             <config_path>paypal/wpuk/user</config_path>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -973,7 +973,7 @@
                             <label>Password</label>
                             <config_path>paypal/wpuk/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -982,7 +982,7 @@
                             <label>Sandbox Mode</label>
                             <config_path>paypal/wpuk/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -991,7 +991,7 @@
                             <label>API Uses Proxy</label>
                             <config_path>paypal/wpuk/use_proxy</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1035,7 +1035,7 @@
                             <label>Require CVV Entry</label>
                             <config_path>payment/paypaluk_direct/useccv</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>95</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1051,7 +1051,7 @@
                             <label>3D Secure Card Validation</label>
                             <config_path>payment/paypaluk_direct/centinel</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1061,7 +1061,7 @@
                             <config_path>payment/paypaluk_direct/centinel_is_mode_strict</config_path>
                             <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1072,7 +1072,7 @@
                             <config_path>payment/paypaluk_direct/centinel_api_url</config_path>
                             <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
                             <frontend_type>text</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>115</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1123,7 +1123,7 @@
                             <config_path>payment/verisign/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
                             <sort_order>20</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allowspecific>
@@ -1141,7 +1141,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/verisign/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1165,7 +1165,7 @@
                             <label>User</label>
                             <config_path>payment/verisign/user</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1182,7 +1182,7 @@
                             <label>Password</label>
                             <config_path>payment/verisign/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1191,7 +1191,7 @@
                             <label>Test Mode</label>
                             <config_path>payment/verisign/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1200,7 +1200,7 @@
                             <label>Use Proxy</label>
                             <config_path>payment/verisign/use_proxy</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1244,7 +1244,7 @@
                             <label>Require CVV Entry</label>
                             <config_path>payment/verisign/useccv</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1260,7 +1260,7 @@
                             <label>3D Secure Card Validation</label>
                             <config_path>payment/verisign/centinel</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1270,7 +1270,7 @@
                             <config_path>payment/verisign/centinel_is_mode_strict</config_path>
                             <comment>Severe validation removes chargeback liability on merchant.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1281,7 +1281,7 @@
                             <config_path>payment/verisign/centinel_api_url</config_path>
                             <comment>A value is required for live mode. Refer to your CardinalCommerce agreement.</comment>
                             <frontend_type>text</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1330,7 +1330,7 @@
                             <config_path>payment/paypaluk_express/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
                             <sort_order>20</sort_order>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allowspecific>
@@ -1348,7 +1348,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/paypaluk_express/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1357,7 +1357,7 @@
                             <label>Transfer Cart Line Items</label>
                             <config_path>payment/paypaluk_express/line_items_enabled</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1367,7 +1367,7 @@
                             <comment>Also affects mini-shopping cart.</comment>
                             <config_path>payment/paypaluk_express/visible_on_cart</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1376,7 +1376,7 @@
                             <label>Shortcut on Product View</label>
                             <config_path>payment/paypaluk_express/visible_on_product</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1402,7 +1402,7 @@
                             <label>Login</label>
                             <config_path>paypal/fetch_reports/ftp_login</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1411,7 +1411,7 @@
                             <label>Password</label>
                             <config_path>paypal/fetch_reports/ftp_password</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1420,7 +1420,7 @@
                             <label>Sandbox Mode</label>
                             <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1457,7 +1457,7 @@
                             <label>Enable Automatic Fetching</label>
                             <config_path>paypal/fetch_reports/active</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1606,7 +1606,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/payflow_link/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1625,7 +1625,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/payflow_link/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1666,7 +1666,7 @@
                             <label>Password</label>
                             <config_path>payment/payflow_link/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1675,7 +1675,7 @@
                             <label>Test Mode</label>
                             <config_path>payment/payflow_link/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1684,7 +1684,7 @@
                             <label>Use Proxy</label>
                             <config_path>payment/payflow_link/use_proxy</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1758,7 +1758,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/payflow_advanced/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1777,7 +1777,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/payflow_advanced/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1818,7 +1818,7 @@
                             <label>Password</label>
                             <config_path>payment/payflow_advanced/pwd</config_path>
                             <frontend_type>obscure</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Encrypted</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1827,7 +1827,7 @@
                             <label>Test Mode</label>
                             <config_path>payment/payflow_advanced/sandbox_flag</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1836,7 +1836,7 @@
                             <label>Use Proxy</label>
                             <config_path>payment/payflow_advanced/use_proxy</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1903,7 +1903,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/hosted_pro/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1922,7 +1922,7 @@
                             <label>Debug Mode</label>
                             <config_path>payment/hosted_pro/debug</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1931,7 +1931,7 @@
                             <label>Display Express Checkout in the Payment Information step</label>
                             <config_path>payment/hosted_pro/display_ec</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

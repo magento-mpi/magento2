@@ -32,9 +32,9 @@ class Enterprise_ImportExport_Model_System_Config_Backend_Logclean_Cron extends 
         $time = $this->getData('groups/enterprise_import_export_log/fields/time/value');
         $frequency = $this->getData('groups/enterprise_import_export_log/fields/frequency/value');
 
-        $frequencyDaily   = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY;
-        $frequencyWeekly  = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY;
+        $frequencyDaily   = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY;
+        $frequencyWeekly  = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute

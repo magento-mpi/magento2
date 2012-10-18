@@ -78,7 +78,7 @@
                             <label>Enable Automatic Assignment to Customer Group</label>
                             <comment>To show VAT number on frontend, set Show VAT Number on Frontend option to Yes.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -87,7 +87,7 @@
                         <tax_calculation_address_type translate="label">
                             <label>Tax Calculation Based On</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Address_Type</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Address_Type</source_model>
                             <sort_order>10</sort_order>
                             <depends><auto_group_assign>1</auto_group_assign></depends>
                             <show_in_default>1</show_in_default>
@@ -97,7 +97,7 @@
                         <default_group translate="label">
                             <label>Default Group</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Group</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Group</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -106,7 +106,7 @@
                         <viv_domestic_group translate="label">
                             <label>Group for Valid VAT ID - Domestic</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Group</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Group</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -116,7 +116,7 @@
                         <viv_intra_union_group translate="label">
                             <label>Group for Valid VAT ID - Intra-Union</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Group</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Group</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -126,7 +126,7 @@
                         <viv_invalid_group translate="label">
                             <label>Group for Invalid VAT ID</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Group</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Group</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -136,7 +136,7 @@
                         <viv_error_group translate="label">
                             <label>Validation Error Group</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Customer_Group</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Customer_Group</source_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -146,7 +146,7 @@
                         <viv_on_each_transaction translate="label">
                             <label>Validate on Each Transaction</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>56</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -156,7 +156,7 @@
                         <viv_disable_auto_group_assign_default translate="label">
                             <label>Default Value for Disable Automatic Group Changes Based on VAT ID</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>57</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -165,7 +165,7 @@
                         <vat_frontend_visibility translate="label">
                             <label>Show VAT Number on Frontend</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>58</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -182,7 +182,7 @@
                         <email_template translate="label">
                             <label>Default Welcome Email</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -191,7 +191,7 @@
                         <email_identity translate="label">
                             <label>Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -200,7 +200,7 @@
                         <confirm translate="label">
                             <label>Require Emails Confirmation</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -209,7 +209,7 @@
                         <email_confirmation_template translate="label">
                             <label>Confirmation Link Email</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -219,7 +219,7 @@
                             <label>Welcome Email</label>
                             <comment>This email will be sent instead of default welcome email, after account confirmation.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -228,7 +228,7 @@
                         <generate_human_friendly_id translate="label">
                             <label>Generate Human-Friendly Customer ID</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -247,7 +247,7 @@
                         <forgot_email_template translate="label">
                             <label>Forgot Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -256,7 +256,7 @@
                         <remind_email_template translate="label">
                             <label>Remind Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -265,7 +265,7 @@
                         <forgot_email_identity translate="label">
                             <label>Forgot and Remind Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -276,7 +276,7 @@
                             <comment>Please enter a number 1 or greater in this field.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Password_Link_Expirationperiod</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -297,15 +297,15 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Address_Street</backend_model>
                             <comment>Leave empty for default (2). Valid range: 1-4</comment>
                         </street_lines>
                         <prefix_show translate="label comment">
                             <label>Show Prefix</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Nooptreq</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <sort_order>20</sort_order>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
                             <comment>The title that goes before name (Mr., Mrs., etc.)</comment>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -322,9 +322,9 @@
                         <middlename_show translate="label comment">
                             <label>Show Middle Name (initial)</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <comment>Always optional.</comment>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -333,9 +333,9 @@
                         <suffix_show translate="label comment">
                             <label>Show Suffix</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Nooptreq</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <comment>The suffix that goes after name (Jr., Sr., etc.)</comment>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -352,9 +352,9 @@
                         <dob_show translate="label">
                             <label>Show Date of Birth</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Nooptreq</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <sort_order>70</sort_order>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -362,8 +362,8 @@
                         <taxvat_show translate="label">
                             <label>Show Tax/VAT Number</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Nooptreq</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -372,8 +372,8 @@
                         <gender_show translate="label">
                             <label>Show Gender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Nooptreq</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -391,7 +391,7 @@
                         <redirect_dashboard translate="label comment">
                             <label>Redirect Customer to Account Dashboard after Logging in</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <comment>Customer will stay on the current page if "No" is selected.</comment>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>

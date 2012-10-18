@@ -32,7 +32,7 @@
                         <changefreq translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Frequency</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Frequency</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -41,7 +41,7 @@
                         <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Sitemap</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Sitemap</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -61,7 +61,7 @@
                         <changefreq translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Frequency</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Frequency</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -70,7 +70,7 @@
                         <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Sitemap</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Sitemap</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -99,7 +99,7 @@
                         <changefreq translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Frequency</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Frequency</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -108,7 +108,7 @@
                         <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Sitemap</backend_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Sitemap</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -128,7 +128,7 @@
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -146,7 +146,7 @@
                         <error_email_identity translate="label">
                             <label>Error Email Sender</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Identity</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -155,7 +155,7 @@
                         <error_email_template translate="label">
                             <label>Error Email Template</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Email_Template</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -164,8 +164,8 @@
                         <frequency translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency</source_model>
-                            <backend_model>Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron</backend_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Cron_Frequency</source_model>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Sitemap_Cron</backend_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -219,7 +219,7 @@
                         <submission_robots translate="label">
                             <label>Enable Submission to Robots.txt</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
