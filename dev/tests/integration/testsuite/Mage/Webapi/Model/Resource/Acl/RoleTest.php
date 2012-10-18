@@ -59,7 +59,6 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Role Name already exists.
-     *
      * @magentoDataFixture Mage/Webapi/_files/role.php
      */
     public function testInitUniqueFields()
