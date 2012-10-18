@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $emails = explode(',', $data);
             $emailsForSend = array();
 
-            if (Mage::app()->isSingleStoreMode()) {
+            if (Mage::app()->hasSingleStore()) {
                 $storeId = Mage::app()->getStore(true)->getId();
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');

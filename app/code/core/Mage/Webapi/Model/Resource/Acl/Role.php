@@ -26,6 +26,22 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
+     * Initialize unique fields
+     *
+     * @return Mage_Webapi_Model_Resource_Acl_Role
+     */
+    protected function _initUniqueFields()
+    {
+        $this->_uniqueFields = array(
+            array(
+                'field' => 'role_name',
+                'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name')
+            ),
+        );
+        return $this;
+    }
+
+    /**
      * Get roles list for selects
      *
      * @return array

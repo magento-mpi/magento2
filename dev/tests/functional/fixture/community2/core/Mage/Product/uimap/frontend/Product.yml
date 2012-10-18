@@ -1,0 +1,34 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+product_page:
+    uimap:
+        form:
+            fieldsets: &productFieldsets
+                -
+                    add_tag:
+                        buttons:
+                            add_tags: //*[@data-ui-id='product-tag-list-add-button']
+                        fields:
+                            input_new_tags: //*[@data-ui-id='product-tag-list-add-input']
+                    product_info:
+                        links:
+                            what_is_this: //a[contains(., concat("What", "'s this?"))]
+                        buttons:
+                            close: //a[@id='map-popup-close']
+                        pageelements:
+                            price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
+                            map_popup: //div[@id='map-popup']
+        messages: &productMessages
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"

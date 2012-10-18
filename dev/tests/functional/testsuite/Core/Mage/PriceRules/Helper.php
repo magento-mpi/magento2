@@ -48,14 +48,22 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         }
         $ruleInfo = (isset($ruleData['info'])) ? $ruleData['info'] : array();
         $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleLabels = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
+        $ruleActions = (isset($ruleData['actions']))
+            ? $ruleData['actions']
+            : array();
+        $ruleLabels = (isset($ruleData['labels']))
+            ? $ruleData['labels']
+            : array();
         if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
             unset($ruleInfo['websites']);
         }
         $this->fillTab($ruleInfo, 'rule_information');
-        $this->fillConditionsTab($ruleConditions);
-        $this->fillActionsTab($ruleActions);
+        if ($ruleConditions) {
+            $this->fillConditionsTab($ruleConditions);
+        }
+        if ($ruleActions) {
+            $this->fillActionsTab($ruleActions);
+        }
         if ($ruleLabels) {
             $this->fillLabelsTab($ruleLabels);
         }

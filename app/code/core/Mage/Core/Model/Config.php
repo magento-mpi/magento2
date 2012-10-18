@@ -201,9 +201,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function __construct($sourceData=null)
     {
         $this->setCacheId('config_global');
-        $this->_options         = new Mage_Core_Model_Config_Options($sourceData);
-        $this->_prototype       = new Mage_Core_Model_Config_Base();
-        $this->_cacheChecksum   = null;
+        $options = $sourceData;
+        if (!is_array($options)) {
+            $options = array($options);
+        }
+        $this->_options = new Mage_Core_Model_Config_Options($options);
+        $this->_prototype = new Mage_Core_Model_Config_Base();
+        $this->_cacheChecksum = null;
         parent::__construct($sourceData);
     }
 
@@ -991,14 +995,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getModulesApiConfigurationFiles(array $modules)
     {
         $files = array();
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         foreach ($modules as $module => $version) {
             $moduleConfig = $this->getModuleConfig($module);
             if (!$moduleConfig || !$moduleConfig->is('active')) {
-                throw new RuntimeException(sprintf('Unknown module "%s".', $module));
+                throw new RuntimeException($helper->__('Unknown module "%s".', $module));
             }
             $file = $this->getModuleDir('etc', $module) . DS . 'webapi' . DS . $version . DS . 'resource.xml';
             if (!file_exists($file)) {
-                throw new RuntimeException(sprintf('Unknown version "%s" for module "%s".', $version, $module));
+                throw new RuntimeException($helper->__('Unknown version "%s" for module "%s".', $version, $module));
             }
             $files[] = $file;
         }

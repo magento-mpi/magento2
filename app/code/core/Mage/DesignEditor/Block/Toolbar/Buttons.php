@@ -30,7 +30,7 @@ class Mage_DesignEditor_Block_Toolbar_Buttons extends Mage_Core_Block_Template
      */
     public function getViewLayoutUrl()
     {
-        return $this->getUrl('design/editor/compactXml');
+        return $this->getUrl('design/editor/getLayoutUpdate');
     }
 
     /**

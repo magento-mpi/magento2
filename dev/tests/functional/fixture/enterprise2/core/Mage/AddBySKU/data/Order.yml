@@ -1,0 +1,17 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#*********************************************
+#*       New Order By SKU                     *
+#*********************************************
+new_order_sku:
+    store_view: Default Store View
+    associate_to_website: Main Website

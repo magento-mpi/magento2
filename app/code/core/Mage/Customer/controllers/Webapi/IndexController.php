@@ -29,13 +29,21 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      *
      * @param array $data
      * @return Mage_Customer_Model_Customer
+     * @throws Mage_Webapi_Exception
      */
     public function createV1(array $data)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->setData($data);
-        $customer->save();
+        try {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('Mage_Customer_Model_Customer');
+            $customer->setData($data);
+            $customer->save();
+        } catch (Mage_Customer_Exception $e) {
+            $this->_processException($e);
+        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $this->_processException($e);
+        }
+
         return $customer;
     }
 
@@ -59,30 +67,39 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      */
     public function updateV1($id, array $data)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($id);
-        $customer->addData($data);
-        $customer->save();
+        try {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = $this->_loadCustomerById($id);
+            $customer->addData($data);
+            $customer->save();
+        } catch (Mage_Customer_Exception $e) {
+            $this->_processException($e);
+        }
     }
 
     /**
      * Retrieve information about customer. Add last logged in datetime.
      *
      * @param string $id
-     * @throws Mage_Webapi_Exception
      * @return array
+     * @throws Mage_Webapi_Exception
      */
     public function getV1($id)
     {
-        /** @var $log Mage_Log_Model_Customer */
-        $log = Mage::getModel('Mage_Log_Model_Customer');
-        $log->loadByCustomer($id);
-        $data = $this->_get($id);
-        $lastLoginAt = $log->getLoginAt();
-        if (null !== $lastLoginAt) {
-            $data['last_logged_in'] = $lastLoginAt;
+        try {
+            /** @var $log Mage_Log_Model_Customer */
+            $log = Mage::getModel('Mage_Log_Model_Customer');
+            $log->loadByCustomer($id);
+            $data = $this->_get($id);
+            $lastLoginAt = $log->getLoginAt();
+            if (null !== $lastLoginAt) {
+                $data['last_logged_in'] = $lastLoginAt;
+            }
+            $data['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+        } catch (Mage_Customer_Exception $e) {
+            $this->_processException($e);
         }
-        $data['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+
         return $data;
     }
 
@@ -91,11 +108,17 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      *
      * @param string $id
      * @return array
+     * @throws Mage_Webapi_Exception
      */
     public function getV2($id)
     {
-        $customerData = $this->_get($id);
-        $customerData['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+        try {
+            $customerData = $this->_get($id);
+            $customerData['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+        } catch (Mage_Customer_Exception $e) {
+            $this->_processException($e);
+        }
+
         return $customerData;
     }
 
@@ -118,12 +141,17 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
      * Delete customer.
      *
      * @param string $id
+     * @throws Mage_Webapi_Exception
      */
     public function deleteV1($id)
     {
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($id);
-        $customer->delete();
+        try {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = $this->_loadCustomerById($id);
+            $customer->delete();
+        } catch (Mage_Customer_Exception $e) {
+            $this->_processException($e);
+        }
     }
 
     /**
@@ -157,5 +185,16 @@ class Mage_Customer_Webapi_IndexController extends Mage_Webapi_Controller_Action
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         $this->_applyCollectionModifiers($collection);
         return $collection;
+    }
+
+    /**
+     * Process models exceptions and convert them into Webapi bad request exception.
+     *
+     * @param Exception $e
+     * @throws Mage_Webapi_Exception
+     */
+    protected function _processException($e)
+    {
+        throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
     }
 }

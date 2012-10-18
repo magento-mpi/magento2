@@ -11,44 +11,9 @@
 
 /**
  * Layout integration tests
- *
- * 'ExcessivePublicCount' rule intersects with the 'TooManyFields' and 'TooManyMethods'.
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {
-    /**
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
-
-    public static function setUpBeforeClass()
-    {
-        /* Point application to predefined layout fixtures */
-        Mage::getConfig()->setOptions(array(
-            'design_dir' => dirname(__FILE__) . '/_files/design',
-        ));
-        Mage::getDesign()->setDesignTheme('test/default/default');
-
-        /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
-    }
-
-    protected function setUp()
-    {
-        $this->_layout = new Mage_Core_Model_Layout();
-        $this->_layout->getUpdate()->addHandle('layout_test_handle_main');
-        $this->_layout->getUpdate()->load('layout_test_handle_extra');
-    }
-
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
     /**
      * @param array $inputArguments
      * @param string $expectedArea
@@ -95,7 +60,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Mage_Core_Model_Layout_Merge', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()
@@ -130,7 +95,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'notification_survey',
             'notification_security',
             'messages',
-            'ANONYMOUS_0',
+            'root_schedule_block',
             'index_notifications',
             'index_notifications_copy'
         );
@@ -153,8 +118,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
     }
 
-    public function testLayoutMoveDirective()
+    public function testLayoutDirectives()
     {
+        /**
+         * Test correct move
+         */
         $layout = new Mage_Core_Model_Layout();
         $layout->getUpdate()->load(array('layout_test_handle_move'));
         $layout->generateXml()->generateElements();
@@ -175,7 +143,42 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $positionBefore = array_search('child_block2', $childrenOrderArray);
         $positionToVerify = array_search('no_name4', $childrenOrderArray);
         $this->assertEquals($positionBefore, ++$positionToVerify);
-    }
+
+        /**
+         * Test move with the same alias
+         */
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_the_same_alias'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('container1', $layout->getParentName('no_name3'));
+
+        /**
+         * Test move with a new alias
+         */
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_new_alias'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('new_alias', $layout->getElementAlias('no_name3'));
+
+        /**
+         * Test layout action with anonymous parent block
+         */
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_action_for_anonymous_parent_block'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('schedule_block', $layout->getParentName('test.block.insert'));
+        $this->assertEquals('schedule_block_1', $layout->getParentName('test.block.append'));
+
+        /**
+         * Test layout remove directive
+         */
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_remove'));
+        $layout->generateXml()->generateElements();
+        $this->assertFalse($layout->getBlock('no_name2'));
+        $this->assertFalse($layout->getBlock('child_block1'));
+        $this->assertTrue($layout->isBlock('child_block2'));
+    }    
 
     /**
      * @expectedException Magento_Exception
@@ -195,41 +198,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $layout = new Mage_Core_Model_Layout();
         $layout->getUpdate()->load(array('layout_test_handle_move_alias_broken'));
         $layout->generateXml()->generateElements();
-    }
-
-    public function testLayoutMoveSameAlias()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_move_the_same_alias'));
-        $layout->generateXml()->generateElements();
-        $this->assertEquals('container1', $layout->getParentName('no_name3'));
-    }
-
-    public function testLayoutMoveNewAlias()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_move_new_alias'));
-        $layout->generateXml()->generateElements();
-        $this->assertEquals('new_alias', $layout->getElementAlias('no_name3'));
-    }
-
-    public function testLayoutActionForAnonymousParent()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_action_for_anonymous_parent_block'));
-        $layout->generateXml()->generateElements();
-        $this->assertEquals('ANONYMOUS_0', $layout->getParentName('test.block.insert'));
-        $this->assertEquals('ANONYMOUS_1', $layout->getParentName('test.block.append'));
-    }
-
-    public function testLayoutRemoveDirective()
-    {
-        $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load(array('layout_test_handle_remove'));
-        $layout->generateXml()->generateElements();
-        $this->assertFalse($layout->getBlock('no_name2'));
-        $this->assertFalse($layout->getBlock('child_block1'));
-        $this->assertTrue($layout->isBlock('child_block2'));
     }
 
     /**
@@ -313,7 +281,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'named block' => array(
                 'Mage_Core_Block_Template',
                 'some_block_name_full_class',
-                array('type' => 'Mage_Core_Block_Template'),
+                array('type' => 'Mage_Core_Block_Template', 'is_anonymous' => false),
                 '/^some_block_name_full_class$/'
             ),
             'no name block' => array(
@@ -321,9 +289,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 '',
                 array(
                     'type' => 'Mage_Core_Block_Text_List',
-                    'key1' => 'value1'
+                    'key1' => 'value1',
+                    'is_anonymous' => true
                 ),
-                '/^ANONYMOUS_.+/'
+                '/text_list/'
             ),
         );
     }

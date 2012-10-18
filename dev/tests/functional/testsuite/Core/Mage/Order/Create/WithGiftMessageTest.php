@@ -72,10 +72,9 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
                                         array('filter_sku'    => $simpleSku,
                                               'gift_messages' => $this->loadDataSet('SalesOrder',
                                                                                     'gift_messages_per_order')));
-        $config = $this->loadDataSet('GiftMessage', 'gift_message_for_order_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_for_order_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -108,10 +107,9 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
                                         array('filter_sku'    => $simpleSku,
                                               'gift_messages' => $gift));
-        $config = $this->loadDataSet('GiftMessage', 'gift_message_per_item_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_per_item_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -144,10 +142,9 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
                                    array('sku_product' => $simpleSku));
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku'    => $simpleSku,
                                                                               'gift_messages' => $gift));
-        $config = $this->loadDataSet('GiftMessage', 'gift_message_all_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying

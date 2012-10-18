@@ -96,7 +96,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
     {
         $customer = $this->getCustomer();
         if (!$customer->getWebsiteId()
-            || Mage::app()->isSingleStoreMode()
+            || Mage::app()->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
             return Mage::getModel('Mage_Core_Model_System_Store')->getStoreValuesForForm();

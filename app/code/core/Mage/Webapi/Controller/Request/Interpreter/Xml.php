@@ -28,11 +28,11 @@ class Mage_Webapi_Controller_Request_Interpreter_Xml implements Mage_Webapi_Cont
     /**
      * Initialize helper.
      *
-     * @param Mage_Core_Helper_Abstract|null $helper
+     * @param array $options
      */
-    function __construct(Mage_Core_Helper_Abstract $helper = null)
+    function __construct($options = array())
     {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Webapi_Helper_Data');
     }
 
     /**

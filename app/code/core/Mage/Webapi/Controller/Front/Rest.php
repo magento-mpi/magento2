@@ -175,6 +175,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Identify operation name according to HTTP request parameters
      *
      * @return string
+     * @throws Mage_Webapi_Exception
      */
     protected function _getOperationName()
     {

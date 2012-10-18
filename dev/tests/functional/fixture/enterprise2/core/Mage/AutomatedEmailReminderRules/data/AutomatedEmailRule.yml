@@ -1,0 +1,20 @@
+#  Magento
+#
+#  {license_notice}
+#
+#  @category    Magento
+#  @package     Mage_ACL
+#  @subpackage  tests_data
+#  @copyright   {copyright}
+#  @license     {license_link}
+#
+---
+# Test for created Automated Email rules
+
+create_automated_email_rule:
+    info:
+        rule_name: 'My Test Rule %randomize%'
+        assigned_to_website: 'Main Website'
+
+
+

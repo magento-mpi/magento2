@@ -170,7 +170,7 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
     public function testUpdate()
     {
         $response = $this->callPut('customers', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 
     /**
@@ -181,6 +181,6 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
     public function testDelete()
     {
         $response = $this->callDelete('customers', array('qwerty'));
-        $this->assertEquals(Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Exception::HTTP_NOT_FOUND, $response->getStatus());
     }
 }

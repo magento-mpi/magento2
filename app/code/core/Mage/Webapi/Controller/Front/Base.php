@@ -62,6 +62,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     public function init()
     {
+        // TODO: Handle situation when invalid area_code was passed. Currently there is no solution for how to render HTML from here in the most correct manner.
         $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
         $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
 
@@ -112,10 +113,6 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         if (is_null($this->_concreteFrontController)) {
             $apiType = $this->_determineApiType();
 
-            if (!isset($this->_concreteFrontControllers[$apiType])) {
-                throw new Mage_Core_Exception($this->_helper
-                    ->__('The specified API type "%s" is not implemented.', $apiType));
-            }
             $concreteFrontControllerClass = $this->_concreteFrontControllers[$apiType];
             $this->_setConcreteFrontController(new $concreteFrontControllerClass());
         }
@@ -143,7 +140,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
 
             $apiType = $apiTypeMatch['api_type'];
             if (!array_key_exists($apiType, $this->_concreteFrontControllers)) {
-                throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.'),
+                throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.', $apiType),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             // TODO: required for multicall, needs refactoring

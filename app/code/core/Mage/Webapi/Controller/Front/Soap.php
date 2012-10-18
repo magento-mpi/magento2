@@ -80,8 +80,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 return $stdObj;
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
-            } catch (Mage_Core_Exception $e) {
-                $this->_soapFault($e->getMessage(), self::FAULT_CODE_RECEIVER, $e);
             } catch (Exception $e) {
                 if (!Mage::getIsDeveloperMode()) {
                     Mage::logException($e);
@@ -443,6 +441,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $detailsXml = '';
         }
         $message = <<<FAULT_MESSAGE
+<?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
    <env:Body>
       <env:Fault>
