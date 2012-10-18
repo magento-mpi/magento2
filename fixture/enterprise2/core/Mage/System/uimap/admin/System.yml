@@ -32,7 +32,7 @@ manage_encryption_key:
 
 # Admin Actions Log Report page
 admin_action_log_report:
-    mca: logging/
+    mca:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/')]/span[contains(., 'Report')]
     title: Report / Admin Actions Logs / System / Magento Admin
 
