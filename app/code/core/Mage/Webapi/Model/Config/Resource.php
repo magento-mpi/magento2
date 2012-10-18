@@ -1,12 +1,12 @@
 <?php
+use Zend\Code\Scanner\DirectoryScanner,
+    Zend\Server\Reflection;
+
 /**
  * Magento API Resources config.
  *
  * @copyright {}
  */
-use Zend\Code\Scanner\DirectoryScanner,
-    Zend\Server\Reflection;
-
 class Mage_Webapi_Model_Config_Resource
 {
     /**
@@ -84,6 +84,8 @@ class Mage_Webapi_Model_Config_Resource
         } else {
             $this->_serverReflection = new Reflection();
         }
+
+        $this->_extractData();
     }
 
     /**
@@ -134,8 +136,6 @@ class Mage_Webapi_Model_Config_Resource
 
     public function getResource($resourceName, $resourceVersion)
     {
-        $this->_extractData();
-
         return $this->_data[$resourceName]['versions'][$resourceVersion];
     }
 
@@ -222,7 +222,7 @@ class Mage_Webapi_Model_Config_Resource
                 /** @var \Zend\Code\Scanner\ClassScanner $class */
                 $class = reset($classes);
                 $className = $class->getName();
-                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
+                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $controllerNameMatches)) {
                     $resourceData = array();
                     $resourceData['controller'] = $className;
                     $this->_addFileToClassMap($className, $filename);
@@ -237,9 +237,7 @@ class Mage_Webapi_Model_Config_Resource
                         }
                     }
 
-                    // TODO: implement duplicates & 'Mage' removal
-                    $resourceName = $matches[1] . '_' . $matches[2];
-                    $this->_data[$resourceName] = $resourceData;
+                    $this->_data[$this->_translateResourceName($controllerNameMatches)] = $resourceData;
                 }
             }
 
@@ -252,9 +250,30 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
+     * Translate parts from controller name into resource name.
+     *
+     * @param $matches
+     * @return string
+     */
+    protected function _translateResourceName($matches)
+    {
+        list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
+        $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
+
+        $controllerNameParts = explode('_', $matches[2]);
+        if ($moduleName == $controllerNameParts[0]) {
+            array_shift($controllerNameParts);
+        }
+
+        return lcfirst($moduleNamespace . $moduleName . implode('', $controllerNameParts));
+    }
+
+    /**
+     * Retrieve method interface and documentation description.
+     *
      * @param Zend\Server\Reflection\ReflectionMethod $method
-     * @throws InvalidArgumentException
      * @return array
+     * @throws InvalidArgumentException
      */
     protected function _getMethodData(\Zend\Server\Reflection\ReflectionMethod $method)
     {
@@ -318,7 +337,14 @@ class Mage_Webapi_Model_Config_Resource
      */
     protected function  _getAllowedMethods()
     {
-        // TODO: move to constants?
-        return array('create', 'get', 'list', 'update', 'delete', 'multiUpdate', 'multiDelete');
+        return array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+        );
     }
 }
