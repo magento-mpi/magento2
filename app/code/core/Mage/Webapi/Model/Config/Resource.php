@@ -295,9 +295,9 @@ class Mage_Webapi_Model_Config_Resource
 
             foreach ($this->_classMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
-                    $resourceData = array();
-                    $resourceData['controller'] = $className;
-                    $resourceData['module'] = $matches[1];
+                    $data = array();
+                    $data['controller'] = $className;
+                    $data['module'] = $matches[1];
                     /** @var \Zend\Server\Reflection\ReflectionMethod $method */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
                         $methodName = $method->getName();
@@ -305,7 +305,7 @@ class Mage_Webapi_Model_Config_Resource
                         if (preg_match($regEx, $methodName, $methodMatches)) {
                             $operation = $methodMatches[1];
                             $version = lcfirst($methodMatches[2]);
-                            $resourceData['versions'][$version]['methods'][$operation] = $this->_getMethodData($method);
+                            $data['versions'][$version]['methods'][$operation] = $this->_getMethodData($method);
                         }
                     }
                     // Sort versions array for further fallback.
@@ -502,7 +502,7 @@ class Mage_Webapi_Model_Config_Resource
                 array_shift($typeNameParts);
             }
 
-            return lcfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
+            return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
 
         throw new InvalidArgumentException('Invalid parameter type.');

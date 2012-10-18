@@ -247,7 +247,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getWsdlContent()
     {
         $requestedModules = $this->getRequest()->getRequestedModules();
-
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
@@ -256,10 +255,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             }
         }
 
+        $resources = array();
+        foreach ($requestedModules as $resourceName => $resourceVersion) {
+            $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
+        }
         /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
         $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
             'resource_config' => $this->getResourceConfig(),
-            'requested_resources' => $requestedModules,
+            'requested_resources' => $resources,
             'endpoint_url' => $this->_getEndpointUrl(),
         ));
         $wsdlContent = $wsdlConfig->generate();
