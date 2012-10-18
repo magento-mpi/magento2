@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCa
      */
     protected function _buildBlock($titles)
     {
-        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array(
             'area'      => Mage_Core_Model_App_Area::AREA_ADMINHTML,

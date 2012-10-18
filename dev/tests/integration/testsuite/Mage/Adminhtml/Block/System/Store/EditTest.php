@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         /** @var $block Mage_Adminhtml_Block_System_Store_Edit */
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        $dataStructure = Mage::getModel('Magento_Data_Structure');
+        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
         /** @var $block Mage_Adminhtml_Block_System_Store_Edit */
