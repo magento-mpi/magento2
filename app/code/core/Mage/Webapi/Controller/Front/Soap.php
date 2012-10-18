@@ -54,13 +54,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         } else {
             $role = $this->_authenticate();
             $this->_checkOperationDeprecation($operation);
-            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
+            $resourceVersion = $this->_getOperationVersion($operation);
+            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
                 $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
             }
-            $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
+            $controllerClass = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
                 $this->_checkResourceAcl($role, $resourceName, $method);
 
@@ -366,6 +367,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlUrl()
     {
+        // TODO: Workaround
+        return Mage::getBaseUrl() . "pub/soap.xml";
         return $this->_getEndpointUrl(true);
     }
 

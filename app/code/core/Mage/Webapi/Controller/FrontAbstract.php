@@ -221,7 +221,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     protected function _getVersionSuffix($operationName, $controllerInstance)
     {
         $originalVersion = $this->_getOperationVersion($operationName);
-        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName);
+        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName, $originalVersion);
         $methodVersion = $originalVersion;
         while ($methodVersion >= self::VERSION_MIN) {
             $versionSuffix = 'V' . $methodVersion;
@@ -237,7 +237,11 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Identify version of requested operation
+     * Identify version of requested operation.
+     *
+     * This method required when there are two or more modules versions specified in request:
+     * http://magento.host/api/soap?wsdl&modules[Module_A]=v1&modules[Module_B]=v2 <br/>
+     * In this case it is not obvious what version of current operation should be used.
      *
      * @param string $operationName
      * @return int

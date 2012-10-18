@@ -93,7 +93,11 @@ class Mage_Webapi_Model_Config_Resource
             $this->_serverReflection = new Reflection();
         }
 
-        $this->_extractData();
+        if (isset($options['data']) && is_array($options['data']) && !empty($options['data'])) {
+            $this->_data = $options['data'];
+        } else {
+            $this->_extractData();
+        }
     }
 
     /**
@@ -133,16 +137,6 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
-     * Retrieve list of resources with methods
-     *
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->_data['resources'];
-    }
-
-    /**
      * Retrieve specific resource version interface data.
      *
      * @param string $resourceName
@@ -177,39 +171,91 @@ class Mage_Webapi_Model_Config_Resource
      * This method relies on convention that port type value equals to resource name
      *
      * @param string $operationName
+     * @param string $resourceVersion
      * @return string|bool Resource name on success; false on failure
      */
-    public function getResourceNameByOperation($operationName)
+    public function getResourceNameByOperation($operationName, $resourceVersion)
     {
-        return isset($this->_data['operations'][$operationName])
-            ? $this->_data['operations'][$operationName]['resource_name']
-            : false;
+        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        return isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName])
+            ? $resourceName : false;
     }
 
     /**
      * Identify method name by operation name.
      *
      * @param string $operationName
+     * @param string $resourceVersion
      * @return string|bool Method name on success; false on failure
      */
-    public function getMethodNameByOperation($operationName)
+    public function getMethodNameByOperation($operationName, $resourceVersion)
     {
-        return isset($this->_data['operations'][$operationName])
-            ? $this->_data['operations'][$operationName]['method_name']
-            : false;
+        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        return isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName])
+            ? $methodName : false;
+    }
+
+    /**
+     * Parse operation name to separate resource name from method name.
+     *
+     * <pre>Result format:
+     * array(
+     *      0 => false|'resourceName',
+     *      1 => false|'methodName'
+     * )</pre>
+     *
+     * @param string $operationName
+     * @return array
+     */
+    protected function _parseOperationName($operationName)
+    {
+        $result = array(false, false);
+        /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
+        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', $this->_getAllowedMethods()));
+        if (preg_match($regEx, $operationName, $matches)) {
+            $resourceName = $matches[1];
+            $methodName = lcfirst($matches[2]);
+            $result = array($resourceName, $methodName);
+        }
+        return $result;
+    }
+
+    /**
+     * Identify controller class by operation name and its version.
+     *
+     * @param string $operationName
+     * @return bool|string Resource name on success; false if operation was not found
+     * @throws LogicException
+     */
+    public function getControllerClassByOperationName($operationName)
+    {
+        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        if ($resourceName) {
+            if (isset($this->_data[$resourceName]['controller'])) {
+                return $this->_data[$resourceName]['controller'];
+            }
+            throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
+        }
+        return $resourceName;
     }
 
     /**
      * Identify module name by operation name.
      *
      * @param string $operationName
-     * @return string|bool Module name on success; false on failure
+     * @return string|bool Module name on success; false on failure.
+     * @throws LogicException In case when resource was found but module was not specified.
      */
     public function getModuleNameByOperation($operationName)
     {
-        return isset($this->_data['operations'][$operationName])
-            ? $this->_data['operations'][$operationName]['module_name']
-            : false;
+        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        if ($resourceName) {
+            if (isset($this->_data[$resourceName]['module'])) {
+                return $this->_data[$resourceName]['module'];
+            }
+            throw new LogicException(sprintf('Resource "%s" must have module specified.', $resourceName));
+        }
+        return $resourceName;
     }
 
     /**
@@ -248,9 +294,10 @@ class Mage_Webapi_Model_Config_Resource
             $this->_populateClassMap();
 
             foreach ($this->_classMap as $className => $filename) {
-                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
-                    $data = array();
-                    $data['controller'] = $className;
+                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
+                    $resourceData = array();
+                    $resourceData['controller'] = $className;
+                    $resourceData['module'] = $matches[1];
                     /** @var \Zend\Server\Reflection\ReflectionMethod $method */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
                         $methodName = $method->getName();
@@ -258,7 +305,7 @@ class Mage_Webapi_Model_Config_Resource
                         if (preg_match($regEx, $methodName, $methodMatches)) {
                             $operation = $methodMatches[1];
                             $version = lcfirst($methodMatches[2]);
-                            $data['versions'][$version]['operations'][$operation] = $this->_getMethodData($method);
+                            $resourceData['versions'][$version]['methods'][$operation] = $this->_getMethodData($method);
                         }
                     }
                     // Sort versions array for further fallback.
@@ -503,7 +550,7 @@ class Mage_Webapi_Model_Config_Resource
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
         );
     }
 }

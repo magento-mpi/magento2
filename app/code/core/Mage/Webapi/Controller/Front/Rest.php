@@ -125,7 +125,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_initResourceConfig($this->getRequest()->getRequestedModules());
             $operation = $this->_getOperationName();
             $this->_checkOperationDeprecation($operation);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
+            $resourceVersion = $this->_getOperationVersion($operation);
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
