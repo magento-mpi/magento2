@@ -21,7 +21,9 @@ class Mage_DesignEditor_Block_Toolbar_HandlesHierarchyTest extends PHPUnit_Frame
         $layoutUtility = new Mage_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/../../../Core/Model/Layout/_files/_handles.xml';
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_DesignEditor_Block_Toolbar_HandlesHierarchy');
-        $this->_block->setLayout($layoutUtility->getLayoutFromFixture($pageTypesFixture));
+        $this->_block->setLayout($layoutUtility->getLayoutFromFixture($pageTypesFixture,
+            $layoutUtility->getLayoutDependencies()
+        ));
     }
 
     protected function tearDown()

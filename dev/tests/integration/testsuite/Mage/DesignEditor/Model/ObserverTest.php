@@ -133,7 +133,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testSetDesignEditorFlag()
     {
         $headBlock = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
-        $structure = Mage::getModel('Magento_Data_Structure');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
         $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
         $layout->addBlock($headBlock, 'head');
         $this->assertEmpty($headBlock->getDesignEditorActive());
