@@ -46,6 +46,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>jquery/jquery.validate.js</file></action>
                 <action method="addJs"><file>mage/validation.js</file></action>
                 <action method="addJs"><file>mage/backend/validation.js</file></action>
+                <action method="addJs"><file>mage/backend/notification.js</file></action>
                 <action method="addJs"><file>mage/backend/bootstrap.js</file></action>
                 <action method="addJs"><file>mage/backend/form.js</file></action>
                 <action method="addJs"><file>mage/loader.js</file></action>

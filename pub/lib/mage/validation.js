@@ -438,7 +438,7 @@
         "validate-identifier": [
             function (v) {
                 return $.mage.isEmptyNoTrim(v) || /^[a-z0-9][a-z0-9_\/-]+(\.[a-z0-9_-]+)?$/.test(v)
-            }
+            },
             'Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".'
         ],
         "validate-zip-international": [
@@ -476,6 +476,17 @@
                  return result;
              },
             'Please select a file'
+        ],
+        "validate-ajax-error": [
+            function (v, element) {
+                element = $(element);
+                element.on('change.ajaxError', function(){
+                    element.removeClass('validate-ajax-error');
+                    element.off('change.ajaxError');
+                })
+                return !element.hasClass('validate-ajax-error');
+            },
+            ''
         ]
     };
     $.each(rules, function(i, rule) {
@@ -501,13 +512,10 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div',
-            submitHandler: function(form) {
-                form.submit();
-            }
+            errorElement: 'div'
         },
         _create: function(){
-            this.element.validate(this.options);
+            this.validate = this.element.validate(this.options);
         }
     });
 })(jQuery);

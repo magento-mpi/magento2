@@ -69,6 +69,10 @@ jQuery(function ($) {
         $('body').on('ajaxSend', function(e){
             $(e.target).loader().loader('show');
         });
+
+        if ($('#messages').length) {
+            $('#messages').notification();
+        }
     };
 
     $(document).ready(function(){

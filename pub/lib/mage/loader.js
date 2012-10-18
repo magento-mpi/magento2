@@ -33,7 +33,9 @@
         _bind: function(){
             this.element.on('ajaxComplete ajaxError', function(e){
                 e.stopImmediatePropagation();
-                $(e.target).loader('hide');
+                $(e.target).is(document) ?
+                    $('body').loader('hide'):
+                    $(e.target).loader('hide');
 
             });
         },
@@ -84,9 +86,4 @@
             return $.Widget.prototype.destroy.call(this);
         }
     });
-    $(document).ready(function(){
-        $('body').on('ajaxSend', function(e){
-            $(e.target).loader().loader('show');
-        });
-    })
 })(jQuery);

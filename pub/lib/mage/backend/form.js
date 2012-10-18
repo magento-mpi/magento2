@@ -27,7 +27,7 @@
         },
         _getActionUrl: function(action, data){
             var actions = this.options.actions;
-            if(actions[action]){
+            if (actions[action]) {
                 return $.tmpl(action, $.extend({
                     base: this.element.attr('action'),
                     args: data || action.args || {}
@@ -37,7 +37,7 @@
         },
         _submit: function(e, data) {
             var url = this._getActionUrl(e.type, data);
-            if(url) {
+            if (url) {
                 this.element.attr('action', url);
             }
             this.element.triggerHandler('submit');
