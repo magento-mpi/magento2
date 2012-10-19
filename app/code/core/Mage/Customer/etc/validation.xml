@@ -7,9 +7,37 @@
                     <constraint class="Mage_Customer_Model_Customer_Validation_Password" />
                 </entity_constraints>
             </rule>
-            <rule name="check_model">
+            <rule name="check_eav">
                 <entity_constraints>
                     <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
+                    <constraint alias="eav_backend_validator" class="Mage_Eav_Model_Validator_Attribute_Backend" />
+                </entity_constraints>
+            </rule>
+            <rule name="read_only_properties_for_create">
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Entity_Properties">
+                        <method name="setReadOnlyProperties">
+                            <argument>
+                                <option>entity_id</option>
+                                <option>entity_type_id</option>
+                            </argument>
+                        </method>
+                    </constraint>
+                </entity_constraints>
+            </rule>
+            <rule name="read_only_properties_for_update">
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Entity_Properties">
+                        <method name="setReadOnlyProperties">
+                            <argument>
+                                <option>entity_id</option>
+                                <option>entity_type_id</option>
+                                <option>created_in</option>
+                                <option>website_id</option>
+                                <option>created_at</option>
+                            </argument>
+                        </method>
+                    </constraint>
                 </entity_constraints>
             </rule>
         </rules>
@@ -19,9 +47,71 @@
                     <use rule="check_password"/>
                 </uses>
             </group>
-            <group name="service_validator">
+            <group name="create">
                 <uses>
-                    <use rule="check_model"/>
+                    <use rule="check_eav"/>
+                    <use rule="read_only_properties_for_create"/>
+                </uses>
+            </group>
+            <group name="update">
+                <uses>
+                    <use rule="check_eav"/>
+                    <use rule="read_only_properties_for_update"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+
+    <entity name="customer_address">
+        <rules>
+            <rule name="check_eav">
+                <entity_constraints>
+                    <constraint alias="eav_data_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
+                    <constraint alias="eav_backend_validator" class="Mage_Eav_Model_Validator_Attribute_Backend" />
+                </entity_constraints>
+            </rule>
+            <rule name="read_only_properties_for_create">
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Entity_Properties">
+                        <method name="setReadOnlyProperties">
+                            <argument>
+                                <option>attribute_set_id</option>
+                                <option>increment_id</option>
+                                <option>entity_id</option>
+                                <option>entity_type_id</option>
+                            </argument>
+                        </method>
+                    </constraint>
+                </entity_constraints>
+            </rule>
+            <rule name="read_only_properties_for_update">
+                <entity_constraints>
+                    <constraint class="Magento_Validator_Entity_Properties">
+                        <method name="setReadOnlyProperties">
+                            <argument>
+                                <option>attribute_set_id</option>
+                                <option>increment_id</option>
+                                <option>entity_id</option>
+                                <option>entity_type_id</option>
+                                <option>parent_id</option>
+                                <option>created_at</option>
+                            </argument>
+                        </method>
+                    </constraint>
+                </entity_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="create">
+                <uses>
+                    <use rule="check_eav"/>
+                    <use rule="read_only_properties_for_create"/>
+                </uses>
+            </group>
+            <group name="update">
+                <uses>
+                    <use rule="check_eav"/>
+                    <use rule="read_only_properties_for_update"/>
                 </uses>
             </group>
         </groups>

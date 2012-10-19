@@ -117,6 +117,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'default_billing' => null,
                 'default_shipping' => null,
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
             )),
             'First name is required field' => array(array('website_id' => 0,
                 'group_id' => 1,
@@ -127,7 +128,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
-            ), 'Mage_Core_Exception'),
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
+            ), 'Magento_Validator_Exception'),
             'Invalid email' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
@@ -137,7 +139,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
-            ), 'Mage_Core_Exception'),
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
+            ), 'Magento_Validator_Exception'),
             'Invalid password' => array(array('website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
@@ -147,7 +150,30 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
             ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.'),
+            'Read-only entity_id' => array(array('website_id' => 0,
+                'group_id' => 1,
+                'disable_auto_group_change' => 0,
+                'firstname' => 'SomeName',
+                'lastname' => 'SomeSurname',
+                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+                'gender' => 1,
+                'password' => '123123q',
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
+                'entity_id' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed'),
+            'Read-only entity_type_id' => array(array('website_id' => 0,
+                'group_id' => 1,
+                'disable_auto_group_change' => 0,
+                'firstname' => 'SomeName',
+                'lastname' => 'SomeSurname',
+                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+                'gender' => 1,
+                'password' => '123123q',
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
+                'entity_type_id' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed'),
         );
     }
 
@@ -157,13 +183,13 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      * @magentoDataFixture Mage/Customer/_files/customer.php
      * @dataProvider initUpdateCustomerDataProvider
      */
-    public function testUpdate($customerData, $exceptionName = '')
+    public function testUpdate($customerData, $exceptionName = '', $exceptionMessage = '')
     {
         $expected = new Mage_Customer_Model_Customer();
         $expected->load(1);
 
         if (!empty($exceptionName)) {
-            $this->setExpectedException($exceptionName);
+            $this->setExpectedException($exceptionName, $exceptionMessage);
         }
 
         $this->_updateAndCheckCustomer($expected->getId(),
@@ -187,37 +213,25 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ), 'Mage_Eav_Model_Entity_Attribute_Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
-            ), 'Mage_Core_Exception'),
+            ), 'Magento_Validator_Exception'),
             'Invalid email' => array(array(
                 'email' => '3434@23434'
-            ), 'Mage_Core_Exception'),
-        );
-    }
-
-    /**
-     * @param array $customerData
-     * @magentoDataFixture Mage/Customer/_files/customer.php
-     * @dataProvider initForbiddenFieldsUpdateDataProvider
-     */
-    public function testForbiddenFieldsUpdate($customerData)
-    {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
-
-        $this->_updateAndCheckCustomer($expected->getId(),
-            $customerData, 'assertNotEquals');
-    }
-
-    /**
-     * @return array
-     */
-    public function initForbiddenFieldsUpdateDataProvider()
-    {
-        return array(
-            'Fields must not be changed' => array(array(
-                'website_id' => 111,
-                'entity_type_id' => 555,
-            )),
+            ), 'Magento_Validator_Exception'),
+            'Read-only website_id' => array(array(
+                'website_id' => 111
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
+            'Read-only entity_type_id' => array(array(
+                'entity_type_id' => 555
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
+            'Read-only entity_id' => array(array(
+                'entity_id' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
+            'Read-only created_in' => array(array(
+                'created_in' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
+            'Read-only created_at' => array(array(
+                'created_at' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.')
         );
     }
 
