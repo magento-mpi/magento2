@@ -299,7 +299,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'class' => $fieldsetHtmlClass,
             'table_class' => 'form-list stores-tree',
         ));
-        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
         foreach ($this->_app->getWebsites() as $website) {

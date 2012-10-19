@@ -129,6 +129,13 @@ return array(
     ),
     'Mage_Adminhtml_Block_System_Config_Dwstree' => array('suggestion' => 'Mage_Backend_Block_System_Config_Dwstree'),
     'Mage_Adminhtml_Block_System_Config_Switcher' => array('suggestion' => 'Mage_Backend_Block_System_Config_Switcher'),
+    'Mage_Adminhtml_Block_Store_Switcher' => array('suggestion' => 'Mage_Backend_Block_Store_Switcher'),
+    'Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset' => array(
+        'suggestion' => 'Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset'
+    ),
+    'Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element' => array(
+        'suggestion' => 'Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+    ),
     'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage',
     'Mage_Adminhtml_Block_Tag_Tag_Edit',
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',

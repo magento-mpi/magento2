@@ -21,7 +21,7 @@
             <block name="event_edit_page" type="Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit" />
         </reference>
         <reference name="left">
-            <block before="-" type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"></block>
+            <block before="-" type="Mage_Backend_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"></block>
         </reference>
     </adminhtml_catalog_event_edit>
     
