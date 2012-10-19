@@ -178,15 +178,38 @@ class Enterprise2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Check required field</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add new API Users button</p>
-     * <p>2. Click "save API User"
-     * <p>Expected result:</p>
-     * <p>"This is a required field.' massage should be appear</p>
-     *
+     * @test
+     * @author denis.poloka
+     * @depends withRequiredFieldsCreateUser
      * @param array $userData
-     *
+     * @TestlinkId TL-MAGE-636
+     */
+    public function checkSuccessLogSaveUser ($userData)
+    {
+        //Open API Users page and add new user
+        $this->navigate('api_users');
+        $userSearch =array('filter_api_users_name' => $userData['api_user_name']);
+        $this->searchAndOpen($userSearch, false);
+        $this->waitForPageToLoad();
+        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('userName', $userData['api_user_name']);
+        $this->validatePage();
+        $userId = array ($this->defineParameterFromUrl('user_id'));
+
+        //Open Admin Action Log Page
+        $this->navigate('admin_action_log_report');
+        $userSearch =array('short_details' => $userId);
+        $this->searchAndOpen($userSearch, false);
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('event_id'));
+        $this->validatePage();
+
+        //Check page title
+        $this->assertSame($this->getTitle(), 'View Entry / Report / Admin Actions Logs / System / Magento Admin');
+    }
+
+    /**
+     * @param array $userData
      * @test
      * @author denis.poloka
      * @depends withRequiredFieldsCreateUser
