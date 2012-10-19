@@ -15,7 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Source_Acl_Role
+class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Role
@@ -59,5 +59,16 @@ class Mage_Webapi_Model_Source_Acl_Role
     protected function _getResourceModel()
     {
         return $this->_resource;
+    }
+
+    /**
+     * Return option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        $options = $this->_getResourceModel()->getRolesList();
+        return $options;
     }
 }
