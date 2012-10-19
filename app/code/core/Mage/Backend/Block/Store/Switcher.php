@@ -81,7 +81,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     public function getWebsites()
     {
-        $websites = Mage::app()->getWebsites();
+        $websites = $this->_getAppModel()->getWebsites();
         if ($websiteIds = $this->getWebsiteIds()) {
             foreach ($websites as $websiteId => $website) {
                 if (!in_array($websiteId, $websiteIds)) {

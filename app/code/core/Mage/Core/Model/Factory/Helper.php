@@ -9,18 +9,18 @@
  */
 
 /**
- * Helper registry model. Used to get helper objects
+ * Helper factory model. Used to get helper objects
  */
-class Mage_Core_Model_Helper_Registry
+class Mage_Core_Model_Factory_Helper
 {
     /**
      * Get helper object
      *
-     * @param  string $moduleName
+     * @param  string $className
      * @return Mage_Core_Helper_Abstract
      */
-    public function get($moduleName)
+    public function get($className)
     {
-        return Mage::helper($moduleName);
+        return Mage::helper($className);
     }
 }

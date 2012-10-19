@@ -41,7 +41,7 @@ class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget
         $storesConfig = Mage::getConfig()->getNode('stores');
 
         $this->addTab('default', array(
-            'label'  => $this->_getHelperRegistry()->get('Mage_Backend_Helper_Data')->__('Default Config'),
+            'label'  => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Default Config'),
             'url'    => $this->getUrl('*/*/*', array('section'=>$section)),
             'class' => 'default',
         ));

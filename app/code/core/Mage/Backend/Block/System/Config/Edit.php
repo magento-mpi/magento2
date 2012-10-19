@@ -66,7 +66,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected function _getHelper()
     {
         if (null === $this->_helper) {
-            $this->_helper = $this->_getHelperRegistry()->get('Mage_Backend_Helper_Data');
+            $this->_helper = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data');
         }
         return $this->_helper;
     }
