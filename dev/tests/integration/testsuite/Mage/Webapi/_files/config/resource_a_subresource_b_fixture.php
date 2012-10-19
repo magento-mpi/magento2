@@ -6,7 +6,7 @@
  * @copyright {}
  */
 return array(
-    'operations' => array(
+    'methods' => array(
         'get' => array(
             'documentation' => 'Subresource description.',
             'interface' => array(
@@ -21,7 +21,7 @@ return array(
                 ),
                 'out' => array(
                     'result' => array(
-                        'type' => 'namespaceAModuleADataStructure',
+                        'type' => 'NamespaceAModuleADataStructure',
                         'documentation' => 'Data of resource'
                     )
                 ),
@@ -32,7 +32,7 @@ return array(
             'interface' => array(
                 'out' => array(
                     'result' => array(
-                        'type' => 'namespaceAModuleADataStructure[]',
+                        'type' => 'NamespaceAModuleADataStructure[]',
                         'documentation' => 'list of resources'
                     )
                 ),

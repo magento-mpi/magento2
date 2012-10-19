@@ -49,6 +49,6 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetDataType()
     {
         $expectedType = include __DIR__ . '/../../_files/config/data_structure_fixture.php';
-        $this->assertEquals($expectedType, $this->_config->getDataType('namespaceAModuleADataStructure'));
+        $this->assertEquals($expectedType, $this->_config->getDataType('NamespaceAModuleADataStructure'));
     }
 }

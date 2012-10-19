@@ -6,7 +6,7 @@
  * @copyright {}
  */
 return array(
-    'operations' => array(
+    'methods' => array(
         'create' => array(
             'documentation' => "Short description.
 Long description.
@@ -15,7 +15,7 @@ Multiline <b>with html</b>.",
                 'in' => array(
                     'parameters' => array(
                         'resourceData' => array(
-                            'type' => 'namespaceAModuleADataStructure',
+                            'type' => 'NamespaceAModuleADataStructure',
                             'required' => true,
                             'documentation' => 'Data of the resource'
                         )
@@ -43,7 +43,7 @@ Multiline <b>with html</b>.",
                 ),
                 'out' => array(
                     'result' => array(
-                        'type' => 'namespaceAModuleADataStructure',
+                        'type' => 'NamespaceAModuleADataStructure',
                         'documentation' => 'data of resource'
                     )
                 ),
