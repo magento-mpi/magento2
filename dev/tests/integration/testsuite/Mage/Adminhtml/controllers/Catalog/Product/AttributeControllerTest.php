@@ -33,70 +33,44 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
      */
     public function saveActionDataProvider()
     {
-        return array(array(
-            'default values' => array(
-                'attribute_id' => '1',
-                'is_global' => '2',
-                'default_value_text' => '0',
-                'default_value_yesno' => '0',
-                'default_value_date' => '',
-                'default_value_textarea' => '0',
-                'is_required' => '1',
-                'frontend_class' => '',
-                'is_configurable' => '0',
-                'is_searchable' => '0',
-                'is_visible_in_advanced_search' => '0',
-                'is_comparable' => '0',
-                'is_filterable' => '0',
-                'is_filterable_in_search' => '0',
-                'is_used_for_promo_rules' => '0',
-                'is_html_allowed_on_front' => '0',
-                'is_visible_on_front' => '0',
-                'used_in_product_listing' => '1',
-                'used_for_sort_by' => '0',
-                'apply_to' => array(
-                    'simple', 'configurable'),
-                'frontend_label' => array(
-                    0 => 'Allow Open Amount',
-                    1 => ''),
-                'default' => array(
-                    0 => '0'),
-                'option' => array(
-                    'delete' => array(
-                        0 => '',
-                        1 => '')))),
-            array(
-            'default values' => array(
-                'attribute_id' => '2',
-                'is_global' => '2',
-                'default_value_text' => '0',
-                'default_value_yesno' => '0',
-                'default_value_date' => '',
-                'default_value_textarea' => '0',
-                'is_required' => '1',
-                'frontend_class' => '',
-                'is_configurable' => '0',
-                'is_searchable' => '0',
-                'is_visible_in_advanced_search' => '0',
-                'is_comparable' => '0',
-                'is_filterable' => '0',
-                'is_filterable_in_search' => '0',
-                'is_used_for_promo_rules' => '0',
-                'is_html_allowed_on_front' => '0',
-                'is_visible_on_front' => '0',
-                'used_in_product_listing' => '1',
-                'used_for_sort_by' => '0',
-                'apply_to' => array(
-                    'simple', 'configurable'),
-                'frontend_label' => array(
-                    0 => 'Allow Open Amount',
-                    1 => ''),
-                'default' => array(
-                    0 => '0'),
-                'option' => array(
-                    'delete' => array(
-                        0 => '',
-                        1 => ''
-        )))));
+        return array(
+            array('first' => array_merge(array('attribute_id' => '1'), $this->_getAttributeProperties())),
+            array('second' => array_merge(array('attribute_id' => '2'), $this->_getAttributeProperties())),
+        );
+    }
+
+    protected function _getAttributeProperties()
+    {
+        return array(
+            'is_global' => '2',
+            'default_value_text' => '0',
+            'default_value_yesno' => '0',
+            'default_value_date' => '',
+            'default_value_textarea' => '0',
+            'is_required' => '1',
+            'frontend_class' => '',
+            'is_configurable' => '0',
+            'is_searchable' => '0',
+            'is_visible_in_advanced_search' => '0',
+            'is_comparable' => '0',
+            'is_filterable' => '0',
+            'is_filterable_in_search' => '0',
+            'is_used_for_promo_rules' => '0',
+            'is_html_allowed_on_front' => '0',
+            'is_visible_on_front' => '0',
+            'used_in_product_listing' => '1',
+            'used_for_sort_by' => '0',
+            'apply_to' => array(
+                'simple', 'configurable'),
+            'frontend_label' => array(
+                0 => 'Allow Open Amount',
+                1 => ''),
+            'default' => array(
+                0 => '0'),
+            'option' => array(
+                'delete' => array(
+                    0 => '',
+                    1 => ''
+        )));
     }
 }
