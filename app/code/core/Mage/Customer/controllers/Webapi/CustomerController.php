@@ -108,10 +108,11 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Method for versioning testing purposes.
      *
      * @param string $id
+     * @param int $newParam
      * @return Mage_Customer_Webapi_Customer_DataStructure
      * @throws Mage_Webapi_Exception
      */
-    public function getV2($id)
+    public function getV2($id, $newParam)
     {
         try {
             $customerData = $this->_get($id);

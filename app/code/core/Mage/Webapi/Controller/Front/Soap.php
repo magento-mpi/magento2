@@ -370,8 +370,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlUrl()
     {
-        // TODO: Workaround
-        return Mage::getBaseUrl() . "pub/soap.xml";
         return $this->_getEndpointUrl(true);
     }
 

@@ -110,7 +110,7 @@ class Mage_Webapi_Model_Config_Wsdl
 
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $definitions = $this->_dom->createElement(self::WSDL_NS . ':definitions');
-        $targetNamespace = urldecode($this->_endpointUrl);
+        $targetNamespace = $this->_endpointUrl;
         $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::WSDL_NS, self::WSDL_NS_URI);
         $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::SOAP_NS, self::SOAP_NS_URI);
         $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::XSD_NS, self::XSD_NS_URI);
