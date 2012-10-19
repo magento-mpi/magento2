@@ -238,17 +238,19 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
                         foreach ($usedProducts as $associatedProduct) {
                             $attributeCodeValue = $associatedProduct->getData($productAttribute->getAttributeCode());
                             if (!empty($option['value']) && $option['value'] == $attributeCodeValue) {
-                                // If option not added, we will add it.
-                                $values[$itemId . ':' . $option['value']] = array(
-                                    'product_super_attribute_id' => $itemId,
-                                    'value_index'                => $option['value'],
-                                    'label'                      => $option['label'],
-                                    'default_label'              => $option['label'],
-                                    'store_label'                => $option['label'],
-                                    'is_percent'                 => 0,
-                                    'pricing_value'              => null,
-                                    'use_default_value'          => true
-                                );
+                                // If option available in associated product
+                                if (!isset($values[$item->getId() . ':' . $option['value']])) {
+                                    $values[$itemId . ':' . $option['value']] = array(
+                                        'product_super_attribute_id' => $itemId,
+                                        'value_index'                => $option['value'],
+                                        'label'                      => $option['label'],
+                                        'default_label'              => $option['label'],
+                                        'store_label'                => $option['label'],
+                                        'is_percent'                 => 0,
+                                        'pricing_value'              => null,
+                                        'use_default_value'          => true
+                                    );
+                                }
                             }
                         }
                     }
