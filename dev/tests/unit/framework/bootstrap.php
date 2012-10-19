@@ -10,8 +10,6 @@
 
 require __DIR__ . '/../../../../app/code/core/Mage/Core/functions.php';
 
-define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
-
 $includePaths = array(
     "./framework",
     './testsuite',
@@ -21,10 +19,7 @@ $includePaths = array(
     get_include_path(),
 );
 set_include_path(implode(PATH_SEPARATOR, $includePaths));
-spl_autoload_register('magentoAutoloadForUnitTests');
-
-function magentoAutoloadForUnitTests($class)
-{
+spl_autoload_register(function($class) {
     $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
     foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
         $fileName = $path . DIRECTORY_SEPARATOR . $file;
@@ -37,10 +32,10 @@ function magentoAutoloadForUnitTests($class)
 
     }
     return false;
-}
+});
 
-$tmpDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp';
-$instance = new Magento_Test_Environment($tmpDir);
-Magento_Test_Environment::setInstance($instance);
-$instance->cleanTmpDir()
-    ->cleanTmpDirOnShutdown();
+define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
+if (is_dir(TESTS_TEMP_DIR)) {
+    Varien_Io_File::rmdirRecursive(TESTS_TEMP_DIR);
+}
+mkdir(TESTS_TEMP_DIR);

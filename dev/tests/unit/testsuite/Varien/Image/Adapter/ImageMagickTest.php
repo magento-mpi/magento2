@@ -21,7 +21,7 @@ class Varien_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        Magento_Test_Environment::getInstance()->cleanTmpDirOnShutdown();
+//        Magento_Test_Environment::getInstance()->cleanTmpDirOnShutdown();
     }
 
     /**
@@ -40,9 +40,8 @@ class Varien_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
 
     public function watermarkDataProvider()
     {
-        $_tmpPath = Magento_Test_Environment::getInstance()->getTmpDir();
-        $imageAbsent = $_tmpPath . DIRECTORY_SEPARATOR . md5(time() + microtime(true)) . '2';
-        $imageExists = $_tmpPath . DIRECTORY_SEPARATOR . md5(time() + microtime(true)) . '1';
+        $imageAbsent = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . md5(time() + microtime(true)) . '2';
+        $imageExists = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . md5(time() + microtime(true)) . '1';
         touch($imageExists);
 
         return array(
