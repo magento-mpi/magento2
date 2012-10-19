@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_System_ConfigControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     public function testEditAction()
     {

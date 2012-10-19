@@ -11,7 +11,7 @@
 /**
  * Configuration controller
  */
-class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
+class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Whether current section is allowed
@@ -24,7 +24,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
-     * @return Mage_Adminhtml_System_ConfigController
+     * @return Mage_Backend_Adminhtml_System_ConfigController
      */
     public function preDispatch()
     {
@@ -58,11 +58,12 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        $configFields = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var $systemConfig Mage_Backend_Model_Config_Structure */
+        $systemConfig = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
-        $sections     = $configFields->getSections($current);
-        $section      = $sections->$current;
-        $hasChildren  = $configFields->hasChildren($section, $website, $store);
+        $sections     = $systemConfig->getSections($current);
+        $section      = $sections[$current];
+        $hasChildren  = $systemConfig->hasChildren($section, $website, $store);
         if (!$hasChildren && $current) {
             $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
         }
@@ -73,8 +74,8 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'),
+            Mage::helper('Mage_Backend_Helper_Data')->__('System'),
+            Mage::helper('Mage_Backend_Helper_Data')->__('System'),
             $this->getUrl('*/system')
         );
 
@@ -84,14 +85,14 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->_addContent($this->getLayout()->createBlock('Mage_Backend_Block_System_Config_Edit')->initForm());
 
             $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Template')
-                ->setTemplate('system/shipping/ups.phtml'));
+                ->createBlock('Mage_Backend_Block_Template')
+                ->setTemplate('Mage_Adminhtml::system/shipping/ups.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Template')
-                ->setTemplate('system/config/js.phtml'));
+                ->createBlock('Mage_Backend_Block_Template')
+                ->setTemplate('Mage_Adminhtml::system/config/js.phtml'));
             $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Template')
-                ->setTemplate('system/shipping/applicable_country.phtml'));
+                ->createBlock('Mage_Backend_Block_Template')
+                ->setTemplate('Mage_Adminhtml::system/shipping/applicable_country.phtml'));
 
             $this->renderLayout();
         }
@@ -107,7 +108,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         try {
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This section is not allowed.'));
+                throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -129,7 +130,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}", array(
                 'website' => $website, 'store' => $store
             ));
-            $session->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The configuration has been saved.'));
+            $session->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('The configuration has been saved.'));
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
             array_walk($messages, create_function(
@@ -137,7 +138,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             ));
         } catch (Exception $e) {
             $session->addException($e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving this configuration:')
+                Mage::helper('Mage_Backend_Helper_Data')->__('An error occurred while saving this configuration:')
                     . ' ' . $e->getMessage());
         }
 
@@ -248,9 +249,8 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $resourceId = (string) Mage::getSingleton('Mage_Backend_Model_Config_Structure')
-                ->getSection($section)->resource;
-            if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($resourceId)) {
+            $section = Mage::getSingleton('Mage_Backend_Model_Config_Structure')->getSection($section);
+            if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($section['resource'])) {
                 throw new Exception('');
             }
             return true;
