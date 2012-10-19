@@ -46,6 +46,9 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
                 ->setFieldNameSuffix('map[schedule]')
                 ->setStagingJsObjectName($this->getJsObjectName())
         );
+        $locale = Mage::app()->getLocale();
+        $this->setDateFormat($locale->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT))
+            ->setTimeFormat($locale->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
         return parent::_prepareLayout();
     }
 
