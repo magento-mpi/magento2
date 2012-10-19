@@ -51,12 +51,17 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Get customers list.
      *
-     * @return Mage_Customer_Webapi_Customer_DataStructure
+     * @return Mage_Customer_Webapi_Customer_DataStructure[]
      */
     public function listV1()
     {
-        $data = $this->_getCollectionForRetrieve()->load()->toArray();
-        return isset($data['items']) ? $data['items'] : $data;
+        $result = array();
+        $customersData = $this->_getCollectionForRetrieve()->load()->toArray();
+        $customersData = isset($customersData['items']) ? $customersData['items'] : $customersData;
+        foreach ($customersData as $customerData) {
+            $result[] = $this->_createCustomerDataObject($customerData);
+        }
+        return $result;
     }
 
     /**
@@ -71,7 +76,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         try {
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = $this->_loadCustomerById($id);
-            $customer->addData($data);
+            $customer->addData(get_object_vars($data));
             $customer->save();
         } catch (Mage_Customer_Exception $e) {
             $this->_processException($e);
@@ -98,11 +103,25 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
             }
             $data['password'] = $data['password_hash'];
             $data['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
+            return $this->_createCustomerDataObject($data);
         } catch (Mage_Customer_Exception $e) {
             $this->_processException($e);
         }
+    }
 
-        return $data;
+    /**
+     * Create customer data object based on associative array of customer data.
+     *
+     * @param array $data
+     * @return Mage_Customer_Webapi_Customer_DataStructure
+     */
+    protected function _createCustomerDataObject($data)
+    {
+        $customerData = new Mage_Customer_Webapi_Customer_DataStructure();
+        foreach ($data as $field => $value) {
+            $customerData->$field = $value;
+        }
+        return $customerData;
     }
 
     /**

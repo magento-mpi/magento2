@@ -45,12 +45,18 @@ class Mage_Webapi_Model_Config_Resource
     protected $_types;
 
     /**
+     * Map of types to real classes.
+     *
+     * @var array
+     */
+    protected $_soapServerClassMap = array();
+
+    /**
      * Class map for auto loader.
      *
      * @var array
      */
-    protected $_classMap;
-
+    protected $_autoLoaderClassMap;
 
     /**
      * Initialize API resources config.
@@ -308,11 +314,10 @@ class Mage_Webapi_Model_Config_Resource
         if (is_null($this->_data)) {
             $this->_populateClassMap();
 
-            foreach ($this->_classMap as $className => $filename) {
-                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
+            foreach ($this->_autoLoaderClassMap as $className => $filename) {
+                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
-                    $data['module'] = $matches[1];
                     /** @var \Zend\Server\Reflection\ReflectionMethod $method */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
                         $methodName = $method->getName();
@@ -382,8 +387,8 @@ class Mage_Webapi_Model_Config_Resource
             $classMap[$class->getName()] = $relativePath;
         }
 
-        $this->_classMap = $classMap;
-        $this->_autoloader->addFilesMap($this->_classMap);
+        $this->_autoLoaderClassMap = $classMap;
+        $this->_autoloader->addFilesMap($this->_autoLoaderClassMap);
     }
 
     /**
@@ -449,6 +454,7 @@ class Mage_Webapi_Model_Config_Resource
             $complexTypeName = $this->translateTypeName($type);
             if (!isset($this->_types[$complexTypeName])) {
                 $this->_types[$complexTypeName] = $this->_processComplexType($type, $previouslyProcessedType);
+                $this->_soapServerClassMap[$complexTypeName] = $type;
             }
             $typeName = $complexTypeName;
         }
@@ -562,6 +568,16 @@ class Mage_Webapi_Model_Config_Resource
         );
 
         return isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
+    }
+
+    /**
+     * Retrieve mapping of complex types defined in WSDL to real data classes.
+     *
+     * @return array
+     */
+    public function getSoapServerClassMap()
+    {
+        return $this->_soapServerClassMap;
     }
 
     /**

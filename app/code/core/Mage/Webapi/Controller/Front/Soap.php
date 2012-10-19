@@ -67,19 +67,15 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 //$this->_checkResourceAcl($role, $resourceName, $method);
 
                 $arguments = reset($arguments);
-                /** @var Mage_Api_Helper_Data $apiHelper */
-                $apiHelper = Mage::helper('Mage_Api_Helper_Data');
-                $this->getHelper()->toArray($arguments);
+                $arguments = get_object_vars($arguments);
                 $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
                 $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
-                // TODO: Move wsiArrayPacker from helper to this class
-                $obj = $apiHelper->wsiArrayPacker($outputData);
                 $stdObj = new stdClass();
-                $stdObj->result = $obj;
+                $stdObj->result = $outputData;
                 return $stdObj;
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
@@ -286,7 +282,11 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $soapSchemaImportFailed = false;
                 try {
                     $this->_soapServer = new Server($this->_getWsdlUrl(),
-                        array('encoding' => $this->_getApiCharset()));
+                        array(
+                            'encoding' => $this->_getApiCharset(),
+                            'classMap' => $this->getResourceConfig()->getSoapServerClassMap(),
+                        )
+                    );
                 } catch (SoapFault $e) {
                     if (false !== strpos($e->getMessage(),
                         "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")

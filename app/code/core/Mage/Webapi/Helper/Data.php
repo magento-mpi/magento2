@@ -60,6 +60,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param  array|object $data
      */
+    // TODO: Remove if not used anymore
     public function toArray(&$data)
     {
         if (is_object($data)) {
