@@ -46,7 +46,7 @@
     </form>
     <script type="text/javascript">
         (function ($) {
-            head.js("<?php echo $this->getSkinUrl('jquery/ui/jquery-ui.js') ?>",
+            head.js(
                 "<?php echo $this->getSkinUrl('jquery/jquery.validate.js') ?>",
                 "<?php echo $this->getSkinUrl('jquery/additional-methods.js') ?>",
                 "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js') ?>",
@@ -64,7 +64,7 @@
                         countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                     });
                 });
-        }(jQuery));
+        })(jQuery);
     </script>
 <?php if (($_shippingRateGroups = $this->getEstimateRates())): ?>
 <form id="co-shipping-method-form" action="<?php echo $this->getUrl('checkout/cart/estimateUpdatePost') ?>">

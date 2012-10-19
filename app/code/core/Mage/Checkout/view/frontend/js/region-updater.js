@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($) {
+(function($) {
     $.widget('mage.regionUpdater', {
         options: {
         },
@@ -21,7 +21,7 @@
             $(this.options.formId).mage().validate();
             $(this.options.formId + ' button').on('click', $.proxy(function() {
                 $(this.options.formId).submit();
-            },this));
+            }, this));
         },
         _updateRegion: function(country) {
             // Clear validation error messages
