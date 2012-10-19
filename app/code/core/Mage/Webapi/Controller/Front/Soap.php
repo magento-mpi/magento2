@@ -252,13 +252,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         foreach ($requestedResources as $resourceName => $resourceVersion) {
             $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
         }
-        /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
-        $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
+        /** @var Mage_Webapi_Model_Soap_AutoDiscover $wsdlAutoDiscover */
+        $wsdlAutoDiscover = Mage::getModel('Mage_Webapi_Model_Soap_AutoDiscover', array(
             'resource_config' => $this->getResourceConfig(),
             'requested_resources' => $resources,
             'endpoint_url' => $this->_getEndpointUrl(),
         ));
-        $wsdlContent = $wsdlConfig->generate();
+        $wsdlContent = $wsdlAutoDiscover->generate();
 
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));

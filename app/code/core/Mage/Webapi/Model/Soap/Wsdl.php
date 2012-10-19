@@ -1,24 +1,16 @@
 <?php
 /**
- * {license_notice}
+ * WSDL Generation class.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * SOAP WSDL Generator.
- * It takes API resource config and creates complete WSDL 1.1 file based on it.
- * API resource config describes abstract part of WSDL and this config is responsible for concrete part.
- */
-class Mage_Webapi_Model_Config_Wsdl
+class Mage_Webapi_Model_Soap_Wsdl
 {
-    /**
-     * WSDL name attribute value
+    /**#@+
+     * XML Namespaces.
      */
-    const WSDL_NAME = 'Magento';
+    const XML_NS = 'xmlns';
+    const XML_NS_URI = 'http://www.w3.org/2000/xmlns/';
     const WSDL_NS = 'wsdl';
     const WSDL_NS_URI = 'http://schemas.xmlsoap.org/wsdl/';
     const SOAP_NS = 'soap12';
@@ -26,17 +18,7 @@ class Mage_Webapi_Model_Config_Wsdl
     const XSD_NS = 'xsd';
     const XSD_NS_URI = 'http://www.w3.org/2001/XMLSchema';
     const TYPES_NS = 'tns';
-    const SERVICE_NAME = 'Magento API';
-
-    /**
-     * @var Mage_Webapi_Model_Config_Resource
-     * */
-    protected $_resourceConfig;
-
-    /**
-     * @var array
-     */
-    protected $_requestedResources;
+    /**#@-*/
 
     /**
      * @var DOMDocument
@@ -54,35 +36,16 @@ class Mage_Webapi_Model_Config_Wsdl
     protected $_schema;
 
     /**
+     * Types defined on schema
+     *
      * @var array
      */
-    protected $_complexTypes;
+    protected $_includedTypes = array();
 
     /**
      * @var string
      * */
-    protected $_endpointUrl;
-
-    /**
-     * WSDL namespace
-     *
-     * @var string
-     */
-    protected $_nsWsdl;
-
-    /**
-     * SOAP namespace
-     *
-     * @var string
-     */
-    protected $_nsSoap12;
-
-    /**
-     * Types namespace
-     *
-     * @var string
-     */
-    protected $_nsTypes;
+    protected $_uri;
 
     /**
      * Set resource config property and required namespaces.
@@ -92,146 +55,134 @@ class Mage_Webapi_Model_Config_Wsdl
      */
     public function __construct($options)
     {
-        if (!isset($options['resource_config'])) {
-            throw new InvalidArgumentException('"resource_config" option is required.');
+        if (!isset($options['name'])) {
+            throw new InvalidArgumentException('"name" option is required.');
         }
-        if (!isset($options['requested_resources'])) {
-            throw new InvalidArgumentException('"requested_resources" option is required.');
+        if (!isset($options['uri'])) {
+            throw new InvalidArgumentException('"uri" option is required.');
         }
-        if (!isset($options['endpoint_url'])) {
-            throw new InvalidArgumentException('"endpoint_url" option is required.');
-        }
-        if (!$options['resource_config'] instanceof Mage_Webapi_Model_Config_Resource) {
-            throw new InvalidArgumentException('Invalid resource config.');
-        }
-        $this->_resourceConfig = $options['resource_config'];
-        $this->_requestedResources = $options['requested_resources'];
-        $this->_endpointUrl = $options['endpoint_url'];
+        $this->_uri = $options['uri'];
 
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $definitions = $this->_dom->createElement(self::WSDL_NS . ':definitions');
-        $targetNamespace = $this->_endpointUrl;
-        $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::WSDL_NS, self::WSDL_NS_URI);
-        $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::SOAP_NS, self::SOAP_NS_URI);
-        $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::XSD_NS, self::XSD_NS_URI);
-        $definitions->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::TYPES_NS, $targetNamespace);
+
+        $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::WSDL_NS, self::WSDL_NS_URI);
+        $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::SOAP_NS, self::SOAP_NS_URI);
+        $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::XSD_NS, self::XSD_NS_URI);
+        $targetNamespace = urlencode($this->_uri);
+        $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::TYPES_NS, $targetNamespace);
         $definitions->setAttribute('targetNamespace', $targetNamespace);
-        $definitions->setAttribute('name', self::WSDL_NAME);
+        $definitions->setAttribute('name', $options['name']);
         $this->_dom->appendChild($definitions);
         $this->_wsdl = $this->_dom->documentElement;
-
-        $this->_schema = $this->_dom->createElement(self::XSD_NS . ':schema');
-        $this->_schema->setAttribute('targetNamespace', $targetNamespace);
-        $types = $this->_dom->createElement(self::WSDL_NS . ':types');
-        $types->appendChild($this->_schema);
-        $this->_wsdl->appendChild($types);
+        $this->addSchemaTypeSection();
     }
 
     /**
-     * Generate WSDL file based on resource config.
-     * It creates WSDL with single service called "MagentoAPI" and separate port for each resource.
+     * This function makes sure a complex types section and schema additions are set.
      *
-     * @return string
+     * @return Mage_Webapi_Model_Soap_Wsdl
      */
-    public function generate()
+    public function addSchemaTypeSection()
     {
-        $service = $this->addService(self::SERVICE_NAME);
+        if ($this->_schema === null) {
+            $this->_schema = $this->_dom->createElement(self::XSD_NS . ':schema');
+            $this->_schema->setAttribute('targetNamespace', urlencode($this->_uri));
+            $types = $this->_dom->createElement(self::WSDL_NS . ':types');
+            $types->appendChild($this->_schema);
+            $this->_wsdl->appendChild($types);
+        }
+        return $this;
+    }
 
-        foreach ($this->_requestedResources as $resourceName => $resourceData) {
-            $portTypeName = $resourceName . 'PortType';
-            $portType = $this->addPortType($portTypeName);
-            $bindingName = $resourceName . 'Binding';
-            $binding = $this->addBinding($bindingName, $portTypeName);
-            $this->addSoapBinding($binding);
-            $this->addServicePort($service, $resourceName . 'Port', $bindingName, $this->_endpointUrl);
-
-            foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $operationName = $resourceName . ucfirst($methodName);
-                $inputTypeName = $operationName . 'Request';
-                if (isset($methodData['interface']['in'])) {
-                    $this->addElement($inputTypeName, $methodData['interface']['in']['parameters']);
-                }
-                $inputMessageName = $operationName . 'Request';
-                $this->addMessage($inputMessageName, array(
-                    'messageParameters' => array(
-                        'element' => self::TYPES_NS . ':' . $inputTypeName
-                    )
-                ));
-                $outputTypeName = $operationName . 'Response';
-                if (isset($methodData['interface']['out'])) {
-                    $this->addElement($outputTypeName, $methodData['interface']['out']);
-                }
-                $outputMessageName = $operationName . 'Response';
-                $this->addMessage($outputMessageName, array(
-                    'messageParameters' => array(
-                        'element' => self::TYPES_NS . ':' . $outputTypeName
-                    )
-                ));
-
-                $this->addPortOperation($portType, $operationName, $inputMessageName, $outputMessageName);
-
-                $input = $output = array('use' => 'literal');
-                $soapOperation = $this->addBindingOperation($binding, $operationName, $input, $output);
-                $this->addSoapOperation($soapOperation, $operationName);
-                // @TODO: implement faults binding
-            }
+    /**
+     * Return the Schema node of the WSDL
+     *
+     * @return DOMElement
+     */
+    public function getSchema()
+    {
+        if ($this->_schema == null) {
+            $this->addSchemaTypeSection();
         }
 
-        return $this->_dom->saveXML();
+        return $this->_schema;
     }
 
     /**
      * Add element to types.
      *
-     * @param string $name
-     * @param array $parameters
+     * @param array $data
      * @return DOMElement
      */
-    public function addElement($name, $parameters)
+    public function addElement($data)
     {
+        $schema = $this->getSchema();
         $element = $this->_dom->createElement(self::XSD_NS . ':element');
-        $complexTypeName = ucfirst($name);
-        $element->setAttribute('name', $name);
-        $element->setAttribute('type', self::TYPES_NS . ':' . $complexTypeName);
-        $this->_schema->appendChild($element);
-        $this->addComplexType($complexTypeName, $parameters);
+        foreach ($data as $attributeName => $attributeValue) {
+            $element->setAttribute($attributeName, $attributeValue);
+        }
+
+        $schema->appendChild($element);
 
         return $element;
     }
 
     /**
-     * Add complex type.
+     * Add complex type with predefined list of parameters.
      *
      * @param string $name
      * @param array $parameters
+     * @param string $documentation
      * @return mixed
      */
-    public function addComplexType($name, $parameters)
+    public function addComplexTypeWithParameters($name, array $parameters, $documentation = null)
     {
-        if (!isset($this->_complexTypes[$name])) {
+        if (!isset($this->_includedTypes[$name])) {
             $complexType = $this->_dom->createElement(self::XSD_NS . ':complexType');
             $complexType->setAttribute('name', $name);
 
-            $sequence = $this->_dom->createElement(self::XSD_NS . ':sequence');
-            foreach ($parameters as $parameterName => $parameterData) {
-                $element = $this->_dom->createElement(self::XSD_NS . ':element');
-                $element->setAttribute('name', $parameterName);
-                $typeNs = $this->_resourceConfig->isTypeSimple($parameterData['type']) ? self::XSD_NS : self::TYPES_NS;
-                $element->setAttribute('type', $typeNs . ':' . $parameterData['type']);
-                $isRequired = (isset($parameterData['required']) && $parameterData['required']) ? 1 : 0;
-                $element->setAttribute('minOccurs', $isRequired);
-                $element->setAttribute('maxOccurs', 1);
-                $sequence->appendChild($element);
-                if (!$this->_resourceConfig->isTypeSimple($parameterData['type'])) {
-                    $this->addComplexType($parameterData['type'], $this->_resourceConfig->getDataType($parameterData['type']));
-                }
+            if (!empty($documentation)) {
+                $this->addDocumentation($complexType, $documentation);
             }
-            $complexType->appendChild($sequence);
-            $this->_schema->appendChild($complexType);
-            $this->_complexTypes[$name] = $complexType;
+            if (!empty($parameters)) {
+                $sequence = $this->_dom->createElement(self::XSD_NS . ':sequence');
+                foreach ($parameters as $parameterName => $parameterData) {
+                    $element = $this->_dom->createElement(self::XSD_NS . ':element');
+                    $element->setAttribute('name', $parameterName);
+                    $element->setAttribute('type', $parameterData['type']);
+                    $element->setAttribute('minOccurs', $parameterData['required']);
+                    $element->setAttribute('maxOccurs', 1);
+                    if (isset($parameterData['documentation'])) {
+                        $this->addDocumentation($element, $parameterData['documentation']);
+                    }
+                    $sequence->appendChild($element);
+                }
+                $complexType->appendChild($sequence);
+            }
+            $this->getSchema()->appendChild($complexType);
+            $this->_includedTypes[$name] = $complexType;
         }
 
-        return $this->_complexTypes[$name];
+        return $this->_includedTypes[$name];
+    }
+
+    /**
+     * Add documentation node to given node.
+     *
+     * @param DOMElement $node
+     * @param string $documentationText
+     * @return DOMElement
+     */
+    public function addDocumentation(DOMElement $node, $documentationText)
+    {
+        $annotation = $this->_dom->createElement(self::XSD_NS . ':annotation');
+        $documentation = $this->_dom->createElement(self::XSD_NS . ':documentation');
+        $documentation->appendChild($this->_dom->createTextNode($documentationText));
+        $annotation->appendChild($documentation);
+        $node->appendChild($annotation);
+
+        return $annotation;
     }
 
     /**
@@ -344,13 +295,11 @@ class Mage_Webapi_Model_Config_Wsdl
      * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function _addBinding}
      * @param string $name
      * @param array|bool $input An array of attributes for the input element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
-     * @param array|bool $inputHeader
      * @param array|bool $output An array of attributes for the output element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $fault An array of attributes for the fault element, allowed keys are: 'name', 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @return DOMElement The new Operation's DOMElement for use with {@link function _addSoapOperation}
      */
-    public function addBindingOperation(DOMElement $binding, $name, $input = false, $output = false,
-        $inputHeader = false, $fault = false)
+    public function addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $fault = false)
     {
         $operation = $this->_dom->createElement(self::WSDL_NS . ':operation');
         $operation->setAttribute('name', $name);
@@ -362,17 +311,6 @@ class Mage_Webapi_Model_Config_Wsdl
                 $soapNode->setAttribute($name, $value);
             }
             $node->appendChild($soapNode);
-
-            if (is_array($inputHeader)) {
-                $headerNode = $this->_dom->createElement(self::SOAP_NS . ':header');
-                foreach ($inputHeader as $name => $value) {
-                    if ($name == 'message') {
-                        $value = self::TYPES_NS . ':' . $value;
-                    }
-                    $headerNode->setAttribute($name, $value);
-                }
-                $node->appendChild($headerNode);
-            }
             $operation->appendChild($node);
         }
 
@@ -479,5 +417,15 @@ class Mage_Webapi_Model_Config_Wsdl
         $service->appendChild($port);
 
         return $port;
+    }
+
+    /**
+     * Return the WSDL as XML
+     *
+     * @return string WSDL as XML
+     */
+    public function toXML()
+    {
+        return $this->_dom->saveXML();
     }
 }

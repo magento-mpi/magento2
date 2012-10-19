@@ -4,26 +4,34 @@
  *
  * @copyright {}
  */
-
 class Mage_Customer_Webapi_Customer_DataStructure
 {
     /**
-     * @var string Customer email
+     * Customer email.
+     * Use this field to set customer <b>email</b>!
+     *
+     * @var string
      */
     public $email;
 
     /**
-     * @var string Customer first name
+     * Customer first name
+     *
+     * @var string
      */
     public $firstname;
 
     /**
-     * @var string Customer last name
+     * Customer last name
+     *
+     * @var string
      */
     public $lastname;
 
     /**
-     * @var string Customer password
+     * Customer password
+     *
+     * @var string
      */
     public $password;
 }

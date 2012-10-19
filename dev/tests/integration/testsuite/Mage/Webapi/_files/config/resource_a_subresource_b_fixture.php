@@ -20,10 +20,12 @@ return array(
                     )
                 ),
                 'out' => array(
-                    'result' => array(
-                        'type' => 'NamespaceAModuleADataStructure',
-                        'documentation' => 'Data of resource'
-                    )
+                    'parameters' => array(
+                        'result' => array(
+                            'type' => 'NamespaceAModuleADataStructure',
+                            'documentation' => 'Data of resource'
+                        )
+                    ),
                 ),
             )
         ),
@@ -31,10 +33,12 @@ return array(
             'documentation' => 'List description.',
             'interface' => array(
                 'out' => array(
-                    'result' => array(
-                        'type' => 'NamespaceAModuleADataStructure[]',
-                        'documentation' => 'list of resources'
-                    )
+                    'parameters' => array(
+                        'result' => array(
+                            'type' => 'NamespaceAModuleADataStructure[]',
+                            'documentation' => 'list of resources'
+                        )
+                    ),
                 ),
             )
         )

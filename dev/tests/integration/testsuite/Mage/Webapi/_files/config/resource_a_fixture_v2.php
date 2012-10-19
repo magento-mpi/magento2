@@ -22,9 +22,11 @@ Multiline <b>with html</b>.",
                     )
                 ),
                 'out' => array(
-                    'result' => array(
-                        'type' => 'integer',
-                        'documentation' => 'ID of created resource'
+                    'parameters' => array(
+                        'result' => array(
+                            'type' => 'integer',
+                            'documentation' => 'ID of created resource'
+                        ),
                     )
                 ),
             )
@@ -47,10 +49,12 @@ Multiline <b>with html</b>.",
                     )
                 ),
                 'out' => array(
-                    'result' => array(
-                        'type' => 'NamespaceAModuleADataStructure',
-                        'documentation' => 'data of resource'
-                    )
+                    'parameters' => array(
+                        'result' => array(
+                            'type' => 'NamespaceAModuleADataStructure',
+                            'documentation' => 'data of resource'
+                        )
+                    ),
                 ),
             )
         ),
