@@ -74,6 +74,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     {
         $httpClient = new Varien_Http_Client();
         $error = $this->__('invalid request');
+        $httpCode = 400;
         $gaData = $this->getRequest()->getParam('ga');
         $gaHash = $this->getRequest()->getParam('h');
         if ($gaData && $gaHash) {
@@ -95,13 +96,14 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
                     } catch (Exception $e) {
                         Mage::logException($e);
                         $error = $this->__('see error log for details');
+                        $httpCode = 503;
                     }
                 }
             }
         }
         $this->getResponse()->setBody($this->__('Service unavailable: %s', $error))
             ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
-            ->setHttpResponseCode(503);
+            ->setHttpResponseCode($httpCode);
     }
 
     protected function _isAllowed()
