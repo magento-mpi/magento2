@@ -215,7 +215,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      * @return array
      * @throws Mage_Webapi_Exception when header value is invalid
      */
-    public function getRequestedModules()
+    public function getRequestedResources()
     {
         $versionHeader = $this->getHeader('Modules');
         /**

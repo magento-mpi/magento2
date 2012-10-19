@@ -75,9 +75,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected $_renderer;
 
-    /** @var Mage_Webapi_Model_Config_Rest */
-    protected $_restConfig;
-
     /** @var Mage_Webapi_Controller_Front_Rest_Presentation */
     protected $_presentation;
 
@@ -92,17 +89,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Extend parent with REST specific config initialization and server errors processing mechanism initialization
+     * Server errors processing mechanism initialization.
      *
      * @return Mage_Webapi_Controller_Front_Rest|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
-        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('webapi/rest.xml');
-        /** @var Mage_Webapi_Model_Config_Rest $restConfig */
-        $restConfig = Mage::getModel('Mage_Webapi_Model_Config_Rest', $configFiles);
-        $this->setRestConfig($restConfig);
-
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
         $this->_presentation = Mage::getModel('Mage_Webapi_Controller_Front_Rest_Presentation', $this);
@@ -122,12 +114,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->getRequest()->setResourceName($route->getResourceName());
             $this->getRequest()->setResourceType($route->getResourceType());
 
-            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
+            $this->_initResourceConfig($this->getRequest()->getRequestedResources());
             $operation = $this->_getOperationName();
             $this->_checkOperationDeprecation($operation);
             $resourceVersion = $this->_getOperationVersion($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
-            $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
+            $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
 
@@ -168,7 +160,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getRestConfig()->getRoutes());
+        $router->setRoutes($this->getResourceConfig()->getRestRoutes());
         return $router->match($request);
     }
 
@@ -199,28 +191,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
         $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
         return $operationName;
-    }
-
-    /**
-     * Set config for REST.
-     *
-     * @param Mage_Webapi_Model_Config_Rest $config
-     * @return Mage_Webapi_Controller_Front_Rest
-     */
-    public function setRestConfig(Mage_Webapi_Model_Config_Rest $config)
-    {
-        $this->_restConfig = $config;
-        return $this;
-    }
-
-    /**
-     * Retrieve REST specific config
-     *
-     * @return Mage_Webapi_Model_Config_Rest
-     */
-    public function getRestConfig()
-    {
-        return $this->_restConfig;
     }
 
     /**

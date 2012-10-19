@@ -121,7 +121,7 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
 
 class Mage_Webapi_Controller_RequestStub extends Mage_Webapi_Controller_RequestAbstract
 {
-    public function getRequestedModules()
+    public function getRequestedResources()
     {
         return array();
     }

@@ -26,11 +26,11 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
     const WSDL_CACHE_ID = 'WSDL';
 
+    const REQUEST_PARAM_RESOURCES = 'resources';
+    const REQUEST_PARAM_WSDL = 'wsdl';
+
     /** @var Server */
     protected $_soapServer;
-
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_soapConfig;
 
     /**
      * WS-Security UsernameToken object from request
@@ -63,7 +63,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
-                $this->_checkResourceAcl($role, $resourceName, $method);
+                // TODO: Refactor ACL check to work by operation name, not by resource name + method name
+                //$this->_checkResourceAcl($role, $resourceName, $method);
 
                 $arguments = reset($arguments);
                 /** @var Mage_Api_Helper_Data $apiHelper */
@@ -185,16 +186,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Extend parent with SOAP specific config initialization
+     * Implementation of abstract method.
      *
      * @return Mage_Webapi_Controller_Front_Soap|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
-        $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('webapi/soap.xml');
-        /** @var Mage_Webapi_Model_Config_Soap $soapConfig */
-        $soapConfig = Mage::getModel('Mage_Webapi_Model_Config_Soap', $soapConfigFiles);
-        $this->setSoapConfig($soapConfig);
         return $this;
     }
 
@@ -207,7 +204,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         try {
             $this->_initResourceConfig();
-            if ($this->getRequest()->getParam('wsdl') !== null) {
+            if ($this->getRequest()->getParam(self::REQUEST_PARAM_WSDL) !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
             } else {
@@ -246,8 +243,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getWsdlContent()
     {
-        $requestedModules = $this->getRequest()->getRequestedModules();
-        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
+        $requestedResources = $this->getRequest()->getRequestedResources();
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
             if ($cachedWsdlContent !== false) {
@@ -256,7 +253,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
 
         $resources = array();
-        foreach ($requestedModules as $resourceName => $resourceVersion) {
+        foreach ($requestedResources as $resourceName => $resourceVersion) {
             $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
         }
         /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
@@ -382,10 +379,10 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getEndpointUrl($isWsdl = false)
     {
         $params = array(
-            'modules' => $this->getRequest()->getRequestedModules()
+            self::REQUEST_PARAM_RESOURCES => $this->getRequest()->getRequestedResources()
         );
         if ($isWsdl) {
-            $params['wsdl'] = true;
+            $params[self::REQUEST_PARAM_WSDL] = true;
         }
         $query = http_build_query($params, '', '&');
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
@@ -474,27 +471,5 @@ FAULT_MESSAGE;
     protected function _isSoapExtensionLoaded()
     {
         return class_exists('SoapServer', false);
-    }
-
-    /**
-     * Set SOAP config
-     *
-     * @param Mage_Webapi_Model_Config_Soap $config
-     * @return Mage_Webapi_Model_Config_Soap
-     */
-    public function setSoapConfig(Mage_Webapi_Model_Config_Soap $config)
-    {
-        $this->_soapConfig = $config;
-        return $this;
-    }
-
-    /**
-     * Retrieve SOAP specific config
-     *
-     * @return Mage_Webapi_Model_Config_Soap
-     */
-    public function getSoapConfig()
-    {
-        return $this->_soapConfig;
     }
 }

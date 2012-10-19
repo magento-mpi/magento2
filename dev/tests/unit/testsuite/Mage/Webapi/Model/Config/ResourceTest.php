@@ -33,27 +33,51 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderTestGetResourceNameByOperation
+     * @dataProvider dataProviderTestGetResourceNameByOperationPositive
      * @param string $operation
      * @param string $resourceVersion
      * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetResourceNameByOperation($operation, $resourceVersion, $expectedResourceName,
+    public function testGetResourceNameByOperationPositive($operation, $resourceVersion, $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
         $actualResourceName = $this->_model->getResourceNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
-    public function dataProviderTestGetResourceNameByOperation()
+    public function dataProviderTestGetResourceNameByOperationPositive()
     {
         return array(
             array('customerUpdate', 'v1', 'customer'),
+            array('customerUpdate', '1', 'customer',
+                "Resource was identified incorrectly by version without 'v' prefix"),
             array('customerMultiUpdate', 'v1', 'customer', 'Compound method names seem be be identified incorrectly.'),
             array('enterpriseCatalogProductGet', 'v1', 'enterpriseCatalogProduct',
                 'Compound resource name is identified incorrectly.'),
             array('customerMultiDelete', 'v2', 'customer', 'Version seems to be processed incorrectly.'),
+            array('customerMultiDelete', null, 'customer',
+                "If version is not set - no check must be performed for operation existence in resource."),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGetResourceNameByOperationNegative
+     * @param string $operation
+     * @param string $resourceVersion
+     * @param string $expectedResourceName
+     * @param string $message
+     */
+    public function testGetResourceNameByOperationNegative($operation, $resourceVersion, $expectedResourceName,
+        $message = 'Resource name was identified incorrectly by given operation.'
+    ) {
+        $actualResourceName = $this->_model->getResourceNameByOperation($operation, $resourceVersion);
+        $this->assertEquals($expectedResourceName, $actualResourceName, $message);
+    }
+
+    public function dataProviderTestGetResourceNameByOperationNegative()
+    {
+        return array(
             array('customerMultiDeleteExcessiveSuffix', 'v2', false, 'Excessive suffix is ignored.'),
             array('customerInvalid', 'v1', false, "In case when operation not found 'false' is expected."),
             array('customerUpdate', 'v100', false, "In case when version not found 'false' is expected."),

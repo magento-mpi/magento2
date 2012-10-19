@@ -96,6 +96,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
             if (null !== $lastLoginAt) {
                 $data['last_logged_in'] = $lastLoginAt;
             }
+            $data['password'] = $data['password_hash'];
             $data['versioning_testing'] = 'Request was processed by ' . __METHOD__ . ' method.';
         } catch (Mage_Customer_Exception $e) {
             $this->_processException($e);

@@ -230,8 +230,8 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             }
             $methodVersion--;
         }
-        throw new Mage_Webapi_Exception(
-            $this->getHelper()->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
+        throw new Mage_Webapi_Exception($this->getHelper()
+                ->__('The "%s" operation is not implemented in version %s', $operationName, $originalVersion),
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
     }
@@ -239,9 +239,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Identify version of requested operation.
      *
-     * This method required when there are two or more modules versions specified in request:
-     * http://magento.host/api/soap?wsdl&modules[Module_A]=v1&modules[Module_B]=v2 <br/>
-     * In this case it is not obvious what version of current operation should be used.
+     * This method required when there are two or more resource versions specified in request:
+     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
+     * In this case it is not obvious what version of requested operation should be used.
      *
      * @param string $operationName
      * @return int
@@ -249,15 +249,15 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _getOperationVersion($operationName)
     {
-        $requestedModules = $this->getRequest()->getRequestedModules();
-        $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
-        if (!isset($requestedModules[$moduleName])) {
+        $requestedResources = $this->getRequest()->getRequestedResources();
+        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operationName);
+        if (!isset($requestedResources[$resourceName])) {
             throw new Mage_Webapi_Exception(
                 $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
+        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
         if ($version > self::VERSION_MAX) {
             throw new Mage_Webapi_Exception(
                 $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),

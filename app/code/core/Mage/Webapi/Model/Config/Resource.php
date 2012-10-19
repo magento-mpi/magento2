@@ -140,7 +140,7 @@ class Mage_Webapi_Model_Config_Resource
      * Retrieve specific resource version interface data.
      *
      * @param string $resourceName
-     * @param string $resourceVersion
+     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
      * @throws RuntimeException
      */
@@ -150,6 +150,8 @@ class Mage_Webapi_Model_Config_Resource
         if (!isset($this->_data[$resourceName])) {
             throw new RuntimeException($helper->__('Unknown resource "%s".', $resourceName));
         }
+        /** Allow to take resource version in two formats: with 'v' prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
         if (!isset($this->_data[$resourceName]['versions'][$resourceVersion])) {
             throw new RuntimeException($helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
                 $resourceName));
@@ -168,29 +170,42 @@ class Mage_Webapi_Model_Config_Resource
 
     /**
      * Identify resource name by operation name.
-     * This method relies on convention that port type value equals to resource name
+     *
+     * If $resourceVersion is set, the check for operation validity in specified resource version will be performed.
+     * If $resourceVersion is not set, the only check will be: if resource exists.
      *
      * @param string $operationName
-     * @param string $resourceVersion
+     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return string|bool Resource name on success; false on failure
      */
-    public function getResourceNameByOperation($operationName, $resourceVersion)
+    public function getResourceNameByOperation($operationName, $resourceVersion = null)
     {
+        $result = false;
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        return isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName])
-            ? $resourceName : false;
+        $resourceExists = isset($this->_data[$resourceName]);
+        $versionCheckNotRequired = $resourceVersion === null;
+        /** Allow to take resource version in two formats: with 'v' prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
+        $operationValidForRequestedResourceVersion =
+            isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName]);
+        if (($versionCheckNotRequired && $resourceExists) || $operationValidForRequestedResourceVersion) {
+            $result = $resourceName;
+        }
+        return $result;
     }
 
     /**
      * Identify method name by operation name.
      *
      * @param string $operationName
-     * @param string $resourceVersion
+     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return string|bool Method name on success; false on failure
      */
     public function getMethodNameByOperation($operationName, $resourceVersion)
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        /** Allow to take resource version in two formats: with 'v' prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
         return isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName])
             ? $methodName : false;
     }
@@ -320,6 +335,30 @@ class Mage_Webapi_Model_Config_Resource
         }
 
         return $this->_data;
+    }
+
+    /**
+     * Get all modules routes defined in config
+     *
+     * @return array
+     */
+    public function getRestRoutes()
+    {
+        return array();
+        // TODO: Implement (current version is copy-paste from Rest config)
+        $routes = array();
+        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
+
+        foreach ($this->_data as $resourceName => $resourceData) {
+            foreach ($resourceData['routes'] as $routeData) {
+                $route = new Mage_Webapi_Controller_Router_Route_Rest($apiTypeRoutePath . $routeData['path']);
+                $route->setResourceName($resourceName);
+                $route->setResourceType($routeData['resource_type']);
+                $routes[] =$route;
+            }
+        }
+
+        return $routes;
     }
 
     /**

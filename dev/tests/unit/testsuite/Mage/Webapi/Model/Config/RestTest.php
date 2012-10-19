@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+// TODO: Remove this test after full functionality migration to Resource Config
 class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 {
     /**
