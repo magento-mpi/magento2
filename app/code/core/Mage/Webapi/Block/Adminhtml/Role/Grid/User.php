@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
+class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Constructor
