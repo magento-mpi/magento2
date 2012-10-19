@@ -19,11 +19,6 @@ class Varien_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
      */
     protected $_object;
 
-    public function tearDown()
-    {
-//        Magento_Test_Environment::getInstance()->cleanTmpDirOnShutdown();
-    }
-
     /**
      * @dataProvider watermarkDataProvider
      */
