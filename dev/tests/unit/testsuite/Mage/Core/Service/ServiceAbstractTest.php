@@ -24,6 +24,14 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $validatorFactory = $this->getMockBuilder('Magento_Validator_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $eventManager = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -37,8 +45,10 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
 
         $this->_service = $this->getMockBuilder('Mage_Core_Service_ServiceAbstract')
             ->setConstructorArgs(array(array(
+                'config' => $config,
                 'helper' => $helper,
-                'eventManager' => $eventManager
+                'eventManager' => $eventManager,
+                'validatorFactory' => $validatorFactory
             )))
             ->getMock();
     }
@@ -140,7 +150,7 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testFilterRuntimeException()
     {
-        $throwException = function() {
+        $throwException = function () {
             throw new Exception('Some exception');
         };
         $collection = $this->_getCollectionMock(array('addFieldToFilter'));

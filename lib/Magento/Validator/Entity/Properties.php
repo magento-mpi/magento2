@@ -9,7 +9,7 @@
  */
 
 /**
- * Alphanumerical validator
+ * Validates properties of entity (Varien_Object).
  */
 class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbstract
 {
@@ -19,6 +19,8 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
     protected $_readOnlyProperties = array();
 
     /**
+     * Set read-only properties.
+     *
      * @param array $readOnlyProperties
      */
     public function setReadOnlyProperties(array $readOnlyProperties)
@@ -29,7 +31,7 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
     /**
      * Successful if $value is Varien_Object an all condition are fulfilled.
      *
-     * If properties were set by setReadOnlyProperties than $value mustn't have changes in them.
+     * If read-only properties are set than $value mustn't have changes in them.
      *
      * @param Varien_Object|mixed $value
      * @return bool
@@ -48,7 +50,7 @@ class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbs
             foreach ($this->_readOnlyProperties as $property) {
                 if ($value->getData($property) !== $value->getOrigData($property)) {
                     // @todo Add string translation (MAGETWO-3988)
-                    $this->_messages[__CLASS__] = array("Read only property cannot be changed.");
+                    $this->_messages[__CLASS__] = array("Read-only property cannot be changed.");
                     break;
                 }
             }

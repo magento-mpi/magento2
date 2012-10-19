@@ -38,13 +38,11 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function create($customerData)
     {
-        $this->_removeForbiddenFields('customer', 'create', $customerData);
-
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setData($customerData);
         $this->_preparePasswordForSave($customer, $customerData);
-        $this->_save($customer, $customerData);
+        $this->_save($customer, $customerData, 'create');
 
         return $customer;
     }
@@ -61,10 +59,9 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_loadCustomerById($customerId);
 
-        $this->_removeForbiddenFields('customer', 'update', $customerData);
         if (!empty($customerData)) {
             $customer->addData($customerData);
-            $this->_save($customer, $customerData);
+            $this->_save($customer, $customerData, 'update');
             $this->_changePassword($customer, $customerData);
         }
 
@@ -87,11 +84,12 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param array $customerData
+     * @param string $validatorGroup
      * @return Mage_Customer_Service_Customer
      */
-    protected function _save($customer, $customerData)
+    protected function _save($customer, $customerData, $validatorGroup)
     {
-        $this->_validate($customer, $customerData);
+        $this->_validate($customer, $validatorGroup);
         $customer->save();
         $this->_sendWelcomeEmail($customer, $customerData);
 
@@ -102,105 +100,21 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      * Validate customer entity
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerData
+     * @param string $validatorGroup
      * @return Mage_Customer_Service_Customer
+     * @throws Magento_Validator_Exception when validation failed
      */
-    protected function _validate($customer, $customerData)
+    protected function _validate($customer, $validatorGroup)
     {
-        $forbiddenFields = $this->_getForbiddenFields('customer', 'validate');
-
-        /** @var $validatorFactory Magento_Validator_Config */
-        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('validation.xml');
-        $validatorFactory = new Magento_Validator_Config($configFiles);
-        $builder = $validatorFactory->getValidatorBuilder('customer', 'service_validator');
-
-        $builder->addConfiguration('eav_validator', array(
-            'method' => 'setAttributes',
-            'arguments' => array($this->_getAttributesToValidate($customer,
-                $customerData,
-                $forbiddenFields))
-        ));
-        $builder->addConfiguration('eav_validator', array(
-            'method' => 'setData',
-            'arguments' => array($customerData)
-        ));
-        $validator = $builder->createValidator();
+        $validator = $this->_validatorFactory
+            ->getValidatorBuilder('customer', $validatorGroup)
+            ->createValidator();
 
         if (!$validator->isValid($customer)) {
-            $this->_processValidationErrors($validator->getMessages());
+            throw new Magento_Validator_Exception($validator->getMessages());
         }
 
         return $this;
-    }
-
-    /**
-     * Gather error messages in one exception and throw it to presentation layer
-     *
-     * @param array $errorMessages
-     * @throws Mage_Core_Exception
-     */
-    protected function _processValidationErrors($errorMessages)
-    {
-        $exception = new Mage_Core_Exception();
-        /** @var Mage_Core_Model_Message $message */
-        $message = Mage::getSingleton('Mage_Core_Model_Message');
-        foreach ($errorMessages as $errorMessage) {
-            foreach ($errorMessage as $errorText) {
-                if (!empty($errorText)) {
-                    $exception->addMessage($message->error($errorText));
-                }
-            }
-        }
-
-        throw $exception;
-    }
-
-    /**
-     * Get list of attributes to validate customer entity
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerData
-     * @param array $forbiddenAttributes
-     * @return array
-     */
-    protected function _getAttributesToValidate($customer, $customerData = null, $forbiddenAttributes = null)
-    {
-        $attributesList = $this->_getCustomerAttributesList($customer);
-
-        // remove forbidden attributes
-        if (!empty($forbiddenAttributes)) {
-            /** @var Mage_Eav_Model_Attribute $attribute */
-            foreach ($attributesList as $attributeKey => $attribute) {
-                if (in_array($attribute->getAttributeCode(), $forbiddenAttributes)) {
-                    unset($attributesList[$attributeKey]);
-                }
-            }
-        }
-
-        // remove attributes which don't exists in incoming customer data
-        if (!empty($customerData)) {
-            /** @var Mage_Eav_Model_Attribute $attribute */
-            foreach ($attributesList as $attributeKey => $attribute) {
-                if (!array_key_exists($attribute->getAttributeCode(), $customerData)) {
-                    unset($attributesList[$attributeKey]);
-                }
-            }
-        }
-
-        return $attributesList;
-    }
-
-    /**
-     * Get list of attributes of customer without loading its into customer model
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @return array
-     */
-    protected function _getCustomerAttributesList($customer)
-    {
-        /** @var Mage_Eav_Model_Resource_Entity_Attribute_Collection $attrCollection */
-        $attrCollection = $customer->getEntityType()->getAttributeCollection();
-        return $attrCollection->getItems();
     }
 
     /**

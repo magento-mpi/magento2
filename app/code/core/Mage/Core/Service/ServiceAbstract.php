@@ -13,6 +13,9 @@
  */
 abstract class Mage_Core_Service_ServiceAbstract
 {
+    /** #@+
+     * Constants for specifying rules of paging, sorting and filtering collection
+     */
     const PAGE_KEY = 'page';
     const LIMIT_KEY = 'limit';
     const FILTER_KEY = 'filter';
@@ -20,7 +23,17 @@ abstract class Mage_Core_Service_ServiceAbstract
     const SORT_FIELD_KEY = 'order';
     const SORT_ORDER_KEY = 'dir';
     const DEFAULT_SORT_ORDER = Varien_Data_Collection::SORT_ORDER_ASC;
-    const XML_CONFIG_FORBIDDEN_FIELDS_PATH = 'service_layer/%s/forbidden_fields/%s';
+    /** #@- */
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Validator_Config
+     */
+    protected $_validatorFactory;
 
     /**
      * @var Mage_Core_Helper_Abstract
@@ -39,10 +52,22 @@ abstract class Mage_Core_Service_ServiceAbstract
      */
     public function __construct(array $args = array())
     {
+        $this->_config = isset($args['config'])
+            ? $args['config'] : Mage::getConfig();
+
         $this->_translateHelper = isset($args['helper']) ? $args['helper'] : Mage::helper('Mage_Core_Helper_Data');
+
         $this->_eventManager = isset($args['eventManager'])
             ? $args['eventManager'] : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+
+        if (isset($args['validatorFactory'])) {
+            $this->_validatorFactory = $args['validatorFactory'];
+        } else {
+            $configFiles = $this->_config->getModuleConfigurationFiles('validation.xml');
+            $this->_validatorFactory = new Magento_Validator_Config($configFiles);
+        }
     }
+
 
     /**
      * Apply pager, sorting and filters to collection
