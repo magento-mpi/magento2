@@ -32,7 +32,7 @@ class Mage_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
         $roleAdmin->load(Magento_Test_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
 
-        $aclMock = $this->getMock('Magento_Acl', array(),  array(), '', false);
+        $aclMock = $this->getMock('Magento_Acl', array(), array(), '', false);
         $aclMock->expects($this->any())
             ->method('has')
             ->will($this->returnValue(true));
