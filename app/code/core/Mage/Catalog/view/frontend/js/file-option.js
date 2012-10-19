@@ -8,46 +8,40 @@
  */
 /*jshint browser:true jquery:true*/
 (function($) {
-    $(document).ready(function() {
+    $.widget('mage.fileOption', {
+        options: {
+        },
 
-        function initializeFile(file) {
-            var inputBox = $(file.inputBoxSelector);
-            file.fileDeleteFlag = file.fileChangeFlag = false;
-            file.inputField = inputBox.find('input[name=' + file.fileName + ']')[0];
-            file.inputFieldAction = inputBox.find('input[name=' + file.fieldNameAction + ']')[0];
-            file.fileNameSpan = inputBox.parent('dd').find('.' + file.fileNamed);
-        }
+        _create: function() {
+            this.fileDeleteFlag = this.fileChangeFlag = false;
+            this.inputField = this.element.find('input[name=' + this.options.fileName + ']')[0];
+            this.inputFieldAction = this.element.find('input[name=' + this.options.fieldNameAction + ']')[0];
+            this.fileNameSpan = this.element.parent('dd').find('.' + this.options.fileNamed);
 
-        function toggleFileChange(file) {
-            $(file.inputBoxSelector).toggle();
-            file.fileChangeFlag = !file.fileChangeFlag;
-            if (!file.fileDeleteFlag) {
-                file.inputFieldAction.value = file.fileChangeFlag ? 'save_new' : 'save_old';
-                file.inputField.disabled = !file.fileChangeFlag;
+            $(this.options.changeFileSelector).on('click', $.proxy(function() {
+                this._toggleFileChange();
+            }, this));
+            $(this.options.deleteFileSelector).on('click', $.proxy(function() {
+                this._toggleFileDelete();
+            }, this));
+        },
+
+        _toggleFileChange: function() {
+            this.element.toggle();
+            this.fileChangeFlag = !this.fileChangeFlag;
+            if (!this.fileDeleteFlag) {
+                $(this.inputFieldAction).attr('value', this.fileChangeFlag ? 'save_new' : 'save_old');
+                this.inputField.disabled = !this.fileChangeFlag;
             }
+        },
+
+        _toggleFileDelete: function() {
+            this.fileDeleteFlag = $(this.options.deleteFileSelector + ':checked').val();
+            $(this.inputFieldAction).attr('value',
+                this.fileDeleteFlag ? '' : this.fileChangeFlag ? 'save_new' : 'save_old');
+            this.inputField.disabled = this.fileDeleteFlag || !this.fileChangeFlag;
+            this.fileNameSpan.css('text-decoration', this.fileDeleteFlag ? 'line-through' : 'none');
         }
-
-        function toggleFileDelete(file) {
-            file.fileDeleteFlag = $(file.deleteFileSelector + ':checked').val();
-            file.inputFieldAction.value =
-                file.fileDeleteFlag ? '' : file.fileChangeFlag ? 'save_new' : 'save_old';
-            file.inputField.disabled = file.fileDeleteFlag || !file.fileChangeFlag;
-            file.fileNameSpan.css('text-decoration', file.fileDeleteFlag ? 'line-through' : 'none');
-        }
-
-        var fileInit = { file: [] };
-        $.mage.event.trigger('mage.fileOption.initialize', fileInit);
-
-        $.each(fileInit.file, function(index, file) {
-            initializeFile(file);
-            $(file.changeFileSelector).on('click', function() {
-                toggleFileChange(file);
-            });
-            $(file.deleteFileSelector).on('click', function() {
-                toggleFileDelete(file);
-            });
-        });
-
     });
 })(jQuery);
 

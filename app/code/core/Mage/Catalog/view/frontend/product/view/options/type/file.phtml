@@ -19,18 +19,15 @@
 <script type="text/javascript">
 //<![CDATA[
     (function($) {
-        $.mage.event.observe('mage.fileOption.initialize', function(event, initData) {
-            var fileOption = {
+        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/file-option.js')?>", function() {
+            $('#input-box-<?php echo $_fileName ?>').fileOption({
                 fileName: '<?php echo $_fileName ?>',
                 fileNamed: '<?php echo $_fileNamed ?>',
                 fieldNameAction: '<?php echo $_fieldNameAction ?>',
-                inputBoxSelector: '#input-box-<?php echo $_fileName ?>',
                 changeFileSelector: '#change-<?php echo $_fileName ?>',
                 deleteFileSelector: '#delete-<?php echo $_fileName ?>'
-            };
-            initData.file.push(fileOption);
+            });
         });
-        $.mage.load.jsSync("<?php echo $this->getSkinUrl('Mage_Catalog::js/file-option.js')?>");
     })(jQuery);
 //]]>
 </script>
