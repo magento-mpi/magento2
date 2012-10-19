@@ -43,6 +43,11 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
     protected $_data = array();
 
     /**
+     * @var Mage_Eav_Model_Attribute_Data
+     */
+    protected $_dataModelFactory;
+
+    /**
      * Set list of attributes for validation in isValid method.
      *
      * @param Mage_Eav_Model_Attribute[] $attributes
@@ -78,7 +83,7 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
      */
     public function setAttributesBlackList(array $attributesCodes)
     {
-        $this->_attributesWhiteList = $attributesCodes;
+        $this->_attributesBlackList = $attributesCodes;
         return $this;
     }
 
@@ -111,7 +116,7 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
             if (!$attribute->getDataModel() && !$attribute->getFrontendInput()) {
                 continue;
             }
-            $dataModel = $this->_getAttributeDataModel($attribute, $entity);
+            $dataModel = $this->getAttributeDataModelFactory()->factory($attribute, $entity);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attributeCode])) {
                 $data[$attributeCode] = null;
@@ -187,15 +192,28 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
     }
 
     /**
-     * Get attribute data model
+     * Get factory object for creating Attribute Data Model
      *
-     * @param Mage_Eav_Model_Attribute $attribute
-     * @param Mage_Core_Model_Abstract $entity
-     * @return Mage_Eav_Model_Attribute_Data_Abstract
+     * @return Mage_Eav_Model_Attribute_Data
      */
-    protected function _getAttributeDataModel($attribute, $entity)
+    public function getAttributeDataModelFactory()
     {
-        return Mage_Eav_Model_Attribute_Data::factory($attribute, $entity);
+        if (!$this->_dataModelFactory) {
+            $this->_dataModelFactory = new Mage_Eav_Model_Attribute_Data;
+        }
+        return $this->_dataModelFactory;
+    }
+
+    /**
+     * Set factory object for creating Attribute Data Model
+     *
+     * @param Mage_Eav_Model_Attribute_Data $factory
+     * @return Mage_Eav_Model_Validator_Attribute_Data
+     */
+    public function setAttributeDataModelFactory($factory)
+    {
+        $this->_dataModelFactory = $factory;
+        return $this;
     }
 
     /**
