@@ -492,7 +492,7 @@ class Mage_Webapi_Model_Config_Resource
             /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
             $varTag = current($tags);
             // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
-            $varType = str_replace('\r', '', $varTag->returnValue(0));
+            $varType = str_replace("\r", '', $varTag->returnValue(0));
             $varTypeArrayClean = str_replace('[]', '', $varType);
             $propertyType = ($varTypeArrayClean == $class || $varTypeArrayClean == $previouslyProcessedClass)
                 ? $this->translateTypeName($varType)
