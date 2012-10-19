@@ -54,11 +54,17 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
             'Timestamp is zero' => array(0),
             'Timestamp is a string' => array('abcdef'),
             'Timestamp is negative' => array(-1),
-            'Timestamp is from future more far than 60 seconds' => array(time() + 65),
             'Timestamp is too old' => array(
                 time() - Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
             ),
         );
+    }
+
+    public function testValidateNonceTimeStampFromFuture()
+    {
+        $this->setExpectedException('Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException');
+        /** Timestamp is from future more far than 60 seconds must be prohibited */
+        $this->_nonceStorage->validateNonce('', time() + 65);
     }
 
     public function testValidateNonce()
