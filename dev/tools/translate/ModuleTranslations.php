@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-require_once 'config.inc.php';
+require_once __DIR__ . '/config.inc.php';
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }

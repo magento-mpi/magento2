@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once '../../app/bootstrap.php';
+require_once __DIR__ . '/../../app/bootstrap.php';
 Mage::app('admin', 'store');
 
 /** @var $shell Mage_Log_Model_Shell */
