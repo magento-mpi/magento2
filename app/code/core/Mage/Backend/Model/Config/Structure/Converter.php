@@ -19,6 +19,11 @@
  */
 class Mage_Backend_Model_Config_Structure_Converter
 {
+    /**
+     * Map of single=>plural node names
+     *
+     * @var array
+     */
     protected $nameMap = array(
         'tab' => 'tabs',
         'section' => 'sections',

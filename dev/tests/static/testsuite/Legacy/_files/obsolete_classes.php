@@ -141,7 +141,372 @@ return array(
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',
     'Mage_Adminhtml_Block_Tree',
     'Mage_Adminhtml_Helper_Rss',
+    'Mage_Adminhtml_Model_Config' => array('suggestion' => 'Mage_Backend_Model_Config_Structure'),
+    'Mage_Adminhtml_Model_Config_Data' => array('suggestion' => 'Mage_Backend_Model_Config'),
     'Mage_Adminhtml_Model_System_Config_Source_Shipping_Allowedmethods',
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Password_Link_Expirationperiod' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Password_Link_Expirationperiod'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Custom'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Custompath' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Custompath'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Observer'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Robots' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Robots'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Usecustom'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustompath' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Usecustompath'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Admin_Usesecretkey' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Usesecretkey'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Catalog_Inventory_Managestock' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Catalog_Inventory_Managestock'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Catalog_Search_Type' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Catalog_Search_Type'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Abstract'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Currency_Allow' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Allow'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Currency_Base' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Base'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Currency_Cron' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Cron'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Currency_Default' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Default'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Address_Street'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Customer_Password_Link_Expirationperiod' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Show_Address'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Show_Customer'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Design_Exception' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Design_Exception'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Email_Address' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Email_Address'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Email_Logo' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Email_Logo'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Email_Sender' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Email_Sender'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Image_Adapter' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Image_Adapter'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Image_Favicon' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Image_Favicon'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Image_Pdf' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Image_Pdf'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Locale_Timezone' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Locale_Timezone'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Log_Cron' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Log_Cron'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Price_Scope' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Price_Scope'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Product_Alert_Cron' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Product_Alert_Cron'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Seo_Product' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Seo_Product'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Serialized_Array'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Shipping_Tablerate'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Sitemap_Cron'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Storage_Media_Database' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Storage_Media_Database'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Baseurl' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Baseurl'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Cache' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Cache'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Category' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Category'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Cookie' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Cookie'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Datashare' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Datashare'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Encrypted' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Encrypted'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_File' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_File'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Filename' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Filename'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Image' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Image'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Locale' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Locale'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Secure' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Secure'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Serialized' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Serialized'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Sitemap' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Sitemap'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Store' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Store'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Translate' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Backend_Translate'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Clone_Media_Image' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Clone_Media_Image'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Admin_Page' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Admin_Page'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_Search_Type' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_Search_Type'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_GridPerPage' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_GridPerPage'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_ListMode' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_ListMode'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_ListPerPage' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_ListPerPage'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_ListSort' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_ListSort'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Catalog_TimeFormat' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Catalog_TimeFormat'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Cms_Wysiwyg_Enabled' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Cms_Wysiwyg_Enabled'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Cms_Page' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Cms_Page'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Country_Full' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Country_Full'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Cron_Frequency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Currency_Service' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Currency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Customer_Address_Type' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Customer_Address_Type'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Customer_Group_Multiselect' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Customer_Group_Multiselect'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Customer_Group' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Customer_Group'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Date_Short' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Date_Short'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Design_Package' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Design_Package'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Design_Robots' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Design_Robots'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Dev_Dbautoup' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Dev_Dbautoup'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Email_Identity' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Email_Identity'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Email_Method' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Email_Method'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Email_Smtpauth' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Email_Smtpauth'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Email_Template' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Email_Template'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Image_Adapter' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Image_Adapter'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale_Country' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale_Country'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale_Currency_All' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale_Currency_All'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale_Currency' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale_Currency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale_Timezone' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale_Timezone'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale_Weekdays'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Notification_Frequency' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Notification_Frequency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Order_Status_New' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Order_Status_New'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Order_Status_Newprocessing' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Order_Status_Newprocessing'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Order_Status_Processing' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Order_Status_Processing'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Order_Status' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Order_Status'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Payment_Allmethods'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Payment_Allowedmethods' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Payment_Allowedmethods'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Payment_Allspecificcountries'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Payment_Cctype' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Payment_Cctype'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Price_Scope' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Price_Scope'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Price_Step' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Price_Step'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Product_Options_Price' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Product_Options_Price'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Product_Options_Type'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Product_Thumbnail' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Product_Thumbnail'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Reports_Scope' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Reports_Scope'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Shipping_Allmethods'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Shipping_Allspecificcountries' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Shipping_Flatrate' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Shipping_Flatrate'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Shipping_Tablerate' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Shipping_Tablerate'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Shipping_Taxclass'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Storage_Media_Database'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Storage' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Storage_Media_Storage'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Tax_Apply_On' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Tax_Apply_On'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Tax_Basedon'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Tax_Catalog' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Tax_Catalog'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Watermark_Position' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Watermark_Position'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Web_Protocol' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Web_Protocol'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Web_Redirect' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Web_Redirect'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Allregion' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Allregion'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Category' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Category'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Checktype' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Checktype'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Country' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Country'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Currency' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Currency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Enabledisable' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Enabledisable'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Frequency' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Frequency'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Locale' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Locale'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Nooptreq' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Nooptreq'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Store' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Store'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Website' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Website'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Yesno' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Yesno'
+    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Yesnocustom' => array(
+        'suggestion' => 'Mage_Backend_Model_Config_Source_Yesnocustom'
+    ),
     'Mage_Adminhtml_Model_System_Store' => array('suggestion' => 'Mage_Core_Model_System_Store'),
     'Mage_Adminhtml_Rss_CatalogController',
     'Mage_Adminhtml_Rss_OrderController',

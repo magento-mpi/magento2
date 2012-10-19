@@ -1,4 +1,4 @@
-`<?php
+<?php
 /**
  * {license_notice}
  *
@@ -27,6 +27,13 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      * @var Mage_Backend_Model_Config_Structure_Converter
      */
     protected $_converter;
+
+    /**
+     * List of encrypted paths
+     *
+     * @var array
+     */
+    protected $_encryptedPaths = array();
 
     /**
      * @param array $data
@@ -118,12 +125,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
     {
         $key = $sectionCode ?: $websiteCode ?: $storeCode;
-        foreach ($this->_data['sections'] as $section) {
-            if ($section['id'] == $key) {
-                return $section;
-            }
-        }
-        return null;
+        return $this->_data['sections'][$key];
     }
 
     /**
@@ -184,27 +186,23 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     /**
      * Get translate module name
      *
-     * @param Varien_Simplexml_Element $sectionNode
-     * @param Varien_Simplexml_Element $groupNode
-     * @param Varien_Simplexml_Element $fieldNode
+     * @param array $sectionNode
+     * @param array $groupNode
+     * @param array $fieldNode
      * @return string
      */
-    function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
+    public function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
     {
         $moduleName = 'Mage_Adminhtml';
-        if (is_object($sectionNode) && method_exists($sectionNode, 'attributes')) {
-            $sectionAttributes = $sectionNode->attributes();
-            $moduleName = isset($sectionAttributes['module']) ? (string)$sectionAttributes['module'] : $moduleName;
+        if (isset($sectionNode['module'])) {
+            $moduleName = (string) $sectionNode['module'];
         }
-        if (is_object($groupNode) && method_exists($groupNode, 'attributes')) {
-            $groupAttributes = $groupNode->attributes();
-            $moduleName = isset($groupAttributes['module']) ? (string)$groupAttributes['module'] : $moduleName;
+        if (isset($groupNode['module'])) {
+            $moduleName = (string) $groupNode['module'];
         }
-        if (is_object($fieldNode) && method_exists($fieldNode, 'attributes')) {
-            $fieldAttributes = $fieldNode->attributes();
-            $moduleName = isset($fieldAttributes['module']) ? (string)$fieldAttributes['module'] : $moduleName;
+        if (isset($fieldNode['module'])) {
+            $moduleName = (string) $fieldNode['module'];
         }
-
         return $moduleName;
     }
 
@@ -214,60 +212,79 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      * @param string $sectionName
      * @param string $groupName
      * @param string $fieldName
+     * @throws InvalidArgumentException
      * @return string
      */
     public function getSystemConfigNodeLabel($sectionName, $groupName = null, $fieldName = null)
     {
         $sectionName = trim($sectionName, '/');
-        $path = '//sections/' . $sectionName;
         $groupNode = $fieldNode = null;
-        $sectionNode = $this->_sections->xpath($path);
+        $sectionNode = isset($this->_data['sections'][$sectionName]) ? $this->_data['sections'][$sectionName] : null;
+        if (!$sectionNode) {
+            throw new InvalidArgumentException(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong section specified.')
+            );
+        }
+        $currentNode = $sectionNode;
         if (!empty($groupName)) {
-            $path .= '/groups/' . trim($groupName, '/');
-            $groupNode = $this->_sections->xpath($path);
+            $groupName = trim($groupName, '/');
+            $groupNode = isset($sectionNode['groups'][$groupName]) ? $sectionNode['groups'][$groupName] : null;
+            if (!$groupNode) {
+                throw new InvalidArgumentException(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong group specified.')
+                );
+            }
+            $currentNode = $groupNode;
         }
         if (!empty($fieldName)) {
-            if (!empty($groupName)) {
-                $path .= '/fields/' . trim($fieldName, '/');
-                $fieldNode = $this->_sections->xpath($path);
-            }
-            else {
+            if (!empty($groupNode)) {
+                $fieldName = trim($fieldName, '/');
+                $fieldNode = isset($groupNode['fields'][$fieldName]) ? $groupNode['fields'][$fieldName] : null;
+                if (!$fieldNode) {
+                    throw new InvalidArgumentException(
+                        Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong field specified.')
+                    );
+                }
+                $currentNode = $fieldNode;
+            } else {
                 Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The group node name must be specified with field node name.'));
             }
         }
         $moduleName = $this->getAttributeModule($sectionNode, $groupNode, $fieldNode);
-        $systemNode = $this->_sections->xpath($path);
-        foreach ($systemNode as $node) {
-            return Mage::helper($moduleName)->__((string)$node->label);
-        }
-        return '';
+        return isset($currentNode['label']) ? Mage::helper($moduleName)->__((string)$currentNode['label']) : '';
     }
 
     /**
      * Look for encrypted node entries in all system.xml files and return them
      *
-     * @return array $paths
+     * @param bool $explodePathToEntities
+     * @return array
      */
     public function getEncryptedNodeEntriesPaths($explodePathToEntities = false)
     {
-        $paths = array();
-        $configSections = $this->getSections();
-        if ($configSections) {
-            foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
-                if ('adminhtml/system_config_backend_encrypted' === (string)$node) {
-                    $section = $node->getParent()->getParent()->getParent()->getParent()->getParent()->getName();
-                    $group   = $node->getParent()->getParent()->getParent()->getName();
-                    $field   = $node->getParent()->getName();
-                    if ($explodePathToEntities) {
-                        $paths[] = array('section' => $section, 'group' => $group, 'field' => $field);
-                    }
-                    else {
-                        $paths[] = $section . '/' . $group . '/' . $field;
+        foreach ($this->_data['sections'] as $section) {
+            if (!isset($section['groups'])) {
+                continue;
+            }
+            foreach ($section['groups'] as $group) {
+                if (!isset($group['fields'])) {
+                    continue;
+                }
+                foreach ($group['fields'] as $field) {
+                    if (isset($field['backend_model'])
+                        && $field['backend_model'] == 'Mage_Backend_Model_Config_Backend_Encrypted'
+                    ) {
+                        if ($explodePathToEntities) {
+                            $this->_encryptedPaths[] = array(
+                                'section' => $section['id'], 'group' => $group['id'], 'field' => $field['id']
+                            );
+                        } else {
+                            $this->_encryptedPaths[] = $section['id'] . '/' . $group['id'] . '/' . $field['id'];
+                        }
                     }
                 }
             }
         }
-        return $paths;
+        return $this->_encryptedPaths;
     }
-
 }

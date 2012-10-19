@@ -332,7 +332,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         if (!$isSingleStoreMode) {
             return;
         }
-        if (!(int)$fieldConfig->show_in_default) {
+        if (!isset($fieldConfig['showInDefault']) || !(int)$fieldConfig['showInDefault']) {
             $websites = Mage::app()->getWebsites();
             $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
