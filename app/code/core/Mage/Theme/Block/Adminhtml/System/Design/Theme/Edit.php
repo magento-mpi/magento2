@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Theme editor container
  */
-class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_Block_Widget_Form_Container
 {
     /**
      * Prepare layout
@@ -20,7 +20,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_Bl
      */
     protected function _prepareLayout()
     {
-        $this->_blockGroup = 'Mage_Core';
+        $this->_blockGroup = 'Mage_Theme';
         $this->_controller = 'Adminhtml_System_Design_Theme';
         $this->setId('theme_edit');
 

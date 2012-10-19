@@ -120,18 +120,6 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <modules>
-                        <core>Mage_Core_Adminhtml</core>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -168,13 +156,6 @@
                 </observers>
             </show_synchronize_message>
         </events>
-        <layout>
-            <updates>
-                <theme module="Mage_Core">
-                    <file>theme.xml</file>
-                </theme>
-            </updates>
-        </layout>
     </adminhtml>
     <install>
         <translate>

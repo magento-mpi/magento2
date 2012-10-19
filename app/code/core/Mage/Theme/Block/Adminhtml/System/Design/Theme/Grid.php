@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Themes grid
  */
-class Mage_Core_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Block_Widget_Grid
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Block_Widget_Grid
 {
     /**
      * Init Grid properties
@@ -27,7 +27,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Bl
     /**
      * Prepare grid data collection
      *
-     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Grid|Mage_Backend_Block_Widget_Grid
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid|Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {

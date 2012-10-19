@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +11,14 @@
 /**
  * Theme form, general tab
  */
-class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -52,7 +52,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      *
      * @param Varien_Data_Form $form
      * @param array $formData
-     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _addThemeFieldset($form, $formData)
     {
@@ -135,7 +135,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      * Add requirements fieldset
      *
      * @param Varien_Data_Form $form
-     * @return Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _addRequirementsFieldset($form)
     {
@@ -170,7 +170,7 @@ class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected function _getAdditionalElementTypes()
     {
         $element = Mage::getConfig()
-            ->getBlockClassName('Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
+            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
         return array('image' => $element);
     }
 

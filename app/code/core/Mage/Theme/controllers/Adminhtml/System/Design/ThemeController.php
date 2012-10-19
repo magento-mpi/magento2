@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Theme controller
  */
-class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
+class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Index action
@@ -20,7 +20,7 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
     {
         Mage::dispatchEvent('theme_registration_from_filesystem');
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Core::system_design_theme');
+        $this->_setActiveMenu('Mage_Theme::system_design_theme');
         $this->renderLayout();
     }
 
@@ -120,6 +120,6 @@ class Mage_Core_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Core::theme');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Theme::theme');
     }
 }

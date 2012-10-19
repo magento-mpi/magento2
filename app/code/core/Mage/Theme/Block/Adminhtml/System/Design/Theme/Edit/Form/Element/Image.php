@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Image form element that generates correct thumbnail image URL for theme preview image
  */
-class Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends Varien_Data_Form_Element_Image
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends Varien_Data_Form_Element_Image
 {
     /**
      * Get image preview url

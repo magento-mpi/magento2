@@ -12,30 +12,30 @@
 <layout>
     <adminhtml_system_design_theme_index>
         <reference name="content">
-            <block type="Mage_Core_Block_Adminhtml_System_Design_Theme" name="design_theme">
-                <block type="Mage_Core_Block_Adminhtml_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
+            <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme" name="design_theme">
+                <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
             </block>
         </reference>
     </adminhtml_system_design_theme_index>
 
     <adminhtml_system_design_theme_grid>
         <container name="root" label="Root" output="1">
-            <block type="Mage_Core_Block_Adminhtml_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
+            <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
         </container>
     </adminhtml_system_design_theme_grid>
 
     <adminhtml_system_design_theme_edit>
         <reference name="head">
-            <action method="addJs"><file>Mage_Core::system/design/form.js</file></action>
+            <action method="addJs"><file>Mage_Theme::system/design/form.js</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
+            <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
         </reference>
         <reference name="left">
-            <block type="Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
+            <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
                 <action method="addTab">
                     <name>general_section</name>
-                    <block>Mage_Core_Block_Adminhtml_System_Design_Theme_Edit_Tab_General</block>
+                    <block>Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General</block>
                 </action>
             </block>
         </reference>
