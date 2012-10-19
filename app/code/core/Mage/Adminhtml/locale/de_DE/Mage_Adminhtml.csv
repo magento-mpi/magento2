@@ -501,7 +501,7 @@
 "Magento is a trademark of X.commerce, Inc. Copyright &copy; %s X.commerce, Inc.","Magento ist ein Warenzeichen von X.commerce, Inc. Copyright &copy; %s X.commerce, Inc."
 "Magento root directory","Magento-Rootverzeichnis"
 "Magento ver. %s","Magento Version %s"
-"Magento&trade; is a trademark of X.commerce, Inc.<br/>Copyright &copy; %s X.commerce, Inc.","Magento&trade; ist ein Warenzeichen von X.commerce, Inc.<br/>Copyright &copy; %s X.commerce, Inc."
+"Magento&reg; is a trademark of X.commerce, Inc.<br/>Copyright &copy; %s X.commerce, Inc.","Magento&reg; ist ein Warenzeichen von X.commerce, Inc.<br/>Copyright &copy; %s X.commerce, Inc."
 "Make sure that data encoding in the file is consistent and saved in one of supported encodings (UTF-8 or ANSI).","Achten Sie darauf, dass die Datenkodierung in der Datei konsistent ist und in einem unterstützten Kodierungsformat gespeichert wird (UTF-8 oder ANSI)."
 "Manage Attribute Sets","Attributmengen verwalten"
 "Manage Attributes","Attribute verwalten"
