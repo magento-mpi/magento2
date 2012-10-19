@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Stub system config form block for integration test
  */
-class Mage_Adminhtml_Block_System_Config_FormStub extends Mage_Adminhtml_Block_System_Config_Form
+class Mage_Backend_Block_System_Config_FormStub extends Mage_Backend_Block_System_Config_Form
 {
     /**
      * @var array
@@ -33,12 +33,12 @@ class Mage_Adminhtml_Block_System_Config_FormStub extends Mage_Adminhtml_Block_S
     /**
      * Initialize properties of object required for test.
      *
-     * @return Mage_Adminhtml_Block_System_Config_Form
+     * @return Mage_Backend_Block_System_Config_Form
      */
     protected function _initObjects()
     {
         parent::_initObjects();
         $this->_configData = $this->_configDataStub;
-        $this->_defaultFieldRenderer = new Mage_Adminhtml_Block_System_Config_Form_Field();
+        $this->_defaultFieldRenderer = new Mage_Backend_Block_System_Config_Form_Field();
     }
 }

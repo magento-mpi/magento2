@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,7 +12,7 @@
  * Form fieldset renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element

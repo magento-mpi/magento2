@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_System_Config_Form_Field_Array_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testGetArrayRows()
     {
-        /** @var $block Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract */
+        /** @var $block Mage_Backend_Block_System_Config_Form_Field_Array_Abstract */
         $block = $this->getMockForAbstractClass(
-            'Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract',
+            'Mage_Backend_Block_System_Config_Form_Field_Array_Abstract',
             array(),
             '',
             false,

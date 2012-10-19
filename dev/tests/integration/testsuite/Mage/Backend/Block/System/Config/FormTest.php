@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
 {
     public function testDependenceHtml()
     {
         $layout = new Mage_Core_Model_Layout();
-        $block = $layout->createBlock('Mage_Adminhtml_Block_System_Config_Form', 'block');
+        $block = $layout->createBlock('Mage_Backend_Block_System_Config_Form', 'block');
         $block->setArea('adminhtml');
 
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'element_dependence', 'block');
@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @covers Mage_Adminhtml_Block_System_Config_Form::initFields
+     * @covers Mage_Backend_Block_System_Config_Form::initFields
      * @param $section Mage_Core_Model_Config_Element
      * @param $group Mage_Core_Model_Config_Element
      * @param $field Mage_Core_Model_Config_Element
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
         $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
 
         $block = new Mage_Adminhtml_Block_System_Config_FormStub();
-        $block->setScope(Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES);
+        $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
 
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
     {
         new Mage_Core_Controller_Front_Action(Mage::app()->getRequest(), Mage::app()->getResponse());
         Mage::app()->getRequest()->setParam('section', 'general');
-        $block = new Mage_Adminhtml_Block_System_Config_Form();
+        $block = new Mage_Backend_Block_System_Config_Form();
         $block->setLayout(Mage::app()->getLayout());
         $block->initForm();
         $expectedIds = array(
