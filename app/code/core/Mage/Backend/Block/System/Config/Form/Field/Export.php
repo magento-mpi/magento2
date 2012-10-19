@@ -17,24 +17,57 @@
  */
 class Mage_Backend_Block_System_Config_Form_Field_Export extends Varien_Data_Form_Element_Abstract
 {
+    /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = array())
+    {
+        if (isset($attributes['helperFactory'])) {
+            $this->_helperFactory = $attributes['helperFactory'];
+            unset($attributes['helperFactory']);
+        }
+        parent::__construct($attributes);
+    }
+
+    /**
+     * Get helper factory object
+     *
+     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Factory_Helper
+     */
+    protected function _getHelperFactory()
+    {
+        if (null === $this->_helperFactory) {
+            $this->_helperFactory = Mage::getSingleton('Mage_Core_Model_Factory_Helper');
+        }
+        return $this->_helperFactory;
+    }
+
     public function getElementHtml()
     {
-        $buttonBlock = $this->getForm()->getParent()->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var Mage_Backend_Block_Widget_Button $buttonBlock  */
+        $buttonBlock = $this->getForm()
+            ->getParent()
+            ->getLayout()
+            ->createBlock('Mage_Backend_Block_Widget_Button');
 
         $params = array(
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = Mage::helper('Mage_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
+        $url = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
-            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export CSV'),
+            'label'     =>  $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Export CSV'),
             'onclick'   => "setLocation('" . $url
                 . "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
             'class'     => '',
         );
 
         $html = $buttonBlock->setData($data)->toHtml();
-
         return $html;
     }
 }
