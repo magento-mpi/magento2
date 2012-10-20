@@ -9,36 +9,56 @@
  * @license    {license_link}
  */
 -->
+<!-- Basic configuration for Magento application framework. See also local.xml.additional for more options. -->
 <config>
     <global>
         <install>
+            <!-- Date of installation. Its validity indicates whether an application is installed or not. -->
             <date>{{date}}</date>
         </install>
         <crypt>
+            <!-- Cryptography key, used to encrypt sensitive information. -->
             <key>{{key}}</key>
         </crypt>
+        <!-- Whether to disable modules in 'local' folder. Put "1" or "true" to disable. -->
         <disable_local_modules>false</disable_local_modules>
         <resources>
             <db>
+                <!-- A prefix to use for names of Magento tables in DB. Helps to avoid table name conflicts, if other
+                    applications use same database for storing their own tables. Can be empty. -->
                 <table_prefix>{{db_prefix}}</table_prefix>
             </db>
             <default_setup>
                 <connection>
+                    <!-- Host of DB backend. For MySQL it can be IP, domain or unix socket. -->
                     <host>{{db_host}}</host>
+                    <!-- User name for DB backend connection. -->
                     <username>{{db_user}}</username>
+                    <!-- User password for DB backend connection. -->
                     <password>{{db_pass}}</password>
+                    <!-- Database to be used at DB backend. -->
                     <dbname>{{db_name}}</dbname>
-                    <initStatements>{{db_init_statemants}}</initStatements>
+                    <!-- Database statements to be executed at DB backend upon connection establishment.
+                        Multiple statements can be entered, if separated with a semicolon. -->
+                    <initStatements>{{db_init_statements}}</initStatements>
+                    <!-- DB model layer. Used to determine names of resource helpers and
+                        specific installs/upgrades for a DB vendor. -->
                     <model>{{db_model}}</model>
+                    <!-- Legacy: type of DB connection. For Magento 1.6 backwards compatibility only. -->
                     <type>{{db_type}}</type>
+                    <!-- Specific type of PDO being used. MySQL doesn't have specifics, so it should be empty. -->
                     <pdoType>{{db_pdo_type}}</pdoType>
+                    <!-- Connection activation. Default connection is last level of fallback, thus
+                        it must be always left active.  -->
                     <active>1</active>
                 </connection>
             </default_setup>
         </resources>
+        <!-- Session storage method. Can be 'files' (default), 'db', 'memcache', 'memcached', 'eaccelerator'. -->
         <session_save>{{session_save}}</session_save>
         <areas>
             <adminhtml>
+                <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
                 <frontName>{{backend_frontname}}</frontName>
             </adminhtml>
         </areas>
