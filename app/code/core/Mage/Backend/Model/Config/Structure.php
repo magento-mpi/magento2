@@ -1,4 +1,4 @@
-<?php
+`<?php
 /**
  * {license_notice}
  *
@@ -22,11 +22,22 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     protected $_app;
 
     /**
+     * Config structure toArray converter
+     *
+     * @var Mage_Backend_Model_Config_Structure_Converter
+     */
+    protected $_converter;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
         $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
+        $this->_converter = isset($data['converter'])
+            ? $data['converter']
+            : Mage::getSingleton('Mage_Backend_Model_Config_Structure_Converter');
+        parent::__construct($data['sourceFiles']);
     }
 
     /**
@@ -36,7 +47,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/config/system.xsd';
+        return __DIR__ . '/Structure/system.xsd';
     }
 
     /**
@@ -47,8 +58,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      */
     protected function _extractData(DOMDocument $dom)
     {
-        $converter = new Mage_Backend_Model_Config_Structure_Converter();
-        $data = $converter->convert($dom);
+        $data = $this->_converter->convert($dom);
         return $data['config']['system'];
     }
 
@@ -108,7 +118,12 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
     {
         $key = $sectionCode ?: $websiteCode ?: $storeCode;
-        return $this->_data['sections'][$key];
+        foreach ($this->_data['sections'] as $section) {
+            if ($section['id'] == $key) {
+                return $section;
+            }
+        }
+        return null;
     }
 
     /**

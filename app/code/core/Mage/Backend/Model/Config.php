@@ -20,6 +20,42 @@
 class Mage_Backend_Model_Config extends Varien_Object
 {
     /**
+     * Event dispatcher
+     *
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * Reader that retreives structure of configuration edit form from storage
+     *
+     * @var Mage_Backend_Model_Config_Structure_Reader
+     */
+    protected $_structureReader;
+
+    /**
+     * TransactionFactory
+     *
+     * @var Mage_Core_Model_Resource_Transaction_Factory
+     */
+    protected $_transactionFactory;
+
+    public function __construct(array $data = array())
+    {
+        $this->_eventManager = isset($data['eventManager'])
+            ? $data['eventManager']
+            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+
+        $this->_structureReader = isset($data['structureReader'])
+            ? $data['structureReader']
+            : Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader');
+
+        $this->_transactionFactory = isset($data['transactionFactory'])
+            ? $data['transactionFactory']
+            : Mage::getSingleton('Mage_Core_Model_Resource_Transaction_Factory');
+    }
+
+    /**
      * Save config section
      * Require set: section, website, store and groups
      *
@@ -30,7 +66,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_validate();
         $this->_getScope();
 
-        Mage::dispatchEvent('model_config_data_save_before', array('object' => $this));
+        $this->_eventManager->dispatch('model_config_data_save_before', array('object' => $this));
 
         $section = $this->getSection();
         $website = $this->getWebsite();
@@ -43,14 +79,13 @@ class Mage_Backend_Model_Config extends Varien_Object
             return $this;
         }
 
-        $sections = Mage::getModel('Mage_Backend_Model_Config_Structure')->getSections();
-        /* @var $sections Mage_Core_Model_Config_Element */
+        $sections = $this->_structureReader->getConfiguration()->getSections();
 
         $oldConfig = $this->_getConfig(true);
 
-        $deleteTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+        $deleteTransaction = $this->_transactionFactory->create();
         /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+        $saveTransaction = $this->_transactionFactory->create();
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
 
         // Extends for old config data
@@ -61,19 +96,20 @@ class Mage_Backend_Model_Config extends Varien_Object
             /**
              * Map field names if they were cloned
              */
-            $groupConfig = $sections->descend($section . '/groups/' . $group);
+            $groupConfig = $sections[$section]['groups'][$group];
 
-            if ($clonedFields = !empty($groupConfig->clone_fields)) {
-                if ($groupConfig->clone_model) {
-                    $cloneModel = Mage::getModel((string)$groupConfig->clone_model);
+            if ($clonedFields = (isset($groupConfig['clone_fields']) && !empty($groupConfig['clone_fields']))) {
+                if (isset($groupConfig['clone_model']) && $groupConfig['clone_model']) {
+                    $cloneModel = $this->_objectFactory->getModelInstance((string)$groupConfig['clone_model']);
                 } else {
                     Mage::throwException('Config form fieldset clone model required to be able to clone fields');
                 }
                 $mappedFields = array();
-                $fieldsConfig = $sections->descend($section . '/groups/' . $group . '/fields');
 
-                if ($fieldsConfig->hasChildren()) {
-                    foreach ($fieldsConfig->children() as $field => $node) {
+                if (isset($groupConfig['fields'])) {
+                    $fieldsConfig = $groupConfig['fields'];
+
+                    foreach ($fieldsConfig[] as $field => $node) {
                         foreach ($cloneModel->getPrefixes() as $prefix) {
                             $mappedFields[$prefix['field'] . (string)$field] = (string)$field;
                         }
@@ -92,29 +128,24 @@ class Mage_Backend_Model_Config extends Varien_Object
                 /**
                  * Get field backend model
                  */
-                $backendClass = (string)$sections->descend(
-                    $section . '/groups/' . $group . '/fields/' . $field . '/backend_model'
-                );
-                if (!$backendClass && $clonedFields && isset($mappedFields[$field])) {
-                    $backendClass = (string)$sections->descend(
-                        $section . '/groups/' . $group . '/fields/' . $mappedFields[$field] . '/backend_model'
-                    );
-                }
-                if (!$backendClass) {
+                if (isset($groupConfig['fields'][$field]['backend_model'])) {
+                    $backendClass = $groupConfig['fields'][$field]['backend_model'];
+                } else if ($clonedFields && isset($mappedFields[$field])) {
+                    $backendClass = $groupConfig['fields'][$mappedFields[$field]]['backend_model'];
+                } else {
                     $backendClass = 'Mage_Core_Model_Config_Data';
                 }
 
                 /* @var $dataObject Mage_Core_Model_Config_Data */
-                $dataObject = Mage::getModel($backendClass);
+                $dataObject = $this->_objectFactory->getModelInstance($backendClass);
                 if (!$dataObject instanceof Mage_Core_Model_Config_Data) {
                     Mage::throwException('Invalid config field backend model: ' . $backendClass);
                 }
 
-                $fieldConfig = $sections->descend($section . '/groups/' . $group . '/fields/' . $field);
-                if (!$fieldConfig && $clonedFields && isset($mappedFields[$field])) {
-                    $fieldConfig = $sections->descend(
-                        $section . '/groups/' . $group . '/fields/' . $mappedFields[$field]
-                    );
+                if (isset($groupConfig['fields'][$field])) {
+                    $fieldConfig = $groupConfig['fields'][$field];
+                } else if ($clonedFields && isset($mappedFields[$field])) {
+                    $fieldConfig = $groupConfig['fields'][$mappedFields[$field]];
                 }
 
                 $dataObject
@@ -139,8 +170,8 @@ class Mage_Backend_Model_Config extends Varien_Object
                 /**
                  * Look for custom defined field path
                  */
-                if (is_object($fieldConfig)) {
-                    $configPath = (string)$fieldConfig->config_path;
+                if ($fieldConfig && isset($fieldConfig['config_path'])) {
+                    $configPath = (string)$fieldConfig['config_path'];
                     if (!empty($configPath) && strrpos($configPath, '/') > 0) {
                         // Extend old data with specified section group
                         $groupPath = substr($configPath, 0, strrpos($configPath, '/'));
