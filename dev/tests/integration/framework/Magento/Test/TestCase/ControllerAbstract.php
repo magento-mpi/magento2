@@ -81,6 +81,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getRequest()
     {
         if (!$this->_request) {
+            // creates instance of Magento_Test_Request because of alias in configuration
             $this->_request = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
@@ -89,11 +90,12 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Response getter
      *
-     * @return Zend_Controller_Response_Http
+     * @return Magento_Test_Response
      */
     public function getResponse()
     {
         if (!$this->_response) {
+            // creates instance of Magento_Test_Response because of alias in configuration
             $this->_response = Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http');
         }
         return $this->_response;
