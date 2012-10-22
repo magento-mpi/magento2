@@ -575,6 +575,9 @@ $CONFIG['translates'] = array(
     'Enterprise_Tag' => array(
         'app/code/core/Enterprise/Tag/',
     ),
+    'Zend_Validate' => array(
+        'lib/Zend/Validate/',
+    )
 );
 
 $CONFIG['helpers']  = array(

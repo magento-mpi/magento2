@@ -28,15 +28,23 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Cleanup validator instance to unset default translator if any
+     */
+    protected function tearDown()
+    {
+        unset($this->_validator);
+    }
+
+    /**
      * Test isValid method
      *
      * @dataProvider isValidDataProvider
      *
      * @param mixed $value
      * @param Magento_Validator_ValidatorInterface[] $validators
-     * @param bool $expectedResult
+     * @param boolean $expectedResult
      * @param array $expectedMessages
-     * @param bool $breakChainOnFailure
+     * @param boolean $breakChainOnFailure
      */
     public function testIsValid($value, $validators, $expectedResult, $expectedMessages = array(),
         $breakChainOnFailure = false
@@ -106,12 +114,47 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         return $result;
     }
 
-    public function test()
+    /**
+     * Test addValidator
+     */
+    public function testAddValidator()
     {
-        $fooValidator = $this->getMock('Magento_Validator_ValidatorInterface');
+        $fooValidator = new Magento_Validator_Test_True();
         $classConstraint = new Magento_Validator_Constraint($fooValidator, 'id');
         $propertyValidator = new Magento_Validator_Constraint_Property($classConstraint, 'name', 'id');
+
+        /** @var Magento_Translate_AdapterAbstract $translator */
+        $translator= $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+            ->getMockForAbstractClass();
+        Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
+
         $this->_validator->addValidator($classConstraint);
         $this->_validator->addValidator($propertyValidator);
+        $expected = array(
+            array(
+                'instance' => $classConstraint,
+                'breakChainOnFailure' => false
+            ),
+            array(
+                'instance' => $propertyValidator,
+                'breakChainOnFailure' => false
+            )
+        );
+        $this->assertAttributeEquals($expected, '_validators', $this->_validator);
+        $this->assertEquals($translator, $fooValidator->getTranslator(), 'Translator was not set');
+    }
+
+    /**
+     * Check that translator passed into validator in chain
+     */
+    public function testSetTranslator()
+    {
+        $fooValidator = new Magento_Validator_Test_True();
+        $this->_validator->addValidator($fooValidator);
+        /** @var Magento_Translate_AdapterAbstract $translator */
+        $translator= $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+            ->getMockForAbstractClass();
+        $this->_validator->setTranslator($translator);
+        $this->assertEquals($translator, $fooValidator->getTranslator());
     }
 }

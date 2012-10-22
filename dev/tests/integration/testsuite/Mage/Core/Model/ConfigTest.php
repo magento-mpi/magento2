@@ -492,5 +492,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidatorConfig()
     {
         $this->assertInstanceOf('Magento_Validator_Config', $this->_createModel(true)->getValidatorConfig());
+        // Check that default translator was set
+        $this->assertInstanceOf('Magento_Translate_AdapterInterface',
+            Magento_Validator_ValidatorAbstract::getDefaultTranslator());
     }
 }

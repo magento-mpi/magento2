@@ -29,7 +29,9 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_validatorMock = $this->getMock('Magento_Validator_ValidatorInterface');
+        $this->_validatorMock = $this->getMockBuilder('Magento_Validator_ValidatorAbstract')
+            ->setMethods(array('isValid', 'getMessages'))
+            ->getMock();
         $this->_constraint = new Magento_Validator_Constraint($this->_validatorMock);
     }
 
@@ -56,14 +58,19 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
     public function testIsValid($value, $expectedResult, $expectedMessages = array())
     {
         $this->_validatorMock
-            ->expects($this->once())->method('isValid')
-            ->with($value)->will($this->returnValue($expectedResult));
+            ->expects($this->once())
+            ->method('isValid')
+            ->with($value)
+            ->will($this->returnValue($expectedResult));
 
         if ($expectedResult) {
-            $this->_validatorMock->expects($this->never())->method('getMessages');
+            $this->_validatorMock
+                ->expects($this->never())
+                ->method('getMessages');
         } else {
             $this->_validatorMock
-                ->expects($this->once())->method('getMessages')
+                ->expects($this->once())
+                ->method('getMessages')
                 ->will($this->returnValue($expectedMessages));
         }
 
@@ -82,5 +89,17 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
             array('test', true),
             array('test', false, array('foo'))
         );
+    }
+
+    /**
+     * Check translator was set into wrapped validator
+     */
+    public function testSetTranslator()
+    {
+        /** @var Magento_Translate_AdapterAbstract $translator */
+        $translator= $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+            ->getMockForAbstractClass();
+        $this->_constraint->setTranslator($translator);
+        $this->assertEquals($translator, $this->_validatorMock->getTranslator());
     }
 }

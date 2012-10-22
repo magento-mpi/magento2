@@ -1700,6 +1700,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if (is_null($this->_validatorConfigFiles)) {
             $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
+            $translator = new Magento_Translate_Adapter(array(
+                'translator' => Mage::app()->getTranslator(),
+                'translate_method' => 'translate'
+            ));
+            Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
         }
 
         return new Magento_Validator_Config($this->_validatorConfigFiles);

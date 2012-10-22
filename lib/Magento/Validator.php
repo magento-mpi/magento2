@@ -23,12 +23,15 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
     /**
      * Adds a validator to the end of the chain
      *
-     * @param  Magento_Validator_ValidatorInterface $validator
-     * @param  bool $breakChainOnFailure
+     * @param Magento_Validator_ValidatorInterface $validator
+     * @param boolean $breakChainOnFailure
      * @return Magento_Validator
      */
     public function addValidator(Magento_Validator_ValidatorInterface $validator, $breakChainOnFailure = false)
     {
+        if (!$validator->hasTranslator()) {
+            $validator->setTranslator(self::getDefaultTranslator());
+        }
         $this->_validators[] = array(
             'instance' => $validator,
             'breakChainOnFailure' => (boolean)$breakChainOnFailure
@@ -40,7 +43,7 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
      * Returns true if and only if $value passes all validations in the chain
      *
      * @param mixed $value
-     * @return bool
+     * @return boolean
      */
     public function isValid($value)
     {
@@ -61,5 +64,19 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
         }
 
         return $result;
+    }
+
+    /**
+     * Set translator to chain.
+     *
+     * @param Magento_Translate_AdapterInterface|null $translator
+     * @return Magento_Validator_ValidatorAbstract
+     */
+    public function setTranslator($translator = null)
+    {
+        foreach ($this->_validators as $validator) {
+            $validator['instance']->setTranslator($translator);
+        }
+        return $this;
     }
 }

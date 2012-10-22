@@ -591,6 +591,55 @@ class Translate {
                 }
             }
     }
+
+    /**
+     * Parsing Zend/Validate files for message templates.
+     *
+     * @param string $file - file to parse
+     * @param array $data_arr - array of data
+     * @param $mod_name - name of module
+     * @return void
+     */
+    static public function parseZendValidateMessageTemplates($file, &$data_arr, $mod_name)
+    {
+        $line_num = 0;
+        $f = @fopen($file, 'r');
+        if(!$f){
+            self::_error('file ' . $file . ' not found');
+        }
+
+        $messageTemplateFound = false;
+        while (!feof($f)) {
+            $line = fgets($f, 4096);
+            $line_num++;
+
+            if (!$messageTemplateFound && strpos($line, 'protected $_messageTemplates') !== false) {
+                $messageTemplateFound = true;
+                continue;
+            }
+
+            if ($messageTemplateFound && strpos($line, '=>') !== false) {
+                $message = explode('=>', $line);
+                if ($message && count($message) == 2) {
+                    $message = $message[1];
+                    $message = trim($message);
+                    $message = trim($message, ',');
+                    $message = trim($message, '"');
+
+                    $inc_arr['value'] = $message;
+                    $inc_arr['line'] = $line_num;
+                    $inc_arr['file'] = $file;
+                    $inc_arr['mod_name'] = $mod_name;
+                    array_push($data_arr, $inc_arr);
+                }
+            }
+
+            if ($messageTemplateFound && strpos($line, ');') !== false) {
+                break;
+            }
+        }
+    }
+
     /**
      *Parsering files on keywords
      *
@@ -603,6 +652,8 @@ class Translate {
     {
         if(Varien_File_Object::getExt($file)==='xml'){
             self::parseXml($file,&$data_arr,$mod_name);
+        } elseif (stripos($file, 'Zend' . DS . 'Validate') !== false) {
+            self::parseZendValidateMessageTemplates($file, &$data_arr, $mod_name);
         } else {
             self::parseTranslatingFiles($file,&$data_arr,$mod_name);
         }
