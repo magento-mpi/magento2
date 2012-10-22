@@ -401,7 +401,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Check whether the adapter can work with the image
      *
-     * @throws Exception
+     * @throws LogicException
      * @return bool
      */
     protected function _checkCanProcess()
