@@ -31,12 +31,10 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
     /**
      * Test export data
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testExport()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_Customer_Finance');
         $customerFinance->setWriter(Mage::getModel('Mage_ImportExport_Model_Export_Adapter_Csv'));
         $customerFinance->setParameters(array());
@@ -90,8 +88,6 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
      */
     public function testGetAttributeCollection()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_Customer_Finance');
         $attributeCollection = $customerFinance->getAttributeCollection();
 

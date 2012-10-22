@@ -35,12 +35,10 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
      * @param string $action
      * @param array $post
      * @dataProvider adminActionDataProvider
-     * magentoDataFixture userAndRoleFixture
+     * @magentoDataFixture userAndRoleFixture
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $eventCount = count($collection);
 

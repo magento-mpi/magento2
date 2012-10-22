@@ -12,12 +12,10 @@
 class Enterprise_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Enterprise/Reminder/_files/rules.php
+     * @magentoDataFixture Enterprise/Reminder/_files/rules.php
      */
     public function testAddDateFilter()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $dateModel = Mage::getModel('Mage_Core_Model_Date');
         $collection = Mage::getResourceModel('Enterprise_Reminder_Model_Resource_Rule_Collection');
         $collection->addDateFilter($dateModel->date());

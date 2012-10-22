@@ -76,8 +76,6 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_entityAdapter = Mage::getModel('Mage_ImportExport_Model_Import_Entity_CustomerComposite');
     }
 
@@ -130,7 +128,7 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
      * @param array $dataAfter
      * @param array $errors
      *
-     * magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
      * @magentoAppIsolation enabled
      *
      * @dataProvider importDataDataProvider
@@ -138,8 +136,6 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 

@@ -15,12 +15,10 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
      * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/related.html
      * Checks if related products are displayed
      *
-     * magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
      */
     public function testProductViewActionRelated()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         /*
          * add @magentoDataFixture Enterprise/TargetRule/_files/related.php after fix
          */
@@ -35,12 +33,10 @@ class Enterprise_TargetRule_Catalog_ProductControllerTest extends Magento_Test_T
      * Covers Enterprise/TargetRule/view/frontend/catalog/product/list/upsell.html
      * Checks if up-sell products are displayed
      *
-     * magentoDataFixture Mage/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
      */
     public function testProductViewActionUpsell()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         /*
          * add @magentoDataFixture Enterprise/TargetRule/_files/upsell.php after fix
          */

@@ -18,8 +18,6 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Link');
     }
 
@@ -31,12 +29,10 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled 1
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled_on_front 1
-     * magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testAddAccountLink()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $layout = Mage::app()->getLayout();
         $this->_block->setLayout($layout);
         $layout->addBlock('Mage_Page_Block_Template_Links', 'account.links');

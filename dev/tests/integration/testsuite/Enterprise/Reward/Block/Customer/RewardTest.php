@@ -12,17 +12,16 @@
 class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Enterprise/Reward/_files/history.php
+     * @magentoDataFixture Enterprise/Reward/_files/history.php
      */
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->load(1);
         Mage::getSingleton('Mage_Customer_Model_Session')->setCustomer($customer);
         $utility = new Mage_Core_Utility_Layout($this);
-        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml');
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml',
+            $utility->getLayoutDependencies());
         $layout->getUpdate()->addHandle('enterprise_reward_customer_info')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('customer.reward');

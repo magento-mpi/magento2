@@ -18,8 +18,6 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model= Mage::getModel('Enterprise_SalesArchive_Model_Archive');
     }
 
@@ -61,12 +59,10 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
     /**
      * @param mixed $object
      * @param string|false $expectedResult
-     * dataProvider detectArchiveEntityDataProvider
+     * @dataProvider detectArchiveEntityDataProvider
      */
     public function testDetectArchiveEntity($object, $expectedResult)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $actualResult = $this->_model->detectArchiveEntity($object);
         $this->assertEquals($expectedResult, $actualResult);
     }

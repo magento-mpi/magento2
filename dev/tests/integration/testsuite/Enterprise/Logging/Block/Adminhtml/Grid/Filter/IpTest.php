@@ -18,8 +18,6 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip');
     }
 
@@ -30,8 +28,6 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
 
     public function testGetCondition()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $condition = $this->_block->getCondition();
         $this->assertArrayHasKey('field_expr', $condition);
         $this->assertArrayHasKey('like', $condition);
@@ -39,8 +35,6 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
 
     public function testGetConditionWithLike()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block->setValue('127');
         $condition = $this->_block->getCondition();
         $this->assertContains('127', (string) $condition['like']);

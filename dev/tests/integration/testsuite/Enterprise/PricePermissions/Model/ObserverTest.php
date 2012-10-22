@@ -16,8 +16,6 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         parent::setUp();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
@@ -30,8 +28,6 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $parentBlock = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', 'admin.product.options');
         $optionsBlock = $this->_layout->addBlock(
             'Mage_Adminhtml_Block_Template',
@@ -48,8 +44,6 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     public function testAdminhtmlBlockHtmlBeforeBundleOpt()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $parentBlock = $this->_layout->createBlock(
             'Mage_Adminhtml_Block_Template',
             'adminhtml.catalog.product.edit.tab.bundle.option'

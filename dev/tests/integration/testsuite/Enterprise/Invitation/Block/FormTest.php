@@ -24,8 +24,6 @@ class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Form');
     }
 
@@ -43,8 +41,6 @@ class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMaxInvitationsPerSend($num, $expected)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_changeConfig(Enterprise_Invitation_Model_Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
         try {
             $this->assertEquals($expected, $this->_block->getMaxInvitationsPerSend());
@@ -105,8 +101,6 @@ class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 
     public function testIsInvitationMessageAllowed()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         try {
             $this->_changeConfig(Enterprise_Invitation_Model_Config::XML_PATH_USE_INVITATION_MESSAGE, 1);
             $this->assertEquals(true, $this->_block->isInvitationMessageAllowed());

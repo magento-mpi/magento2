@@ -19,7 +19,7 @@ class Enterprise_WebsiteRestriction_DesignEditorTest extends Magento_Test_TestCa
      */
     public function testIndexStub()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture + controller');
 
         $this->getRequest()->setParam('handle', 'restriction_index_stub');
         $this->dispatch('design/editor/page');

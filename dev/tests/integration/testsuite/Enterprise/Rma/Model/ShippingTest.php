@@ -18,8 +18,6 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model= Mage::getModel('Enterprise_Rma_Model_Shipping');
     }
 
@@ -30,8 +28,6 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 
     public function testIsCustom()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->_model->setCarrierCode('ups');
         $this->assertFalse($this->_model->isCustom());
         $this->_model->setCarrierCode('custom');

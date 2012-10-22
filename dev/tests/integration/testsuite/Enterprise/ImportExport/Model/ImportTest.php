@@ -13,8 +13,6 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
      */
     public function testRunSchedule()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $productModel = Mage::getModel('Mage_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);

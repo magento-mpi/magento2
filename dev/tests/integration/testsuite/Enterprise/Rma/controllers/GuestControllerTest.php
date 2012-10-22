@@ -20,7 +20,7 @@ class Enterprise_Rma_GuestControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testIsResponseContain($uri, $content)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture + controller');
 
         $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rma->load(1, 'increment_id');

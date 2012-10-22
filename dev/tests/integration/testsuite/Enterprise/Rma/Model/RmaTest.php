@@ -12,12 +12,10 @@
 class Enterprise_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Enterprise/Rma/_files/order.php
+     * @magentoDataFixture Enterprise/Rma/_files/order.php
      */
     public function testSaveRma()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $rma = Mage::getModel('Enterprise_Rma_Model_Rma');

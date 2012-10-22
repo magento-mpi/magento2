@@ -12,19 +12,18 @@
 class Enterprise_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * magentoDataFixture Enterprise/Rma/_files/rma.php
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
      */
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rma->load(1, 'increment_id');
         Mage::register('current_rma', $rma);
         $utility = new Mage_Core_Utility_Layout($this);
+        $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/edit.xml',
-            array(array('area' => 'adminhtml'))
+            $layoutArguments
         );
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
         $layout->generateXml()->generateElements();

@@ -16,10 +16,9 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
     }
 
     protected function tearDown()
@@ -32,8 +31,6 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', $parentBlock);
         $this->_layout->addBlock('Mage_Adminhtml_Block_Template', $childBlock, $parentBlock);
         $gridBlock = $this->_layout->addBlock('Mage_Adminhtml_Block_Template', 'banners_grid_serializer', $childBlock);

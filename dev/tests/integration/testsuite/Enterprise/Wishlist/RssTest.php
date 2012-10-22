@@ -17,7 +17,7 @@ class Enterprise_Wishlist_RssTest extends Magento_Test_TestCase_ControllerAbstra
      */
     public function testWishlistAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
+        $this->markTestIncomplete('Need to fix DI dependencies + fixture + controller');
 
         $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
