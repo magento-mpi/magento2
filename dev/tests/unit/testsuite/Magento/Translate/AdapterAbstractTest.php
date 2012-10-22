@@ -22,11 +22,11 @@ class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento translate adapter should always have translation
+     * Magento translate adapter should always return false to be used correctly be Zend Validate
      */
     public function testIsTranslated()
     {
-        $this->assertTrue($this->_model->isTranslated('string'));
+        $this->assertFalse($this->_model->isTranslated('string'));
     }
 
     /**

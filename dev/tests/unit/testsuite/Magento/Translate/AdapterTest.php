@@ -20,8 +20,7 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslate($method, $strToTranslate, $translatedStr)
     {
-        $translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->disableOriginalConstructor()
+        $translatorMock = $this->getMockBuilder('stdClass')
             ->setMethods(array('translate'))
             ->getMock();
         $translatorMock->expects($this->once())
@@ -29,8 +28,7 @@ class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
             ->with($strToTranslate)
             ->will($this->returnValue($translatedStr));
         $translator = new Magento_Translate_Adapter(array(
-            'translator' => $translatorMock,
-            'translate_method' => 'translate'
+            'translator' => array($translatorMock, 'translate')
         ));
 
         $this->assertEquals($translatedStr, $translator->$method($strToTranslate));

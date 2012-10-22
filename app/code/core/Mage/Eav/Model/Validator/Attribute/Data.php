@@ -15,7 +15,7 @@
  * @package    Mage_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_ValidatorInterface
+class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_ValidatorAbstract
 {
     /**
      * @var array

@@ -25,9 +25,8 @@ class Magento_Translate_Adapter extends Magento_Translate_AdapterAbstract
     public function translate($messageId, $locale = null)
     {
         $translator = $this->getOptions('translator');
-        $method = $this->getOptions('translate_method');
-        if (is_callable(array($translator, $method))) {
-            return call_user_func(array($translator, $method), $messageId);
+        if (is_callable($translator)) {
+            return call_user_func($translator, $messageId);
         } else {
             return $messageId;
         }

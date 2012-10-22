@@ -30,7 +30,9 @@ abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
     }
 
     /**
-     * Is translation available
+     * Is translation available.
+     *
+     * Return false, as Zend_Validate pass message into translator only when isTranslated is false
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param string $messageId
@@ -40,7 +42,7 @@ abstract class Magento_Translate_AdapterAbstract extends Zend_Translate_Adapter
      */
     public function isTranslated($messageId, $original = false, $locale = null)
     {
-        return true;
+        return false;
     }
 
     /**
