@@ -20,7 +20,10 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_CollectionTest extends 
             '%AWHERE%S(product_id = %S1%S)%SAND%S(product_id IN(%S2%S,%S3%S))%SAND%S(product_id = %S4%S)%A',
             (string)$select
         );
+    }
 
+    public function testAddProductFilterZero()
+    {
         $collection = new Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection;
         $collection->addProductFilter(0);
         $this->assertSame(array(), $collection->getSelect()->getPart(Zend_Db_Select::WHERE));
