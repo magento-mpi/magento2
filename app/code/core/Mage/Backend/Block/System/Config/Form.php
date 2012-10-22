@@ -80,41 +80,21 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_scopeLabels = array();
 
     /**
-     * @var Mage_Backend_Helper_Data
-     */
-    protected $_helper;
-
-
-    /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
-        $this->_helper = isset($data['helper']) ? isset($data['helper']) : null;
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
-            Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
         parent::__construct($data);
 
         $this->_scopeLabels = array(
-            self::SCOPE_DEFAULT  => $this->_getHelper()->__('[GLOBAL]'),
-            self::SCOPE_WEBSITES => $this->_getHelper()->__('[WEBSITE]'),
-            self::SCOPE_STORES   => $this->_getHelper()->__('[STORE VIEW]'),
+            self::SCOPE_DEFAULT  => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
+            self::SCOPE_WEBSITES => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[WEBSITE]'),
+            self::SCOPE_STORES   => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[STORE VIEW]'),
         );
-    }
-
-    /**
-     * Get helper object
-     *
-     * @return Mage_Backend_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (null === $this->_helper) {
-            $this->_helper = $this->_getHelperRegistry()->get('Mage_Backend_Helper_Data');
-        }
-        return $this->_helper;
     }
 
     /**
@@ -126,7 +106,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configDataObject = $this->_objectFactory->getModelInstance('Mage_Backend_Model_Config')
+        $this->_configDataObject = $this->_getObjectFactory()->getModelInstance('Mage_Backend_Model_Config')
             ->setSection($this->getSectionCode())
             ->setWebsite($this->getWebsiteCode())
             ->setStore($this->getStoreCode());
@@ -148,7 +128,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $this->_initObjects();
 
         /** @var Varien_Data_Form $form */
-        $form = $this->_getObjectFactory('Varien_Data_Form');
+        $form = $this->_getObjectFactory()->getModelInstance('Varien_Data_Form');
 
         $sections = $this->_systemConfig->getSections();
         if (empty($sections)) {
@@ -161,16 +141,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                 continue;
             }
 
-            foreach ($section['groups'] as $groups) {
-                /** @var array $groups */
-                usort($groups, array($this, '_sortForm'));
-                foreach ($groups as $group){
-                    /* @var $group array */
-                    if (false == $this->_canShowField($group)) {
-                        continue;
-                    }
-                    $this->_initGroup($group, $section, $form);
+            $groups = $section['groups'];
+            usort($groups, array($this, '_sortForm'));
+
+            foreach ($groups as $group){
+                /* @var $group array */
+                if (false == $this->_canShowField($group)) {
+                    continue;
                 }
+                $this->_initGroup($group, $section, $form);
             }
         }
         $this->setForm($form);
@@ -200,11 +179,11 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
 
             $helperName = $this->_systemConfig->getAttributeModule($section, $group);
 
-            $fieldsetConfig = array('legend' => $this->_getHelperRegistry()->get($helperName)->__($group['label']));
+            $fieldsetConfig = array('legend' => $this->_getHelperFactory()->get($helperName)->__($group['label']));
             if (isset($group['comment'])) {
-                $fieldsetConfig['comment'] = $this->_getHelperRegistry()->get($helperName)->__($group['comment']);
+                $fieldsetConfig['comment'] = $this->_getHelperFactory()->get($helperName)->__($group['comment']);
             }
-            if (array_key_exists($group, 'expanded')) {
+            if (isset($group['expanded'])) {
                 $fieldsetConfig['expanded'] = (bool)$group['expanded'];
             }
 
@@ -265,39 +244,36 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $configDataAdditionalGroups = array();
 
         $fields = isset($group['fields']) ? $group['fields'] : array();
-        foreach ($fields as $elements) {
-            /** @var array $elements  */
+        /** @var array $elements  */
+        // sort either by sortOrder or by child node values by passing the sortOrder
+        $elements = $this->_sortElements($group, $fieldset, $fields);
 
-            // sort either by sortOrder or by child node values by passing the sortOrder
-            $elements = $this->_sortElements($group, $fieldset, $elements);
-
-            foreach ($elements as $element) {
-                if (false == $this->_canShowField($element)) {
-                    continue;
-                }
-
-                /**
-                 * Look for custom defined field path
-                 */
-                $path = (isset($element['config_path'])) ? $element['config_path'] : '';
-
-                if (empty($path)) {
-                    $path = $section['id'] . '/' . $group['id'] . '/' . $fieldPrefix . $element['id'];
-                } elseif (strrpos($path, '/') > 0) {
-                    // Extend config data with new section group
-                    $groupPath = substr($path, 0, strrpos($path, '/'));
-                    if (false == isset($configDataAdditionalGroups[$groupPath])) {
-                        $this->_configData = $this->_configDataObject->extendConfig(
-                            $groupPath,
-                            false,
-                            $this->_configData
-                        );
-                        $configDataAdditionalGroups[$groupPath] = true;
-                    }
-                }
-
-                $this->_initElement($element, $fieldset, $group, $section, $path, $fieldPrefix, $labelPrefix);
+        foreach ($elements as $element) {
+            if (false == $this->_canShowField($element)) {
+                continue;
             }
+
+            /**
+             * Look for custom defined field path
+             */
+            $path = (isset($element['config_path'])) ? $element['config_path'] : '';
+
+            if (empty($path)) {
+                $path = $section['id'] . '/' . $group['id'] . '/' . $fieldPrefix . $element['id'];
+            } elseif (strrpos($path, '/') > 0) {
+                // Extend config data with new section group
+                $groupPath = substr($path, 0, strrpos($path, '/'));
+                if (false == isset($configDataAdditionalGroups[$groupPath])) {
+                    $this->_configData = $this->_configDataObject->extendConfig(
+                        $groupPath,
+                        false,
+                        $this->_configData
+                    );
+                    $configDataAdditionalGroups[$groupPath] = true;
+                }
+            }
+
+            $this->_initElement($element, $fieldset, $group, $section, $path, $fieldPrefix, $labelPrefix);
         }
         return $this;
     }
@@ -333,7 +309,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _initElement($element, $fieldset, $group, $section, $path, $fieldPrefix = '', $labelPrefix = '')
     {
-        $elementId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $element->getName();
+        $elementId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $element['id'];
 
         if (array_key_exists($path, $this->_configData)) {
             $data = $this->_configData[$path];
@@ -350,9 +326,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $helperName = $this->_systemConfig->getAttributeModule($section, $group, $element);
         $fieldType = isset($element['type']) ? $element['type'] : 'text';
         $name = 'groups[' . $group['id'] . '][fields][' . $fieldPrefix . $element['id'] . '][value]';
-        $label = $this->_getHelperRegistry()->get($helperName)->__($labelPrefix)
-            . ' ' . $this->_getHelperRegistry()->get($helperName)->__((string)$element['label']);
-        $hint = isset($element['hint']) ? $this->_getHelperRegistry()->get($helperName)->__($element['hint']) : '';
+        $label = $this->_getHelperFactory()->get($helperName)->__($labelPrefix)
+            . ' ' . $this->_getHelperFactory()->get($helperName)->__((string)$element['label']);
+        $hint = isset($element['hint']) ? $this->_getHelperFactory()->get($helperName)->__($element['hint']) : '';
 
         if (isset($element['backend_model'])) {
             $data = $this->_fetchBackendModelData($element, $path, $data);
@@ -492,7 +468,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $field->addClass($element['validate']);
         }
 
-        if ('multiselect' === $element['type'] && isset($element['can_be_empty'])) {
+        if (isset($element['type']) && 'multiselect' === $element['type'] && isset($element['can_be_empty'])) {
             $field->setCanBeEmpty(true);
         }
     }
@@ -587,7 +563,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                     }
                 }
             } else {
-                $comment = $this->_getHelperRegistry()->get($helper)->__($element['comment']);
+                $comment = $this->_getHelperFactory()->get($helper)->__($element['comment']);
             }
         }
         return $comment;
@@ -603,7 +579,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected function _prepareFieldTooltip($element, $helper)
     {
         if (isset($element['tooltip'])) {
-            return $this->_getHelperRegistry()->get($helper)->__($element['tooltip']);
+            return $this->_getHelperFactory()->get($helper)->__($element['tooltip']);
         } elseif (isset($element['tooltip_block'])) {
             return $this->getLayout()->createBlock($element['tooltip_block'])->toHtml();
         }
@@ -681,14 +657,13 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $ifModuleEnabled = isset($field['if_module_enabled']) ?  trim($field['if_module_enabled']) : false;
 
         if ($ifModuleEnabled &&
-            false == $this->_getHelperRegistry()->get('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
+            false == $this->_getHelperFactory()->get('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
             return false;
         }
-        $showInDefault = array_key_exists($field, 'showInDefault') ? (bool)$field['showInDefault'] : false;
-        $showInWebsite = array_key_exists($field, 'showInWebsite') ? (bool)$field['showInWebsite'] : false;
-        $showInStore = array_key_exists($field, 'showInStore') ? (bool)$field['showInStore'] : false;
-        $hideIfSingleStore = array_key_exists($field, 'hide_in_single_store_mode') ?
-            (int)$field['hide_in_single_store_mode'] : 0;
+        $showInDefault = isset($field['showInDefault']) ? (bool)$field['showInDefault'] : false;
+        $showInWebsite = isset($field['showInWebsite']) ? (bool)$field['showInWebsite'] : false;
+        $showInStore = isset($field['showInStore']) ? (bool)$field['showInStore'] : false;
+        $hideIfSingleStore = isset($field['hide_in_single_store_mode']) ? (int)$field['hide_in_single_store_mode'] : 0;
 
         $fieldIsDisplayable = $showInDefault || $showInWebsite || $showInStore;
 
@@ -741,8 +716,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     public function getScopeLabel($element)
     {
-        $showInStore = array_key_exists($element, 'showInStore') ? (int)$element['showInStore'] : 0;
-        $showInWebsite = array_key_exists($element, 'showInWebsite') ? (int)$element['showInWebsite'] : 0;
+        $showInStore = isset($element['showInStore']) ? (int)$element['showInStore'] : 0;
+        $showInWebsite = isset($element['showInWebsite']) ? (int)$element['showInWebsite'] : 0;
 
         if ($showInStore == 1) {
             return $this->_scopeLabels[self::SCOPE_STORES];

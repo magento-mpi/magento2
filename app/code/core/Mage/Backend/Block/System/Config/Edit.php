@@ -38,7 +38,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     {
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
-            Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
         parent::__construct($data);
 
