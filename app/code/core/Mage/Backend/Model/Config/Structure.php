@@ -63,6 +63,16 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Get absolute path to the XML-schema file
+     *
+     * @return string
+     */
+    public function getPerFileSchemaFile()
+    {
+        return __DIR__ . '/Structure/system_file.xsd';
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom
