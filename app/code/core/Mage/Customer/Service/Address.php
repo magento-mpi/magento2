@@ -56,7 +56,7 @@ class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
 
         /** @var Mage_Customer_Model_Address $address */
         $address = $this->_config->getModelInstance('Mage_Customer_Model_Address');
-        $address->setData($addressData);
+        $this->_setDataUsingMethods($address, $addressData);
         $address->setCustomerId($customerId);
 
         $this->_validate($address, 'create');
@@ -107,7 +107,7 @@ class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
     public function update($addressId, array $addressData)
     {
         $address = $this->_getById($addressId);
-        $address->addData($addressData);
+        $this->_setDataUsingMethods($address, $addressData);
 
         $this->_validate($address, 'update');
         $address->save();

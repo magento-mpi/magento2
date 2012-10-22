@@ -9,8 +9,17 @@
             </rule>
             <rule name="check_eav">
                 <entity_constraints>
-                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
-                    <constraint alias="eav_backend_validator" class="Mage_Eav_Model_Validator_Attribute_Backend" />
+                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data">
+                        <!--
+                            @todo Remove store_id from black list when conflict of responsibilities between
+                            backend models and validation mechanism will be resolved
+                        -->
+                        <method name="setAttributesBlackList">
+                            <argument>
+                                <option>store_id</option>
+                            </argument>
+                        </method>
+                    </constraint>
                 </entity_constraints>
             </rule>
             <rule name="read_only_properties_for_create">

@@ -40,7 +40,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     {
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->setData($customerData);
+        $this->_setDataUsingMethods($customer, $customerData);
         $this->_preparePasswordForSave($customer, $customerData);
         $this->_save($customer, $customerData, 'create');
 
@@ -60,7 +60,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         $customer = $this->_loadCustomerById($customerId);
 
         if (!empty($customerData)) {
-            $customer->addData($customerData);
+            $this->_setDataUsingMethods($customer, $customerData);
             $this->_save($customer, $customerData, 'update');
             $this->_changePassword($customer, $customerData);
         }
