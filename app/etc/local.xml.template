@@ -20,7 +20,7 @@
             <!-- Cryptography key, used to encrypt sensitive information. -->
             <key>{{key}}</key>
         </crypt>
-        <!-- Whether to disable modules in 'local' folder. Put "1" or "true" to disable. -->
+        <!-- Whether to disable modules in 'local' code pool. Put "1" or "true" to disable. -->
         <disable_local_modules>false</disable_local_modules>
         <resources>
             <db>
@@ -30,21 +30,24 @@
             </db>
             <default_setup>
                 <connection>
-                    <!-- Host of DB backend. For MySQL it can be IP, domain or unix socket. -->
+                    <!-- Endpoint to connect to DB backend. For MySQL it can be IP (e.g. 127.0.0.1), domain with
+                        optional port (e.g. mysql.example.com or mysql.example.com:3306) or unix socket
+                        (e.g. /var/lib/mysql/mysql.sock). -->
                     <host>{{db_host}}</host>
-                    <!-- User name for DB backend connection. -->
+                    <!-- MySQL unix socket as endpoint to DB backend. If used instead of '<host>', then remove
+                        the latter one. -->
+                    <!-- <unix_socket><![CDATA[/var/lib/mysql/mysql.sock]]></unix_socket> -->
                     <username>{{db_user}}</username>
-                    <!-- User password for DB backend connection. -->
                     <password>{{db_pass}}</password>
-                    <!-- Database to be used at DB backend. -->
                     <dbname>{{db_name}}</dbname>
                     <!-- Database statements to be executed at DB backend upon connection establishment.
-                        Multiple statements can be entered, if separated with a semicolon. -->
+                        For MySQL multiple statements can be entered, if separated with a semicolon. -->
                     <initStatements>{{db_init_statements}}</initStatements>
                     <!-- DB model layer. Used to determine names of resource helpers and
                         specific installs/upgrades for a DB vendor. -->
                     <model>{{db_model}}</model>
-                    <!-- Legacy: type of DB connection. For Magento 1.6 backwards compatibility only. -->
+                    <!-- Legacy: type of DB connection. If you have extensions for Magento 1.6 and earlier, then put
+                        'pdo_mysql' there for backwards compatibility. -->
                     <type>{{db_type}}</type>
                     <!-- Specific type of PDO being used. MySQL doesn't have specifics, so it should be empty. -->
                     <pdoType>{{db_pdo_type}}</pdoType>
