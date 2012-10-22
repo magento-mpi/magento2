@@ -30,12 +30,12 @@
     </div>
     <script type="text/javascript">//<![CDATA[
     (function ($) {
-        $.mage.event.observe('mage.captcha.initialize', function (e, o) {
-            o.url = '<?php echo $this->getRefreshUrl() ?>',
-            o.formSelector = '#<?php echo $this->getFormId() ?>',
-            o.imageSelector = '#captcha-reload'
+        head.js("<?php echo $this->getSkinUrl('Mage_Captcha::captcha.js') ?>",function() {
+            $('#captcha-reload').captcha({
+                url: '<?php echo $this->getRefreshUrl()?>',
+                formSelector: '#<?php echo $this->getFormId()?>'
+            });
         });
-        $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Captcha::captcha.js') ?>");
     })(jQuery);
     //]]></script>
 </li>

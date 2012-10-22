@@ -9,34 +9,33 @@
 
 /*jshint browser:true jquery:true*/
 
-(function ($) {
-    $(document).ready(function () {
-        var captcha = {
-            url: null,
-            formSelector: null,
-            imageSelector: null,
+(function ($, undefined) {
+    $.widget('mage.captcha', {
+        options: {
             refreshClass: 'refreshing'
-        };
-        $.mage.event.trigger("mage.captcha.initialize", captcha);
-        $(captcha.imageSelector).on('click', function () {
-            $(captcha.imageSelector).addClass(captcha.refreshClass);
+        },
+        _create: function () {
+            this.element.on('click', $.proxy(this.refresh, this));
+        },
+        refresh: function () {
+            this.element.addClass(this.options.refreshClass);
             $.ajax({
-                url: captcha.url,
+                url: this.options.url,
                 type: 'post',
                 dataType: 'json',
-                data: {'formId': captcha.formSelector.replace(/^(#|.)/, "")},
+                context: this,
+                data: {'formId': this.options.formSelector.replace(/^(#|.)/, "")},
                 success: function (response) {
                     if (response.imgSrc) {
-                        $(captcha.formSelector).attr('src', response.imgSrc);
+                        $(this.options.formSelector).attr('src', response.imgSrc);
                     }
-                    $(captcha.imageSelector).removeClass(captcha.refreshClass);
+                    this.element.removeClass(this.options.refreshClass);
                 },
                 error: function () {
-                    $(captcha.imageSelector).removeClass(captcha.refreshClass);
+                    this.element.removeClass(this.options.refreshClass);
                 }
             });
-        });
-    });
+        }
+    })
 })(jQuery);
-
 
