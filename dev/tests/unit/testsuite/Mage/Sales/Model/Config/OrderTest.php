@@ -2,9 +2,13 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Mage_Sales
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Mage_Sales_Model_Config_OrderedTest extends PHPUnit_Framework_TestCase
 {
     /**

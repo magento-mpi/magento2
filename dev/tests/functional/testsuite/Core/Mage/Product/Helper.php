@@ -434,7 +434,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
-        if ($isSave){
+        if ($isSave) {
             $this->saveForm('save');
         }
     }
@@ -724,24 +724,59 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
             $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+                    'Product must be contains ' . $needCount .
+                    ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
-        $optionId = '';
-        $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
-        $id = explode('_', $id);
-        foreach ($id as $value) {
-            if (is_numeric($value)) {
-                $optionId = $value;
-            }
-        }
-        // @TODO Need implement full verification for custom options with type = select (not tested rows)
+        $customOptionNumber = 1;
         foreach ($customOptionData as $value) {
+            //Get custom option ID
+            $optionId = '';
+            $elementId = $this->getAttribute($fieldSetXpath . "[{$customOptionNumber}]/@id");
+            $elementId = explode('_', $elementId);
+            foreach ($elementId as $id) {
+                if (is_numeric($id)) {
+                    $optionId = $id;
+                }
+            }
+            //Get custom option data
             if (is_array($value)) {
+                //Verify custom option
                 $this->addParameter('optionId', $optionId);
                 $this->verifyForm($value, 'custom_options');
-                $optionId--;
+                //Get count of rows
+                $rowsQty = 0;
+                $fieldRowsXpath = $this->_getControlXpath('field', 'custom_options_rows');
+                if ($this->isElementPresent($fieldRowsXpath)) {
+                    $rowsQty = $this->getXpathCount($fieldRowsXpath);
+                }
+                //Count rows in data
+                $needCountRow = 0;
+                while (isset($value['custom_option_row_' . ($needCountRow+1)])) {
+                    $needCountRow++;
+                }
+                if ($needCountRow != $rowsQty) {
+                    $this->addVerificationMessage(
+                            'Product custom option must be contains ' . $needCountRow .
+                            ' Custom Option(s), but contains ' . $rowsQty);
+                    return false;
+                }
+                $i = 1;
+                while (isset($value['custom_option_row_' . $i]) && $i <= $needCountRow) {
+                    $elementId = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
+                    $elementId = explode('_', $elementId);
+                    $rowId = '';
+                    foreach ($elementId as $id) {
+                        if (is_numeric($id)) {
+                            $rowId = $id;
+                        }
+                    }
+                    $this->addParameter('rowId', $rowId);
+                    $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
+                    $i++;
+                }
             }
+            $customOptionNumber++;
         }
         return true;
     }
@@ -1032,7 +1067,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
+    protected function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
     {
         $xpathArray = array();
         if (array_key_exists('custom_options_price_type', $value)) {
@@ -1064,7 +1099,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _defineXpathForAdditionalOptions(array $value, $i, $xpath)
+    protected function _defineXpathForAdditionalOptions(array $value, $i, $xpath)
     {
         $xpathArray = array();
         $count = 0;
@@ -1107,7 +1142,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
+    protected function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {
         $xpathArray = array();
         $count = 0;

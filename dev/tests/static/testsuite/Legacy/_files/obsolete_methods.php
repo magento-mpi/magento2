@@ -95,6 +95,7 @@ return array(
     '_sendUploadResponse' => array('class_scope' => 'Mage_Adminhtml_CustomerController'),
     '_sendUploadResponse' => array('class_scope' => 'Mage_Adminhtml_Newsletter_SubscriberController'),
     '_setAttribteValue',
+    '_usePriceIncludeTax',
     'addBackupedFilter',
     'addConfigField' => array('class_scope' => 'Mage_Core_Model_Resource_Setup'),
     'addConstraint' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
@@ -143,6 +144,7 @@ return array(
     'cloneIndexTable' => array('class_scope' => 'Mage_Index_Model_Resource_Abstract'),
     'convertOldTaxData' => array('class_scope' => 'Mage_Tax_Model_Resource_Setup'),
     'convertOldTreeToNew' => array('class_scope' => 'Mage_Catalog_Model_Resource_Setup'),
+    'convertZendToStrftime' => array('class_scope' => 'Varien_Date'),
     'countChildren' => array('class_scope' => 'Mage_Core_Block_Abstract'),
     'crear',
     'createOrderItem' => array('class_scope' => 'Mage_CatalogInventory_Model_Observer'),
@@ -181,6 +183,7 @@ return array(
     'getConfig' => array('class_scope' => 'Mage_Eav_Model_Entity_Attribute_Abstract'),
     'getCustomerData' => array('class_scope' => 'Mage_Adminhtml_Block_Sales_Order_Create_Form_Account'),
     'getDataForSave' => array('class_scope' => 'Mage_Wishlist_Model_Item'),
+    'getDateStrFormat' => array('class_scope' => 'Mage_Core_Model_Locale'),
     'getDebug' => array('class_scope' => 'Mage_Ogone_Model_Api'),
     'getDebug' => array('class_scope' => 'Mage_Paypal_Model_Api_Abstract'),
     'getDirectOutput' => array('class_scope' => 'Mage_Core_Model_Layout'),
@@ -215,6 +218,7 @@ return array(
     'getMergedCssUrl',
     'getMergedJsUrl',
     'getMinQueryLenght',
+    'getNeedUsePriceExcludeTax' => array('suggestion' => 'Mage_Tax_Model_Config::priceIncludesTax()'),
     'getOneBalanceTotal',
     'getOrderHtml' => array('class_scope' => 'Mage_GoogleAnalytics_Block_Ga'),
     'getOrderId' => array('class_scope' => 'Mage_Checkout_Block_Onepage_Success'),
@@ -250,6 +254,7 @@ return array(
     'getTaxAmount' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
     'getTaxRatesByProductClass' => array('suggestion' => '_getAllRatesByProductClass'),
     'getTemplateFilename' => array('suggestion' => 'getFilename'),
+    'getTimeStrFormat' => array('class_scope' => 'Mage_Core_Model_Locale'),
     'getTotalModels' => array('class_scope' => 'Mage_Sales_Model_Quote_Address'),
     'getTrackId' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
     'getTrackingInfoByOrder' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
@@ -327,6 +332,7 @@ return array(
     'setJoinFlag' => array('class_scope' => 'Mage_Tag_Model_Resource_Product_Collection'),
     'setJoinFlag' => array('class_scope' => 'Mage_Tag_Model_Resource_Tag_Collection'),
     'setOrderId' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
+    'setNeedUsePriceExcludeTax' => array('suggestion' => 'Mage_Tax_Model_Config::setPriceIncludesTax()'),
     'setWatermarkHeigth' => array('suggestion'  => 'setWatermarkHeight'),
     'getWatermarkHeigth' => array('suggestion'  => 'getWatermarkHeight'),
     'setParentBlock',
@@ -360,5 +366,60 @@ return array(
     'validateDataArray' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
     'validateFile' => array('class_scope' => 'Mage_Core_Model_Design_Package'),
     'validateOrder' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
-    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product')
+    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product'),
+    'fetchUpdatesByHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Resource_Layout', 'suggestion' => 'Mage_Core_Model_Resource_Layout_Update'
+    ),
+    'getElementClass' => array('class_scope' => 'Mage_Core_Model_Layout_Update'),
+    'addUpdate' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asArray' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asString' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'addHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'removeHandle' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'addPageHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleParents' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'pageHandleExists' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandles' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandlesHierarchy' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleLabel' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getPageHandleType' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'load' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'asSimplexml' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getFileLayoutUpdatesXml' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    ),
+    'getContainers' => array(
+        'class_scope' => 'Mage_Core_Model_Layout_Update', 'suggestion' => 'Mage_Core_Model_Layout_Merge'
+    )
 );

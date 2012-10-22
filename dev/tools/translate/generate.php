@@ -58,7 +58,7 @@ foreach ($_SERVER['argv'] as $arg) {
 }
 
 if (!isset($args['output'])) {
-    die(USAGE . 'Please indicate output parametr' ."\n");
+    die(USAGE . 'Please indicate output parameter' ."\n");
 }
 if (!is_writeable(dirname($args['output']))) {
     die(USAGE . sprintf('Output dir %s isn\'t writeable', realpath(dirname($args['output']))) ."\n");
@@ -303,17 +303,25 @@ function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array(
         $attributes = $node->attributes();
         $nodeModule = isset($attributes['module']) ? (string)$attributes['module'] : $module;
         if (isset($attributes['translate'])) {
-            $translateNodes = explode(' ', $attributes['translate']);
-
-            foreach ($translateNodes as $nodeName) {
-                if (!(string)$node->$nodeName) {
-                    continue;
-                }
+            if (is_numeric($attributes['translate']) || $attributes['translate'] == "true") {
                 $translate[] = array(
-                    'module'    => $nodeModule,
-                    'value'     => (string)$node->$nodeName,
-                    'xpath'     => '//' . join('/', $xPath + array($nodeName))
+                    'module' => $nodeModule,
+                    'value' => (string) $node,
+                    'xpath' => '//' . join('/', $xPath)
                 );
+            } else {
+                $translateNodes = explode(' ', $attributes['translate']);
+
+                foreach ($translateNodes as $nodeName) {
+                    if (!(string)$node->$nodeName) {
+                        continue;
+                    }
+                    $translate[] = array(
+                        'module'    => $nodeModule,
+                        'value'     => (string)$node->$nodeName,
+                        'xpath'     => '//' . join('/', $xPath + array($nodeName))
+                    );
+                }
             }
         }
         xmlFindTranslate($node, $translate, $nodeModule, $xPath);

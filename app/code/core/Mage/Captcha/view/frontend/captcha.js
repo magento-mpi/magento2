@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true*/
-
 (function ($, undefined) {
     $.widget('mage.captcha', {
         options: {
@@ -36,6 +34,6 @@
                 }
             });
         }
-    })
+    });
 })(jQuery);
 

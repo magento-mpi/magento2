@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /**************************** CONFIGURABLE PRODUCT **************************/
-/*global Product:true*/
+/*global Product:true Option:true window:true*/
 /*jshint jquery:true*/
 (function ($) {
     $(function ($, undefined) {
@@ -103,7 +103,7 @@
                 }
             };
 
-            this.configure = function (event) {
+            this.configure = function () {
                 self.configureElement(this);
             };
 
