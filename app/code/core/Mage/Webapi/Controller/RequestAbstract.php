@@ -32,14 +32,6 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
     protected $_apiType;
 
     /**
-     * Identify versions of modules that should be used for API configuration file generation.
-     * This method should be implemented for concrete API type request.
-     *
-     * @return array
-     */
-    abstract public function getRequestedResources();
-
-    /**
      * Create request object. Factory method for API requests.
      *
      * @param string $apiType

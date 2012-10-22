@@ -74,4 +74,27 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
     }
+
+    /**
+     * Convert singular form of word to plural.
+     *
+     * @param string $singular
+     * @return string
+     */
+    public function convertSingularToPlural($singular)
+    {
+        $plural = $singular;
+        $conversionMatrix = array(
+            '/(x|ch|ss|sh)$/i' => "$1es",
+            '/([^aeiouy]|qu)y$/i' => "$1ies",
+            '/s$/i' => "s",
+            '/$/' => "s"
+        );
+        foreach ($conversionMatrix as $singularPattern => $pluralPattern) {
+            if (preg_match($singularPattern, $singular)) {
+                $plural = preg_replace($singularPattern, $pluralPattern, $singular);
+            }
+        }
+        return $plural;
+    }
 }

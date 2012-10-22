@@ -23,14 +23,19 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /** @var string */
     protected $_resourceType;
 
+    /** @var string */
+    protected $_resourceVersion;
+
     /**
      * Set route resource
      *
      * @param string $resourceName
+     * @return Mage_Webapi_Controller_Router_Route_Rest
      */
     public function setResourceName($resourceName)
     {
         $this->_resourceName = $resourceName;
+        return $this;
     }
 
     /**
@@ -47,10 +52,12 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
      * Set route resource type
      *
      * @param string $resourceType
+     * @return Mage_Webapi_Controller_Router_Route_Rest
      */
     public function setResourceType($resourceType)
     {
         $this->_resourceType = $resourceType;
+        return $this;
     }
 
     /**
@@ -61,5 +68,27 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     public function getResourceType()
     {
         return $this->_resourceType;
+    }
+
+    /**
+     * Set route resource version
+     *
+     * @param int $resourceVersion
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    public function setResourceVersion($resourceVersion)
+    {
+        $this->_resourceVersion = $resourceVersion;
+        return $this;
+    }
+
+    /**
+     * Get route resource version
+     *
+     * @return int
+     */
+    public function getResourceVersion()
+    {
+        return $this->_resourceVersion;
     }
 }

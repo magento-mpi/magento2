@@ -1,7 +1,8 @@
 <?php
 use Zend\Code\Scanner\DirectoryScanner,
     Zend\Code\Reflection\ClassReflection,
-    Zend\Server\Reflection;
+    Zend\Server\Reflection,
+    Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Magento API Resources config.
@@ -294,6 +295,7 @@ class Mage_Webapi_Model_Config_Resource
      * @param string $operationName
      * @return array|bool
      */
+    // TODO: Reimplement according to AutoDiscovery code generation
     public function getOperationDeprecationPolicy($operationName)
     {
         return isset($this->_data['operations'][$operationName])
@@ -318,14 +320,13 @@ class Mage_Webapi_Model_Config_Resource
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
-                    /** @var \Zend\Server\Reflection\ReflectionMethod $method */
-                    foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $method) {
-                        $methodName = $method->getName();
-                        $regEx = sprintf('/(%s)(V\d+)/', implode('|', $this->_getAllowedMethods()));
-                        if (preg_match($regEx, $methodName, $methodMatches)) {
-                            $operation = $methodMatches[1];
-                            $version = lcfirst($methodMatches[2]);
-                            $data['versions'][$version]['methods'][$operation] = $this->_getMethodData($method);
+                    /** @var ReflectionMethod $methodReflection */
+                    foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
+                        $method = $this->_getMethodNameWithoutVersionSuffix($methodReflection);
+                        $version = $this->_getMethodVersion($methodReflection);
+                        if ($method && $version) {
+                            $data['versions'][$version]['methods'][$method] = $this->_getMethodData($methodReflection);
+                            $data['rest_routes'] = $this->_generateRestRoutes($methodReflection);
                         }
                     }
                     // Sort versions array for further fallback.
@@ -343,22 +344,209 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
-     * Get all modules routes defined in config
+     * Identify API method version by its reflection.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return string|bool Method version with 'v' prefix on success.
+     *      false is returned in case when method should not be exposed via API.
+     */
+    protected function _getMethodVersion(ReflectionMethod $methodReflection)
+    {
+        $methodVersion = false;
+        $methodNameWithSuffix = $methodReflection->getName();
+        $regularExpression = $this->_getMethodNameRegularExpression();
+        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
+            $methodVersion = lcfirst($methodMatches[2]);
+        }
+        return $methodVersion;
+    }
+
+    /**
+     * Identify API method name without version suffix by its reflection.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return string|bool Method name without version suffix on success.
+     *      false is returned in case when method should not be exposed via API.
+     */
+    protected function _getMethodNameWithoutVersionSuffix(ReflectionMethod $methodReflection)
+    {
+        $methodName = false;
+        $methodNameWithSuffix = $methodReflection->getName();
+        $regularExpression = $this->_getMethodNameRegularExpression();
+        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
+            $methodName = $methodMatches[1];
+        }
+        return $methodName;
+    }
+
+    /**
+     * Get regular expression to be used for method name separation into name itself and version.
+     *
+     * @return string
+     */
+    protected function _getMethodNameRegularExpression()
+    {
+        return sprintf('/(%s)(V\d+)/', implode('|', $this->_getAllowedMethods()));
+    }
+
+    protected function _generateRestRoutes(ReflectionMethod $methodReflection)
+    {
+        $routes = array();
+        $idParamName = $this->_getIdParamName($methodReflection);
+        $version = $this->_getMethodVersion($methodReflection);
+        $routePath = "/$version";
+        /** @var Mage_Webapi_Helper_Data $helper */
+        $helper = Mage::helper('Mage_Webapi_Helper_Data');
+        foreach ($this->getResourceNameParts($methodReflection->getDeclaringClass()->getName()) as $resourcePathPart) {
+            $routePath .= "/" . lcfirst($helper->convertSingularToPlural($resourcePathPart));
+        }
+        if ($idParamName) {
+            $routePath .= "/:$idParamName";
+        }
+        foreach ($this->_getPathCombinations($this->_getOptionalParamNames()) as $routeOptionalPart) {
+            $routes[$routePath . $routeOptionalPart] = array(
+                'resource_type' => $this->_getResourceTypeByMethod(
+                    $this->_getMethodNameWithoutVersionSuffix($methodReflection)),
+                'resource_version' => $version
+            );
+        }
+
+        return $routes;
+    }
+
+    /**
+     * Identify resource type by method name.
+     *
+     * @param string $methodName
+     * @return string 'collection' or 'item'
+     * @throws InvalidArgumentException When method does not match the list of allowed methods
+     */
+    protected function _getResourceTypeByMethod($methodName)
+    {
+        // TODO: Remove dependency on Mage_Webapi_Controller_Front_Rest
+        $collection = Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_COLLECTION;
+        $item = Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM;
+        $methodToResourceTypeMap = array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE => $item,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => $collection,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $item,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $collection,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => $item,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $collection,
+        );
+        if (!isset($methodToResourceTypeMap[$methodName])) {
+            throw new InvalidArgumentException(sprintf('"%s" method is not valid resource method.', $methodName));
+        }
+        return $methodToResourceTypeMap[$methodName];
+    }
+
+
+    /**
+     * Identify list of possible routes taking into account optional params.
+     *
+     * @param array $optionalParams
+     * @return array List of possible route params
+     */
+    // TODO: Can be improved to collect all possible combinations (in mixed order)
+    protected function _getPathCombinations($optionalParams)
+    {
+        $pathCombinations = array();
+        $currentPath = '';
+        $pathCombinations[] = $currentPath;
+        foreach ($optionalParams as $paramName) {
+            $currentPath .= "/$paramName/:$paramName";
+            $pathCombinations[] = $currentPath;
+        }
+        return $pathCombinations;
+    }
+
+    protected function _getOptionalParamNames()
+    {
+        // TODO: Implement
+        return array();
+    }
+
+    /**
+     * Identify ID param name if it is expected for the specified method.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool|string Return ID param name if it is expected; false otherwise.
+     * @throws LogicException If resource method interface does not contain required ID parameter.
+     */
+    protected function _getIdParamName(ReflectionMethod $methodReflection)
+    {
+        $idParamName = false;
+        $idFieldIsExpected = false;
+        if (!$this->_isSubresource($methodReflection)) {
+            /** Top level resource, not subresource */
+            $methodsWithIdExpected = array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+            );
+            $methodName = $this->_getMethodNameWithoutVersionSuffix($methodReflection);
+            if (in_array($methodName, $methodsWithIdExpected)) {
+                $idFieldIsExpected = true;
+            }
+        } else {
+            /**
+             * All subresources must have ID field:
+             * either subresource ID (for item operations) or parent resource ID (for collection operations)
+             */
+            $idFieldIsExpected = true;
+        }
+
+        if ($idFieldIsExpected) {
+            /** ID field must always be the first parameter of resource method */
+            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+            $methodInterfaces = $methodReflection->getPrototypes();
+            if (empty($methodInterfaces)) {
+                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
+                    $methodReflection->getName());
+            }
+            $methodInterface = reset($methodInterfaces);
+            /** @var ReflectionParameter $idParam */
+            $methodParams = $methodInterface->getParameters();
+            if (empty($methodParams)) {
+                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
+                    $methodReflection->getName());
+            }
+            $idParam = reset($methodParams);
+            $idParamName = $idParam->getName();
+        }
+        return $idParamName;
+    }
+
+    /**
+     * Identify if API resource is top level resource or subresource.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool
+     */
+    protected function _isSubresource(ReflectionMethod $methodReflection)
+    {
+        $className = $methodReflection->getDeclaringClass()->getName();
+        preg_match('/.*_Webapi_(.*)Controller*/', $className, $matches);
+        return count(explode('_', $matches[1])) > 1;
+    }
+
+    /**
+     * Get all modules routes defined in config.
      *
      * @return array
      */
     public function getRestRoutes()
     {
-        return array();
-        // TODO: Implement (current version is copy-paste from Rest config)
         $routes = array();
         $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
-
         foreach ($this->_data as $resourceName => $resourceData) {
-            foreach ($resourceData['routes'] as $routeData) {
-                $route = new Mage_Webapi_Controller_Router_Route_Rest($apiTypeRoutePath . $routeData['path']);
-                $route->setResourceName($resourceName);
-                $route->setResourceType($routeData['resource_type']);
+            foreach ($resourceData['rest_routes'] as $routePath => $routeData) {
+                $fullRoutePath = $apiTypeRoutePath . $routePath;
+                $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
+                $route->setResourceName($resourceName)
+                    ->setResourceType($routeData['resource_type'])
+                    ->setResourceVersion($routeData['resource_version']);
                 $routes[] =$route;
             }
         }
@@ -394,11 +582,11 @@ class Mage_Webapi_Model_Config_Resource
     /**
      * Retrieve method interface and documentation description.
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $method
+     * @param ReflectionMethod $method
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function _getMethodData(\Zend\Server\Reflection\ReflectionMethod $method)
+    protected function _getMethodData(ReflectionMethod $method)
     {
         $methodData = array(
             'documentation' => $method->getDescription(),
@@ -544,19 +732,34 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function translateResourceName($class)
     {
-        if (preg_match('/(.*)_Webapi_(.*)Controller*/', $class, $matches)) {
+        $resourceNameParts = $this->getResourceNameParts($class);
+        return lcfirst(implode('', $resourceNameParts));
+    }
+
+    /**
+     * Identify the list of resource name parts including subresources using class name.
+     *
+     * @param string $className
+     * @return array
+     * @throws InvalidArgumentException When class is not valid API resource.
+     */
+    protected function getResourceNameParts($className)
+    {
+        if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
             list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
             $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
 
-            $controllerNameParts = explode('_', $matches[2]);
-            if ($moduleName == $controllerNameParts[0]) {
-                array_shift($controllerNameParts);
+            $resourceNameParts = explode('_', $matches[2]);
+            if ($moduleName == $resourceNameParts[0]) {
+                /** Avoid duplication of words in resource name */
+                $moduleName = '';
             }
-
-            return lcfirst($moduleNamespace . $moduleName . implode('', $controllerNameParts));
+            $parentResourceName = $moduleNamespace . $moduleName . array_shift($resourceNameParts);
+            array_unshift($resourceNameParts, $parentResourceName);
+            return $resourceNameParts;
         }
 
-        throw new InvalidArgumentException(sprintf('Invalid controller class name "%s".', $class));
+        throw new InvalidArgumentException(sprintf('Invalid controller class name "%s".', $className));
     }
 
     /**

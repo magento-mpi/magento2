@@ -98,6 +98,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
         $this->_presentation = Mage::getModel('Mage_Webapi_Controller_Front_Rest_Presentation', $this);
+        $this->_initResourceConfig();
         return $this;
     }
 
@@ -109,19 +110,15 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         try {
             // TODO: Introduce Authentication
             $role = $this->_authenticate($this->getRequest());
-
             $route = $this->_matchRoute($this->getRequest());
-            $this->getRequest()->setResourceName($route->getResourceName());
-            $this->getRequest()->setResourceType($route->getResourceType());
 
-            $this->_initResourceConfig($this->getRequest()->getRequestedResources());
             $operation = $this->_getOperationName();
             $this->_checkOperationDeprecation($operation);
-            $resourceVersion = $this->_getOperationVersion($operation);
+            $resourceVersion = $this->_getResourceVersion($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
+            $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
 
             $this->_checkResourceAcl($role, $route->getResourceName(), $method);
 
@@ -161,7 +158,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
         $router->setRoutes($this->getResourceConfig()->getRestRoutes());
-        return $router->match($request);
+        $route = $router->match($request);
+        /** Initialize additional request parameters using data from route */
+        $this->getRequest()->setResourceName($route->getResourceName());
+        $this->getRequest()->setResourceType($route->getResourceType());
+        $this->getRequest()->setResourceVersion($route->getResourceVersion());
+        return $route;
     }
 
     /**
@@ -312,6 +314,23 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_renderer = Mage_Webapi_Controller_Response_Renderer::factory($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
+    }
+
+    /**
+     * Identify version of resource associated with requested operation.
+     *
+     * @return int
+     * @throws LogicException
+     */
+    protected function _getResourceVersion()
+    {
+        $resourceVersion = $this->getRequest()->getResourceVersion();
+        if (is_null($resourceVersion)) {
+            throw new LogicException(
+                "Please be sure to call Mage_Webapi_Controller_Request_Rest::setResourceVersion() first.");
+        }
+        $this->_validateVersionNumber($resourceVersion);
+        return $resourceVersion;
     }
 
     /**

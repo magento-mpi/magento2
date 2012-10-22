@@ -68,7 +68,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
-                $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
+                $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
                 $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
@@ -477,5 +477,31 @@ FAULT_MESSAGE;
     protected function _isSoapExtensionLoaded()
     {
         return class_exists('SoapServer', false);
+    }
+
+    /**
+     * Identify version of requested operation.
+     *
+     * This method required when there are two or more resource versions specified in request:
+     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
+     * In this case it is not obvious what version of requested operation should be used.
+     *
+     * @param string $operationName
+     * @return int
+     * @throws Mage_Webapi_Exception
+     */
+    protected function _getOperationVersion($operationName)
+    {
+        $requestedResources = $this->getRequest()->getRequestedResources();
+        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operationName);
+        if (!isset($requestedResources[$resourceName])) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
+        $this->_validateVersionNumber($version);
+        return $version;
     }
 }

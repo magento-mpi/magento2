@@ -214,15 +214,15 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * If there is no appropriate action found after fallback - exception is thrown.
      *
      * @param string $operationName
+     * @param int $requestedVersion
      * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    protected function _getVersionSuffix($operationName, $controllerInstance)
+    protected function _identifyVersionSuffix($operationName, $requestedVersion, $controllerInstance)
     {
-        $originalVersion = $this->_getOperationVersion($operationName);
-        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName, $originalVersion);
-        $methodVersion = $originalVersion;
+        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName, $requestedVersion);
+        $methodVersion = $requestedVersion;
         while ($methodVersion >= self::VERSION_MIN) {
             $versionSuffix = 'V' . $methodVersion;
             if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
@@ -231,40 +231,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             $methodVersion--;
         }
         throw new Mage_Webapi_Exception($this->getHelper()
-                ->__('The "%s" operation is not implemented in version %s', $operationName, $originalVersion),
+                ->__('The "%s" operation is not implemented in version %s', $operationName, $requestedVersion),
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-    }
-
-    /**
-     * Identify version of requested operation.
-     *
-     * This method required when there are two or more resource versions specified in request:
-     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
-     * In this case it is not obvious what version of requested operation should be used.
-     *
-     * @param string $operationName
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getOperationVersion($operationName)
-    {
-        $requestedResources = $this->getRequest()->getRequestedResources();
-        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operationName);
-        if (!isset($requestedResources[$resourceName])) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        if ($version > self::VERSION_MAX) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        return $version;
     }
 
     /**
@@ -307,5 +276,27 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     public function getHelper()
     {
         return $this->_helper;
+    }
+
+    /**
+     * Check if version number is from valid range.
+     *
+     * @param int $version
+     * @throws Mage_Webapi_Exception
+     */
+    protected function _validateVersionNumber($version)
+    {
+        // TODO: Validate version against maximum available version in resource instead of abstract VERSION_MAX
+        if ((int)$version > self::VERSION_MAX) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        } elseif ((int)$version < self::VERSION_MIN) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__("Resource version cannot be lower than %s.", self::VERSION_MIN),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        }
     }
 }
