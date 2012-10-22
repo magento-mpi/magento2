@@ -295,7 +295,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer = $this->_customerService->create($customerData['account']);
                 }
 
-
                 $actualAddressesIds = array();
                 foreach ($customerData['addresses'] as  $addressId => $addressData) {
                     if (is_numeric($addressId)) {
@@ -305,7 +304,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     }
                     $actualAddressesIds[] = $address->getId();
                 }
-
 
                 // @todo Deleting customer addresses should be implemented in service layer
                 $hasDeletedAddresses = false;

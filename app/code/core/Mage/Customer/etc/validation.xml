@@ -113,14 +113,14 @@
         <groups>
             <group name="create">
                 <uses>
-                    <use rule="check_eav"/>
                     <use rule="read_only_properties_for_create"/>
+                    <use rule="check_eav"/>
                 </uses>
             </group>
             <group name="update">
                 <uses>
-                    <use rule="check_eav"/>
                     <use rule="read_only_properties_for_update"/>
+                    <use rule="check_eav"/>
                 </uses>
             </group>
         </groups>

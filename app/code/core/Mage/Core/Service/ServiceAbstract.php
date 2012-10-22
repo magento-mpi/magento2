@@ -179,46 +179,6 @@ abstract class Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Remove forbidden fields for specified action
-     *
-     * @param string $module
-     * @param string $action
-     * @param array $data
-     */
-    protected function _removeForbiddenFields($module, $action, &$data)
-    {
-        $forbiddenFields = $this->_getForbiddenFields($module, $action);
-        if (!empty($forbiddenFields)) {
-            foreach (array_keys($data) as $dataKey) {
-                if (in_array($dataKey, $forbiddenFields)) {
-                    unset($data[$dataKey]);
-                }
-            }
-        }
-    }
-
-    /**
-     * Get forbidden fields for specified action
-     *
-     * @param string $module
-     * @param string $action
-     * @return array
-     */
-    protected function _getForbiddenFields($module, $action)
-    {
-        $forbiddenFields = array();
-
-        $xmlPath = sprintf(self::XML_CONFIG_FORBIDDEN_FIELDS_PATH, $module, $action);
-        /** @var Mage_Core_Model_Config_Element $forbiddenFields */
-        $forbiddenFieldsNodes = Mage::getConfig()->getNode($xmlPath);
-        if (!empty($forbiddenFieldsNodes)) {
-            $forbiddenFields = array_keys($forbiddenFieldsNodes->asArray());
-        }
-
-        return $forbiddenFields;
-    }
-
-    /**
      * Sets each value from data to entity Varien_Object using setter method.
      *
      * @param Varien_Object $entity
