@@ -92,10 +92,19 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeInstanceOf(get_class($diInstance), '_di', $model);
     }
 
-    public function testLoadAreaConfiguration()
+    /**
+     * @dataProvider loadAreaConfigurationDataProvider
+     * @param string $expectedAreaCode
+     * @param string $actualAreaCode
+     */
+    public function testLoadAreaConfiguration($expectedAreaCode, $actualAreaCode)
     {
-        $this->_prepareObjectManagerForLoadAreaConfigurationTests();
-        $this->_objectManager->loadAreaConfiguration(self::AREA_CODE);
+        $this->_prepareObjectManagerForLoadAreaConfigurationTests($expectedAreaCode);
+        if ($actualAreaCode) {
+            $this->_objectManager->loadAreaConfiguration($actualAreaCode);
+        } else {
+            $this->_objectManager->loadAreaConfiguration();
+        }
     }
 
     public function testCreate()
@@ -114,18 +123,27 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create Magento_ObjectManager_Zend instance for testLoadAreaConfiguration
+     *
+     * @param string $expectedAreaCode
      */
-    protected function _prepareObjectManagerForLoadAreaConfigurationTests()
+    protected function _prepareObjectManagerForLoadAreaConfigurationTests($expectedAreaCode)
     {
         /** @var $modelConfigMock Mage_Core_Model_Config */
         $this->_magentoConfig = $this->getMock('Mage_Core_Model_Config', array('getNode', 'loadBase'),
             array(), '', false
         );
+
+        $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false);
+        $nodeArrayValue = array('alias' => array(1));
+        $nodeMock->expects($this->exactly(2))
+            ->method('asArray')
+            ->will($this->returnValue($nodeArrayValue));
+
+        $expectedConfigPath = $expectedAreaCode . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE;
         $this->_magentoConfig->expects($this->exactly(2))
             ->method('getNode')
-            ->will($this->returnCallback(
-            array($this, 'getNodeCallback')
-        ));
+            ->with($expectedConfigPath)
+            ->will($this->returnValue($nodeMock));
 
         /** @var $instanceManagerMock Zend\Di\InstanceManager */
         $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager',
@@ -186,6 +204,8 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
     /**
      * Data Provider for method __construct($definitionsFile, $diInstance)
+     *
+     * @return array
      */
     public function constructDataProvider()
     {
@@ -226,6 +246,25 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data provider for testLoadAreaConfiguration
+     *
+     * @return array
+     */
+    public function loadAreaConfigurationDataProvider()
+    {
+        return array(
+            'specified area' => array(
+                '$expectedAreaCode' => self::AREA_CODE,
+                '$actualAreaCode'   => self::AREA_CODE,
+            ),
+            'default area' => array(
+                '$expectedAreaCode' => Magento_ObjectManager_Zend::CONFIGURATION_AREA,
+                '$actualAreaCode'   => null,
+            ),
+        );
+    }
+
+    /**
      * Callback to use instead Di::setDefinitionList
      *
      * @param Zend\Di\DefinitionList $definitions
@@ -259,27 +298,6 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Mage_Core_Model_Config', $className);
         $this->assertEmpty($arguments);
         return $this->_magentoConfig;
-    }
-
-    /**
-     * Check passed param and retrieve mock of node object
-     *
-     * @param string $path
-     * @return Varien_Object|PHPUnit_Framework_MockObject_MockObject
-     */
-    public function getNodeCallback($path)
-    {
-        $this->assertEquals(self::AREA_CODE . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE, $path);
-        $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false);
-        $nodeMock->expects($this->once())
-            ->method('asArray')
-            ->will($this->returnValue(
-            array(
-                'alias' => array(1)
-            )
-        ));
-
-        return $nodeMock;
     }
 
     /**

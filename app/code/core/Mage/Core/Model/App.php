@@ -269,6 +269,7 @@ class Mage_Core_Model_App
         $this->_initBaseConfig();
         $this->_initCache();
         $this->_config->init($options);
+        $this->_objectManager->loadAreaConfiguration();
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled($options)) {

@@ -499,9 +499,7 @@ final class Mage
         $definitionsFile = null,
         Magento_ObjectManager $objectManager = null
     ) {
-        if (!self::$_objectManager) {
-            self::$_objectManager = $objectManager ?: new Magento_ObjectManager_Zend($definitionsFile);
-        }
+        self::$_objectManager = $objectManager ?: new Magento_ObjectManager_Zend($definitionsFile);
     }
 
     /**
@@ -668,7 +666,6 @@ final class Mage
             self::$_app->init($code, $type, $options);
             Magento_Profiler::stop('self::app::init');
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-            Mage::setCurrentArea(Mage_Core_Model_App_Area::AREA_GLOBAL);
         }
         return self::$_app;
     }

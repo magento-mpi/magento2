@@ -38,5 +38,5 @@ interface Magento_ObjectManager
      * @param string $areaCode
      * @return mixed
      */
-    public function loadAreaConfiguration($areaCode);
+    public function loadAreaConfiguration($areaCode = null);
 }

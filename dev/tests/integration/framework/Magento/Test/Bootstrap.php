@@ -252,9 +252,6 @@ class Magento_Test_Bootstrap
      */
     public function initialize()
     {
-        Mage::setRoot();
-        Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
-
         $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
         $this->_resetApp();
         if ($resource) {

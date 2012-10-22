@@ -90,8 +90,12 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
      * @param string $areaCode
      * @return Magento_ObjectManager_Zend
      */
-    public function loadAreaConfiguration($areaCode)
+    public function loadAreaConfiguration($areaCode = null)
     {
+        if (!$areaCode) {
+            $areaCode = self::CONFIGURATION_AREA;
+        }
+
         /** @var $magentoConfiguration Mage_Core_Model_Config */
         $magentoConfiguration = $this->get('Mage_Core_Model_Config');
         $node = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
@@ -114,7 +118,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         /** @var $magentoConfiguration Mage_Core_Model_Config */
         $magentoConfiguration = $this->get('Mage_Core_Model_Config');
         $magentoConfiguration->loadBase();
-        $this->loadAreaConfiguration(self::CONFIGURATION_AREA);
+        $this->loadAreaConfiguration();
 
         return $this;
     }
