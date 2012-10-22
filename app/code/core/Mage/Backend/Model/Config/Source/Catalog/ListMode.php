@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +15,10 @@ class Mage_Backend_Model_Config_Source_Catalog_ListMode
     {
         return array(
             //array('value'=>'', 'label'=>''),
-            array('value'=>'grid', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Grid Only')),
-            array('value'=>'list', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('List Only')),
-            array('value'=>'grid-list', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Grid (default) / List')),
-            array('value'=>'list-grid', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('List (default) / Grid')),
+            array('value'=>'grid', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Grid Only')),
+            array('value'=>'list', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('List Only')),
+            array('value'=>'grid-list', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Grid (default) / List')),
+            array('value'=>'list-grid', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('List (default) / Grid')),
         );
     }
 }

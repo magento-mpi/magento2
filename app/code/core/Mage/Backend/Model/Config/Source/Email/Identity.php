@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +27,7 @@ class Mage_Backend_Model_Config_Source_Email_Identity
                 $sortOrder  = (int) isset($field['sortOrder'] ? $field['sort_order'] : null;
                 $this->_options[$sortOrder] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $nodeName),
-                    'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__($label)
+                    'label' => Mage::helper('Mage_Backend_Helper_Data')->__($label)
                 );
             }
             ksort($this->_options);

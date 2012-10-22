@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Adminhtml config system template source
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
@@ -32,7 +32,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
             Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Default Template');
+        $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('Default Template');
         $nodeName = str_replace('/', '_', $this->getPath());
         $templateLabelNode = Mage::app()->getConfig()->getNode(
             Mage_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
@@ -40,7 +40,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
         if ($templateLabelNode) {
             $module = (string)$templateLabelNode->getParent()->getAttribute('module');
             $templateName = Mage::helper($module)->__((string)$templateLabelNode);
-            $templateName = Mage::helper('Mage_Adminhtml_Helper_Data')->__('%s (Default)', $templateName);
+            $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('%s (Default)', $templateName);
         }
         array_unshift(
             $options,

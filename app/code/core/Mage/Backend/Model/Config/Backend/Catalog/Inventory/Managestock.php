@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Adminhtml Catalog Inventory Manage Stock Config Backend Model
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Backend_Catalog_Inventory_Managestock

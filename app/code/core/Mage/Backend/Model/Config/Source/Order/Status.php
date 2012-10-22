@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +35,7 @@ class Mage_Backend_Model_Config_Source_Order_Status
         $options = array();
         $options[] = array(
                'value' => '',
-               'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')
+               'label' => Mage::helper('Mage_Backend_Helper_Data')->__('-- Please Select --')
             );
         foreach ($statuses as $code=>$label) {
             $options[] = array(

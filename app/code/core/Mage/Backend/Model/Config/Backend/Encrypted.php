@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Encrypted config field backend model
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  */
 class Mage_Backend_Model_Config_Backend_Encrypted extends Mage_Core_Model_Config_Data
 {

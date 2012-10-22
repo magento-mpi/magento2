@@ -198,7 +198,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      */
     public function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
     {
-        $moduleName = 'Mage_Adminhtml';
+        $moduleName = 'Mage_Backend';
         if (isset($sectionNode['module'])) {
             $moduleName = (string) $sectionNode['module'];
         }
@@ -227,7 +227,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
         $sectionNode = isset($this->_data['sections'][$sectionName]) ? $this->_data['sections'][$sectionName] : null;
         if (!$sectionNode) {
             throw new InvalidArgumentException(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong section specified.')
+                Mage::helper('Mage_Backend_Helper_Data')->__('Wrong section specified.')
             );
         }
         $currentNode = $sectionNode;
@@ -236,7 +236,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
             $groupNode = isset($sectionNode['groups'][$groupName]) ? $sectionNode['groups'][$groupName] : null;
             if (!$groupNode) {
                 throw new InvalidArgumentException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong group specified.')
+                    Mage::helper('Mage_Backend_Helper_Data')->__('Wrong group specified.')
                 );
             }
             $currentNode = $groupNode;
@@ -247,12 +247,12 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
                 $fieldNode = isset($groupNode['fields'][$fieldName]) ? $groupNode['fields'][$fieldName] : null;
                 if (!$fieldNode) {
                     throw new InvalidArgumentException(
-                        Mage::helper('Mage_Adminhtml_Helper_Data')->__('Wrong field specified.')
+                        Mage::helper('Mage_Backend_Helper_Data')->__('Wrong field specified.')
                     );
                 }
                 $currentNode = $fieldNode;
             } else {
-                Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('The group node name must be specified with field node name.'));
+                Mage::throwException(Mage::helper('Mage_Backend_Helper_Data')->__('The group node name must be specified with field node name.'));
             }
         }
         $moduleName = $this->getAttributeModule($sectionNode, $groupNode, $fieldNode);

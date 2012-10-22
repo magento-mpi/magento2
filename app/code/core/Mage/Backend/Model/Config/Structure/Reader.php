@@ -57,7 +57,7 @@ class Mage_Backend_Model_Config_Structure_Reader
 
         $fileNames = $this->_appConfig->getModuleConfigurationFiles('adminhtml' . DIRECTORY_SEPARATOR . 'system.xml');
         $config = $this->_appConfig->getModelInstance(
-            'Mage_Backend_Model_Config_Structure', array('sourceFiles' =>$fileNames)
+            'Mage_Backend_Model_Config_Structure', array('sourceFiles' => $fileNames)
         );
 
         if ($this->_cache->canUse('config')) {

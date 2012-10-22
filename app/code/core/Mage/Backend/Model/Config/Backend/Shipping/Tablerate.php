@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backend model for shipping table rates CSV importing
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

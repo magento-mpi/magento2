@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +14,8 @@ class Mage_Backend_Model_Config_Source_Web_Protocol
     {
         return array(
             array('value'=>'', 'label'=>''),
-            array('value'=>'http', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('HTTP (unsecure)')),
-            array('value'=>'https', 'label'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('HTTPS (SSL)')),
+            array('value'=>'http', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('HTTP (unsecure)')),
+            array('value'=>'https', 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('HTTPS (SSL)')),
         );
     }
 

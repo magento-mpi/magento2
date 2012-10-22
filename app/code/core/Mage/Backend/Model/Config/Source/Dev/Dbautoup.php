@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +12,9 @@ class Mage_Backend_Model_Config_Source_Dev_Dbautoup
     public function toOptionArray()
     {
         return array(
-            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ALWAYS, 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Always (during development)')),
-            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ONCE,   'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Only Once (version upgrade)')),
-            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_NEVER,  'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Never (production)')),
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ALWAYS, 'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Always (during development)')),
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_ONCE,   'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Only Once (version upgrade)')),
+            array('value'=>Mage_Core_Model_Resource::AUTO_UPDATE_NEVER,  'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Never (production)')),
         );
     }
 

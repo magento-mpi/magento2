@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Config category source
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Source_Category
@@ -31,7 +31,7 @@ class Mage_Backend_Model_Config_Source_Category
 
         if ($addEmpty) {
             $options[] = array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select a Category --'),
+                'label' => Mage::helper('Mage_Backend_Helper_Data')->__('-- Please Select a Category --'),
                 'value' => ''
             );
         }

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +23,7 @@ class Mage_Backend_Model_Config_Source_Country
 
         $options = $this->_options;
         if(!$isMultiselect){
-            array_unshift($options, array('value'=>'', 'label'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('--Please Select--')));
+            array_unshift($options, array('value'=>'', 'label'=> Mage::helper('Mage_Backend_Helper_Data')->__('--Please Select--')));
         }
 
         return $options;

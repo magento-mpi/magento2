@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  * Adminhtml backend model for "Use Custom Admin Path" option
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Backend_Admin_Usecustompath extends Mage_Core_Model_Config_Data

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * System config file field backend model
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
@@ -80,7 +80,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     public function validateMaxSize($filePath)
     {
         if ($this->_maxFileSize > 0 && filesize($filePath) > ($this->_maxFileSize * 1024)) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Uploaded file is larger than %.2f kilobytes allowed by server', $this->_maxFileSize));
+            throw Mage::exception('Mage_Core', Mage::helper('Mage_Backend_Helper_Data')->__('Uploaded file is larger than %.2f kilobytes allowed by server', $this->_maxFileSize));
         }
     }
 
