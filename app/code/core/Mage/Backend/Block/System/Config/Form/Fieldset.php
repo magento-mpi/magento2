@@ -32,7 +32,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         $html = $this->_getHeaderHtml($element);
 
         foreach ($element->getSortedElements() as $field) {
-            $html.= $field->toHtml();
+            $html .= $field->toHtml();
         }
 
         $html .= $this->_getFooterHtml($element);
@@ -78,8 +78,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFieldsetCss()
     {
-        $configCss = (string)$this->getGroup()->fieldset_css;
-        return 'config collapseable'.($configCss ? ' ' . $configCss : '');
+        $group = $this->getGroup();
+        return 'config collapseable' . (isset($group['fieldset_css']) ? ' ' . $group['fieldset_css'] : '');
     }
 
     /**
@@ -166,7 +166,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                        }
                    };";
         }
-        return Mage::helper('Mage_Core_Helper_Js')->getScript($js);
+        return $this->_getHelperFactory()->get('Mage_Core_Helper_Js')->getScript($js);
     }
 
     /**
