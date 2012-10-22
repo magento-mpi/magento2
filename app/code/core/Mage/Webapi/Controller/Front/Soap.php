@@ -236,6 +236,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      * Generate WSDL content based on resource config.
      *
      * @return string
+     * @throws Mage_Webapi_Exception
      */
     protected function _getWsdlContent()
     {
@@ -249,9 +250,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
 
         $resources = array();
-        foreach ($requestedResources as $resourceName => $resourceVersion) {
-            $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
+        try {
+            foreach ($requestedResources as $resourceName => $resourceVersion) {
+                $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
+            }
+        } catch (Exception $e) {
+            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
+
         /** @var Mage_Webapi_Model_Soap_AutoDiscover $wsdlAutoDiscover */
         $wsdlAutoDiscover = Mage::getModel('Mage_Webapi_Model_Soap_AutoDiscover', array(
             'resource_config' => $this->getResourceConfig(),

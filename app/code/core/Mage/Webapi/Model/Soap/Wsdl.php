@@ -151,8 +151,12 @@ class Mage_Webapi_Model_Soap_Wsdl
                     $element = $this->_dom->createElement(self::XSD_NS . ':element');
                     $element->setAttribute('name', $parameterName);
                     $element->setAttribute('type', $parameterData['type']);
-                    $element->setAttribute('minOccurs', $parameterData['required']);
-                    $element->setAttribute('maxOccurs', 1);
+                    if (isset($parameterData['minOccurs'])) {
+                        $element->setAttribute('minOccurs', $parameterData['minOccurs']);
+                    }
+                    if (isset($parameterData['maxOccurs'])) {
+                        $element->setAttribute('maxOccurs', $parameterData['maxOccurs']);
+                    }
                     if (isset($parameterData['documentation'])) {
                         $this->addDocumentation($element, $parameterData['documentation']);
                     }

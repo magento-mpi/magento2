@@ -51,7 +51,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Get customers list.
      *
-     * @return Mage_Customer_Webapi_Customer_DataStructure
+     * @return Mage_Customer_Webapi_Customer_DataStructure[] array of customer data objects
      */
     public function listV1()
     {

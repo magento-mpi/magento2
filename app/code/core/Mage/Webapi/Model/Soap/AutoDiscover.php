@@ -6,31 +6,50 @@
  */
 class Mage_Webapi_Model_Soap_AutoDiscover
 {
-    /**
+    /**#@+
      * WSDL name and Service name attributes value
      */
     const WSDL_NAME = 'MagentoWSDL';
     const SERVICE_NAME = 'MagentoAPI';
+    const ARRAY_ITEM_KEY_NAME = 'item';
+    /**#@-*/
 
     /**
+     * API Resource config instance.
+     * Used to retrieve complex types data.
+     *
      * @var Mage_Webapi_Model_Config_Resource
-     * */
+     */
     protected $_resourceConfig;
 
     /**
+     * List of requested resources.
+     *
      * @var array
      */
     protected $_requestedResources;
 
     /**
+     * WSDL builder instance.
+     *
      * @var Mage_Webapi_Model_Soap_Wsdl
      */
     protected $_wsdl;
 
     /**
+     * Service port endpoint URL.
+     *
      * @var string
-     * */
+     */
     protected $_endpointUrl;
+
+    /**
+     * List of already processed complex types.
+     * Used to avoid cyclic recursion.
+     *
+     * @var array
+     */
+    protected $_processedTypes = array();
 
     /**
      * Construct auto discover with resource config and list of requested resources.
@@ -91,7 +110,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 $bindingInput = array('use' => 'literal');
                 $inputMessageName = $operationName . 'Request';
                 $inputTypeName = $operationName . 'Request';
-                $complexTypeForElementName = $inputTypeName . 'Type';
+                $complexTypeForElementName = ucfirst($inputTypeName);
                 $inputParameters = array();
                 $elementData = array(
                     'name' => $inputTypeName,
@@ -116,7 +135,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     $bindingOutput = array('use' => 'literal');
                     $outputMessageName = $operationName . 'Response';
                     $outputElementName = $operationName . 'Response';
-                    $complexTypeForElementName = $outputElementName . 'Type';
+                    $complexTypeForElementName = ucfirst($outputElementName);
                     $this->_wsdl->addElement(array(
                         'name' => $outputElementName,
                         'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeForElementName
@@ -151,21 +170,63 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     {
         $complexTypeParameters = array();
         foreach ($parameters as $parameterName => $parameterData) {
-            $isRequired = (isset($parameterData['required']) && $parameterData['required']) ? 1 : 0;
-            $typeNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
-            $type = $parameterData['type'];
-            if (!$this->_resourceConfig->isTypeSimple($type)) {
-                $typeData = $this->_resourceConfig->getDataType($type);
-                $this->_processComplexType($type, $typeData['parameters'], $typeData['documentation']);
+            $wsdlData = array('documentation' => $parameterData['documentation']);
+            $parameterType = $parameterData['type'];
+            if ($this->_resourceConfig->isArrayType($parameterType)) {
+                $this->_processComplexTypeArray($parameterType);
                 $typeNs = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
+                $parameterType = $this->_resourceConfig->translateArrayTypeName($parameterType);
+            } else {
+                $wsdlData['minOccurs'] = (isset($parameterData['required']) && $parameterData['required']) ? 1 : 0;
+                $wsdlData['maxOccurs'] = 1;
+                $typeNs = $this->_processComplexTypeParameter($parameterType);
             }
-            $complexTypeParameters[$parameterName] = array(
-                'type' => $typeNs . ':' . $type,
-                'required' => $isRequired,
-                'documentation' => $parameterData['documentation']
-            );
+            $wsdlData['type'] = $typeNs . ':' . $parameterType;
+            $complexTypeParameters[$parameterName] = $wsdlData;
         }
 
         $this->_wsdl->addComplexTypeWithParameters($name, $complexTypeParameters, $documentation);
+    }
+
+    /**
+     * Process complex type array.
+     *
+     * @param string $type
+     */
+    protected function _processComplexTypeArray($type)
+    {
+        $arrayItemType = $this->_resourceConfig->getArrayItemType($type);
+        $typeNs = $this->_processComplexTypeParameter($arrayItemType);
+        $arrayTypeParameters = array(
+            self::ARRAY_ITEM_KEY_NAME => array(
+                'type' => $typeNs . ':' . $arrayItemType,
+                'minOccurs' => 0,
+                'maxOccurs' => 'unbounded'
+            )
+        );
+        $arrayTypeName = $this->_resourceConfig->translateArrayTypeName($type);
+        $this->_wsdl->addComplexTypeWithParameters($arrayTypeName, $arrayTypeParameters);
+    }
+
+    /**
+     * Process complex type parameter type and return it's namespace.
+     * If parameter type is a complex type and has not been processed yet - recursively process it.
+     *
+     * @param string $type
+     * @return string string - xsd or tns
+     */
+    protected function _processComplexTypeParameter($type)
+    {
+        if (!$this->_resourceConfig->isTypeSimple($type) && !in_array($type, $this->_processedTypes)) {
+            $this->_processedTypes[] = $type;
+            $data = $this->_resourceConfig->getDataType($type);
+            $parameters = isset($data['parameters']) ? $data['parameters'] : array();
+            $documentation = isset($data['documentation']) ? $data['documentation'] : null;
+            $this->_processComplexType($type, $parameters, $documentation);
+        }
+
+        return $this->_resourceConfig->isTypeSimple($type)
+            ? Mage_Webapi_Model_Soap_Wsdl::XSD_NS
+            : Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
     }
 }

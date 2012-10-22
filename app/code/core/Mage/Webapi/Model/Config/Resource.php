@@ -444,17 +444,18 @@ class Mage_Webapi_Model_Config_Resource
      * In case parameter type is a complex type (class) - process it's properties.
      *
      * @param string $type
-     * @param string $previouslyProcessedType
      * @return string
      */
-    protected function _processType($type, $previouslyProcessedType = null)
+    protected function _processType($type)
     {
         $typeName = $this->normalizeType($type);
         if (!$this->isTypeSimple($typeName)) {
             $complexTypeName = $this->translateTypeName($type);
             if (!isset($this->_types[$complexTypeName])) {
-                $this->_types[$complexTypeName] = $this->_processComplexType($type, $previouslyProcessedType);
-                $this->_soapServerClassMap[$complexTypeName] = $type;
+                $this->_processComplexType($type);
+                if (!$this->isArrayType($complexTypeName)) {
+                    $this->_soapServerClassMap[$complexTypeName] = $type;
+                }
             }
             $typeName = $complexTypeName;
         }
@@ -466,46 +467,44 @@ class Mage_Webapi_Model_Config_Resource
      * Retrieve complex type information from class public properties.
      *
      * @param string $class
-     * @param string $previouslyProcessedClass
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function _processComplexType($class, $previouslyProcessedClass = null)
+    protected function _processComplexType($class)
     {
-        $class = str_replace('[]', '', $class);
-        if (!class_exists($class)) {
-            throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
-        }
-
-        $typeData = array();
-        $reflection = new ClassReflection($class);
-        $typeData['documentation'] = $this->_getDescription($reflection->getDocBlock());
-        $defaultProperties = $reflection->getDefaultProperties();
-        /** @var \Zend\Code\Reflection\PropertyReflection $property */
-        foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            $propertyName = $property->getName();
-            $doc = $property->getDocBlock();
-            $tags = $doc->getTags('var');
-            if (empty($tags)) {
-                throw new InvalidArgumentException('Property type must be defined with @var tag.');
+        $typeName = $this->translateTypeName($class);
+        $this->_types[$typeName] = array();
+        if ($this->isArrayType($class)) {
+            $this->_processType($this->getArrayItemType($class));
+        } else {
+            if (!class_exists($class)) {
+                throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
             }
-            /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
-            $varTag = current($tags);
-            // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
-            $varType = str_replace("\r", '', $varTag->returnValue(0));
-            $varTypeArrayClean = str_replace('[]', '', $varType);
-            $propertyType = ($varTypeArrayClean == $class || $varTypeArrayClean == $previouslyProcessedClass)
-                ? $this->translateTypeName($varType)
-                : $this->_processType($varType, $class);
-            $typeData['parameters'][$propertyName] = array(
-                'type' => $propertyType,
-                'required' => is_null($defaultProperties[$propertyName]),
-                'default' => $defaultProperties[$propertyName],
-                'documentation' => $this->_getDescription($doc)
-            );
+            $reflection = new ClassReflection($class);
+            $this->_types[$typeName]['documentation'] = $this->_getDescription($reflection->getDocBlock());
+            $defaultProperties = $reflection->getDefaultProperties();
+            /** @var \Zend\Code\Reflection\PropertyReflection $property */
+            foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+                $propertyName = $property->getName();
+                $doc = $property->getDocBlock();
+                $tags = $doc->getTags('var');
+                if (empty($tags)) {
+                    throw new InvalidArgumentException('Property type must be defined with @var tag.');
+                }
+                /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
+                $varTag = current($tags);
+                // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
+                $varType = str_replace("\r", '', $varTag->returnValue(0));
+                $this->_types[$typeName]['parameters'][$propertyName] = array(
+                    'type' => $this->_processType($varType),
+                    'required' => is_null($defaultProperties[$propertyName]),
+                    'default' => $defaultProperties[$propertyName],
+                    'documentation' => $this->_getDescription($doc)
+                );
+            }
         }
 
-        return $typeData;
+        return $this->_types[$typeName];
     }
 
     /**
@@ -520,15 +519,24 @@ class Mage_Webapi_Model_Config_Resource
         $longDescription = $doc->getLongDescription();
 
         $description = $shortDescription;
-        if ($longDescription) {
-            $description .= "\r\n" . $longDescription;
+        if ($longDescription && !empty($description)) {
+            $description .= "\r\n";
         }
+        $description .= $longDescription;
 
         return $description;
     }
 
     /**
      * Translate controller class name into resource name.
+     * Example:
+     * <pre>
+     *  Mage_Customer_Controller_Webapi_CustomerController => customer
+     *  Mage_Customer_Controller_Webapi_Customer_AddressController => customerAddress
+     *  Mage_Catalog_Controller_Webapi_ProductController => catalogProduct
+     *  Mage_Catalog_Controller_Webapi_Product_ImagesController => catalogProductImages
+     *  Mage_Catalog_Controller_Webapi_CategoryController => catalogCategory
+     * </pre>
      *
      * @param string $class
      * @return string
@@ -548,11 +556,16 @@ class Mage_Webapi_Model_Config_Resource
             return lcfirst($moduleNamespace . $moduleName . implode('', $controllerNameParts));
         }
 
-        throw new InvalidArgumentException('Invalid controller class name.');
+        throw new InvalidArgumentException(sprintf('Invalid controller class name "%s".', $class));
     }
 
     /**
      * Translate complex type class name into type name.
+     * Example:
+     * <pre>
+     *  Mage_Customer_Webapi_Customer_DataStructure => CustomerDataStructure
+     *  Mage_Catalog_Webapi_Product_DataStructure => CatalogProductDataStructure
+     * </pre>
      *
      * @param string $class
      * @return string
@@ -571,7 +584,23 @@ class Mage_Webapi_Model_Config_Resource
             return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
 
-        throw new InvalidArgumentException('Invalid parameter type.');
+        throw new InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));
+    }
+
+    /**
+     * Translate array complex type name.
+     * Example:
+     * <pre>
+     *  ComplexTypeName[] => ArrayOfComplexType
+     *  string[] => ArrayOfString
+     * </pre>
+     *
+     * @param string $type
+     * @return string
+     */
+    public function translateArrayTypeName($type)
+    {
+        return 'ArrayOf' . ucfirst($this->getArrayItemType($type));
     }
 
     /**
@@ -609,7 +638,44 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function isTypeSimple($type)
     {
-        return in_array($type, array('string', 'integer', 'float', 'double', 'boolean', 'array'));
+        if ($this->isArrayType($type)) {
+            $type = $this->getArrayItemType($type);
+        }
+
+        return in_array($type, array('string', 'integer', 'float', 'double', 'boolean'));
+    }
+
+    /**
+     * Check if given type is an array of type items.
+     * Example:
+     * <pre>
+     *  ComplexType[] -> array of ComplexType items
+     *  string[] -> array of strings
+     * </pre>
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function isArrayType($type)
+    {
+        return (bool)preg_match('/\[\]$/', $type);
+    }
+
+    /**
+     * Get item type of the array.
+     * Example:
+     * <pre>
+     *  ComplexType[] => ComplexType
+     *  string[] => string
+     *  int[] => integer
+     * </pre>
+     *
+     * @param string $arrayType
+     * @return string
+     */
+    public function getArrayItemType($arrayType)
+    {
+        return $this->normalizeType(str_replace('[]', '', $arrayType));
     }
 
     /**
