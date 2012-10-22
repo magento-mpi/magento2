@@ -23,8 +23,6 @@ class Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Framework_TestCa
      */
     public function testLoadBaseContents($module, $filename)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $model = Mage::getModel('Mage_Core_Model_Email_Template');
         $this->assertNotEmpty($model->loadBaseContents($module, $filename));
     }

@@ -15,15 +15,10 @@
 class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * dataProvider widgetPlaceholderImagesDataProvider
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @todo Remove suppress warnings after the test fix
+     * @dataProvider widgetPlaceholderImagesDataProvider
      */
-    public function testWidgetPlaceholderImages(/*$skinImage*/)
+    public function testWidgetPlaceholderImages($skinImage)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->assertFileExists(Mage::getDesign()->getSkinFile($skinImage, array('area' => 'adminhtml')));
     }
 
@@ -33,8 +28,10 @@ class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
     public function widgetPlaceholderImagesDataProvider()
     {
         $result = array();
+        /** @var $model Mage_Widget_Model_Widget */
         $model = Mage::getModel('Mage_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
+            /** @var $instance Mage_Widget_Model_Widget_Instance */
             $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             // @codingStandardsIgnoreStart

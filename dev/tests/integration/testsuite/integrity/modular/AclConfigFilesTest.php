@@ -27,8 +27,6 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $readerMock = $this->getMock('Magento_Acl_Config_Reader', array('getShemaFile'), array(), '', false);
         $this->_schemeFile = $readerMock->getSchemaFile();
         $this->_prepareFileList();
