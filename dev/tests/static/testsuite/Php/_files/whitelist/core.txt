@@ -13,6 +13,8 @@ app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
+app/code/core/Mage/Backend/controllers/Adminhtml/SystemController.php
+app/code/core/Mage/Backend/controllers/Adminhtml/System/SystemController.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Model/Config/Module.php

@@ -9,9 +9,13 @@
  */
 
 /**
- * Configuration controller
+ * System Configuration controller
+ *
+ * @category   Mage
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
+class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Whether current section is allowed

@@ -13,15 +13,18 @@
  *
  * @category   Mage
  * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Adminhtml_SystemController extends Mage_Adminhtml_Controller_Action
+class Mage_Backend_Adminhtml_SystemController extends Mage_Backend_Controller_ActionAbstract
 {
     public function indexAction()
     {
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system');
-        $this->_addBreadcrumb(Mage::helper('Mage_Backend_Helper_Data')->__('System'), Mage::helper('Mage_Backend_Helper_Data')->__('System'));
+        $this->_addBreadcrumb(
+            Mage::helper('Mage_Backend_Helper_Data')->__('System'),
+            Mage::helper('Mage_Backend_Helper_Data')->__('System')
+        );
         $this->renderLayout();
     }
 

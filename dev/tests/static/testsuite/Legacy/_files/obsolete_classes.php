@@ -140,6 +140,12 @@ return array(
     'Mage_Adminhtml_Block_Tag_Tag_Edit',
     'Mage_Adminhtml_Block_Tag_Tag_Edit_Form',
     'Mage_Adminhtml_Block_Tree',
+    'Mage_Adminhtml_SystemController' => array(
+        'suggestion' => 'Mage_Backend_Adminhtml_SystemController'
+    ),
+    'Mage_Adminhtml_System_ConfigController' => array(
+        'suggestion' => 'Mage_Backend_Adminhtml_System_ConfigController'
+    ),
     'Mage_Adminhtml_Helper_Rss',
     'Mage_Adminhtml_Model_Config' => array('suggestion' => 'Mage_Backend_Model_Config_Structure'),
     'Mage_Adminhtml_Model_Config_Data' => array('suggestion' => 'Mage_Backend_Model_Config'),
