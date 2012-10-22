@@ -130,17 +130,12 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         /** @var Varien_Data_Form $form */
         $form = $this->_getObjectFactory()->getModelInstance('Varien_Data_Form');
 
-        $sections = $this->_systemConfig->getSections();
-        if (empty($sections)) {
-            $sections = array();
-        }
-
-        foreach ($sections as $section) {
-            /* @var array $section */
-            if (false == $this->_canShowField($section)) {
-                continue;
-            }
-
+        $section = $this->_systemConfig->getSection(
+            $this->getSectionCode(),
+            $this->getWebsiteCode(),
+            $this->getStoreCode()
+        );
+        if (!empty($section) && false !== $this->_canShowField($section)) {
             $groups = $section['groups'];
             usort($groups, array($this, '_sortForm'));
 
@@ -152,6 +147,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                 $this->_initGroup($group, $section, $form);
             }
         }
+
         $this->setForm($form);
         return $this;
     }
