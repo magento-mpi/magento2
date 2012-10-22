@@ -26,7 +26,7 @@
             <action method="addCss"><file>mage/calendar.css</file><params/></action>
             <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
-            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.9.0.custom.min.js</file></action>
             <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
             <action method="addJs"><file>mage/loader.js</file></action>
         </reference>
