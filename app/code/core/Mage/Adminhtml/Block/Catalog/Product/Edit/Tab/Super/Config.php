@@ -91,6 +91,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
+        $this->addChild('super_settings', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings');
+
 
         if ($this->_getProduct()->getId()) {
             $this->setChild('simple',
@@ -336,5 +338,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     {
         return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()
             && $this->_getProduct()->getStoreId();
+    }
+
+    /**
+     * Get list of used attributes
+     *
+     * @return array
+     */
+    public function getSelectedAttributes()
+    {
+        return array_filter($this->_getProduct()->getTypeInstance()
+                ->getUsedProductAttributes($this->_getProduct()));
     }
 }

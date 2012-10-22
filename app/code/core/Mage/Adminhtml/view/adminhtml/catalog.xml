@@ -241,9 +241,15 @@ Layout handle for configurable products
 -->
 
     <adminhtml_catalog_product_configurable_new>
-        <remove name="product_tabs"/>
-        <reference name="left">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable" name="configurable_product_tabs"/>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>configurable</name>
+                <block>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config</block>
+            </action>
+            <action method="bindShadowTabs">
+                <first>configurable</first>
+                <second>customer_options</second>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
