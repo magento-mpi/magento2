@@ -126,7 +126,7 @@
                         <frequency translate="label">
                             <label>Frequency</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Cron_Frequency</source_model>
+                            <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -187,7 +187,7 @@
                             <label>Zip/Postal Code is Optional for</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>3</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -206,7 +206,7 @@
                         <state_required translate="label">
                             <label>State is Required for</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

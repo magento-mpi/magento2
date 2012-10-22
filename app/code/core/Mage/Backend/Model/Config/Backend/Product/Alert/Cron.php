@@ -32,9 +32,9 @@ class Mage_Backend_Model_Config_Backend_Product_Alert_Cron extends Mage_Core_Mod
 
         $errorEmail  = $this->getData('groups/productalert_cron/fields/error_email/value');
 
-        $frequencyDaily     = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY;
-        $frequencyWeekly    = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY;
-        $frequencyMonthly   = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY;
+        $frequencyDaily     = Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY;
+        $frequencyWeekly    = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly   = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
         $cronDayOfWeek      = date('N');
 
         $cronExprArray      = array(

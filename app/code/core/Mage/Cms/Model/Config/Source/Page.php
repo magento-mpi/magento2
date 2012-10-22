@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Source_Cms_Page
+class Mage_Cms_Model_Config_Source_Page
 {
 
     protected $_options;

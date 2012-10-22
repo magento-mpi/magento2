@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Clone model for media images related config fields
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Clone_Media_Image extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_Config_Clone_Media_Image extends Mage_Core_Model_Config_Data
 {
 
     /**

@@ -13,7 +13,8 @@
  * Send to a Friend Limit sending by Source
  *
  * @category    Mage
- * @package     Mage_Backend* @author      Magento Core Team <core@magentocommerce.com>
+ * @package     Mage_Backend
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Source_Checktype
 {

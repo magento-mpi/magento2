@@ -225,7 +225,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -234,7 +234,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>1910</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -576,7 +576,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>200</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -585,7 +585,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>210</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -873,7 +873,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -882,7 +882,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>910</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1154,7 +1154,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>180</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1163,7 +1163,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>190</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1436,7 +1436,7 @@
                             <frontend_type>select</frontend_type>
                             <sort_order>1900</sort_order>
                             <frontend_class>shipping-applicable-country</frontend_class>
-                            <source_model>Mage_Backend_Model_Config_Source_Shipping_Allspecificcountries</source_model>
+                            <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1445,7 +1445,7 @@
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>1910</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

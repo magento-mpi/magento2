@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Backend_Model_Config_Source_Price_Scope
+class Mage_Catalog_Model_Config_Source_Price_Scope
 {
     public function toOptionArray()
     {

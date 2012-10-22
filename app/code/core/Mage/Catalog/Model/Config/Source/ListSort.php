@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Adminhtml Catalog Product List Sortable allowed sortable attributes source
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Catalog_ListSort
+class Mage_Catalog_Model_Config_Source_ListSort
 {
     /**
      * Retrieve option values array

@@ -106,7 +106,7 @@
                             <frontend_type>select</frontend_type>
                             <frontend_class>countries</frontend_class>
                             <sort_order>80</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

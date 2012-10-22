@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Source_Customer_Group_Multiselect
+class Mage_Customer_Model_Config_Source_Group_Multiselect
 {
     /**
      * Customer groups options array

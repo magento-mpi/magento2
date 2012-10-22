@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName().'[{{id}}][type]')
-            ->setOptions(Mage::getSingleton('Mage_Backend_Model_Config_Source_Product_Options_Type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Catalog_Model_Config_Source_Product_Options_Type')->toOptionArray());
 
         return $select->getHtml();
     }

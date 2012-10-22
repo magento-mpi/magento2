@@ -85,7 +85,7 @@
                         <list_mode translate="label">
                             <label>List Mode</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Catalog_ListMode</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_ListMode</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -96,7 +96,7 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -107,7 +107,7 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -118,7 +118,7 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_GridPerPage</source_model>-->
+                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -129,7 +129,7 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Backend_Model_Config_Source_Catalog_ListPerPage</source_model>-->
+                            <!--<source_model>Mage_Catalog_Model_Config_Source_ListPerPage</source_model>-->
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -161,7 +161,7 @@
                         <default_sort_by translate="label comment">
                             <label>Product Listing Sort by</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Catalog_ListSort</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_ListSort</source_model>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -192,7 +192,7 @@
                 <placeholder translate="label">
                     <label>Product Image Placeholders</label>
                     <clone_fields>1</clone_fields>
-                    <clone_model>Mage_Backend_Model_Config_Clone_Media_Image</clone_model>
+                    <clone_model>Mage_Catalog_Model_Config_Clone_Media_Image</clone_model>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -300,7 +300,7 @@
                             <label>Catalog Price Scope</label>
                             <comment><![CDATA[Defines the base currency scope ("Currency Setup" > "Currency Options" > "Base Currency")]]>.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Price_Scope</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_Price_Scope</source_model>
                             <backend_model>Mage_Backend_Model_Config_Backend_Price_Scope</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -329,7 +329,7 @@
                         <price_range_calculation translate="label">
                             <label>Price Navigation Step Calculation</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Price_Step</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_Price_Step</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -425,7 +425,7 @@
                         <time_format translate="label">
                             <label>Time Format</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Catalog_TimeFormat</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_TimeFormat</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -450,7 +450,7 @@
                 <watermark translate="label">
                     <label>Product Image Watermarks</label>
                     <clone_fields>1</clone_fields>
-                    <clone_model>Mage_Backend_Model_Config_Clone_Media_Image</clone_model>
+                    <clone_model>Mage_Catalog_Model_Config_Clone_Media_Image</clone_model>
                     <sort_order>400</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -488,7 +488,7 @@
                         <position translate="label">
                             <label>Watermark Position</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Watermark_Position</source_model>
+                            <source_model>Mage_Catalog_Model_Config_Source_Watermark_Position</source_model>
                             <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Category
+class Mage_Catalog_Model_Config_Source_Category
 {
     public function toOptionArray($addEmpty = true)
     {

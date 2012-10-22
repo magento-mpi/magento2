@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Catalog search types
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Catalog_Search_Type
+class Mage_CatalogSearch_Model_Config_Source_Search_Type
 {
     public function toOptionArray()
     {

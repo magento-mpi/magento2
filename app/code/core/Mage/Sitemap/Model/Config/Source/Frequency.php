@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Frequency
+class Mage_Sitemap_Model_Config_Source_Frequency
 {
     public function toOptionArray()
     {

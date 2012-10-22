@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Configuration source model for Wysiwyg toggling
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Cms_Wysiwyg_Enabled
+class Mage_Cms_Model_Config_Source_Wysiwyg_Enabled
 {
     public function toOptionArray()
     {

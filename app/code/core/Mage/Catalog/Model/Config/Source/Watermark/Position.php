@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Watermark position config source model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Watermark_Position
+class Mage_Catalog_Model_Config_Source_Watermark_Position
 {
 
     /**

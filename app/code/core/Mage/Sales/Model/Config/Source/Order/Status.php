@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Order Statuses source model
  */
-class Mage_Backend_Model_Config_Source_Order_Status
+class Mage_Sales_Model_Config_Source_Order_Status
 {
     // set null to enable all possible
     protected $_stateStatuses = array(
@@ -35,7 +35,7 @@ class Mage_Backend_Model_Config_Source_Order_Status
         $options = array();
         $options[] = array(
                'value' => '',
-               'label' => Mage::helper('Mage_Backend_Helper_Data')->__('-- Please Select --')
+               'label' => Mage::helper('Mage_Sales_Helper_Data')->__('-- Please Select --')
             );
         foreach ($statuses as $code=>$label) {
             $options[] = array(

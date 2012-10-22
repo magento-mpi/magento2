@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Source_Payment_Allmethods
+class Mage_Payment_Model_Config_Source_Allmethods
 {
     public function toOptionArray()
     {

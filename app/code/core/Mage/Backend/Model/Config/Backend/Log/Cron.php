@@ -33,9 +33,9 @@ class Mage_Backend_Model_Config_Backend_Log_Cron extends Mage_Core_Model_Config_
         $frequncy   = $this->getData('groups/log/fields/frequency/value');
         $errorEmail = $this->getData('groups/log/fields/error_email/value');
 
-        $frequencyDaily     = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY;
-        $frequencyWeekly    = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_WEEKLY;
-        $frequencyMonthly   = Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_MONTHLY;
+        $frequencyDaily     = Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY;
+        $frequencyWeekly    = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly   = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronDayOfWeek = date('N');

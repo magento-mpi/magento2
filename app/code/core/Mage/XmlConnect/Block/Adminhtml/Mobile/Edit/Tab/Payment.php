@@ -129,7 +129,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
                         'value' => $paypalMepAllow
                 ));
 
-                $countries = Mage::getModel('Mage_Backend_Model_Config_Source_Country')->toOptionArray(true);
+                $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray(true);
 
                 if (empty($data['config_data[payment][paypalmep/allowspecific]'])) {
                     $countrySelected = array();

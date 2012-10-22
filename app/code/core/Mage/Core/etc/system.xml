@@ -613,7 +613,7 @@
                         <allow translate="label">
                             <label>Allow Countries</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -623,7 +623,7 @@
                         <default translate="label">
                             <label>Default Country</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -632,7 +632,7 @@
                         <eu_countries translate="label">
                             <label>European Union Countries</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -715,7 +715,7 @@
                         <merchant_country translate="label">
                             <label>Country</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Country</source_model>
+                            <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,17 +12,17 @@
  * Product option types mode source
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Product_Options_Type
+class Mage_Catalog_Model_Config_Source_Product_Options_Type
 {
     const PRODUCT_OPTIONS_GROUPS_PATH = 'global/catalog/product/options/custom/groups';
 
     public function toOptionArray()
     {
         $groups = array(
-            array('value' => '', 'label' => Mage::helper('Mage_Backend_Helper_Data')->__('-- Please select --'))
+            array('value' => '', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('-- Please select --'))
         );
 
         $helper = Mage::helper('Mage_Catalog_Helper_Data');

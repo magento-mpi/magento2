@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Backend_Model_Config_Source_Cron_Frequency
+class Mage_Cron_Model_Config_Source_Frequency
 {
 
     protected static $_options;

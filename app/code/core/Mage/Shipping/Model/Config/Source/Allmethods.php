@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Source_Shipping_Allmethods
+class Mage_Shipping_Model_Config_Source_Allmethods
 {
     /**
      * Return array of carriers.

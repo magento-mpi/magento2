@@ -382,7 +382,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_express/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -568,7 +568,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_standard/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -666,7 +666,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_direct/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -816,7 +816,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypal_billing_agreement/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -904,7 +904,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/paypaluk_direct/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1123,7 +1123,7 @@
                             <config_path>payment/verisign/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
                             <sort_order>20</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allowspecific>
@@ -1330,7 +1330,7 @@
                             <config_path>payment/paypaluk_express/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
                             <sort_order>20</sort_order>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allowspecific>
@@ -1606,7 +1606,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/payflow_link/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1758,7 +1758,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/payflow_advanced/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -1903,7 +1903,7 @@
                             <label>Payment Applicable From</label>
                             <config_path>payment/hosted_pro/allowspecific</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>Mage_Backend_Model_Config_Source_Payment_Allspecificcountries</source_model>
+                            <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

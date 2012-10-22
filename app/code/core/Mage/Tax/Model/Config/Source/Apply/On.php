@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Source_Tax_Apply_On
+class Mage_Tax_Model_Config_Source_Apply_On
 {
     public function toOptionArray()
     {

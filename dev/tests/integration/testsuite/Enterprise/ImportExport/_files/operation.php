@@ -21,7 +21,7 @@ $data = array(
         'file_path'   => 'export',
     ),
     'start_time'        => '00:00:00',
-    'freq'              => Mage_Backend_Model_Config_Source_Cron_Frequency::CRON_DAILY,
+    'freq'              => Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY,
     'status'            => '1',
     'email_receiver'    => 'general',
     'email_sender'      => 'general',
