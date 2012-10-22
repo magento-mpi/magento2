@@ -18,33 +18,15 @@ class Mage_Backend_Model_Config_Structure_ConverterTest extends PHPUnit_Framewor
 
     public function setUp()
     {
-        $this->_model = new Mage_Backend_Model_Config_Structure_Reader();
+        $this->_model = new Mage_Backend_Model_Config_Structure_Converter();
     }
 
     public function testConvertCorrectlyConvertsConfigStructureToArray()
     {
         $testDom = dirname(dirname(__DIR__)) . '/_files/system_2.xml';
-        $expectedArray = array(
-            'config' => array(
-                'system' => array(
-                    'tabs' => array(
-                        array(
-                            'id' => 'tab_1',
-                            'label' => 'Tab 1 New'
-                        )
-                    ),
-                    'sections' => array(
-                        array(
-                            'id' => 'section_1',
-                            'label' => 'Section 1 New',
-                            'groups' => array(
-
-                            )
-                        )
-                    )
-                )
-            )
-        );
-        $this->assertEquals($cachedObject, $this->_model->getConfiguration());
+        $dom = new DOMDocument();
+        $dom->load($testDom);
+        $expectedArray = include dirname(dirname(__DIR__)) . '/_files/converted_config.php';
+        $this->assertEquals($expectedArray, $this->_model->convert($dom));
     }
 }

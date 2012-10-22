@@ -15,9 +15,6 @@
             <version>0.7.1</version>
             <active>true</active>
             <codePool>core</codePool>
-            <depends>
-                <Mage_Admin/>
-            </depends>
         </Mage_Adminhtml>
     </modules>
     <global>

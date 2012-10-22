@@ -59,10 +59,10 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Adminhtml_Cont
         $store   = $this->getRequest()->getParam('store');
 
         /** @var $systemConfig Mage_Backend_Model_Config_Structure */
-        $systemConfig = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        $systemConfig = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
         $sections     = $systemConfig->getSections($current);
-        $section      = $sections[$current];
+        $section      = isset($sections[$current]) ? $sections[$current] : array();
         $hasChildren  = $systemConfig->hasChildren($section, $website, $store);
         if (!$hasChildren && $current) {
             $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
@@ -249,7 +249,9 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Adminhtml_Cont
     protected function _isSectionAllowed($section)
     {
         try {
-            $section = Mage::getSingleton('Mage_Backend_Model_Config_Structure')->getSection($section);
+            $section = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
+                ->getConfiguration()
+                ->getSection($section);
             if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($section['resource'])) {
                 throw new Exception('');
             }

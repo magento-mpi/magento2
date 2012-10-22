@@ -37,7 +37,9 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
         }
         $paths = array();
 
-        $configSections = Mage::getSingleton('Mage_Backend_Model_Config_Structure')->getSections();
+        $configSections = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
+            ->getConfiguration()
+            ->getSections();
 
         // find nodes which are using $templateCode value
         $defaultCfgNodes = Mage::getConfig()->getXpath('default/*/*[*="' . $templateCode . '"]');
@@ -68,7 +70,9 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
         }
         $paths = array();
 
-        $configSections = Mage::getSingleton('Mage_Backend_Model_Config_Structure')->getSections();
+        $configSections = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
+            ->getConfiguration()
+            ->getSections();
 
         // look for node entries in all system.xml that use source_model=adminhtml/system_config_source_email_template
         // they are will be templates, what we try find

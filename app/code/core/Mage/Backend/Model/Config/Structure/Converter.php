@@ -25,10 +25,10 @@ class Mage_Backend_Model_Config_Structure_Converter
      * @var array
      */
     protected $nameMap = array(
-        'tab' => 'tabs',
-        'section' => 'sections',
-        'group' => 'groups',
-        'field' => 'fields'
+        'tab' => array('parent' => 'system', 'name' =>'tabs'),
+        'section' => array('parent' => 'system', 'name' =>'sections'),
+        'group' => array('parent' => 'section', 'name' =>'groups'),
+        'field' => array('parent' => 'group', 'name' =>'fields')
     );
 
     /**
@@ -70,23 +70,27 @@ class Mage_Backend_Model_Config_Structure_Converter
         {
             $child = $children->item($i);
             $nodeName = $child->nodeName;
-            if (isset($this->nameMap[$child->nodeName])) {
-                $nodeName = $this->nameMap[$child->nodeName];
+            if (isset($this->nameMap[$child->nodeName])
+                && $this->nameMap[$child->nodeName]['parent'] == $root->nodeName) {
+                $nodeName = $this->nameMap[$child->nodeName]['name'];
             }
 
             if (!isset($result[$nodeName]))
-                if ($child->nodeType == XML_TEXT_NODE)
+                if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE)
                 {
                 } else {
-                    if (isset($this->nameMap[$child->nodeName])) {
-                        $result[$nodeName] = array($this->convert($child));
+                    if (isset($this->nameMap[$child->nodeName])
+                        && $this->nameMap[$child->nodeName]['parent'] == $root->nodeName) {
+                        $convertedChild = $this->convert($child);
+                        $result[$nodeName] = array($convertedChild['id'] => $convertedChild);
                     } else {
                         $result[$nodeName] = $this->convert($child);
                     }
                 }
             else
             {
-                $result[$nodeName][] = $this->convert($child);
+                $convertedChild = $this->convert($child);
+                $result[$nodeName][$convertedChild['id']] = $convertedChild;
             }
         }
 

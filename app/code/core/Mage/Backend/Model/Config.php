@@ -34,25 +34,58 @@ class Mage_Backend_Model_Config extends Varien_Object
     protected $_structureReader;
 
     /**
+     * Application config
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_appConfig;
+
+    /**
+     * Global factory
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    /**
      * TransactionFactory
      *
      * @var Mage_Core_Model_Resource_Transaction_Factory
      */
     protected $_transactionFactory;
 
+    /**
+     * Global Application
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
     public function __construct(array $data = array())
     {
-        $this->_eventManager = isset($data['eventManager'])
-            ? $data['eventManager']
-            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        $this->_eventManager = isset($data['eventManager']) ?
+            $data['eventManager'] :
+            Mage::getSingleton('Mage_Core_Model_Event_Manager');
 
-        $this->_structureReader = isset($data['structureReader'])
-            ? $data['structureReader']
-            : Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader');
+        $this->_structureReader = isset($data['structureReader']) ?
+            $data['structureReader'] :
+            Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader');
 
-        $this->_transactionFactory = isset($data['transactionFactory'])
-            ? $data['transactionFactory']
-            : Mage::getSingleton('Mage_Core_Model_Resource_Transaction_Factory');
+        $this->_transactionFactory = isset($data['transactionFactory']) ?
+            $data['transactionFactory'] :
+            Mage::getSingleton('Mage_Core_Model_Resource_Transaction_Factory');
+
+        $this->_objectFactory = isset($data['objectFactory']) ?
+            $data['objectFactory'] :
+            Mage::getConfig();
+
+        $this->_appConfig = isset($data['applicationConfig']) ?
+            $data['applicationConfig'] :
+            Mage::getConfig();
+
+        $this->_application = isset($data['application']) ? $data['application'] : Mage::app();
+
+        parent::__construct($data);
     }
 
     /**
@@ -109,7 +142,7 @@ class Mage_Backend_Model_Config extends Varien_Object
                 if (isset($groupConfig['fields'])) {
                     $fieldsConfig = $groupConfig['fields'];
 
-                    foreach ($fieldsConfig[] as $field => $node) {
+                    foreach ($fieldsConfig as $field => $node) {
                         foreach ($cloneModel->getPrefixes() as $prefix) {
                             $mappedFields[$prefix['field'] . (string)$field] = (string)$field;
                         }
@@ -268,10 +301,10 @@ class Mage_Backend_Model_Config extends Varien_Object
     {
         if ($this->getStore()) {
             $scope   = 'stores';
-            $scopeId = (int)Mage::getConfig()->getNode('stores/' . $this->getStore() . '/system/store/id');
+            $scopeId = (int) $this->_appConfig->getNode('stores/' . $this->getStore() . '/system/store/id');
         } elseif ($this->getWebsite()) {
             $scope   = 'websites';
-            $scopeId = (int)Mage::getConfig()->getNode('websites/' . $this->getWebsite() . '/system/website/id');
+            $scopeId = (int) $this->_appConfig->getNode('websites/' . $this->getWebsite() . '/system/website/id');
         } else {
             $scope   = 'default';
             $scopeId = 0;
@@ -300,7 +333,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      */
     protected function _getPathConfig($path, $full = true)
     {
-        $configDataCollection = Mage::getModel('Mage_Core_Model_Config_Data')
+        $configDataCollection = $this->_objectFactory->getModelInstance('Mage_Core_Model_Config_Data')
             ->getCollection()
             ->addScopeFilter($this->getScope(), $this->getScopeId(), $path);
 
@@ -323,17 +356,17 @@ class Mage_Backend_Model_Config extends Varien_Object
     /**
      * Set correct scope if isSingleStoreMode = true
      *
-     * @param Varien_Simplexml_Element $fieldConfig
+     * @param array $fieldConfig
      * @param Mage_Core_Model_Config_Data $dataObject
      */
     protected function _checkSingleStoreMode($fieldConfig, $dataObject)
     {
-        $isSingleStoreMode = Mage::app()->isSingleStoreMode();
+        $isSingleStoreMode = $this->_application->isSingleStoreMode();
         if (!$isSingleStoreMode) {
             return;
         }
         if (!isset($fieldConfig['showInDefault']) || !(int)$fieldConfig['showInDefault']) {
-            $websites = Mage::app()->getWebsites();
+            $websites = $this->_application->getWebsites();
             $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());

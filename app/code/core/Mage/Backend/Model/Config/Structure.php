@@ -47,6 +47,11 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
         parent::__construct($data['sourceFiles']);
     }
 
+    public function __wakeUp()
+    {
+        $this->_app = Mage::app();
+    }
+
     /**
      * Get absolute path to the XML-schema file
      *
@@ -125,7 +130,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
     {
         $key = $sectionCode ?: $websiteCode ?: $storeCode;
-        return $this->_data['sections'][$key];
+        return isset($this->_data['sections'][$key]) ? $this->_data['sections'][$key] : null;
     }
 
     /**
@@ -173,7 +178,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
             $showTab = isset($node['showInStore']) ? (int)$node['showInStore'] : 0;
         } elseif ($websiteCode) {
             $showTab = isset($node['showInWebsite']) ? (int)$node['showInWebsite'] : 0;
-        } elseif (isset($node['showInDefault']) && (int)$node['showInWebsite']) {
+        } elseif (isset($node['showInDefault']) && isset($node['showInWebsite']) && (int)$node['showInWebsite']) {
             $showTab = true;
         }
 
