@@ -40,7 +40,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
 
-        $block = new Mage_Adminhtml_Block_System_Config_FormStub();
+        $block = new Mage_Backend_Block_System_Config_FormStub();
         $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);

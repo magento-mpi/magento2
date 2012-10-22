@@ -36,12 +36,12 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
             'config' => array(
                 'system' => array(
                     'tabs' => array(
-                        array('id' => 'tab_1', 'label' => 'Tab 1'),
-                        array('id' => 'tab_2', 'label' => 'Tab 2')
+                        'tab_1' => array('id' => 'tab_1', 'label' => 'Tab 1'),
+                        'tab_2' => array('id' => 'tab_2', 'label' => 'Tab 2')
                     ),
                     'sections' => array(
-                        array('id' => 'section_1', 'label' => 'Section 1'),
-                        array('id' => 'section_2', 'label' => 'Section 2')
+                        'section_1' => array('id' => 'section_1', 'label' => 'Section 1'),
+                        'section_2' => array('id' => 'section_2', 'label' => 'Section 2')
                     )
                 )
             )
@@ -62,8 +62,10 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
 
         $sections = $this->_model->getSections();
         $this->assertCount(2, $sections);
-        $this->assertEquals('section_1', $sections[0]['id']);
-        $this->assertEquals('section_2', $sections[1]['id']);
+        $section = reset($sections);
+        $this->assertEquals('section_1', $section['id']);
+        $section = next($sections);
+        $this->assertEquals('section_2', $section['id']);
     }
 
     public function testGetSectionReturnsSectionByKey()
@@ -111,7 +113,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
      * @param string $message
      * @dataProvider addItemFilterDataProvider
      */
-/*    public function testHasChildren($xmlData, $isSingleStoreMode, $node, $website, $store, $expectedResult, $message)
+    /* public function testHasChildren($xmlData, $isSingleStoreMode, $node, $website, $store, $expectedResult, $message)
     {
         $app = $this->getMock('Mage_Core_Model_App', array('isSingleStoreMode'), array(), '', true);
         $app->expects($this->any())

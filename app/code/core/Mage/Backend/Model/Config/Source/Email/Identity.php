@@ -24,7 +24,7 @@ class Mage_Backend_Model_Config_Source_Email_Identity
             foreach ($fields as $field) {
                 $nodeName   = $field['id'];
                 $label      = (string) isset($field['label']) ? $field['label'] : '';
-                $sortOrder  = (int) isset($field['sortOrder'] ? $field['sort_order'] : null;
+                $sortOrder  = (int) isset($field['sortOrder']) ? $field['sort_order'] : null;
                 $this->_options[$sortOrder] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $nodeName),
                     'label' => Mage::helper('Mage_Backend_Helper_Data')->__($label)

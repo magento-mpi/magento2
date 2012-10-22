@@ -40,7 +40,6 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
 
     public function testGetConfigurationLoadsConfigFromCacheWhenCacheIsEnabled()
     {
-
         $cachedObject = new StdClass();
         $cachedObject->foo = 'bar';
         $cachedData = serialize($cachedObject);
@@ -67,7 +66,7 @@ class Mage_Backend_Model_Config_Structure_ReaderTest extends PHPUnit_Framework_T
 
         $this->_appConfigMock->expects($this->once())
             ->method('getModelInstance')
-            ->with('Mage_Backend_Model_Config_Structure', $testFiles)
+            ->with('Mage_Backend_Model_Config_Structure', array('sourceFiles' => $testFiles))
             ->will($this->returnValue($configMock));
 
         $this->_cacheMock->expects($this->once())->method('save')->with(
