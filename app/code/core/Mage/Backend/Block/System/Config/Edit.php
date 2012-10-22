@@ -27,14 +27,9 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected $_section;
 
     /**
-     * @var Mage_Backend_Model_ConfigInterface
+     * @var Mage_Backend_Model_Config_StructureInterface
      */
     protected $_systemConfig;
-
-    /**
-     * @var Mage_Backend_Helper_Data
-     */
-    protected $_helper;
 
     /**
      * @param array $data
@@ -44,8 +39,6 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
         $this->_systemConfig = isset($data['systemConfig']) ?
             $data['systemConfig'] :
             Mage::getSingleton('Mage_Backend_Model_Config_Structure');
-
-        $this->_helper = isset($data['helper']) ? isset($data['helper']) : null;
 
         parent::__construct($data);
 
@@ -59,25 +52,12 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Get helper object
-     *
-     * @return Mage_Backend_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        if (null === $this->_helper) {
-            $this->_helper = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data');
-        }
-        return $this->_helper;
-    }
-
-    /**
      * @return Mage_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label'     => $this->_getHelper()->__('Save Config'),
+            'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Save Config'),
             'onclick'   => 'configForm.submit()',
             'class' => 'save',
         ));
@@ -110,7 +90,9 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
             $blockName = self::DEFAULT_SECTION_BLOCK;
         }
 
-        $this->setChild('form', $this->getLayout()->createBlock($blockName)->initForm());
+        $block = $this->getLayout()->createBlock($blockName);
+        $block->initForm();
+        $this->setChild('form', $block);
         return $this;
     }
 }
