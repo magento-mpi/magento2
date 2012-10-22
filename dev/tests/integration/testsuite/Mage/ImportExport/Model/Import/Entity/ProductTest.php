@@ -197,7 +197,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[$product->getSku()] = $product;
         }
 
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import_with_datetime.csv');
+        $resource = __DIR__ . '/_files/products_to_import_with_datetime.csv';
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($resource);
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
