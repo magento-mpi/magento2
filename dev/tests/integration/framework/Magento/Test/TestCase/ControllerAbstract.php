@@ -81,7 +81,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = new Magento_Test_Request();
+            $this->_request = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
     }
@@ -94,7 +94,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = new Magento_Test_Response();
+            $this->_response = Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http');
         }
         return $this->_response;
     }
