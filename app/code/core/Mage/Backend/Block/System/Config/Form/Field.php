@@ -121,9 +121,9 @@ class Mage_Backend_Block_System_Config_Form_Field
      */
     protected function _getInheritCheckboxLabel(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkboxLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Use Default');
+        $checkboxLabel = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Use Default');
         if ($element->getCanUseWebsiteValue()) {
-            $checkboxLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Use Website');
+            $checkboxLabel =  $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Use Website');
         }
         return $checkboxLabel;
     }
@@ -132,12 +132,12 @@ class Mage_Backend_Block_System_Config_Form_Field
      * Render scope label
      *
      * @param Varien_Data_Form_Element_Abstract $element
-     * @return Mage_Backend_Block_System_Config_Form_Field
+     * @return string
      */
     protected function _renderScopeLabel(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<td class="scope-label">';
-        if ($element->getScope() && !Mage::app()->isSingleStoreMode()) {
+        if ($element->getScope() && false == $this->_getAppModel()->isSingleStoreMode()) {
             $html .= $element->getScopeLabel();
         }
         $html .= '</td>';
