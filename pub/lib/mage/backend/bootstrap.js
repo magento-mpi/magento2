@@ -17,7 +17,7 @@ jQuery(function ($) {
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {Object}
          */
-        beforeSend: function(jqXHR, settings){
+        beforeSend: function(jqXHR, settings) {
             if (!settings.url.match(new RegExp('[?&]isAjax=true',''))) {
                 settings.url = settings.url.match(
                     new RegExp('\\?',"g")) ?
@@ -63,19 +63,26 @@ jQuery(function ($) {
         }
     });
 
-    var bootstrap = function(){
+    var bootstrap = function() {
+        /*
+         * Initialization of button widgets
+         */
         $('*[data-widget-button]').button();
-
+        /*
+         * Show loader on ajax send
+         */
         $('body').on('ajaxSend', function(e){
             $(e.target).loader().loader('show');
         });
-
+        /*
+         * Initialization of notification widget
+         */
         if ($('#messages').length) {
             $('#messages').notification();
         }
     };
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         bootstrap();
     });
 });

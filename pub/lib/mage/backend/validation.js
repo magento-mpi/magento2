@@ -10,12 +10,20 @@
             messagesId: 'messages',
             errorClass: 'validation-advice'
         },
+        /**
+         * Validation creation
+         * @protected
+         */
         _create: function(){
             if(!this.options.frontendOnly && this.options.validationUrl) {
                 this.options.submitHandler = $.proxy(this._ajaxValidate, this);
             }
             this._super('_create');
         },
+        /**
+         * ajax validation
+         * @protected
+         */
         _ajaxValidate: function() {
             $.ajax({
                 url: this.options.validationUrl,

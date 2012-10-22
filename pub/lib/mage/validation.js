@@ -9,13 +9,26 @@
 /*jshint regexdash:true eqnull:true browser:true jquery:true*/
 (function ($) {
     $.extend(true, $, {
+        //@TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber' in file with utility functions
         mage: {
+            /**
+             * Check if string is empty with trim
+             * @param {string}
+             */
             isEmpty: function(value) {
                 return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
             },
+            /**
+             * Check if string is empty no trim
+             * @param {string}
+             */
             isEmptyNoTrim: function(value) {
                 return  (value === '' || (value == null) || (value.length === 0));
             },
+            /**
+             * Parse price string
+             * @param {string}
+             */
             parseNumber: function(value) {
                 if (typeof value !== 'string') {
                     return parseFloat(value);
@@ -37,7 +50,10 @@
             }
         }
     });
-
+    /**
+     * Collection of validation rules
+     * @type {Object}
+     */
     var rules = {
         "allow-container-className" : [
             function (element) {
@@ -489,6 +505,7 @@
             ''
         ]
     };
+
     $.each(rules, function(i, rule) {
         rule.unshift(i);
         $.validator.addMethod.apply($.validator, rule);
@@ -514,6 +531,10 @@
             errorClass: 'mage-error',
             errorElement: 'div'
         },
+        /**
+         * Validation creation
+         * @protected
+         */
         _create: function(){
             this.validate = this.element.validate(this.options);
         }
