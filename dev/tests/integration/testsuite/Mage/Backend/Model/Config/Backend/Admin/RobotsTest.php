@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -21,7 +21,7 @@ class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framewo
      */
     protected function setUp()
     {
-        $this->_model = new Mage_Backend_Model_Config_Backend_Admin_Robots();
+        $this->_model = Mage::getModel('Mage_Backend_Model_Config_Backend_Admin_Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }
@@ -29,7 +29,7 @@ class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framewo
     /**
      * Check that default value is empty when robots.txt not exists
      *
-     * @magentoDataFixture Mage/Adminhtml/_files/no_robots_txt.php
+     * @magentoDataFixture Mage/Backend/Model/_files/no_robots_txt.php
      */
     public function testAfterLoadRobotsTxtNotExists()
     {
@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framewo
     /**
      * Check that default value equals to robots.txt content when it is available
      *
-     * @magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
+     * @magentoDataFixture Mage/Backend/Model/_files/robots_txt.php
      */
     public function testAfterLoadRobotsTxtExists()
     {
@@ -62,7 +62,7 @@ class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framewo
     /**
      * Check robots.txt file changed when robots.txt exists
      *
-     * @magentoDataFixture Mage/Adminhtml/_files/robots_txt.php
+     * @magentoDataFixture Mage/Backend/Model/_files/robots_txt.php
      * @magentoDbIsolation enabled
      */
     public function testAfterSaveFileExists()
@@ -88,6 +88,6 @@ class Mage_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Framewo
      */
     protected function tearDown()
     {
-        require 'Mage/Adminhtml/_files/no_robots_txt.php';
+        require 'Mage/Backend/Model/_files/no_robots_txt.php';
     }
 }

@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @group module:Mage_Adminhtml
+ * @group module:Mage_Backend
  */
-class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param array $groups
@@ -22,13 +22,14 @@ class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
-        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        /** @var $_configDataObject Mage_Backend_Model_Config */
+        $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configData = $_configDataObject->setSection('dev')
             ->setWebsite('base')
             ->load();
         $this->assertEmpty($_configData);
 
-        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configDataObject->setSection('dev')
             ->setGroups($groups)
             ->save();
@@ -36,7 +37,8 @@ class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->reinit();
         Mage::app()->reinitStores();
 
-        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        /** @var $_configDataObject Mage_Backend_Model_Config */
+        $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configDataObject->setSection('dev')
             ->setWebsite('base');
 
@@ -44,7 +46,7 @@ class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('dev/debug/template_hints', $_configData);
         $this->assertArrayHasKey('dev/debug/template_hints_blocks', $_configData);
 
-        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configDataObject->setSection('dev');
         $_configData = $_configDataObject->load();
         $this->assertArrayNotHasKey('dev/debug/template_hints', $_configData);
