@@ -53,7 +53,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'is_valid' => array(
                 'attributeData' => array(
                     'attribute_code' => 'attribute',
-                    'data_model' => new Varien_Object(),
+                    'data_model' => $this->_getDataModelMock(null),
                     'frontend_input' => 'text'
                 ),
                 'attributeReturns' => true,
@@ -63,7 +63,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'is_invalid' => array(
                 'attributeData' => array(
                     'attribute_code' => 'attribute',
-                    'data_model' => new Varien_Object(),
+                    'data_model' => $this->_getDataModelMock(null),
                     'frontend_input' => 'text'
                 ),
                 'attributeReturns' => array('Error'),
@@ -90,7 +90,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'no_data_for attribute' => array(
                 'attributeData' => array(
                     'attribute_code' => 'attribute',
-                    'data_model' => new Varien_Object(),
+                    'data_model' => $this->_getDataModelMock(null),
                     'frontend_input' => 'text'
                 ),
                 'attributeReturns' => true,
@@ -101,7 +101,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'is_valid_data_from_entity' => array(
                 'attributeData' => array(
                     'attribute_code' => 'attribute',
-                    'data_model' => new Varien_Object(),
+                    'data_model' => $this->_getDataModelMock(null),
                     'frontend_input' => 'text'
                 ),
                 'attributeReturns' => true,
@@ -123,7 +123,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
         $resource = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Abstract');
         $attribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute',
-            'data_model' => new Varien_Object(),
+            'data_model' => $this->_getDataModelMock(null),
             'frontend_input' => 'text'
         ));
         $collection = $this->getMockBuilder('Varien_Object')
@@ -150,16 +150,16 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
      * @dataProvider whiteBlackListProvider
      * @param callback $callback
      */
-    public function testIsValidBlackListChecks($callback)
+    public function testIsValidBlackListWhiteListChecks($callback)
     {
         $attribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute',
-            'data_model' => new Varien_Object(),
+            'data_model' => $this->_getDataModelMock(null),
             'frontend_input' => 'text'
         ));
         $secondAttribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute2',
-            'data_model' => new Varien_Object(),
+            'data_model' => $this->_getDataModelMock(null),
             'frontend_input' => 'text'
         ));
         $data = array(
@@ -210,6 +210,81 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
         $result = $validator->setAttributesBlackList($attributes);
         $this->assertAttributeEquals($attributes, '_attributesBlackList', $validator);
         $this->assertEquals($validator, $result);
+    }
+
+    public function testSetAttributeDataModelFactory()
+    {
+        $factory = $this->getMockBuilder('Mage_Eav_Model_Attribute_Data')->getMock();
+        $validator = new Mage_Eav_Model_Validator_Attribute_Data;
+        $result = $validator->setAttributeDataModelFactory($factory);
+        $this->assertAttributeEquals($factory, '_dataModelFactory', $validator);
+        $this->assertEquals($validator, $result);
+    }
+
+    public function testGetAttributeDataModelFactory()
+    {
+        $validator = new Mage_Eav_Model_Validator_Attribute_Data;
+        $factory = $validator->getAttributeDataModelFactory();
+        $this->assertInstanceOf('Mage_Eav_Model_Attribute_Data', $factory);
+        $this->assertAttributeEquals($factory, '_dataModelFactory', $validator);
+    }
+
+    public function testAddErrorMessages()
+    {
+        $data = array(
+            'attribute1' => 'new_test',
+            'attribute2' => 'some data'
+        );
+        $entity = $this->_getEntityMock('test');
+        $firstAttribute = $this->_getAttributeMock(array(
+            'attribute_code' => 'attribute1',
+            'data_model' => $firstDataModel = $this->_getDataModelMock(array('Error1')),
+            'frontend_input' => 'text'
+        ));
+        $secondAttribute = $this->_getAttributeMock(array(
+            'attribute_code' => 'attribute2',
+            'data_model' => $secondDataModel = $this->_getDataModelMock(array('Error2')),
+            'frontend_input' => 'text'
+        ));
+        $expectedMessages = array(
+            'attribute1' => array('Error1'),
+            'attribute2' => array('Error2'),
+        );
+        $expectedMessagesDouble = array(
+            'attribute1' => array('Error1', 'Error1'),
+            'attribute2' => array('Error2', 'Error2'),
+        );
+
+        $validator = new Mage_Eav_Model_Validator_Attribute_Data;
+        $validator->setAttributes(array($firstAttribute, $secondAttribute))
+            ->setData($data);
+
+        $factory = $this->getMockBuilder('Mage_Eav_Model_Attribute_Data')
+            ->setMethods(array('factory'))
+            ->getMock();
+        $factory::staticExpects($this->at(0))
+            ->method('factory')
+            ->with($firstAttribute, $entity)
+            ->will($this->returnValue($firstDataModel));
+        $factory::staticExpects($this->at(1))
+            ->method('factory')
+            ->with($secondAttribute, $entity)
+            ->will($this->returnValue($secondDataModel));
+        $factory::staticExpects($this->at(2))
+            ->method('factory')
+            ->with($firstAttribute, $entity)
+            ->will($this->returnValue($firstDataModel));
+        $factory::staticExpects($this->at(3))
+            ->method('factory')
+            ->with($secondAttribute, $entity)
+            ->will($this->returnValue($secondDataModel));
+
+        $validator->setAttributeDataModelFactory($factory);
+
+        $this->assertFalse($validator->isValid($entity));
+        $this->assertEquals($expectedMessages, $validator->getMessages());
+        $this->assertFalse($validator->isValid($entity));
+        $this->assertEquals($expectedMessagesDouble, $validator->getMessages());
     }
 
     /**
@@ -269,7 +344,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
                 ->with($argument)
                 ->will($this->returnValue($returnValue));
         } else {
-            $dataModel->expects($this->once())
+            $dataModel->expects($this->any())
                 ->method('validateValue')
                 ->will($this->returnValue($returnValue));
         }
