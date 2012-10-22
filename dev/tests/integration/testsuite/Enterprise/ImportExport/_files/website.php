@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $website Mage_Core_Model_Website */
 $website = Mage::getModel('Mage_Core_Model_Website');
 $website->setData(array(
     'code' => 'test',

@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
 $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
 
 $data = array(

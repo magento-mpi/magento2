@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $eventClosed Enterprise_CatalogEvent_Model_Event */
 $eventClosed = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventClosed
     ->setCategoryId(null)
@@ -19,6 +20,7 @@ $eventClosed
     ->save()
 ;
 
+/** @var $eventOpen Enterprise_CatalogEvent_Model_Event */
 $eventOpen = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventOpen
     ->setCategoryId(1)
@@ -29,6 +31,7 @@ $eventOpen
     ->save()
 ;
 
+/** @var $eventUpcoming Enterprise_CatalogEvent_Model_Event */
 $eventUpcoming = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventUpcoming
     ->setCategoryId(2)

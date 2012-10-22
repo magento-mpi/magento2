@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setId(1)

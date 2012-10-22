@@ -11,6 +11,7 @@
 
 $conditions = serialize(array());
 
+/** @var $rule Enterprise_Reminder_Model_Rule */
 $rule = Mage::getModel('Enterprise_Reminder_Model_Rule');
 $rule->setData(array(
     'name' => 'Rule 1',
