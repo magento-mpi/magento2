@@ -84,7 +84,7 @@
         </migration>
         <di>
             <Magento_Data_Structure>
-                <shared>false</shared>
+                <shared>0</shared>
             </Magento_Data_Structure>
         </di>
     </global>
