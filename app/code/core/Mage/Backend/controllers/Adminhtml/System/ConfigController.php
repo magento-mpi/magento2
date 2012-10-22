@@ -93,7 +93,7 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
                 ->setTemplate('Mage_Adminhtml::system/shipping/ups.phtml'));
             $this->_addJs($this->getLayout()
                 ->createBlock('Mage_Backend_Block_Template')
-                ->setTemplate('Mage_Adminhtml::system/config/js.phtml'));
+                ->setTemplate('system/config/js.phtml'));
             $this->_addJs($this->getLayout()
                 ->createBlock('Mage_Backend_Block_Template')
                 ->setTemplate('Mage_Adminhtml::system/shipping/applicable_country.phtml'));
@@ -108,7 +108,7 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
     public function saveAction()
     {
         /* @var $session Mage_Adminhtml_Model_Session */
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
 
         try {
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
@@ -138,7 +138,7 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
             array_walk($messages, create_function(
-                '$message', 'Mage::getSingleton(\'Mage_Adminhtml_Model_Session\')->addError($message);'
+                '$message', 'Mage::getSingleton(\'Mage_Backend_Model_Session\')->addError($message);'
             ));
         } catch (Exception $e) {
             $session->addException($e,
