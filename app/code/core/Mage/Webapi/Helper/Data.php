@@ -42,6 +42,15 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($reflectionParameters as $parameter) {
             $parameterName = $parameter->getName();
             if (isset($requestData[$parameterName])) {
+                //region TODO: Temporary workaround until implementation using resource configuration
+                if ($parameterName == 'data') {
+                    $customerData = new Mage_Customer_Webapi_Customer_DataStructure();
+                    foreach ($requestData[$parameterName] as $fieldName => $fieldValue) {
+                        $customerData->$fieldName = $fieldValue;
+                    }
+                    $requestData[$parameterName] = $customerData;
+                }
+                //endregion
                 $preparedParams[$parameterName] = $requestData[$parameterName];
             } else {
                 if ($parameter->isOptional()) {

@@ -320,13 +320,15 @@ class Mage_Webapi_Model_Config_Resource
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
+                    $data['rest_routes'] = array();
                     /** @var ReflectionMethod $methodReflection */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
                         $method = $this->_getMethodNameWithoutVersionSuffix($methodReflection);
                         $version = $this->_getMethodVersion($methodReflection);
                         if ($method && $version) {
                             $data['versions'][$version]['methods'][$method] = $this->_getMethodData($methodReflection);
-                            $data['rest_routes'] = $this->_generateRestRoutes($methodReflection);
+                            $data['rest_routes'] = array_merge($data['rest_routes'],
+                                $this->_generateRestRoutes($methodReflection));
                         }
                     }
                     // Sort versions array for further fallback.
@@ -389,9 +391,16 @@ class Mage_Webapi_Model_Config_Resource
         return sprintf('/(%s)(V\d+)/', implode('|', $this->_getAllowedMethods()));
     }
 
+    /**
+     * Generate a list of routes available fo the specified method.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return array
+     */
     protected function _generateRestRoutes(ReflectionMethod $methodReflection)
     {
         $routes = array();
+        // TODO: Check method interface against business rules (existence of ID field, body field where necessary)
         $idParamName = $this->_getIdParamName($methodReflection);
         $version = $this->_getMethodVersion($methodReflection);
         $routePath = "/$version";
@@ -403,7 +412,7 @@ class Mage_Webapi_Model_Config_Resource
         if ($idParamName) {
             $routePath .= "/:$idParamName";
         }
-        foreach ($this->_getPathCombinations($this->_getOptionalParamNames()) as $routeOptionalPart) {
+        foreach ($this->_getPathCombinations($this->_getOptionalParamNames($methodReflection)) as $routeOptionalPart) {
             $routes[$routePath . $routeOptionalPart] = array(
                 'resource_type' => $this->_getResourceTypeByMethod(
                     $this->_getMethodNameWithoutVersionSuffix($methodReflection)),
@@ -461,10 +470,28 @@ class Mage_Webapi_Model_Config_Resource
         return $pathCombinations;
     }
 
-    protected function _getOptionalParamNames()
+    /**
+     * Retrieve all optional parameters names.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return array
+     */
+    protected function _getOptionalParamNames(ReflectionMethod $methodReflection)
     {
-        // TODO: Implement
-        return array();
+        $optionalParamNames = array();
+        /** ID field must always be the first parameter of resource method */
+        $methodInterfaces = $methodReflection->getPrototypes();
+        /** Take the most full interface, that includes optional parameters also. */
+        /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+        $methodInterface = end($methodInterfaces);
+        $methodParams = $methodInterface->getParameters();
+        /** @var ReflectionParameter $paramReflection */
+        foreach ($methodParams as $paramReflection) {
+            if ($paramReflection->isOptional()) {
+                $optionalParamNames[] = $paramReflection->getName();
+            }
+        }
+        return $optionalParamNames;
     }
 
     /**
@@ -499,19 +526,19 @@ class Mage_Webapi_Model_Config_Resource
 
         if ($idFieldIsExpected) {
             /** ID field must always be the first parameter of resource method */
-            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
             $methodInterfaces = $methodReflection->getPrototypes();
             if (empty($methodInterfaces)) {
                 throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
                     $methodReflection->getName());
             }
+            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
             $methodInterface = reset($methodInterfaces);
-            /** @var ReflectionParameter $idParam */
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
                 throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
                     $methodReflection->getName());
             }
+            /** @var ReflectionParameter $idParam */
             $idParam = reset($methodParams);
             $idParamName = $idParam->getName();
         }
