@@ -156,5 +156,6 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
         $this->_validator->setTranslator($translator);
         $this->assertEquals($translator, $fooValidator->getTranslator());
+        $this->assertEquals($translator, $this->_validator->getTranslator());
     }
 }

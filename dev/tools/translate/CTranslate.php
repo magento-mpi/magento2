@@ -596,22 +596,22 @@ class Translate {
      * Parsing Zend/Validate files for message templates.
      *
      * @param string $file - file to parse
-     * @param array $data_arr - array of data
-     * @param $mod_name - name of module
+     * @param array $dataArr - array of data
+     * @param $modName - name of module
      * @return void
      */
-    static public function parseZendValidateMessageTemplates($file, &$data_arr, $mod_name)
+    static public function parseZendValidateMessageTemplates($file, &$dataArr, $modName)
     {
-        $line_num = 0;
+        $lineNum = 0;
         $f = @fopen($file, 'r');
-        if(!$f){
+        if (!$f) {
             self::_error('file ' . $file . ' not found');
         }
 
         $messageTemplateFound = false;
         while (!feof($f)) {
             $line = fgets($f, 4096);
-            $line_num++;
+            $lineNum++;
 
             if (!$messageTemplateFound && strpos($line, 'protected $_messageTemplates') !== false) {
                 $messageTemplateFound = true;
@@ -626,15 +626,17 @@ class Translate {
                     $message = trim($message, ',');
                     $message = trim($message, '"');
 
-                    $inc_arr['value'] = $message;
-                    $inc_arr['line'] = $line_num;
-                    $inc_arr['file'] = $file;
-                    $inc_arr['mod_name'] = $mod_name;
-                    array_push($data_arr, $inc_arr);
+                    $dataArr[] = array(
+                        'value' => $message,
+                        'line' => $lineNum,
+                        'file' => $file,
+                        'mod_name' => $modName
+                    );
                 }
             }
 
             if ($messageTemplateFound && strpos($line, ');') !== false) {
+                @fclose($f);
                 break;
             }
         }

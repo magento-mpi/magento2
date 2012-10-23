@@ -93,4 +93,14 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
         $this->_wrappedValidator->setTranslator($translator);
         return $this;
     }
+
+    /**
+     * Get translator instance of wrapped validator
+     *
+     * @return Magento_Translate_AdapterInterface|null
+     */
+    public function getTranslator()
+    {
+        return $this->_wrappedValidator->getTranslator();
+    }
 }

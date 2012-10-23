@@ -33,9 +33,9 @@ abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_
     /**
      * Set default translator instance
      *
-     * @param Magento_Translate_AdapterInterface $translator
+     * @param Magento_Translate_AdapterInterface|null $translator
      */
-    public static function setDefaultTranslator(Magento_Translate_AdapterInterface $translator)
+    public static function setDefaultTranslator(Magento_Translate_AdapterInterface $translator = null)
     {
         self::$_defaultTranslator = $translator;
     }

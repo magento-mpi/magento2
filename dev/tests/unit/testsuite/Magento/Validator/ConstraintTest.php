@@ -97,9 +97,10 @@ class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
     public function testSetTranslator()
     {
         /** @var Magento_Translate_AdapterAbstract $translator */
-        $translator= $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+        $translator = $this->getMockBuilder('Magento_Translate_AdapterInterface')
             ->getMockForAbstractClass();
         $this->_constraint->setTranslator($translator);
         $this->assertEquals($translator, $this->_validatorMock->getTranslator());
+        $this->assertEquals($translator, $this->_constraint->getTranslator());
     }
 }

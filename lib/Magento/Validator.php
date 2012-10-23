@@ -30,7 +30,7 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
     public function addValidator(Magento_Validator_ValidatorInterface $validator, $breakChainOnFailure = false)
     {
         if (!$validator->hasTranslator()) {
-            $validator->setTranslator(self::getDefaultTranslator());
+            $validator->setTranslator($this->getTranslator());
         }
         $this->_validators[] = array(
             'instance' => $validator,
@@ -77,6 +77,6 @@ class Magento_Validator extends Magento_Validator_ValidatorAbstract
         foreach ($this->_validators as $validator) {
             $validator['instance']->setTranslator($translator);
         }
-        return $this;
+        return parent::setTranslator($translator);
     }
 }

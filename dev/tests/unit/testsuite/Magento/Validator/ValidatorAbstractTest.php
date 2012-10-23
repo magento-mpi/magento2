@@ -15,13 +15,28 @@
 class Magento_Validator_ValidatorAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var null|Magento_Translate_AdapterInterface
+     */
+    protected $_defaultTranslator = null;
+
+    protected function setUp()
+    {
+        $this->_defaultTranslator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
+    }
+
+    protected function tearDown()
+    {
+        Magento_Validator_ValidatorAbstract::setDefaultTranslator($this->_defaultTranslator);
+    }
+
+    /**
      * Get translator object
      *
      * @return PHPUnit_Framework_MockObject_MockObject|Magento_Translate_AdapterAbstract
      */
     protected function _getTranslator()
     {
-        return $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+        return $this->getMockBuilder('Magento_Translate_AdapterInterface')
             ->getMockForAbstractClass();
     }
 

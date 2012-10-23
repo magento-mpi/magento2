@@ -26,8 +26,7 @@ interface Magento_Translate_AdapterInterface
     /**
      * Translate string
      *
-     * @param string $messageId
      * @return string
      */
-    public function __($messageId);
+    public function __();
 }

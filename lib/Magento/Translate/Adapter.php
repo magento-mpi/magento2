@@ -19,7 +19,7 @@ class Magento_Translate_Adapter extends Magento_Translate_AdapterAbstract
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param array|string $messageId
-     * @param null $locale
+     * @param null|string $locale
      * @return string
      */
     public function translate($messageId, $locale = null)
@@ -36,11 +36,16 @@ class Magento_Translate_Adapter extends Magento_Translate_AdapterAbstract
      * Translate message string.
      *
      * @SuppressWarnings(PHPMD.ShortMethodName)
-     * @param string $messageId
      * @return string
      */
-    public function __($messageId)
+    public function __()
     {
-        return $this->translate($messageId);
+        $args = func_get_args();
+        $messageId = array_shift($args);
+        $string = $this->translate($messageId);
+        if (count($args) > 0) {
+            $string = vsprintf($string, $args);
+        }
+        return $string;
     }
 }
