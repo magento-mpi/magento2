@@ -843,7 +843,7 @@ class Mage_Webapi_Model_Config_Resource
     {
         $normalizationMap = array(
             'str' => 'string',
-            'int' => 'integer',
+            'integer' => 'int',
             'bool' => 'boolean',
         );
 
@@ -872,7 +872,7 @@ class Mage_Webapi_Model_Config_Resource
             $type = $this->getArrayItemType($type);
         }
 
-        return in_array($type, array('string', 'integer', 'float', 'double', 'boolean'));
+        return in_array($type, array('string', 'int', 'float', 'double', 'boolean'));
     }
 
     /**

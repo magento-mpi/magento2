@@ -69,13 +69,24 @@ class Mage_Webapi_Model_Soap_Wsdl
         $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::WSDL_NS, self::WSDL_NS_URI);
         $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::SOAP_NS, self::SOAP_NS_URI);
         $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::XSD_NS, self::XSD_NS_URI);
-        $targetNamespace = urlencode($this->_uri);
+        $targetNamespace = $this->getTargetNamespace();
         $definitions->setAttributeNS(self::XML_NS_URI, self::XML_NS . ':' . self::TYPES_NS, $targetNamespace);
         $definitions->setAttribute('targetNamespace', $targetNamespace);
         $definitions->setAttribute('name', $options['name']);
         $this->_dom->appendChild($definitions);
         $this->_wsdl = $this->_dom->documentElement;
         $this->addSchemaTypeSection();
+    }
+
+    /**
+     * Retrieve target namespace of the WSDL document.
+     *
+     * @return string
+     */
+    public function getTargetNamespace()
+    {
+        // TODO: investigate URL target namespace in Java.
+        return sprintf('urn:Magento-%s', md5($this->_uri));
     }
 
     /**
@@ -87,7 +98,7 @@ class Mage_Webapi_Model_Soap_Wsdl
     {
         if ($this->_schema === null) {
             $this->_schema = $this->_dom->createElement(self::XSD_NS . ':schema');
-            $this->_schema->setAttribute('targetNamespace', urlencode($this->_uri));
+            $this->_schema->setAttribute('targetNamespace', $this->getTargetNamespace());
             $types = $this->_dom->createElement(self::WSDL_NS . ':types');
             $types->appendChild($this->_schema);
             $this->_wsdl->appendChild($types);

@@ -98,8 +98,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         foreach ($this->_requestedResources as $resourceName => $resourceData) {
             $portTypeName = $resourceName . 'PortType';
-            $portType = $this->_wsdl->addPortType($portTypeName);
             $bindingName = $resourceName . 'Binding';
+            $portType = $this->_wsdl->addPortType($portTypeName);
             $binding = $this->_wsdl->addBinding($bindingName, $portTypeName);
             $this->_wsdl->addSoapBinding($binding);
             $this->_wsdl->addServicePort($service, $resourceName . 'Port', $bindingName, $this->_endpointUrl);
@@ -213,7 +213,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * If parameter type is a complex type and has not been processed yet - recursively process it.
      *
      * @param string $type
-     * @return string string - xsd or tns
+     * @return string - xsd or tns
      */
     protected function _processComplexTypeParameter($type)
     {

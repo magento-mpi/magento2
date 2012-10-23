@@ -86,7 +86,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Retrieve information about customer. Add last logged in datetime.
      *
-     * @param string $id
+     * @param int $id
      * @return Mage_Customer_Webapi_Customer_DataStructure
      * @throws Mage_Webapi_Exception
      */
@@ -141,7 +141,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
             $this->_processException($e);
         }
 
-        return $customerData;
+        return $this->_createCustomerDataObject($customerData);
     }
 
     /**
