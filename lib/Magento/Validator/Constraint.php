@@ -43,7 +43,7 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
      * Delegate validation to wrapped validator
      *
      * @param mixed $value
-     * @return bool
+     * @return boolean
      */
     public function isValid($value)
     {
@@ -80,5 +80,27 @@ class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
     public function getAlias()
     {
         return $this->_alias;
+    }
+
+    /**
+     * Set translator to wrapped validator.
+     *
+     * @param Magento_Translate_AdapterInterface|null $translator
+     * @return Magento_Validator_ValidatorAbstract
+     */
+    public function setTranslator($translator = null)
+    {
+        $this->_wrappedValidator->setTranslator($translator);
+        return $this;
+    }
+
+    /**
+     * Get translator instance of wrapped validator
+     *
+     * @return Magento_Translate_AdapterInterface|null
+     */
+    public function getTranslator()
+    {
+        return $this->_wrappedValidator->getTranslator();
     }
 }

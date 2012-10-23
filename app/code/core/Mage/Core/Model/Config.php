@@ -194,6 +194,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_currentAreaCode = null;
 
     /**
+     * Validator config files
+     *
+     * @var array
+     */
+    protected $_validatorConfigFiles = null;
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -1685,5 +1692,34 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_currentAreaCode = $areaCode;
         return $this;
+    }
+
+    /**
+     * Get validator config object.
+     *
+     * Will instantiate Magento_Validator_Config
+     *
+     * @return Magento_Validator_Config
+     */
+    public function getValidatorConfig()
+    {
+        if (is_null($this->_validatorConfigFiles)) {
+            $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
+
+            $translateAdapter = Mage::app()->getTranslator();
+            $translator = function () use ($translateAdapter) {
+                /** @var Mage_Core_Model_Translate $translateAdapter */
+                $args = func_get_args();
+                $expr = new Mage_Core_Model_Translate_Expr($args);
+                array_unshift($args, $expr);
+                return $translateAdapter->translate($args);
+            };
+            $translator = new Magento_Translate_Adapter(array(
+                'translator' => $translator
+            ));
+            Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
+        }
+
+        return new Magento_Validator_Config($this->_validatorConfigFiles);
     }
 }

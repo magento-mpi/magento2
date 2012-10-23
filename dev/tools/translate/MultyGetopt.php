@@ -8,6 +8,7 @@
  * @license    {license_link}
  */
 
+require_once 'Zend/Exception.php';
 require_once 'Zend/Console/Getopt/Exception.php';
 require_once 'Zend/Console/Getopt.php';
 

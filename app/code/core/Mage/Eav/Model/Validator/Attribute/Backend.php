@@ -15,7 +15,7 @@
  * @package    Mage_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Validator_Attribute_Backend implements Magento_Validator_ValidatorInterface
+class Mage_Eav_Model_Validator_Attribute_Backend extends Magento_Validator_ValidatorAbstract
 {
     /**
      * @var array
@@ -23,10 +23,10 @@ class Mage_Eav_Model_Validator_Attribute_Backend implements Magento_Validator_Va
     protected $_messages;
 
     /**
-     * Returns true if and only if $value meets the validation requirements
+     * Returns true if and only if $value meets the validation requirements.
      *
-     * @param $entity
-     * @return bool
+     * @param Mage_Core_Model_Abstract $entity
+     * @return boolean
      * @throws InvalidArgumentException
      */
     public function isValid($entity)
@@ -65,8 +65,7 @@ class Mage_Eav_Model_Validator_Attribute_Backend implements Magento_Validator_Va
     }
 
     /**
-     * Returns an array of messages that explain why the most recent isValid()
-     * call returned false.
+     * Returns an array of messages that explain why the most recent isValid() call returned false.
      *
      * @return array
      */

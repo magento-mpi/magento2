@@ -91,8 +91,10 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Core' => array(
         'app/code/core/Mage/Core/',
-        'app/design/frontend/base/default/template/core/',
-        'app/design/frontend/base/default/layout/core.xml',
+        'app/code/core/Mage/Core/view/frontend',
+        'app/code/core/Mage/Core/view/adminhtml',
+        'app/code/core/Mage/Core/view/frontend/layout.xml',
+        'lib/Zend/Validate/',
     ),
     'Mage_Cron' => array(
         'app/code/core/Mage/Cron/',
