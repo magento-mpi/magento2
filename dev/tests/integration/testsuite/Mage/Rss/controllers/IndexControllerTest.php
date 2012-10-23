@@ -36,13 +36,11 @@ class Mage_Rss_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
     /**
      * @magentoConfigFixture current_store rss/wishlist/active 1
-     * magentoDataFixture Mage/Wishlist/_files/wishlist.php
+     * @magentoDataFixture Mage/Wishlist/_files/wishlist.php
      * @magentoAppIsolation enabled
      */
     public function testWishlistAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())

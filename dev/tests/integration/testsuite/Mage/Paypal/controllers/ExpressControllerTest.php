@@ -12,13 +12,11 @@
 class Mage_Paypal_ExpressControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * magentoDataFixture Mage/Sales/_files/quote.php
-     * magentoDataFixture Mage/Paypal/_files/quote_payment.php
+     * @magentoDataFixture Mage/Sales/_files/quote.php
+     * @magentoDataFixture Mage/Paypal/_files/quote_payment.php
      */
     public function testReviewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         Mage::getSingleton('Mage_Checkout_Model_Session')->setQuoteId($quote->getId());

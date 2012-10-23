@@ -10,14 +10,12 @@
  */
 
 /**
- * magentoDataFixture Mage/Sales/_files/order.php
+ * @magentoDataFixture Mage/Sales/_files/order.php
  */
 class Mage_Paypal_PayflowControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         parent::setUp();
 
         $order = Mage::getModel('Mage_Sales_Model_Order');

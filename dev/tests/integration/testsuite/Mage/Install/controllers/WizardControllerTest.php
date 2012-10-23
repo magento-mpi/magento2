@@ -31,16 +31,12 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         parent::setUp();
         $this->_runOptions['is_installed'] = false;
     }
 
     public function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         Varien_Io_File::rmdirRecursive(self::$_tmpMediaDir);
         parent::tearDown();
     }

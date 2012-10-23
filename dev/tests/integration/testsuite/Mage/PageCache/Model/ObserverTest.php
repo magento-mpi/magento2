@@ -18,8 +18,6 @@ class Mage_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
-
         $this->_observer = Mage::getModel('Mage_PageCache_Model_Observer');
     }
 

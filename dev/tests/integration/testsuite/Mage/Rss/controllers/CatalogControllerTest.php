@@ -134,8 +134,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testCategoryAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->getRequest()->setParam('cid', Mage::app()->getStore()->getRootCategoryId());
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(

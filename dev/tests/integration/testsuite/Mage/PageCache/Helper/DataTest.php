@@ -18,8 +18,6 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
-
         $this->_helper = Mage::helper('Mage_PageCache_Helper_Data');
     }
 
