@@ -146,7 +146,7 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
      */
     protected function _getAttributes($entity)
     {
-        /** @var $attributes Mage_Customer_Model_Attribute[] */
+        /** @var Mage_Customer_Model_Attribute[] $attributes */
         $attributes = array();
 
         if ($this->_attributes) {
@@ -158,20 +158,22 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
         }
 
         $attributesByCode = array();
+        $attributesCodes = array();
         foreach ($attributes as $attribute) {
-            $attributesByCode[$attribute->getAttributeCode()] = $attribute;
+            $attributeCode = $attribute->getAttributeCode();
+            $attributesByCode[$attributeCode] = $attribute;
+            $attributesCodes[] = $attributeCode;
         }
 
+        $ignoreAttributes = $this->_attributesBlackList;
         if ($this->_attributesWhiteList) {
-            $attributesCodes = array_keys($attributesByCode);
-            foreach ($attributesCodes as $attributeCode) {
-                if (!in_array($attributeCode, $this->_attributesWhiteList)) {
-                    unset($attributesByCode[$attributeCode]);
-                }
-            }
+            $ignoreAttributes = array_merge(
+                $ignoreAttributes,
+                array_diff($attributesCodes, $this->_attributesWhiteList)
+            );
         }
 
-        foreach ($this->_attributesBlackList as $attributeCode) {
+        foreach ($ignoreAttributes as $attributeCode) {
             unset($attributesByCode[$attributeCode]);
         }
 
