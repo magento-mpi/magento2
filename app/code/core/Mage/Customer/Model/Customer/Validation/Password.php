@@ -15,7 +15,7 @@
  * @package  Mage_Customer
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Customer_Validation_Password implements Magento_Validator_ValidatorInterface
+class Mage_Customer_Model_Customer_Validation_Password extends Magento_Validator_ValidatorAbstract
 {
     const MIN_PASSWORD_LENGTH = 6;
 

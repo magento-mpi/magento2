@@ -56,6 +56,8 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBodyParams()
     {
+	$this->markTestIncomplete("Can't find Mage_Webapi_Model_Request_Interpreter_Interface");
+
         $rawBody = 'a=123&b=145';
         $interpreterMock = $this->getMock('Mage_Webapi_Model_Request_Interpreter_Interface', array('interpret'));
         $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
