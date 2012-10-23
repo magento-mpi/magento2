@@ -58,6 +58,7 @@ class Mage_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
 
         $block->toHtml();
     }
+
     /**
      * List of block constructor arguments
      *

@@ -22,6 +22,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Cont
         $this->dispatch('backend/admin/user/index');
         $this->assertStringMatchesFormat('%a<div class="content-header">%aUsers%a', $this->getResponse()->getBody());
     }
+
     /**
      * @covers Mage_User_Adminhtml_UserController::rolesGridAction
      */
@@ -52,6 +53,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Cont
     /*
      * @covers Mage_User_Adminhtml_UserController::editAction
      */
+
     public function testEditAction()
     {
         $this->getRequest()->setParam('user_id', 1);

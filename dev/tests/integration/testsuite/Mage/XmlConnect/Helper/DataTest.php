@@ -26,6 +26,7 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = null;
     }
+
     /**
      * @dataProvider getDefaultDesignTabsDataProvider
      */

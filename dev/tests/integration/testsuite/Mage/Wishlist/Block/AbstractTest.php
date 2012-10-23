@@ -52,6 +52,7 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertContains('/'.$size, $this->_block->getImageUrl($product));
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getImageUrl($product));
     }
+
     protected function _prepareConstructorArguments()
     {
         $arguments = array();
