@@ -24,12 +24,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('PaymentMethod', 'authorizenet_without_3Dsecure');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_without_3Dsecure');
     }
 
     protected function assertPreConditions()
@@ -372,7 +370,6 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
@@ -470,8 +467,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $config = $this->loadDataSet('PaymentMethod', 'authorizenet_with_3Dsecure');
-            $this->systemConfigurationHelper()->configure($config);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_with_3Dsecure');
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

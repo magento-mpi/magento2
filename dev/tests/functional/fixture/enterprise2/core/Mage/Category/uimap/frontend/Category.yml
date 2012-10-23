@@ -1,0 +1,31 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Category
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# SKU Widget
+category_page_before_reindex:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    add_by_sku:
+                        xpath: //div[@class='widget widget-addbysku']
+                        fields:
+                            sku: //tr[%number%]//input[contains(@name, '[sku]')]
+                            qty: //tr[%number%]//input[contains(@name, '[qty]')]
+                        buttons:
+                            add_to_cart_by_sku: //button[span='Add to Cart']
+                            add_row_by_sku: //span[@title='Add Row']
+                        links:
+                            sku_link: //p[@class='link-widget-sku']/a
+        messages:
+            sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
+            sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
+            sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
+            sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]

@@ -168,7 +168,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      *
      * @param array $loginData
      */
-    public function frontLoginCustomer(array $loginData)
+    public function frontLoginCustomer(array $loginData, $strictLogin = true)
     {
         $this->frontend();
         $this->navigate('customer_account', false);
@@ -183,7 +183,9 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
         $this->clickControl('link', 'log_in');
         $this->fillFieldset($loginData, 'log_in_customer');
         $this->clickButton('login', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage('customer_account');
+        if ($strictLogin) {
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage('customer_account');
+        }
     }
 }

@@ -30,7 +30,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
     {
         if (is_string($data)) {
             $elements = explode('/', $data);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $fileName = (count($elements) > 1)
+                ? array_shift($elements)
+                : '';
             $data = $this->loadDataSet($fileName, implode('/', $elements));
         }
 
@@ -75,7 +77,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         foreach ($names as $key => $value) {
             $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
         }
-        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
+        $number = (in_array($elementName, $names))
+            ? array_search($elementName, $names) + 1
+            : 0;
         //Deletion
         $error = false;
         $this->addParameter('elementTitle', $storeData[$elementName]);
@@ -128,8 +132,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      *
      * @throws PHPUnit_Framework_Exception
      */
-    public function selectStoreView($controlName, $website = 'Main Website', $store = 'Main Website Store',
-                                    $storeView = 'Default Store View')
+    public function selectStoreView($controlName, $website = 'Main Website', $store = 'Main Website Store', $storeView = 'Default Store View')
     {
         $fieldXpath = $this->_getControlXpath('dropdown', $controlName);
         $storeViewXpath = $fieldXpath . "/optgroup[normalize-space(@label) = '$website']"
@@ -148,4 +151,17 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->getConfirmation();
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
+    /**
+     * Selects a default store view from 'Choose Store View' drop-down in backend
+     *
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function defaultStoreView($controlName, $defaultStore = 'All Store Views')
+    {
+        if (!$this->controlIsPresent('dropdown', $controlName)) {
+            throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
+        }
+        $this->fillDropdown($controlName, $defaultStore);
+    }
+
 }

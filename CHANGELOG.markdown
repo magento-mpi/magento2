@@ -1,3 +1,85 @@
+Update as of 10/16/2012
+======================
+* Introduced block arguments to the layout syntax:
+  * Introduced the "object" block argument type to specify a grid data source
+  * Introduced the "options" block argument type to accommodate key-value pairs
+  * Introduced the "URL" block argument type to represent a URL with parameters
+  * Introduced block argument updaters for the block arguments, which allow to customize the original grid arguments
+  * Implemented extraction of translatable strings from block arguments in layout by the Translation Tool
+* Declared the Customer Wishlist and Sales Order grids through the layout instead of the PHP classes
+* Implemented the block `Mage_Backend_Block_Widget_Grid_Massaction` to encapsulate grid mass actions
+* Moved grid columns and mass action management from the base grid `Mage_Backend_Block_Widget_Grid` to the `Mage_Backend_Block_Widget_Grid_Extended`
+* Introduced the column set block `Mage_Backend_Block_Widget_Grid_ColumnSet` responsible for grouping columns in a grid
+* Updated the grid rendering template to render a column set instead of rendering columns
+* Eliminated dependency between the grid column block and parent blocks
+* Denied the public access to the `pub/cron.php`
+* Fixes:
+  * Fixed the broken Billing Agreement View page
+  * Fixed absence of the Default and Minimal attribute sets in the Manage Attribute Sets grid, if the total number of records is 22 and the view of 20 rows per page is chosen
+  * Fixed typos on the Sales Order page
+  * Fixed typos on the Sales Order's Packing Slips printed to PDF
+  * Fixed preserving selected rows after searching in the Sales Order grid
+  * Fixed "column not found" SQL error while sorting by the "Product Name" in the Catalog Pending Reviews grid
+
+Update as of 10/11/2012
+======================
+* Removed unused `Mage_DesignEditor_Model_History_Compact_Diff` class
+* Fixes:
+  * Incorrect title for Manage Products page
+  * 'Element with ID 'wishlist_column_qty' already exists.' error on Manage Shopping Cart page
+  * Incorrect redirect on "Print Shipping Labels" action, when shipment without shipping label selected
+  * Error message is displayed twice, when restoring admin password with captcha enabled
+  * Impossible to retrieve admin password, when captcha is enabled
+
+Update as of 10/09/2012
+======================
+* Performance Testing Framework improvements:
+  * Added ability to specify fixtures per scenario
+  * Implemented Magento application cleanup between scenarios
+  * Implemented support of PHP scenarios. The framework distinguishes type of the scenario by its extension: `jmx` or `php`
+  * Added ability to skip warm-up for a certain scenario
+  * JMeter scenarios are run with `jmeter` command instead of `java -jar ApacheJmeter.jar`. It's impossible to specify path to JMeter tool now, it should be accessible from command line as `jmeter`
+* Implemented fixture for Performance Tests with 80k products distributed among 200 categories
+* Tax rule management UI simplified:
+  * Added `Jeditable` jQuery library
+  * Added multiselect fields for customer tax class, product tax class and tax rate
+  * Added ability to add/edit Tax Rate directly from Tax Rule page
+* Simplified product creation workflow:
+  * Added product types dropdown to "Add Product" button. Default attribute set is used for product creation
+  * "Add Product" button opens form for Simple product with Default attribute set
+  * Attribute set can be changed from product creation form
+* Implemented auto-generation of product SKU and meta fields. The templates can be configured in `System -> Configuration -> Catalog -> Catalog -> Product Fields Auto-Generation`
+* Added ability to unassign system attribute from an attribute set, if it's not "Minimal" one
+* Specified UI IDs for base Backend elements. UI ID is represented as HTML "id" attribute intended to identify certain HTML element
+* Refactored `Catalog_Model_Product_Indexer_Flat::matchEvent()` method - reduced cyclomatic complexity
+* Updated DB structure to make possible to store Themes' and Widgets' layout updates
+* Migration to jQuery:
+  * Replaced Ajax, Dialog and Template mechanisms with jQuery analogs
+  * Added jQuery loader for translation process
+  * Migrated Inline-Translator to jQuery
+* JavaScript improvements:
+  * Implemented `editTrigger` jQuery widget intended to display "Edit" button for elements it is attached to
+* Fixes:
+  * Incorrect title for "Currency Symbols" page on Backend
+  * References to website, store and store view aren't displayed on Backend, if Single Store mode is disabled
+  * "Store" column and dropdown are displayed on `System -> Import/Export -> DataFlow-Profiles` page, when Single Store mode is enabled
+  * Options are absent for `'tax_class_id'` product attribute
+  * No exception/error message is produced, when attempting to commit/rollback asymmetric DB transaction
+  * Links are not copied during downloadable product duplication
+  * PayPal tab is absent in `System -> Configuration -> Sales` section
+  * "Edit" link in wishlist opens Product View page instead of "Configure Product" page
+  * Default value for a product attribute is not saved
+  * Escaped HTML blocks with `Mage_Core_Helper_Data::jsonEncode`, where necessary
+  * Impossible to add new Dataflow profile
+  * Impossible to specify default option for new product attribute with "dropdown" type
+  * Unable to send the email when creating new invoice/shipment/credit memo
+  * "Segmentation Fault" in Integration tests
+* GitHub requests:
+  * [#36](https://github.com/magento/magento2/pull/36) -- added ability to force set of "Include Tax" option for catalog prices
+  * [#63](https://github.com/magento/magento2/pull/63) -- removed obsolete "args" node in event subscribers
+  * [#64](https://github.com/magento/magento2/pull/64) -- fixed EAV text attribute validation for "0" value
+  * [#72](https://github.com/magento/magento2/pull/72) -- fixed collecting shipping totals for case, when previous invoice value is 0
+
 Update as of 9/27/2012
 ======================
 * Refactoring Magento 2 to use jQuery instead of Prototype:

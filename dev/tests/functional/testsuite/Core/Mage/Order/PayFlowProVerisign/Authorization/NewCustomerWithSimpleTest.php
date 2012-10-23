@@ -24,12 +24,10 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('PaymentMethod', 'payflowpro_without_3Dsecure');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/payflowpro_without_3Dsecure');
     }
 
     protected function assertPreConditions()
@@ -70,8 +68,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_payflowpro');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData));
+            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -314,7 +311,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
@@ -413,8 +409,8 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $config = $this->loadDataSet('PaymentMethod', 'payflowpro_with_3Dsecure');
-            $this->systemConfigurationHelper()->configure($config);
+            $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/payflowpro_with_3Dsecure');
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

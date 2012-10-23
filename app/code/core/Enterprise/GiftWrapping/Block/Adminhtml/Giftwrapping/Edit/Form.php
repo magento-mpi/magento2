@@ -34,7 +34,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
 
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element'
+                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
+                $this->getNameInLayout() . '_element'
             )
         );
     }

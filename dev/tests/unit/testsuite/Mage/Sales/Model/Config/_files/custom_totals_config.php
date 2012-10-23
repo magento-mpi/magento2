@@ -4,7 +4,7 @@
  *
  * @category    Magento
  * @package     Mage_Sales
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
