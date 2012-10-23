@@ -196,7 +196,6 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Mage/Customer/_files/customer.php
      *
-     * @expectedException Magento_Validator_Exception
      * @dataProvider createErrorsDataProvider
      *
      * @param array $addressData
@@ -204,7 +203,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      * @param string|null $expectedMessage
      * @throws Magento_Validator_Exception
      */
-    public function testCreateErrors(array $addressData, array $expectedMessagesKeys = array(), $expectedMessage = '')
+    public function testCreateErrors(array $addressData, array $expectedMessagesKeys = null, $expectedMessage = '')
     {
         $customerId = 1;
         $this->setExpectedException('Magento_Validator_Exception', $expectedMessage);
@@ -324,7 +323,6 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      * @magentoDataFixture Mage/Customer/_files/customer.php
      * @magentoDataFixture Mage/Customer/_files/customer_address.php
      *
-     * @expectedException Magento_Validator_Exception
      * @dataProvider updateErrorsDataProvider
      *
      * @param array $addressData
@@ -332,7 +330,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      * @param string|null $expectedMessage
      * @throws Magento_Validator_Exception
      */
-    public function testUpdateErrors(array $addressData, array $expectedMessagesKeys = array(), $expectedMessage = '')
+    public function testUpdateErrors(array $addressData, array $expectedMessagesKeys = null, $expectedMessage = '')
     {
         $addressId = 1;
         $this->setExpectedException('Magento_Validator_Exception', $expectedMessage);
