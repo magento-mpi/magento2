@@ -67,7 +67,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         $this->_request = null;
         $this->_response = null;
-        $this->_objectManager->clearCache();
+        $this->_objectManager = null;
     }
 
     /**
