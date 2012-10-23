@@ -164,16 +164,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check whether parent theme can be changed
-     *
-     * @return bool
-     */
-    public function isParentThemeEditable()
-    {
-        return $this->isVirtual();
-    }
-
-    /**
      * Update all child themes relations
      *
      * @return Mage_Core_Model_Theme
@@ -314,7 +304,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $previewImageData = $themeData['preview_image'];
             unset($themeData['preview_image']);
         }
-        if (!$this->isParentThemeEditable()) {
+        if (!$this->isVirtual()) {
             unset($themeData['parent_id']);
         }
 
