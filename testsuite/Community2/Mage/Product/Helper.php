@@ -254,20 +254,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     }
 
     /**
-     * Add Tier Price
-     *
-     * @param array $tierPriceData
-     */
-    public function addTierPrice(array $tierPriceData)
-    {
-        $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
-        $this->addParameter('tierPriceId', $rowNumber);
-        $this->clickButton('add_tier_price', false);
-        $this->fillForm($tierPriceData, 'prices');
-    }
-
-    /**
-     * Add Tier Price
+     * Add Group Price
      *
      * @param array $groupPriceData
      */
@@ -278,7 +265,4 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->clickButton('add_group_price', false);
         $this->fillForm($groupPriceData, 'prices');
     }
-
-
-
 }

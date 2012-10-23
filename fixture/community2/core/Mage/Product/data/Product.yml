@@ -197,3 +197,22 @@ prices_group_price_data: &groupPriceData
     prices_group_price_1: *groupPrice1
     prices_group_price_2: *groupPrice2
     prices_group_price_3: *groupPrice3
+
+#*********************************************
+#*         Bundle Product Data               *
+#*********************************************
+bundle_product_visible:
+    product_attribute_set: Default
+    general_name: Bundle(Dynamic) Product Visible(%randomize%)
+    general_description: Description for Bundle(Dynamic) Product Visible
+    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    general_sku_type: Dynamic
+    general_sku: bundle_dynamic_visible_sku.req_%randomize%
+    general_weight_type: Dynamic
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    bundle_items_data:
+        item_1: %noValue%

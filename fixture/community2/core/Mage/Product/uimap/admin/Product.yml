@@ -147,8 +147,10 @@ updating_products:
             save: //button[span='Save']
 
 new_product:
-    uimap:
-        form:
+    mca: catalog_product/new/set/%setId%/type/%productType%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: &newProduct
+        form: &newProductCreationForm
             tabs:
                 -
                     prices: &pricesTab
@@ -169,3 +171,7 @@ new_product:
                                     fields:
                                         group_price_price: //input[@id='group_price_row_%groupPriceId%_price']
 
+new_configurable_product:
+    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
