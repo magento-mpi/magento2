@@ -93,7 +93,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         ));
         $this->addChild('super_settings', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings');
 
-
         if ($this->_getProduct()->getId()) {
             $this->setChild('simple',
                 $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple',
@@ -347,7 +346,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getSelectedAttributes()
     {
-        return array_filter($this->_getProduct()->getTypeInstance()
-                ->getUsedProductAttributes($this->_getProduct()));
+        return array_filter(
+            $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct())
+        );
     }
 }
