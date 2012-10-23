@@ -1,12 +1,29 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * System configuration migration parser
+ */
 
 class Tools_Migration_System_Configuration_Parser
 {
+    /**
+     * Parse dom document
+     *
+     * @param DOMDocument $dom
+     * @return array
+     */
     public function parse(DOMDocument $dom)
     {
         $result = array();
         if ($dom->hasChildNodes()) {
-            /** @var $child DOMNode */
             foreach ($dom->childNodes as $child) {
                 if (XML_COMMENT_NODE == $child->nodeType) {
                     $result['comment'] = $child->nodeValue;
@@ -18,6 +35,12 @@ class Tools_Migration_System_Configuration_Parser
         return $result;
     }
 
+    /**
+     * Parse dom node
+     *
+     * @param DOMNode $node
+     * @return array
+     */
     protected function _parseNode(DOMNode $node = null)
     {
         // return empty array if dom is blank

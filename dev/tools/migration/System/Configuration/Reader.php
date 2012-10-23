@@ -1,16 +1,42 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * System configuration migration reader
+ */
 
 class Tools_Migration_System_Configuration_Reader
 {
-
+    /**
+     * @var Tools_Migration_System_FileManager
+     */
     protected $_fileManager;
 
+    /**
+     * @var Tools_Migration_System_Configuration_Parser
+     */
     protected $_parser;
 
+    /**
+     * @var Tools_Migration_System_Configuration_Mapper
+     */
     protected $_mapper;
 
+    /**
+     * @var string base application path
+     */
     protected $_basePath;
 
+    /**
+     * pattern to find all system.xml files
+     */
     CONST SYSTEM_CONFIG_PATH_PATTERN = 'app/code/*/*/*/etc/system.xml';
 
     public function __construct(
@@ -27,6 +53,8 @@ class Tools_Migration_System_Configuration_Reader
     }
 
     /**
+     * Get configuration per file
+     *
      * @return array
      */
     public function getConfiguration()
@@ -49,6 +77,12 @@ class Tools_Migration_System_Configuration_Reader
         return $result;
     }
 
+    /**
+     * Create Dom document from xml string
+     *
+     * @param $xml
+     * @return DOMDocument
+     */
     protected function _getDOMDocument($xml)
     {
         $dom = new DOMDocument();
