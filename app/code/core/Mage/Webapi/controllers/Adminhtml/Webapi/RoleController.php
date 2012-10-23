@@ -47,9 +47,9 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     /**
      * AJAX Web API Roles grid
      */
-    public function roleGridAction()
+    public function rolegridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 
