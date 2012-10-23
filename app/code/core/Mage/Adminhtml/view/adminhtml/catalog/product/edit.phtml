@@ -41,30 +41,6 @@
 //<![CDATA[
     var productTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
     jQuery('#product_edit_form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
-    /*var productForm = new varienForm('product_edit_form', '<?php echo $this->getValidationUrl() ?>');
-    productForm._processValidationResult = function(transport) {
-        var response = transport.responseText.evalJSON();
-        if (response.error){
-            if (response.attribute && $(response.attribute)) {
-                $(response.attribute).setHasError(true, productForm);
-                Validation.ajaxError($(response.attribute), response.message);
-                if (!Prototype.Browser.IE){
-                    $(response.attribute).focus();
-                }
-            }
-            else if ($('messages')) {
-                $('messages').innerHTML = '<ul class="messages"><li class="error-msg"><ul><li>' + response.message + '</li></ul></li></ul>';
-            }
-        }
-        else{
-            productForm._submit();
-        }
-    };*/
-    function saveAndContinueEdit(urlTemplate) {
-        var template = new Template(urlTemplate, productTemplateSyntax);
-        var url = template.evaluate({tab_id:product_info_tabsJsTabs.activeTab.id});
-        productForm.submit(url);
-    }
     function setSettings(urlTemplate, setElement, typeElement) {
         var template = new Template(urlTemplate, productTemplateSyntax);
         setLocation(template.evaluate({attribute_set:$F(setElement),type:$F(typeElement)}));
@@ -186,11 +162,5 @@ Event.observe(window, 'load', function() {
         new Autogenerator(masks).bindAll();
     })(jQuery);
 });
-
-Validation.addAllThese([
-    ['validate-super-product-attributes', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please select one or more attributes.') ?>', function(v) {
-        return (v != "no-attributes");
-    }]
-]);
 //]]>
 </script>

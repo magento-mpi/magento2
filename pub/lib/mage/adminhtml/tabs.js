@@ -54,6 +54,28 @@ varienTabs.prototype = {
 
         this.displayFirst = activeTabId;
         Event.observe(window,'load',this.moveTabContentInDest.bind(this));
+        Event.observe(window,'load',this.bindOnbeforeSubmit.bind(this));
+        Event.observe(window,'load',this.bindOnInvalid.bind(this));
+    },
+
+    bindOnInvalid: function() {
+        jQuery.each(this.tabs, jQuery.proxy(function(i, tab) {
+            jQuery('#' + this.getTabContentElementId(tab))
+                .on('highlight.validate', function() {
+                    jQuery(tab).addClass('error').find('.error').show();
+                })
+                .on('focusin', jQuery.proxy(function() {
+                    this.showTabContentImmediately(tab);
+                }, this));
+        }, this));
+    },
+
+    bindOnbeforeSubmit: function() {
+        jQuery('#' + this.destElementId).on('beforeSubmit', jQuery.proxy(function(e, data) {
+            jQuery(this.tabs).removeClass('error');
+            var options = {tab: this.activeTab.id};
+            data = data ? jQuery.extend(data, options) : options;
+        }, this));
     },
     
     setSkipDisplayFirstTab : function(){

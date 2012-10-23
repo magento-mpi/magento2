@@ -17,7 +17,7 @@
          * @protected
          */
         _create: function() {
-            $.each(this.options.actions, function(i, v){
+            $.each(this.options.actions, function(i, v) {
                 $.template(i, v.template);
             })
             this._bind();
@@ -38,10 +38,11 @@
         _getActionUrl: function(action, data){
             var actions = this.options.actions;
             if (actions[action]) {
-                return $.tmpl(action, $.extend({
+                data = data || {};
+                return $.tmpl(action, {
                     base: this.element.attr('action'),
-                    args: data || action.args || {}
-                }));
+                    args: actions[action].args ? $.extend(actions[action].args, data) : data
+                }).text();
             }
             return false;
         },
@@ -52,6 +53,9 @@
          * @return {string|boolean}
          */
         _submit: function(e, data) {
+            var urlData = {};
+            this.element.trigger('beforeSubmit', urlData);
+            data = data ? $.extend(data, urlData) : urlData;
             var url = this._getActionUrl(e.type, data);
             if (url) {
                 this.element.attr('action', url);
@@ -67,7 +71,7 @@
          */
         _create: function(){
             var data = this.element.data().widgetButton;
-            if($.type(data) === 'object') {
+            if ($.type(data) === 'object') {
                 this.element.on('click', function(){
                     $(data.related).trigger(data.event);
                 })
