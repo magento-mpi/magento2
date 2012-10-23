@@ -48,21 +48,37 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     protected function _prepareObjectManagerForClearCache()
     {
         $diInstance      = $this->getMock('Zend\Di\Di', array('get', 'instanceManager', 'setInstanceManager'));
-        $magentoConfig   = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $instanceManager = $this->getMock('Zend\Di\InstanceManager', array(), array(), '', false);
 
-        $diInstance->expects($this->exactly(2))
+        $diInstance->expects($this->exactly(3))
             ->method('instanceManager')
             ->will($this->returnValue($instanceManager));
-        $diInstance->expects($this->exactly(4))
+        $diInstance->expects($this->exactly(5))
             ->method('get')
-            ->with('Mage_Core_Model_Config')
-            ->will($this->returnValue($magentoConfig));
-        $diInstance->expects($this->exactly(1))
+            ->will($this->returnCallback(array($this, 'getCallback')));
+        $diInstance->expects($this->once())
             ->method('setInstanceManager')
             ->will($this->returnCallback(array($this, 'verifySetInstanceManager')));
 
         $this->_model = new Magento_Test_ObjectManager(null, $diInstance);
+    }
+
+    /**
+     * Callback method for Zend\Di\Di::get
+     *
+     * @param $className
+     * @param array $arguments
+     * @return null|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getCallback($className, array $arguments = array())
+    {
+        $this->assertEmpty($arguments);
+        if ($className == 'Mage_Core_Model_Config') {
+            return $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        } elseif ($className == 'Mage_Core_Model_Resource') {
+            return $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false);
+        }
+        return null;
     }
 
     /**
