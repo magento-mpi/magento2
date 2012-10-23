@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var $session Mage_DesignEditor_Model_Session */
 $session = Mage::getModel('Mage_DesignEditor_Model_Session');
+/** @var $auth Mage_Backend_Model_Auth */
 $auth = Mage::getModel('Mage_Backend_Model_Auth');
 $auth->setAuthStorage($session);
 $session->deactivateDesignEditor();

@@ -13,10 +13,9 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 {
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         parent::setUp();
         Mage::setCurrentArea('adminhtml');
+        /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $auth->login('admingws_user', 'admingws_password');
@@ -24,8 +23,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
     protected function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $auth Mage_Backend_Model_Auth */
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $auth->logout();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
@@ -34,13 +32,11 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
     /**
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
-     * magentoDataFixture Mage/Catalog/_files/categories.php
-     * magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testValidateCatalogPermissionsWebsites()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $result = $this->getResponse()->getBody();
         $this->assertContains('category_permissions_3', $result);
@@ -49,13 +45,11 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
     /**
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
-     * magentoDataFixture Mage/Catalog/_files/categories.php
-     * magentoDataFixture Enterprise/AdminGws/_files/role_stores_login.php
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_stores_login.php
      */
     public function testValidateCatalogPermissionsStoreGroups()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $this->assertContains(
             'title="New Permission" type="button" class="scalable delete disabled disabled" disabled="disabled"',
@@ -64,14 +58,10 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     }
 
     /**
-     *  Test if gws block is added into layout when editing role
-     *
-     * magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleEditContainsGwsBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $this->dispatch('backend/admin/user_role/editrole');
 
         $this->assertInstanceOf(
@@ -90,14 +80,10 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     }
 
     /**
-     *  Test if gws block is added into layout when loading roles
-     *
-     * magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleIndexContainsGwsBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $this->dispatch('backend/admin/user_role/index');
 
         $this->assertInstanceOf(
@@ -106,15 +92,12 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
     }
+
     /**
-     *  Test if gws block is added into layout when loading roles in grid
-     *
-     * magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testBackendUserRoleEditRoleGridContainsGwsBlock()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $this->dispatch('backend/admin/user_role/editrolegrid');
 
         $this->assertInstanceOf(
@@ -122,6 +105,5 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
             Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
-
     }
 }
