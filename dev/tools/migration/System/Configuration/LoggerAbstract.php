@@ -39,7 +39,7 @@ abstract class Tools_Migration_System_Configuration_LoggerAbstract
      */
     public function __toString()
     {
-       return implode(PHP_EOL, $this->_logs);
+        return implode(PHP_EOL, $this->_logs);
     }
 
     /**

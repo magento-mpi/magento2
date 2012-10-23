@@ -27,7 +27,7 @@ class Tools_Migration_System_Configuration_Parser
             foreach ($dom->childNodes as $child) {
                 if (XML_COMMENT_NODE == $child->nodeType) {
                     $result['comment'] = $child->nodeValue;
-                } else if(XML_ELEMENT_NODE == $child->nodeType && 'config' == $child->nodeName) {
+                } else if (XML_ELEMENT_NODE == $child->nodeType && 'config' == $child->nodeName) {
                     $result = array_merge($result, $this->_parseNode($child));
                 }
             }

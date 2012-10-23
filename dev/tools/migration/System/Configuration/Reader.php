@@ -43,8 +43,7 @@ class Tools_Migration_System_Configuration_Reader
         Tools_Migration_System_FileManager $fileManager,
         Tools_Migration_System_Configuration_Parser $parser,
         Tools_Migration_System_Configuration_Mapper $mapper
-    )
-    {
+    ) {
         $this->_fileManager = $fileManager;
         $this->_parser = $parser;
         $this->_mapper = $mapper;

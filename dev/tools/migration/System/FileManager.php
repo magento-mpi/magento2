@@ -25,8 +25,9 @@ class Tools_Migration_System_FileManager
      * @param Tools_Migration_System_FileReader $reader
      * @param Tools_Migration_System_WriterInterface $writer
      */
-    public function __construct(Tools_Migration_System_FileReader $reader,
-                                Tools_Migration_System_WriterInterface $writer
+    public function __construct(
+        Tools_Migration_System_FileReader $reader,
+        Tools_Migration_System_WriterInterface $writer
     ) {
         $this->_reader = $reader;
         $this->_writer = $writer;

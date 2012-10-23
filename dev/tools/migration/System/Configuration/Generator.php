@@ -26,9 +26,10 @@ class Tools_Migration_System_Configuration_Generator
      */
     protected $_logger;
 
-    public function __construct(Tools_Migration_System_Configuration_Formatter $xmlFormatter,
-                                Tools_Migration_System_FileManager $fileManager,
-                                Tools_Migration_System_Configuration_LoggerAbstract $logger
+    public function __construct(
+        Tools_Migration_System_Configuration_Formatter $xmlFormatter,
+        Tools_Migration_System_FileManager $fileManager,
+        Tools_Migration_System_Configuration_LoggerAbstract $logger
     ) {
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
@@ -103,7 +104,7 @@ class Tools_Migration_System_Configuration_Generator
                 $childElement->setAttribute($attributeName, $attributeValue);
             }
 
-            if(isset($paramConfig['subConfig'])) {
+            if (isset($paramConfig['subConfig'])) {
                 foreach ($paramConfig['subConfig'] as $subConfig) {
                     $childElement->appendChild($this->_createElement($subConfig, $dom));
                 }
@@ -111,7 +112,7 @@ class Tools_Migration_System_Configuration_Generator
             $element->appendChild($childElement);
         }
 
-        if(isset($config['subConfig'])) {
+        if (isset($config['subConfig'])) {
             foreach ($config['subConfig'] as $subConfig) {
                 $element->appendChild($this->_createElement($subConfig, $dom));
             }
