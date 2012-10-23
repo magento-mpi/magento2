@@ -11,8 +11,8 @@
 
 class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Wishlist_Block_Abstract
-     *
+    /**
+     * @var Mage_Wishlist_Block_Abstract
      */
     protected $_blockInjections = array(
         'Mage_Core_Controller_Request_Http',
@@ -40,10 +40,10 @@ class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_
     }
 
     /**
- * List of block constructor arguments
- *
- * @return array
- */
+     * List of block constructor arguments
+     *
+     * @return array
+     */
     protected function _prepareConstructorArguments()
     {
         $arguments = array();
