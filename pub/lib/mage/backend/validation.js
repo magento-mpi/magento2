@@ -22,7 +22,7 @@
         /**
          * Focus invalid fields
          */
-        focusInvalid: function () {
+        focusInvalid: function() {
             if (this.settings.focusInvalid) {
                 try {
                     $(this.errorList.length && this.errorList[0].element || [])
@@ -39,8 +39,10 @@
         options: {
             messagesId: 'messages',
             ignore: "",
-            errorElement: 'label'
+            errorElement: 'label',
+            errorUrl: BASE_URL
         },
+
         /**
          * Validation creation
          * @protected
@@ -54,6 +56,7 @@
             this.element.on('resetElement', function(e, data) {$(e.target).rules('remove');});
             this._super('_create');
         },
+
         /**
          * ajax validation
          * @protected
@@ -62,11 +65,14 @@
             $.ajax({
                 url: this.options.validationUrl,
                 type: 'POST',
+                dataType: 'json',
                 data: this.element.serialize(),
-                success: $.proxy(this._onSuccess, this),
-                error: $.proxy(this._onError, this)
+                context: this,
+                success: this._onSuccess,
+                error: this._onError
             });
         },
+
         /*
          * Process ajax success
          * @protected
@@ -74,8 +80,7 @@
          * @param {string} response status
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          */
-        _onSuccess: function(responseText, status, jqXHR) {
-            var response = $.parseJSON(responseText);
+        _onSuccess: function(response, status, jqXHR) {
             if (response.attribute) {
                 $('#' + response.attribute)
                     .addClass('validate-ajax-error')
@@ -86,12 +91,15 @@
                 this.element[0].submit();
             }
         },
+
         /*
          * Process ajax error
          * @protected
          */
         _onError: function() {
-            location.href = BASE_URL;
+            if (this.options.errorUrl) {
+                location.href = this.options.errorUrl;
+            }
         }
     });
 })(jQuery);

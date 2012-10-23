@@ -12,6 +12,7 @@
                 }
             }
         },
+
         /**
          * Form creation
          * @protected
@@ -19,9 +20,10 @@
         _create: function() {
             $.each(this.options.actions, function(i, v) {
                 $.template(i, v.template);
-            })
+            });
             this._bind();
         },
+
         /**
          * Bind '_submit' method on 'save' and 'saveAndContinueEdit' events
          * @protected
@@ -29,13 +31,14 @@
         _bind: function() {
             this.element.on('save saveAndContinueEdit', $.proxy(this._submit, this));
         },
+
         /**
          * Get action url for form
          * @param {string} name of action
-         * @param {object} object with parameters for action url
+         * @param {Object} object with parameters for action url
          * @return {string|boolean}
          */
-        _getActionUrl: function(action, data){
+        _getActionUrl: function(action, data) {
             var actions = this.options.actions;
             if (actions[action]) {
                 data = data || {};
@@ -46,10 +49,11 @@
             }
             return false;
         },
+
         /**
          * Submit the form
-         * @param {object} event object
-         * @param {object} event data object
+         * @param {Object} event object
+         * @param {Object} event data object
          * @return {string|boolean}
          */
         _submit: function(e, data) {
@@ -72,12 +76,12 @@
         _create: function(){
             var data = this.element.data().widgetButton;
             if ($.type(data) === 'object') {
-                this.element.on('click', function(){
+                this.element.on('click', function() {
                     $(data.related).trigger(data.event);
-                })
+                });
             }
             this._super("_create");
         }
-    })
+    });
 })(jQuery);
 
