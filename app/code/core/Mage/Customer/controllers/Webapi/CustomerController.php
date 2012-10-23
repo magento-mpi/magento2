@@ -132,7 +132,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * @return Mage_Customer_Webapi_Customer_DataStructure
      * @throws Mage_Webapi_Exception
      */
-    public function getV2($id, $newParam)
+    public function getV2($id, $newParam = null)
     {
         try {
             $customerData = $this->_get($id);
