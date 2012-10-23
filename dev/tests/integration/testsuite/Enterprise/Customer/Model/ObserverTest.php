@@ -64,9 +64,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract',
-            $arguments
-            );
+        $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
         $observer = new Varien_Event_Observer(array(
             'event' => new Varien_Object(array(
                 'address' => $entity,
@@ -76,6 +74,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_observer->salesOrderAddressAfterLoad($observer);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));
     }
+
     /**
      * List of block constructor arguments
      *
