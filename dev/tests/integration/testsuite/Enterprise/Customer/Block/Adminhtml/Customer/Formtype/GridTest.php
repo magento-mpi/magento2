@@ -13,8 +13,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_GridTest extends PHP
 {
     public function testPrepareColumns()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         /** @var Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid $block */
         $block = Mage::app()->getLayout()->createBlock('Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid');
         $block->toHtml();

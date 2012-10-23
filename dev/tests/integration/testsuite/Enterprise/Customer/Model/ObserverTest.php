@@ -10,10 +10,22 @@
  */
 
 /**
- * magentoDataFixture Enterprise/Customer/_files/order_address_with_attribute.php
+ * @magentoDataFixture Enterprise/Customer/_files/order_address_with_attribute.php
  */
 class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * List of block injection classes
+     *
+     * @var array
+     */
+    protected $_blockInjections = array(
+        'Mage_Core_Model_Event_Manager',
+        'Mage_Core_Model_Cache',
+        null,
+        null
+    );
+
     /**
      * @var Enterprise_Customer_Model_Observer
      */
@@ -26,8 +38,6 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
@@ -50,12 +60,13 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
-
-        $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(array('id' => $address->getId())));
+        $arguments = $this->_prepareConstructorArguments();
+        $arguments[] = array('id' => $address->getId());
+        $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract',
+            $arguments
+            );
         $observer = new Varien_Event_Observer(array(
             'event' => new Varien_Object(array(
                 'address' => $entity,
@@ -64,5 +75,22 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_observer->salesOrderAddressAfterLoad($observer);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));
+    }
+    /**
+     * List of block constructor arguments
+     *
+     * @return array
+     */
+    protected function _prepareConstructorArguments()
+    {
+        $arguments = array();
+        foreach ($this->_blockInjections as $injectionClass) {
+            if ($injectionClass) {
+                $arguments[] = Mage::getModel($injectionClass);
+            } else {
+                $arguments[] = null;
+            }
+        }
+        return $arguments;
     }
 }

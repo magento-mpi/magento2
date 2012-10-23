@@ -22,13 +22,11 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * magentoDataFixture Mage/Catalog/_files/product_configurable.php
-     * magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testDeleteProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         Mage::register('isSecureArea', true);
 
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -73,10 +71,10 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->assertInstanceOf('Mage_Catalog_Model_Product', $simple);
         $simple->delete();
 
-        $giftRegistry2 = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
-        $giftRegistry2->load($this->_giftRegistry->getId());
-        $items2 = $giftRegistry2->getItemsCollection();
-        $this->assertEmpty($items2->count());
+        $giftRegistryTwo = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
+        $giftRegistryTwo->load($this->_giftRegistry->getId());
+        $itemsTwo = $giftRegistryTwo->getItemsCollection();
+        $this->assertEmpty($itemsTwo->count());
     }
 
 }

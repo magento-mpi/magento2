@@ -19,8 +19,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         parent::setUp();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
@@ -35,18 +33,16 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
 
     public function testToHtml()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_initAcl();
         $parentName = $this->_block->getNameInLayout();
         $this->_block->setArea('adminhtml');
 
         // set first child - block
-        $title1 = 'Block 1';
-        $url1 = 'http://content.url.1/';
+        $title = 'Block 1';
+        $url = 'http://content.url.1/';
         $this->_layout->addBlock('Mage_Core_Block_Text', 'block1', $parentName)
-            ->setHeaderText($title1)
-            ->setData('content_url', $url1);
+            ->setHeaderText($title)
+            ->setData('content_url', $url);
 
         // set second child - container
         $containerName = 'container';
@@ -55,17 +51,17 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
         $this->_layout->addBlock('Mage_Core_Block_Text', 'container_block', $containerName)->setText($containerText);
 
         // set third child - block
-        $title2 = 'Block 2';
+        $titleOne = 'Block 2';
         $blockContent = 'Block 2 Text';
         $this->_layout->addBlock('Mage_Core_Block_Text', 'block2', $parentName)
-            ->setHeaderText($title2)
+            ->setHeaderText($titleOne)
             ->setText($blockContent);
 
         $html = $this->_block->toHtml();
-        $this->assertContains($title1, $html);
-        $this->assertContains($url1, $html);
+        $this->assertContains($title, $html);
+        $this->assertContains($url, $html);
         $this->assertNotContains($containerText, $html);
-        $this->assertContains($title2, $html);
+        $this->assertContains($titleOne, $html);
         $this->assertContains($blockContent, $html);
     }
 

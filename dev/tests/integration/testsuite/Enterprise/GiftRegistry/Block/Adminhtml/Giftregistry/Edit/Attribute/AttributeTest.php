@@ -20,8 +20,6 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         parent::setUp();
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout
@@ -36,8 +34,6 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
 
     public function testGetAddButtonId()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $block = $this->_block->getChildBlock('add_button');
         $expected = uniqid();
         $this->assertNotEquals($expected, $this->_block->getAddButtonId());

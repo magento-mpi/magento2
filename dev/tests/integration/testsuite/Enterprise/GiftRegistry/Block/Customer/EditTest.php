@@ -18,8 +18,6 @@ class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Customer_Edit');
     }
 
@@ -30,8 +28,6 @@ class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_
 
     public function testAddInputTypeTemplate()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->assertEmpty($this->_block->getInputTypeTemplate('test'));
         $this->_block->addInputTypeTemplate('test', 'Enterprise_GiftRegistry::attributes/text.phtml');
         $template = $this->_block->getInputTypeTemplate('test');

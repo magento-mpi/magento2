@@ -13,8 +13,6 @@ class Enterprise_Customer_Block_FormTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $template = $layout->createBlock('Mage_Core_Block_Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
@@ -29,8 +27,6 @@ class Enterprise_Customer_Block_FormTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareLayoutNoRenderer()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->createBlock('Mage_Core_Block_Text', 'customer_form_template');
         $block = $layout->createBlock('Enterprise_Customer_Block_Form');

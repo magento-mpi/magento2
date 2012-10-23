@@ -10,7 +10,7 @@
  */
 
 /**
- * magentoDataFixture Enterprise/Customer/_files/order_address_with_attribute.php
+ * @magentoDataFixture Enterprise/Customer/_files/order_address_with_attribute.php
  */
 class Enterprise_Customer_Model_Sales_Order_AddressTest extends PHPUnit_Framework_TestCase
 {
@@ -21,15 +21,11 @@ class Enterprise_Customer_Model_Sales_Order_AddressTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->_model = Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
