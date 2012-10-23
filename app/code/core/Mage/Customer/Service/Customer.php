@@ -69,17 +69,6 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Delete customer entity
-     *
-     * @param string|int $customerId
-     */
-    public function delete($customerId)
-    {
-        $this->_loadCustomerById($customerId)
-            ->delete();
-    }
-
-    /**
      * Save customer entity. Perform supplementary business workflow actions
      *
      * @param Mage_Customer_Model_Customer $customer

@@ -109,7 +109,13 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
     {
         /** @var $attributes Mage_Eav_Model_Attribute[] */
         $attributes = $this->_getAttributes($entity);
-        $data = $this->_getData($entity);
+
+        $data = array();
+        if ($this->_data) {
+            $data = $this->_data;
+        } elseif ($entity instanceof Varien_Object) {
+            $data = $entity->getData();
+        }
 
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
@@ -130,25 +136,6 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
     }
 
     /**
-     * Get extracted data used by data model for validation.
-     *
-     * @param mixed $entity
-     * @return array
-     */
-    protected function _getData($entity)
-    {
-        $result = array();
-
-        if ($this->_data) {
-            $result = $this->_data;
-        } elseif ($entity instanceof Varien_Object) {
-            $result = $entity->getData();
-        }
-
-        return $result;
-    }
-
-    /**
      * Get attributes involved in validation.
      *
      * This method return specified $_attributes if they defined by setAttributes method, otherwise if $entity
@@ -159,6 +146,7 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
      */
     protected function _getAttributes($entity)
     {
+        /** @var $attributes Mage_Customer_Model_Attribute[] */
         $attributes = array();
 
         if ($this->_attributes) {
@@ -166,7 +154,6 @@ class Mage_Eav_Model_Validator_Attribute_Data implements Magento_Validator_Valid
         } elseif ($entity instanceof Mage_Core_Model_Abstract
                   && $entity->getResource() instanceof Mage_Eav_Model_Entity_Abstract
         ) { // $entity is EAV-model
-            /** @var $attribute Mage_Customer_Model_Attribute */
             $attributes = $entity->getEntityType()->getAttributeCollection()->getItems();
         }
 

@@ -18,6 +18,11 @@ class Magento_Validator_Exception extends Exception
      */
     protected $_messages;
 
+    /**
+     * Constructor
+     *
+     * @param array $messages Validation error messages
+     */
     public function __construct(array $messages)
     {
         $this->_messages = $messages;
@@ -35,6 +40,11 @@ class Magento_Validator_Exception extends Exception
         parent::__construct($message);
     }
 
+    /**
+     * Get validation error messages
+     *
+     * @return array
+     */
     public function getMessages()
     {
         return $this->_messages;

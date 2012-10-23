@@ -43,6 +43,7 @@
                                 <option>entity_type_id</option>
                                 <option>created_in</option>
                                 <option>website_id</option>
+                                <option>store_id</option>
                                 <option>created_at</option>
                             </argument>
                         </method>

@@ -52,13 +52,23 @@ abstract class Mage_Core_Service_ServiceAbstract
      */
     public function __construct(array $args = array())
     {
-        $this->_config = isset($args['config'])
-            ? $args['config'] : Mage::getConfig();
+        if (isset($args['config'])) {
+            $this->_config = $args['config'];
+        } else {
+            $this->_config = Mage::getConfig();
+        }
 
-        $this->_translateHelper = isset($args['helper']) ? $args['helper'] : Mage::helper('Mage_Core_Helper_Data');
+        if (isset($args['helper'])) {
+            $this->_translateHelper =  $args['helper'];
+        } else {
+            $this->_translateHelper =  Mage::helper('Mage_Core_Helper_Data');
+        }
 
-        $this->_eventManager = isset($args['eventManager'])
-            ? $args['eventManager'] : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        if (isset($args['eventManager'])) {
+            $this->_eventManager = $args['eventManager'];
+        } else {
+            $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        }
 
         if (isset($args['validatorFactory'])) {
             $this->_validatorFactory = $args['validatorFactory'];

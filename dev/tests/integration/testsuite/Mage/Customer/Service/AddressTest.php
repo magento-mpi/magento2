@@ -81,8 +81,8 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
         $expectedData = $addressData;
         ksort($expectedData);
 
-        $loadedData = Mage::getModel('Mage_Customer_Model_Address')->load($address->getId())->getData();
-        $actualData = array_intersect_key($loadedData, $expectedData);
+        $actualData = Mage::getModel('Mage_Customer_Model_Address')->load($address->getId())
+            ->toArray(array_keys($expectedData));
         ksort($actualData);
 
         $this->assertEquals($expectedData, $actualData);
@@ -236,8 +236,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'city' => '',
                     'postcode' => '',
                     'telephone' => '',
-                ),
-                array('city', 'country_id', 'firstname', 'lastname', 'postcode', 'street', 'telephone')
+                ), array('city', 'country_id', 'firstname', 'lastname', 'postcode', 'street', 'telephone')
             ),
             'Empty data' => array(
                 array(), array('city', 'country_id', 'firstname', 'lastname', 'postcode', 'street', 'telephone')
@@ -251,8 +250,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'city' => 'CityM',
                     'postcode' => '75477',
                     'telephone' => '3468676',
-                ),
-                array('firstname')
+                ), array('firstname')
             ),
             'Read-only entity_id' => array(
                 array(
@@ -264,9 +262,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'postcode' => '75477',
                     'telephone' => '3468676',
                     'entity_id' => 100
-                ),
-                null,
-                'Read-only property cannot be changed.'
+                ), null, 'Read-only property cannot be changed.'
             ),
             'Read-only increment_id' => array(
                 array(
@@ -278,9 +274,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'postcode' => '75477',
                     'telephone' => '3468676',
                     'increment_id' => 100
-                ),
-                null,
-                'Read-only property cannot be changed.'
+                ), null, 'Read-only property cannot be changed.'
             ),
             'Read-only entity_type_id' => array(
                 array(
@@ -292,9 +286,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'postcode' => '75477',
                     'telephone' => '3468676',
                     'entity_type_id' => 1
-                ),
-                null,
-                'Read-only property cannot be changed.'
+                ), null, 'Read-only property cannot be changed.'
             ),
             'Read-only attribute_set_id' => array(
                 array(
@@ -306,9 +298,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'postcode' => '75477',
                     'telephone' => '3468676',
                     'attribute_set_id' => 0
-                ),
-                null,
-                'Read-only property cannot be changed.'
+                ), null, 'Read-only property cannot be changed.'
             ),
         );
     }
@@ -319,7 +309,15 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateWithInvalidCustomer()
     {
-        $this->_service->create(array(), 1);
+        $this->_service->create(array(
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'street' => 'Green str, 67',
+            'country_id' => 'AL',
+            'city' => 'CityM',
+            'postcode' => '75477',
+            'telephone' => '3468676',
+        ), 1);
     }
 
     /**
@@ -366,8 +364,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'city' => '',
                     'postcode' => '',
                     'telephone' => '',
-                ),
-                array('city', 'country_id', 'firstname', 'lastname', 'postcode', 'street', 'telephone')
+                ), array('city', 'country_id', 'firstname', 'lastname', 'postcode', 'street', 'telephone')
             ),
             'Empty street' => array(
                 array(
@@ -378,8 +375,7 @@ class Mage_Customer_Service_AddressTest extends PHPUnit_Framework_TestCase
                     'city' => 'CityM',
                     'postcode' => '75477',
                     'telephone' => '3468676',
-                ),
-                array('street')
+                ), array('street')
             ),
             'Read-only attribute_set_id' => array(
                 array(

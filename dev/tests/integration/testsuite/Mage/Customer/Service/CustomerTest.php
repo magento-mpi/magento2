@@ -180,6 +180,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $customerData
      * @param string $exceptionName
+     * @param string $exceptionMessage
      * @magentoDataFixture Mage/Customer/_files/customer.php
      * @dataProvider initUpdateCustomerDataProvider
      */
@@ -229,6 +230,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Read-only created_in' => array(array(
                 'created_in' => 1
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
+            'Read-only store_id' => array(array(
+                'store_id' => 1
+            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
             'Read-only created_at' => array(array(
                 'created_at' => 1
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.')
@@ -236,18 +240,12 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage The customer with the specified ID not found.
      */
-    public function testDelete()
+    public function testUpdateInvalidCustomerId()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
-
-        $this->_model->delete(1);
-
-        $customer = new Mage_Customer_Model_Customer();
-        $customer->load(1);
-        $this->assertEmpty($customer->getId());
+        $this->_model->update(1, array('firstname' => 'Foo'));
     }
 
     /**
@@ -279,15 +277,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'autogenerate_password' => true,
             )),
         );
-    }
-
-    /**
-     * @magentoDataFixture Mage/Customer/_files/customer.php
-     * @expectedException Mage_Core_Exception
-     */
-    public function testLoadCustomerByIdException()
-    {
-        $this->_model->delete(100);
     }
 
     /**
