@@ -12,12 +12,11 @@
 class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
-     * magentoDataFixture Mage/Cms/_files/pages.php
+     * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testPreviewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
+        /** @var $page Mage_Cms_Model_Page */
         $page = Mage::getModel('Mage_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
@@ -28,13 +27,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Admi
     }
 
     /**
-     * magentoDataFixture Mage/Core/_files/design_change.php
-     * magentoDataFixture Mage/Cms/_files/pages.php
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testDropAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller + fixture');
-
         $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 

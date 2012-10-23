@@ -18,8 +18,6 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
 
     public function setUp()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         parent::setUp();
         $this->_customerSession = Mage::getModel('Mage_Customer_Model_Session');
         $this->_customerSession->login('customer@example.com', 'password');
@@ -27,8 +25,6 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
 
     protected function tearDown()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->_customerSession->logout();
         $this->_customerSession = null;
         parent::tearDown();
@@ -36,14 +32,13 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
 
     /**
      * @magentoConfigFixture current_store sales/enterprise_rma/enabled 1
-     * magentoDataFixture Enterprise/Rma/_files/rma.php
-     * magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Enterprise/Rma/_files/rma.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
      * @dataProvider isResponseContainDataProvider
      */
     public function testIsResponseContain($uri, $content)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
+        /** @var $rma Enterprise_Rma_Model_Rma */
         $rma = Mage::getModel('Enterprise_Rma_Model_Rma');
         $rma->load(1, 'increment_id');
         $rma->setCustomerId($this->_customerSession->getCustomerId());
@@ -62,5 +57,4 @@ class Enterprise_Rma_ReturnControllerTest extends Magento_Test_TestCase_Controll
             array('rma/return/dellabel', '<td>CarrierTitle</td>'),
         );
     }
-
 }

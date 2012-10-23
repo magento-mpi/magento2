@@ -13,8 +13,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutControllerTest extends Mage_Adminhtm
 {
     public function testLoadBlockAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + block');
-
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/checkout/loadBlock');

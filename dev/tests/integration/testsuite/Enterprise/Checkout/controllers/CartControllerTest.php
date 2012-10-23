@@ -21,8 +21,6 @@ class Enterprise_Checkout_CartControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testConfigureActionWithGiftCardProduct()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         /** @var $session Mage_Checkout_Model_Session  */
         $session = Mage::getModel('Mage_Checkout_Model_Session');
 

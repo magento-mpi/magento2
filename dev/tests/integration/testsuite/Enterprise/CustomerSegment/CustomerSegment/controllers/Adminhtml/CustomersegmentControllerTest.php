@@ -16,8 +16,6 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
      */
     public function testNewAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->dispatch('backend/admin/customersegment/new/');
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#edit_form', 1, $body);
@@ -29,8 +27,6 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
      */
     public function testSaveAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());

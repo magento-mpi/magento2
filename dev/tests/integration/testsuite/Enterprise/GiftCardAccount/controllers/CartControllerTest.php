@@ -12,12 +12,10 @@
 class Enterprise_GiftCardAccount_CartControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
+     * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
      */
     public function testQuickCheckAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->getRequest()->setParam('giftcard_code', 'giftcardaccount_fixture');
         $this->dispatch('giftcard/cart/quickCheck');
         $output = $this->getResponse()->getBody();

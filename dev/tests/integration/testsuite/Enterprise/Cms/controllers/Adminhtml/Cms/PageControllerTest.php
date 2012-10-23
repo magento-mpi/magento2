@@ -16,8 +16,6 @@ class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Uti
      */
     public function testEditAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->dispatch('backend/admin/cms_page/edit/page_id/3');
         $content = $this->getResponse()->getBody();
         $this->assertContains('onclick="pagePreviewAction()"', $content);
@@ -29,8 +27,6 @@ class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Uti
      */
     public function testIndexAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->dispatch('backend/admin/cms_page/index');
         $content = $this->getResponse()->getBody();
         $this->assertContains('Version Control', $content);

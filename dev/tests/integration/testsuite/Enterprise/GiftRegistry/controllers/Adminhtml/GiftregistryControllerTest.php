@@ -16,8 +16,6 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
      */
     public function testSaveAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->getRequest()->setPost('type', array(
             'code'       => 'test_registry',
             'label'      => 'Test',

@@ -20,8 +20,12 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
      */
     public function clearCache()
     {
+        $resource = $this->get('Mage_Core_Model_Resource');
         $this->_di->setInstanceManager(new InstanceManager());
         $this->_initializeInstanceManager();
+        if ($resource) {
+            $this->addSharedInstance($resource, 'Mage_Core_Model_Resource');
+        }
 
         return $this;
     }

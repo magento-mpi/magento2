@@ -68,9 +68,7 @@ class Magento_Test_Annotation_AppIsolation
     {
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Mage::getObjectManager();
-        $resource = $objectManager->get('Mage_Core_Model_Resource');
         $objectManager->clearCache();
-        $objectManager->addSharedInstance($resource, 'Mage_Core_Model_Resource');
     }
 
     /**
