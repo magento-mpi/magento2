@@ -230,11 +230,23 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _processBadRequest($message)
     {
-        $this->_setResponseContentType('text/plain');
+        $this->_setResponseContentType('text/xml');
         $this->getResponse()->setHttpResponseCode(400);
 
-        $response = $this->_helper->__('HTTP/1.1 400 Bad Request.') . PHP_EOL . PHP_EOL . $message;
-        $this->_setResponseBody($response);
+        $apiUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
+        // TODO: Collect the following details dynamically after Auto Discovery proposal implementation
+        $details = array(
+            "availableResources" => array(
+                'customers' => array(
+                    'v1' => $apiUrl . '?wsdl&modules[Mage_Customer]=v1',
+                    'v2' => $apiUrl . '?wsdl&modules[Mage_Customer]=v2',
+                ),
+                'catalogProducts' => array(
+                    'v1' => $apiUrl . '?wsdl&modules[Mage_Catalog]=v1',
+                ),
+            )
+        );
+        $this->_setResponseBody($this->_getSoapFaultMessage($message, self::FAULT_CODE_SENDER, 'en', $details));
     }
 
     /**
@@ -430,16 +442,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $language = 'en', $details = null
     ) {
         if (is_string($details)) {
-            $detailsXml = "<env:Detail>$details</env:Detail>";
+            $detailsXml = "<env:Detail>" . htmlspecialchars($details) . "</env:Detail>";
         } elseif (is_array($details)) {
-            $detailsXml = "<env:Detail>";
-            foreach ($details as $detailNode => $detailValue) {
-                $detailsXml .= "<$detailNode>$detailValue</$detailNode>";
-            }
-            $detailsXml .= "</env:Detail>";
+            $detailsXml = "<env:Detail>" . $this->_convertDetailsToXml($details) . "</env:Detail>";
         } else {
             $detailsXml = '';
         }
+        $reason = htmlentities($reason);
         $message = <<<FAULT_MESSAGE
 <?xml version="1.0" encoding="utf-8" ?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
@@ -457,6 +466,29 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
 </env:Envelope>
 FAULT_MESSAGE;
         return $message;
+    }
+
+    /**
+     * Recursively convert details array into xml structure.
+     *
+     * @param array $details
+     * @return string
+     */
+    protected function _convertDetailsToXml($details)
+    {
+        $detailsXml = '';
+        foreach ($details as $detailNode => $detailValue) {
+            $detailNode = htmlspecialchars($detailNode);
+            if (is_numeric($detailNode)) {
+                continue;
+            }
+            if (is_string($detailValue)) {
+                $detailsXml .= "<$detailNode>" . htmlspecialchars($detailValue) . "</$detailNode>";
+            } elseif (is_array($detailValue)) {
+                $detailsXml .= "<$detailNode>" . $this->_convertDetailsToXml($detailValue) . "</$detailNode>";
+            }
+        }
+        return $detailsXml;
     }
 
     /**
