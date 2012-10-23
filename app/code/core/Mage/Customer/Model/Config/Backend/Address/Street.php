@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +12,15 @@
  * Customer Address Street Model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Customer_Address_Street extends Mage_Core_Model_Config_Data
+class Mage_Customer_Model_Config_Backend_Address_Street extends Mage_Core_Model_Config_Data
 {
     /**
      * Actions after save
      *
-     * @return Mage_Backend_Model_Config_Backend_Customer_Address_Street
+     * @return Mage_Customer_Model_Config_Backend_Address_Street
      */
     protected function _afterSave()
     {

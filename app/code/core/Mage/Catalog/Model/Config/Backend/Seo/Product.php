@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Backend_Model_Config_Backend_Seo_Product extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_Config_Backend_Seo_Product extends Mage_Core_Model_Config_Data
 {
     /**
      * Refresh category url rewrites if configuration was changed
      *
-     * @return Mage_Backend_Model_Config_Backend_Seo_Product
+     * @return Mage_Catalog_Model_Config_Backend_Seo_Product
      */
     protected function _afterSave()
     {

@@ -276,7 +276,7 @@
                             <comment>Please enter a number 1 or greater in this field.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Password_Link_Expirationperiod</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -297,7 +297,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Address_Street</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Address_Street</backend_model>
                             <comment>Leave empty for default (2). Valid range: 1-4</comment>
                         </street_lines>
                         <prefix_show translate="label comment">
@@ -305,7 +305,7 @@
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <sort_order>20</sort_order>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Address</backend_model>
                             <comment>The title that goes before name (Mr., Mrs., etc.)</comment>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -324,7 +324,7 @@
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <comment>Always optional.</comment>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Address</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -335,7 +335,7 @@
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <comment>The suffix that goes after name (Jr., Sr., etc.)</comment>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Address</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Address</backend_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -354,7 +354,7 @@
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
                             <sort_order>70</sort_order>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Customer</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -363,7 +363,7 @@
                             <label>Show Tax/VAT Number</label>
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Customer</backend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -373,7 +373,7 @@
                             <label>Show Gender</label>
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Backend_Model_Config_Source_Nooptreq</source_model>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Customer_Show_Customer</backend_model>
+                            <backend_model>Mage_Customer_Model_Config_Backend_Show_Customer</backend_model>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

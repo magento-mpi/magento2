@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Sitemap
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Backend_Model_Config_Backend_Sitemap extends Mage_Core_Model_Config_Data
+class Mage_Sitemap_Model_Config_Backend_Priority extends Mage_Core_Model_Config_Data
 {
 
     protected function _beforeSave()

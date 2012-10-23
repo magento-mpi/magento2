@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Backend Model for product alerts
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Product_Alert_Cron extends Mage_Core_Model_Config_Data
+class Mage_Cron_Model_Config_Backend_Product_Alert extends Mage_Core_Model_Config_Data
 {
     const CRON_STRING_PATH  = 'crontab/jobs/catalog_product_alert/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/catalog_product_alert/run/model';

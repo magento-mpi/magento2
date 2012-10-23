@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Customer Show Customer Model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Customer_Show_Customer extends Mage_Core_Model_Config_Data
+class Mage_Customer_Model_Config_Backend_Show_Customer extends Mage_Core_Model_Config_Data
 {
     /**
      * Retrieve attribute code
@@ -42,7 +42,7 @@ class Mage_Backend_Model_Config_Backend_Customer_Show_Customer extends Mage_Core
     /**
      * Actions after save
      *
-     * @return Mage_Backend_Model_Config_Backend_Customer_Show_Customer
+     * @return Mage_Customer_Model_Config_Backend_Show_Customer
      */
     protected function _afterSave()
     {

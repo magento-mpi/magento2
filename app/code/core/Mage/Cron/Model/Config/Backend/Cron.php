@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Backend Model for Currency import options
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Sitemap_Cron extends Mage_Core_Model_Config_Data
+class Mage_Cron_Model_Config_Backend_Sitemap extends Mage_Core_Model_Config_Data
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';

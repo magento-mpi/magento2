@@ -175,10 +175,10 @@ return array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Admin_Usesecretkey'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Catalog_Inventory_Managestock' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Catalog_Inventory_Managestock'
+        'suggestion' => 'Mage_CatalogInventory_Model_Config_Backend_Managestock'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Catalog_Search_Type' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Catalog_Search_Type'
+        'suggestion' => 'Mage_CatalogSearch_Model_Config_Backend_Search_Type'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Abstract'
@@ -196,16 +196,16 @@ return array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Currency_Default'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Address_Street'
+        'suggestion' => 'Mage_Customer_Model_Config_Backend_Address_Street'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Customer_Password_Link_Expirationperiod' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod'
+        'suggestion' => 'Mage_Customer_Model_Config_Backend_Password_Link_Expirationperiod'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Show_Address'
+        'suggestion' => 'Mage_Customer_Model_Config_Backend_Show_Address'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Customer_Show_Customer'
+        'suggestion' => 'Mage_Customer_Model_Config_Backend_Show_Customer'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Design_Exception' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Design_Exception'
@@ -235,22 +235,22 @@ return array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Log_Cron'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Price_Scope' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Price_Scope'
+        'suggestion' => 'Mage_Catalog_Model_Config_Backend_Price_Scope'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Product_Alert_Cron' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Product_Alert_Cron'
+        'suggestion' => 'Mage_Cron_Model_Config_Backend_Product_Alert'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Seo_Product' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Seo_Product'
+        'suggestion' => 'Mage_Catalog_Model_Config_Backend_Seo_Product'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Serialized_Array'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Shipping_Tablerate'
+        'suggestion' => 'Mage_Shipping_Model_Config_Backend_Tablerate'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Sitemap_Cron' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Sitemap_Cron'
+        'suggestion' => 'Mage_Cron_Model_Config_Backend_Sitemap'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Storage_Media_Database' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Storage_Media_Database'
@@ -262,7 +262,7 @@ return array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Cache'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Category' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Category'
+        'suggestion' => 'Mage_Catalog_Model_Config_Backend_Category'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Cookie' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Cookie'
@@ -292,7 +292,7 @@ return array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Serialized'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Sitemap' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Backend_Sitemap'
+        'suggestion' => 'Mage_Sitemap_Model_Config_Backend_Priority'
     ),
     'Mage_Adminhtml_Model_System_Config_Backend_Store' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Store'

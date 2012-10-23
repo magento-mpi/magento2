@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Customer Show Address Model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Customer_Show_Address
-    extends Mage_Backend_Model_Config_Backend_Customer_Show_Customer
+class Mage_Customer_Model_Config_Backend_Show_Address
+    extends Mage_Customer_Model_Config_Backend_Show_Customer
 {
     /**
      * Retrieve attribute objects

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,16 +13,16 @@
  * Customer Reset Password Link Expiration period backend model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod
+class Mage_Customer_Model_Config_Backend_Password_Link_Expirationperiod
     extends Mage_Core_Model_Config_Data
 {
     /**
      * Validate expiration period value before saving
      *
-     * @return Mage_Backend_Model_Config_Backend_Customer_Password_Link_Expirationperiod
+     * @return Mage_Customer_Model_Config_Backend_Password_Link_Expirationperiod
      */
     protected function _beforeSave()
     {

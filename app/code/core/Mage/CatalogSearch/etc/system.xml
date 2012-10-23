@@ -65,7 +65,7 @@
                         <search_type translate="label">
                             <label>Search Type</label>
                             <frontend_type>select</frontend_type>
-                            <backend_model>Mage_Backend_Model_Config_Backend_Catalog_Search_Type</backend_model>
+                            <backend_model>Mage_CatalogSearch_Model_Config_Backend_Search_Type</backend_model>
                             <source_model>Mage_CatalogSearch_Model_Config_Source_Search_Type</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Price_Scope extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_Config_Backend_Price_Scope extends Mage_Core_Model_Config_Data
 {
 //    protected $_eventPrefix = 'system_config_price_scope';
 //    protected $_eventObject = 'option';
