@@ -31,11 +31,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     /**
      * @var string|null
      */
-    protected $_skin;
-
-    /**
-     * @var string|null
-     */
     protected $_locale;
 
     /**
@@ -50,7 +45,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
 
     /**
      * Constructor.
-     * Following entries in $params are required: 'area', 'package', 'theme', 'skin', 'locale'. The 'appConfig' and
+     * Following entries in $params are required: 'area', 'package', 'theme', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
      * present or null, then they will be retrieved from global application instance.
      *
@@ -61,7 +56,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $this->_area = $params['area'];
         $this->_package = $params['package'];
         $this->_theme = $params['theme'];
-        $this->_skin = $params['skin'];
         $this->_locale = $params['locale'];
         $this->_appConfig = isset($params['appConfig']) ? $params['appConfig'] : Mage::getConfig();
         $this->_themeConfig = isset($params['themeConfig']) ? $params['themeConfig']
@@ -121,18 +115,13 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     {
         $dir = $this->_appConfig->getOptions()->getDesignDir();
         $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
-        $defaultSkin = Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME;
 
         $dirs = array();
         $theme = $this->_theme;
         $package = $this->_package;
         while ($theme) {
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/skin/{$this->_skin}/locale/{$this->_locale}";
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/skin/{$this->_skin}";
-            if ($this->_skin != $defaultSkin) {
-                $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/skin/{$defaultSkin}/locale/{$this->_locale}";
-                $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/skin/{$defaultSkin}";
-            }
+            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
+            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}";
             list($package, $theme) = $this->_getInheritedTheme($package, $theme);
         }
 

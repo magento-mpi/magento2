@@ -71,13 +71,6 @@ class Mage_Core_Model_Design_Package
     protected $_theme;
 
     /**
-     * Package skin
-     *
-     * @var string
-     */
-    protected $_skin;
-
-    /**
      * Package root directory
      *
      * @var string
@@ -175,22 +168,9 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Skin getter
+     * Set package and theme for current area
      *
-     * @return string
-     */
-    public function getSkin()
-    {
-        if (!$this->_skin) {
-            $this->_skin = self::DEFAULT_SKIN_NAME;
-        }
-        return $this->_skin;
-    }
-
-    /**
-     * Set package, theme and skin for current area
-     *
-     * $themePath name must contain package, theme and skin names separated by "/"
+     * $themePath name must contain package and theme names separated by "/"
      *
      * @param string $themePath
      * @param string $area
@@ -204,14 +184,13 @@ class Mage_Core_Model_Design_Package
                 Mage::helper('Mage_Core_Helper_Data')->__('Invalid fully qualified design name: "%s".', $themePath)
             );
         }
-        list($package, $theme, $skin) = $parts;
+        list($package, $theme) = $parts;
         if ($area) {
             $this->setArea($area);
         }
 
         $this->_name = $package;
         $this->_theme = $theme;
-        $this->_skin = $skin;
         return $this;
     }
 
@@ -222,7 +201,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignTheme()
     {
-        return $this->getPackageName() . '/' . $this->getTheme() . '/' . $this->getSkin();
+        return $this->getPackageName() . '/' . $this->getTheme();
     }
 
     /**
@@ -241,9 +220,6 @@ class Mage_Core_Model_Design_Package
         }
         if (!array_key_exists('theme', $params)) {
             $params['theme'] = $this->getTheme();
-        }
-        if (!array_key_exists('skin', $params)) {
-            $params['skin'] = $this->getSkin();
         }
         if (!array_key_exists('module', $params)) {
             $params['module'] = false;
@@ -327,7 +303,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getFallback($params)
     {
-        $cacheKey = "{$params['area']}|{$params['package']}|{$params['theme']}|{$params['skin']}|{$params['locale']}";
+        $cacheKey = "{$params['area']}|{$params['package']}|{$params['theme']}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
             $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
                 ->getNode('global/dev/design_fallback/allow_map_update');
@@ -490,7 +466,7 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_SKIN => Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'skin',
+            Mage_Core_Model_Store::URL_TYPE_SKIN  => Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'skin',
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
@@ -711,7 +687,6 @@ class Mage_Core_Model_Design_Package
         $publicFile = $params['area']
             . DIRECTORY_SEPARATOR . $params['package']
             . DIRECTORY_SEPARATOR . $params['theme']
-            . DIRECTORY_SEPARATOR . $params['skin']
             . DIRECTORY_SEPARATOR . $params['locale']
             . ($params['module'] ? DIRECTORY_SEPARATOR . $params['module'] : '')
             . DIRECTORY_SEPARATOR . $file
@@ -1019,8 +994,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getRequestedFileCacheKey($params)
     {
-        return $params['area'] . '/' . $params['package'] . '/' . $params['theme'] . '/'
-            . $params['skin'] . '/' . $params['locale'];
+        return $params['area'] . '/' . $params['package'] . '/' . $params['theme'] . '/' . $params['locale'];
     }
 
     /**
@@ -1068,6 +1042,7 @@ class Mage_Core_Model_Design_Package
      *          )
      *     )
      * )
+     * TODO: Get rid of this method or use the Mage_Core_Model_Theme_Collection model
      *
      * @param string $area
      * @param bool $addInheritedSkins
