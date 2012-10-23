@@ -49,6 +49,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected $_customerService;
 
     /**
+     * @var Mage_Customer_Service_Address
+     */
+    protected $_addressService;
+
+    /**
      * @var Mage_Customer_Helper_Data
      */
     protected $_customerHelper;
@@ -98,6 +103,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_customerService = $invokeArgs['customerService'];
         } else {
             $this->_customerService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Customer');
+        }
+
+        if (isset($invokeArgs['addressService'])) {
+            $this->_addressService = $invokeArgs['addressService'];
+        } else {
+            $this->_addressService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Address');
         }
 
         if (isset($invokeArgs['customerHelper'])) {
@@ -279,32 +290,55 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                 $customerId = (int)$this->getRequest()->getPost('customer_id');
                 if ($customerId) {
-                    $customer = $this->_customerService->update($customerId, $customerData, true);
+                    $customer = $this->_customerService->update($customerId, $customerData['account'], true);
                 } else {
-                    $customer = $this->_customerService->create($customerData);
+                    $customer = $this->_customerService->create($customerData['account']);
                 }
+
+                $actualAddressesIds = array();
+                foreach ($customerData['addresses'] as  $addressId => $addressData) {
+                    if (is_numeric($addressId)) {
+                        $address = $this->_addressService->update($addressId, $addressData);
+                    } else {
+                        $address = $this->_addressService->create($addressData, $customer->getId());
+                    }
+                    $actualAddressesIds[] = $address->getId();
+                }
+
+                // @todo Deleting customer addresses should be implemented in service layer
+                $hasDeletedAddresses = false;
+                foreach ($customer->getAddressesCollection() as $address) {
+                    if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
+                        $address->setData('_deleted', true);
+                        $hasDeletedAddresses = true;
+                    }
+                }
+                if ($hasDeletedAddresses) {
+                    // Deleting of addresses triggered in Mage_Customer_Model_Resource_Customer::_beforeSave
+                    $customer->setDataChanges(true);
+                    $customer->save();
+                }
+
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
+            } catch (Magento_Validator_Exception $exception) {
+                $this->_addSessionErrorMessages($exception->getMessages());
+                $this->_getSession()->setCustomerData($originalRequestData);
+                $returnToEdit = true;
             } catch (Mage_Core_Exception $exception) {
                 $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
-                if (count($messages)) {
-                    /* @var $error Mage_Core_Model_Message_Error */
-                    foreach ($messages as $error) {
-                        $this->_getSession()->addMessage($error);
-                    }
-                } else {
-                    $this->_getSession()->addError($exception->getMessage());
+                if (!count($messages)) {
+                    $messages = $exception->getMessage();
                 }
+                $this->_addSessionErrorMessages($messages);
                 $this->_getSession()->setCustomerData($originalRequestData);
-                $customer = $this->_customerService->getCustomer();
                 $returnToEdit = true;
             } catch (Exception $exception) {
                 $this->_getSession()->addException($exception,
                     $this->_getHelper()->__('An error occurred while saving the customer.'));
                 $this->_getSession()->setCustomerData($originalRequestData);
-                $customer = $this->_customerService->getCustomer();
                 $returnToEdit = true;
             }
         }
@@ -318,6 +352,28 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         } else {
             $this->_redirect('*/customer');
         }
+    }
+
+
+    /**
+     * Add errors messages to session.
+     *
+     * @param array|string $messages
+     */
+    protected function _addSessionErrorMessages($messages)
+    {
+        $messages = (array)$messages;
+        $session = $this->_getSession();
+
+        array_walk_recursive(
+            $messages,
+            function ($error) use ($session) {
+                if (!($error instanceof Mage_Core_Model_Message_Error)) {
+                    $error = new Mage_Core_Model_Message_Error($error);
+                }
+                $session->addMessage($error);
+            }
+        );
     }
 
     /**
