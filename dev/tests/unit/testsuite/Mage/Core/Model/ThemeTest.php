@@ -21,7 +21,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
-        $themePath = __DIR__ . '/_files/theme/theme.xml';
+        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme.xml'));
 
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
@@ -38,7 +38,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidConfiguration()
     {
-        $themePath = __DIR__ . '/_files/theme/theme_invalid.xml';
+        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme_invalid.xml'));
 
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
