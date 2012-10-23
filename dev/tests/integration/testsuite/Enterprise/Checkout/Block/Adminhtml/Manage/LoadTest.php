@@ -47,8 +47,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(
-            $blockName    => $content,
-            $containerName => $containerContent,
+            $blockName       => $content,
+            $containerName   => $containerContent,
             $blockNameOne    => $contentOne
         );
         $this->assertEquals($expectedDecoded, Mage::helper('Mage_Core_Helper_Data')->jsonDecode($result));
