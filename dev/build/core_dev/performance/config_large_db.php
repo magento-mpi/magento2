@@ -49,7 +49,7 @@ return array(
             ),
         ),
         'scenarios' => array(
-            'Backend Management with Lot of Entities' => array(
+            'Backend Management with Many Entities' => array(
                 'file' => 'testsuite/backend.jmx',
                 'arguments' => array(
                     'loops' => 100,
