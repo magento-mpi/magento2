@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         $selectAfterHtml = '<script type="text/javascript">'
             . '/*<![CDATA[*/'
             . '(function($) { $().ready(function () { '
-                . "var customerTaxClassMultiselect = new TaxClassEditableMultiselect({$selectConfigJson}); "
+                . "var customerTaxClassMultiselect = new EditableMultiselect({$selectConfigJson}); "
                 . 'customerTaxClassMultiselect.init(); }); })(jQuery);'
             . '/*]]>*/'
             . '</script>';
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
         $selectAfterHtml = '<script type="text/javascript">'
             . '/*<![CDATA[*/'
             . '(function($) { $().ready(function () { '
-                . "var productTaxClassMultiselect = new TaxClassEditableMultiselect({$selectConfigJson}); "
+                . "var productTaxClassMultiselect = new EditableMultiselect({$selectConfigJson}); "
                 . 'productTaxClassMultiselect.init(); }); })(jQuery);'
             . '/*]]>*/'
             . '</script>';
@@ -192,13 +192,19 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
     public function getTaxClassSelectConfig($classType)
     {
         $config = array(
-            'class_type' => $classType,
             'new_url' => $this->getUrl('*/tax_class/ajaxSave/'),
             'save_url' => $this->getUrl('*/tax_class/ajaxSave/'),
             'delete_url' => $this->getTaxClassDeleteUrl($classType),
             'delete_confirm_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
+            'submit_data' => array(
+                'class_type' => $classType,
+                'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
+            ),
+            'entity_id_name' => 'class_id',
+            'entity_value_name' => 'class_name',
+            'is_entity_editable' => true
         );
         return $config;
     }
