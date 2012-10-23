@@ -13,7 +13,10 @@
  *
  * @category   Mage
  * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @method string getRowClickCallback() getRowClickCallback()
+ * @method Mage_Backend_Block_Widget_Grid setRowClickCallback() setRowClickCallback(string $value)
  */
 class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 {
@@ -118,10 +121,13 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         Mage_Core_Controller_Varien_Front $frontController,
         array $data = array()
     ) {
-        $this->setRowClickCallback('openGridRow');
         parent::__construct($request, $layout, $eventManager, $translator, $cache, $designPackage, $session,
             $storeConfig, $frontController, $data
         );
+
+        if (!$this->getRowClickCallback()) {
+            $this->setRowClickCallback('openGridRow');
+        }
 
         $this->setData(
             'filter_visibility',
