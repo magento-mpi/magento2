@@ -53,6 +53,7 @@
         <xs:attribute name="module" type="typeModule" use="optional" />
         <xs:attribute name="translate" type="xs:string" use="optional" />
         <xs:attribute name="sortOrder" type="xs:int" use="optional" />
+        <xs:attribute name="class" type="xs:string" use="optional" />
     </xs:attributeGroup>
 
     <xs:attributeGroup name="elementsAttributeGroup">
