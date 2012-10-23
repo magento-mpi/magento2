@@ -42,12 +42,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
     public function testIndexActionMultipleStores()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->dispatch('backend/admin/system_design_editor/index');
         $responseBody = $this->getResponse()->getBody();
         $this->_assertContainsDesignEditor($responseBody);
@@ -69,13 +68,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * magentoDataFixture Mage/Core/_files/store.php
-     * magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
     public function testLaunchActionMultipleStores()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
 
         $session = Mage::getModel('Mage_DesignEditor_Model_Session');
@@ -89,12 +86,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testExitAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture');
-
         $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertTrue($session->isDesignEditorActive());
         $this->dispatch('backend/admin/system_design_editor/exit');

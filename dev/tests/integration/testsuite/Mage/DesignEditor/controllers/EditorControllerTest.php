@@ -13,8 +13,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
 {
     public function testPreDispatchSession()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->dispatch('design/editor/page');
         $this->assert404NotFound();
     }
@@ -27,8 +25,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testPageActionError($handle, $expectedMessage)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->getRequest()->setParam('handle', $handle);
         $this->dispatch('design/editor/page');
         $this->assertEquals(503, $this->getResponse()->getHttpResponseCode());
@@ -59,8 +55,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testPageAction($handle, $requiredModule)
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         if (!in_array($requiredModule, Magento_Test_Helper_Factory::getHelper('config')->getEnabledModules())) {
             $this->markTestSkipped("Test requires the module '$requiredModule' to be enabled.");
         }
@@ -88,8 +82,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
 
     public function testGetFullActionName()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->dispatch('design/editor/page');
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertNotInstanceOf('Mage_DesignEditor_EditorController', $controller);
@@ -100,8 +92,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testSkinAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->getRequest()->setParam('skin', 'default/default/blank');
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
@@ -115,8 +105,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testSkinActionWrongValue()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->getRequest()->setParam('skin', 'wrong/skin/applied');
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
@@ -127,8 +115,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
 
     public function testSkinActionNonActivatedEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $this->getRequest()->setParam('skin', 'default/default/blank');
         $this->dispatch('design/editor/skin');
         $this->assert404NotFound();
@@ -142,8 +128,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testSkinActionRedirectUrl()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies');
-
         $expectedRedirectUrl = 'http://localhost/index.php/path/to/redirect/?value=1#anchor';
 
         $this->getRequest()->setParam('skin', 'default/default/blank');

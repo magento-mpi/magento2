@@ -38,6 +38,7 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoAppIsolation enabled
      */
     public function testIsDesignEditorActiveTrue()
     {
@@ -47,6 +48,7 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      * @magentoConfigFixture current_store admin/security/session_lifetime 100
+     * @magentoAppIsolation enabled
      */
     public function testIsDesignEditorActiveAdminSessionExpired()
     {
@@ -60,8 +62,6 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testActivateDesignEditor()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
-
         $this->assertFalse($this->_model->isDesignEditorActive());
         $this->_model->activateDesignEditor();
         $this->assertTrue($this->_model->isDesignEditorActive());
@@ -93,8 +93,6 @@ class Mage_DesignEditor_Model_SessionTest extends PHPUnit_Framework_TestCase
 
     public function testIsHighlightingDisabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies. Depends on controller fix');
-
         $this->assertFalse($this->_model->isHighlightingDisabled());
         Mage::getSingleton('Mage_Core_Model_Cookie')->set(Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING, 'off');
         $this->assertTrue($this->_model->isHighlightingDisabled());

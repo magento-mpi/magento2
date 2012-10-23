@@ -31,8 +31,6 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     protected  function _login()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
@@ -53,8 +51,6 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     public function testNotLoggedIndexAction()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + controller');
-
         $this->dispatch('backend/admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';

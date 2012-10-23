@@ -230,12 +230,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
+     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
      */
     public function testWrapPageElementHighlightingDisabled()
     {
-        $this->markTestIncomplete('Need to fix DI dependencies + fixture. Depends on controller fix');
-
         //@TODO Consider remaking the test cause now it's very fragile.
         // Trivial change of wrapper template requires modifications in data provider
 
