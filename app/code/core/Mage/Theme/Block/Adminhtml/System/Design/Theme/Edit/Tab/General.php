@@ -25,7 +25,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         /** @var $session Mage_Backend_Model_Session */
         $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $formDataFromSession = $session->getThemeData();
-        $formData = Mage::registry('current_theme')->getData();
+        $formData = $this->_getCurrentTheme()->getData();
         if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);
             $formData = array_merge($formData, $formDataFromSession);
@@ -81,6 +81,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             );
         }
 
+        $isDisabled = $this->_getCurrentTheme()->isDeletable() ? false : true;
         $themeFieldset->addField('parent_id', 'select', array(
             'label'    => $this->__('Parent theme'),
             'title'    => $this->__('Parent theme'),
@@ -88,7 +89,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'values'   => $themesCollections->toOptionArray(),
             'required' => false,
             'class'    => 'no-changes',
-            'onchange' => $onChangeScript
+            'onchange' => $onChangeScript,
+            'disabled' => $isDisabled
         ));
 
         if (!empty($formData['theme_path'])) {
@@ -172,6 +174,16 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $element = Mage::getConfig()
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
         return array('image' => $element);
+    }
+
+    /**
+     * Get current theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getCurrentTheme()
+    {
+        return Mage::registry('current_theme');
     }
 
     /**
