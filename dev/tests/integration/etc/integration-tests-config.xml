@@ -25,8 +25,6 @@
         <di>
             <aliases>
                 <Mage_Core_Model_Cookie>Magento_Test_Cookie</Mage_Core_Model_Cookie>
-                <Mage_Core_Controller_Request_Http>Magento_Test_Request</Mage_Core_Controller_Request_Http>
-                <Mage_Core_Controller_Response_Http>Magento_Test_Response</Mage_Core_Controller_Response_Http>
             </aliases>
         </di>
         <dev>
