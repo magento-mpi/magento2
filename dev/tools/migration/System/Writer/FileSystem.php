@@ -1,12 +1,15 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
-class Tools_Migration_System_FileManager
+class Tools_Migration_System_Writer_FileSystem implements Tools_Migration_System_WriterInterface
 {
-    public function __construct($mode)
-    {
-
-    }
-
     /**
      * @param string $fileName
      * @param string $contents
@@ -27,21 +30,5 @@ class Tools_Migration_System_FileManager
     public function remove($fileName)
     {
         unlink($fileName);
-    }
-
-    /**
-     * Retrieve contents of a file
-     *
-     * @param string $fileName
-     * @return string
-     */
-    public function getContents($fileName)
-    {
-        return file_get_contents($fileName);
-    }
-
-    public function getFileList($pattern)
-    {
-        return glob($pattern);
     }
 }
