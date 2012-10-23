@@ -24,6 +24,7 @@
                 $.ajax({
                     url: this.options.giftCardStatusUrl,
                     type: 'post',
+                    cache: false,
                     data: {'giftcard_code': $(this.options.giftCardCodeSelector).val()},
                     beforeSend: function () {
                         giftCardSpinnerId.show();
