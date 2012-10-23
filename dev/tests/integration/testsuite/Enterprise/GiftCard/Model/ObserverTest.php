@@ -75,6 +75,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedEmpty, empty($options['email_sent']));
         $this->assertEquals($expectedEmpty, empty($options['giftcard_created_codes']));
     }
+
     /**
      * List of block constructor arguments
      *
