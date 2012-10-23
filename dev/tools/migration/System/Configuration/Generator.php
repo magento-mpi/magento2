@@ -87,7 +87,7 @@ class Tools_Migration_System_Configuration_Generator
     protected function _createElement($config, DOMDocument $dom)
     {
         $element = $dom->createElement($config['nodeName'], isset($config['value']) ? $config['value'] : '');
-        $attributes = isset($config['@attribute']) ? $config['@attribute'] : array();
+        $attributes = isset($config['@attributes']) ? $config['@attributes'] : array();
         foreach ($attributes as $attributeName => $attributeValue) {
             $element->setAttribute($attributeName, $attributeValue);
         }
@@ -99,7 +99,7 @@ class Tools_Migration_System_Configuration_Generator
                 isset($paramConfig['value']) ? $paramConfig['value'] : ''
             );
 
-            $paramAttributes = isset($paramConfig['@attribute']) ? $paramConfig['@attribute'] : array();
+            $paramAttributes = isset($paramConfig['@attributes']) ? $paramConfig['@attributes'] : array();
             foreach ($paramAttributes as $attributeName => $attributeValue) {
                 $childElement->setAttribute($attributeName, $attributeValue);
             }
