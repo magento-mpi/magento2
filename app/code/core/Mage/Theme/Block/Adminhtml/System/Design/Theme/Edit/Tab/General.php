@@ -81,7 +81,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             );
         }
 
-        $isDisabled = $this->_getCurrentTheme()->isDeletable() ? false : true;
+        $isDisabled = $this->_getCurrentTheme()->isParentThemeEditable() ? false : true;
         $themeFieldset->addField('parent_id', 'select', array(
             'label'    => $this->__('Parent theme'),
             'title'    => $this->__('Parent theme'),
