@@ -314,7 +314,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $previewImageData = $themeData['preview_image'];
             unset($themeData['preview_image']);
         }
-        if (!$this->isDeletable()) {
+        if (!$this->isParentThemeEditable()) {
             unset($themeData['parent_id']);
         }
 
