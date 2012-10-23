@@ -23,6 +23,7 @@ class Mage_XmlConnect_Helper_Catalog_ImageTest extends PHPUnit_Framework_TestCas
             Mage::getDesign()->getSkinFile($helper->getPlaceholder())
         );
     }
+
     /**
      * @return array
      */

@@ -11,6 +11,9 @@
 
 class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Wishlist_Block_Abstract
+     *
+     */
     protected $_blockInjections = array(
         'Mage_Core_Controller_Request_Http',
         'Mage_Core_Model_Layout',
@@ -22,6 +25,7 @@ class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_
         'Mage_Core_Model_Store_Config',
         'Mage_Core_Controller_Varien_Front',
     );
+
     public function testGetColumns()
     {
         $layout = Mage::getModel('Mage_Core_Model_Layout');
@@ -34,6 +38,12 @@ class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_
         $layout->addBlock($child, 'child', 'test');
         $this->assertSame(array($child), $block->getColumns());
     }
+
+    /**
+ * List of block constructor arguments
+ *
+ * @return array
+ */
     protected function _prepareConstructorArguments()
     {
         $arguments = array();

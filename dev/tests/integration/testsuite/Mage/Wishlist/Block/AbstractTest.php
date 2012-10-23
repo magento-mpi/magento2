@@ -53,6 +53,11 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getImageUrl($product));
     }
 
+    /**
+     * List of block constructor arguments
+     *
+     * @return array
+     */
     protected function _prepareConstructorArguments()
     {
         $arguments = array();

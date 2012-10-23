@@ -41,6 +41,9 @@ class Mage_XmlConnect_Helper_DataTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     * */
     public function getDefaultDesignTabsDataProvider()
     {
         return array(
