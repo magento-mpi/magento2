@@ -27,7 +27,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
      */
     public function testIsValid($attributeData, $result, $expected, $messages, $data = array('attribute' => 'new_test'))
     {
-        $entity = $this->_getEntityMock('test');
+        $entity = $this->_getEntityMock();
         $attribute = $this->_getAttributeMock($attributeData);
 
         $validator = new Mage_Eav_Model_Validator_Attribute_Data;
@@ -119,7 +119,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
      */
     public function testIsValidAttributesFromCollection()
     {
-        /** @var Mage_Eav_Model_Entity_Abstract $resource  */
+        /** @var Mage_Eav_Model_Entity_Abstract $resource */
         $resource = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Abstract');
         $attribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute',
@@ -134,7 +134,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             ->setMethods(array('getAttributeCollection'))
             ->getMock();
         $entityType->expects($this->once())->method('getAttributeCollection')->will($this->returnValue($collection));
-        $entity = $this->_getEntityMock('test');
+        $entity = $this->_getEntityMock();
         $entity->expects($this->once())->method('getResource')->will($this->returnValue($resource));
         $entity->expects($this->once())->method('getEntityType')->will($this->returnValue($entityType));
         $dataModel = $this->_getDataModelMock(true);
@@ -148,7 +148,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
 
     /**
      * @dataProvider whiteBlackListProvider
-     * @param callback $callback
+     * @param callable $callback
      */
     public function testIsValidBlackListWhiteListChecks($callback)
     {
@@ -166,7 +166,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'attribute' => 'new_test_data',
             'attribute2' => 'some data'
         );
-        $entity = $this->_getEntityMock('test');
+        $entity = $this->_getEntityMock();
         $dataModel = $this->_getDataModelMock(true, $data['attribute']);
         $factory = $this->_getFactoryMock($dataModel);
 
@@ -178,6 +178,9 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
         $this->assertTrue($validator->isValid($entity));
     }
 
+    /**
+     * @return array
+     */
     public function whiteBlackListProvider()
     {
         return array(
@@ -235,7 +238,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'attribute1' => 'new_test',
             'attribute2' => 'some data'
         );
-        $entity = $this->_getEntityMock('test');
+        $entity = $this->_getEntityMock();
         $firstAttribute = $this->_getAttributeMock(array(
             'attribute_code' => 'attribute1',
             'data_model' => $firstDataModel = $this->_getDataModelMock(array('Error1')),
@@ -250,7 +253,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
             'attribute1' => array('Error1'),
             'attribute2' => array('Error2'),
         );
-        $expectedMessagesDouble = array(
+        $expectedDouble = array(
             'attribute1' => array('Error1', 'Error1'),
             'attribute2' => array('Error2', 'Error2'),
         );
@@ -284,11 +287,11 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
         $this->assertFalse($validator->isValid($entity));
         $this->assertEquals($expectedMessages, $validator->getMessages());
         $this->assertFalse($validator->isValid($entity));
-        $this->assertEquals($expectedMessagesDouble, $validator->getMessages());
+        $this->assertEquals($expectedDouble, $validator->getMessages());
     }
 
     /**
-     * @param $attributeData
+     * @param array $attributeData
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAttributeMock($attributeData)
@@ -313,7 +316,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @param $dataModel
+     * @param Mage_Eav_Model_Attribute_Data_Abstract $dataModel
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFactoryMock($dataModel)
@@ -328,8 +331,8 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @param $returnValue
-     * @param null $argument
+     * @param boolean $returnValue
+     * @param string|null $argument
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDataModelMock($returnValue, $argument = null)
@@ -352,16 +355,14 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @param $returnValue
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getEntityMock($returnValue)
+    protected function _getEntityMock()
     {
         $entity = $this->getMockBuilder('Mage_Core_Model_Abstract')
             ->setMethods(array('getAttribute', 'getResource', 'getEntityType'))
             ->disableOriginalConstructor()
             ->getMock();
-        $entity->expects($this->any())->method('getAttribute')->will($this->returnValue($returnValue));
         return $entity;
     }
 }
