@@ -31,6 +31,8 @@
                     },
                     success: function (response) {
                         $(giftCardStatusId).html(response);
+                    },
+                    complete: function (response) {
                         giftCardSpinnerId.hide();
                     }
                 });
