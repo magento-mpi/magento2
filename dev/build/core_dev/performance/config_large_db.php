@@ -72,6 +72,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 3,
                     'reindex' => 'catalog_product_attribute',
                 ),
             ),
@@ -81,6 +82,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 3,
                     'reindex' => 'catalog_product_price',
                 ),
             ),
@@ -108,6 +110,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 10,
                     'reindex' => 'catalog_category_flat',
                 ),
             ),
@@ -117,6 +120,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 3,
                     'reindex' => 'catalog_category_product',
                 ),
             ),
@@ -126,6 +130,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 5,
                     'reindex' => 'cataloginventory_stock',
                 ),
             ),
@@ -144,6 +149,7 @@ return array(
                     'testsuite/fixtures/catalog_200_categories_80k_products_with_tags.php',
                 ),
                 'arguments' => array(
+                    'loops' => 5,
                     'reindex' => 'tag_summary',
                 ),
             ),
