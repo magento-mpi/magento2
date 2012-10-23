@@ -32,11 +32,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
 
     public function testToHtml()
     {
-        $blockName = 'block1';
-        $blockNameOne = 'block2';
-        $containerName = 'container';
-        $content = 'Content 1';
-        $contentOne = 'Content 2';
+        $blockName        = 'block1';
+        $blockNameOne     = 'block2';
+        $containerName    = 'container';
+        $content          = 'Content 1';
+        $contentOne       = 'Content 2';
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
