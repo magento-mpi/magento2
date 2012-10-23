@@ -40,9 +40,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
         $this->_formScripts[] = "function saveAndContinueEdit()" .
         "{editForm.submit($('edit_form').action + 'back/edit/')}";
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API User'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save User'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API User'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete User'));
     }
 
     /**
@@ -67,9 +67,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     {
         if ($this->getApiUser()->getId()) {
             return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit API User '%s'", $this->escapeHtml($this->getApiUser()->getUserName()));
+                ->__("Edit API User '%s'", $this->escapeHtml($this->getApiUser()->getContactEmail()));
         } else {
-            return Mage::helper('Mage_Webapi_Helper_Data')->__('New User');
+            return Mage::helper('Mage_Webapi_Helper_Data')->__('New API User');
         }
     }
 }

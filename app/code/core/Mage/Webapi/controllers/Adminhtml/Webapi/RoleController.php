@@ -75,13 +75,13 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
                 $this->_redirect('*/*/');
                 return;
             }
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'),
+                Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
+            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
         } else {
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Add New Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Add New Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('New Role'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'),
+                Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'));
+            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role'));
         }
 
         // Restore previously entered form data from session

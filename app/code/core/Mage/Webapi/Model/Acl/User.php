@@ -13,8 +13,8 @@
  *
  * @method Mage_Webapi_Model_Acl_User setRoleId(int $id)
  * @method int getRoleId()
- * @method Mage_Webapi_Model_Acl_User setUserName(string $userName)
- * @method string getUserName()
+ * @method Mage_Webapi_Model_Acl_User setApiKey(string $apiKey)
+ * @method string getApiKey()
  * @method string getApiSecret()
  * @method Mage_Webapi_Model_Resource_Acl_User getResource()
  *

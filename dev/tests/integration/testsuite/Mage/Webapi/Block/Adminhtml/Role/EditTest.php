@@ -60,7 +60,7 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
         return array(
             'new role' => array(
                 new Varien_Object(),
-                "New Role"
+                "New API Role"
             ),
             'existing role'  => array(
                 new Varien_Object(array('id' => 1, 'role_name' => 'test <b>role</b>')),

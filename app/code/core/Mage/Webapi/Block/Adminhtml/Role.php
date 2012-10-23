@@ -26,7 +26,7 @@ class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Co
         $this->_blockGroup = 'Mage_Webapi';
         $this->_controller = 'adminhtml_role';
         $this->_headerText = Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles');
-        $this->_addButtonLabel = Mage::helper('Mage_Webapi_Helper_Data')->__('Add New Role');
+        $this->_addButtonLabel = Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role');
 
         parent::__construct();
     }

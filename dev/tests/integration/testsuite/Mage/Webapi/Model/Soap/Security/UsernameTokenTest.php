@@ -17,10 +17,10 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     public function testAuthenticatePasswordText()
     {
         $userFixture = new Mage_Webapi_Model_Acl_User();
-        $userFixture->load('test_username', 'user_name');
+        $userFixture->load('test_username', 'api_key');
 
         $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
-            'username' => $userFixture->getUserName(),
+            'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_TEXT,
             'password' => $userFixture->getApiSecret(),
             'nonce' => base64_encode(mt_rand()),
@@ -34,12 +34,12 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     public function testAuthenticatePasswordDigest()
     {
         $userFixture = new Mage_Webapi_Model_Acl_User();
-        $userFixture->load('test_username', 'user_name');
+        $userFixture->load('test_username', 'api_key');
 
         $nonce = mt_rand();
         $timestamp = date('c');
         $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
-            'username' => $userFixture->getUserName(),
+            'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
             'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getApiSecret(), true)),
             'nonce' => base64_encode($nonce),
@@ -56,12 +56,12 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     public function testAuthenticateWithNonceUsed()
     {
         $userFixture = new Mage_Webapi_Model_Acl_User();
-        $userFixture->load('test_username', 'user_name');
+        $userFixture->load('test_username', 'api_key');
 
         $nonce = mt_rand();
         $timestamp = date('c');
         $options = array(
-            'username' => $userFixture->getUserName(),
+            'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
             'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getApiSecret(), true)),
             'nonce' => base64_encode($nonce),

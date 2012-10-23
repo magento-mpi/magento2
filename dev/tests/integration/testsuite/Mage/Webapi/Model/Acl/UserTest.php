@@ -45,10 +45,10 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
         $role = new Mage_Webapi_Model_Acl_Role();
         $role->load('test_role', 'role_name');
         $this->_model
-            ->setUserName('Test User Name')
+            ->setApiKey('Test User Name')
             ->setRoleId($role->getId());
 
-        $crud = new Magento_Test_Entity($this->_model, array('user_name' => '_User_Name_'));
+        $crud = new Magento_Test_Entity($this->_model, array('api_key' => '_User_Name_'));
         $crud->testCrud();
     }
 }

@@ -64,11 +64,12 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
         return array(
             'new user' => array(
                 new Varien_Object(),
-                "New User"
+                "New API User"
             ),
             'existing user'  => array(
-                new Varien_Object(array('id' => 1, 'user_name' => 'test <b>user</b>', 'role_id' => 1)),
-                "Edit API User 'test &lt;b&gt;user&lt;/b&gt;'"
+                new Varien_Object(array('id' => 1, 'api_key' => 'test key',
+                    'contact_email' => 'test@email.com', 'role_id' => 1)),
+                "Edit API User 'test@email.com'"
             ),
         );
     }

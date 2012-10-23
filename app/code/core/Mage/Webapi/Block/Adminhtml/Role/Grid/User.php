@@ -86,16 +86,22 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
 
         $this->addColumn('role_user_id', array(
             'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('User ID'),
-            'width'     => 5,
+            'width'     => 20,
             'align'     => 'left',
             'sortable'  => true,
             'index'     => 'user_id'
         ));
 
-        $this->addColumn('role_user_username', array(
-            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('User Name'),
+        $this->addColumn('role_user_contactemail', array(
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email'),
             'align'     => 'left',
-            'index'     => 'user_name'
+            'index'     => 'contact_email'
+        ));
+
+        $this->addColumn('role_user_apikey', array(
+            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key'),
+            'align'     => 'left',
+            'index'     => 'api_key'
         ));
 
         return parent::_prepareColumns();

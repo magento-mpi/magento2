@@ -44,10 +44,16 @@
                             <index>user_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="user_name">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="contact_email">
                         <arguments>
-                            <header translate="true" module="Mage_Webapi">User Name</header>
-                            <index>user_name</index>
+                            <header translate="true" module="Mage_Webapi">Contact Email</header>
+                            <index>contact_email</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="api_key">
+                        <arguments>
+                            <header translate="true" module="Mage_Webapi">API Key</header>
+                            <index>api_key</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_name">
@@ -77,9 +83,19 @@
         <container name="webapi_user.grid.container" label="API Users Grid Container" output="1" />
     </adminhtml_webapi_user_grid>
 
+    <adminhtml_webapi_user_rolesgrid>
+        <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml" />
+    </adminhtml_webapi_user_rolesgrid>
+
     <adminhtml_webapi_user_edit>
         <reference name="content">
             <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit" />
+        </reference>
+        <reference name="left">
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main" />
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="webapi.user.edit.tab.roles" />
+            </block>
         </reference>
     </adminhtml_webapi_user_edit>
 
