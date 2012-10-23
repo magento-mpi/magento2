@@ -62,21 +62,23 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      */
     public function init()
     {
-        // TODO: Handle situation when invalid area_code was passed. Currently there is no solution for how to render HTML from here in the most correct manner.
-        $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
-        $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
+        try {
+            $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
+            $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
 
-        // TODO: Make sure that non-admin users cannot access this area
-        Mage::register('isSecureArea', true, true);
-        // make sure that all errors will not be displayed
-        ini_set('display_startup_errors', 0);
-        ini_set('display_errors', 0);
+            // TODO: Make sure that non-admin users cannot access this area
+            Mage::register('isSecureArea', true, true);
+            // make sure that all errors will not be displayed
+            ini_set('display_startup_errors', 0);
+            ini_set('display_errors', 0);
 
-        // TODO: Implement error handling on this stage
-        $this->_getConcreteFrontController()
-            ->setRequest($this->_request)
-            ->setResponse($this->_response)
-            ->init();
+            $this->_getConcreteFrontController()->setRequest($this->_request)->setResponse($this->_response)->init();
+        } catch (Mage_Webapi_Exception $e) {
+            /** @var $restErrorProcessor Mage_Webapi_Controller_Front_Rest_ErrorProcessor */
+            $restErrorProcessor = Mage::getModel('Mage_Webapi_Controller_Front_Rest_ErrorProcessor');
+            $restErrorProcessor->render($e->getMessage(), $e->getTraceAsString(), $e->getCode());
+            die();
+        }
         return $this;
     }
 
