@@ -115,12 +115,8 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
         /**
          * Test move with the same alias
          */
-        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure', array(), false);
-        $layoutParams = array(
-            'structure' => $dataStructure
-        );
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', $layoutParams);
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->getUpdate()->load(array('layout_test_handle_move_the_same_alias'));
         $layout->generateXml()->generateElements();
         $this->assertEquals('container1', $layout->getParentName('no_name3'));

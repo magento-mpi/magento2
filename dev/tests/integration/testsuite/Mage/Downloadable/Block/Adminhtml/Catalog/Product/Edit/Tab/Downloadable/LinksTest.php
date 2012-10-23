@@ -27,8 +27,8 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public static function performUploadButtonTest(Mage_Core_Block_Abstract $block)
     {
-        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
         $text = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text', '',

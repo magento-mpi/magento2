@@ -23,11 +23,9 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->addBlock('Mage_Wishlist_Block_Customer_Wishlist_Item_Column', 'test');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'child', 'test');
-
     }
 
     protected function tearDown()

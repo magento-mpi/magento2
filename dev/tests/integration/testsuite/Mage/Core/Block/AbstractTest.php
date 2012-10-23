@@ -37,14 +37,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected function _getBlockDependencies()
     {
-        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $layoutParams = array(
-            'structure' => $dataStructure
-        );
-
         return array(
             'request'         => Mage::getObjectManager()->create('Mage_Core_Controller_Request_Http', array(), false),
-            'layout'          => Mage::getObjectManager()->create('Mage_Core_Model_Layout', $layoutParams),
+            'layout'          => Mage::getObjectManager()->create('Mage_Core_Model_Layout'),
             'eventManager'    => Mage::getObjectManager()->create('Mage_Core_Model_Event_Manager', array(), false),
             'translator'      => Mage::getObjectManager()->create('Mage_Core_Model_Translate', array(), false),
             'cache'           => Mage::getObjectManager()->create('Mage_Core_Model_Cache', array(), false),

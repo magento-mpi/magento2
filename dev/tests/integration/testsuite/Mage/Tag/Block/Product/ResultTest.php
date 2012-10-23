@@ -33,8 +33,7 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'root');
         $this->_layout->addBlock('Mage_Core_Block_Text', 'head');
         $this->_block = $this->_layout->createBlock('Mage_Tag_Block_Product_Result', 'test',

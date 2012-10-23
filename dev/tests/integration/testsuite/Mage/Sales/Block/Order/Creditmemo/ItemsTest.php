@@ -28,8 +28,7 @@ class Mage_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Sales_Block_Order_Creditmemo_Items', 'block');
         $this->_creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
     }

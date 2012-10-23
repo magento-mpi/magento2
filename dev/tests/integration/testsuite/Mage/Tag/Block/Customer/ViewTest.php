@@ -28,8 +28,8 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testGetMode()
     {
-        $structure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $structure));
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($this->_block, 'test');
         $expected = uniqid();
         $toolbar = Mage::app()->getLayout()->createBlock(

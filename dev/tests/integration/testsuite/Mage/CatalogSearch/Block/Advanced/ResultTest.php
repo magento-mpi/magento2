@@ -23,8 +23,7 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $dataStructure = Mage::getObjectManager()->create('Magento_Data_Structure');
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('structure' => $dataStructure));
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_CatalogSearch_Block_Advanced_Result', 'block');
     }
 
