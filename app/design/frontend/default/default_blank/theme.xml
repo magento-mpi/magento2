@@ -10,7 +10,7 @@
 -->
 <design>
     <package code="default">
-        <title>Default</title>
+        <title>Default Blank</title>
         <theme version="2.0.0.0" code="default_blank" featured="1">
             <title>Default</title>
             <requirements>
