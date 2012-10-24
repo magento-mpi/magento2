@@ -15,7 +15,7 @@ return array(
             'documentation' => 'String param.',
         ),
         'integerParam' => array(
-            'type' => 'integer',
+            'type' => 'int',
             'required' => true,
             'default' => null,
             'documentation' => 'Integer param.',

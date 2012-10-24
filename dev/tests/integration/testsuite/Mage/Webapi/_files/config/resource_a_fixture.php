@@ -24,7 +24,7 @@ Multiline <b>with html</b>.",
                 'out' => array(
                     'parameters' => array(
                         'result' => array(
-                            'type' => 'integer',
+                            'type' => 'int',
                             'documentation' => 'ID of created resource'
                         )
                     ),
@@ -37,7 +37,7 @@ Multiline <b>with html</b>.",
                 'in' => array(
                     'parameters' => array(
                         'resourceId' => array(
-                            'type' => 'integer',
+                            'type' => 'int',
                             'required' => true,
                             'documentation' => 'ID of resource'
                         )

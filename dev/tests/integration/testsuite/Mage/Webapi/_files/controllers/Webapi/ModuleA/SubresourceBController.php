@@ -20,9 +20,10 @@ class NamespaceA_ModuleA_Webapi_ModuleA_SubresourceBController extends Mage_Weba
     /**
      * List description.
      *
+     * @param int $parentId Id of parent resource
      * @return NamespaceA_ModuleA_Webapi_ModuleA_DataStructure[] list of resources
      */
-    public function listV1()
+    public function listV1($parentId)
     {
 
     }
