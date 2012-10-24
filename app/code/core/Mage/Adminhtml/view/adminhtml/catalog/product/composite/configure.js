@@ -220,7 +220,7 @@ ProductConfigure.prototype = {
      * Do submit configured data through iFrame if needed
      */
     onConfirmBtn: function() {
-        if (productCompositeConfigureForm.validate()) {
+        if (jQuery(this.blockForm).valid()) {
             if (this.listTypes[this.current.listType].urlConfirm) {
                 this.submit();
             } else {
