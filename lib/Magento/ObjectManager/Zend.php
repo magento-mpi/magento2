@@ -51,8 +51,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
 
         $this->_di = $diInstance ? $diInstance : new Magento_Di();
         $this->_di->setDefinitionList(new DefinitionList($definition));
-
-        $this->_initializeInstanceManager();
+        $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
 
         Magento_Profiler::stop('di');
     }
@@ -103,23 +102,6 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
             $diConfiguration = new Configuration(array('instance' => $node->asArray()));
             $diConfiguration->configure($this->_di);
         }
-        return $this;
-    }
-
-    /**
-     * Initialize instance manager content
-     *
-     * @return Magento_ObjectManager_Zend
-     */
-    protected function _initializeInstanceManager()
-    {
-        $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
-
-        /** @var $magentoConfiguration Mage_Core_Model_Config */
-        $magentoConfiguration = $this->get('Mage_Core_Model_Config');
-        $magentoConfiguration->loadBase();
-        $this->loadAreaConfiguration();
-
         return $this;
     }
 }

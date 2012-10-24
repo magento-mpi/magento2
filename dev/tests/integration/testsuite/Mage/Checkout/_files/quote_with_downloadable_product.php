@@ -38,4 +38,4 @@ Mage::unregister('_singleton/Mage_Checkout_Model_Session');
 
 /** @var $objectManager Magento_Test_ObjectManager */
 $objectManager = Mage::getObjectManager();
-$objectManager->clearCache();
+$objectManager->removeSharedInstance('Mage_Checkout_Model_Session');

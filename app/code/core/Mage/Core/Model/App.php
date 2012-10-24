@@ -351,7 +351,7 @@ class Mage_Core_Model_App
 
             $this->_initModules();
             $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-            $this->_objectManager->loadAreaConfiguration(Mage_Core_Model_App_Area::AREA_GLOBAL);
+            $this->_objectManager->loadAreaConfiguration();
 
             if ($this->_config->isLocalConfigLoaded()) {
                 $scopeCode = isset($params['scope_code']) ? $params['scope_code'] : '';

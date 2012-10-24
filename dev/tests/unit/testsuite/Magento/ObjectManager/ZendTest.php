@@ -116,7 +116,7 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $this->_prepareObjectManagerForGetCreateTests();
+        $this->_prepareObjectManagerForGetCreateTests(false);
         $actualObject = $this->_objectManager->get(self::CLASS_NAME, $this->_arguments);
         $this->assertEquals(self::OBJECT_GET, $actualObject);
     }
@@ -135,12 +135,12 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false);
         $nodeArrayValue = array('alias' => array(1));
-        $nodeMock->expects($this->exactly(2))
+        $nodeMock->expects($this->once())
             ->method('asArray')
             ->will($this->returnValue($nodeArrayValue));
 
         $expectedConfigPath = $expectedAreaCode . '/' . Magento_ObjectManager_Zend::CONFIGURATION_DI_NODE;
-        $this->_magentoConfig->expects($this->exactly(2))
+        $this->_magentoConfig->expects($this->once())
             ->method('getNode')
             ->with($expectedConfigPath)
             ->will($this->returnValue($nodeMock));
@@ -148,16 +148,16 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
         /** @var $instanceManagerMock Zend\Di\InstanceManager */
         $this->_instanceManager = $this->getMock('Zend\Di\InstanceManager',
             array('addSharedInstance', 'addAlias'), array(), '', false);
-        $this->_instanceManager->expects($this->exactly(2))
+        $this->_instanceManager->expects($this->once())
             ->method('addAlias');
 
         /** @var $diMock Zend\Di\Di */
         $this->_diInstance = $this->getMock('Zend\Di\Di',
             array('instanceManager', 'get'), array(), '', false);
-        $this->_diInstance->expects($this->exactly(3))
+        $this->_diInstance->expects($this->exactly(2))
             ->method('instanceManager')
             ->will($this->returnValue($this->_instanceManager));
-        $this->_diInstance->expects($this->exactly(3))
+        $this->_diInstance->expects($this->once())
             ->method('get')
             ->will($this->returnValue($this->_magentoConfig));
 
@@ -190,11 +190,8 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
             $this->_diInstance->expects($this->once())
                 ->method('newInstance')
                 ->will($this->returnCallback(array($this, 'verifyCreate')));
-            $this->_diInstance->expects($this->exactly(2))
-                ->method('get')
-                ->will($this->returnCallback(array($this, 'verifyGet')));
         } else {
-            $this->_diInstance->expects($this->exactly(3))
+            $this->_diInstance->expects($this->once())
                 ->method('get')
                 ->will($this->returnCallback(array($this, 'verifyGet')));
         }

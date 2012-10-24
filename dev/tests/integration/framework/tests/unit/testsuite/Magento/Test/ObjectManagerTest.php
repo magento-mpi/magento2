@@ -15,6 +15,11 @@
 class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test resource value
+     */
+    const TEST_RESOURCE = 'test_resource';
+
+    /**
      * ObjectManager instance for tests
      *
      * @var Magento_Test_ObjectManager
@@ -48,37 +53,31 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     protected function _prepareObjectManagerForClearCache()
     {
         $diInstance      = $this->getMock('Zend\Di\Di', array('get', 'instanceManager', 'setInstanceManager'));
-        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array(), array(), '', false);
+        $instanceManager = $this->getMock(
+            'Magento_Test_Di_InstanceManager', array('addSharedInstance'), array(), '', false
+        );
 
         $diInstance->expects($this->exactly(3))
             ->method('instanceManager')
             ->will($this->returnValue($instanceManager));
-        $diInstance->expects($this->exactly(5))
-            ->method('get')
-            ->will($this->returnCallback(array($this, 'getCallback')));
         $diInstance->expects($this->once())
+            ->method('get')
+            ->with('Mage_Core_Model_Resource')
+            ->will($this->returnValue(self::TEST_RESOURCE));
+        $diInstance->expects($this->exactly(2))
             ->method('setInstanceManager')
             ->will($this->returnCallback(array($this, 'verifySetInstanceManager')));
 
         $this->_model = new Magento_Test_ObjectManager(null, $diInstance);
-    }
 
-    /**
-     * Callback method for Zend\Di\Di::get
-     *
-     * @param $className
-     * @param array $arguments
-     * @return null|PHPUnit_Framework_MockObject_MockObject
-     */
-    public function getCallback($className, array $arguments = array())
-    {
-        $this->assertEmpty($arguments);
-        if ($className == 'Mage_Core_Model_Config') {
-            return $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        } elseif ($className == 'Mage_Core_Model_Resource') {
-            return $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false);
-        }
-        return null;
+        $instanceManager->expects($this->exactly(2))
+            ->method('addSharedInstance');
+        $instanceManager->expects($this->at(0))
+            ->method('addSharedInstance')
+            ->with($this->_model, 'Magento_ObjectManager');
+        $instanceManager->expects($this->at(1))
+            ->method('addSharedInstance')
+            ->with(self::TEST_RESOURCE, 'Mage_Core_Model_Resource');
     }
 
     /**
@@ -88,7 +87,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     public function verifySetInstanceManager($instanceManager)
     {
-        $this->assertInstanceOf('Zend\Di\InstanceManager', $instanceManager);
+        $this->assertInstanceOf('Magento_Test_Di_InstanceManager', $instanceManager);
         $this->assertAttributeEmpty('sharedInstances', $instanceManager);
         $this->assertAttributeEquals($this->_instanceCache, 'sharedInstancesWithParams', $instanceManager);
     }
@@ -110,9 +109,10 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareObjectManagerForAddSharedInstance($instance, $classOrAlias)
     {
-        $diInstance      = $this->getMock('Zend\Di\Di', array('get', 'instanceManager'));
-        $magentoConfig   = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'), array(), '', false);
+        $diInstance      = $this->getMock('Zend\Di\Di', array('instanceManager'));
+        $instanceManager = $this->getMock(
+            'Magento_Test_Di_InstanceManager', array('addSharedInstance'), array(), '', false
+        );
 
         $instanceManager->expects($this->exactly(2))
             ->method('addSharedInstance');
@@ -122,10 +122,36 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $diInstance->expects($this->exactly(2))
             ->method('instanceManager')
             ->will($this->returnValue($instanceManager));
+
+        $this->_model = new Magento_Test_ObjectManager(null, $diInstance);
+    }
+
+    public function testRemoveSharedInstance()
+    {
+        $alias = 'Varien_Object_Alias';
+
+        $this->_prepareObjectManagerForRemoveSharedInstance($alias);
+        $this->_model->removeSharedInstance($alias);
+    }
+
+    /**
+     * Prepare all required mocks for removeSharedInstance
+     *
+     * @param string $classOrAlias
+     */
+    protected function _prepareObjectManagerForRemoveSharedInstance($classOrAlias)
+    {
+        $diInstance      = $this->getMock('Zend\Di\Di', array('instanceManager'));
+        $instanceManager = $this->getMock(
+            'Magento_Test_Di_InstanceManager', array('removeSharedInstance'), array(), '', false
+        );
+
+        $instanceManager->expects($this->once())
+            ->method('removeSharedInstance')
+            ->with($classOrAlias);
         $diInstance->expects($this->exactly(2))
-            ->method('get')
-            ->with('Mage_Core_Model_Config')
-            ->will($this->returnValue($magentoConfig));
+            ->method('instanceManager')
+            ->will($this->returnValue($instanceManager));
 
         $this->_model = new Magento_Test_ObjectManager(null, $diInstance);
     }
