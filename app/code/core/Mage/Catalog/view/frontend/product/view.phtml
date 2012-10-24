@@ -18,10 +18,10 @@
 <?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
-    (function ($) {
-        $.mage.event.observe('mage.priceOption.initialize', function (event, initData) {
-            initData.priceConfig = <?php echo $this->getJsonConfig() ?>;
-        });
+     (function ($) {
+         head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/price-option.js') ?>", function () {
+             priceOptionInstance = $.mage.priceOption({"priceConfig":<?php echo $this->getJsonConfig() ?>});
+         });
     })(jQuery);
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>

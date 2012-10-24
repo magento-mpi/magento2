@@ -267,18 +267,17 @@
                 }
 
                 optionsPrice.changePrice('config', {'price': price, 'oldPrice': oldPrice});
-                optionsPrice.reload();
+                optionsPrice.reloadPrice();
 
                 return price;
             };
         };
-        var initPriceData = {}, spConfigData = {};
-        $.mage.event.trigger("mage.priceOption.initialize", initPriceData);
+        var spConfigData = {};
         $.mage.event.trigger("mage.spConfigData.initialize", spConfigData);
         /*
          Using the prototype class "Product.OptionsPrice". This has multiple reference and needs to be refactored
          as part of the Component/Class refactoring
-          */
-        (new productConfigProcessor(spConfigData.spConfig, new Product.OptionsPrice(initPriceData.priceConfig))).init();
+         */
+        (new productConfigProcessor(spConfigData.spConfig, spConfigData.priceOptionInstance)).init();
     });
 })(jQuery);

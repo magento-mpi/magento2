@@ -7,27 +7,29 @@
  * @license     {license_link}
  */
 /*jshint evil:true browser:true jquery:true*/
-(function ($) {
-    $(document).ready(function() {
-        // Default price option variables
-        var priceOptionInit = {
-            priceConfig: undefined, // This is a json generate from php helper with product price info
-            optionConfig: undefined,// This is a json generate from php helper with option price info
-            productCustomOptionSelector: '.product-custom-option'
-        };
-        $.mage.event.trigger("mage.priceOption.initialize", priceOptionInit);
 
-        // A list of possible product price display elements
-        var priceSelectors = [
-            '#product-price-' + priceOptionInit.priceConfig.productId,
-            '#bundle-price-' + priceOptionInit.priceConfig.productId,
-            '#price-including-tax-' + priceOptionInit.priceConfig.productId,
-            '#price-excluding-tax-' + priceOptionInit.priceConfig.productId,
-            '#old-price-' + priceOptionInit.priceConfig.productId
-        ];
-
-        // Format price migrate from js.js
-        function formatCurrency(price, format, showPlus){
+(function ($, undefined) {
+    $.widget('mage.priceOption', {
+        options: {
+            productCustomSelector: '.product-custom-option',
+            prices: {}
+        },
+        _create: function () {
+            $(this.options.productCustomSelector).each(
+                $.proxy(function (key, value) {
+                    var element = $(value);
+                    if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
+                        element.on('click', $.proxy(this.reloadPrice, this));
+                    }
+                    else if (element.prop('tagName') === 'SELECT' ||
+                        element.prop('tagName') === 'TEXTAREA' ||
+                        element.attr('type') === 'text' || element.attr('type') === 'file') {
+                        element.on('change', $.proxy(this.reloadPrice, this));
+                    }
+                }, this)
+            );
+        },
+        _formatCurrency: function (price, format, showPlus) {
             var precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision;
             var integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired;
             var decimalSymbol = format.decimalSymbol === undefined ? "," : format.decimalSymbol;
@@ -59,119 +61,128 @@
             var pattern = '';
             pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
             return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        }
 
-        // Scan all product custom options, calculate total option price and apply to product price
-        function reloadPrice() {
-            var optionPrice = {
-                excludeTax: 0,
-                includeTax: 0,
-                oldPrice: 0,
-                price: 0,
-                update: function(price, excludeTax, includeTax, oldPrice) {
-                    this.price += price;
-                    this.excludeTax += excludeTax;
-                    this.includeTax += includeTax;
-                    this.oldPrice += oldPrice;
-                }
-            };
-            $(priceOptionInit.productCustomOptionSelector).each(function() {
-                var element = $(this);
-                var optionIdStartIndex, optionIdEndIndex;
-                if (element.attr('type') === 'file') {
-                    optionIdStartIndex = element.attr('name').indexOf('_') + 1;
-                    optionIdEndIndex = element.attr('name').lastIndexOf('_');
-                } else {
-                    optionIdStartIndex = element.attr('name').indexOf('[') + 1;
-                    optionIdEndIndex = element.attr('name').indexOf(']');
-                }
-                var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex), 10);
-                if (priceOptionInit.optionConfig[optionId]) {
-                    var configOptions = priceOptionInit.optionConfig[optionId];
-                    if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
-                        if (element.prop('checked')) {
-                            if (configOptions[element.val()]) {
-                                optionPrice.update(configOptions[element.val()].price,
-                                    configOptions[element.val()].excludeTax,
-                                    configOptions[element.val()].includeTax,
-                                    configOptions[element.val()].oldPrice);
-                            }
-                        }
-                    } else if (element.prop('tagName') === 'SELECT') {
-                        $(element).find('option:selected').each(function() {
-                            if (configOptions[$(this).val()]) {
-                                optionPrice.update(configOptions[$(this).val()].price,
-                                    configOptions[$(this).val()].excludeTax,
-                                    configOptions[$(this).val()].includeTax,
-                                    configOptions[$(this).val()].oldPrice);
-                            }
-                        });
-                    } else if (element.prop('tagName') === 'TEXTAREA' || element.attr('type') === 'text') {
-                        if (element.val()) {
-                            optionPrice.update(configOptions.price, configOptions.excludeTax,
-                                configOptions.includeTax, configOptions.oldPrice);
-                        }
-                    } else if (element.attr('type') === 'file') {
-                        if (element.val() || element.parent('div').siblings().length > 0) {
-                            optionPrice.update(configOptions.price, configOptions.excludeTax,
-                                configOptions.includeTax, configOptions.oldPrice);
-                        }
-                    }
-                }
+        },
+        changePrice: function (key, price) {
+            this.options.prices[key] = price;
+        },
+        _getOptionPrices: function () {
+            var price = 0;
+            var oldPrice = 0;
+            $.each(this.options.prices, function (key, pair) {
+                price += parseFloat(pair.price);
+                oldPrice += parseFloat(pair.oldPrice);
             });
-            var updatedPrice = {
-                priceExclTax: optionPrice.excludeTax + priceOptionInit.priceConfig.priceExclTax,
-                priceInclTax: optionPrice.includeTax + priceOptionInit.priceConfig.priceInclTax,
-                productOldPrice: optionPrice.oldPrice + priceOptionInit.priceConfig.productOldPrice,
-                productPrice: optionPrice.price + priceOptionInit.priceConfig.productPrice
-            };
-            // Loop through each priceSelector and update price
-            $.each(priceSelectors, function(index, value) {
-                var priceElement = $(value);
-                var clone = $(value + priceOptionInit.priceConfig.idSuffix);
-                var isClone = false;
-                if (priceElement.length === 0) {
-                    priceElement = clone;
-                    isClone = true;
-                }
-                if (priceElement.length === 1) {
-                    var price = 0;
-                    if (value.indexOf('price-including-tax-') >= 0) {
-                        price = updatedPrice.priceInclTax;
-                    } else if (value.indexOf('price-excluding-tax-') >= 0) {
-                        price = updatedPrice.priceExclTax;
-                    } else if (value.indexOf('old-price-') >= 0) {
-                        if (priceOptionInit.priceConfig.showIncludeTax || priceOptionInit.priceConfig.showBothPrices) {
-                            price = updatedPrice.priceInclTax;
-                        } else {
-                            price = updatedPrice.priceExclTax;
-                        }
+            var result = [price, oldPrice];
+            return result;
+        },
+        reloadPrice: function () {
+            if (this.options.optionConfig && this.options.priceConfig) {
+                var priceSelectors = [
+                    '#product-price-' + this.options.priceConfig.productId,
+                    '#bundle-price-' + this.options.priceConfig.productId,
+                    '#price-including-tax-' + this.options.priceConfig.productId,
+                    '#price-excluding-tax-' + this.options.priceConfig.productId,
+                    '#old-price-' + this.options.priceConfig.productId
+                ];
+                var getOptionPrices = this._getOptionPrices();
+                var optionPrice = {
+                    excludeTax: 0,
+                    includeTax: 0,
+                    oldPrice: 0,
+                    price: 0,
+                    update: function (price, excludeTax, includeTax, oldPrice) {
+                        this.price += price;
+                        this.excludeTax += excludeTax;
+                        this.includeTax += includeTax;
+                        this.oldPrice += oldPrice;
+                    }
+                };
+                $(this.options.productCustomSelector).each($.proxy(function (key, element) {
+                    var element = $(element);
+                    var optionIdStartIndex, optionIdEndIndex;
+                    if (element.attr('type') === 'file') {
+                        optionIdStartIndex = element.attr('name').indexOf('_') + 1;
+                        optionIdEndIndex = element.attr('name').lastIndexOf('_');
                     } else {
-                        price = priceOptionInit.priceConfig.showIncludeTax ?
-                            updatedPrice.priceInclTax : updatedPrice.priceExclTax;
+                        optionIdStartIndex = element.attr('name').indexOf('[') + 1;
+                        optionIdEndIndex = element.attr('name').indexOf(']');
                     }
-                    priceElement.html("<span class='price'>" + formatCurrency(price, priceOptionInit.priceConfig.priceFormat) + "</span>");
-                    // If clone exists, update clone price as well
-                    if (!isClone && clone.length === 1) {
-                        clone.html("<span class='price'>" + formatCurrency(price, priceOptionInit.priceConfig.priceFormat) + "</span>");
+                    var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex), 10);
+                    if (this.options.optionConfig[optionId]) {
+                        var configOptions = this.options.optionConfig[optionId];
+                        if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
+                            if (element.prop('checked')) {
+                                if (configOptions[element.val()]) {
+                                    optionPrice.update(configOptions[element.val()].price,
+                                        configOptions[element.val()].excludeTax,
+                                        configOptions[element.val()].includeTax,
+                                        configOptions[element.val()].oldPrice);
+                                }
+                            }
+                        } else if (element.prop('tagName') === 'SELECT') {
+                            element.find('option:selected').each(function () {
+                                if (configOptions[$(this).val()]) {
+                                    optionPrice.update(configOptions[$(this).val()].price,
+                                        configOptions[$(this).val()].excludeTax,
+                                        configOptions[$(this).val()].includeTax,
+                                        configOptions[$(this).val()].oldPrice);
+                                }
+                            });
+                        } else if (element.prop('tagName') === 'TEXTAREA' || element.attr('type') === 'text') {
+                            if (element.val()) {
+                                optionPrice.update(configOptions.price, configOptions.excludeTax,
+                                    configOptions.includeTax, configOptions.oldPrice);
+                            }
+                        } else if (element.attr('type') === 'file') {
+                            if (element.val() || element.parent('div').siblings().length > 0) {
+                                optionPrice.update(configOptions.price, configOptions.excludeTax,
+                                    configOptions.includeTax, configOptions.oldPrice);
+                            }
+                        }
                     }
-                }
-            });
+                }, this));
+                var updatedPrice = {
+                    priceExclTax: optionPrice.excludeTax + this.options.priceConfig.priceExclTax,
+                    priceInclTax: optionPrice.includeTax + this.options.priceConfig.priceInclTax,
+                    productOldPrice: optionPrice.oldPrice + this.options.priceConfig.productOldPrice,
+                    productPrice: optionPrice.price + this.options.priceConfig.productPrice
+                };
+                // Loop through each priceSelector and update price
+                $.each(priceSelectors, $.proxy(function (index, value) {
+                    var priceElement = $(value);
+                    var clone = $(value + this.options.priceConfig.idSuffix);
+                    var isClone = false;
+                    if (priceElement.length === 0) {
+                        priceElement = clone;
+                        isClone = true;
+                    }
+                    if (priceElement.length === 1) {
+                        var price = 0;
+                        if (value.indexOf('price-including-tax-') >= 0) {
+                            price = updatedPrice.priceInclTax;
+                        } else if (value.indexOf('price-excluding-tax-') >= 0) {
+                            price = updatedPrice.priceExclTax;
+                        } else if (value.indexOf('old-price-') >= 0) {
+                            if (this.options.priceConfig.showIncludeTax || this.options.priceConfig.showBothPrices) {
+                                price = updatedPrice.priceInclTax;
+                            } else {
+                                price = updatedPrice.priceExclTax;
+                            }
+                        } else {
+                            price = this.options.priceConfig.showIncludeTax ?
+                                updatedPrice.priceInclTax : updatedPrice.priceExclTax;
+                        }
+
+                        price = price + getOptionPrices[0];
+                        priceElement.html("<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>");
+                        // If clone exists, update clone price as well
+                        if (!isClone && clone.length === 1) {
+                            clone.html("<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>");
+                        }
+                    }
+                }, this));
+            }
         }
-
-        // Add click or change event to custom options
-        $(priceOptionInit.productCustomOptionSelector).each(function() {
-            var element = $(this);
-            if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
-                element.on('click', reloadPrice);
-            }
-            else if (element.prop('tagName') === 'SELECT' ||
-                element.prop('tagName') === 'TEXTAREA' ||
-                element.attr('type') === 'text' || element.attr('type') === 'file') {
-                element.on('change', reloadPrice);
-            }
-        });
-
-        reloadPrice();
-    });
-}(jQuery));
+    })
+})(jQuery);
