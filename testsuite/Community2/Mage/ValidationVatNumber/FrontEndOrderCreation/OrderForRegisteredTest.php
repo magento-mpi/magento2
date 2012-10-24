@@ -1,21 +1,21 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_ValidationVatNumber
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_ValidationVatNumber
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
-class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistrationTest extends Mage_Selenium_TestCase
+/**
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -30,7 +30,7 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
             $this->clickControl('link','store_information_link', false);
         }
         $this->clickControl('button', 'validate_vat_number', false);
-        $this->pleaseWait();
+        $this->waitForElementVisible($this->_getControlXpath('button', 'vat_number_is_valid'));
         //Verification
         $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
     }
@@ -101,6 +101,8 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      * <p>Checkout is successful. Customer should be assigned to Default Group</p>
      *
      * @param array $vatGroup
+     * @param array|string $accountType
+     * @param array|string $paymentType
      * @param array $vatNumber
      * @param array|string $customerGroup
      *
@@ -111,16 +113,21 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
      * @TestlinkId TL-MAGE-3942
      * @author andrey.vergeles
      */
-    public function orderWithRegistration ($vatNumber, $customerGroup, $vatGroup)
+    public function orderForRegisteredCustomers($accountType, $paymentType, $vatNumber, $customerGroup, $vatGroup)
     {
         //Data
-        $vatNumber = array_merge($vatNumber, array('general_name' => $vatGroup['simple']));
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney', $vatNumber);
-        $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' ' .
-                         $checkoutData['billing_address_data']['billing_last_name'];
+        $userData = $this->loadDataSet('Customers', $accountType);
+        $vatNumber = array_merge($vatNumber,
+            array('general_name'        => $vatGroup['simple'],
+                  'email_address'       => $userData['email']));
+        $checkoutData = $this->loadDataSet('OnePageCheckout', $paymentType, $vatNumber);
+        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->frontend();
         $this->logoutCustomer();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
         //Verification
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Steps. Verification Customer group on back-end
@@ -129,15 +136,15 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
             $this->loginAdminUser();
             $this->navigate('manage_customers');
             $this->addParameter('customer_first_last_name', $userDataParam);
-            $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->openTab('account_information');
         } else {
             $this->loginAdminUser();
             $this->navigate('manage_customers');
             $this->addParameter('customer_first_last_name', $userDataParam);
-            $this->customerHelper()->openCustomer(array('email' => $checkoutData['billing_address_data']['billing_email']));
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->openTab('account_information');
         }
         //Verification
@@ -148,12 +155,15 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
     public function dataForCustomersDataProvider()
     {
         return array(
-            array(array(), 'group_default'),
-            array(array('billing_vat_number' => '111607872'),  'group_valid_vat_domestic'),
-            array(array('billing_vat_number' => '1111111111'), 'group_invalid_vat'),
-            array(array('billing_vat_number' => '37441119989',
-                        'billing_country'    => 'France',
-                        'billing_state'      => 'Ain'),        'group_valid_vat_intraunion')
+            array('customer_account_register', 'exist_flatrate_checkmoney', array(), 'group_default'),
+            array('customer_account_register', 'exist_flatrate_checkmoney',
+                    array('billing_vat_number' => '111607872'), 'group_valid_vat_domestic'),
+            array('customer_account_register', 'exist_flatrate_checkmoney',
+                    array('billing_vat_number' => '1111111111'), 'group_invalid_vat'),
+            array('customer_account_register', 'exist_flatrate_checkmoney',
+                array('billing_vat_number' => '37441119989',
+                      'billing_country'    => 'France',
+                      'billing_state'      => 'Ain'), 'group_valid_vat_intraunion')
         );
     }
 }
