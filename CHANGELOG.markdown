@@ -165,11 +165,10 @@
 
 2.0.0.0-dev29
 =============
-* Added scripts that allow upgrading database from CE 1.7 (EE 1.12) to 2.x
+* Implemented and verified ability to upgrade DB from CE 1.7 (EE 1.12) to 2.x
 * Replaced calendar UI component with jQuery calendar
-* Removed store scope selector from backend customers management
-* Renamed `pub/js` (was known as `js` in Magento 1.x) into `pub/lib`
 * Restored back the public access to `pub/cron.php` entry point (in the previous patch it was denied by mistake)
+* Fixed typo in label of "Catalog Search" index in UI
 
 2.0.0.0-dev28
 =============
@@ -691,10 +690,10 @@
 2.0.0.0-dev02
 =============
 Deprecated code & minor fixes update:
-* eliminated remnants of `htmlescape` implementation
-* eliminated usage of `pub/js/index.php` entry point (used to be `js/index.php`)
-* disbanded the shell root directory: moved scripts into `dev/shell` and classes into app
-* minor refactoring of data fixtures rollback capability in integration testing framework
+* Eliminated remnants of `htmlescape` implementation
+* Eliminated usage of `pub/js/index.php` entry point (used to be `js/index.php`)
+* Disbanded the shell root directory: moved scripts into `dev/shell` and classes into app
+* Minor refactoring of data fixtures rollback capability in integration testing framework
 
 2.0.0.0-dev01
 =============
