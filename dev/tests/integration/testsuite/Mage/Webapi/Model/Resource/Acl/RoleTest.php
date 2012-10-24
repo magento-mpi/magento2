@@ -78,4 +78,20 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->setRoleName('test_role')
             ->save();
     }
+
+    /**
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::delete()
+     *
+     * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
+     */
+    public function testDeleteRole()
+    {
+        Mage::getModel('Mage_Webapi_Model_Acl_Role')
+            ->load('Test role', 'role_name')
+            ->delete();
+        /** @var Mage_Webapi_Model_Acl_User $user */
+        $user = Mage::getModel('Mage_Webapi_Model_Acl_User')
+            ->load('test_username','user_name');
+        $this->assertNotEmpty($user->getId());
+    }
 }

@@ -69,7 +69,7 @@ $table = $installer->getConnection()
         'role_id',
         $installer->getTable('webapi_role'),
         'role_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE,
+        Varien_Db_Ddl_Table::ACTION_SET_NULL,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Users of unified webapi');
 $installer->getConnection()->createTable($table);
