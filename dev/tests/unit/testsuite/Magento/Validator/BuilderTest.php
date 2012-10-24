@@ -38,6 +38,11 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
 
+        /** @var Magento_Translate_AdapterAbstract $translator */
+        $translator = $this->getMockBuilder('Magento_Translate_AdapterAbstract')
+            ->getMockForAbstractClass();
+        Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
+
         // Case 1. Check constructor with arguments
         $actualConstraints = array(array(
             'alias' => 'name_alias',
