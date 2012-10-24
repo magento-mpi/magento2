@@ -91,7 +91,7 @@ class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
                      array('Shipping Settings Section', 'sales_shipping_settings'),
                      array('Newsletter Section', 'customers_newsletter'),
                      array('Moneybookers Settings', 'sales_moneybookers'),
-                     array('Google Sitemap Section', 'catalog_google_sitemap'),
+                     array('XML Sitemap Section', 'catalog_google_sitemap'),
                      array('Magento Core API Section', 'services_magento_core_api'),
                      array('Persistent Shopping Cart', 'customers_persistent_shopping_cart'),
                      array('Reports', 'general_reports'),
@@ -114,6 +114,7 @@ class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
                      array('Currency Setup Section', 'general_currency_setup'),
                      array('RSS Feeds Section', 'catalog_rss_feeds'),
                      array('Email to a Friend', 'catalog_email_to_a_friend'),
+                     array('Promotion','customers_promotions'),
         );
     }
 
