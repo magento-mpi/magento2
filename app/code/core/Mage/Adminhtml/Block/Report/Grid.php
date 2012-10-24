@@ -27,6 +27,11 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected $_filters = array();
 
+    /**
+     * @var Mage_Core_Model_Locale
+     */
+    protected $_locale;
+
     protected $_defaultFilters = array(
             'report_from' => '',
             'report_to' => '',
@@ -63,14 +68,11 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 ->setTemplate('report/store/switcher.phtml')
         );
 
-        $this->setChild('refresh_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
-                    'onclick'   => $this->getRefreshButtonCallback(),
-                    'class'   => 'task'
-                ))
-        );
+        $this->addChild('refresh_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
+            'onclick'   => $this->getRefreshButtonCallback(),
+            'class'   => 'task'
+        ));
         parent::_prepareLayout();
         return $this;
     }
@@ -279,7 +281,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     public function getDateFormat()
     {
-        return $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        return $this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
     /**

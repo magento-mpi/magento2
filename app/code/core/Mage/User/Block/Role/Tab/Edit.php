@@ -113,7 +113,7 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         $aclConfig = Mage::getSingleton('Mage_Backend_Model_Acl_Config');
         $resources = $aclConfig->getAclResources();
 
-        $adminNode = $resources->item(0);
+        $adminNode = $resources->item(1);
         $rootArray = $this->_getNodeJson($adminNode, 1);
 
         $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(

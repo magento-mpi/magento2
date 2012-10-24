@@ -24,12 +24,10 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
      */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('PaymentMethod', 'checkmoney');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/checkmoney');
     }
 
     protected function assertPreconditions()

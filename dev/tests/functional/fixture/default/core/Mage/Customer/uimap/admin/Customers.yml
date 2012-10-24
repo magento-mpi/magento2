@@ -46,6 +46,7 @@ manage_customers:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages
             success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
+            success_suscribe_unsuscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
@@ -253,6 +254,9 @@ edit_customer:
                                     xpath: //div[@id='tag_grid']
                                     links:
                                       next_page: //a[@title="Next page"]
+                                    pageelements:
+                                      tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
+                                      tags_grid: //table[@id='tag_grid_table']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

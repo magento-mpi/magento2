@@ -73,7 +73,8 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
             array(
                 'backend/admin/user_role/saverole', 'save',
                 array(
-                    'rolename' => 'newrole2'
+                    'rolename' => 'newrole2',
+                    'gws_is_all' => '1'
                 )
             ),
             array('backend/admin/user_role/delete/rid/2', 'delete'),

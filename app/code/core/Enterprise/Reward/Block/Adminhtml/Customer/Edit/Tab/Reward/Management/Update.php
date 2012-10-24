@@ -43,7 +43,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             'legend' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Update Reward Points Balance')
         ));
 
-        if (!Mage::app()->hasSingleStore()) {
+        if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
                 'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Store'),

@@ -37,13 +37,22 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
         parent::_prepareLayout();
 
         Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Element')
+            $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Widget_Form_Renderer_Element',
+                $this->getNameInLayout() . '_element'
+            )
         );
         Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+            $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
+                $this->getNameInLayout() . '_fieldset'
+            )
         );
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
+            $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
+                $this->getNameInLayout() . '_fieldset_element'
+            )
         );
 
         return $this;
@@ -151,7 +160,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
                 } else if ($inputType == 'date') {
                     $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getSkinUrl('images/grid-cal.gif'));
-                    $element->setFormat($format);
+                    $element->setDateFormat($format);
                 }
             }
         }

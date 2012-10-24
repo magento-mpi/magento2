@@ -1,0 +1,36 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CmsPage
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+#
+---
+# CMS Edit page after click "Save and Continue" button
+save_and_continue_edit_cms_page:
+    mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
+    title: %pageName% / Pages / CMS / Magento Admin
+    uimap:
+        messages:
+            success_saved_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been saved.')]
+
+# Manage Pages Hierarchy page
+manage_pages_hierarchy:
+    mca: cms_hierarchy/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_hierarchy/')]
+    title: Manage Hierarchy / Pages / CMS / Magento Admin
+    uimap:
+        dropdowns:
+            choose_scope: //select[@id='store_switcher']
+
+# Manage Banners page
+manage_banners:
+    mca: banner/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
+    title: Banners / CMS / Magento Admin
+
+create_cms_page:
+    title: New Page / Pages / CMS / Magento Admin
