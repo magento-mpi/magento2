@@ -67,7 +67,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     {
         if ($this->getApiUser()->getId()) {
             return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit API User '%s'", $this->escapeHtml($this->getApiUser()->getContactEmail()));
+                ->__("Edit API User '%s'", $this->escapeHtml($this->getApiUser()->getApiKey()));
         } else {
             return Mage::helper('Mage_Webapi_Helper_Data')->__('New API User');
         }

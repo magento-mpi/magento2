@@ -115,7 +115,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         try {
             Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId)->delete();
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('The role has been deleted.'));
+                Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been deleted.'));
         } catch (Exception $e) {
             $this->_getSession()->addError(
                 Mage::helper('Mage_Webapi_Helper_Data')->__('An error occurred while deleting this role.'));

@@ -123,7 +123,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
                 $this->_getSession()
                     ->setWebapiUserData(null)
-                    ->addSuccess(Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
+                    ->addSuccess(Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()
@@ -160,7 +160,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been deleted.'));
+                    Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
