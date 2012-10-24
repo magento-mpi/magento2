@@ -13,8 +13,8 @@
         <?php echo $this->getChildHtml('checkoutCallout') ?>
         <h1><?php echo $this->__('Checkout') ?></h1>
     </div>
-    <script type="text/javascript" src="<?php echo $this->getSkinUrl('Mage_Checkout::onepage/accordion.js') ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->getSkinUrl('Mage_Checkout::opcheckout.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getViewFileUrl('Mage_Checkout::onepage/accordion.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getViewFileUrl('Mage_Checkout::opcheckout.js') ?>"></script>
     <div class="opc-progress-container" id="col-right-opcheckout">
         <?php echo $this->getChildHtml('checkoutProgress') ?>
     </div>

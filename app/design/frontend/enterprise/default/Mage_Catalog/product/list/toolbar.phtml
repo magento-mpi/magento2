@@ -53,11 +53,11 @@
             </select>
             <?php if ($this->getCurrentDirection() == 'desc'): ?>
             <a href="<?php echo $this->getOrderUrl(null, 'asc') ?>"><img
-                src="<?php echo $this->getSkinUrl('images/sort_desc_arrow.gif') ?>"
+                src="<?php echo $this->getViewFileUrl('images/sort_desc_arrow.gif') ?>"
                 alt="<?php echo $this->__('Set Ascending Direction') ?>" class="v-middle"/></a>
             <?php else: ?>
             <a href="<?php echo $this->getOrderUrl(null, 'desc') ?>"><img
-                src="<?php echo $this->getSkinUrl('images/sort_asc_arrow.gif') ?>"
+                src="<?php echo $this->getViewFileUrl('images/sort_asc_arrow.gif') ?>"
                 alt="<?php echo $this->__('Set Descending Direction') ?>" class="v-middle"/></a>
             <?php endif; ?>
         </div>
@@ -92,7 +92,7 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        $.mage.load.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     })(jQuery);
     //]]>
 </script>
