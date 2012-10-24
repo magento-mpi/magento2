@@ -38,7 +38,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
      */
     protected function _beforeToHtml()
     {
-        /** @var $mainBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main */
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainBlock */
         $mainBlock = $this->getLayout()->getBlock('webapi.user.edit.tab.main');
         $mainBlock->setApiUser($this->getApiUser());
         $this->addTab('main_section', array(
@@ -48,7 +48,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
             'active' => true
         ));
 
-        /** @var $roleBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles */
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles $roleBlock */
         $roleBlock = $this->getLayout()->getBlock('webapi.user.edit.tab.roles');
         $roleBlock->setApiUser($this->getApiUser());
         $this->addTab('roles_section', array(

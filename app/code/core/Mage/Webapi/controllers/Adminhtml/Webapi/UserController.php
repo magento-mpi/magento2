@@ -87,12 +87,12 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             $user->setData($data);
         }
 
-        /** @var $editBlock Mage_Webapi_Block_Adminhtml_User_Edit */
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit $editBlock */
         $editBlock = $this->getLayout()->getBlock('webapi.user.edit');
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
-        /** @var $tabsBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tabs */
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tabs $tabsBlock */
         $tabsBlock = $this->getLayout()->getBlock('webapi.user.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiUser($user);
@@ -189,14 +189,14 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function rolesgridAction()
     {
         $userId = (int)$this->getRequest()->getParam('user_id');
-        /** @var $user Mage_Webapi_Model_Acl_User */
+        /** @var Mage_Webapi_Model_Acl_User $user */
         $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
         if ($userId) {
             $user->load($userId);
         }
 
         $this->loadLayout();
-        /** @var $gridBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles */
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles $gridBlock */
         $gridBlock = $this->getLayout()->getBlock('root');
         if ($gridBlock) {
             $gridBlock->setApiUser($user);
@@ -251,7 +251,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     protected function _loadApiUser($userId)
     {
-        /** @var $user Mage_Webapi_Model_Acl_User */
+        /** @var Mage_Webapi_Model_Acl_User $user */
         $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
