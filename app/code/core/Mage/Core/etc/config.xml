@@ -171,8 +171,8 @@
     <default>
         <design>
             <theme>
-                <full_name>default/default/default</full_name>
-                <allow_skin_files_duplication>1</allow_skin_files_duplication>
+                <full_name>default/default</full_name>
+                <allow_view_files_duplication>1</allow_view_files_duplication>
             </theme>
             <pagination>
                 <list_allow_all>1</list_allow_all>
@@ -216,7 +216,7 @@
                     <compiled_css_folder>css</compiled_css_folder>
                     <compiled_css_secure_folder>css_secure</compiled_css_secure_folder>
                     <compiled_js_folder>js</compiled_js_folder>
-                    <design_skin_folder>skin</design_skin_folder>
+                    <design_skin_folder>theme</design_skin_folder>
                 </allowed_resources>
             </media_storage_configuration>
         </system>

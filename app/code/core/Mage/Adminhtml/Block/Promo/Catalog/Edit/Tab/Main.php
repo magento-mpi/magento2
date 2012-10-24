@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'name'   => 'from_date',
             'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
             'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
-            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'name'   => 'to_date',
             'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
             'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
-            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));

@@ -59,7 +59,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             'theme' => 'custom_theme',
             'skin' => 'theme_nested_skin'
         );
-        $actual = $this->_model->getSkinFile('Fixture_Module::fixture_script.js', $params);
+        $actual = $this->_model->getViewFile('Fixture_Module::fixture_script.js', $params);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 

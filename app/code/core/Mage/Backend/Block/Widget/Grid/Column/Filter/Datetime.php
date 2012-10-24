@@ -102,7 +102,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from"'
                 . ' value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>'
-            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+            . '<img src="' . Mage::getDesign()->getViewFileUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
                 . ' id="'.$htmlId.'_from_trig"'
                 . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>'
             . '</div>';
@@ -110,7 +110,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to"'
                 . ' value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>'
-            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+            . '<img src="' . Mage::getDesign()->getViewFileUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
                 . ' id="'.$htmlId.'_to_trig"'
                 . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>'
             . '</div></div>';

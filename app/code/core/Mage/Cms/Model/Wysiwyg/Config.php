@@ -57,9 +57,9 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
-                $design->getSkinUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
+                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
-                $design->getSkinUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
+                $design->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
             'width'                         => '100%',
             'plugins'                       => array()
         ));
@@ -91,7 +91,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return Mage::getDesign()->getSkinUrl('Mage_Cms::images/wysiwyg_skin_image.png');
+        return Mage::getDesign()->getViewFileUrl('Mage_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**

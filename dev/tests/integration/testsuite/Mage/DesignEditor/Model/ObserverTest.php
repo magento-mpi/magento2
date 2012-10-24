@@ -169,7 +169,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function wrapPageElementDataProvider()
     {
         $removeLink = sprintf('<a href="#remove"><img src="%s" alt="Remove" /></a>',
-            Mage::getDesign()->getSkinUrl('images/btn_remove.gif')
+            Mage::getDesign()->getViewFileUrl('images/btn_remove.gif')
         );
         return array(
             'non-draggable block' => array(
@@ -245,7 +245,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 . '<div class="vde_element_title">draggable_block</div>%w'
                 . '<div class="vde_element_title vde_element_remove" id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr_remove">%w'
                     . '<a href="#remove">%w'
-                        . '<img src="' . Mage::getDesign()->getSkinUrl('images/btn_remove.gif') . '" alt="Remove" />%w'
+                        . '<img src="' . Mage::getDesign()->getViewFileUrl('images/btn_remove.gif') . '" alt="Remove" />%w'
                     . '</a>%w'
                 . '</div>%w'
             . '</div>%w'

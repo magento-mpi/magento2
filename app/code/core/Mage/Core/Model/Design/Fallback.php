@@ -105,13 +105,13 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     }
 
     /**
-     * Get skin file name, using fallback mechanism
+     * Get theme file name, using fallback mechanism
      *
      * @param string $file
      * @param string|null $module
      * @return string
      */
-    public function getSkinFile($file, $module = null)
+    public function getViewFile($file, $module = null)
     {
         $dir = $this->_appConfig->getOptions()->getDesignDir();
         $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
@@ -184,14 +184,14 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     }
 
     /**
-     * Object notified, that skin file was published, thus it can return published file name on next calls
+     * Object notified, that theme file was published, thus it can return published file name on next calls
      *
      * @param string $publicFilePath
      * @param string $file
      * @param string|null $module
      * @return Mage_Core_Model_Design_FallbackInterface
      */
-    public function notifySkinFilePublished($publicFilePath, $file, $module = null)
+    public function notifyViewFilePublished($publicFilePath, $file, $module = null)
     {
         // Do nothing - we don't cache file paths in real fallback
         return $this;

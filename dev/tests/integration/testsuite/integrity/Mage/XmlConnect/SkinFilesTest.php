@@ -27,9 +27,9 @@ class Integrity_Mage_XmlConnect_SkinFilesTest extends PHPUnit_Framework_TestCase
             'package' => 'default',
             'theme'   => 'default',
         );
-        $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
         $params['area'] = 'frontend';
-        $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**

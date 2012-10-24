@@ -59,7 +59,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testGetPublicSkinDir()
     {
         Mage::app()->getConfig()->getOptions()->setMediaDir(__DIR__);
-        $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'skin', $this->_model->getPublicSkinDir());
+        $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'theme', $this->_model->getPublicDir());
     }
 
     /**
@@ -72,14 +72,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     protected function _testGetSkinUrl($file, $expectedUrl, $locale = null)
     {
         Mage::app()->getLocale()->setLocale($locale);
-        $url = $this->_model->getSkinUrl($file);
+        $url = $this->_model->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
-        $skinFile = $this->_model->getSkinFile($file);
+        $skinFile = $this->_model->getViewFile($file);
         $this->assertFileExists($skinFile);
     }
 
     /**
-     * @magentoConfigFixture default/design/theme/allow_skin_files_duplication 1
+     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 1
      * @dataProvider getSkinUrlFilesDuplicationDataProvider
      */
     public function testGetSkinUrlFilesDuplication($file, $expectedUrl, $locale = null)
@@ -118,7 +118,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @magentoConfigFixture default/design/theme/allow_skin_files_duplication 0
+     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
      * @dataProvider testGetSkinUrlNoFilesDuplicationDataProvider
      */
     public function testGetSkinUrlNoFilesDuplication($file, $expectedUrl, $locale = null)
@@ -149,7 +149,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @magentoConfigFixture default/design/theme/allow_skin_files_duplication 0
+     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
      */
     public function testGetSkinUrlNoFilesDuplicationWithCaching()
     {
@@ -159,13 +159,13 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         Mage::app()->cleanCache();
 
         $skinFile = 'images/logo.gif';
-        $this->_model->getSkinUrl($skinFile, $skinParams);
+        $this->_model->getViewFileUrl($skinFile, $skinParams);
         $map = unserialize(Mage::app()->loadCache($cacheKey));
         $this->assertTrue(count($map) == 1);
         $this->assertStringEndsWith('logo.gif', (string)array_pop($map));
 
         $skinFile = 'images/logo_email.gif';
-        $this->_model->getSkinUrl($skinFile, $skinParams);
+        $this->_model->getViewFileUrl($skinFile, $skinParams);
         $map = unserialize(Mage::app()->loadCache($cacheKey));
         $this->assertTrue(count($map) == 2);
         $this->assertStringEndsWith('logo_email.gif', (string)array_pop($map));
@@ -178,7 +178,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testGetSkinUrlException($file)
     {
-        $this->_model->getSkinUrl($file);
+        $this->_model->getViewFileUrl($file);
     }
 
     /**
@@ -208,12 +208,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $expectedFile = self::$_skinPublicDir . '/' . $expectedFile;
 
         // test doesn't make sense if the original file doesn't exist or the target file already exists
-        $originalFile = $this->_model->getSkinFile($file, $designParams);
+        $originalFile = $this->_model->getViewFile($file, $designParams);
         $this->assertFileExists($originalFile);
 
         // getSkinUrl() will trigger publication in development mode
         $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
-        $this->_model->getSkinUrl($file, $designParams);
+        $this->_model->getViewFileUrl($file, $designParams);
         $this->assertFileExists($expectedFile);
 
         // as soon as the files are published, they must have the same mtime as originals
@@ -267,7 +267,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
         $publishedDir = self::$_skinPublicDir . '/frontend/package/default/theme/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->_model->getSkinUrl('css/file.css', array('package' => 'package', 'skin' => 'theme'));
+        $this->_model->getViewFileUrl('css/file.css', array('package' => 'package', 'skin' => 'theme'));
         foreach ($expectedFiles as $file) {
             $this->assertFileExists("{$publishedDir}/{$file}");
         }
@@ -281,7 +281,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testPublishCssFileFromModule(
         $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        $this->_model->getSkinUrl($cssSkinFile, $designParams);
+        $this->_model->getViewFileUrl($cssSkinFile, $designParams);
 
         $expectedCssFile = self::$_skinPublicDir . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
@@ -379,7 +379,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
         // Prepare temporary fixture directory and publish files from it
         $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
-        $this->_model->getSkinUrl('style.css');
+        $this->_model->getViewFileUrl('style.css');
 
         // Change main file and referenced files - everything changed and referenced must appear
         file_put_contents(
@@ -392,7 +392,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             '.sub2 {border: 1px solid magenta}',
             FILE_APPEND
         );
-        $this->_model->getSkinUrl('style.css');
+        $this->_model->getViewFileUrl('style.css');
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureSkinPath . 'style.css', $publishedPath . 'style.css');
@@ -445,7 +445,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
         // Prepare temporary fixture directory and publish files from it
         $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
-        $this->_model->getSkinUrl('style.css');
+        $this->_model->getViewFileUrl('style.css');
 
         // Change referenced files
         copy($fixtureSkinPath . 'images/rectangle.gif', $fixtureSkinPath . 'images/square.gif');
@@ -456,7 +456,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             FILE_APPEND
         );
 
-        $this->_model->getSkinUrl('style.css');
+        $this->_model->getViewFileUrl('style.css');
 
         $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
         $this->$assertFileComparison($fixtureSkinPath . 'sub.css', $publishedPath . 'sub.css');

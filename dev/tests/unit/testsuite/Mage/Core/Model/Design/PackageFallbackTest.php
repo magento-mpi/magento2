@@ -104,7 +104,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             ->with('some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 
-        $actual = $this->_model->getSkinFile($file, $params);
+        $actual = $this->_model->getViewFile($file, $params);
         $this->assertEquals($expected, $actual);
     }
 }

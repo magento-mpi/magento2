@@ -256,7 +256,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetSkinUrl($devMode, $file, $result)
     {
         Mage::setIsDeveloperMode($devMode);
-        $this->assertEquals($this->_model->getSkinUrl($file), $result);
+        $this->assertEquals($this->_model->getViewFileUrl($file), $result);
     }
 
     /**
@@ -269,7 +269,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetSkinUrlSigned($devMode, $file, $result)
     {
         Mage::setIsDeveloperMode($devMode);
-        $url = $this->_model->getSkinUrl($file);
+        $url = $this->_model->getViewFileUrl($file);
         $this->assertEquals(strpos($url, $result), 0);
         $lastModified = array();
         preg_match('/.*\?(.*)$/i', $url, $lastModified);

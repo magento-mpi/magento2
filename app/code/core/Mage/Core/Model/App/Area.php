@@ -88,7 +88,7 @@ class Mage_Core_Model_App_Area
         } else {
             $areaDesign = (string)Mage::getConfig()->getNode(
                 $this->_code . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
-            ) ?: 'default/default/default';
+            ) ?: 'default/default';
             $this->_getDesign()->setDesignTheme($areaDesign, $this->_code);
         }
     }
@@ -193,6 +193,6 @@ class Mage_Core_Model_App_Area
         if (Mage::app()->getRequest()->isStraight()) {
             return;
         }
-        Mage::getDesign()->setDesignTheme('default/default/default', $this->_code);
+        Mage::getDesign()->setDesignTheme('default/default', $this->_code);
     }
 }

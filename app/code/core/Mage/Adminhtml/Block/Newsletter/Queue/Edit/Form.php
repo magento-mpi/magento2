@@ -46,14 +46,14 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'time'      =>    true,
                 'format'    =>    $outputFormat,
                 'label'     =>    Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Date Start'),
-                'image'     =>    $this->getSkinUrl('images/grid-cal.gif')
+                'image'     =>    $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
             if (!Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
-                    'image'         => $this->getSkinUrl('images/grid-cal.gif'),
+                    'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
                     'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
@@ -72,14 +72,14 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
                 'style'     => 'width:38%;',
                 'format'    => $outputFormat,
                 'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Date Start'),
-                'image'     => $this->getSkinUrl('images/grid-cal.gif')
+                'image'     => $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
             if (!Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
-                    'image'         => $this->getSkinUrl('images/grid-cal.gif'),
+                    'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
                     'required'      => true,
                     'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()

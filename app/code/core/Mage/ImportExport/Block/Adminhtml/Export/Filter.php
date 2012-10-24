@@ -56,7 +56,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Mage_Adminhtml_Blo
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
             'format'       => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
-            'image'        => $this->getSkinUrl('images/grid-cal.gif')
+            'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         ));
         $fromValue = null;
         $toValue   = null;

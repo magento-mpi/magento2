@@ -164,7 +164,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $model = $this->_buildModel($area, $package, $theme, $skin, $locale);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $model->getSkinFile($file, $module);
+        $actualFilename = $model->getViewFile($file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);

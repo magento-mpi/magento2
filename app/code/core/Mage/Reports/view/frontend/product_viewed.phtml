@@ -31,8 +31,8 @@
                     o.recentlyViewedItemSelector = '#recently-viewed-items';
                 });
                 $.mage.load.jsSync(
-                    "<?php echo $this->getSkinUrl('mage/decorate.js') ?>",
-                    "<?php echo $this->getSkinUrl('Mage_Checkout::js/product-view.js') ?>"
+                    "<?php echo $this->getViewFileUrl('mage/decorate.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Mage_Checkout::js/product-view.js') ?>"
                 );
             })(jQuery);
             //]]>

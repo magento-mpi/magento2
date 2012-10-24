@@ -143,9 +143,9 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             ->with('file.ext', $module)
             ->will($this->returnValue($expected));
 
-        $actual = $this->_model->getSkinFile('file.ext', $module);
+        $actual = $this->_model->getViewFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
-        $actual = $this->_model->getSkinFile('file.ext', $module);
+        $actual = $this->_model->getViewFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
     }
 
@@ -163,15 +163,15 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             ->will($this->returnValue(null));
 
         // Empty at first
-        $this->assertNull($this->_model->getSkinFile($file, $module));
+        $this->assertNull($this->_model->getViewFile($file, $module));
 
         // Store something
         $publicFilePath = $this->_baseDir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'file.ext';
-        $result = $this->_model->notifySkinFilePublished($publicFilePath, $file, $module);
+        $result = $this->_model->notifyViewFilePublished($publicFilePath, $file, $module);
         $this->assertSame($this->_model, $result);
 
         // Stored successfully
-        $storedFilePath = $this->_model->getSkinFile($file, $module);
+        $storedFilePath = $this->_model->getViewFile($file, $module);
         $this->assertEquals($publicFilePath, $storedFilePath);
     }
 
@@ -195,7 +195,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             'baseDir' => ''
         );
         $model = new Mage_Core_Model_Design_Fallback_CachingProxy($params);
-        $model->notifySkinFilePublished($expectedPublicFile, $file, $module);
+        $model->notifyViewFilePublished($expectedPublicFile, $file, $module);
 
         $globPath = self::$_tmpDir . DIRECTORY_SEPARATOR . '*.*';
         $this->assertEmpty(glob($globPath));
@@ -211,7 +211,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $model->expects($this->never())
             ->method('_getFallback');
 
-        $actualPublicFile = $model->getSkinFile($file, $module);
+        $actualPublicFile = $model->getViewFile($file, $module);
         $this->assertEquals($expectedPublicFile, $actualPublicFile);
     }
 }
