@@ -193,10 +193,10 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     {
         $showTab = false;
         if ($storeCode) {
-            $showTab = isset($node['showInStore']) ? (int)$node['showInStore'] : 0;
+            $showTab = isset($node['showInStore']) ? (int)$node['showInStore'] : false;
         } elseif ($websiteCode) {
-            $showTab = isset($node['showInWebsite']) ? (int)$node['showInWebsite'] : 0;
-        } elseif (isset($node['showInDefault']) && isset($node['showInWebsite']) && (int)$node['showInWebsite']) {
+            $showTab = isset($node['showInWebsite']) ? (int)$node['showInWebsite'] : false;
+        } elseif (isset($node['showInDefault']) && $node['showInDefault']) {
             $showTab = true;
         }
 

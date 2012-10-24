@@ -100,6 +100,65 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->hasChildren(array('fields' => array())));
     }
 
+    public function testCanShowNodeReturnsFalseByDefault()
+    {
+        $this->assertFalse($this->_model->hasChildren(array()));
+    }
+
+    /**
+     * @param array $node
+     * @param string $website
+     * @param string $store
+     * @dataProvider testCanShowNodeReturnsTrueForDisplayableNodesDataProvider
+     */
+    public function testCanShowNodeReturnsTrueForDisplayableNodes($node, $website, $store)
+    {
+        $this->assertTrue($this->_model->hasChildren($node, $website, $store));
+    }
+
+    public static function testCanShowNodeReturnsTrueForDisplayableNodesDataProvider()
+    {
+        return array(
+            array(array('showInStore' => 1), null, 'store'),
+            array(array('showInWebsite' => 1), 'website', null),
+            array(array('showInDefault' => 1), null, null)
+        );
+    }
+
+    /**
+     * @param array $node
+     * @param string $website
+     * @param string $store
+     * @dataProvider testCanShowNodeReturnsFalseForNonDisplayableNodesDataProvider
+     */
+    public function testCanShowNodeReturnsFalseForNonDisplayableNodes($node, $website, $store)
+    {
+        $this->assertFalse($this->_model->hasChildren($node, $website, $store));
+    }
+
+    public static function testCanShowNodeReturnsFalseForNonDisplayableNodesDataProvider()
+    {
+        return array(
+            array(array('showInStore' => 0), null, 'store'),
+            array(array('showInWebsite' => 0), 'website', null),
+            array(array('showInStore' => 1), 'website', null),
+            array(array('showInWebsite' => 1), null, 'store'),
+            array(array('showInDefault' => 0), null, null)
+        );
+    }
+
+    public function testCanShowNodeReturnsTrueForNonDisplayableNodesInSingleStoreMode()
+    {
+        $this->_appMock->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
+        $this->assertTrue($this->_model->hasChildren(array(), null, null));
+    }
+
+    public function testCanShowNodeReturnsFalseForNonDisplayableNodesInSingleStoreModeWithFlag()
+    {
+        $this->_appMock->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
+        $this->assertTrue($this->_model->hasChildren(array('hide_in_single_store_mode'), null, null));
+    }
+
     public function testGetAttributeModuleReturnsBackendModuleByDefault()
     {
         $this->assertEquals('Mage_Backend', $this->_model->getAttributeModule());
