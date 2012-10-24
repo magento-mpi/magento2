@@ -67,9 +67,9 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
                 "New API User"
             ),
             'existing user'  => array(
-                new Varien_Object(array('id' => 1, 'api_key' => 'test key',
+                new Varien_Object(array('id' => 1, 'api_key' => 'test_key',
                     'contact_email' => 'test@email.com', 'role_id' => 1)),
-                "Edit API User 'test@email.com'"
+                "Edit API User 'test_key'"
             ),
         );
     }
