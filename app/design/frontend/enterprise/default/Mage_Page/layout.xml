@@ -19,6 +19,7 @@ Default layout, loads most of the pages
         <block type="Mage_Page_Block_Html" name="root" output="1" template="3columns.phtml">
 
             <block type="Mage_Page_Block_Html_Head" name="head" as="head">
+                <action method="addJs"><file>js/popup_menu.js</file></action>
                 <block type="Mage_Page_Block_Js_Cookie" name="js_cookies" template="js/cookie.phtml"/>
             </block>
 
