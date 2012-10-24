@@ -11,7 +11,7 @@
 /**
  * Themes grid
  */
-class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Backend_Block_Widget_Grid
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Init Grid properties
