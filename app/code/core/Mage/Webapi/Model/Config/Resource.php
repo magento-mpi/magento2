@@ -528,15 +528,15 @@ class Mage_Webapi_Model_Config_Resource
             /** ID field must always be the first parameter of resource method */
             $methodInterfaces = $methodReflection->getPrototypes();
             if (empty($methodInterfaces)) {
-                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
-                    $methodReflection->getName());
+               throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.',
+                    $methodReflection->getName()));
             }
             /** @var \Zend\Server\Reflection\Prototype $methodInterface */
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
-                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.'),
-                    $methodReflection->getName());
+                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.',
+                    $methodReflection->getName()));
             }
             /** @var ReflectionParameter $idParam */
             $idParam = reset($methodParams);

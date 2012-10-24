@@ -13,7 +13,7 @@ return array(
                 'in' => array(
                     'parameters' => array(
                         'subresourceId' => array(
-                            'type' => 'integer',
+                            'type' => 'int',
                             'required' => true,
                             'documentation' => 'ID of subresource.'
                         )
@@ -32,6 +32,15 @@ return array(
         'list' => array(
             'documentation' => 'List description.',
             'interface' => array(
+                'in' => array(
+                    'parameters' => array(
+                        'parentId' => array(
+                            'type' => 'int',
+                            'required' => 1,
+                            'documentation' => 'Id of parent resource'
+                        )
+                    ),
+                ),
                 'out' => array(
                     'parameters' => array(
                         'result' => array(
