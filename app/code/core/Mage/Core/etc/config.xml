@@ -82,6 +82,16 @@
         <migration>
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
+        <events>
+            <theme_registration_from_filesystem>
+                <observers>
+                    <theme_registration_observer>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>themeRegistration</method>
+                    </theme_registration_observer>
+                </observers>
+            </theme_registration_from_filesystem>
+        </events>
     </global>
     <frontend>
         <routers>
