@@ -79,7 +79,7 @@ class Tools_Migration_System_Configuration_Parser
             }
             // if the child is <foo>bar</foo>, the result will be array(bar)
             // make the result just 'bar'
-            if (count($result) == 1 && isset($result[0]) && !is_array($result[0])) {
+            if (count($result) == 1 && isset($result[0]) && !is_array($result[0]['@value'])) {
                 $result = $result[0];
             }
         }
@@ -87,7 +87,7 @@ class Tools_Migration_System_Configuration_Parser
         // get our attributes if we have any
         $attributes = array();
         if ($node->hasAttributes()) {
-            foreach ($node->attributes as $sAttrName=>$oAttrNode) {
+            foreach ($node->attributes as $oAttrNode) {
                 // retain namespace prefixes
                 $attributes["{$oAttrNode->nodeName}"] = $oAttrNode->nodeValue;
             }
@@ -95,14 +95,14 @@ class Tools_Migration_System_Configuration_Parser
 
         if (count($attributes)) {
             if (!is_array($result)) {
-                $result = (trim($result)) ? array('nodeValue' => $result) : array();
+                $result = (trim($result)) ? array('@value' => $result) : array();
             }
             $fResult = array($node->nodeName => array_merge($result, array('@attributes' => $attributes)));
         } else {
             if (is_array($result)) {
                 $fResult = array($node->nodeName => $result);
             } else {
-                $fResult = (trim($result)) ? array($node->nodeName => $result) : array();
+                $fResult = (trim($result)) ? array($node->nodeName => array('@value' => $result)) : array();
             }
         }
 

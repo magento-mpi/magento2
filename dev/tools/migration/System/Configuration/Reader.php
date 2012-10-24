@@ -58,7 +58,7 @@ class Tools_Migration_System_Configuration_Reader
      */
     public function getConfiguration()
     {
-        $files = glob(
+        $files = $this->_fileManager->getFileList(
             $this->_basePath . DIRECTORY_SEPARATOR
             . Tools_Migration_System_Configuration_Reader::SYSTEM_CONFIG_PATH_PATTERN
         );
