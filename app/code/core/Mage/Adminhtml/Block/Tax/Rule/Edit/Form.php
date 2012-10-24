@@ -161,8 +161,6 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             );
         }
 
-        $fieldset->setAdvancedLabel(Mage::helper('Mage_Tax_Helper_Data')->__('Additional Settings for Tax Rules (collapsed) including Customer & Product Tax Classes'));
-
         $form->addValues($model->getData());
         $form->setAction($this->getUrl('*/tax_rule/save'));
         $form->setUseContainer(true);
