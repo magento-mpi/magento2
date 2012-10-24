@@ -276,7 +276,7 @@ system_configuration:
                                 customer_automated_email_rule:
                                     xpath: //fieldset[@id='promo_enterprise_reminder']
                             -
-                                customer_auto_generated_codes:
+                                auto_generated_specific_coupon_codes:
                                     xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
                 -
                     customer_reward_points:

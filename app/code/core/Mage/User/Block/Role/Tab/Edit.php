@@ -108,10 +108,13 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
      */
     public function getResTreeJson()
     {
-        /** @var $resources DOMNodeList */
-        $resources = Mage::getSingleton('Mage_Backend_Model_Acl_Config')->getAclResources();
 
-        $rootArray = $this->_getNodeJson($resources->item(1), 1);
+        /** @var $aclConfig Mage_Backend_Model_Acl_Config */
+        $aclConfig = Mage::getSingleton('Mage_Backend_Model_Acl_Config');
+        $resources = $aclConfig->getAclResources();
+
+        $adminNode = $resources->item(1);
+        $rootArray = $this->_getNodeJson($adminNode, 1);
 
         $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
             isset($rootArray['children']) ? $rootArray['children'] : array()

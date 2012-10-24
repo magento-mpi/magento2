@@ -29,8 +29,7 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Form_Container extends Mage_Adm
         $this->_removeButton('back');
         $this->_removeButton('reset');
         $this->_removeButton('delete');
-        $this->_updateButton('save', 'label', Mage::helper('Mage_DesignEditor_Helper_Data')->__('Launch'));
-        $this->_updateButton('save', 'region', 'footer');
+        $this->_removeButton('save');
     }
 
     /**
