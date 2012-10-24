@@ -32,6 +32,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _prepareLayout()
     {
+        if ($head = $this->getLayout()->getBlock('head')) {
+            $head->addJs('Mage_Adminhtml::catalog/category/edit.js');
+        }
+
         $category = $this->getCategory();
         $categoryId = (int) $category->getId(); // 0 when we create category, otherwise some value for editing category
 
