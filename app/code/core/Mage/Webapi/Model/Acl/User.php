@@ -16,6 +16,10 @@
  * @method Mage_Webapi_Model_Acl_User setApiKey(string $apiKey)
  * @method string getApiKey()
  * @method string getApiSecret()
+ * @method Mage_Webapi_Model_Acl_User setContactEmail(string $contactEmail)
+ * @method string getContactEmail()
+ * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)
+ * @method string getCompanyName()
  * @method Mage_Webapi_Model_Resource_Acl_User getResource()
  *
  * @category   Mage

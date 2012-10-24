@@ -40,8 +40,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
             'class' => 'save'
         ), 100);
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save Role'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete Role'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API Role'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API Role'));
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     {
         if ($this->getApiRole()->getId()) {
             return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+                ->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
             return Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role');
         }

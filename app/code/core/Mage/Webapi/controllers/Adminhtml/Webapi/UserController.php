@@ -207,7 +207,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     /**
      * Check ACL
      *
-     * @return bool
+     * @return boolean
      */
     protected function _isAllowed()
     {
@@ -217,22 +217,29 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     /**
      * Validate Web API User data
      *
-     * @throws Mage_Core_Exception
-     *
      * @param Mage_Webapi_Model_Acl_User $user
-     * @return bool
+     * @return boolean
+     * @throws Mage_Core_Exception
      */
     protected function _validateUserData($user)
     {
         if (!$user->getContactEmail()) {
             Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is required.'));
         }
+
+        $emailValidator = new Magento_Validator_EmailAddress();
+        if(!$emailValidator->isValid($user->getContactEmail())) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is not valid.'));
+        }
+
         if (!$user->getApiKey()) {
             Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Key is required.'));
         }
-        if (!$user->getRoleId()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User role is required.'));
+
+        if (!$user->getApiSecret()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret is required.'));
         }
+
         return true;
     }
 
