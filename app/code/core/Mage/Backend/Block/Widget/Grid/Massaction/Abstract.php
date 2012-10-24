@@ -257,13 +257,13 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     public function getJavaScript()
     {
         return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', "
-                . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
-                . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
-                . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
-                . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
-                . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
-                . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
-                . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
+            . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
+            . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
+            . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
+            . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
+            . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
+            . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
+            . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
     }
 
     public function getGridIdsJson()

@@ -123,8 +123,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends Magento_Test_TestCase
         $factoryMock->expects($this->once())
             ->method('createUrlGenerator')
             ->with($this->equalTo($generatorClass),
-                $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
-            )
+            $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
+        )
             ->will($this->returnValue($rowUrlGenerator));
 
         $arguments = array(

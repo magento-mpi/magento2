@@ -9,34 +9,24 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/product_simple.php';
+require __DIR__ . '/../../Downloadable/_files/product.php';
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->load(1);
 
-$options = array();
+/** @var $linkCollection Mage_Downloadable_Model_Resource_Link_Collection */
+$linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection()
+    ->addProductToFilter($product->getId())
+    ->addTitleToResult($product->getStoreId())
+    ->addPriceToResult($product->getStore()->getWebsiteId());
 
-/** @var $option Mage_Catalog_Model_Product_Option */
-foreach ($product->getOptions() as $option) {
-    switch ($option->getGroupByType()) {
-        case Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE:
-            $value = Mage::getModel('Mage_Core_Model_Date')->date();
-            break;
-        case Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT:
-            $value = key($option->getValues());
-            break;
-        default:
-            $value = 'test';
-            break;
-
-    }
-    $options[$option->getId()] = $value;
-}
+/** @var $link Mage_Downloadable_Model_Link */
+$link = $linkCollection->getFirstItem();
 
 $requestInfo = new Varien_Object(array(
     'qty' => 1,
-    'options' => $options,
+    'links' => array($link->getId())
 ));
 
 /** @var $cart Mage_Checkout_Model_Cart */

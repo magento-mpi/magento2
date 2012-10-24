@@ -15,3 +15,7 @@ $auth = Mage::getModel('Mage_Backend_Model_Auth');
 $auth->setAuthStorage($session);
 $session->deactivateDesignEditor();
 $auth->logout();
+$session->unsThemeId();
+$session->unsSkin();
+$theme = new Mage_Core_Model_Theme();
+$theme->load($session->getThemeId())->delete();

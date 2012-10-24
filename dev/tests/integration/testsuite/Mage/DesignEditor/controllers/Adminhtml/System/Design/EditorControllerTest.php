@@ -12,6 +12,42 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
+     * Identifier theme
+     *
+     * @var int
+     */
+    protected static $_themeId;
+
+    /**
+     * Create theme is db
+     */
+    public static function prepareTheme()
+    {
+        $theme = new Mage_Core_Model_Theme();
+        $theme->setData(array(
+            'package_title'        => 'Default',
+            'parent_id'            => null,
+            'theme_path'           => 'default/default',
+            'theme_version'        => '2.0.0.0',
+            'theme_title'          => 'Default',
+            'magento_version_from' => '2.0.0.0-dev1',
+            'magento_version_to'   => '*',
+            'is_featured'          => '0'
+        ));
+        $theme->save();
+        self::$_themeId = $theme->getId();
+    }
+
+    /**
+     * Delete theme from db
+     */
+    public static function prepareThemeRollback()
+    {
+        $theme = new Mage_Core_Model_Theme();
+        $theme->load(self::$_themeId)->delete();
+    }
+
+    /**
      * Assert that a page content contains the design editor form
      *
      * @param string $content
@@ -22,7 +58,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Visual Design Editor', $content);
         $this->assertContains('<form id="edit_form" action="' . $expectedFormAction, $content);
         $this->assertContains("editForm = new varienForm('edit_form'", $content);
-        $this->assertContains('onclick="editForm.submit();"', $content);
     }
 
     /**
@@ -56,10 +91,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Fixture Store</option>', $responseBody);
     }
 
+    /**
+     * @magentoDataFixture prepareTheme
+     */
     public function testLaunchActionSingleStore()
     {
         $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_skin', 'default/default/default');
+        $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 
@@ -67,7 +107,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertRedirect($this->equalTo('http://localhost/index.php/?SID=' . $this->_session->getSessionId()));
     }
 
+    public function testLaunchActionSingleStoreWrongThemeId()
+    {
+        $session = new Mage_DesignEditor_Model_Session();
+        $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_id', 999);
+        $this->dispatch('backend/admin/system_design_editor/launch');
+        $this->assertFalse($session->isDesignEditorActive());
+
+        $this->_requireSessionId();
+        $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
+        $this->assertRedirect($this->stringStartsWith($expected));
+    }
+
     /**
+     * @magentoDataFixture prepareTheme
      * @magentoDataFixture Mage/Core/_files/store.php
      * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
@@ -77,6 +131,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
         $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
+        $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());
 

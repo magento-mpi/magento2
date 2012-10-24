@@ -120,7 +120,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * This method is called before rendering HTML
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Mage_Backend_Block_Widget_Form|Mage_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {
@@ -187,7 +187,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
                     $element->setCanBeEmpty(true);
                 } else if ($inputType == 'date') {
                     $element->setImage($this->getSkinUrl('images/grid-cal.gif'));
-                    $element->setFormat(Mage::app()->getLocale()->getDateFormatWithLongYear());
+                    $element->setDateFormat(Mage::app()->getLocale()->getDateFormatWithLongYear());
                 } else if ($inputType == 'multiline') {
                     $element->setLineCount($attribute->getMultilineCount());
                 }

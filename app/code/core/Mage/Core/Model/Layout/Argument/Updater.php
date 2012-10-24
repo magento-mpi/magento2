@@ -45,7 +45,7 @@ class Mage_Core_Model_Layout_Argument_Updater
             $updaterInstance = $this->_objectManager->create($updater, array(), false);
             if (false === ($updaterInstance instanceof Mage_Core_Model_Layout_Argument_UpdaterInterface)) {
                 throw new InvalidArgumentException($updater
-                    . ' should implement Mage_Core_Model_Layout_Argument_UpdaterInterface'
+                        . ' should implement Mage_Core_Model_Layout_Argument_UpdaterInterface'
                 );
             }
             $value = $updaterInstance->update($value);

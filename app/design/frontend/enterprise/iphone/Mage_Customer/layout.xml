@@ -287,7 +287,7 @@ Customer account address edit page
                 </action>
                 <action method="addRenderer">
                     <type>date</type>
-                    <renderer_block>Enterprise_Customer_Block_Form_Renderer_Date</renderer_block>
+                    <renderer_block>Enterprise_Eav_Block_Form_Renderer_Date</renderer_block>
                     <template>customer/form/renderer/date.phtml</template>
                 </action>
                 <action method="addRenderer">

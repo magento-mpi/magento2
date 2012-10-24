@@ -547,7 +547,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             list(
                 $row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
                 $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]
-            ) = $this->_beforeAfterToSibling($node);
+                ) = $this->_beforeAfterToSibling($node);
 
             // materialized path for referencing nodes in the plain array of _scheduledStructure
             if ($this->_scheduledStructure->hasPath($parentName)) {
@@ -638,7 +638,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
                 Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
                 );
             }
         }
@@ -861,7 +861,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 $siblingParentName = $this->_structure->getParentId($sibling);
                 if ($parentName !== $siblingParentName) {
                     Mage::log("Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
-                        . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
+                            . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
                         Zend_Log::CRIT
                     );
                     return;

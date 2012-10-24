@@ -170,25 +170,25 @@ class Mage_Backend_Block_Widget_Grid_Extended
         $this->setChild('export_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
-                    'onclick'   => $this->getJsObjectName().'.doExport()',
-                    'class'   => 'task'
-                ))
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
+                'onclick'   => $this->getJsObjectName().'.doExport()',
+                'class'   => 'task'
+            ))
         );
         $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
-                    'onclick'   => $this->getJsObjectName().'.resetFilter()',
-                ))
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
+                'onclick'   => $this->getJsObjectName().'.resetFilter()',
+            ))
         );
         $this->setChild('search_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
-                    'onclick'   => $this->getJsObjectName().'.doFilter()',
-                    'class'   => 'task'
-                ))
+                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
+                'onclick'   => $this->getJsObjectName().'.doFilter()',
+                'class'   => 'task'
+            ))
         );
         return parent::_prepareLayout();
     }
@@ -392,14 +392,14 @@ class Mage_Backend_Block_Widget_Grid_Extended
     {
         $columnId = 'massaction';
         $massactionColumn = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
-                ->setData(array(
-                    'index'        => $this->getMassactionIdField(),
-                    'filter_index' => $this->getMassactionIdFilter(),
-                    'type'         => 'massaction',
-                    'name'         => $this->getMassactionBlock()->getFormFieldName(),
-                    'align'        => 'center',
-                    'is_system'    => true
-                ));
+            ->setData(array(
+            'index'        => $this->getMassactionIdField(),
+            'filter_index' => $this->getMassactionIdFilter(),
+            'type'         => 'massaction',
+            'name'         => $this->getMassactionBlock()->getFormFieldName(),
+            'align'        => 'center',
+            'is_system'    => true
+        ));
 
         if ($this->getNoFilterMassactionColumn()) {
             $massactionColumn->setData('filter', false);

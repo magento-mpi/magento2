@@ -29,7 +29,7 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
          * therefore cleanup is performed by cache ID
          */
         Mage::app()->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
-
+        $this->markTestIncomplete('MAGETWO-4342');
 
         $this->dispatch('restriction/index/stub');
         $body = $this->getResponse()->getBody();

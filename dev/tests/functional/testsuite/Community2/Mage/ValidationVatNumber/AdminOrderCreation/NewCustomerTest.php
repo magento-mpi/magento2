@@ -33,7 +33,6 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
         $this->pleaseWait();
         //Verification
         $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
-
     }
 
     /**
@@ -99,14 +98,15 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
      * @param array $customerAddressData
      * @param string $messageType
      * @param array $testData
-     * @author andrey.vergeles
      *
      * @test
      * @depends preconditionsForTests
      * @dataProvider creatingOrderForExistingCustomerDataProvider
-     * @TestlinkId	TL-MAGE-4873, TL-MAGE-4903, TL-MAGE-4904,
+     *
+     * @TestlinkId	TL-MAGE-4873, TL-MAGE-4903, TL-MAGE-4904
+     * @author andrey.vergeles
      */
-    public function creatingOrderForExistingCustomer($customerAddressData, $messageType, $testData)
+    public function creatingOrderForNewCustomer($customerAddressData, $messageType, $testData)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',

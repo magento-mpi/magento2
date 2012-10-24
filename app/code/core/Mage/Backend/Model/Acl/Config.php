@@ -74,7 +74,7 @@ class Mage_Backend_Model_Acl_Config
     /**
      * Return ACL Resources loaded from cache if enabled or from files merged previously
      *
-     * @return DOMDocument
+     * @return DOMNodeList
      */
     public function getAclResources()
     {
