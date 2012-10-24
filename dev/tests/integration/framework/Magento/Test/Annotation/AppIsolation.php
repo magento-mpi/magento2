@@ -46,6 +46,10 @@ class Magento_Test_Annotation_AppIsolation
         $actualOptions = Mage::getConfig() ? Mage::getConfig()->getOptions()->getData() : array();
         $isConfigPolluted = array_intersect_assoc($expectedOptions, $actualOptions) !== $expectedOptions;
         if ($isConfigPolluted) {
+            /*
+             * Clearing of object manager cache required for correct reinitialization of configuration objects
+             * to refresh outdated information.
+             */
             $this->_clearObjectManagerCache();
             Magento_Test_Bootstrap::getInstance()->initialize();
         }

@@ -13,6 +13,7 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
 {
     /**
      * @param string $definitionsFile
+     * @param Zend\Di\Di $diInstance
      */
     public function __construct($definitionsFile = null, Zend\Di\Di $diInstance = null)
     {
