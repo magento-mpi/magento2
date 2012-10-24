@@ -27,8 +27,8 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $this->_setActiveMenu('Mage_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'),
             Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'),
-            Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'),
+            Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
         return $this;
     }
 
@@ -39,7 +39,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     {
         $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
              ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'));
+             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
