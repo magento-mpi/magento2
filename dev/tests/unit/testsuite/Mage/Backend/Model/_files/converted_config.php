@@ -27,13 +27,15 @@
                             'id' => 'group_1',
                             'label' => 'Group 1 New',
                             'fields' => array(
-                                'field_2' => array(
+                                'field_2' => array(9
                                     'id' => 'field_2',
                                     'translate' => 'label',
-                                    'showInWebsite' => 1,
-                                    'label' => 'Field 2'
+                                    'showInWebsite' => '1',
+                                    'label' => 'Field 2',
+                                    'type' => 'text'
                                 )
-                            )
+                            ),
+                            'type' => 'text'
                         ),
                         'group_2' => array(
                             'id' => 'group_2',
@@ -42,16 +44,38 @@
                                 'field_3' => array(
                                     'id' => 'field_3',
                                     'translate' => 'label',
-                                    'showInWebsite' => 1,
-                                    'label' => 'Field 3'
+                                    'showInWebsite' => '1',
+                                    'label' => 'Field 3',
+                                    'type' => 'text'
                                 )
-                            )
+                            ),
+                            'type' => 'text'
                         )
-                    )
+                    ),
+                    'type' => 'text',
+                    'tab' => 'tab_1'
                 ),
                 'section_2' => array(
                     'id' => 'section_2',
-                    'label' => 'Section 2'
+                    'label' => 'Section 2',
+                    'type' => 'text',
+                    'tab' => 'tab_2',
+                    'groups' => array(
+                        'group_3' => array(
+                            'id' => 'group_3',
+                            'label' => 'Group 3',
+                            'fields' => array(
+                                'field_3' => array(
+                                    'id' => 'field_3',
+                                    'translate' => 'label',
+                                    'showInWebsite' => '1',
+                                    'label' => 'Field 3',
+                                    'type' => 'text'
+                                )
+                            ),
+                            'type' => 'text'
+                        )
+                    )
                 )
             )
         )

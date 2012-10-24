@@ -18,11 +18,12 @@
         <tab id="tab_2">
             <label>Tab 2</label>
         </tab>
-        <section id="section_1">
+        <section id="section_1" type="text">
             <label>Section 1</label>
-            <group id="group_1">
+            <tab>tab_1</tab>
+            <group id="group_1" type="text">
                 <label>Group 1</label>
-                <field id="field_1">
+                <field id="field_1" type="text">
                     <label>Field 1</label>
                 </field>
             </group>

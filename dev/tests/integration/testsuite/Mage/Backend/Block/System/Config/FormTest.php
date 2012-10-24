@@ -38,7 +38,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function testInitFieldsUseDefaultCheckbox($section, $group, $field, array $configData, $expectedUseDefault)
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset($section->getName() . '_' . $group->getName(), array());
+        $fieldset = $form->addFieldset($section['id'] . '_' . $group['id'], array());
 
         $block = new Mage_Backend_Block_System_Config_FormStub();
         $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
@@ -46,10 +46,10 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $block->initFields($fieldset, $group, $section);
 
         $fieldsetSel = 'fieldset';
-        $valueSel = sprintf('input#%s_%s_%s', $section->getName(), $group->getName(), $field->getName());
+        $valueSel = sprintf('input#%s_%s_%s', $section['id'], $group['id'], $field['id']);
         $valueDisabledSel = sprintf('%s[disabled="disabled"]', $valueSel);
-        $useDefaultSel = sprintf('input#%s_%s_%s_inherit.checkbox', $section->getName(), $group->getName(),
-            $field->getName());
+        $useDefaultSel = sprintf('input#%s_%s_%s_inherit.checkbox', $section['id'], $group['id'],
+            $field['id']);
         $useDefaultCheckedSel = sprintf('%s[checked="checked"]', $useDefaultSel);
         $fieldsetHtml = $fieldset->getElementHtml();
 
@@ -76,11 +76,14 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
-        $section = new Mage_Core_Model_Config_Element(file_get_contents(__DIR__ . '/_files/test_section_config.xml'));
+        $structure = Mage::getSingleton('Mage_Backend_Model_Config_Structure', array(
+            'sourceFiles' => array(__DIR__ . '/_files/test_section_config.xml')
+        ));
         // @codingStandardsIgnoreStart
-        $group = $section->groups->test_group;
-        $field = $group->fields->test_field;
-        $fieldPath = (string) $field->config_path;
+        $section = $structure->getSection('test_section');
+        $group = $section['groups']['test_group'];
+        $field = $group['fields']['test_field'];
+        $fieldPath = isset($field['config_path']) ? (string) $field['config_path'] : null;
         // @codingStandardsIgnoreEnd
 
         return array(

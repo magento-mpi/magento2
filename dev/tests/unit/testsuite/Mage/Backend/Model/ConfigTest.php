@@ -29,7 +29,7 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_transactionFactoryMock;
+    protected $_transFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -56,7 +56,7 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_structureReaderMock->expects($this->any())->method('getConfiguration')->will(
             $this->returnValue($structureMock)
         );
-        $this->_transactionFactoryMock = $this->getMock(
+        $this->_transFactoryMock = $this->getMock(
             'Mage_Backend_Model_Resource_Transaction_Factory', array(), array(), '', false
         );
         $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
@@ -66,7 +66,7 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Backend_Model_Config(array(
             'eventManager' => $this->_eventManagerMock,
             'structureReader' => $this->_structureReaderMock,
-            'transactionFactory' => $this->_transactionFactoryMock,
+            'transactionFactory' => $this->_transFactoryMock,
             'objectFactory' => $this->_objectFactoryMock,
             'applicationConfig' => $this->_appConfigMock,
             'application' => $this->_appConfigMock
