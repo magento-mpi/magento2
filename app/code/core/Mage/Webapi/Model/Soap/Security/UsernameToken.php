@@ -127,7 +127,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
     {
         /** @var Mage_Webapi_Model_Acl_User $user */
         $user = $this->_objectFactory->getModelInstance('Mage_Webapi_Model_Acl_User');
-        if (!$user->load($this->_username, 'user_name')->getId()) {
+        if (!$user->load($this->_username, 'api_key')->getId()) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 

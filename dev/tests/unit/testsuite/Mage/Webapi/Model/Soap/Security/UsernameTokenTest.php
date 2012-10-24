@@ -343,7 +343,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->getMock();
         $userMock->expects($this->once())
             ->method('load')
-            ->with($this->_tokenOptionsFixture['username'], 'user_name')
+            ->with($this->_tokenOptionsFixture['username'], 'api_key')
             ->will($this->returnSelf());
 
         return $userMock;

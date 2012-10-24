@@ -17,7 +17,7 @@ $role->save();
 
 $user = new Mage_Webapi_Model_Acl_User();
 $user->setData(array(
-    'user_name' => 'test_username',
+    'api_key' => 'test_username',
     'api_secret' => '123123qa',
     'role_id' => $role->getRoleId()
 ));

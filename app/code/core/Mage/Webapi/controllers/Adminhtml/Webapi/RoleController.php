@@ -27,8 +27,8 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $this->_setActiveMenu('Mage_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'),
             Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'),
-            Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'),
+            Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
         return $this;
     }
 
@@ -39,7 +39,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     {
         $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
              ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Roles'));
+             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -75,13 +75,13 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
                 $this->_redirect('*/*/');
                 return;
             }
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit Role'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'),
+                Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
+            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
         } else {
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Add New Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Add New Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('New Role'));
+            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'),
+                Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'));
+            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role'));
         }
 
         // Restore previously entered form data from session
@@ -115,7 +115,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         try {
             Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId)->delete();
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('The role has been deleted.'));
+                Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been deleted.'));
         } catch (Exception $e) {
             $this->_getSession()->addError(
                 Mage::helper('Mage_Webapi_Helper_Data')->__('An error occurred while deleting this role.'));

@@ -76,8 +76,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
         // Update title and breadcrumb record
         $actionTitle = $user->getId()
-            ? Mage::helper('Mage_Webapi_Helper_Data')->escapeHtml($user->getUserName())
-            : Mage::helper('Mage_Webapi_Helper_Data')->__('New User');
+            ? Mage::helper('Mage_Webapi_Helper_Data')->escapeHtml($user->getContactEmail())
+            : Mage::helper('Mage_Webapi_Helper_Data')->__('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
 
@@ -92,6 +92,12 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
+        /** @var $tabsBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tabs */
+        $tabsBlock = $this->getLayout()->getBlock('webapi.user.edit.tabs');
+        if ($tabsBlock) {
+            $tabsBlock->setApiUser($user);
+        }
+
         $this->renderLayout();
     }
 
@@ -117,7 +123,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
                 $this->_getSession()
                     ->setWebapiUserData(null)
-                    ->addSuccess(Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been saved.'));
+                    ->addSuccess(Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()
@@ -154,7 +160,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The user has been deleted.'));
+                    Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
@@ -178,9 +184,30 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
+     * Web API User Roles grid
+     */
+    public function rolesgridAction()
+    {
+        $userId = (int)$this->getRequest()->getParam('user_id');
+        /** @var $user Mage_Webapi_Model_Acl_User */
+        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
+        if ($userId) {
+            $user->load($userId);
+        }
+
+        $this->loadLayout();
+        /** @var $gridBlock Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles */
+        $gridBlock = $this->getLayout()->getBlock('root');
+        if ($gridBlock) {
+            $gridBlock->setApiUser($user);
+        }
+        $this->renderLayout();
+    }
+
+    /**
      * Check ACL
      *
-     * @return bool
+     * @return boolean
      */
     protected function _isAllowed()
     {
@@ -190,19 +217,29 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     /**
      * Validate Web API User data
      *
-     * @throws Mage_Core_Exception
-     *
      * @param Mage_Webapi_Model_Acl_User $user
-     * @return bool
+     * @return boolean
+     * @throws Mage_Core_Exception
      */
     protected function _validateUserData($user)
     {
-        if (!$user->getUserName()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User name is required.'));
+        if (!$user->getContactEmail()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is required.'));
         }
-        if (!$user->getRoleId()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('User role is required.'));
+
+        $emailValidator = new Magento_Validator_EmailAddress();
+        if(!$emailValidator->isValid($user->getContactEmail())) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is not valid.'));
         }
+
+        if (!$user->getApiKey()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Key is required.'));
+        }
+
+        if (!$user->getApiSecret()) {
+            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret is required.'));
+        }
+
         return true;
     }
 

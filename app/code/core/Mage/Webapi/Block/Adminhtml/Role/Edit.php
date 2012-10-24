@@ -63,9 +63,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     {
         if ($this->getApiRole()->getId()) {
             return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+                ->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
-            return Mage::helper('Mage_Webapi_Helper_Data')->__('New Role');
+            return Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role');
         }
     }
 }
