@@ -20,6 +20,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDuplicate()
     {
+        $this->markTestIncomplete('MAGETWO-4103');
         $currentProduct = new Mage_Catalog_Model_Product;
         $currentProduct->load(1); // fixture for initial product
         $currentLinks = $currentProduct->typeInstance($currentProduct)->getLinks($currentProduct);
