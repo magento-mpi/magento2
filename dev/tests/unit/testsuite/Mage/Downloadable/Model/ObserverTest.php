@@ -22,7 +22,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_Downloadable_Model_Observer
      */
-    protected $_downloadableObserver;
+    protected $_model;
 
     /**
      * @var Mage_Core_Helper_Data
@@ -32,14 +32,14 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperJsonEncode = $this->getMock('Varien_Object', array('jsonEncode'));
-        $this->_downloadableObserver  = new Mage_Downloadable_Model_Observer(array(
+        $this->_model  = new Mage_Downloadable_Model_Observer(array(
             'helper' => $this->_helperJsonEncode));
     }
 
     protected function tearDown()
     {
         $this->_helperJsonEncode = null;
-        $this->_downloadableObserver = null;
+        $this->_model = null;
         $this->_observer = null;
     }
 
@@ -55,7 +55,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_setObserverExpectedMethods($currentProduct, new Varien_Object());
 
-        $this->_downloadableObserver->duplicateProduct($this->_observer);
+        $this->_model->duplicateProduct($this->_observer);
     }
 
     public function testDuplicateEmptyLinks()
@@ -84,7 +84,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_setObserverExpectedMethods($currentProduct, $newProduct);
 
         $this->assertNull($newProduct->getDownloadableData());
-        $this->_downloadableObserver->duplicateProduct($this->_observer);
+        $this->_model->duplicateProduct($this->_observer);
         $this->assertEmpty($newProduct->getDownloadableData());
     }
 
@@ -122,13 +122,16 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_setObserverExpectedMethods($currentProduct, $newProduct);
 
-        $callbackJsonEncode = function($arg){return json_encode($arg);};
+        $callbackJsonEncode = function($arg)
+        {
+            return json_encode($arg);
+        };
         $this->_helperJsonEncode->expects($this->atLeastOnce())
             ->method('jsonEncode')
             ->will($this->returnCallback($callbackJsonEncode));
 
         $this->assertNull($newProduct->getDownloadableData($newProduct));
-        $this->_downloadableObserver->duplicateProduct($this->_observer);
+        $this->_model->duplicateProduct($this->_observer);
 
         $newDownloadableData = $newProduct->getDownloadableData();
         $fileData = json_decode($newDownloadableData['link'][0]['file'], true);
