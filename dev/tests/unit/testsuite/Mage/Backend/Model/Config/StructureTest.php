@@ -26,34 +26,33 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
      */
     protected $_converterMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperFactoryMock;
+
     public function setUp()
     {
         $filePath = dirname(__DIR__) . '/_files';
 
         $this->_appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_converterMock = $this->getMock('Mage_Backend_Model_Config_Structure_Converter');
-        $this->_converterMock->expects($this->once())->method('convert')->will($this->returnValue(array(
-            'config' => array(
-                'system' => array(
-                    'tabs' => array(
-                        'tab_1' => array('id' => 'tab_1', 'label' => 'Tab 1'),
-                        'tab_2' => array('id' => 'tab_2', 'label' => 'Tab 2')
-                    ),
-                    'sections' => array(
-                        'section_1' => array('id' => 'section_1', 'label' => 'Section 1'),
-                        'section_2' => array('id' => 'section_2', 'label' => 'Section 2')
-                    )
-                )
-            )
-        )));
+        $this->_converterMock->expects($this->once())->method('convert')->will($this->returnValue(
+            require $filePath . '/converted_config.php'
+        ));
+
+        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $this->_helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($helperMock));
 
         $this->_model = new Mage_Backend_Model_Config_Structure(array(
             'sourceFiles' => array(
-                $filePath . '/system_1.xml',
                 $filePath . '/system_2.xml'
             ),
             'app' => $this->_appMock,
-            'converter' => $this->_converterMock
+            'converter' => $this->_converterMock,
+            'helperFactory' => $this->_helperFactoryMock
         ));
     }
 
@@ -99,5 +98,72 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     {
         $this->_appMock->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->assertFalse($this->_model->hasChildren(array('fields' => array())));
+    }
+
+    public function testGetAttributeModuleReturnsBackendModuleByDefault()
+    {
+        $this->assertEquals('Mage_Backend', $this->_model->getAttributeModule());
+    }
+
+    public function testGetAttributeModuleExtractsModuleAttributeFromNodes()
+    {
+        $this->assertEquals('Mage_Module1', $this->_model->getAttributeModule(
+            array('module' => 'Mage_Module1')
+        ));
+        $this->assertEquals('Mage_Module2', $this->_model->getAttributeModule(
+            array('module' => 'Mage_Module1'), array('module' => 'Mage_Module2')
+        ));
+        $this->assertEquals('Mage_Module3', $this->_model->getAttributeModule(
+            array('module' => 'Mage_Module1'), array('module' => 'Mage_Module2'), array('module' => 'Mage_Module3')
+        ));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetSystemConfigNodeLabelThrowsExceptionIfSectionNameIsWrong()
+    {
+        $this->_model->getSystemConfigNodeLabel('unexistentSection');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetSystemConfigNodeLabelThrowsExceptionIfGroupNameIsWrong()
+    {
+        $this->_model->getSystemConfigNodeLabel('section_1', 'unexistent_group');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetSystemConfigNodeLabelThrowsExceptionIfFieldNameIsWrong()
+    {
+        $this->_model->getSystemConfigNodeLabel('section_1', 'group_1', 'unexistent_field');
+    }
+
+    public function testGetSystemConfigNodeLabelRetreivesLabel()
+    {
+        $this->assertEquals('Section 1 New', $this->_model->getSystemConfigNodeLabel('section_1'));
+        $this->assertEquals('Group 1 New', $this->_model->getSystemConfigNodeLabel('section_1', 'group_1'));
+        $this->assertEquals('Field 2', $this->_model->getSystemConfigNodeLabel('section_1', 'group_1', 'field_2'));
+    }
+
+    public function testGetEncryptedNodeEntriesPathsReturnsListOfEncryptedFieldPaths()
+    {
+        $expected = array(
+            'section_1/group_1/field_2',
+            'section_2/group_3/field_4'
+        );
+        $this->assertEquals($expected, $this->_model->getEncryptedNodeEntriesPaths());
+    }
+
+    public function testGetEncryptedNodeEntriesPathsReturnsListOfEncryptedFieldPathsReturnsExplodedPaths()
+    {
+        $expected = array(
+            array('section' => 'section_1', 'group' => 'group_1', 'field' => 'field_2'),
+            array('section' => 'section_2', 'group' => 'group_3', 'field' => 'field_4')
+        );
+        $this->assertEquals($expected, $this->_model->getEncryptedNodeEntriesPaths(true));
     }
 }

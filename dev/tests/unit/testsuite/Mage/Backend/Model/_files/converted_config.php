@@ -32,7 +32,8 @@
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
                                     'label' => 'Field 2',
-                                    'type' => 'text'
+                                    'type' => 'text',
+                                    'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted'
                                 )
                             ),
                             'type' => 'text'
@@ -71,6 +72,14 @@
                                     'showInWebsite' => '1',
                                     'label' => 'Field 3',
                                     'type' => 'text'
+                                ),
+                                'field_4' => array(
+                                    'id' => 'field_4',
+                                    'translate' => 'label',
+                                    'showInWebsite' => '1',
+                                    'label' => 'Field 4',
+                                    'type' => 'text',
+                                    'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted'
                                 )
                             ),
                             'type' => 'text'

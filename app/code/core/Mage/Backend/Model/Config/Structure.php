@@ -36,6 +36,11 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     protected $_encryptedPaths = array();
 
     /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data = array())
@@ -44,6 +49,9 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
         $this->_converter = isset($data['converter'])
             ? $data['converter']
             : Mage::getSingleton('Mage_Backend_Model_Config_Structure_Converter');
+        $this->_helperFactory = isset($data['helperFactory'])
+            ? $data['helperFactory']
+            : Mage::getSingleton('Mage_Core_Model_Factory_Helper');
         parent::__construct($data['sourceFiles']);
     }
 
@@ -237,7 +245,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
         $sectionNode = isset($this->_data['sections'][$sectionName]) ? $this->_data['sections'][$sectionName] : null;
         if (!$sectionNode) {
             throw new InvalidArgumentException(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Wrong section specified.')
+                $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Wrong section specified.')
             );
         }
         $currentNode = $sectionNode;
@@ -246,7 +254,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
             $groupNode = isset($sectionNode['groups'][$groupName]) ? $sectionNode['groups'][$groupName] : null;
             if (!$groupNode) {
                 throw new InvalidArgumentException(
-                    Mage::helper('Mage_Backend_Helper_Data')->__('Wrong group specified.')
+                    $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Wrong group specified.')
                 );
             }
             $currentNode = $groupNode;
@@ -257,16 +265,20 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
                 $fieldNode = isset($groupNode['fields'][$fieldName]) ? $groupNode['fields'][$fieldName] : null;
                 if (!$fieldNode) {
                     throw new InvalidArgumentException(
-                        Mage::helper('Mage_Backend_Helper_Data')->__('Wrong field specified.')
+                        $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Wrong field specified.')
                     );
                 }
                 $currentNode = $fieldNode;
             } else {
-                Mage::throwException(Mage::helper('Mage_Backend_Helper_Data')->__('The group node name must be specified with field node name.'));
+                Mage::throwException(
+                    $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('The group node name must be specified with field node name.')
+                );
             }
         }
         $moduleName = $this->getAttributeModule($sectionNode, $groupNode, $fieldNode);
-        return isset($currentNode['label']) ? Mage::helper($moduleName)->__((string)$currentNode['label']) : '';
+        return isset($currentNode['label'])
+            ? $this->_helperFactory->get($moduleName)->__((string)$currentNode['label'])
+            : '';
     }
 
     /**

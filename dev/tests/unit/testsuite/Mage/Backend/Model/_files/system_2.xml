@@ -22,6 +22,7 @@
                 <label>Group 1 New</label>
                 <field id="field_2" translate="label" showInWebsite="1" type="text">
                     <label>Field 2</label>
+                    <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                 </field>
             </group>
             <group id="group_2" type="text">
@@ -38,6 +39,10 @@
                 <label>Group 3</label>
                 <field id="field_3" translate="label" showInWebsite="1" type="text">
                     <label>Field 3</label>
+                </field>
+                <field id="field_4" translate="label" showInWebsite="1" type="text">
+                    <label>Field 4</label>
+                    <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                 </field>
             </group>
         </section>
