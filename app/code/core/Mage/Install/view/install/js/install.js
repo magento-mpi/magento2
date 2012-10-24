@@ -12,6 +12,10 @@
         _create: function() {
         },
 
+        /**
+         * Beginning phase of the installation process. Check the box to agree to Terms and
+         * Conditions, License, etc. and then click the Continue button.
+         */
         begin: function() {
             this.element.on('click', $.proxy(function(e) {
                 var btn = $(this.options.submitButtonSelector);
@@ -25,6 +29,10 @@
             }, this));
         },
 
+        /**
+         * Configuration phase. Prompt for hostname, database information, and options,
+         * such as whether to enable SSL, referred to as secure options.
+         */
         config: function() {
             if (this.options.url) {
                 this.element.on('click', $.proxy(function() {
@@ -40,10 +48,18 @@
             }
         },
 
+        /**
+         * Create backend administrator login form validation. Enter user's name, email,
+         * admin username, and password. Validate the form.
+         */
         createAdmin: function() {
             this.element.mage().validate({errorClass: 'mage-error', errorElement: 'div'});
         },
 
+        /**
+         * Generate a new URL whenever a different locale is selected and refresh the
+         * page to that new locale based URL.
+         */
         changeUrl: function() {
             this.element.on('change', $.proxy(function() {
                 location.href = this.options.url + 'locale/' + this.element.val() +
