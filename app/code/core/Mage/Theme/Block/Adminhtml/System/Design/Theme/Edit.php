@@ -32,16 +32,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
 
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::registry('current_theme');
-        if ($theme && $theme->getId() && !$theme->isDeletable()) {
-            $this->_removeButton('delete');
-        } else {
-            if ($theme->hasChildThemes()) {
-                $onClick = 'deleteConfirm(\'' . $this->__('Theme contains child themes. Their parent will be modified.')
-                    . ' ' . $this->__('Are you sure you want to do this?')
-                    . '\', \'' . $this->getUrl('*/*/delete', array('id' => $theme->getId())) . '\')';
 
-                $this->_updateButton('delete', 'onclick', $onClick);
-            }
+        if ($theme->hasChildThemes()) {
+            $onClick = 'deleteConfirm(\'' . $this->__('Theme contains child themes. Their parent will be modified.')
+                . ' ' . $this->__('Are you sure you want to do this?')
+                . '\', \'' . $this->getUrl('*/*/delete', array('id' => $theme->getId())) . '\')';
+
+            $this->_updateButton('delete', 'onclick', $onClick);
+        }
+
+        if ($theme->getId() && !$theme->isDeletable()) {
+            $this->_removeButton('delete');
         }
 
         return parent::_prepareLayout();
