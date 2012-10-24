@@ -27,7 +27,7 @@
                             'id' => 'group_1',
                             'label' => 'Group 1 New',
                             'fields' => array(
-                                'field_2' => array(9
+                                'field_2' => array(
                                     'id' => 'field_2',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',

@@ -99,7 +99,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
@@ -107,7 +107,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('From Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
-            'format'       => $dateFormatIso
+            'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'   => 'to_date',
@@ -115,7 +115,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('To Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
-            'format'       => $dateFormatIso
+            'date_format' => $dateFormat
         ));
 
         $fieldset->addField('schedule', 'text', array(
