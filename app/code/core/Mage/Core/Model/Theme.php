@@ -143,11 +143,31 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check theme is existing in filesystem
+     * Check is theme deletable
      *
      * @return bool
      */
     public function isDeletable()
+    {
+        return $this->_isThemeExistInFileSystem();
+    }
+
+    /**
+     * Check is theme virtual
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        return $this->_isThemeExistInFileSystem();
+    }
+
+    /**
+     * Check theme is existing in filesystem
+     *
+     * @return bool
+     */
+    protected function _isThemeExistInFilesystem()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
         return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
