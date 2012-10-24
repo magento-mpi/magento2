@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Zend\Soap\Server;
 
 /**
  * Front controller for SOAP API. At the same time it is a handler for SOAP server
@@ -25,11 +26,11 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
     const WSDL_CACHE_ID = 'WSDL';
 
-    /** @var Zend_Soap_Server */
-    protected $_soapServer;
+    const REQUEST_PARAM_RESOURCES = 'resources';
+    const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_soapConfig;
+    /** @var Server */
+    protected $_soapServer;
 
     /**
      * WS-Security UsernameToken object from request
@@ -53,30 +54,28 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         } else {
             $role = $this->_authenticate();
             $this->_checkOperationDeprecation($operation);
-            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
+            $resourceVersion = $this->_getOperationVersion($operation);
+            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
                 $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
             }
-            $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
+            $controllerClass = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation);
+            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
-                $this->_checkResourceAcl($role, $resourceName, $method);
+                // TODO: Refactor ACL check to work by operation name, not by resource name + method name
+                //$this->_checkResourceAcl($role, $resourceName, $method);
 
                 $arguments = reset($arguments);
-                /** @var Mage_Api_Helper_Data $apiHelper */
-                $apiHelper = Mage::helper('Mage_Api_Helper_Data');
-                $this->getHelper()->toArray($arguments);
-                $action = $method . $this->_getVersionSuffix($operation, $controllerInstance);
+                $arguments = get_object_vars($arguments);
+                $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
                 $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
-                // TODO: Move wsiArrayPacker from helper to this class
-                $obj = $apiHelper->wsiArrayPacker($outputData);
                 $stdObj = new stdClass();
-                $stdObj->result = $obj;
+                $stdObj->result = $outputData;
                 return $stdObj;
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
@@ -183,16 +182,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
-     * Extend parent with SOAP specific config initialization
+     * Implementation of abstract method.
      *
      * @return Mage_Webapi_Controller_Front_Soap|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
-        $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('webapi/soap.xml');
-        /** @var Mage_Webapi_Model_Config_Soap $soapConfig */
-        $soapConfig = Mage::getModel('Mage_Webapi_Model_Config_Soap', $soapConfigFiles);
-        $this->setSoapConfig($soapConfig);
         return $this;
     }
 
@@ -204,8 +199,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-            $this->_initResourceConfig($this->getRequest()->getRequestedModules());
-            if ($this->getRequest()->getParam('wsdl') !== null) {
+            $this->_initResourceConfig();
+            if ($this->getRequest()->getParam(self::REQUEST_PARAM_WSDL) !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
             } else {
@@ -253,11 +248,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      * Generate WSDL content based on resource config.
      *
      * @return string
+     * @throws Mage_Webapi_Exception
      */
     protected function _getWsdlContent()
     {
-        $requestedModules = $this->getRequest()->getRequestedModules();
-        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
+        $requestedResources = $this->getRequest()->getRequestedResources();
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
             if ($cachedWsdlContent !== false) {
@@ -265,12 +261,22 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             }
         }
 
-        /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
-        $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
+        $resources = array();
+        try {
+            foreach ($requestedResources as $resourceName => $resourceVersion) {
+                $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
+            }
+        } catch (Exception $e) {
+            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+        }
+
+        /** @var Mage_Webapi_Model_Soap_AutoDiscover $wsdlAutoDiscover */
+        $wsdlAutoDiscover = Mage::getModel('Mage_Webapi_Model_Soap_AutoDiscover', array(
             'resource_config' => $this->getResourceConfig(),
+            'requested_resources' => $resources,
             'endpoint_url' => $this->_getEndpointUrl(),
         ));
-        $wsdlContent = $wsdlConfig->generate();
+        $wsdlContent = $wsdlAutoDiscover->generate();
 
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
@@ -282,7 +288,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /**
      * Retrieve SOAP server. Instantiate it during the first execution
      *
-     * @return Zend_Soap_Server
+     * @return Server
      * @throws SoapFault
      */
     protected function _getSoapServer()
@@ -293,8 +299,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             do {
                 $soapSchemaImportFailed = false;
                 try {
-                    $this->_soapServer = new Zend_Soap_Server($this->_getWsdlUrl(),
-                        array('encoding' => $this->_getApiCharset()));
+                    $this->_soapServer = new Server($this->_getWsdlUrl(),
+                        array(
+                            'encoding' => $this->_getApiCharset(),
+                            'classMap' => $this->getResourceConfig()->getSoapServerClassMap(),
+                        )
+                    );
                 } catch (SoapFault $e) {
                     if (false !== strpos($e->getMessage(),
                         "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
@@ -387,10 +397,10 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getEndpointUrl($isWsdl = false)
     {
         $params = array(
-            'modules' => $this->getRequest()->getRequestedModules()
+            self::REQUEST_PARAM_RESOURCES => $this->getRequest()->getRequestedResources()
         );
         if ($isWsdl) {
-            $params['wsdl'] = true;
+            $params[self::REQUEST_PARAM_WSDL] = true;
         }
         $query = http_build_query($params, '', '&');
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
@@ -502,24 +512,28 @@ FAULT_MESSAGE;
     }
 
     /**
-     * Set SOAP config
+     * Identify version of requested operation.
      *
-     * @param Mage_Webapi_Model_Config_Soap $config
-     * @return Mage_Webapi_Model_Config_Soap
-     */
-    public function setSoapConfig(Mage_Webapi_Model_Config_Soap $config)
-    {
-        $this->_soapConfig = $config;
-        return $this;
-    }
-
-    /**
-     * Retrieve SOAP specific config
+     * This method required when there are two or more resource versions specified in request:
+     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
+     * In this case it is not obvious what version of requested operation should be used.
      *
-     * @return Mage_Webapi_Model_Config_Soap
+     * @param string $operationName
+     * @return int
+     * @throws Mage_Webapi_Exception
      */
-    public function getSoapConfig()
+    protected function _getOperationVersion($operationName)
     {
-        return $this->_soapConfig;
+        $requestedResources = $this->getRequest()->getRequestedResources();
+        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operationName);
+        if (!isset($requestedResources[$resourceName])) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
+        $this->_validateVersionNumber($version);
+        return $version;
     }
 }

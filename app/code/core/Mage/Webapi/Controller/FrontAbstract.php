@@ -73,19 +73,13 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Initialize resources config based on requested modules and versions.
      *
-     * @param array $requestedModules
      * @throws Mage_Webapi_Exception
      */
-    protected function _initResourceConfig($requestedModules)
+    protected function _initResourceConfig()
     {
         if (is_null($this->getResourceConfig())) {
-            try {
-                $resourceConfigFiles = $this->_applicationConfig->getModulesApiConfigurationFiles($requestedModules);
-            } catch (RuntimeException $e) {
-                throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-            }
             /** @var Mage_Webapi_Model_Config_Resource $resourceConfig */
-            $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource', $resourceConfigFiles);
+            $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource');
             $this->setResourceConfig($resourceConfig);
         }
     }
@@ -220,15 +214,15 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * If there is no appropriate action found after fallback - exception is thrown.
      *
      * @param string $operationName
+     * @param int $requestedVersion
      * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
      * @return string
      * @throws Mage_Webapi_Exception
      */
-    protected function _getVersionSuffix($operationName, $controllerInstance)
+    protected function _identifyVersionSuffix($operationName, $requestedVersion, $controllerInstance)
     {
-        $originalVersion = $this->_getOperationVersion($operationName);
-        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName);
-        $methodVersion = $originalVersion;
+        $methodName = $this->getResourceConfig()->getMethodNameByOperation($operationName, $requestedVersion);
+        $methodVersion = $requestedVersion;
         while ($methodVersion >= self::VERSION_MIN) {
             $versionSuffix = 'V' . $methodVersion;
             if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
@@ -236,37 +230,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             }
             $methodVersion--;
         }
-        throw new Mage_Webapi_Exception(
-            $this->getHelper()->__('The "%s" method is not implemented in version %s', $methodName, $originalVersion),
+        throw new Mage_Webapi_Exception($this->getHelper()
+                ->__('The "%s" operation is not implemented in version %s', $operationName, $requestedVersion),
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-    }
-
-    /**
-     * Identify version of requested operation
-     *
-     * @param string $operationName
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getOperationVersion($operationName)
-    {
-        $requestedModules = $this->getRequest()->getRequestedModules();
-        $moduleName = $this->getResourceConfig()->getModuleNameByOperation($operationName);
-        if (!isset($requestedModules[$moduleName])) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        $version = (int)str_replace('V', '', ucfirst($requestedModules[$moduleName]));
-        if ($version > self::VERSION_MAX) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        return $version;
     }
 
     /**
@@ -309,5 +276,27 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     public function getHelper()
     {
         return $this->_helper;
+    }
+
+    /**
+     * Check if version number is from valid range.
+     *
+     * @param int $version
+     * @throws Mage_Webapi_Exception
+     */
+    protected function _validateVersionNumber($version)
+    {
+        // TODO: Validate version against maximum available version in resource instead of abstract VERSION_MAX
+        if ((int)$version > self::VERSION_MAX) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        } elseif ((int)$version < self::VERSION_MIN) {
+            throw new Mage_Webapi_Exception(
+                $this->getHelper()->__("Resource version cannot be lower than %s.", self::VERSION_MIN),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        }
     }
 }

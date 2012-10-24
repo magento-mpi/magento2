@@ -32,14 +32,6 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
     protected $_apiType;
 
     /**
-     * Identify versions of modules that should be used for API configuration file generation.
-     * This method should be implemented for concrete API type request.
-     *
-     * @return array
-     */
-    abstract public function getRequestedModules();
-
-    /**
      * Create request object. Factory method for API requests.
      *
      * @param string $apiType
@@ -56,9 +48,7 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
                 return new Mage_Webapi_Controller_Request_Soap();
                 break;
             default:
-                // TODO: LogicException message translation seems to be excessive
-                throw new InvalidArgumentException(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The "%s" API type is not valid.'), $apiType);
+                throw new InvalidArgumentException('The "%s" API type is not valid.', $apiType);
                 break;
         }
     }

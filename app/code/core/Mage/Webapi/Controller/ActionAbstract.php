@@ -20,6 +20,18 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     const PAGE_SIZE_MAX = 100;
     /**#@-*/
 
+    /**#@+
+     * Allowed API resource methods.
+     */
+    const METHOD_CREATE = 'create';
+    const METHOD_RETRIEVE = 'get';
+    const METHOD_LIST = 'list';
+    const METHOD_UPDATE = 'update';
+    const METHOD_DELETE = 'delete';
+    const METHOD_MULTI_UPDATE = 'multiUpdate';
+    const METHOD_MULTI_DELETE = 'multiDelete';
+    /**#@-*/
+
     /** @var Mage_Webapi_Controller_RequestAbstract */
     protected $_request;
 

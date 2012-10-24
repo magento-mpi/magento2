@@ -42,6 +42,15 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($reflectionParameters as $parameter) {
             $parameterName = $parameter->getName();
             if (isset($requestData[$parameterName])) {
+                //region TODO: Temporary workaround until implementation using resource configuration
+                if ($parameterName == 'data') {
+                    $customerData = new Mage_Customer_Webapi_Customer_DataStructure();
+                    foreach ($requestData[$parameterName] as $fieldName => $fieldValue) {
+                        $customerData->$fieldName = $fieldValue;
+                    }
+                    $requestData[$parameterName] = $customerData;
+                }
+                //endregion
                 $preparedParams[$parameterName] = $requestData[$parameterName];
             } else {
                 if ($parameter->isOptional()) {
@@ -60,6 +69,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param  array|object $data
      */
+    // TODO: Remove if not used anymore
     public function toArray(&$data)
     {
         if (is_object($data)) {
@@ -72,5 +82,28 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
+    }
+
+    /**
+     * Convert singular form of word to plural.
+     *
+     * @param string $singular
+     * @return string
+     */
+    public function convertSingularToPlural($singular)
+    {
+        $plural = $singular;
+        $conversionMatrix = array(
+            '/(x|ch|ss|sh)$/i' => "$1es",
+            '/([^aeiouy]|qu)y$/i' => "$1ies",
+            '/s$/i' => "s",
+            '/$/' => "s"
+        );
+        foreach ($conversionMatrix as $singularPattern => $pluralPattern) {
+            if (preg_match($singularPattern, $singular)) {
+                $plural = preg_replace($singularPattern, $pluralPattern, $singular);
+            }
+        }
+        return $plural;
     }
 }

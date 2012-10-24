@@ -28,6 +28,9 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /** @var string */
     protected $_resourceType;
 
+    /** @var string */
+    protected $_resourceVersion;
+
     /**
      * Interpreter adapter.
      *
@@ -202,7 +205,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Set resource type.
      *
-     * @param $resourceType
+     * @param string $resourceType
      */
     public function setResourceType($resourceType)
     {
@@ -210,33 +213,34 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Identify versions of modules that should be used for API configuration file generation.
+     * Retrieve action version.
      *
-     * @return array
-     * @throws Mage_Webapi_Exception when header value is invalid
+     * @return int|null
      */
-    public function getRequestedModules()
+    public function getResourceVersion()
     {
-        $versionHeader = $this->getHeader('Modules');
-        /**
-         * Match a 'Mage_Customer=v1' and 'Enterprise_Customer=v2' from the following Modules header value:
-         * Modules='Mage_Customer=v1;Enterprise_Customer=v2'
-         */
-        preg_match_all('/\w+\=(v|V)\d+/', $versionHeader, $moduleMatches);
-        $requestedModules = array();
-        foreach ($moduleMatches[0] as $moduleVersion) {
-            $moduleVersion = explode('=', $moduleVersion);
-            $requestedModules[reset($moduleVersion)] = end($moduleVersion);
-        }
-        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            $message = $this->_helper->__('Invalid "Modules" header value. Example: ')
-                . "Modules: Mage_Customer=v1;Mage_Catalog=v1;\n"
-                // TODO: change documentation link
-                . $this->_helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
+        return $this->_resourceVersion;
+    }
 
-            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+    /**
+     * Set resource version.
+     *
+     * @param string|int $resourceVersion Version number either with suffix 'v' or without it
+     * @throws Mage_Webapi_Exception
+     * @return Mage_Webapi_Controller_Request_Rest
+     */
+    public function setResourceVersion($resourceVersion)
+    {
+        if (preg_match('/^v?(\d)+$/i', $resourceVersion, $matches)) {
+            $versionNumber = (int)$matches[1];
+        } else {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__("Resource version is not specified or invalid one is specified."),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
         }
-        return $requestedModules;
+        $this->_resourceVersion = $versionNumber;
+        return $this;
     }
 
     /**

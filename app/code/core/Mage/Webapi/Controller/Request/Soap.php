@@ -29,32 +29,34 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Identify versions of modules that should be used for API configuration file generation.
+     * Identify versions of resources that should be used for API configuration file generation.
      *
      * @return array
-     * @throws RuntimeException When GET parameters are invalid
+     * @throws Mage_Webapi_Exception When GET parameters are invalid
      */
-    public function getRequestedModules()
+    public function getRequestedResources()
     {
         $helper = Mage::helper('Mage_Webapi_Helper_Data');
         $baseUrl = Mage::getBaseUrl();
-        $exampleUrl = "{$baseUrl}api/soap?wsdl&modules[Mage_Customer]=v1&modules[Mage_Catalog]=v1";
+        $wsdlParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_WSDL;
+        $resourcesParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_RESOURCES;
+        $exampleUrl = "{$baseUrl}api/soap?{$wsdlParam}&{$resourcesParam}[customer]=v1&{$resourcesParam}[catalog]=v1";
         $requestParams = array_keys($this->getParams());
-        $allowedParams = array('api_type', 'wsdl', 'modules');
+        $allowedParams = array('api_type', $wsdlParam, $resourcesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
             $message = $helper->__('Not allowed parameters: %s', implode(', ', $notAllowedParameters)) . PHP_EOL
-                . $helper->__('Please, use only "wsdl" and "modules". Example: ') . $exampleUrl;
+                . $helper->__('Please, use only "%s" and "%s". Example: ', $wsdlParam, $resourcesParam) . $exampleUrl;
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
-        $requestedModules = $this->getParam('modules');
-        if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
-            $message = $helper->__('Missing requested modules. Example: ') . $exampleUrl . PHP_EOL
+        $requestedResources = $this->getParam($resourcesParam);
+        if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
+            $message = $helper->__('Missing requested resources. Example: ') . $exampleUrl . PHP_EOL
                 // TODO: change documentation link
                 . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
-        return $requestedModules;
+        return $requestedResources;
     }
 }
