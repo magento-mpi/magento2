@@ -15,7 +15,6 @@
 class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Downloadable/_files/product_with_files.php
      */
     public function testDuplicate()
@@ -32,8 +31,8 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $newSamples = $newProduct->getTypeInstance($newProduct)->getSamples($newProduct);
 
         $this->assertEquals($currentLinks, $newLinks,
-            'File for links has been lost after duplication');
+            'File for Links has been lost after duplication');
         $this->assertEquals($currentSamples, $newSamples,
-            'File for samples has been lost after duplication');
+            'File for Samples has been lost after duplication');
     }
 }

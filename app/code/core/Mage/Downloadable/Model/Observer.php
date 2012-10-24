@@ -18,8 +18,15 @@
 class Mage_Downloadable_Model_Observer
 {
     const XML_PATH_DISABLE_GUEST_CHECKOUT   = 'catalog/downloadable/disable_guest_checkout';
+
+    /**
+     * @var Mage_Core_Helper_Abstract
+     */
     protected $_helper;
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data = array())
     {
         $this->_helper = isset($data['helper']) ?  $data['helper'] : Mage::helper('Mage_Core_Helper_Data');
@@ -307,24 +314,21 @@ class Mage_Downloadable_Model_Observer
                 'title'               => $linkData['title'],
                 'is_shareable'        => $linkData['is_shareable'],
                 'sample'              => array(
-                    'type'            => $linkData['sample_type'],
-                    'url'             => $linkData['sample_url'],
-                    'file'            => $this->_helper->jsonEncode(array(
-                        0 => array(
-                            'file'        => $linkData['sample_file'],
-                            'name'        => $linkData['sample_file'],
-                            'size'        => 0,
-                            'status'      => null,
-                            )
-                    ))),
-                'file'                => $this->_helper->jsonEncode(array(
-                    0 => array(
-                        'file'            => $linkData['link_file'],
-                        'name'            => $linkData['link_file'],
-                        'size'            => 0,
-                        'status'          => null,
-                        )
-                )),
+                    'type'       => $linkData['sample_type'],
+                    'url'        => $linkData['sample_url'],
+                    'file'       => $this->_helper->jsonEncode(array(array(
+                        'file'   => $linkData['sample_file'],
+                        'name'   => $linkData['sample_file'],
+                        'size'   => 0,
+                        'status' => null,
+                    )))
+                ),
+                'file'       => $this->_helper->jsonEncode(array(array(
+                    'file'   => $linkData['link_file'],
+                    'name'   => $linkData['link_file'],
+                    'size'   => 0,
+                    'status' => null,
+                ))),
                 'type'                => $linkData['link_type'],
                 'link_url'            => $linkData['link_url'],
                 'sort_order'          => $linkData['sort_order'],
@@ -339,14 +343,12 @@ class Mage_Downloadable_Model_Observer
                 'sample_id'  => null,
                 'title'      => $sampleData['title'],
                 'type'       => $sampleData['sample_type'],
-                'file'       => $this->_helper->jsonEncode(array(
-                    0 => array(
-                        'file'   => $sampleData['sample_file'],
-                        'name'   => $sampleData['sample_file'],
-                        'size'   => 0,
-                        'status' => null,
-                    )
-                )),
+                'file'       => $this->_helper->jsonEncode(array(array(
+                    'file'   => $sampleData['sample_file'],
+                    'name'   => $sampleData['sample_file'],
+                    'size'   => 0,
+                    'status' => null,
+                ))),
                 'sample_url' => $sampleData['sample_url'],
                 'sort_order' => $sampleData['sort_order'],
             );

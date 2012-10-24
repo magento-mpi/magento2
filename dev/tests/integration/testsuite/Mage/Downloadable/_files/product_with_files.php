@@ -20,57 +20,48 @@ $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setDownloadableData(array(
-        'link' => array(
-            array(
-                'link_id'      => 0,
-                'product_id'   => 1,
-                'sort_order'   => '0',
-                'title'        => 'Downloadable Product Link',
-                'sample'              => array(
-                    'type'            => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
-                    'url'             => null,
-                    'file'            => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                        0 => array(
-                            'file'        => '/n/d/jellyfish_1_3.jpg',
-                            'name'        => 'jellyfish_1_3.jpg',
-                            'size'        => 54565,
-                            'status'      => 0,
-                        ),
-                    ))),
-                'file'         => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                    0 => array(
-                        'file'   => '/j/e/jellyfish_2_4.jpg',
-                        'name'   => 'jellyfish_2_4.jpg',
-                        'size'   => 56644,
-                        'status' => 0,
-                    ))),
-                'type'         => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
-                'is_shareable' => Mage_Downloadable_Model_Link::LINK_SHAREABLE_CONFIG,
-                'link_url'     => null,
-                'is_delete'    => 0,
-                'number_of_downloads' => 15,
-                'price'               => 15.00,
-        ),
-    ),
-    'sample'  => array(
-        array(
+        'link' => array(array(
+            'link_id'        => 0,
+            'product_id'     => 1,
+            'sort_order'     => '0',
+            'title'          => 'Downloadable Product Link',
+            'sample'         => array(
+                'type'       => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
+                'url'        => null,
+                'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+                    'file'   => '/n/d/jellyfish_1_3.jpg',
+                    'name'   => 'jellyfish_1_3.jpg',
+                    'size'   => 54565,
+                    'status' => 0,
+                ))),
+            ),
+            'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+                'file'   => '/j/e/jellyfish_2_4.jpg',
+                'name'   => 'jellyfish_2_4.jpg',
+                'size'   => 56644,
+                'status' => 0,
+            ))),
+            'type'                => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
+            'is_shareable'        => Mage_Downloadable_Model_Link::LINK_SHAREABLE_CONFIG,
+            'link_url'            => null,
+            'is_delete'           => 0,
+            'number_of_downloads' => 15,
+            'price'               => 15.00,
+        )),
+        'sample'  => array(array(
             'is_delete'  => 0,
             'sample_id'  => 0,
             'title'      => 'Downloadable Product Sample Title',
             'type'       => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
-            'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                0 => array(
-                    'file'   => '/f/u/jellyfish_1_4.jpg',
-                    'name'   => 'jellyfish_1_4.jpg',
-                    'size'   => 1024,
-                    'status' => 0,
-                )
-            )),
+            'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+                'file'   => '/f/u/jellyfish_1_4.jpg',
+                'name'   => 'jellyfish_1_4.jpg',
+                'size'   => 1024,
+                'status' => 0,
+            ))),
             'sample_url' => null,
             'sort_order' => '0',
-        )
-    )
-))
+        ))
+    ))
     ->save()
 ;
-

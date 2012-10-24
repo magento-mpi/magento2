@@ -32,8 +32,8 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperJsonEncode = $this->getMock('Varien_Object', array('jsonEncode'));
-        $this->_downloadableObserver  = new Mage_Downloadable_Model_Observer(array('helper' => $this
-            ->_helperJsonEncode));
+        $this->_downloadableObserver  = new Mage_Downloadable_Model_Observer(array(
+            'helper' => $this->_helperJsonEncode));
     }
 
     protected function tearDown()
@@ -41,16 +41,17 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_helperJsonEncode = null;
         $this->_downloadableObserver = null;
         $this->_observer = null;
-
     }
 
     public function testDuplicateNotDownloadable()
     {
         $currentProduct = $this->getMock('Mage_Catalog_Model_Product', array('getTypeId'), array(), '', false);
 
-        $currentProduct->expects($this->once())->method('getTypeId')
+        $currentProduct->expects($this->once())
+            ->method('getTypeId')
             ->will($this->returnValue(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE));
-        $currentProduct->expects($this->never())->method('getTypeInstance');
+        $currentProduct->expects($this->never())
+            ->method('getTypeInstance');
 
         $this->_setObserverExpectedMethods($currentProduct, new Varien_Object());
 
@@ -61,7 +62,8 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $currentProduct = $this->getMock('Mage_Catalog_Model_Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
-        $currentProduct->expects($this->once())->method('getTypeId')
+        $currentProduct->expects($this->once())
+            ->method('getTypeId')
             ->will($this->returnValue(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE));
         $newProduct = $this->getMock('Mage_Catalog_Model_Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
@@ -168,23 +170,23 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'number_of_downloads' => '0',
             'is_shareable' => '2',
             'link_url' => null,
-            'link_file' => array(
-                array(
-                    'file'        => '/l/i/lighthouse_3.jpg',
-                    'name'        => 'lighthouse_3.jpg',
-                    'size'        => 56665,
-                    'status'      => 'new')),
+            'link_file' => array(array(
+                'file'        => '/l/i/lighthouse_3.jpg',
+                'name'        => 'lighthouse_3.jpg',
+                'size'        => 56665,
+                'status'      => 'new',
+                )),
             'link_type' => 'file',
             'sample_url' => null,
-            'sample_file' => array(
-                array(
-                    'file'        => '/a/b/lighthouse_3.jpg',
-                    'name'        => 'lighthouse_3.jpg',
-                    'size'        => 56665,
-                    'status'      => 'new')),
+            'sample_file' => array(array(
+                'file'        => '/a/b/lighthouse_3.jpg',
+                'name'        => 'lighthouse_3.jpg',
+                'size'        => 56665,
+                'status'      => 'new',
+                )),
             'sample_type' => 'file',
             'title' =>'Link Title',
-            'price' =>'15.00'
+            'price' =>'15.00',
         );
     }
 
@@ -197,15 +199,15 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         return array(
             'sample_id' => '42',
             'sample_url' => null,
-            'sample_file' => array(
-                array(
-                    'file'        => '/b/r/lighthouse_3.jpg',
-                    'name'        => 'lighthouse_3.jpg',
-                    'size'        => 56665,
-                    'status'      => 'new')),
+            'sample_file' => array(array(
+                'file'        => '/b/r/lighthouse_3.jpg',
+                'name'        => 'lighthouse_3.jpg',
+                'size'        => 56665,
+                'status'      => 'new',
+                )),
             'sample_type' => 'file',
             'sort_order' => '0',
-            'title' => 'Sample Title'
+            'title' => 'Sample Title',
         );
     }
 }
