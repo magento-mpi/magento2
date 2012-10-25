@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+require_once __DIR__ . '/FileSystem.php';
+require_once __DIR__ . '/Memory.php';
 class Tools_Migration_System_Writer_Factory
 {
     /**

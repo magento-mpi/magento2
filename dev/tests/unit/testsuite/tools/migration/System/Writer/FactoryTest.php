@@ -22,7 +22,7 @@ class Tools_Migration_System_Writer_FactoryTest extends PHPUnit_Framework_TestCa
         $this->_model = new Tools_Migration_System_Writer_Factory();
     }
 
-    protected function testGetWriterReturnsProperWriter()
+    public function testGetWriterReturnsProperWriter()
     {
         $this->assertInstanceOf('Tools_Migration_System_Writer_FileSystem', $this->_model->getWriter('write'));
         $this->assertInstanceOf('Tools_Migration_System_Writer_Memory', $this->_model->getWriter('someWriter'));

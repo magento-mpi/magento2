@@ -10,6 +10,9 @@
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../')
     . '/tools/migration/System/Configuration/Reader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+    . '/tools/migration/System/Configuration/Mapper.php';
+
 
 class Tools_Migration_System_Configuration_ReaderTest extends PHPUnit_Framework_TestCase
 {
@@ -37,17 +40,10 @@ class Tools_Migration_System_Configuration_ReaderTest extends PHPUnit_Framework_
     {
         $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
         $this->_parserMock = $this->getMock('Tools_Migration_System_Configuration_Parser', array(), array(), '', false);
-        $this->_parserMock = $this->getMock('Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
+        $this->_mapperMock = $this->getMock('Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
 
         $this->_model = new Tools_Migration_System_Writer_Factory(
             $this->_fileManagerMock, $this->_parserMock, $this->_mapperMock
-        );
-    }
-
-    protected function testGetConfiguration()
-    {
-        $this->_fileManagerMock->expects($this->once())->method('getFileList')->will(
-            $this->returnValue(array('file1', 'file2'))
         );
     }
 }
