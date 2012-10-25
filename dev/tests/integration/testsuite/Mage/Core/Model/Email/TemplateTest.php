@@ -95,7 +95,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate()
     {
         $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
-        $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
@@ -109,7 +109,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateDesignChange()
     {
-        $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
             'skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
@@ -124,7 +124,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateSubject()
     {
         $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
-        $this->_model->setTemplateSubject('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()

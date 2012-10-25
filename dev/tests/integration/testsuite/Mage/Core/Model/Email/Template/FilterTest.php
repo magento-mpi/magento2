@@ -31,10 +31,10 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
      *
      * @magentoAppIsolation enabled
      */
-    public function testSkinDirective()
+    public function testViewDirective()
     {
-        $url = $this->_model->skinDirective(array(
-            '{{skin url="Mage_Page::favicon.ico"}}',
+        $url = $this->_model->viewDirective(array(
+            '{{view url="Mage_Page::favicon.ico"}}',
             'skin',
             ' url="Mage_Page::favicon.ico"', // note leading space
         ));
