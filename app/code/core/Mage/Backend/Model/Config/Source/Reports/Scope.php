@@ -9,13 +9,13 @@
  */
 
 /**
- * Adminhtml source reports event store filter
+ * Config source reports event store filter
  *
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Reports_Scope
+class Mage_Backend_Model_Config_Source_Reports_Scope implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
      * Scope filter

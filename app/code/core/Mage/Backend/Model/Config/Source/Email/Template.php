@@ -10,13 +10,14 @@
 
 
 /**
- * Adminhtml config system template source
+ * Config config system template source
  *
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
+    implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
      * Generate list of email templates

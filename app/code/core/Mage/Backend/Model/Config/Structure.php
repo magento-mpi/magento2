@@ -289,6 +289,17 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
      */
     public function getEncryptedNodeEntriesPaths($explodePathToEntities = false)
     {
+        if (!$this->_encryptedPaths) {
+            $this->_encryptedPaths = $this->getFieldsByAttribute(
+                'backend_model', 'Mage_Backend_Model_Config_Backend_Encrypted', $explodePathToEntities
+            );
+        }
+        return $this->_encryptedPaths;
+    }
+
+    public function getFieldsByAttribute($attributeName, $attributeValue, $explodePathToEntities = false)
+    {
+        $result = array();
         foreach ($this->_data['sections'] as $section) {
             if (!isset($section['groups'])) {
                 continue;
@@ -298,20 +309,20 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
                     continue;
                 }
                 foreach ($group['fields'] as $field) {
-                    if (isset($field['backend_model'])
-                        && $field['backend_model'] == 'Mage_Backend_Model_Config_Backend_Encrypted'
+                    if (isset($field[$attributeName])
+                        && $field[$attributeName] == $attributeValue
                     ) {
                         if ($explodePathToEntities) {
-                            $this->_encryptedPaths[] = array(
+                            $result[] = array(
                                 'section' => $section['id'], 'group' => $group['id'], 'field' => $field['id']
                             );
                         } else {
-                            $this->_encryptedPaths[] = $section['id'] . '/' . $group['id'] . '/' . $field['id'];
+                            $result[] = $section['id'] . '/' . $group['id'] . '/' . $field['id'];
                         }
                     }
                 }
             }
         }
-        return $this->_encryptedPaths;
+        return $result;
     }
 }

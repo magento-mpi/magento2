@@ -19,6 +19,5 @@ class Mage_Backend_Model_Config_Backend_Datashare extends Mage_Core_Model_Config
 {
     protected function _afterSave()
     {
-#echo "<pre>".print_r($configData,1)."</pre>"; die;
     }
 }

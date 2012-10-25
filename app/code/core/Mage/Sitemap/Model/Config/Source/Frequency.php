@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Sitemap_Model_Config_Source_Frequency
+class Mage_Sitemap_Model_Config_Source_Frequency implements Mage_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

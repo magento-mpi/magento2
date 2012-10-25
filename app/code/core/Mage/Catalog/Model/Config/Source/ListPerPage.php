@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Config_Source_ListPerPage
+class Mage_Catalog_Model_Config_Source_ListPerPage implements Mage_Core_Model_Option_ArrayInterface
 {
 
     public function toOptionArray()
@@ -27,7 +27,6 @@ class Mage_Catalog_Model_Config_Source_ListPerPage
         foreach ($perPageValues as $option) {
             $result[] = array('value' => $option, 'label' => $option);
         }
-        //$result[] = array('value' => 'all', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('All'));
         return $result;
     }
 

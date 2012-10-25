@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 return array(
-    'Mage_Admin_Helper_Date' => array('suggestion' => 'Mage_Backend_Helper_Data'),
+    'Mage_Admin_Helper_Data' => array('suggestion' => 'Mage_Backend_Helper_Data'),
     'Mage_Admin_Model_Acl' => array('suggestion' => 'Magento_Acl'),
     'Mage_Admin_Model_Acl_Role',
     'Mage_Admin_Model_Acl_Resource' => array('suggestion' => 'Magento_Acl_Resource'),
@@ -234,9 +234,7 @@ return array(
     'Mage_Adminhtml_Model_System_Config_Backend_Log_Cron' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Backend_Log_Cron'
     ),
-    'Mage_Adminhtml_Model_System_Config_Backend_Price_Scope' => array(
-        'suggestion' => 'Mage_Catalog_Model_Config_Backend_Price_Scope'
-    ),
+    'Mage_Adminhtml_Model_System_Config_Backend_Price_Scope' => array(),
     'Mage_Adminhtml_Model_System_Config_Backend_Product_Alert_Cron' => array(
         'suggestion' => 'Mage_Cron_Model_Config_Backend_Product_Alert'
     ),
@@ -351,9 +349,7 @@ return array(
     'Mage_Adminhtml_Model_System_Config_Source_Date_Short' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Source_Date_Short'
     ),
-    'Mage_Adminhtml_Model_System_Config_Source_Design_Package' => array(
-        'suggestion' => 'Mage_Backend_Model_Config_Source_Design_Package'
-    ),
+    'Mage_Adminhtml_Model_System_Config_Source_Design_Package' => array(),
     'Mage_Adminhtml_Model_System_Config_Source_Design_Robots' => array(
         'suggestion' => 'Mage_Backend_Model_Config_Source_Design_Robots'
     ),

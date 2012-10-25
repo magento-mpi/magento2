@@ -15,19 +15,4 @@ class Mage_Payment_Model_Config_Source_Allowedmethods
     {
         return Mage::getSingleton('Mage_Payment_Model_Config')->getActiveMethods();
     }
-
-//    public function toOptionArray()
-//    {
-//        $methods = array(array('value'=>'', 'label'=>''));
-//        $payments = Mage::getSingleton('Mage_Payment_Model_Config')->getActiveMethods();
-//        foreach ($payments as $paymentCode=>$paymentModel) {
-//            $paymentTitle = Mage::getStoreConfig('payment/'.$paymentCode.'/title');
-//            $methods[$paymentCode] = array(
-//                'label'   => $paymentTitle,
-//                'value' => $paymentCode,
-//            );
-//        }
-//
-//        return $methods;
-//    }
 }

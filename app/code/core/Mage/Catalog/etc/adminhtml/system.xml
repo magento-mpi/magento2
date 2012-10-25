@@ -141,7 +141,6 @@
                     <label>Catalog Price Scope</label>
                     <comment>.</comment>
                     <source_model>Mage_Catalog_Model_Config_Source_Price_Scope</source_model>
-                    <backend_model>Mage_Catalog_Model_Config_Backend_Price_Scope</backend_model>
                     <attribute type="hide_in_single_store_mode">1</attribute>
                 </field>
             </group>
@@ -275,4 +274,4 @@
             </group>
         </section>
     </system>
-</config>
+</config>

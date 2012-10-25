@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml Catalog Inventory Manage Stock Config Backend Model
+ * Catalog Inventory Manage Stock Config Backend Model
  *
  * @category   Mage
  * @package    Mage_CatalogInventory

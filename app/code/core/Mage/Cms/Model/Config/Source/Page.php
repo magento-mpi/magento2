@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Cms_Model_Config_Source_Page
+class Mage_Cms_Model_Config_Source_Page implements Mage_Core_Model_Option_ArrayInterface
 {
 
     protected $_options;

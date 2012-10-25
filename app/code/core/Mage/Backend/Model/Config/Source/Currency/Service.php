@@ -9,11 +9,11 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Currency_Service
+class Mage_Backend_Model_Config_Source_Currency_Service implements Mage_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 
-    public function toOptionArray($isMultiselect)
+    public function toOptionArray()
     {
         if (!$this->_options) {
             $services = Mage::getConfig()->getNode('global/currency/import/services')->asArray();

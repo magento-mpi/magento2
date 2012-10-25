@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Source_Web_Protocol
+class Mage_Backend_Model_Config_Source_Web_Protocol implements Mage_Core_Model_Option_ArrayInterface
 {
 
     public function toOptionArray()

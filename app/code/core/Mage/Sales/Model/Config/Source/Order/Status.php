@@ -11,12 +11,11 @@
 /**
  * Order Statuses source model
  */
-class Mage_Sales_Model_Config_Source_Order_Status
+class Mage_Sales_Model_Config_Source_Order_Status implements Mage_Core_Model_Option_ArrayInterface
 {
     // set null to enable all possible
     protected $_stateStatuses = array(
         Mage_Sales_Model_Order::STATE_NEW,
-//        Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
         Mage_Sales_Model_Order::STATE_PROCESSING,
         Mage_Sales_Model_Order::STATE_COMPLETE,
         Mage_Sales_Model_Order::STATE_CLOSED,

@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml backend model for "Use Custom Admin URL" option
+ * Config backend model for "Use Custom Admin URL" option
  *
  * @category   Mage
  * @package    Mage_Backend

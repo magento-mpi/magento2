@@ -9,7 +9,7 @@
  */
 
 /**
- * Adminhtml backend model for robots.txt
+ * Config backend model for robots.txt
  *
  * @category   Mage
  * @package    Mage_Backend

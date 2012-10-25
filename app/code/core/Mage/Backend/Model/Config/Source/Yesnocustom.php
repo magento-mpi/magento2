@@ -12,7 +12,7 @@
  * Used in creating options for Yes|No|Specified config value selection
  *
  */
-class Mage_Backend_Model_Config_Source_Yesnocustom
+class Mage_Backend_Model_Config_Source_Yesnocustom implements Mage_Core_Model_Option_ArrayInterface
 {
 
     /**

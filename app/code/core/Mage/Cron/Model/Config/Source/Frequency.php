@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Cron_Model_Config_Source_Frequency
+class Mage_Cron_Model_Config_Source_Frequency implements Mage_Core_Model_Option_ArrayInterface
 {
 
     protected static $_options;

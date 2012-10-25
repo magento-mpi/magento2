@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml backend model for "Use secret key in Urls" option
+ * Config backend model for "Use secret key in Urls" option
  *
  * @category   Mage
  * @package    Mage_Backend

@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Image_Adapter
+class Mage_Backend_Model_Config_Source_Image_Adapter implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
      * Return hash of image adapter codes and labels

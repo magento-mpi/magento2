@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Model_Config_Source_TimeFormat
+class Mage_Catalog_Model_Config_Source_TimeFormat implements Mage_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

@@ -18,12 +18,6 @@ class Mage_Catalog_Model_Config_Backend_Seo_Product extends Mage_Core_Model_Conf
      */
     protected function _afterSave()
     {
-        /**
-         * Index model responsible for rewrites index
-         */
-//        if ($this->isValueChanged()) {
-//            Mage::getSingleton('Mage_Catalog_Model_Url')->refreshRewrites();
-//        }
         return $this;
     }
 }

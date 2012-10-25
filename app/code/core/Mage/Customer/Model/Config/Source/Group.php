@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Customer_Model_Config_Source_Group
+class Mage_Customer_Model_Config_Source_Group implements Mage_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 

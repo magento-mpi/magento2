@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml Directory currency backend model
+ * Config Directory currency backend model
  *
  * Allows dispatching before and after events for each controller action
  *

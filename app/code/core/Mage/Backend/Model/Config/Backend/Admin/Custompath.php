@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml backend model for "Custom Admin Path" option
+ * Config backend model for "Custom Admin Path" option
  *
  * @category   Mage
  * @package    Mage_Backend

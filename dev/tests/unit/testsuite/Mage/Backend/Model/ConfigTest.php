@@ -86,8 +86,8 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->getWebsite());
         $this->assertNull($this->_model->getStore());
         $this->_model->save();
-        $this->assertTrue('' === $this->_model->getSection());
-        $this->assertTrue('' === $this->_model->getWebsite());
-        $this->assertTrue('' === $this->_model->getStore());
+        $this->assertSame('', $this->_model->getSection());
+        $this->assertSame('', $this->_model->getWebsite());
+        $this->assertSame('', $this->_model->getStore());
     }
 }

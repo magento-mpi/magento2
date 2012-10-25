@@ -10,7 +10,7 @@
 
 
 /**
- * Adminhtml add store code to url backend
+ * Backend add store code to url backend
  *
  * @category    Mage
  * @package     Mage_Backend

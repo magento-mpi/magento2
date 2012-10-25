@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Catalog_Model_Config_Source_Price_Scope
+class Mage_Catalog_Model_Config_Source_Price_Scope implements Mage_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

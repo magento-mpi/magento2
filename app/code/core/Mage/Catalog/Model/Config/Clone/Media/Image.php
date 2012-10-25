@@ -26,10 +26,6 @@ class Mage_Catalog_Model_Config_Clone_Media_Image extends Mage_Core_Model_Config
      */
     public function getPrefixes()
     {
-        //$entityType = Mage::getModel('Mage_Eav_Model_Entity_Type');
-        /* @var $entityType Mage_Eav_Model_Entity_Type */
-        //$entityTypeId = $entityType->loadByCode('catalog_product')->getEntityTypeId();
-
         // use cached eav config
         $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
 

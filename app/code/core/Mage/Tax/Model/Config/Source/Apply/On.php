@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Tax_Model_Config_Source_Apply_On
+class Mage_Tax_Model_Config_Source_Apply_On implements Mage_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {
