@@ -98,8 +98,8 @@
                 <field id="placeholder" type="image" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label></label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
-                    <upload_dir>catalog/product/placeholder</upload_dir>
-                    <base_url>catalog/product/placeholder</base_url>
+                    <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/placeholder</upload_dir>
+                    <base_url type="media" scope_info="1">catalog/product/placeholder</base_url>
                 </field>
             </group>
             <group id="seo" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -228,8 +228,8 @@
                 <field id="image" translate="label" type="image" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Watermark</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
-                    <upload_dir>catalog/product/watermark</upload_dir>
-                    <base_url>catalog/product/watermark</base_url>
+                    <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/watermark</upload_dir>
+                    <base_url type="media" scope_info="1">catalog/product/watermark</base_url>
                     <comment>Allowed file types: jpeg, gif, png.</comment>
                 </field>
                 <field id="position" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">

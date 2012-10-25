@@ -146,7 +146,7 @@
                     <label>Logo Image</label>
                     <comment>Allowed file types: jpg, jpeg, gif, png</comment>
                     <backend_model>Mage_Backend_Model_Config_Backend_Email_Logo</backend_model>
-                    <base_url>email/logo</base_url>
+                    <base_url type="media" scope_info="1">email/logo</base_url>
                 </field>
                 <field id="logo_alt" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logo Image Alt</label>

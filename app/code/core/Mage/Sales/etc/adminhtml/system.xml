@@ -57,8 +57,8 @@
                 <field id="logo" translate="label comment" type="image" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logo for PDF Print-outs (200x50)</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Image_Pdf</backend_model>
-                    <upload_dir>sales/store/logo</upload_dir>
-                    <base_url>sales/store/logo</base_url>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo</upload_dir>
+                    <base_url type="media" scope_info="1">sales/store/logo</base_url>
                     <comment>
                         <![CDATA[Default logo, will be used in PDF and HTML documents.<br />(jpeg, tiff, png) If you see image distortion in PDF, try to use larger image]]>
 </comment>
@@ -66,8 +66,8 @@
                 <field id="logo_html" translate="label comment" type="image" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logo for HTML Print View</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Image</backend_model>
-                    <upload_dir>sales/store/logo_html</upload_dir>
-                    <base_url>sales/store/logo_html</base_url>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo_html</upload_dir>
+                    <base_url type="media" scope_info="1">sales/store/logo_html</base_url>
                     <comment>
                         <![CDATA[Logo for HTML documents only. If empty, default will be used.<br />(jpeg, gif, png)]]>
 </comment>
