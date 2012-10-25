@@ -172,6 +172,13 @@ class Enterprise_SalesArchive_Model_Observer
             return $this;
         }
 
-        $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+        $ids = $request->getParam('order_ids');
+        $createdFromOrders = !empty($ids);
+
+        if ($createdFromOrders) {
+            $response->setRedirect($controller->getUrl('*/sales_archive/orders'));
+        } else {
+            $response->setRedirect($controller->getUrl('*/sales_archive/shipments'));
+        }
     }
 }

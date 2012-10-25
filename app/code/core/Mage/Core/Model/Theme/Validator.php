@@ -48,7 +48,7 @@ class Mage_Core_Model_Theme_Validator
             array('name' => 'not_empty', 'class' => 'Zend_Validate_NotEmpty', 'break' => true, 'options' => array(),
                   'message' => $helper->__('Field can\'t be empty')),
             array('name' => 'available', 'class' => 'Zend_Validate_Regex', 'break' => true,
-                  'options' => array('pattern' => '/(\d+\.\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)|\*/'),
+                  'options' => array('pattern' => '/^(\d+\.\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)$|^\*$/'),
                   'message' => $helper->__('Theme version has not compatible format'))
         );
 

@@ -1,0 +1,54 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Admin User and Admin Role
+
+new_xml_sitemap:
+    xml_sitemap_create_filename: sitemap.xml
+    xml_sitemap_create_path: /
+
+#*******************************************************
+#*       Data for system configuration(Backend)        *
+#*******************************************************
+admin_xml_sitemap:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_design
+        configuration:
+            edit_custom_instruction_test: test
+
+admin_disable_http_only:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_web
+        configuration:
+            use_http_only: No
+
+admin_disable_secret_key:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: advanced_admin
+        configuration:
+            add_secret_key_to_urls: No
+
+admin_enable_push_to_robots:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_google_sitemap
+        configuration:
+            enable_submission_to_robots: Yes
+
+admin_disable_push_to_robots:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_google_sitemap
+        configuration:
+            enable_submission_to_robots: No

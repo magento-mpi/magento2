@@ -27,9 +27,8 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $config = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
     }
 
     protected function assertPreconditions()

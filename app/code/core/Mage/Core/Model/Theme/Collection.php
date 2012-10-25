@@ -140,4 +140,14 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         }
         return $items;
     }
+
+    /**
+     * Return array for select field
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('theme_id', 'theme_title');
+    }
 }

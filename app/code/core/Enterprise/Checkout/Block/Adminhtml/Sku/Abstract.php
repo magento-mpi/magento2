@@ -55,23 +55,17 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
             $headBlock->addJs('Enterprise_Checkout::addbysku.js');
         }
 
-        $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'   => '',
-                    'onclick' => 'addBySku.del(this)',
-                    'class'   => 'delete'
-                ))
-        );
+        $this->addChild('deleteButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'   => '',
+            'onclick' => 'addBySku.del(this)',
+            'class'   => 'delete'
+        ));
 
-        $this->setChild('addButton',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'   => '', // Widget button of class 'add' has '+' icon by default
-                    'onclick' => 'addBySku.add()',
-                    'class'   => 'add'
-                ))
-        );
+        $this->addChild('addButton', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'   => '', // Widget button of class 'add' has '+' icon by default
+            'onclick' => 'addBySku.add()',
+            'class'   => 'add'
+        ));
 
         return $this;
     }

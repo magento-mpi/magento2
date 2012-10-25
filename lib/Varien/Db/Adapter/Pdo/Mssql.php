@@ -74,6 +74,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected $_transactionLevel = 0;
 
     /**
+     * Whether transaction was rolled back or not
+     *
+     * @var bool
+     */
+    protected $_isRolledBack = false;
+
+    /**
      * Set attribute to connection flag
      *
      * @var bool
@@ -350,6 +357,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function beginTransaction()
     {
+        if ($this->_isRolledBack) {
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
+        }
         if ($this->_transactionLevel === 0) {
             $this->_debugTimer();
             parent::beginTransaction();
@@ -381,12 +391,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function commit()
     {
-        if ($this->_transactionLevel === 1) {
+        if ($this->_transactionLevel === 1 && !$this->_isRolledBack) {
             $this->_debugTimer();
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
         } elseif ($this->_transactionLevel === 0) {
-            throw new Exception('Asymmetric transaction commit.');
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ASYMMETRIC_COMMIT_MESSAGE);
+        } elseif ($this->_isRolledBack) {
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
         }
         --$this->_transactionLevel;
 
@@ -418,6 +430,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $this->_debugTimer();
             try {
                 parent::rollBack();
+                $this->_isRolledBack = false;
             } catch (PDOException $e) {
                 // MS SQL Server auto rollback
                 // [3903] The ROLLBACK TRANSACTION request has no corresponding BEGIN TRANSACTION
@@ -429,7 +442,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
         } elseif ($this->_transactionLevel === 0) {
-            throw new Exception('Asymmetric transaction rollback.');
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE);
+        } else {
+            $this->_isRolledBack = true;
         }
         --$this->_transactionLevel;
 
