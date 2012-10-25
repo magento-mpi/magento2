@@ -163,7 +163,10 @@ class Mage_Backend_Model_Config extends Varien_Object
                  */
                 if (isset($groupConfig['fields'][$field]['backend_model'])) {
                     $backendClass = $groupConfig['fields'][$field]['backend_model'];
-                } else if ($clonedFields && isset($mappedFields[$field])) {
+                } else if ($clonedFields &&
+                    isset($mappedFields[$field]) &&
+                    isset($groupConfig['fields'][$mappedFields[$field]]['backend_model'])
+                ) {
                     $backendClass = $groupConfig['fields'][$mappedFields[$field]]['backend_model'];
                 } else {
                     $backendClass = 'Mage_Core_Model_Config_Data';
