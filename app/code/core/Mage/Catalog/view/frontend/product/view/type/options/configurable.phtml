@@ -28,12 +28,8 @@ $_attributes = Mage::helper('Mage_Core_Helper_Data')->decorateArray($this->getAl
     </dl>
     <script type="text/javascript">
         (function ($) {
-            $(document).ready(function () {
-                $.mage.event.observe('mage.spConfigData.initialize', function (event, initData) {
-                    initData.spConfig = <?php echo $this->getJsonConfig() ?>,
-                    initData.priceOptionInstance = priceOptionInstance;
-                });
-                $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/configurable.js') ?>");
+            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/configurable.js') ?>", function () {
+                $.mage.configurable({"spConfig":<?php echo $this->getJsonConfig() ?>, "priceOptionInstance": priceOptionInstance});
             })
         })(jQuery);
     </script>

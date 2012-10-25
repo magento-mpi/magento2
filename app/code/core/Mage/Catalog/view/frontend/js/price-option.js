@@ -77,7 +77,7 @@
             return result;
         },
         reloadPrice: function () {
-            if (this.options.optionConfig && this.options.priceConfig) {
+            if (this.options.priceConfig) {
                 var priceSelectors = [
                     '#product-price-' + this.options.priceConfig.productId,
                     '#bundle-price-' + this.options.priceConfig.productId,
@@ -98,8 +98,8 @@
                         this.oldPrice += oldPrice;
                     }
                 };
-                $(this.options.productCustomSelector).each($.proxy(function (key, element) {
-                    var element = $(element);
+                $(this.options.productCustomSelector).each($.proxy(function (key, elements) {
+                    var element = $(elements);
                     var optionIdStartIndex, optionIdEndIndex;
                     if (element.attr('type') === 'file') {
                         optionIdStartIndex = element.attr('name').indexOf('_') + 1;
@@ -184,5 +184,5 @@
                 }, this));
             }
         }
-    })
+    });
 })(jQuery);
