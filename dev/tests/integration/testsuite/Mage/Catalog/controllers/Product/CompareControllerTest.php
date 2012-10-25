@@ -155,4 +155,25 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
         $this->_assertCompareListEquals(array());
     }
+
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testRemoveActionProductNameXss()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List')->addProduct($product);
+        $this->dispatch('catalog/product_compare/remove/product/1?nocookie=1');
+        $messages = Mage::getSingleton('Mage_Catalog_Model_Session')->getMessages()->getItems();
+        $isProductNamePresent = false;
+        foreach ($messages as $message) {
+            if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
+                $isProductNamePresent = true;
+            }
+        }
+        $this->assertTrue($isProductNamePresent, 'The message has XSS');
+    }
 }
