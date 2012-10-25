@@ -29,8 +29,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front')
         );
         /** @var $block Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
-        $block = $this->getMockForAbstractClass('Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments)
-        ->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));
+        $block = $this->getMockForAbstractClass('Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
+        $block->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
