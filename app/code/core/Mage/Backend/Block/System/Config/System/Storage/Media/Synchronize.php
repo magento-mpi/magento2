@@ -25,7 +25,7 @@ class Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Mage_Backend::system/config/system/storage/media/synchronize.phtml');
+        $this->setTemplate('system/config/system/storage/media/synchronize.phtml');
     }
 
     /**

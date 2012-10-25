@@ -46,7 +46,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         
         $this->setId('system_config_tabs');
         $this->setTitle($this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Configuration'));
-        $this->setTemplate('Mage_Backend::system/config/tabs.phtml');
+        $this->setTemplate('system/config/tabs.phtml');
     }
 
     /**

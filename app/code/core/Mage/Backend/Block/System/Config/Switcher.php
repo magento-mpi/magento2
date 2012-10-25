@@ -15,7 +15,7 @@ class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Templ
      */
     protected function _prepareLayout()
     {
-        $this->setTemplate('Mage_Backend::system/config/switcher.phtml');
+        $this->setTemplate('system/config/switcher.phtml');
         return parent::_prepareLayout();
     }
 
