@@ -22,8 +22,10 @@
     <xs:element name="system">
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="tab" />
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="section"/>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="tab" />
+                    <xs:element ref="section"/>
+                </xs:choice>
             </xs:sequence>
         </xs:complexType>
 
@@ -91,12 +93,14 @@
 
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="1" name="label" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="class" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="tab" type="typeTabId" />
-                <xs:element minOccurs="0" maxOccurs="1" name="header_css" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="resource" type="typeAclResourceId" />
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="group" />
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="label" type="xs:string" />
+                    <xs:element name="class" type="xs:string" />
+                    <xs:element name="tab" type="typeTabId" />
+                    <xs:element name="header_css" type="xs:string" />
+                    <xs:element name="resource" type="typeAclResourceId" />
+                    <xs:element ref="group" />
+                </xs:choice>
             </xs:sequence>
 
             <xs:attributeGroup ref="elementsAttributeGroup"/>
@@ -122,13 +126,15 @@
 
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="1" name="label" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="fieldset_css" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="frontend_model" type="typeModel" />
-                <xs:element minOccurs="0" maxOccurs="1" name="clone_model" type="typeModel" />
-                <xs:element minOccurs="0" maxOccurs="1" name="clone_fields" type="xs:int" />
-                <xs:element minOccurs="0" maxOccurs="1" name="expanded" type="xs:int" />
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="field" />
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="label" type="xs:string" />
+                    <xs:element name="fieldset_css" type="xs:string" />
+                    <xs:element name="frontend_model" type="typeModel" />
+                    <xs:element name="clone_model" type="typeModel" />
+                    <xs:element name="clone_fields" type="xs:int" />
+                    <xs:element name="expanded" type="xs:int" />
+                    <xs:element ref="field" />
+                </xs:choice>
             </xs:sequence>
 
             <xs:attributeGroup ref="elementsAttributeGroup"/>
@@ -154,26 +160,28 @@
 
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="1" name="label" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="comment" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="tooltip" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="hint" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="frontend_class" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="frontend_model" type="typeModel" />
-                <xs:element minOccurs="0" maxOccurs="1" name="backend_model" type="typeModel" />
-                <xs:element minOccurs="0" maxOccurs="1" name="source_model" type="typeModel" />
-                <xs:element minOccurs="0" maxOccurs="1" name="config_path" type="typeConfigPath" />
-                <xs:element minOccurs="0" maxOccurs="1" name="validate" type="xs:int" />
-                <xs:element minOccurs="0" maxOccurs="1" name="can_be_empty" type="xs:int" />
-                <xs:element minOccurs="0" maxOccurs="1" name="if_module_enabled" type="xs:int" />
-                <xs:element minOccurs="0" maxOccurs="1" name="base_url" type="typeUrl" />
-                <xs:element minOccurs="0" maxOccurs="1" name="button_url" type="typeUrl" />
-                <xs:element minOccurs="0" maxOccurs="1" name="more_url" type="typeUrl" />
-                <xs:element minOccurs="0" maxOccurs="1" name="demo_url" type="typeUrl" />
-                <xs:element minOccurs="0" maxOccurs="1" name="button_label" type="xs:string" />
-                <xs:element minOccurs="0" maxOccurs="1" name="upload_dir" type="typeUploadDir" />
-                <xs:element minOccurs="0" maxOccurs="1" ref="depends" />
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="attribute" />
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="label" type="xs:string" />
+                <xs:element name="comment" type="xs:string" />
+                <xs:element name="tooltip" type="xs:string" />
+                <xs:element name="hint" type="xs:string" />
+                <xs:element name="frontend_class" type="xs:string" />
+                <xs:element name="frontend_model" type="typeModel" />
+                <xs:element name="backend_model" type="typeModel" />
+                <xs:element name="source_model" type="typeModel" />
+                <xs:element name="config_path" type="typeConfigPath" />
+                <xs:element name="validate" type="xs:int" />
+                <xs:element name="can_be_empty" type="xs:int" />
+                <xs:element name="if_module_enabled" type="xs:int" />
+                <xs:element name="base_url" type="typeUrl" />
+                <xs:element name="button_url" type="typeUrl" />
+                <xs:element name="more_url" type="typeUrl" />
+                <xs:element name="demo_url" type="typeUrl" />
+                <xs:element name="button_label" type="xs:string" />
+                <xs:element name="upload_dir" type="typeUploadDir" />
+                <xs:element ref="depends" />
+                <xs:element ref="attribute" />
+                </xs:choice>
             </xs:sequence>
 
             <xs:attributeGroup ref="elementsAttributeGroup"/>
