@@ -20,11 +20,11 @@ class Mage_Backend_Model_Config_Source_Email_Identity
                 ->getConfiguration()
                 ->getSection('trans_email');
 
-            $fields = $config['groups']['fields'];
-            foreach ($fields as $field) {
+            $groups = $config['groups'];
+            foreach ($groups as $field) {
                 $nodeName   = $field['id'];
                 $label      = (string) isset($field['label']) ? $field['label'] : '';
-                $sortOrder  = (int) isset($field['sortOrder']) ? $field['sort_order'] : null;
+                $sortOrder  = (int) isset($field['sortOrder']) ? $field['sortOrder'] : null;
                 $this->_options[$sortOrder] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $nodeName),
                     'label' => Mage::helper('Mage_Backend_Helper_Data')->__($label)
@@ -32,7 +32,6 @@ class Mage_Backend_Model_Config_Source_Email_Identity
             }
             ksort($this->_options);
         }
-
         return $this->_options;
     }
 }
