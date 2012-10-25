@@ -1255,12 +1255,12 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Disable tax class editable multiselects on the "Manage Tax Rule" page
+     * Disable tax class and rate editable multiselects on the "Manage Tax Rule" page
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Blocks
      */
-    public function disableTaxClassMultiselects($observer)
+    public function disableTaxRelatedMultiselects($observer)
     {
         /**
          * @var $form Varien_Data_Form
@@ -1268,6 +1268,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $form = $observer->getEvent()->getBlock()->getForm();
         $form->getElement('tax_customer_class')->setDisabled(true);
         $form->getElement('tax_product_class')->setDisabled(true);
+        $form->getElement('tax_rate')->setDisabled(true);
 
         return $this;
     }

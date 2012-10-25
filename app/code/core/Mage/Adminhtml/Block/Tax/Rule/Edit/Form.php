@@ -100,16 +100,20 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
             true
         );
 
-        $fieldset->addField('tax_rate', 'multiselect',
+        $fieldset->addField('tax_rate',
+            'editablemultiselect',
             array(
-                'name'      => 'tax_rate',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
-                'class'     => 'required-entry',
-                'values'    => $rates,
-                'value'     => $model->getRates(),
-                'required'  => true,
+                'name' => 'tax_rate',
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
+                'class' => 'required-entry',
+                'values' => $rates,
+                'value' => $model->getRates(),
+                'required' => true,
+                'element_js_class' => 'TaxRateEditableMultiselect',
+                'select_config' => array('is_entity_editable' => true),
             )
         );
+
         $fieldset->addField('priority', 'text',
             array(
                 'name'      => 'priority',

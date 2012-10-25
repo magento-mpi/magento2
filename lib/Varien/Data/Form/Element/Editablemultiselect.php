@@ -20,6 +20,13 @@
 class Varien_Data_Form_Element_Editablemultiselect extends Varien_Data_Form_Element_Multiselect
 {
     /**
+     * Name of the default JavaScript class that is used to make multiselect editable
+     *
+     * This class must define init() method and receive configuration in the constructor
+     */
+    const DEFAULT_ELEMENT_JS_CLASS = 'EditableMultiselect';
+
+    /**
      * Retrieve HTML markup of the element
      *
      * @return string
@@ -29,8 +36,13 @@ class Varien_Data_Form_Element_Editablemultiselect extends Varien_Data_Form_Elem
         $html = parent::getElementHtml();
 
         $selectConfig = $this->getData('select_config');
-        if ($this->getData("disabled")) {
+        if ($this->getData('disabled')) {
             $selectConfig['is_entity_editable'] = false;
+        }
+
+        $elementJsClass = self::DEFAULT_ELEMENT_JS_CLASS;
+        if ($this->getData('element_js_class')) {
+            $elementJsClass = $this->getData('element_js_class');
         }
 
         $selectConfigJson = Zend_Json::encode($selectConfig);
@@ -38,7 +50,7 @@ class Varien_Data_Form_Element_Editablemultiselect extends Varien_Data_Form_Elem
         $html .= '<script type="text/javascript">'
             . '/*<![CDATA[*/'
             . '(function($) { $().ready(function () { '
-            . "var {$jsObjectName} = new EditableMultiselect({$selectConfigJson}); "
+            . "var {$jsObjectName} = new {$elementJsClass}({$selectConfigJson}); "
             . "{$jsObjectName}.init(); }); })(jQuery);"
             . '/*]]>*/'
             . '</script>';
