@@ -417,15 +417,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _processElementDependencies($element, $section, $group, $elementId, $fieldPrefix = '')
     {
-        foreach ($element['depends'] as $dependent) {
-            /* @var array $dependent */
-            $dependentId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $dependent['id'];
+        foreach ($element['depends'] as $depend) {
+            /* @var array $depend */
+            $dependentId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $depend['id'];
             $shouldBeAddedDependence = true;
-            $dependentValue = $dependent['value'];
-            if (isset($dependent['separator'])) {
-                $dependentValue = explode($dependent['separator'], $dependentValue);
+            $dependentValue = $depend['value'];
+            if (isset($depend['separator'])) {
+                $dependentValue = explode($depend['separator'], $dependentValue);
             }
-            $dependentFieldName = $fieldPrefix . $dependent['id'];
+            $dependentFieldName = $fieldPrefix . $depend['id'];
             $dependentField = $group['fields'][$dependentFieldName];
             /*
             * If dependent field can't be shown in current scope and real dependent config value
@@ -433,7 +433,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             * based on not shown field (not rendered field)
             */
             if (!$this->_canShowField($dependentField)) {
-                $dependentFullPath = $section['id'] . '/' . $group['id'] . '/' . $fieldPrefix . $dependent['id'];
+                $dependentFullPath = $section['id'] . '/' . $group['id'] . '/' . $fieldPrefix . $depend['id'];
                 $dependentValueInStore = Mage::getStoreConfig($dependentFullPath, $this->getStoreCode());
                 if (is_array($dependentValue)) {
                     $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);

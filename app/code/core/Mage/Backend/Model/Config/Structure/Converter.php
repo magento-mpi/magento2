@@ -58,10 +58,10 @@ class Mage_Backend_Model_Config_Structure_Converter
 
             if ($child->nodeType == XML_TEXT_NODE)
             {
-                $result['_value'] = $child->nodeValue;
+                $result['value'] = $child->nodeValue;
 
                 if (count($result) == 1)
-                    return $result['_value'];
+                    return $result['value'];
                 else
                     return $result;
             }
