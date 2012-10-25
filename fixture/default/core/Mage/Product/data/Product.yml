@@ -598,7 +598,6 @@ virtual_product_visible:
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
-    general_weight: 0
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 18.99
