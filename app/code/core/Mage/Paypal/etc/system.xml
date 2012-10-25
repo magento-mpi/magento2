@@ -489,13 +489,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allow_ba_signup>
-                        <!-- heading_sftp translate="label">
-                            <label>some text</label>
-                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
-                            <sort_order>75</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </heading_sftp -->
                         <authorization_honor_period translate="label comment">
                             <label>Authorization Honor Period (days)</label>
                             <comment>Specifies what the Authorization Honor Period is on the merchant’s PayPal account. It must mirror the setting in PayPal.</comment>
@@ -860,9 +853,6 @@
                         </allow_billing_agreement_wizard>
                     </fields>
                 </paypal_billing_agreement>
-
-<!-- TODO: paypal recurring profile -->
-
                 <wpp_pe translate="label">
                     <label>Website Payments Pro (Payflow Edition) Settings</label>
                     <frontend_type>text</frontend_type>
@@ -1475,7 +1465,6 @@
                             <label>Time of Day</label>
                             <config_path>paypal/fetch_reports/time</config_path>
                             <frontend_type>time</frontend_type>
-                            <!-- backend_model>Mage_Paypal_Model_System_Config_Backend_Cron</backend_model -->
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                         </settlement_reports_time>
