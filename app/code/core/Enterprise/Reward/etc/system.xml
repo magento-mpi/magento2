@@ -177,7 +177,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <if_module_enabled>Enterprise_Invitation</if_module_enabled>
-                            <!--comment>Each or First Order - depending on Configuration</comment-->
                         </invitation_order>
                         <invitation_order_limit translate="label comment">
                             <label>Invitation to Order Conversions Quantity Limit</label>

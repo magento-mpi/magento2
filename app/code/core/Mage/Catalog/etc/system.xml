@@ -96,7 +96,6 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -107,7 +106,6 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -118,7 +116,6 @@
                             <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value-list</validate>
-                            <!--<source_model>Mage_Catalog_Model_Config_Source_GridPerPage</source_model>-->
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -129,7 +126,6 @@
                             <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-per-page-value</validate>
-                            <!--<source_model>Mage_Catalog_Model_Config_Source_ListPerPage</source_model>-->
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
