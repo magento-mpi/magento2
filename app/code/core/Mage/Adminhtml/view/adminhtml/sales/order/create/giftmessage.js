@@ -186,8 +186,8 @@ GiftOptionsPopup.prototype = {
         if (!giftOptionsForm.validate().valid()) {
             return false;
         }
-        if (typeof giftOptionsForm[0].reset == 'function' ||
-            (typeof giftOptionsForm[0].reset == 'object' && !giftOptionsForm[0].reset.nodeType)
+        if (typeof giftOptionsForm[0].reset === 'function' ||
+            (typeof giftOptionsForm[0].reset === 'object' && !giftOptionsForm[0].reset.nodeType)
         ) {
             giftOptionsForm[0].reset();
         }
