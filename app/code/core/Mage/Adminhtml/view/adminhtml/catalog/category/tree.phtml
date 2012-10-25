@@ -424,7 +424,7 @@ function categoryMove(obj)
         try {
             if(o.responseText){
                 if(o.responseText==='SUCCESS'){
-                    categoryForm.refreshPath();
+                    jQuery(obj.tree.container.dom).trigger('categoryMove.tree');
                 } else {
                     alert(o.responseText);
                     location.reload();

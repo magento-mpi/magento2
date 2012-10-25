@@ -39,8 +39,12 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    categoryForm = new varientCategoryForm('category_edit_form');
-    categoryForm.refreshUrl = '<?php echo $this->getRefreshPathUrl() ?>';
+    jQuery('#category_edit_form').categoryForm({
+        refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'
+    }).validation({submitHandler: function(form){
+        $(form).submit();
+        displayLoadingMask();
+    }});
 
 <?php if(($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
 
