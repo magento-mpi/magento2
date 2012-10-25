@@ -579,7 +579,7 @@ class Mage_Core_Model_Design_Package
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicViewRedundantFilename($themeFile, $params);
         } else {
-            $publicFile = $this->_buildPublicThemeSufficientFilename($file, $params);
+            $publicFile = $this->_buildPublicViewSufficientFilename($file, $params);
             $this->_setPublicFileIntoCache($themeFile, $params, $publicFile);
         }
 
@@ -691,13 +691,13 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Build public filename for a theme file that sufficiently depends on the passed parameters
+     * Build public filename for a view file that sufficiently depends on the passed parameters
      *
      * @param string $filename
      * @param array $params
      * @return string
      */
-    protected function _buildPublicThemeSufficientFilename($filename, array $params)
+    protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
         $designDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR;
         if (0 === strpos($filename, $designDir)) {

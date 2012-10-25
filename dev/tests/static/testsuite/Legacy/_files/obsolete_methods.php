@@ -25,6 +25,15 @@ return array(
     '_applyDesignRecursively' => array('class_scope' => 'Mage_Catalog_Model_Design'),
     '_avoidDoubleTransactionProcessing',
     '_beforeChildToHtml',
+    '_buildPublicSkinFilename' => array(
+        'class_scope' => 'Mage_Core_Model_Design_Package','suggestion' => '_buildPublicViewFilename'
+    ),
+    '_buildPublicSkinRedundantFilename' => array(
+        'class_scope' => 'Mage_Core_Model_Design_Package','suggestion' => '_buildPublicViewRedundantFilename'
+    ),
+    '_buildPublicSkinSufficientFilename' => array(
+        'class_scope' => 'Mage_Core_Model_Design_Package','suggestion' => '_buildPublicViewSufficientFilename'
+    ),
     '_calculatePrice' => array('class_scope' => 'Mage_Sales_Model_Quote_Item_Abstract'),
     '_checkUrlSettings' => array('class_scope' => 'Mage_Adminhtml_Controller_Action'),
     '_collectOrigData' => array('class_scope' => 'Mage_Catalog_Model_Resource_Abstract'),
@@ -86,6 +95,10 @@ return array(
     '_processItem' => array('class_scope' => 'Mage_Weee_Model_Total_Quote_Weee'),
     '_processShippingAmount',
     '_processValidateCustomer' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
+    '_publishRelatedSkinFile' => array(
+        'class_scope' => 'Mage_Core_Model_Design_Package','suggestion' => '_publishRelatedViewFile'
+    ),
+    '_publishSkinFile' => array('class_scope' => 'Mage_Core_Model_Design_Package','suggestion' => '_publishViewFile'),
     '_putCustomerIntoQuote' => array('class_scope' => 'Mage_Adminhtml_Model_Sales_Order_Create'),
     '_quoteRow' => array('class_scope' => 'Mage_Backup_Model_Resource_Db'),
     '_recollectItem' => array('class_scope' => 'Mage_Tax_Model_Sales_Total_Quote_Subtotal'),
@@ -230,6 +243,7 @@ return array(
     'getProductCollection' => array('class_scope' => 'Mage_Wishlist_Model_Wishlist'),
     'getProductsNotInStoreIds',
     'getProfile' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
+    'getPublicSkinDir' => array('suggestion' => 'getPublicDir'),
     'getQuoteItem' => array('class_scope' => 'Mage_Catalog_Model_Product_Option_Type_Default'),
     'getQuoteItemOption' => array('class_scope' => 'Mage_Catalog_Model_Product_Option_Type_Default'),
     'getQuoteOrdersHtml' => array('class_scope' => 'Mage_GoogleAnalytics_Block_Ga'),
@@ -240,6 +254,8 @@ return array(
     'getSaveTemplateFlag' => array('class_scope' => 'Mage_Newsletter_Model_Queue'),
     'getSelectionFinalPrice' => array('class_scope' => 'Mage_Bundle_Model_Product_Price'),
     'getShipId' => array('class_scope' => 'Mage_Shipping_Block_Tracking_Popup'),
+    'getSkinFile' => array('suggestion' => 'getViewFile'),
+    'getSkinUrl' => array('suggestion' => 'getViewFileUrl'),
     'getSortedChildren' => array('suggestion' => 'getChildNames'),
     'getSortedChildBlocks' => array('suggestion' => 'getChildNames() + $this->getLayout()->getBlock($name)'),
     'getStatrupPageUrl',
@@ -289,6 +305,7 @@ return array(
     'logEncryptionKeySave',
     'logInvitationSave',
     'mergeFiles' => array('class_scope' => 'Mage_Core_Helper_Data'),
+    'notifySkinFilePublished' => array('suggestion' => 'notifyViewFilePublished'),
     'order_success_page_view' => array('class_scope' => 'Mage_GoogleAnalytics_Model_Observer'),
     'orderedAction' => array('class_scope' => 'Mage_Adminhtml_Report_ProductController'),
     'parse' => array('class_scope' => 'Mage_Catalog_Model_Convert_Parser_Product'),
@@ -360,6 +377,8 @@ return array(
     'validateDataArray' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
     'validateFile' => array('class_scope' => 'Mage_Core_Model_Design_Package'),
     'validateOrder' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
+    'skinDirective' => array('class_scope' => 'Mage_Catalog_Model_Template_Filter', 'suggestion' => 'viewDirective'),
+    'skinDirective' => array('class_scope' => 'Mage_Core_Model_Email_Template_Filter', 'suggestion' => 'viewDirective'),
     'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product'),
     'fetchUpdatesByHandle' => array(
         'class_scope' => 'Mage_Core_Model_Resource_Layout', 'suggestion' => 'Mage_Core_Model_Resource_Layout_Update'
