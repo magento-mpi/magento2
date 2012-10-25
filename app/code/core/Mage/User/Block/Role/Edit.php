@@ -14,7 +14,7 @@ class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
     {
         parent::__construct();
         $this->setId('role_info_tabs');
-        $this->setDestElementId('role_edit_form');
+        $this->setDestElementId('role-edit-form');
         $this->setTitle(Mage::helper('Mage_User_Helper_Data')->__('Role Information'));
     }
 

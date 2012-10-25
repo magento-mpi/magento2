@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Cache Settings'),
             'class' => 'save',
             'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#config_edit_form')
+                'widget-button' => array('event' => 'save', 'related' => '#config-edit-form')
             )
         ));
         return parent::_prepareLayout();

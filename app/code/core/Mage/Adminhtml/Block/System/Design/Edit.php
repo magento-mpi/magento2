@@ -27,10 +27,9 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
 
         $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Save'),
-            //'onclick'   => 'designForm.submit()',
             'class' => 'save',
             'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#design_edit_form')
+                'widget-button' => array('event' => 'save', 'related' => '#design-edit-form')
             )
         ));
 

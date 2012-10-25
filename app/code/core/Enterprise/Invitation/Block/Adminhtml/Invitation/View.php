@@ -43,9 +43,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
         if ($invitation->canMessageBeUpdated()) {
             $this->_addButton('save_message_button', array(
                 'label'   => $this->helper('Enterprise_Invitation_Helper_Data')->__('Save Invitation'),
-                //'onclick' => 'invitationForm.submit()',
                 'data_attr'  => array(
-                    'widget-button' => array('event' => 'save', 'related' => '#invitation_elements')
+                    'widget-button' => array('event' => 'save', 'related' => '#invitation-elements')
                 )
             ), -1);
         }

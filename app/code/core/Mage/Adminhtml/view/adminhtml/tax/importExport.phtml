@@ -18,7 +18,7 @@
 <div class="entry-edit">
     <?php if (!$this->getIsReadonly()): ?>
     <div class="box-left">
-        <form id="import_form" action="<?php echo $this->getUrl('*/*/importPost') ?>" method="post" enctype="multipart/form-data">
+        <form id="import-form" action="<?php echo $this->getUrl('*/*/importPost') ?>" method="post" enctype="multipart/form-data">
             <?php echo $this->getBlockHtml('formkey')?>
             <div class="entry-edit-head">
                 <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Import Tax Rates') ?></h4>
@@ -30,7 +30,7 @@
             </fieldset>
         </form>
         <script type="text/javascript">
-            var importForm = new varienForm('import_form');
+            jQuery('#import-form').form().validation()
         </script>
     </div>
     <?php endif; ?>

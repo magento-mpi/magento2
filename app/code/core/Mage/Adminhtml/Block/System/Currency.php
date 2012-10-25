@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Currency Rates'),
             'class'     => 'save',
             'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#rateForm')
+                'widget-button' => array('event' => 'save', 'related' => '#rate-form')
             )
         ));
 

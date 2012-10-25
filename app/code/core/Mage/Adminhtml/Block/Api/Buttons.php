@@ -32,10 +32,9 @@ class Mage_Adminhtml_Block_Api_Buttons extends Mage_Adminhtml_Block_Template
 
         $this->addChild('saveButton', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Role'),
-            //'onclick'   => 'roleForm.submit();return false;',
             'class' => 'save',
             'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#role_edit_form')
+                'widget-button' => array('event' => 'save', 'related' => '#role-edit-form')
             )
         ));
 

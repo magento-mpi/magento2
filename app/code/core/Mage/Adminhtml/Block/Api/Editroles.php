@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Api_Editroles extends Mage_Adminhtml_Block_Widget_Tab
     {
         parent::__construct();
         $this->setId('role_info_tabs');
-        $this->setDestElementId('role_edit_form');
+        $this->setDestElementId('role-edit-form');
         $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information'));
     }
 
