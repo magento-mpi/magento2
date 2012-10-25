@@ -76,7 +76,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
         // Update title and breadcrumb record
         $actionTitle = $user->getId()
-            ? Mage::helper('Mage_Webapi_Helper_Data')->escapeHtml($user->getContactEmail())
+            ? Mage::helper('Mage_Webapi_Helper_Data')->escapeHtml($user->getApiKey())
             : Mage::helper('Mage_Webapi_Helper_Data')->__('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
