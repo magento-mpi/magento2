@@ -17,7 +17,7 @@ class Mage_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Framew
     public function testConstructWithValidObjectFactory()
     {
         $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_HandlerAbstract',
-            array('objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false)),
+            array($this->getMock('Magento_ObjectManager', array(), array(), '', false)),
             '',
             true
         );
