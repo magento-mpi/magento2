@@ -58,6 +58,7 @@
 
                 $.mage.event.observe('mage.price.helplink', function (event, clickForPrice) {
                     var helpLink = {
+                        popupId: "#<?php echo($helpLinkId);?>",
                         submitUrl: "<?php echo $_product->getProductUrl() ?>"
                     };
                     clickForPrice.helpLink.push(helpLink);

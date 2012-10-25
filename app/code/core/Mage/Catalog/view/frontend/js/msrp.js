@@ -39,10 +39,10 @@
 
         $.each(_clickForPrice.helpLink, function (index, value) {
 
-            if(value.submitUrl){
-                location.href=value.submitUrl;
-            } else {
-                $(value.popupId).on('click', function (e) {
+            $(value.popupId).on('click', function (e) {
+                if(value.submitUrl){
+                    location.href=value.submitUrl;
+                } else {
                     $('#map-popup-heading').text(value.productName);
                     $('#map-popup-price').html($(value.realPrice));
                     $('#map-popup-msrp').html(value.msrpPrice);
@@ -54,8 +54,9 @@
                     $('#map-popup-text').addClass('map-popup-only-text').show();
                     $('#map-popup-text-what-this').hide();
                     return false;
-                });
-            }
+                }
+            });
+
         });
 
         $.each(_helpLinkData.helpText, function (index, value) {
