@@ -517,9 +517,10 @@
                     <adminhtml__tax_rule__delete>blockTaxChange</adminhtml__tax_rule__delete>
                     <adminhtml__tax_rate__save>blockTaxChange</adminhtml__tax_rate__save>
                     <adminhtml__tax_rate__delete>blockTaxChange</adminhtml__tax_rate__delete>
-                    <adminhtml__tax_class_customer__delete>blockTaxChange</adminhtml__tax_class_customer__delete>
-                    <adminhtml__tax_class_product__delete>blockTaxChange</adminhtml__tax_class_product__delete>
-                    <adminhtml__tax_class__save>blockTaxChange</adminhtml__tax_class__save>
+                    <adminhtml__tax_rate__ajaxSave>blockTaxChange</adminhtml__tax_rate__ajaxSave>
+                    <adminhtml__tax_rate__ajaxDelete>blockTaxChange</adminhtml__tax_rate__ajaxDelete>
+                    <adminhtml__tax_class__ajaxDelete>blockTaxChange</adminhtml__tax_class__ajaxDelete>
+                    <adminhtml__tax_class__ajaxSave>blockTaxChange</adminhtml__tax_class__ajaxSave>
                     <adminhtml__giftregistry_customer__add>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__add>
                     <adminhtml__giftregistry_customer__edit>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__edit>
                     <adminhtml__giftregistry_customer__delete>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__delete>
@@ -580,6 +581,7 @@
                     <mage_adminhtml_block_sales_transactions_detail>removeSalesTransactionControlButtons</mage_adminhtml_block_sales_transactions_detail>
                     <mage_adminhtml_block_tax_rule>removeTaxRuleAddButton</mage_adminhtml_block_tax_rule>
                     <mage_adminhtml_block_tax_rule_edit>removeTaxRuleControlButtons</mage_adminhtml_block_tax_rule_edit>
+                    <mage_adminhtml_block_tax_rule_edit_form>disableTaxClassMultiselects</mage_adminhtml_block_tax_rule_edit_form>
                     <mage_adminhtml_block_tax_rate_toolbar_add>removeTaxRateAddButton</mage_adminhtml_block_tax_rate_toolbar_add>
                     <mage_adminhtml_block_tax_rate_toolbar_save>removeTaxRateControlButtons</mage_adminhtml_block_tax_rate_toolbar_save>
                     <mage_adminhtml_block_tax_rate_ImportExport>removeTaxRateImport</mage_adminhtml_block_tax_rate_ImportExport>
