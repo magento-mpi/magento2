@@ -29,7 +29,7 @@
 api_roles_management:
     mca: webapi_role/
     click_xpath: //div[@class='nav-bar']//a[span='API Roles']
-    title: Roles / Web Api / System / Magento Admin
+    title: API Roles / Web Api / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -48,16 +48,17 @@ api_roles_management:
                         pageelements:
                             page_grid_head: //div[@id='webapiRoleGrid']//thead/tr[@class='headings']
         buttons:
-            add_new_role: //button[span='Add New Role']
+            add_new_role: //button[span='Add New API Role']
         messages: &pageMessages
             success_saved_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been saved.')]
-            success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The role has been deleted.')]
+            success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been deleted.')]
             role_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Role name is already in use')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete: Are you sure you want to do this?
 
 new_role:
     mca: webapi_role/edit/
-    title: New Role / API Roles / Web Api / System / Magento Admin
+    title: New API Role / API Roles / Web Api / System / Magento Admin
     uimap:
         form:
             tabs:
@@ -92,7 +93,7 @@ new_role:
 
 edit_role:
     mca: webapi_role/edit/role_id/%id%/
-    title: Edit Role / API Roles / Web Api / System / Magento Admin
+    title: Edit API Role / API Roles / Web Api / System / Magento Admin
     uimap:
         form:
             tabs:
