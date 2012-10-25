@@ -34,7 +34,7 @@ class Mage_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Fra
             array('getFieldNameSuffix', 'addSuffixToName'),
             array(), '', false, false
         );
-        $testData = array ('name' =>'test_name', 'html_id'=>'test_html_id');
+        $testData = array ('name' => 'test_name', 'html_id' => 'test_html_id');
         $this->_object = new Mage_Backend_Block_System_Config_Form_Field_Import($testData);
         $this->_object->setForm($this->_formMock);
     }
@@ -42,10 +42,10 @@ class Mage_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Fra
     public function testGetNameWhenFormFiledNameSuffixIsEmpty()
     {
         $this->_formMock->expects($this->once())
-                        ->method('getFieldNameSuffix')
-                        ->will($this->returnValue(false));
+            ->method('getFieldNameSuffix')
+            ->will($this->returnValue(false));
         $this->_formMock->expects($this->never())
-                        ->method('addSuffixToName');
+            ->method('addSuffixToName');
         $actual = $this->_object->getName();
         $this->assertEquals('test_name', $actual);
     }
@@ -53,11 +53,11 @@ class Mage_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Fra
     public function testGetNameWhenFormFiledNameSuffixIsNotEmpty()
     {
         $this->_formMock->expects($this->once())
-                        ->method('getFieldNameSuffix')
-                        ->will($this->returnValue(true));
+            ->method('getFieldNameSuffix')
+            ->will($this->returnValue(true));
         $this->_formMock->expects($this->once())
-                        ->method('addSuffixToName')
-                        ->will($this->returnValue('test_suffix'));
+            ->method('addSuffixToName')
+            ->will($this->returnValue('test_suffix'));
         $actual = $this->_object->getName();
         $this->assertEquals('test_suffix', $actual);
     }
@@ -65,14 +65,14 @@ class Mage_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Fra
     public function testGetElementHtml()
     {
         $this->_formMock->expects($this->any())
-                        ->method('getHtmlIdPrefix')
-                        ->will($this->returnValue('test_name_prefix'));
+            ->method('getHtmlIdPrefix')
+            ->will($this->returnValue('test_name_prefix'));
         $this->_formMock->expects($this->any())
-                        ->method('getHtmlIdSuffix')
-                        ->will($this->returnValue('test_name_suffix'));
+            ->method('getHtmlIdSuffix')
+            ->will($this->returnValue('test_name_suffix'));
         $testString = $this->_object->getElementHtml();
         $this->assertStringStartsWith('<input id="time_condition" type="hidden" name="test_name" value="', $testString);
         $this->assertStringEndsWith('<input id="test_html_id" name="test_name"  data-ui-id="form-element-test_name"' .
-                                    ' value="" type="file"/>'. "\n", $testString);
+                                    ' value="" type="file"/>' . "\n", $testString);
     }
 }
