@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 'custom'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Selected Product Types')
             ),
             'required'    => true,
-            'disabled'    => !$attributeObject->getIsUserDefined(),
+            'disabled'    => !$attributeObject->getIsUserDefined() && $attributeObject->getId(),
         ), 'frontend_class');
 
         $fieldset->addField('is_configurable', 'select', array(

@@ -296,7 +296,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $data['apply_to'] = array();
             }
 
-            if ('1' !== $model->getIsUserDefined()) {
+            if ('1' !== $model->getIsUserDefined() && $model->getId()) {
                 unset($data['apply_to']);
             }
 
