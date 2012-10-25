@@ -43,8 +43,9 @@ class Mage_Core_Model_Layout_Argument_Processor
      * @param Mage_Core_Model_Layout_Argument_Updater $argumentUpdater
      * @param Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      */
-    public function __construct(Mage_Core_Model_Layout_Argument_Updater $argumentUpdater,
-                                Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+    public function __construct(
+        Mage_Core_Model_Layout_Argument_Updater $argumentUpdater,
+        Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
     ) {
         $this->_handlerFactory  = $handlerFactory;
         $this->_argumentUpdater = $argumentUpdater;

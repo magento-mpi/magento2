@@ -860,8 +860,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if ($childName !== $sibling) {
                 $siblingParentName = $this->_structure->getParentId($sibling);
                 if ($parentName !== $siblingParentName) {
-                    Mage::log("Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
-                            . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
+                    Mage::log(
+                        "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
+                        . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
                         Zend_Log::CRIT
                     );
                     return;

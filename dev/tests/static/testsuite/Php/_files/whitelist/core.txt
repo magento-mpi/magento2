@@ -74,6 +74,8 @@ dev/tools
 lib/Magento/Convert
 lib/Magento/Di
 lib/Magento/Di.php
+lib/Magento/Di/Definition/CompilerDefinition.php
+lib/Magento/Di/Definition/CompilerDefinition/Zend.php
 lib/Magento/ObjectManager
 lib/Magento/ObjectManager.php
 lib/Magento/Profiler
