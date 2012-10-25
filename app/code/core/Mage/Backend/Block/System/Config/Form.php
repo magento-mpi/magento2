@@ -323,7 +323,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldType = isset($element['type']) ? $element['type'] : 'text';
         $name = 'groups[' . $group['id'] . '][fields][' . $fieldPrefix . $element['id'] . '][value]';
         $label = $this->_getHelperFactory()->get($helperName)->__($labelPrefix)
-            . ' ' . $this->_getHelperFactory()->get($helperName)->__((string)$element['label']);
+            . ' ' . $this->_getHelperFactory()
+                ->get($helperName)->__(array_key_exists('label', $element) ? (string)$element['label'] : '');
         $hint = isset($element['hint']) ? $this->_getHelperFactory()->get($helperName)->__($element['hint']) : '';
 
         if (isset($element['backend_model'])) {

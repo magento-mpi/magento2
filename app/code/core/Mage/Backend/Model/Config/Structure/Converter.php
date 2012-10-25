@@ -51,9 +51,7 @@ class Mage_Backend_Model_Config_Structure_Converter
 
         $children = $root->childNodes;
 
-        if ($root->nodeType == XML_CDATA_SECTION_NODE) {
-            return (string) $root->nodeValue;
-        } else if ($children->length == 1) {
+        if ($children->length == 1) {
             $child = $children->item(0);
 
             if ($child->nodeType == XML_TEXT_NODE)
@@ -70,6 +68,9 @@ class Mage_Backend_Model_Config_Structure_Converter
         for($i = 0; $i < $children->length; $i++)
         {
             $child = $children->item($i);
+            if ($child->nodeType == XML_CDATA_SECTION_NODE) {
+                return (string) $root->nodeValue;
+            }
             $nodeName = $child->nodeName;
             if (isset($this->nameMap[$child->nodeName])
                 && $this->nameMap[$child->nodeName]['parent'] == $root->nodeName) {
