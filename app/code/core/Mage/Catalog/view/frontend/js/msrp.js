@@ -78,33 +78,43 @@
         });
 
         $.each($.merge(_cartData.cartFormData, _popupCartData.cartData), function (index, value) {
-
             $(value.cartButtonId).on('click', function () {
-                $(value.cartForm).mage().validate({
-                    errorPlacement: function (error, element) {
-                        if (element.is(':radio') || element.is(':checkbox')) {
-                            element.closest('ul').after(error);
-                        } else {
-                            element.after(error);
+
+                if(value.cartForm){
+                    $(value.cartForm).mage().validate({
+                        errorPlacement: function (error, element) {
+                            if (element.is(':radio') || element.is(':checkbox')) {
+                                element.closest('ul').after(error);
+                            } else {
+                                element.after(error);
+                            }
+                        },
+                        highlight: function (element) {
+                            if ($(element).is(':radio') || $(element).is(':checkbox')) {
+                                $(element).closest('ul').addClass('mage-error');
+                            } else {
+                                $(element).addClass('mage-error');
+                            }
+                        },
+                        unhighlight: function (element) {
+                            if ($(element).is(':radio') || $(element).is(':checkbox')) {
+                                $(element).closest('ul').removeClass('mage-error');
+                            } else {
+                                $(element).removeClass('mage-error');
+                            }
                         }
-                    },
-                    highlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').addClass('mage-error');
-                        } else {
-                            $(element).addClass('mage-error');
-                        }
-                    },
-                    unhighlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').removeClass('mage-error');
-                        } else {
-                            $(element).removeClass('mage-error');
-                        }
-                    }
-                });
+                    });
+                }
                 if(value.addToCartUrl) {
-                    location.href=value.addToCartUrl;
+                    if($('#map-popup')){
+                        $('#map-popup').hide();
+                    }
+                    if(opener !== null){
+                        opener.location.href=value.addToCartUrl;
+                    } else {
+                        location.href=value.addToCartUrl;
+                    }
+
                 }else if(value.cartForm){
                     $(value.cartForm).submit();
                 }
