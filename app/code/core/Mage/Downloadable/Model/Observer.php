@@ -31,6 +31,7 @@ class Mage_Downloadable_Model_Observer
         $product = $observer->getEvent()->getProduct();
 
         if ($downloadable = $request->getPost('downloadable')) {
+            $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
             $product->setDownloadableData($downloadable);
         }
 

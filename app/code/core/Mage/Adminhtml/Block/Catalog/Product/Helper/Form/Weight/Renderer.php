@@ -43,6 +43,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         parent::__construct($data);
     }
 
+    /**
+     * Add Is Virtual checkbox html to weight field
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         if ($this->getForm()->getDataObject()->getTypeId() !== Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
@@ -64,6 +69,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         return parent::setForm($form);
     }
 
+    /**
+     * Create Is Virtual checkbox
+     *
+     * @return Varien_Data_Form_Element_Checkbox
+     */
     protected function _createVirtualElement()
     {
         $element = Mage::getModel('Varien_Data_Form_Element_Checkbox');
@@ -71,6 +81,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         return $element;
     }
 
+    /**
+     * Return whether product type is transitional
+     *
+     * @return bool
+     */
     protected function _isTransitionalType()
     {
         return in_array($this->getForm()->getDataObject()->getTypeId(), $this->_transisionalTypes);

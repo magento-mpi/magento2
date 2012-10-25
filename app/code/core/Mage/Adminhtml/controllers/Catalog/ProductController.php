@@ -656,6 +656,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             && !$product->getOptionsReadonly()
         );
 
+        $this->_transitionProductType($product);
+
         Mage::dispatchEvent(
             'catalog_product_prepare_save',
             array('product' => $product, 'request' => $this->getRequest())
@@ -750,6 +752,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ));
         } else {
             $this->_redirect('*/*/', array('store'=>$storeId));
+        }
+    }
+
+    /**
+     * Change product type on the fly depending on selected option
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _transitionProductType($product)
+    {
+        $data = $product->getData();
+        if (isset($data['is_virtual'])) {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
         }
     }
 
