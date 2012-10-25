@@ -35,6 +35,9 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillField('code_length', '10');
         $this->clickButton('save_config');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_config');
+        //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
@@ -55,6 +58,9 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillDropdown('code_format', 'Numeric');
         $this->clickButton('save_config');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_config');
+        //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
@@ -68,7 +74,7 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @param string $value
-     * @dataProvider codePrefixDefaultValueDataProvider
+     * @dataProvider codeSuffixDefaultValueDataProvider
      * @TestlinkId TL-MAGE-3935
      * @author yaroslav.goncharuk
      */
@@ -77,6 +83,9 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillField('code_prefix', $value);
         $this->clickButton('save_config');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_config');
+        //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
@@ -86,18 +95,6 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Prefix field');
         }
-    }
-
-    public function codePrefixDefaultValueDataProvider()
-    {
-        return array(
-            array($this->generate('string', 5, ':alnum:')),
-            array($this->generate('string', 5, ':alpha:')),
-            array($this->generate('string', 5, ':digit:')),
-            array($this->generate('string', 5, ':lower:')),
-            array($this->generate('string', 5, ':upper:')),
-            array($this->generate('string', 5, ':punct:')),
-        );
     }
 
     /**
@@ -112,6 +109,9 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillField('code_suffix', $value);
         $this->clickButton('save_config');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_config');
+        //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
@@ -145,6 +145,9 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillField('dash_every_x_characters', '3');
         $this->clickButton('save_config');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_config');
+        //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
