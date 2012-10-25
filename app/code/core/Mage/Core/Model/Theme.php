@@ -299,15 +299,15 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
         }
+        if (!$this->isVirtual()) {
+            return $this;
+        }
+
         $previewImageData = array();
         if (isset($themeData['preview_image'])) {
             $previewImageData = $themeData['preview_image'];
             unset($themeData['preview_image']);
         }
-        if (!$this->isVirtual()) {
-            unset($themeData['parent_id']);
-        }
-
         $this->addData($themeData);
 
         if (isset($previewImageData['delete'])) {

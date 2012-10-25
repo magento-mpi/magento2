@@ -24,16 +24,18 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
         $this->_controller = 'Adminhtml_System_Design_Theme';
         $this->setId('theme_edit');
 
-        $this->_addButton('save_and_continue', array(
-            'label'   => $this->__('Save and Continue Edit'),
-            'onclick' => "editForm.submit($('edit_form').action+'back/edit/');",
-            'class'   => 'save',
-        ), 1);
-        
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::registry('current_theme');
-        if ($theme && $theme->getId() && !$theme->isDeletable()) {
+        if ($theme && !$theme->isVirtual()) {
             $this->_removeButton('delete');
+            $this->_removeButton('save');
+            $this->_removeButton('reset');
+        } else {
+            $this->_addButton('save_and_continue', array(
+                'label'   => $this->__('Save and Continue Edit'),
+                'onclick' => "editForm.submit($('edit_form').action+'back/edit/');",
+                'class'   => 'save',
+            ), 1);
         }
 
         return parent::_prepareLayout();

@@ -16,6 +16,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Whether theme is editable
+     *
+     * @var bool
+     */
+    protected $_isThemeEditable = false;
+
+    /**
      * Create a form element with necessary controls
      *
      * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
@@ -25,6 +32,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         /** @var $session Mage_Backend_Model_Session */
         $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $formDataFromSession = $session->getThemeData();
+        $this->_isThemeEditable = $this->_getCurrentTheme()->isVirtual();
         $formData = $this->_getCurrentTheme()->getData();
         if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);
@@ -80,17 +88,26 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
                 str_replace('"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections)))
             );
         }
-
-        $themeFieldset->addField('parent_id', 'select', array(
-            'label'    => $this->__('Parent theme'),
-            'title'    => $this->__('Parent theme'),
-            'name'     => 'parent_id',
-            'values'   => $themesCollections->toOptionArray(),
-            'required' => false,
-            'class'    => 'no-changes',
-            'onchange' => $onChangeScript,
-            'disabled' => !$this->_getCurrentTheme()->isVirtual()
-        ));
+        if ($this->_isThemeEditable) {
+            $themeFieldset->addField('parent_id', 'select', array(
+                'label'    => $this->__('Parent theme'),
+                'title'    => $this->__('Parent theme'),
+                'name'     => 'parent_id',
+                'values'   => $themesCollections->toOptionArray(),
+                'required' => false,
+                'class'    => 'no-changes',
+                'onchange' => $onChangeScript
+            ));
+        } else if (!empty($formData['parent_id'])) {
+            /** @var $parentTheme Mage_Core_Model_Theme */
+            $parentTheme = $themesCollections->getItemById($formData['parent_id']);
+            $themeFieldset->addField('parent_title', 'note', array(
+                'label'    => $this->__('Parent theme'),
+                'title'    => $this->__('Parent theme'),
+                'name'     => 'parent_title',
+                'text'     => $parentTheme ? $parentTheme->getThemeTitle() : ''
+            ));
+        }
 
         if (!empty($formData['theme_path'])) {
             $themeFieldset->addField('theme_path', 'label', array(
@@ -100,34 +117,44 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         }
 
-        $themeFieldset->addField('theme_version', 'text', array(
+        $themeFieldset->addField('theme_version', $this->_getFieldTextType(), array(
             'label'    => $this->__('Theme Version'),
             'title'    => $this->__('Theme Version'),
             'name'     => 'theme_version',
-            'required' => true,
-            'note'     => $this->__('Example: 0.0.0.1 or 123.1.0.25-alpha1')
+            'required' => $this->_getFieldAttrRequired(),
+            'note'     => $this->_filterFieldNote($this->__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
         ));
 
-        $themeFieldset->addField('theme_title', 'text', array(
+        $themeFieldset->addField('theme_title', $this->_getFieldTextType(), array(
             'label'    => $this->__('Theme Title'),
             'title'    => $this->__('Theme Title'),
             'name'     => 'theme_title',
-            'required' => true
+            'required' => $this->_getFieldAttrRequired()
         ));
 
-        $maxImageSize = $this->getImageMaxSize();
-        if ($maxImageSize) {
-            $previewImageNote = $this->__('Max image size: %s', $maxImageSize);
-        } else {
-            $previewImageNote = $this->__("System doesn't allow to get file upload settings");
+        if ($this->_isThemeEditable) {
+            $maxImageSize = $this->getImageMaxSize();
+            if ($maxImageSize) {
+                $previewImageNote = $this->__('Max image size: %s', $maxImageSize);
+            } else {
+                $previewImageNote = $this->__("System doesn't allow to get file upload settings");
+            }
+            $themeFieldset->addField('preview_image', 'image', array(
+                'label'    => $this->__('Theme Preview Image'),
+                'title'    => $this->__('Theme Preview Image'),
+                'name'     => 'preview_image',
+                'required' => false,
+                'note'     => $previewImageNote
+            ));
+        } else if (!empty($formData['preview_image'])) {
+            $themeFieldset->addField('preview_image', 'note', array(
+                'label'    => $this->__('Theme Preview Image'),
+                'title'    => $this->__('Theme Preview Image'),
+                'name'     => 'preview_image',
+                'after_element_html' => '<img width="50" src="' . Mage_Core_Model_Theme::getPreviewImageDirectoryUrl()
+                    . $formData['preview_image'] . '" />'
+            ));
         }
-        $themeFieldset->addField('preview_image', 'image', array(
-            'label'    => $this->__('Theme Preview Image'),
-            'title'    => $this->__('Theme Preview Image'),
-            'name'     => 'preview_image',
-            'required' => false,
-            'note'     => $previewImageNote
-        ));
 
         return $this;
     }
@@ -144,23 +171,54 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'legend'   => $this->__('Magento Requirements'),
         ));
 
-        $requirementsFieldset->addField('magento_version_from', 'text', array(
+        $requirementsFieldset->addField('magento_version_from', $this->_getFieldTextType(), array(
             'label'    => $this->__('Magento Version From'),
             'title'    => $this->__('Magento Version From'),
             'name'     => 'magento_version_from',
-            'required' => true,
-            'note'     => $this->__('Example: 1.6.0.0 or *')
+            'required' => $this->_getFieldAttrRequired(),
+            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
         ));
 
-        $requirementsFieldset->addField('magento_version_to', 'text', array(
+        $requirementsFieldset->addField('magento_version_to', $this->_getFieldTextType(), array(
             'label'    => $this->__('Magento Version To'),
             'title'    => $this->__('Magento Version To'),
             'name'     => 'magento_version_to',
-            'required' => true,
-            'note'     => $this->__('Example: 1.6.0.0 or *')
+            'required' => $this->_getFieldAttrRequired(),
+            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
         ));
 
         return $this;
+    }
+
+    /**
+     * No field notes if theme is not editable
+     *
+     * @param $text
+     * @return string
+     */
+    protected function _filterFieldNote($text)
+    {
+        return $this->_isThemeEditable ? $text : '';
+    }
+
+    /**
+     * Field is not marked as required if theme is not editable
+     *
+     * @return bool
+     */
+    protected function _getFieldAttrRequired()
+    {
+        return $this->_isThemeEditable ? true : false;
+    }
+
+    /**
+     * Text field replaced to label if theme is not editable
+     *
+     * @return string
+     */
+    protected function _getFieldTextType()
+    {
+        return $this->_isThemeEditable ? 'text' : 'label';
     }
 
     /**
