@@ -20,7 +20,7 @@
                 <field id="moneybookers_email" translate="label,comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email Address of Your Moneybookers Account</label>
                     <comment>
-                        <![CDATA[To have access to the international payment network of Moneybookers please register <a href="http://www.moneybookers.com/partners/magento/" target="_blank">here</a> for a free account if you donâ¬"t have one yet.]]>
+                        <![CDATA[To have access to the international payment network of Moneybookers please register <a href="http://www.moneybookers.com/partners/magento/" target="_blank">here</a> for a free account if you donï¿½"t have one yet.]]>
 </comment>
                 </field>
                 <field id="customer_id" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -332,7 +332,7 @@
                 </field>
             </group>
             <group id="moneybookers_npy" translate="label" module="Phoenix_Moneybookers" type="text" sortOrder="301" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>EPS Online-&#220;berweisung (powered by Moneybookers) - Austria</label>
+                <label>EPS Online-uberweisung (powered by Moneybookers) - Austria</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <config_path>payment/moneybookers_npy/active</config_path>
@@ -440,7 +440,7 @@
                 </field>
             </group>
             <group id="moneybookers_sft" translate="label" module="Phoenix_Moneybookers" type="text" sortOrder="213" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Sofort&#252;berweisung (powered by Moneybookers) - Germany</label>
+                <label>Sofortuberweisung (powered by Moneybookers) - Germany</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <config_path>payment/moneybookers_sft/active</config_path>
@@ -549,4 +549,4 @@
             </group>
         </section>
     </system>
-</config>
+</config>
