@@ -44,42 +44,68 @@ api_users:
                         fields:
                             page: //input[@name='page']
                             filter_api_users_id: //input[@name='user_id']
-                            filter_api_users_name: //input[@name='user_name']
+                            filter_api_users_api_key: //input[@name='api_key']
                         pageelements:
                             page_grid_head: //div/table[@id='permissionsUserGrid_table']//thead//tr[@class='headings']
         buttons:
-            add_new_api_users: //button[@title='Add New API User']
+            add_new_api_user: //button[@title='Add New API User']
+        links:
+            check_user: //td[normalize-space(text())='%email%']/ancestor::tr/td[normalize-space(text())='%role%']
         messages: &pageMessages
-            success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
-            success_user_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
+            success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The API user has been saved.')]
+            success_user_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The API user has been deleted.')]
             api_user_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            user_exist: //li[normalize-space(@class)='error-msg' and contains(.,'User Name already exists.')]
+            user_exist: //li[normalize-space(@class)='error-msg' and contains(.,'API Key already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
-add_new_api_users:
+add_new_api_user:
     mca: webapi_user/new/
-    title: New User / API Users / Web Services / System / Magento Admin
+    title: New API User / API Users / Web Services / System / Magento Admin
     uimap:
-        form: &edit_api_user_grid
-            fieldsets:
+        form: &edit_api_user
+            tabs:
                 -
-                    api_new_user_grid:
-                        xpath: //div[@id='user_base_fieldset']
-                        dropdowns:
-                            api_user_role: //select[@name='role_id']
-                        fields:
-                            api_user_name: //input[@id='user_user_name']
-                            api_user_secret: //input[@id='user_api_secret']
-            buttons:
-                back: //button[@title='Back']
-                reset: //button[@title='Reset']
-                delete: //button[@title='Delete API User']
-                save: //button[@title='Save API User']
-                save_and_continue_edit: //button[@title='Save and Continue Edit']
-            messages: *pageMessages
+                    user_info:
+                        xpath: //a[@title='User Info']/span
+                        fieldsets:
+                            -
+                                api_new_user_grid:
+                                    xpath: //div[@id='user_base_fieldset']
+                                    fields:
+                                        api_user_api_key: //input[@id='user_api_key']
+                                        api_user_api_secret: //input[@id='user_api_secret']
+                                        api_user_contact_email: //input[@id='user_contact_email']
+                -
+                    user_role:
+                        xpath: //a[@title='User Role']/span
+                        fieldsets:
+                            -
+                                roles_grid:
+                                    xpath: //div[@id='page_tabs_roles_section_content']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    radiobuttons:
+                                        select_role: //table[@id='permissionsUserRolesGrid_table']/tbody/tr/td[normalize-space(text())='%roleName%']/ancestor::tr/td/input
+                                    fields:
+                                        role_name: //input[@name='role_name']
+        buttons:
+            back: //button[@title='Back']
+            reset: //button[@title='Reset']
+            delete: //button[@title='Delete API User']
+            save: //button[@title='Save API User']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
+        messages: *pageMessages
 
-edit_api_user_exist:
+edit_api_user:
     mca: webapi_user/edit/user_id/%userId%/
-    title: %userName% / API Users / Web Services / System / Magento Admin
+    title: %apiKey% / API Users / Web Services / System / Magento Admin
     uimap:
-        form: *edit_api_user_grid
+        form: *edit_api_user
+        buttons:
+            back: //button[@title='Back']
+            reset: //button[@title='Reset']
+            delete: //button[@title='Delete API User']
+            save: //button[@title='Save API User']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
+        messages: *pageMessages
