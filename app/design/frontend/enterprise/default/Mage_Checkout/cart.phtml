@@ -91,14 +91,16 @@
                             <script type="text/javascript">
                                 //<![CDATA[
                                 (function($) {
-                                    $.mage.event.observe('mage.shoppingCart.initialize', function(event, initData) {
-                                        // Internet Explorer (lt 8) does not support value attribute in button elements
-                                        initData.continueShoppingButton = 'button.btn-continue';
-                                        initData.continueShoppingUrl = '<?php echo $this->getContinueShoppingUrl() ?>';
-                                        initData.emptyCartButton = '#empty_cart_button';
-                                        initData.updateCartActionContainer = '#update_cart_action_container';
-                                    });
-                                    $.mage.load.jsSync("<?php echo $this->getSkinUrl('Mage_Checkout::js/shopping-cart.js')?>");
+                                    head.js("<?php echo $this->getSkinUrl('Mage_Checkout::js/shopping-cart.js')?>",
+                                        function() {
+                                            // Internet Explorer (lt 8) does not support value attribute in button elements
+                                            $('#shopping-cart-table').shoppingCart({
+                                                continueShoppingButton: 'button.btn-continue',
+                                                continueShoppingUrl: '<?php echo $this->getContinueShoppingUrl() ?>',
+                                                emptyCartButton: 'button.btn-empty',
+                                                updateCartActionContainer: '#update_cart_action_container'
+                                            });
+                                        });
                                 })(jQuery);
                                 //]]>
                             </script>
