@@ -48,10 +48,12 @@
          * @protected
          */
         _create: function() {
-            if (!this.options.frontendOnly && this.options.validationUrl) {
-                this.options.submitHandler = $.proxy(this._ajaxValidate, this);
-            } else {
-                this.options.submitHandler = $.proxy(function(){this.element[0].submit();}, this);
+            if (!this.options.submitHandler && $.type(this.options.submitHandler) !== 'function') {
+                if (!this.options.frontendOnly && this.options.validationUrl) {
+                    this.options.submitHandler = $.proxy(this._ajaxValidate, this);
+                } else {
+                    this.options.submitHandler = $.proxy(function(){this.element[0].submit();}, this);
+                }
             }
             this.element.on('resetElement', function(e, data) {$(e.target).rules('remove');});
             this._super('_create');

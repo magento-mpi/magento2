@@ -1,76 +1,58 @@
-var varientCategoryForm = Class.create();
-varientCategoryForm.prototype = Object.extend(new varienForm(), {
-    submit: function (url) {
-        this.errorSections = $H({});
-        this.canShowError = true;
-        this.submitUrl = url;
-        if (this.validator && this.validator.validate()) {
-            if(this.validationUrl){
-                this._validate();
+(function($){
+    $.widget("mage.categoryForm", $.mage.form, {
+        options: {
+            categoryIdSelector : 'input[name="general[id]"]',
+            categoryPathSelector : 'input[name="general[path]"]'
+        },
+        /**
+         * Form creation
+         * @protected
+         */
+        _create: function() {
+            this._super('_create');
+            $('body').on('categoryMove.tree', $.proxy(this.refreshPath, this));
+        },
+        /**
+         * Sending ajax to server to refresh field 'general[path]'
+         * @protected
+         */
+        refreshPath: function() {
+            if (!this.element.find(this.options.categoryIdSelector).prop('value')) {
+                return false;
             }
-            else{
-                if (this.isSubmitted) {
-                    return false;
+            new Ajax.Request(
+                this.options.refreshUrl,
+                {
+                    method:     'POST',
+                    evalScripts: true,
+                    onSuccess: this._refreshPathSuccess.bind(this)
                 }
-                this.isSubmitted = true;
-                this._submit();
-            }
-            displayLoadingMask();
-            return true;
-        }
-        return false;
-    },
-
-    refreshPath: function () {
-        var categoryId = this.getCategoryId();
-
-        if (!categoryId) {
-            return false;
-        }
-
-        var refreshPathSuccess = function(transport) {
+            );
+        },
+        /**
+         * Refresh field 'general[path]' on ajax success
+         * @param {Object} The XMLHttpRequest object returned by ajax
+         * @protected
+         */
+        _refreshPathSuccess: function(transport) {
             if (transport.responseText.isJSON()) {
                 var response = transport.responseText.evalJSON();
                 if (response.error) {
                     alert(response.message);
                 } else {
-                    if (this.getCategoryId() == response.id) {
-                        this.setCategoryPath(response.path);
+                    if (this.element.find(this.options.categoryIdSelector).prop('value') === response.id) {
+                        this.element.find(this.options.categoryPathSelector)
+                            .prop('value', response.path);
                     }
                 }
             }
-        };
-
-        new Ajax.Request(
-                this.refreshUrl,
-                {
-                    method:     'POST',
-                    evalScripts: true,
-                    onSuccess: refreshPathSuccess.bind(this)
-                }
-        );
-    },
-
-    getCategoryId: function() {
-        var collection = $(this.formId).getInputs('hidden','general[id]');
-        if (collection.size() > 0) {
-            return collection.first().value;
         }
-        return false;
-    },
-
-    setCategoryPath: function(path) {
-        var collection = $(this.formId).getInputs('hidden','general[path]');
-        if (collection.size() > 0) {
-            return collection.first().value = path;
-        }
-    }
-});
-
+    });
+})(jQuery);
 
 /**
-* Create/edit some category
-*/
+ * Create/edit some category
+ */
 function categorySubmit(url, useAjax) {
     var activeTab = $('active_tab_id');
     if (activeTab) {
@@ -127,5 +109,5 @@ function categorySubmit(url, useAjax) {
     }
 
     // Submit form
-    categoryForm.submit();
+    jQuery('#category_edit_form').trigger('submit');
 }
