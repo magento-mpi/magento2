@@ -29,11 +29,11 @@ class Mage_Backend_Block_System_Config_Form_Field_Image extends Varien_Data_Form
         $url = parent::_getUrl();
 
         $config = $this->getFieldConfig();
-        /* @var $config Varien_Simplexml_Element */
-        if (!empty($config->base_url)) {
-            $el = $config->descend('base_url');
+        /* @var $config array */
+        if (array_key_exists('base_url', $config)) {
+            $el = $config['base_url'];
             $urlType = empty($el['type']) ? 'link' : (string)$el['type'];
-            $url = Mage::getBaseUrl($urlType) . (string)$config->base_url . '/' . $url;
+            $url = Mage::getBaseUrl($urlType) . $el['value'] . '/' . $url;
         }
 
         return $url;

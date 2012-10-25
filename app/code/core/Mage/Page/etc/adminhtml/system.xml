@@ -18,7 +18,7 @@
                     <label>Favicon Icon</label>
                     <comment>Allowed file types: ICO, PNG, GIF, JPG, JPEG, APNG, SVG. Not all browsers support all these formats!</comment>
                     <backend_model>Mage_Backend_Model_Config_Backend_Image_Favicon</backend_model>
-                    <base_url>favicon</base_url>
+                    <base_url type="media" scope_info="1">favicon</base_url>
                 </field>
                 <field id="default_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Default Title</label>
