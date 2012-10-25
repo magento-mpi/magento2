@@ -61,7 +61,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
                     /** @var $createdItem Mage_Core_Model_Abstract */
                     $createdItem = $outputData;
-//                    $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
+                    $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 } else {
                     // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
                     $this->getResponse()->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
@@ -95,29 +95,28 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     }
 
     /**
-     * Get resource location
+     * Generate resource location.
      *
      * @param Mage_Core_Model_Abstract $createdItem
      * @return string URL
      */
     protected function _getCreatedItemLocation($createdItem)
     {
-        // TODO: Re-implement according to Auto-discovery
-//        /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
-//        $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
-//
-//        $router = new Zend_Controller_Router_Route($this->_frontController->getRestConfig()->getRouteByResource(
-//            $this->getRequest()->getResourceName(),
-//            Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
-//        ));
-//        $chain = $apiTypeRoute->chain($router);
-//        $params = array(
-//            'api_type' => $this->getRequest()->getApiType(),
-//            'id'       => $createdItem->getId()
-//        );
-//        $uri = $chain->assemble($params);
+        /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
 
-//        return '/' . $uri;
+        $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteByResource(
+            $this->getRequest()->getResourceName(),
+            Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
+        ));
+        $chain = $apiTypeRoute->chain($router);
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            'id'       => $createdItem->getId()
+        );
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
     }
 
     // TODO: Temporary proxy

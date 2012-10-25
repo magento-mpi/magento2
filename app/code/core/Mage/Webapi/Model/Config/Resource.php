@@ -393,7 +393,7 @@ class Mage_Webapi_Model_Config_Resource
         }
         foreach ($this->_getPathCombinations($this->_getOptionalParamNames($methodReflection)) as $routeOptionalPart) {
             $routes[$routePath . $routeOptionalPart] = array(
-                'resource_type' => $this->_getResourceTypeByMethod(
+                'action_type' => $this->_getResourceTypeByMethod(
                     $this->getMethodNameWithoutVersionSuffix($methodReflection)),
                 'resource_version' => $version
             );
@@ -618,7 +618,7 @@ class Mage_Webapi_Model_Config_Resource
                 $fullRoutePath = $apiTypeRoutePath . $routePath;
                 $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
                 $route->setResourceName($resourceName)
-                    ->setResourceType($routeData['resource_type'])
+                    ->setResourceType($routeData['action_type'])
                     ->setResourceVersion($routeData['resource_version']);
                 $routes[] =$route;
             }
@@ -978,5 +978,29 @@ class Mage_Webapi_Model_Config_Resource
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
         );
+    }
+
+    /**
+     * Identify the shortest available route for specified resource and action type (item or collection).
+     *
+     * @param string $resourceName
+     * @param string $actionType
+     * @return string
+     * @throws LogicException
+     */
+    public function getRestRouteByResource($resourceName, $actionType)
+    {
+        if (isset($this->_data[$resourceName]['rest_routes'])) {
+            $restRoutes = $this->_data[$resourceName]['rest_routes'];
+            /** The shortest routes must go first. */
+            ksort($restRoutes);
+            foreach ($restRoutes as $routePath => $routeMetadata) {
+                if ($routeMetadata['action_type'] == $actionType) {
+                    return $routePath;
+                }
+            }
+        }
+        throw new LogicException(sprintf('No route was found for "%s" resource with "%s" action type.',
+            $resourceName, $actionType));
     }
 }

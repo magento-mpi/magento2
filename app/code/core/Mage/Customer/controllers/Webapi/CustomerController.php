@@ -45,7 +45,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
             $this->_processException($e);
         }
 
-        return $customer->getId();
+        return $customer;
     }
 
     /**
