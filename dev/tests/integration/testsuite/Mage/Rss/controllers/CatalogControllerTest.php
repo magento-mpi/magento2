@@ -41,11 +41,12 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_special_price.php
+     * @ magentoDataFixture Mage/Catalog/_files/product_special_price.php
      * @magentoConfigFixture current_store rss/catalog/special 1
      */
     public function testSpecialAction()
     {
+        $this->markTestIncomplete('MAGETWO-4486');
         $this->dispatch('rss/catalog/special');
         $body = $this->getResponse()->getBody();
         $this->assertContains('$10.00', $body);
