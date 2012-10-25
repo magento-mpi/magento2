@@ -38,19 +38,24 @@
         $.mage.event.trigger("product.updatecart.button", _cartData);
 
         $.each(_clickForPrice.helpLink, function (index, value) {
-            $(value.popupId).on('click', function (e) {
-                $('#map-popup-heading').text(value.productName);
-                $('#map-popup-price').html($(value.realPrice));
-                $('#map-popup-msrp').html(value.msrpPrice);
 
-                var width = $('#map-popup').width();
-                var offsetX = e.pageX - (width / 2) + "px";
-                $('#map-popup').css({left: offsetX, top: e.pageY}).show();
-                $('#map-popup-content').show();
-                $('#map-popup-text').addClass('map-popup-only-text').show();
-                $('#map-popup-text-what-this').hide();
-                return false;
-            });
+            if(value.submitUrl){
+                location.href=value.submitUrl;
+            } else {
+                $(value.popupId).on('click', function (e) {
+                    $('#map-popup-heading').text(value.productName);
+                    $('#map-popup-price').html($(value.realPrice));
+                    $('#map-popup-msrp').html(value.msrpPrice);
+
+                    var width = $('#map-popup').width();
+                    var offsetX = e.pageX - (width / 2) + "px";
+                    $('#map-popup').css({left: offsetX, top: e.pageY}).show();
+                    $('#map-popup-content').show();
+                    $('#map-popup-text').addClass('map-popup-only-text').show();
+                    $('#map-popup-text-what-this').hide();
+                    return false;
+                });
+            }
         });
 
         $.each(_helpLinkData.helpText, function (index, value) {
@@ -97,7 +102,12 @@
                         }
                     }
                 });
-                $(value.cartForm).submit();
+                if(value.addToCartUrl) {
+                    location.href=value.addToCartUrl;
+                }else if(value.cartForm){
+                    $(value.cartForm).submit();
+                }
+
             });
         });
 
