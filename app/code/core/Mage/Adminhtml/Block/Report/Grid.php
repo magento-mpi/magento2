@@ -27,11 +27,6 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected $_filters = array();
 
-    /**
-     * @var Mage_Core_Model_Locale
-     */
-    protected $_locale;
-
     protected $_defaultFilters = array(
             'report_from' => '',
             'report_to' => '',

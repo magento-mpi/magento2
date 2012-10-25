@@ -60,6 +60,7 @@ class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerA
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for simple product with custom option doesn\'t contain "Update Cart" button');
 
+        Mage::log($response->getBody(), null, 'test.log');
         $this->assertSelectCount('input.product-custom-option[type="text"]', 1, $response->getBody(),
             'Response for simple product with custom option doesn\'t contain custom option input field');
     }
