@@ -17,5 +17,6 @@ $session->deactivateDesignEditor();
 $auth->logout();
 $session->unsThemeId();
 $session->unsSkin();
-$theme = new Mage_Core_Model_Theme();
+/** @var $theme Mage_Core_Model_Theme */
+$theme = Mage::getModel('Mage_Core_Model_Theme');
 $theme->load($session->getThemeId())->delete();
