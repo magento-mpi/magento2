@@ -30,7 +30,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             array(), '', false
         );
         $this->_fallback = $this->getMock('Mage_Core_Model_Design_Package_Fallback',
-            array('getFile', 'getLocaleFile', 'getSkinFile')
+            array('getFile', 'getLocaleFile', 'getViewFile')
         );
     }
 
@@ -82,13 +82,12 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSkinFile()
+    public function testGetViewFile()
     {
         $params = array(
             'area' => 'some_area',
             'package' => 'some_package',
             'theme' => 'some_theme',
-            'skin' => 'some_skin',
             'locale' => 'some_locale'
         );
         $file = 'Some_Module::some_file.ext';
@@ -100,7 +99,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             ->with($expectedParams)
             ->will($this->returnValue($this->_fallback));
         $this->_fallback->expects($this->once())
-            ->method('getSkinFile')
+            ->method('getViewFile')
             ->with('some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 

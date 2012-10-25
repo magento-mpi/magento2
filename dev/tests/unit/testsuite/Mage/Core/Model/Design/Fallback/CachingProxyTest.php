@@ -73,7 +73,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
 
         $this->_fallback = $this->getMock(
             'Mage_Core_Model_Design_Fallback',
-            array('getFile', 'getLocaleFile', 'getSkinFile'),
+            array('getFile', 'getLocaleFile', 'getViewFile'),
             array($params)
         );
 
@@ -134,12 +134,12 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
      * Calls are repeated twice to verify, that fallback is used only once, and next time a proper value is returned
      * via cached map.
      */
-    public function testGetSkinFile()
+    public function testGetViewFile()
     {
         $module = 'Some_Module';
         $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'skin_file.ext';
         $this->_fallback->expects($this->once())
-            ->method('getSkinFile')
+            ->method('getViewFile')
             ->with('file.ext', $module)
             ->will($this->returnValue($expected));
 
@@ -158,7 +158,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $file = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.ext';
 
         $this->_fallback->expects($this->once())
-            ->method('getSkinFile')
+            ->method('getViewFile')
             ->with($file, $module)
             ->will($this->returnValue(null));
 

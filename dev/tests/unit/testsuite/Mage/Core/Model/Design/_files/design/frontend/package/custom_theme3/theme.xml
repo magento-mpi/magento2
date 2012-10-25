@@ -12,8 +12,8 @@
 <design>
     <package code="package">
         <title>Package</title>
-        <theme version="2.0.0.0" code="custom_theme_descendant" parent="custom_theme">
-            <title>Custom Theme Descendant</title>
+        <theme version="2.0.0.0" code="custom_theme3" parent="custom_theme2">
+            <title>Custom Theme 3</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>
