@@ -480,7 +480,7 @@
         ],
         "validate-state": [
             function(v) {
-                return (v != 0 || v === '');
+                return (v !== 0 || v === '');
             },
             'Please select State/Province.'
         ],
@@ -499,7 +499,7 @@
         ],
         'validate-super-product-attributes': [
             function(v) {
-                return (v != "no-attributes");
+                return (v !== "no-attributes");
             },
             'Please select one or more attributes.'
         ],

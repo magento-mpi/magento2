@@ -16,7 +16,7 @@
             this.settings.highlight = function (element, errorClass, validClass) {
                 highlight.apply(this, arguments);
                 $(element).trigger('highlight.validate');
-            }
+            };
         },
 
         /**
@@ -51,7 +51,7 @@
             if (!this.options.frontendOnly && this.options.validationUrl) {
                 this.options.submitHandler = $.proxy(this._ajaxValidate, this);
             } else {
-                this.options.submitHandler = $.proxy(function(){this.element[0].submit();}, this);
+                this.options.submitHandler = $.proxy(this.element[0].submit, this.element[0]);
             }
             this.element.on('resetElement', function(e, data) {$(e.target).rules('remove');});
             this._super('_create');
@@ -76,7 +76,7 @@
         /*
          * Process ajax success
          * @protected
-         * @param {string} response test
+         * @param {Object} JSON-response
          * @param {string} response status
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          */

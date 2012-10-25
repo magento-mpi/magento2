@@ -26,7 +26,7 @@ jQuery(function ($) {
                     settings.url + '?isAjax=true';
             }
             if ($.type(settings.data) === "string" &&
-                settings.data.indexOf('form_key=') == -1
+                settings.data.indexOf('form_key=') === -1
             ) {
                 settings.data += '&' + $.param({
                     form_key: FORM_KEY
@@ -49,7 +49,7 @@ jQuery(function ($) {
          * @param {string}
          */
         complete: function(jqXHR, status) {
-            if (jqXHR.readyState == 4) {
+            if (jqXHR.readyState === 4) {
                 try {
                     var jsonObject = jQuery.parseJSON(jqXHR.responseText);
                     if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
