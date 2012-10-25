@@ -146,23 +146,24 @@
             "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
             "<?php echo $this->getSkinUrl('mage/validation/validate.js')?>",
             "<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
-                $('#form-validate').install({
-                    useSecureSelector: '#use_secure', useSecureOptionsSelector: '#use_secure_options'
-                }).install('config');
+                $('#form-validate').configure({
+                    useSecureSelector: '#use_secure',
+                    useSecureOptionsSelector: '#use_secure_options'
+                });
             });
     })(jQuery);
 </script>
 <?php else: ?>
 <div><?php echo $this->__('Please set all required settings before clicking Continue') ?></div>
 <div class="button-set">
-    <button class="form-button" type="button">
+    <button id="btn-continue" class="form-button" type="button">
         <span><?php echo $this->__('Continue') ?></span></button>
     <script type="text/javascript">
     (function($) {
         head.js("<?php echo $this->getSkinUrl('Mage_Install::js/install.js')?>", function() {
-            $('div.button-set > .form-button').install({
+            $('#btn-continue').configure({
                 url: '<?php echo $this->getUrl('*/*/*', array('_current' => true)) ?>'
-            }).install('config');
+            });
         });
     })(jQuery);
     </script>

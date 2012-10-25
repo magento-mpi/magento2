@@ -50,7 +50,7 @@
 <script type="text/javascript">
     (function($) {
         head.js("<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
-            $('#locale').install({url: '<?php echo $this->getChangeUrl();?>'}).install('changeUrl');
+            $('#locale').setLocale({url: '<?php echo $this->getChangeUrl();?>'});
         });
     })(jQuery);
 </script>
