@@ -133,6 +133,8 @@
                     <xs:element name="clone_fields" type="xs:int" />
                     <xs:element name="expanded" type="xs:int" />
                     <xs:element name="help_url" type="typeUrl" />
+                    <xs:element name="comment" type="xs:string" />
+                    <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element ref="field" />
                 </xs:choice>
             </xs:sequence>
@@ -170,9 +172,9 @@
                     <xs:element name="backend_model" type="typeModel" />
                     <xs:element name="source_model" type="typeModel" />
                     <xs:element name="config_path" type="typeConfigPath" />
-                <xs:element name="validate" type="xs:string" />
+                    <xs:element name="validate" type="xs:string" />
                     <xs:element name="can_be_empty" type="xs:int" />
-                    <xs:element name="if_module_enabled" type="xs:int" />
+                    <xs:element name="if_module_enabled" type="typeModule" />
                     <xs:element name="base_url" type="typeUrl" />
                     <xs:element name="button_url" type="typeUrl" />
                     <xs:element name="more_url" type="typeUrl" />
@@ -234,6 +236,7 @@
                         <xs:simpleContent>
                             <xs:extension base="xs:string">
                                 <xs:attribute name="id" type="typeId" use="required" />
+                                <xs:attribute name="separator" type='xs:string' use='optional' />
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -268,13 +271,13 @@
     <xs:simpleType name="typeId">
         <xs:annotation>
             <xs:documentation>
-                Item id attribute for elements section, group, field can has only [a-zA-Z0-9/_]. Minimal length 3 symbol. Case sensitive.
+                Item id attribute for elements section, group, field can has only [a-zA-Z0-9/_]. Minimal length 2 symbol. Case sensitive.
             </xs:documentation>
         </xs:annotation>
 
         <xs:restriction base="xs:string">
             <xs:pattern value="[a-zA-Z0-9_]{1,}" />
-            <xs:minLength value="3" />
+            <xs:minLength value="2" />
         </xs:restriction>
     </xs:simpleType>
 

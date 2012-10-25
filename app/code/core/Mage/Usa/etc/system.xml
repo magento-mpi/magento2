@@ -254,7 +254,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </specificerrmsg>
-
                         <additional_protection_enabled translate="label">
                             <label>Additional Protection Enabled</label>
                             <frontend_type>select</frontend_type>
@@ -291,7 +290,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </additional_protection_value>
-
                         <additional_protection_rounding translate="label">
                             <label>Additional Protection Value Rounding Method</label>
                             <frontend_type>select</frontend_type>
@@ -301,7 +299,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </additional_protection_rounding>
-
                         <hazardous_materials translate="label">
                             <label>Shipment Contains Hazardous Materials</label>
                             <frontend_type>select</frontend_type>
@@ -311,7 +308,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </hazardous_materials>
-
                         <default_length translate="label">
                             <label>Default Package Length</label>
                             <frontend_type>text</frontend_type>
@@ -336,7 +332,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </default_height>
-
                         <shipment_days translate="label">
                             <label>Domestic Shipment Days</label>
                             <frontend_type>multiselect</frontend_type>
@@ -613,7 +608,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        0</sort_order>
+                        </sort_order>
                     </fields>
                 </fedex>
                 <ups translate="label" module="Mage_Usa">
@@ -802,7 +797,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        0</sort_order>
+                        </sort_order>
                         <title translate="label">
                             <label>Title</label>
                             <frontend_type>text</frontend_type>
@@ -1191,7 +1186,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        0</sort_order>
+                        </sort_order>
                     </fields>
                 </usps>
                 <dhlint translate="label" module="Mage_Usa">

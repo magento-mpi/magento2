@@ -14,6 +14,8 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
             'clone_model',
             'fieldset_css',
             'help_url',
+            'comment',
+            'hide_in_single_store_mode',
             'expanded'
         );
 
