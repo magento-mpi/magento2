@@ -1,8 +1,30 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: User
- * Date: 25.10.12
- * Time: 14:21
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
+
+require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/System/Writer/Factory.php';
+
+class Tools_Migration_System_Writer_FactoryTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var Tools_Migration_System_Writer_Factory
+     */
+    protected $_model;
+
+    protected function setUp()
+    {
+        $this->_model = new Tools_Migration_System_Writer_Factory();
+    }
+
+    protected function testGetWriterReturnsProperWriter()
+    {
+        $this->assertInstanceOf('Tools_Migration_System_Writer_FileSystem', $this->_model->getWriter('write'));
+        $this->assertInstanceOf('Tools_Migration_System_Writer_Memory', $this->_model->getWriter('someWriter'));
+    }
+}
