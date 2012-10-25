@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Config_Resource
      *
      * @var array
      */
-    protected $_soapServerClassMap = array();
+    protected $_typeToClassMap = array();
 
     /**
      * Class map for auto loader.
@@ -105,27 +105,6 @@ class Mage_Webapi_Model_Config_Resource
         } else {
             $this->_extractData();
         }
-    }
-
-    /**
-     * Retrieve method data for given resource name and method name.
-     *
-     * @param string $resourceName
-     * @param string $methodName
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    public function getResourceMethodData($resourceName, $methodName)
-    {
-        if (!array_key_exists($resourceName, $this->_data['resources'])) {
-            throw new InvalidArgumentException(
-                sprintf('Resource "%s" is not found in config.', $resourceName));
-        }
-        if (!array_key_exists($methodName, $this->_data['resources'][$resourceName])) {
-            throw new InvalidArgumentException(
-                sprintf('Method "%s" for resource "%s" is not found in config.', $methodName, $resourceName));
-        }
-        return $this->_data['resources'][$resourceName][$methodName];
     }
 
     /**
@@ -323,7 +302,7 @@ class Mage_Webapi_Model_Config_Resource
                     $data['rest_routes'] = array();
                     /** @var ReflectionMethod $methodReflection */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
-                        $method = $this->_getMethodNameWithoutVersionSuffix($methodReflection);
+                        $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
                         $version = $this->_getMethodVersion($methodReflection);
                         if ($method && $version) {
                             $data['versions'][$version]['methods'][$method] = $this->_getMethodData($methodReflection);
@@ -370,7 +349,7 @@ class Mage_Webapi_Model_Config_Resource
      * @return string|bool Method name without version suffix on success.
      *      false is returned in case when method should not be exposed via API.
      */
-    protected function _getMethodNameWithoutVersionSuffix(ReflectionMethod $methodReflection)
+    public function getMethodNameWithoutVersionSuffix(ReflectionMethod $methodReflection)
     {
         $methodName = false;
         $methodNameWithSuffix = $methodReflection->getName();
@@ -415,7 +394,7 @@ class Mage_Webapi_Model_Config_Resource
         foreach ($this->_getPathCombinations($this->_getOptionalParamNames($methodReflection)) as $routeOptionalPart) {
             $routes[$routePath . $routeOptionalPart] = array(
                 'resource_type' => $this->_getResourceTypeByMethod(
-                    $this->_getMethodNameWithoutVersionSuffix($methodReflection)),
+                    $this->getMethodNameWithoutVersionSuffix($methodReflection)),
                 'resource_version' => $version
             );
         }
@@ -495,6 +474,53 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
+     * Identify request body param name, if it is expected by method.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool|string Return body param name if body is expected, false otherwise
+     * @throws LogicException
+     */
+    public function getBodyParamName(ReflectionMethod $methodReflection)
+    {
+        $bodyParamName = false;
+        /**#@+
+         * Body param position in case of top level resources.
+         */
+        $bodyPositionCreate = 1;
+        $bodyPositionUpdate = 2;
+        $bodyPositionMultiUpdate = 1;
+        /**#@-*/
+        $bodyParamPositions = array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPositionCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPositionUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPositionMultiUpdate
+        );
+        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+        $isBodyExpected = isset($bodyParamPositions[$methodName]);
+        if ($isBodyExpected) {
+            $bodyParamPosition = $bodyParamPositions[$methodName];
+            if ($this->_isSubresource($methodReflection)) {
+                /** For subresources parent ID param must precede request body param. */
+                $bodyParamPosition++;
+            }
+            $methodInterfaces = $methodReflection->getPrototypes();
+            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+            $methodInterface = reset($methodInterfaces);
+            $methodParams = $methodInterface->getParameters();
+            if (empty($methodParams) || (count($methodParams) < $bodyParamPosition)) {
+                throw new LogicException(sprintf('Method "%s" must have parameter for passing request body. '
+                    . 'Its position must be "%s" in method interface.', $methodReflection->getName(),
+                    $bodyParamPosition));
+            }
+            /** @var $bodyParamReflection \Zend\Code\Reflection\ParameterReflection */
+            /** Param position in the array should be counted from 0. */
+            $bodyParamReflection = $methodParams[$bodyParamPosition-1];
+            $bodyParamName = $bodyParamReflection->getName();
+        }
+        return $bodyParamName;
+    }
+
+    /**
      * Identify ID param name if it is expected for the specified method.
      *
      * @param ReflectionMethod $methodReflection
@@ -504,7 +530,7 @@ class Mage_Webapi_Model_Config_Resource
     protected function _getIdParamName(ReflectionMethod $methodReflection)
     {
         $idParamName = false;
-        $idFieldIsExpected = false;
+        $isIdFieldExpected = false;
         if (!$this->_isSubresource($methodReflection)) {
             /** Top level resource, not subresource */
             $methodsWithIdExpected = array(
@@ -512,19 +538,19 @@ class Mage_Webapi_Model_Config_Resource
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             );
-            $methodName = $this->_getMethodNameWithoutVersionSuffix($methodReflection);
+            $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
             if (in_array($methodName, $methodsWithIdExpected)) {
-                $idFieldIsExpected = true;
+                $isIdFieldExpected = true;
             }
         } else {
             /**
              * All subresources must have ID field:
              * either subresource ID (for item operations) or parent resource ID (for collection operations)
              */
-            $idFieldIsExpected = true;
+            $isIdFieldExpected = true;
         }
 
-        if ($idFieldIsExpected) {
+        if ($isIdFieldExpected) {
             /** ID field must always be the first parameter of resource method */
             $methodInterfaces = $methodReflection->getPrototypes();
             if (empty($methodInterfaces)) {
@@ -556,6 +582,26 @@ class Mage_Webapi_Model_Config_Resource
         $className = $methodReflection->getDeclaringClass()->getName();
         preg_match('/.*_Webapi_(.*)Controller*/', $className, $matches);
         return count(explode('_', $matches[1])) > 1;
+    }
+
+    /**
+     * Retrieve method metadata.
+     *
+     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @return array
+     * @throws InvalidArgumentException If specified method was not previously registered in API config.
+     */
+    public function getMethodMetadata(ReflectionMethod $methodReflection)
+    {
+        $resourceName = $this->translateResourceName($methodReflection->getDeclaringClass()->getName());
+        $resourceVersion = $this->_getMethodVersion($methodReflection);
+        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+
+        if (!isset($this->_data[$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
+            throw new InvalidArgumentException('"%s" method of "%s" resource in version "%s" is not registered.',
+                $methodName, $resourceName, $resourceVersion);
+        }
+        return $this->_data[$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
     }
 
     /**
@@ -669,7 +715,7 @@ class Mage_Webapi_Model_Config_Resource
             if (!isset($this->_types[$complexTypeName])) {
                 $this->_processComplexType($type);
                 if (!$this->isArrayType($complexTypeName)) {
-                    $this->_soapServerClassMap[$complexTypeName] = $type;
+                    $this->_typeToClassMap[$complexTypeName] = $type;
                 }
             }
             $typeName = $complexTypeName;
@@ -702,17 +748,25 @@ class Mage_Webapi_Model_Config_Resource
             foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
                 $propertyName = $property->getName();
                 $doc = $property->getDocBlock();
-                $tags = $doc->getTags('var');
-                if (empty($tags)) {
+                $varTags = $doc->getTags('var');
+                if (empty($varTags)) {
                     throw new InvalidArgumentException('Property type must be defined with @var tag.');
                 }
                 /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
-                $varTag = current($tags);
+                $varTag = current($varTags);
+                $optionalTags = $doc->getTags('optional');
+                if (!empty($optionalTags)) {
+                    /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $isOptionalTag */
+                    $isOptionalTag = current($optionalTags);
+                    $isOptional = $isOptionalTag->getName() == 'optional';
+                } else {
+                    $isOptional = false;
+                }
                 // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
                 $varType = str_replace("\r", '', $varTag->returnValue(0));
                 $this->_types[$typeName]['parameters'][$propertyName] = array(
                     'type' => $this->_processType($varType),
-                    'required' => is_null($defaultProperties[$propertyName]),
+                    'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
                     'default' => $defaultProperties[$propertyName],
                     'documentation' => $this->_getDescription($doc)
                 );
@@ -855,9 +909,9 @@ class Mage_Webapi_Model_Config_Resource
      *
      * @return array
      */
-    public function getSoapServerClassMap()
+    public function getTypeToClassMap()
     {
-        return $this->_soapServerClassMap;
+        return $this->_typeToClassMap;
     }
 
     /**

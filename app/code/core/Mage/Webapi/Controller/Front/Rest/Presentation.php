@@ -28,23 +28,23 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Fetch data from request and prepare it for passing to specified action.
      *
-     * @param string $methodName
      * @param object $controllerInstance
      * @param string $action
      * @return array
      */
-    // TODO: Think about AOP implementation if it is approved by Tech Leads group
-    // TODO: Think about interface refactoring
-    public function fetchRequestData($methodName, $controllerInstance, $action)
+    // TODO: Think about AOP implementation
+    public function fetchRequestData($controllerInstance, $action)
     {
-        // TODO: Refactor this and take param initialized with post data from anotations
-        $parameters = array_merge(
+        $config = $this->_frontController->getResourceConfig();
+        $apiHelper = $this->_frontController->getHelper();
+        $methodReflection = $apiHelper->createMethodReflection($controllerInstance, $action);
+        $bodyParamName = $config->getBodyParamName($methodReflection);
+        $methodName = $config->getMethodNameWithoutVersionSuffix($methodReflection);
+        $requestParams = array_merge(
             $this->getRequest()->getParams(),
-            array('data' => $this->_getRequestData($methodName))
+            array($bodyParamName => $this->_getRequestBody($methodName))
         );
-        $actionArguments = $this->_frontController->getHelper()
-            ->prepareMethodParams($controllerInstance, $action, $parameters);
-        return $actionArguments;
+        return $apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $config);
     }
 
     /**
@@ -138,7 +138,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      * @param string $method
      * @return array
      */
-    protected function _getRequestData($method)
+    protected function _getRequestBody($method)
     {
         $processedInputData = null;
         switch ($method) {

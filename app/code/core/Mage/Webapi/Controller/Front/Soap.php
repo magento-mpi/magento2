@@ -64,12 +64,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
                 // TODO: Refactor ACL check to work by operation name, not by resource name + method name
-                //$this->_checkResourceAcl($role, $resourceName, $method);
+                $this->_checkResourceAcl($role, $resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
                 $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
-                $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
+                $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments,
+                    $this->getResourceConfig());
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 // TODO: Implement response preparation according to current presentation
@@ -302,7 +303,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                     $this->_soapServer = new Server($this->_getWsdlUrl(),
                         array(
                             'encoding' => $this->_getApiCharset(),
-                            'classMap' => $this->getResourceConfig()->getSoapServerClassMap(),
+                            'classMap' => $this->getResourceConfig()->getTypeToClassMap(),
                         )
                     );
                 } catch (SoapFault $e) {

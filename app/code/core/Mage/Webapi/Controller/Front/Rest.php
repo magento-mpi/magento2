@@ -123,7 +123,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_checkResourceAcl($role, $route->getResourceName(), $method);
 
             // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
+            $inputData = $this->_presentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
         } catch (Mage_Webapi_Exception $e) {

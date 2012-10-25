@@ -26,12 +26,20 @@ class Mage_Customer_Webapi_Customer_DataStructure
      *
      * @var string
      */
-    public $lastname;
+    public $lastname = 'DefaultLastName';
 
     /**
      * Customer password
      *
      * @var string
      */
-    public $password;
+    public $password = '123123q';
+
+    /**
+     * Customer address
+     *
+     * @optional true
+     * @var Mage_Customer_Webapi_Customer_Address_DataStructure
+     */
+    public $address;
 }
