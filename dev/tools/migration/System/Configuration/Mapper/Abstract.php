@@ -103,6 +103,14 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
                 $element = $this->_transformSubConfig($nodeValue, $node, $element);
                 continue;
             } else {
+                if (isset($nodeValue['@attributes'])) {
+                    if (isset($node['@attributes'])) {
+                        $node['@attributes'] = array_merge($node['@attributes'], $nodeValue['@attributes']);
+                    } else {
+                        $node['@attributes'] = $nodeValue['@attributes'];
+                    }
+                }
+
                 if (isset($nodeValue['#text'])) {
                     $node['#text'] = $nodeValue['#text'];
                 }

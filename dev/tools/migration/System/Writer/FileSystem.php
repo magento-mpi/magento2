@@ -29,6 +29,6 @@ class Tools_Migration_System_Writer_FileSystem implements Tools_Migration_System
      */
     public function remove($fileName)
     {
-//        unlink($fileName);
+        unlink($fileName);
     }
 }

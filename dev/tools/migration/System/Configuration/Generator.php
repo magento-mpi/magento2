@@ -41,9 +41,9 @@ class Tools_Migration_System_Configuration_Generator
         $this->_logger = $logger;
 
 
-        $this->_fileSchemaPath = realpath(
-            dirname(__FILE__) . '/../../../../../' . 'app/code/core/Mage/Backend/Model/Config/Structure/system_file.xsd'
-        );
+        $this->_basePath = realpath(dirname(__FILE__) . '/../../../../../');
+        $this->_fileSchemaPath = $this->_basePath
+            . '/app/code/core/Mage/Backend/Model/Config/Structure/system_file.xsd';
     }
 
     /**
@@ -54,8 +54,16 @@ class Tools_Migration_System_Configuration_Generator
     public function createConfiguration($fileName, array $configuration)
     {
         $domDocument = $this->_createDOMDocument($configuration);
-        if (!$domDocument->schemaValidate($this->_fileSchemaPath)) {
-            $this->_logger->add($fileName . ' was converted but is not valid');
+        if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
+            $this->_logger->add(
+                $this->_removeBasePath($fileName),
+                Tools_Migration_System_Configuration_LoggerAbstract::FILE_KEY_INVALID
+            );
+        } else {
+            $this->_logger->add(
+                $this->_removeBasePath($fileName),
+                Tools_Migration_System_Configuration_LoggerAbstract::FILE_KEY_VALID
+            );
         }
 
         $output = $this->_xmlFormatter->parseString($domDocument->saveXml(), array(
@@ -68,7 +76,6 @@ class Tools_Migration_System_Configuration_Generator
         ));
         $newFileName = $this->_getPathToSave($fileName);
         $this->_fileManager->write($newFileName, $output);
-        $this->_logger->add($fileName . ' was converted into ' . $newFileName);
     }
 
     /**
@@ -157,4 +164,16 @@ class Tools_Migration_System_Configuration_Generator
     {
         return dirname($fileName) . DIRECTORY_SEPARATOR . 'adminhtml' . DIRECTORY_SEPARATOR . 'system.xml';
     }
+
+    /**
+     * Remove path to magento application
+     *
+     * @param $filename
+     * @return mixed
+     */
+    protected function _removeBasePath($filename)
+    {
+        return str_replace($this->_basePath . DIRECTORY_SEPARATOR, '', $filename);
+    }
+
 }
