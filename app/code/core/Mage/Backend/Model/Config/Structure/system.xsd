@@ -132,6 +132,7 @@
                     <xs:element name="clone_model" type="typeModel" />
                     <xs:element name="clone_fields" type="xs:int" />
                     <xs:element name="expanded" type="xs:int" />
+                    <xs:element name="help_url" type="typeUrl" />
                     <xs:element ref="field" />
                 </xs:choice>
             </xs:sequence>
@@ -169,7 +170,7 @@
                     <xs:element name="backend_model" type="typeModel" />
                     <xs:element name="source_model" type="typeModel" />
                     <xs:element name="config_path" type="typeConfigPath" />
-                    <xs:element name="validate" type="xs:int" />
+                <xs:element name="validate" type="xs:string" />
                     <xs:element name="can_be_empty" type="xs:int" />
                     <xs:element name="if_module_enabled" type="xs:int" />
                     <xs:element name="base_url" type="typeUrl" />
@@ -205,7 +206,7 @@
             </xs:documentation>
         </xs:annotation>
 
-        <xs:complexType>
+        <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
             </xs:sequence>
@@ -309,7 +310,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z]+[a-z0-9]{1,}(_[A-Z][A-Z0-9a-z]+){1,}" />
+            <xs:pattern value="[A-Z]+[a-z0-9]{1,}(_[A-Z][A-Z0-9a-z]+){1,}(::[A-Z0-9a-z_]+)?" />
             <xs:minLength value="5" />
         </xs:restriction>
     </xs:simpleType>
@@ -346,11 +347,11 @@
         </xs:simpleContent>
     </xs:complexType>
 
-   <xs:simpleType name="typeUrlRestriction">
+    <xs:simpleType name="typeUrlRestriction">
        <xs:restriction base="xs:anyURI">
            <xs:minLength value="3" />
        </xs:restriction>
-   </xs:simpleType>
+    </xs:simpleType>
     <xs:complexType name="typeUrl" mixed="true">
         <xs:annotation>
             <xs:documentation>
