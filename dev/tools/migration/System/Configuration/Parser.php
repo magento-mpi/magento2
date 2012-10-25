@@ -66,11 +66,13 @@ class Tools_Migration_System_Configuration_Parser
                 }
                 $mValue = $this->_parseNode($childNode);
                 $sKey   = ($childNode->nodeName{0} == '#') ? 0 : $childNode->nodeName;
-                $mValue = (is_array($mValue) && !empty($mValue)) ? $mValue[$childNode->nodeName] : $mValue;
-                if ($sKey == 0 && is_array($mValue) && empty($mValue)) {
+                if ($sKey !== 0) {
+                    $mValue = (is_array($mValue) && !empty($mValue) && isset($mValue[$childNode->nodeName]))? $mValue[$childNode->nodeName] : $mValue;
+                }
+                if ($sKey === 0 && is_array($mValue) && empty($mValue)) {
                     continue;
                 }
-                // how many of thse child nodes do we have?
+                // how many of these child nodes do we have?
                 if ($iChildCount > 1) {  // more than 1 child - make numeric array
                     $result[$sKey][] = $mValue;
                 } else {
@@ -79,7 +81,7 @@ class Tools_Migration_System_Configuration_Parser
             }
             // if the child is <foo>bar</foo>, the result will be array(bar)
             // make the result just 'bar'
-            if (count($result) == 1 && isset($result[0]) && !is_array($result[0]['@value'])) {
+            if (count($result) == 1 && isset($result[0])) {
                 $result = $result[0];
             }
         }
@@ -95,17 +97,15 @@ class Tools_Migration_System_Configuration_Parser
 
         if (count($attributes)) {
             if (!is_array($result)) {
-                $result = (trim($result)) ? array('@value' => $result) : array();
+                $result = (trim($result)) ? array($node->nodeName => $result) : array();
             }
-            $fResult = array($node->nodeName => array_merge($result, array('@attributes' => $attributes)));
+            $result = array($node->nodeName => array_merge($result, array('@attributes' => $attributes)));
         } else {
-            if (is_array($result)) {
-                $fResult = array($node->nodeName => $result);
-            } else {
-                $fResult = (trim($result)) ? array($node->nodeName => array('@value' => $result)) : array();
+            if (!is_array($result)) {
+                $result = (trim($result) !== '') ? array($node->nodeName => $result) : array();
             }
         }
 
-        return $fResult;
+        return $result;
     }
 }

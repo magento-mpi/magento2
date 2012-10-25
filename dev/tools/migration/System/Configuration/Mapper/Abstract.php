@@ -7,12 +7,12 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      * oldName => newName
      * @var array
      */
-    protected $_attributeMaps;
+    protected $_attributeMaps = array();
 
     /**
      * @var array
      */
-    protected $_allowedFieldNames;
+    protected $_allowedFieldNames = array();
 
     public function __construct()
     {
@@ -24,30 +24,12 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
             'frontend_type' => 'type',
         );
 
-        $this->_allowedFieldNames = array(
-            'label',
-            'comment',
-            'tooltip',
-            'frontend_class',
-            'validate',
-            'can_be_empty',
-            'if_module_enabled',
-            'frontend_model',
-            'backend_model',
-            'source_model',
-            'config_path',
-            'base_url',
-            'upload_dir',
-            'button_url',
-            'button_label',
-            'depends',
-            'more_url',
-            'demo_url',
-        );
     }
 
 
     public abstract function transform(array $config);
+
+    protected abstract function _transformSubConfig(array $config, $parentNode, $element);
 
     protected function _transformElement($nodeId, $config, $nodeName, $allowedNames = array())
     {
@@ -103,7 +85,8 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
         $element['parameters'] = array();
         foreach($config as $nodeName => $nodeValue) {
             if ($this->_needMoveToAttribute($nodeName)) {
-                $element['@attributes'][$this->_getAttributeName($nodeName)] = $nodeValue;
+                $element['@attributes'][$this->_getAttributeName($nodeName)] = $nodeValue['#text'];
+                unset($config[$nodeName]);
                 continue;
             }
 
@@ -116,12 +99,16 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
             }
 
             $node['name'] = $nodeName;
-            if (is_array($nodeValue)) {
-                foreach ($nodeValue as $elementName => $elementConfig) {
-                    $node['subConfig'][] = $this->_transformElement(null, $elementConfig, $elementName);
-                }
+            if (is_array($nodeValue) && !(isset($nodeValue['#text']) || isset($nodeValue['#cdata-section']))) {
+                $element = $this->_transformSubConfig($nodeValue, $node, $element);
+                continue;
             } else {
-                $node['value'] = $nodeValue;
+                if (isset($nodeValue['#text'])) {
+                    $node['#text'] = $nodeValue['#text'];
+                }
+                if (isset($nodeValue['#cdata-section'])) {
+                    $node['#cdata-section'] = $nodeValue['#cdata-section'];
+                }
             }
 
             $element['parameters'][] = $node;

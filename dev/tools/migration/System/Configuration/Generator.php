@@ -26,6 +26,11 @@ class Tools_Migration_System_Configuration_Generator
      */
     protected $_logger;
 
+    /**
+     * @var Tools_Migration_System_Configuration_LoggerAbstract
+     */
+    protected $_fileSchemaPath;
+
     public function __construct(
         Tools_Migration_System_Configuration_Formatter $xmlFormatter,
         Tools_Migration_System_FileManager $fileManager,
@@ -34,6 +39,11 @@ class Tools_Migration_System_Configuration_Generator
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
         $this->_logger = $logger;
+
+
+        $this->_fileSchemaPath = realpath(
+            dirname(__FILE__) . '/../../../../../' . 'app/code/core/Mage/Backend/Model/Config/Structure/system_file.xsd'
+        );
     }
 
     /**
@@ -44,6 +54,10 @@ class Tools_Migration_System_Configuration_Generator
     public function createConfiguration($fileName, array $configuration)
     {
         $domDocument = $this->_createDOMDocument($configuration);
+        if (!$domDocument->schemaValidate($this->_fileSchemaPath)) {
+            $this->_logger->add($fileName . ' was converted but is not valid');
+        }
+
         $output = $this->_xmlFormatter->parseString($domDocument->saveXml(), array(
             'indent' => true,
             'input-xml' => true,
@@ -86,7 +100,11 @@ class Tools_Migration_System_Configuration_Generator
      */
     protected function _createElement($config, DOMDocument $dom)
     {
-        $element = $dom->createElement($config['nodeName'], isset($config['value']) ? $config['value'] : '');
+        $element = $dom->createElement($config['nodeName'], isset($config['#text']) ? $config['#text'] : '');
+        if (isset($config['#cdata-section'])) {
+            $cdataSection = $dom->createCDATASection($config['#cdata-section']);
+            $element->appendChild($cdataSection);
+        }
         $attributes = isset($config['@attributes']) ? $config['@attributes'] : array();
         foreach ($attributes as $attributeName => $attributeValue) {
             $element->setAttribute($attributeName, $attributeValue);
@@ -94,10 +112,18 @@ class Tools_Migration_System_Configuration_Generator
 
         $parameters = isset($config['parameters']) ? $config['parameters'] : array();
         foreach ($parameters as $paramConfig) {
+            if ($paramConfig['name'] == '#text') {
+                $element->nodeValue = $paramConfig['value'];
+                continue;
+            }
             $childElement = $dom->createElement(
                 $paramConfig['name'],
-                isset($paramConfig['value']) ? $paramConfig['value'] : ''
+                isset($paramConfig['#text']) ? $paramConfig['#text'] : ''
             );
+            if (isset($paramConfig['#cdata-section'])) {
+                $childCDataSection = $dom->createCDATASection($paramConfig['#cdata-section']);
+                $childElement->appendChild($childCDataSection);
+            }
 
             $paramAttributes = isset($paramConfig['@attributes']) ? $paramConfig['@attributes'] : array();
             foreach ($paramAttributes as $attributeName => $attributeValue) {
@@ -129,6 +155,6 @@ class Tools_Migration_System_Configuration_Generator
      */
     protected function _getPathToSave($fileName)
     {
-        return dirname($fileName) . 'adminhtml' . DIRECTORY_SEPARATOR . 'system.xml';
+        return dirname($fileName) . DIRECTORY_SEPARATOR . 'adminhtml' . DIRECTORY_SEPARATOR . 'system.xml';
     }
 }

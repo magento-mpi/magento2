@@ -17,8 +17,6 @@ class Tools_Migration_System_Configuration_Mapper
     {
         $this->_tabMapper = new Tools_Migration_System_Configuration_Mapper_Tab();
         $this->_sectionMapper = new Tools_Migration_System_Configuration_Mapper_Section();
-
-
     }
 
     public function transform(array $config)
@@ -27,8 +25,6 @@ class Tools_Migration_System_Configuration_Mapper
         $output['comment'] = $config['comment'];
 
         $nodes = array();
-        $config = $config['config'];
-
         $tabsConfig = isset($config['tabs']) ? $config['tabs'] : array();
         $sectionsConfig = isset($config['sections']) ? $config['sections'] : array();
 
@@ -43,12 +39,4 @@ class Tools_Migration_System_Configuration_Mapper
 
         return $output;
     }
-
-
-
-
-
-
-
-
 }

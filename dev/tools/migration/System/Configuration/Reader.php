@@ -37,7 +37,7 @@ class Tools_Migration_System_Configuration_Reader
     /**
      * pattern to find all system.xml files
      */
-    CONST SYSTEM_CONFIG_PATH_PATTERN = 'app/code/*/*/*/etc/system.xml';
+    CONST SYSTEM_CONFIG_PATH_PATTERN = 'app/code/core/Mage/Paypal/etc/system.xml';
 
     public function __construct(
         Tools_Migration_System_FileManager $fileManager,
