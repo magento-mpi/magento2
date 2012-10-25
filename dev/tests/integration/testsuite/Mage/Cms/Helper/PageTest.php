@@ -23,7 +23,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
         $result = $helper->renderPage(
             new Mage_Core_Controller_Front_Action(new Magento_Test_Request, new Magento_Test_Response), $page->getId()
         );
-        $this->assertEquals('default/modern/default', Mage::getDesign()->getDesignTheme());
+        $this->assertEquals('default/default_modern', Mage::getDesign()->getDesignTheme());
         $this->assertTrue($result);
     }
 }

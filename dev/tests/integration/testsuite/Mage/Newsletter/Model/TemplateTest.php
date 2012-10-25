@@ -56,10 +56,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function getProcessedTemplateDataProvider()
     {
         return array(
-            'install'        => array('install',   'default',      'default/default/default'),
-            'backend'        => array('adminhtml', 'admin',        'default/default/default'),
-            'frontend'       => array('frontend',  'default',      'default/iphone/default'),
-            'frontend store' => array('frontend',  'fixturestore', 'default/default/blue'),
+            'install'        => array('install',   'default',      'default/default'),
+            'backend'        => array('adminhtml', 'admin',        'default/default'),
+            'frontend'       => array('frontend',  'default',      'default/default_iphone'),
+            'frontend store' => array('frontend',  'fixturestore', 'default/default_blue'),
         );
     }
 

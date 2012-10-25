@@ -74,7 +74,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $this->_model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertEquals('default/modern/default', Mage::getDesign()->getDesignTheme());
+        $this->assertEquals('default/default_modern', Mage::getDesign()->getDesignTheme());
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignDesignChange()
     {
         $this->_model->detectDesign();
-        $this->assertEquals('default/modern/default', Mage::getDesign()->getDesignTheme());
+        $this->assertEquals('default/default_modern', Mage::getDesign()->getDesignTheme());
     }
 
     // @codingStandardsIgnoreStart
@@ -101,7 +101,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $model = new Mage_Core_Model_App_Area('install');
         $model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertNotEquals('default/modern/default', Mage::getDesign()->getDesignTheme());
-        $this->assertNotEquals('default/default/blue', Mage::getDesign()->getDesignTheme());
+        $this->assertNotEquals('default/default_modern', Mage::getDesign()->getDesignTheme());
+        $this->assertNotEquals('default/default_blue', Mage::getDesign()->getDesignTheme());
     }
 }

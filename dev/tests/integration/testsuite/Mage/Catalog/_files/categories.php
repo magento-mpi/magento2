@@ -50,7 +50,7 @@ $category->setId(3)
             ->setIsActive(true)
             ->setPosition(2)
             ->setCustomUseParentSettings(0)
-            ->setCustomDesign('default/default/blue')
+            ->setCustomDesign('default/default_blue')
             ->save();
 
 $category = new Mage_Catalog_Model_Category();

@@ -94,7 +94,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplate()
     {
-        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
+        $expectedSkinUrl = 'skin/frontend/default/default_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
@@ -123,7 +123,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateSubject()
     {
-        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
+        $expectedSkinUrl = 'skin/frontend/default/default_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(

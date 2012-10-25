@@ -13,7 +13,7 @@ class Enterprise_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {
-        $this->assertEquals('enterprise/default/default',
+        $this->assertEquals('enterprise/default',
             (string)Mage::app()->getConfig()->getNode('default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME)
         );
         $this->assertEquals('default/default/enterprise',

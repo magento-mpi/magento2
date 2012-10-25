@@ -27,6 +27,6 @@ $page->setTitle('Cms Page Design Modern')
     ->setIsActive(1)
     ->setContent('<h1>Cms Page Design Modern Title</h1>')
     ->setRootTemplate('one_column')
-    ->setCustomTheme('default/modern/default')
+    ->setCustomTheme('default/default_modern')
     ->save()
 ;
