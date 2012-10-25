@@ -41,29 +41,27 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
 
         $this->_options = array();
         foreach ($designEntitiesStructure as $packageCode => $themes) {
-            foreach ($themes as $themeCode => $skins) {
-                $optGroup = array(
-                    'label' => $config->getPackageTitle($packageCode)
-                        . ' / ' . $config->getThemeTitle($packageCode, $themeCode),
-                    'value' => array()
+            $optGroup = array(
+                'label' => $config->getPackageTitle($packageCode),
+                'value' => array()
+            );
+
+            foreach ($themes as $themeCode) {
+                $optGroup['value'][] = array(
+                    'label' => $config->getThemeTitle($packageCode, $themeCode),
+                    'value' => $packageCode . '/' . $themeCode,
                 );
-                foreach ($skins as $skinName => $value) {
-                    $label = $this->_prepareLabel($skinName, $packageCode, $themeCode);
-                    $optGroup['value'][] = array(
-                        'label' => $label,
-                        'value' => $packageCode . '/' . $themeCode . '/' . $skinName,
-                    );
-                }
-                $this->_options[] = $optGroup;
             }
+            $this->_options[] = $optGroup;
         }
+
         $this->_sortByKey($this->_options, 'label'); // order by package title
 
         $options = $this->_options;
         if ($withEmpty) {
             array_unshift($options, array(
-                'value'=>'',
-                'label'=>Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'))
+                'value' => '',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'))
             );
         }
         return $options;

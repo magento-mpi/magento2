@@ -1045,51 +1045,17 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignEntitiesStructure($area, $addInheritedSkins = true)
     {
-        $areaThemeConfig = $this->getThemeConfig($area);
-        $areaStructure = $this->_getDesignEntitiesFilesystemStructure($area);
+        $areaStructure = array();
 
-        foreach ($areaStructure as $packageName => &$themes) {
-            foreach ($themes as $themeName => &$skins) {
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern($area);
 
-                /**
-                 * Join to theme inherited skins
-                 */
-                if ($addInheritedSkins) {
-                    $currentPackage = $packageName;
-                    $currentTheme = $themeName;
-                    while ($inheritedPackageTheme = $areaThemeConfig->getParentTheme($currentPackage, $currentTheme)) {
-                        list($inheritedPackage, $inheritedTheme) = $inheritedPackageTheme;
-                        if (!isset($areaStructure[$inheritedPackage][$inheritedTheme])) {
-                            break;
-                        }
-                        $areaStructure[$packageName][$themeName] = array_merge(
-                            $areaStructure[$packageName][$themeName],
-                            $areaStructure[$inheritedPackage][$inheritedTheme]
-                        );
-                        $currentPackage = $inheritedPackage;
-                        $currentTheme = $inheritedTheme;
-                    }
-                }
-
-                /**
-                 * Delete themes without skins or sort skins
-                 */
-                if (empty($areaStructure[$packageName][$themeName])) {
-                    unset($areaStructure[$packageName][$themeName]);
-                } else {
-                    ksort($skins);
-                }
-            }
-            /**
-             * Delete packages without themes or sort themes
-             */
-            if (empty($areaStructure[$packageName])) {
-                unset($areaStructure[$packageName]);
-            }
-            ksort($themes);
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            list($package, $theme) = explode('/', $theme->getThemePath());
+            $areaStructure[$package][] = $theme;
         }
-
-        ksort($areaStructure);
         return $areaStructure;
     }
 
