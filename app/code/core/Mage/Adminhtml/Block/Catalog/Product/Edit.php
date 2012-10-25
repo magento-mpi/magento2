@@ -17,6 +17,18 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Widget
 {
+
+    /**
+     * Types available for transition
+     *
+     * @var array
+     */
+    protected $_transisionalTypes = array(
+        'simple' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'virtual' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
+        'downloadable' => Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
+    );
+
     public function __construct()
     {
         parent::__construct();
@@ -258,5 +270,34 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getAttributesAllowedForAutogeneration()
     {
         return $this->helper('Mage_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
+    }
+
+    public function getJSData()
+    {
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            'tab_id' => 'product_info_tabs_downloadable_items',
+            'checkbox_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
+            'current_type' => $this->getProduct()->getTypeId(),
+            'transitional_types' => $this->_transisionalTypes,
+            'is_transitional_type' => $this->_isTransitionalType(),
+            'attributes' => $this->_getAttributes(),
+        ));
+    }
+
+    protected function _isTransitionalType()
+    {
+        return in_array($this->getProduct()->getTypeId(), $this->_transisionalTypes);
+    }
+
+    protected function _getAttributes()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getProduct();
+        $attributes = array();
+
+        foreach ($product->getAttributes() as $key => $attribute) {
+            $attributes[$key] = $attribute->getApplyTo();
+        }
+        return $attributes;
     }
 }

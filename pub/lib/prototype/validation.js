@@ -137,6 +137,11 @@ Validation.prototype = {
                     if (elm.hasClassName('local-validation') && !this.isElementInForm(elm, this.form)) {
                         return true;
                     }
+                    var parent_transitional = elm.up('.attribute-tr');
+                    if (typeof parent_transitional !== 'undefined'
+                        && parent_transitional.hasClassName('transitional-disabled')) {
+                        return true;
+                    }
                     return Validation.validate(elm,{useTitle : useTitles, onElementValidate : callback});
                 }, this).all();
             }

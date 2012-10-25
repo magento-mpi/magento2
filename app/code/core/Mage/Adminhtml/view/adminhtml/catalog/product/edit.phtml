@@ -186,6 +186,97 @@ Event.observe(window, 'load', function() {
     })(jQuery);
 });
 
+jQuery(function($) {
+    var data = <?php echo $this->getJSData();?>;
+    var TypeSwitcher = function(data) {
+        this._data = data;
+    };
+    $.extend(TypeSwitcher.prototype, {
+        attributesContainer: null,
+        //Called after DOM is ready
+        bindAll: function() {
+            var attrContainer = this._getAttributesContainers(this._data.attributes),
+                    currentType = this._data.current_type,
+                    transitionalTypes = this._data.transitional_types,
+                    isTransitionalType = this._data.is_transitional_type;
+            //initial attribute hiding
+            $.each(this._data.attributes, function(id, applyTo) {
+                var isAppliedToTransition = false;
+                $.each(transitionalTypes, function(k, v) {
+                    if($.inArray(v, applyTo) !== -1 && currentType !== transitionalTypes['simple']) {
+                        //If attribute can be shown in one of transitional types, don't hide it
+                        isAppliedToTransition = true;
+                        return false;
+                    }
+                });
+                if (applyTo.length === 0) {
+                    return true; //continue
+                }
+                if (($.inArray(currentType, applyTo) === -1 && isAppliedToTransition === false)
+                        || !isTransitionalType) {
+                    //Hide attribute if it's not applied to current type, none of the transitional types
+                    //or current type is not transitional itself
+                    attrContainer[id].css('display', 'none').addClass('transitional-disabled');
+                }
+                attrContainer[id].addClass('attribute-tr');
+            });
+
+            var tabItem = $('#' + this._data.tab_id).parent();
+
+            //Hide Downloadable Information tab for simple
+            if (currentType === transitionalTypes['simple']) {
+                tabItem.css('display', 'none');
+            }
+
+            this._checkbox = $('#' + this._data.checkbox_id);
+            this._checkbox.bind('click', {_this: this, tabItem: tabItem}, this._switcher);
+        },
+        //all attributes selectors, used for hiding and showing
+        _getAttributesContainers: function(data) {
+            if (this.attributesContainer === null) {
+                var attributes = {};
+                $.each(data, function(id, mask) {
+                    attributes[id] = $('#element-tr-' + id);
+                });
+                this.attributesContainer = attributes;
+            }
+            return this.attributesContainer;
+        },
+        //Showing and hiding attributes by Is Virtual switcher
+        _switcher: function(event) {
+            var attrContainer = event.data._this._getAttributesContainers(),
+                    attributes = event.data._this._data.attributes,
+                    currentType = event.data._this._data.current_type,
+                    transitionalTypes = event.data._this._data.transitional_types;
+            if ('checked' === $(this).attr('checked')) {
+                event.data.tabItem.css('display', '');
+                $.each(attributes, function(id, applyTo) {
+                    if (applyTo.length === 0) {
+                        return true; //continue
+                    }
+                    $.each(transitionalTypes, function(k, v) {
+                        if ($.inArray(v, applyTo) !== -1) {
+                            attrContainer[id].css('display', '').removeClass('transitional-disabled');
+                            return false;
+                        }
+                    });
+                });
+            } else {
+                event.data.tabItem.css('display', 'none');
+                $.each(attributes, function(id, applyTo) {
+                    if (applyTo.length === 0) {
+                        return true; //continue
+                    }
+                    if ($.inArray(transitionalTypes['simple'], applyTo) === -1) {
+                        attrContainer[id].css('display', 'none').addClass('transitional-disabled');
+                    }
+                });
+            }
+        }
+    });
+    new TypeSwitcher(data).bindAll();
+});
+
 Validation.addAllThese([
     ['validate-super-product-attributes', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please select one or more attributes.') ?>', function(v) {
         return (v != "no-attributes");
