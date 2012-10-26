@@ -144,10 +144,12 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Return array for select field
      *
+     * @param bool $addEmptyField
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray($addEmptyField = false)
     {
-        return $this->_toOptionArray('theme_id', 'theme_title');
+        $optionArray = $addEmptyField ? array('' => '') : array();
+        return $optionArray + $this->_toOptionArray('theme_id', 'theme_title');
     }
 }

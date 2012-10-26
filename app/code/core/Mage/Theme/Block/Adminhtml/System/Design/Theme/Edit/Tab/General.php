@@ -85,24 +85,28 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
         ));
 
+        /** @var $parentTheme Mage_Core_Model_Theme */
+        $parentTheme = Mage::getModel('Mage_Core_Model_Theme');
+        if (!empty($formData['parent_id'])) {
+            $parentTheme->load($formData['parent_id']);
+        }
+
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('parent_id', 'select', array(
                 'label'    => $this->__('Parent theme'),
                 'title'    => $this->__('Parent theme'),
                 'name'     => 'parent_id',
-                'values'   => $themesCollections->toOptionArray(),
-                'required' => false,
+                'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
+                'required' => true,
                 'class'    => 'no-changes',
                 'onchange' => $onChangeScript
             ));
         } else if (!empty($formData['parent_id'])) {
-            /** @var $parentTheme Mage_Core_Model_Theme */
-            $parentTheme = $themesCollections->getItemById($formData['parent_id']);
             $themeFieldset->addField('parent_title', 'note', array(
                 'label'    => $this->__('Parent theme'),
                 'title'    => $this->__('Parent theme'),
                 'name'     => 'parent_title',
-                'text'     => $parentTheme ? $parentTheme->getThemeTitle() : ''
+                'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
             ));
         }
 

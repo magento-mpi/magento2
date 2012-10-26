@@ -117,11 +117,54 @@ class Mage_Core_Model_Observer
             foreach ($themeCollection as $theme) {
                 $this->_saveThemeRecursively($theme, $themeCollection);
             }
+            $this->_checkParentInVirtualThemes();
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
         }
 
         return $this;
+    }
+
+    /**
+     * Check whether all virtual themes have non virtual parent theme
+     *
+     * @return Mage_Core_Model_Observer
+     */
+    protected function _checkParentInVirtualThemes()
+    {
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            if ($theme->getParentId()) {
+                $theme->setParentId($this->_getParentThemeRecursively($theme->getParentId(), $themeCollection));
+                $theme->save();
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Get parent non virtual theme recursively
+     *
+     * @param int $parentId
+     * @param Mage_Core_Model_Resource_Theme_Collection $collection
+     * @return int|null
+     */
+    protected function _getParentThemeRecursively($parentId, $collection)
+    {
+        /** @var $parentTheme Mage_Core_Model_Theme */
+        $parentTheme = $collection->getItemById($parentId);
+        if (!$parentTheme->getId()) {
+            $parentId = null;
+        } else if ($parentTheme->isVirtual()) {
+            if ($parentTheme->getParentId()) {
+                $parentId = $this->_getParentThemeRecursively($parentTheme->getParentId(), $collection);
+            } else {
+                $parentId = null;
+            }
+        }
+        return $parentId;
     }
 
     /**
