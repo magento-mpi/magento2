@@ -15,15 +15,15 @@ class Mage_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Fr
      * Test setClassTypeFilter with correct Class Type
      *
      * @param $classType
-     * @param $id
+     * @param $elementId
      * @param $expected
      *
      * @dataProvider setClassTypeFilterDataProvider
      */
-    public function testSetClassTypeFilter($classType, $id, $expected)
+    public function testSetClassTypeFilter($classType, $elementId, $expected)
     {
         $collection = new Mage_Tax_Model_Resource_Calculation_Rule_Collection();
-        $collection->setClassTypeFilter($classType, $id);
+        $collection->setClassTypeFilter($classType, $elementId);
         $this->assertRegExp($expected, (string)$collection->getSelect());
     }
 

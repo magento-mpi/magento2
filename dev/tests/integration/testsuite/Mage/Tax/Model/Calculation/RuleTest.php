@@ -20,24 +20,24 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      *
      * @var Mage_Tax_Model_Class
      */
-    protected $_customerTaxClassMock;
+    protected $_customerTaxClass;
 
     /**
      * Product Tax Model Class Mock
      *
      * @var Mage_Tax_Model_Class
      */
-    protected $_productTaxClassMock;
+    protected $_productTaxClass;
 
 
     protected function setUp()
     {
-        $this->_customerTaxClassMock = $this->_getTaxClassMock(
+        $this->_customerTaxClass = $this->_getTaxClassMock(
             'getCustomerClasses',
             Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
         );
 
-        $this->_productTaxClassMock = $this->_getTaxClassMock(
+        $this->_productTaxClass = $this->_getTaxClassMock(
             'getProductClasses',
              Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
         );
@@ -50,7 +50,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClassMock));
+        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClass));
         $this->assertEquals(1, $model->getCustomerTaxClassWithDefault());
     }
 
@@ -61,7 +61,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClassMock));
+        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClass));
         $this->assertEquals(2, $model->getCustomerTaxClassWithDefault());
     }
 
@@ -72,7 +72,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFirstValue()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClassMock));
+        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClass));
         $this->assertEquals(1, $model->getProductTaxClassWithDefault());
     }
 
@@ -83,7 +83,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFromConfig()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClassMock));
+        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClass));
         $this->assertEquals(2, $model->getProductTaxClassWithDefault());
     }
 
@@ -97,10 +97,10 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule();
         $classes = $model->getAllOptionsForClass($classFilter);
         $this->assertCount(count($expected), $classes);
-        $i = 0;
+        $count = 0;
         foreach($classes as $class) {
-            $this->assertEquals($expected[$i], $class['label']);
-            $i++;
+            $this->assertEquals($expected[$count], $class['label']);
+            $count++;
         }
     }
 
