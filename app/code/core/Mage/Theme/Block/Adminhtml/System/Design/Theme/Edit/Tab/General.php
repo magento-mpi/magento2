@@ -75,19 +75,16 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         }
 
-        /** @var $themesCollections Mage_Core_Model_Resource_Theme_Collection */
-        $themesCollections = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
-        if ($this->getIsThemeExist()) {
-            $themesCollections->addFieldToFilter('theme_id', array('neq' => $formData['theme_id']));
-            $onChangeScript = '';
-        } else {
-            /** @var $helper Mage_Core_Helper_Data */
-            $helper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $themesCollections Mage_Core_Model_Theme_Collection */
+        $themesCollections = Mage::getResourceModel('Mage_Core_Model_Theme_Collection');
 
-            $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)',
-                str_replace('"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections)))
-            );
-        }
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+
+        $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)', str_replace(
+            '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
+        ));
+
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('parent_id', 'select', array(
                 'label'    => $this->__('Parent theme'),
@@ -320,7 +317,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $data = array(
             '' => $this->_getDefaults()
         );
+
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themesCollections as $theme) {
+            $theme->load($theme->getThemePath(), 'theme_path');
+            if (!$theme->getId()) {
+                continue;
+            }
             $data[$theme->getId()] = array(
                 'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle()),
                 'magento_version_from' => $theme->getMagentoVersionFrom(),

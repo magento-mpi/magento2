@@ -36,6 +36,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
                 'onclick' => "editForm.submit($('edit_form').action+'back/edit/');",
                 'class'   => 'save',
             ), 1);
+
+            if ($theme->hasChildThemes()) {
+                $onClick = 'deleteConfirm(\'' . $this->__('Theme contains child themes. Their parent will be modified.')
+                    . ' ' . $this->__('Are you sure you want to do this?')
+                    . '\', \'' . $this->getUrl('*/*/delete', array('id' => $theme->getId())) . '\')';
+
+                $this->_updateButton('delete', 'onclick', $onClick);
+            }
         }
 
         return parent::_prepareLayout();
