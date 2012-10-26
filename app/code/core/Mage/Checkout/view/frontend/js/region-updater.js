@@ -10,6 +10,7 @@
 (function($) {
     $.widget('mage.regionUpdater', {
         options: {
+            regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>'
         },
         _create: function() {
             this._updateRegion(this.element.find('option:selected').val());
@@ -23,6 +24,21 @@
                 $(this.options.formId).submit();
             }, this));
         },
+        _removeSelectOptions: function(selectElement) {
+            selectElement.find('option').each(function (index){
+                index && $(this).remove();
+            });
+        },
+        _renderSelectOption: function(selectElement, key, value) {
+            selectElement.append($.proxy(function() {
+                $.template('regionTemplate', this.options.regionTemplate);
+                if (this.options.defaultRegion === key) {
+                    return $.tmpl('regionTemplate', {value: key, title: value.name, isSelected: true});
+                } else {
+                    return $.tmpl('regionTemplate', {value: key, title: value.name});
+                }
+            }, this));
+        },
         _updateRegion: function(country) {
             // Clear validation error messages
             var form = $(this.options.formId),
@@ -33,19 +49,9 @@
             form.find('.mage-error').removeClass('mage-error');
             // Populate state/province dropdown list if available or use input box
             if (this.options.regionJson[country]) {
-                regionList.find('option').each(function (index){
-                    index && $(this).remove();
-                });
+                this._removeSelectOptions(regionList);
                 $.each(this.options.regionJson[country], $.proxy(function(key, value) {
-                    regionList.append($.proxy(function() {
-                        var option = '<option value="%v" title="%t">%t</option>';
-                        var optionWithSelect = '<option value="%v" title="%t" selected="selected">%t</option>';
-                        if (this.options.defaultRegion === key) {
-                            return optionWithSelect.replace(/%v/g, key).replace(/%t/g, value.name);
-                        } else {
-                            return option.replace(/%v/g, key).replace(/%t/g, value.name);
-                        }
-                    }, this));
+                    this._renderSelectOption(regionList, key, value);
                 }, this));
                 regionList.addClass('required').show();
                 regionInput.removeClass('required').hide();
