@@ -139,7 +139,7 @@
                 <label>Price</label>
                 <field id="scope" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Catalog Price Scope</label>
-                    <comment>.</comment>
+                    <comment><![CDATA[Defines the base currency scope ("Currency Setup" > "Currency Options" > "Base Currency").]]></comment>
                     <source_model>Mage_Catalog_Model_Config_Source_Price_Scope</source_model>
                     <attribute type="hide_in_single_store_mode">1</attribute>
                 </field>
