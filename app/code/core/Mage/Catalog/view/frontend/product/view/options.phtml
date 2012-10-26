@@ -16,6 +16,7 @@
         (function ($) {
             head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/price-option.js') ?>", function () {
                 priceOptionInstance.options.optionConfig = <?php echo $this->getJsonConfig()?>;
+                priceOptionInstance.reloadPrice();
             });
         })(jQuery);
     </script>

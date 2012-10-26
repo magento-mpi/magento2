@@ -38,7 +38,7 @@
             // Overwrite defaults by inputs values if needed
             if (this.options.spConfig.inputsInitialized) {
                 this.options.values = {};
-                $.each(this.options.setings, $.proxy(function (element) {
+                $.each(this.options.setings, $.proxy(function (index, element) {
                     if (element.value) {
                         var attributeId = element.id.replace(/[a-z]*/, '');
                         this.options.values[attributeId] = element.value;
@@ -77,7 +77,7 @@
         },
         _configureForValues: function () {
             if (this.options.values) {
-                this.options.setings.each($.proxy(function (element) {
+                this.options.setings.each($.proxy(function (index, element) {
                     var attributeId = element.attributeId;
                     element.value = (typeof(this.options.values[attributeId]) === 'undefined') ? '' : this.options.values[attributeId];
                     this._configureElement(element);
