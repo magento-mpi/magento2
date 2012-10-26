@@ -33,7 +33,8 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     public function codeLengthDefaultValue()
     {
         //Steps
-        $this->fillField('code_length', '10');
+        $defaultValue = '10';
+        $this->fillField('code_length', $defaultValue);
         $this->clickButton('save_config');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_config');
@@ -42,8 +43,10 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
+        $this->addParameter('defaultValue', $defaultValue);
+        $xpath = $this->_getControlXpath('pageelement', 'default_code_length');
         //Verification
-        if (!$this->isElementPresent('//input[@id="coupons_length" and @value="10"]')) {
+        if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Length field');
         }
     }
@@ -56,7 +59,8 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     public function codeFormatDefaultValue()
     {
         //Steps
-        $this->fillDropdown('code_format', 'Numeric');
+        $defaultValue = 'num';
+        $this->fillDropdown('code_format', $defaultValue);
         $this->clickButton('save_config');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_config');
@@ -65,23 +69,25 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
+        $this->addParameter('defaultValue', $defaultValue);
+        $xpath = $this->_getControlXpath('pageelement', 'default_code_format');
         //Verification
-        if (!$this->isElementPresent('//select[@id="coupons_format"]//option[@selected="selected" and @value="num"]')) {
+        if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Format dropdown');
         }
     }
 
     /**
      * @test
-     * @param string $value
+     * @param string $defaultValue
      * @dataProvider codeSuffixDefaultValueDataProvider
      * @TestlinkId TL-MAGE-3935
      * @author yaroslav.goncharuk
      */
-    public function codePrefixDefaultValue($value)
+    public function codePrefixDefaultValue($defaultValue)
     {
         //Steps
-        $this->fillField('code_prefix', $value);
+        $this->fillField('code_prefix', $defaultValue);
         $this->clickButton('save_config');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_config');
@@ -90,7 +96,8 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
-        $xpath = "//input[@id='coupons_prefix' and @value='" . $value . "']";
+        $this->addParameter('defaultValue', $defaultValue);
+        $xpath = $this->_getControlXpath('pageelement', 'default_code_prefix');
         //Verification
         if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Prefix field');
@@ -99,15 +106,15 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
 
     /**
      * @test
-     * @param string $value
+     * @param string $defaultValue
      * @dataProvider codeSuffixDefaultValueDataProvider
      * @TestlinkId TL-MAGE-3936
      * @author yaroslav.goncharuk
      */
-    public function codeSuffixDefaultValue($value)
+    public function codeSuffixDefaultValue($defaultValue)
     {
         //Steps
-        $this->fillField('code_suffix', $value);
+        $this->fillField('code_suffix', $defaultValue);
         $this->clickButton('save_config');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_config');
@@ -116,7 +123,8 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
-        $xpath = "//input[@id='coupons_suffix' and @value='". $value ."']";
+        $this->addParameter('defaultValue', $defaultValue);
+        $xpath = $this->_getControlXpath('pageelement', 'default_code_suffix');
         //Verification
         if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Suffix field');
@@ -143,7 +151,8 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     public function dashDefaultValue()
     {
         //Steps
-        $this->fillField('dash_every_x_characters', '3');
+        $defaultValue = '3';
+        $this->fillField('dash_every_x_characters', $defaultValue);
         $this->clickButton('save_config');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_config');
@@ -152,8 +161,10 @@ class Community2_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
+        $this->addParameter('defaultValue', $defaultValue);
+        $xpath = $this->_getControlXpath('pageelement', 'default_dash_every_x_characters');
         //Verification
-        if (!$this->isElementPresent('//input[@id="coupons_dash" and @value="3"]')) {
+        if (!$this->isElementPresent($xpath)) {
             $this->fail('Wrong specified default value in Dash Every X Characters field');
         }
     }
