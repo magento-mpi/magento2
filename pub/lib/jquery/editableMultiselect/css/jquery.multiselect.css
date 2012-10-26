@@ -54,11 +54,6 @@
     top:-9999px;
 }
 
-.mselect-list-item label>span {
-    display: block;
-    padding: 5px;
-}
-
 .mselect-list-item.mselect-disabled label span {
     color:#999;
     cursor: default;
@@ -67,9 +62,21 @@
     background: #fff;
 }
 
+.mselect-list-item label>span {
+    display: block;
+    padding: 5px 50px 5px 5px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 .mselect-list-item label span form {
     position: relative;
+    margin-right: -45px;
     z-index: 2;
+}
+
+.mselect-list-item input[type='text'] {
+    padding-right: 45px;
 }
 
 .mselect-cancel,
