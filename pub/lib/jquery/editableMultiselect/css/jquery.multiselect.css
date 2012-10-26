@@ -51,7 +51,8 @@
 
 .mselect-list-item input[type='checkbox'] {
     position: absolute;
-    top:-9999px;
+    left:-9999px;
+    opacity: 0;
 }
 
 .mselect-list-item.mselect-disabled label span {
