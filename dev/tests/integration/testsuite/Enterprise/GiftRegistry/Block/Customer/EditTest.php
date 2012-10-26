@@ -18,7 +18,7 @@ class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_block = new Enterprise_GiftRegistry_Block_Customer_Edit;
+        $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Customer_Edit');
     }
 
     protected function tearDown()

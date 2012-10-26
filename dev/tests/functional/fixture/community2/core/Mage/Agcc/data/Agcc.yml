@@ -18,6 +18,7 @@ scpr_required_fields_without_agcc:
     info:
         rule_name: scpr_name_%randomize%
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         coupon_code: test_code_%randomize%
@@ -29,6 +30,7 @@ scpr_required_fields_without_agcc:
 verification_scpr_required_fields_without_agcc:
     info:
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: No
@@ -40,6 +42,7 @@ scpr_required_fields_with_agcc:
     info:
         rule_name: scpr_name_%randomize%
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: Yes
@@ -51,6 +54,7 @@ scpr_required_fields_with_agcc_and_coupon_code:
     info:
         rule_name: scpr_name_%randomize%
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         coupon_code: test_code_%randomize%
@@ -62,6 +66,7 @@ scpr_required_fields_with_agcc_and_coupon_code:
 verification_scpr_required_fields_with_agcc_and_coupon_code:
     info:
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         coupon_code: %noValue%
@@ -74,6 +79,7 @@ scpr_required_fields_with_agcc_negative:
     info:
         rule_name: scpr_name_%randomize%
         status: Active
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: No
@@ -85,6 +91,7 @@ scpr_required_fields_deactivate_agcc:
     info:
         rule_name: scpr_name_%randomize%
         status: Inactive
+        websites: Main Website
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: No

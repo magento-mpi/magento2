@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$recurringProfile = new Mage_Sales_Model_Recurring_Profile();
+$recurringProfile = Mage::getModel('Mage_Sales_Model_Recurring_Profile');
 $recurringProfile->addData(array(
     'store_id'                => 1,
     'method_code'             => Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS,

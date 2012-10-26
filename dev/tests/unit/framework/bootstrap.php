@@ -25,7 +25,7 @@ spl_autoload_register('magentoAutoloadForUnitTests');
 
 function magentoAutoloadForUnitTests($class)
 {
-    $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+    $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
     foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
         $fileName = $path . DIRECTORY_SEPARATOR . $file;
         if (file_exists($fileName)) {
@@ -44,3 +44,5 @@ $instance = new Magento_Test_Environment($tmpDir);
 Magento_Test_Environment::setInstance($instance);
 $instance->cleanTmpDir()
     ->cleanTmpDirOnShutdown();
+
+Mage::setIsSerializable(false);

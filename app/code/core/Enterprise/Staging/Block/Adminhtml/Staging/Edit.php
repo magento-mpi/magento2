@@ -16,10 +16,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
+
+    protected $_template = 'staging/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('staging/edit.phtml');
+        parent::_construct();
+
         $this->setId('enterprise_staging_edit');
 
         $this->setEditFormJsObject('enterpriseStagingForm');

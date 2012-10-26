@@ -11,11 +11,8 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
     extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('edit/type/date.phtml');
-    }
+
+    protected $_template = 'edit/type/date.phtml';
 
     /**
      * Select element for choosing attribute type

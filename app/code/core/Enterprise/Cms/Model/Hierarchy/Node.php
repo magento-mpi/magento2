@@ -95,17 +95,22 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      *
      * @param array $options
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct();
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
-        if (array_key_exists('scope', $options)) {
-            $scope = $options['scope'];
+        if (array_key_exists('scope', $data)) {
+            $scope = $data['scope'];
         }
 
-        if (array_key_exists('scope_id', $options)) {
-            $scopeId = $options['scope_id'];
+        if (array_key_exists('scope_id', $data)) {
+            $scopeId = $data['scope_id'];
         }
 
         $this->setScope($scope);
@@ -801,16 +806,18 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         if ($this->getIsInherited()) {
             $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
-                'scope' =>  $parentScope[0],
-                'scope_id' => $parentScope[1],
-            ));
-            if ($parentScopeNode->getIsInherited()) {
-                $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+            $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
+                array(
                     'scope' =>  $parentScope[0],
                     'scope_id' => $parentScope[1],
-                ));
+            )));
+            if ($parentScopeNode->getIsInherited()) {
+                $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
+                $parentScopeNode = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' =>
+                    array(
+                        'scope' =>  $parentScope[0],
+                        'scope_id' => $parentScope[1],
+                )));
             }
             return $parentScopeNode;
         }

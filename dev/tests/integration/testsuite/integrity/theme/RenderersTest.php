@@ -29,8 +29,9 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
         $blocks = array();
         foreach ($this->_getDesignThemes() as $themeInfo) {
             list($area, $package, $theme) = explode('/', $themeInfo);
-            $layoutUpdate = new Mage_Core_Model_Layout_Merge(
-                array('area' => $area, 'package' => $package, 'theme' => $theme)
+            $layoutUpdate = Mage::getModel(
+                'Mage_Core_Model_Layout_Merge',
+                array('arguments' => array('area' => $area, 'package' => $package, 'theme' => $theme))
             );
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {

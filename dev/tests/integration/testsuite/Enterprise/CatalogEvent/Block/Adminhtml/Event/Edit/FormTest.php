@@ -19,10 +19,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUni
      */
     public function testPrepareForm()
     {
-        $event = new Enterprise_CatalogEvent_Model_Event;
+        /** @var $event Enterprise_CatalogEvent_Model_Event */
+        $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->setCategoryId(1)->setId(1);
         Mage::register('enterprise_catalogevent_event', $event);
-        $block = new Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form;
+        $block = Mage::app()->getLayout()->createBlock('Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form');
         $prepareFormMethod = new ReflectionMethod(
             'Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

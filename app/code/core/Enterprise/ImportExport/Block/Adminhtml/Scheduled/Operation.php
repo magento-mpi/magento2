@@ -25,6 +25,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation extends Mage_A
     protected function _construct()
     {
         $this->_addButtonLabel = Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Add Scheduled Export');
+        parent::_construct();
 
         $this->_addButton('add_new_import', array(
             'label'   => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Add Scheduled Import'),

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Test_TestCase_ZendDbAdapterAbstract extends PHPUnit_Framework_TestCase
+class Magento_Test_TestCase_ZendDbAdapterAbstract extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Create an adapter mock object

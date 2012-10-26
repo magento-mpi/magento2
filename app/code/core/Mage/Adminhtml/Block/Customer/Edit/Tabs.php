@@ -18,9 +18,9 @@
 class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customer_info_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Mage_Customer_Helper_Data')->__('Customer Information'));
@@ -95,7 +95,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         }
 
         $this->_updateActiveTab();
-        Magento_Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }
 

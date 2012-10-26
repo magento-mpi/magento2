@@ -18,12 +18,12 @@
 
 class Mage_Adminhtml_Block_Tax_Class_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId    = 'id';
         $this->_controller  = 'tax_class';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_updateButton('save', 'label', Mage::helper('Mage_Tax_Helper_Data')->__('Save Class'));
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Tax_Helper_Data')->__('Delete Class'));

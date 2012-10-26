@@ -446,7 +446,7 @@
             this._setHistoryForContainers(history);
         },
         _initHistory: function() {
-            //@TODO can we make this not a widget but global object?
+            // @TODO can we make this not a widget but global object?
             return $( window ).vde_history().data('vde_history');
         },
         _initHistoryToolbar: function(history) {

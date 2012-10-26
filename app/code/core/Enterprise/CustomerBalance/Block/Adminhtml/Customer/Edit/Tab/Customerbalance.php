@@ -19,9 +19,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     /**
      * Set identifier and title
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customerbalance');
         $this->setTitle(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'));
     }

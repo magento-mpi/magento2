@@ -44,12 +44,28 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected $_currentCurrencyCode = null;
 
-    public function __construct()
+    protected $_template = 'Mage_Adminhtml::report/grid.phtml';
+
+    /**
+     * Filter values array
+     *
+     * @var array
+     */
+    protected $_filterValues;
+
+    /**
+     * Locale instance
+     *
+     * @var Mage_Core_Model_Locale
+     */
+    protected $_locale;
+
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
-        $this->setTemplate('Mage_Adminhtml::report/grid.phtml');
+
         $this->setUseAjax(false);
         $this->setCountTotals(true);
     }

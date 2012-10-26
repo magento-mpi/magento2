@@ -194,6 +194,8 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateDownloadable($linksSeparately, $linkPrice, $attrData, $assignData)
     {
+        $this->markTestSkipped('Skipped due to MAGETWO-4103 bug');
+
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -343,6 +345,8 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateConfigurable($attrData, $assignData)
     {
+        $this->markTestSkipped('Skipped due to MAGETWO-4105 bug');
+
         //Data
         $assign = array_merge($assignData, array('configurable_attribute_title' => $attrData['admin_title']));
         $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
+class Mage_Eav_Model_Attribute_Data_TextTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Eav_Model_Attribute_Data_Text
@@ -33,10 +33,14 @@ class Mage_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
                 'input_validation' => 0
             )
         );
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
-        $attribute = $this->getMock(
-            'Mage_Eav_Model_Entity_Attribute_Abstract', array('_init'), array($attributeData)
+
+        $attributeClass = 'Mage_Eav_Model_Entity_Attribute_Abstract';
+        $arguments = $this->_getConstructArguments(
+            self::MODEL_ENTITY, $attributeClass, array('data' => $attributeData)
         );
+
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
+        $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
         $this->_model = new Mage_Eav_Model_Attribute_Data_Text(array(
             'translationHelper' => $helper,
             'stringHelper' => $helper,
