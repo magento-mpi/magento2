@@ -39,7 +39,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
 
     public function __construct(array $data = array())
     {
-        $this->_virtual = $this->_createVirtualElement();
+        $this->_virtual = isset($data['element'])
+            ? $data['element']
+            : Mage::getModel('Varien_Data_Form_Element_Checkbox');
+        $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual');
         parent::__construct($data);
     }
 
@@ -67,18 +70,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
     {
         $this->_virtual->setForm($form);
         return parent::setForm($form);
-    }
-
-    /**
-     * Create Is Virtual checkbox
-     *
-     * @return Varien_Data_Form_Element_Checkbox
-     */
-    protected function _createVirtualElement()
-    {
-        $element = Mage::getModel('Varien_Data_Form_Element_Checkbox');
-        $element->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual');
-        return $element;
     }
 
     /**

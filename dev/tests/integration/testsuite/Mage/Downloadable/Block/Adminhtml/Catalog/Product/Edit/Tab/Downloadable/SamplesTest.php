@@ -18,4 +18,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_LinksTest
             ::performUploadButtonTest($block);
     }
+
+    public function testGetSampleData()
+    {
+        Mage::register('current_product', new Varien_Object(array('type_id' => 'simple')));
+        $block = Mage::app()->getLayout()
+            ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
+        $this->assertEmpty($block->getSampleData());
+    }
 }

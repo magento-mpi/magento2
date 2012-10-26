@@ -191,6 +191,7 @@ jQuery(function($) {
     var TypeSwitcher = function(data) {
         this._data = data;
         this._data.$weight = $('#' + data.weight_id);
+        this._data.$weightContainer = $('#element-tr-' + data.weight_id);
     };
     $.extend(TypeSwitcher.prototype, {
         attributesContainer: null,
@@ -200,7 +201,8 @@ jQuery(function($) {
                     currentType = this._data.current_type,
                     transitionalTypes = this._data.transitional_types,
                     isTransitionalType = this._data.is_transitional_type,
-                    $weight = this._data.$weight;
+                    $weight = this._data.$weight,
+                    $weightContainer = this._data.$weightContainer;
             //initial attribute hiding
             $.each(this._data.attributes, function(id, applyTo) {
                 var isAppliedToTransition = false;
@@ -230,6 +232,7 @@ jQuery(function($) {
                 tabItem.css('display', 'none');
             } else if ($.inArray(currentType, transitionalTypes)) {
                 $weight.attr('disabled', 'disabled');
+                $weightContainer.addClass('transitional-disabled');
             }
 
             this._checkbox = $('#' + this._data.is_virtual_id);
@@ -252,7 +255,8 @@ jQuery(function($) {
                     attributes = event.data._this._data.attributes,
                     currentType = event.data._this._data.current_type,
                     transitionalTypes = event.data._this._data.transitional_types,
-                    $weight = event.data._this._data.$weight;
+                    $weight = event.data._this._data.$weight,
+                    $weightContainer = event.data._this._data.$weightContainer;
             if ('checked' === $(this).attr('checked')) {
                 event.data.tabItem.css('display', '');
                 $weight.attr('disabled', 'disabled');
@@ -263,6 +267,7 @@ jQuery(function($) {
                     $.each(transitionalTypes, function(k, v) {
                         if ($.inArray(v, applyTo) !== -1) {
                             attrContainer[id].css('display', '').removeClass('transitional-disabled');
+                            $weightContainer.addClass('transitional-disabled');
                             return false;
                         }
                     });
@@ -276,6 +281,7 @@ jQuery(function($) {
                     }
                     if ($.inArray(transitionalTypes['simple'], applyTo) === -1) {
                         attrContainer[id].css('display', 'none').addClass('transitional-disabled');
+                        $weightContainer.removeClass('transitional-disabled');
                     }
                 });
             }

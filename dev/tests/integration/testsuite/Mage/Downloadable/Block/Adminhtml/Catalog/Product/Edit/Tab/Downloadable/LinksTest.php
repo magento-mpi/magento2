@@ -33,4 +33,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $layout->addBlock($text, 'upload_button', 'links');
         self::assertEquals($expected, $block->getUploadButtonHtml());
     }
+
+    public function testGetLinkData()
+    {
+        Mage::register('product', new Varien_Object(array('type_id' => 'simple')));
+        $block = Mage::app()->getLayout()
+            ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
+        $this->assertEmpty($block->getLinkData());
+    }
 }
