@@ -10,18 +10,18 @@
  */
 
 /**
- * Test for skin block functioning
+ * Test for theme block functioning
  */
-class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCase
+class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_DesignEditor_Block_Toolbar_Skin
+     * @var Mage_DesignEditor_Block_Toolbar_Theme
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = new Mage_DesignEditor_Block_Toolbar_Skin();
+        $this->_block = new Mage_DesignEditor_Block_Toolbar_Theme();
     }
 
     protected function tearDown()
@@ -29,16 +29,16 @@ class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCas
         $this->_block = null;
     }
 
-    public function testIsSkinSelected()
+    public function testIsThemeSelected()
     {
         $oldTheme = Mage::getDesign()->getDesignTheme();
-        Mage::getDesign()->setDesignTheme('a/b/c');
-        $isSelected = $this->_block->isSkinSelected('a/b/c');
+        Mage::getDesign()->setDesignTheme('a/b');
+        $isSelected = $this->_block->isThemeSelected('a/b');
         Mage::getDesign()->setDesignTheme($oldTheme);
         $this->assertTrue($isSelected);
 
-        Mage::getDesign()->setDesignTheme('a/b/c');
-        $isSelected = $this->_block->isSkinSelected('c/b/a');
+        Mage::getDesign()->setDesignTheme('a/b');
+        $isSelected = $this->_block->isThemeSelected('c/b');
         Mage::getDesign()->setDesignTheme($oldTheme);
         $this->assertFalse($isSelected);
     }

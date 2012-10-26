@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for skin changing observer
+ * Test for theme changing observer
  */
 class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
@@ -62,11 +62,10 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchApplyDesign()
     {
-        $newSkin = 'default/default/blank';
-        $this->assertNotEquals($newSkin, Mage::getDesign()->getDesignTheme());
-        Mage::getSingleton('Mage_DesignEditor_Model_Session')->setSkin($newSkin);
+        $newTheme = 'default/default_blank';
+        $this->assertNotEquals($newTheme, Mage::getDesign()->getDesignTheme());
         $this->_observer->preDispatch($this->_eventObserver);
-        $this->assertEquals($newSkin, Mage::getDesign()->getDesignTheme());
+        $this->assertEquals($newTheme, Mage::getDesign()->getDesignTheme());
     }
 
     /**
@@ -87,12 +86,11 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchApplyDesignInactive()
     {
-        $newSkin = 'default/default/blank';
-        $oldSkin = Mage::getDesign()->getDesignTheme();
-        $this->assertNotEquals($newSkin, $oldSkin);
-        Mage::getSingleton('Mage_DesignEditor_Model_Session')->setSkin($newSkin);
+        $newTheme = 'default/default_blank';
+        $oldTheme = Mage::getDesign()->getDesignTheme();
+        $this->assertNotEquals($newTheme, $oldTheme);
         $this->_observer->preDispatch($this->_eventObserver);
-        $this->assertEquals($oldSkin, Mage::getDesign()->getDesignTheme());
+        $this->assertEquals($oldTheme, Mage::getDesign()->getDesignTheme());
     }
 
     /**

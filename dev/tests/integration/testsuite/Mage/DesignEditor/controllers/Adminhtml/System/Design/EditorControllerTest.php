@@ -96,7 +96,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     {
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_skin', 'default/default/default');
         $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertTrue($session->isDesignEditorActive());

@@ -19,10 +19,10 @@ class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetSkinImagesUrl($application, $file)
     {
         $helper = new Mage_XmlConnect_Helper_Image;
-        Mage::getDesign()->setDesignTheme('default/default/default', $application);
+        Mage::getDesign()->setDesignTheme('default/default', $application);
 
         $this->assertStringMatchesFormat(
-            "http://%s/media/skin/{$application}/%s/%s/%s/%s/Mage_XmlConnect/images/{$file}",
+            "http://%s/pub/media/theme/{$application}/%s/%s/%s/Mage_XmlConnect/images/{$file}",
             $helper->getSkinImagesUrl($file)
         );
         $this->assertFileExists(Mage::getDesign()->getViewFile("Mage_XmlConnect::/images/{$file}"));

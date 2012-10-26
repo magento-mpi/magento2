@@ -18,7 +18,7 @@ $session->activateDesignEditor();
 $theme = new Mage_Core_Model_Theme();
 $theme->setData(array(
     'parent_id'            => null,
-    'theme_path'           => 'default/default',
+    'theme_path'           => 'default/default_blank',
     'theme_version'        => '2.0.0.0',
     'theme_title'          => 'Default',
     'preview_image'        => 'media/preview_image.jpg',
@@ -28,8 +28,3 @@ $theme->setData(array(
 ));
 $theme->save();
 $session->setThemeId($theme->getThemeId());
-$skin = implode('/', array(
-    $theme->getThemePath(),
-    Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME
-));
-$session->setSkin($skin);
