@@ -268,7 +268,20 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Add rule
+     * Add class rule
+     *
+     * @param string $name
+     * @param null|string $suggestion
+     * @param null|string $directory
+     * @return array
+     */
+    protected function _addClass($name, $suggestion = null, $directory = null)
+    {
+        return $this->_getRule($name, null, $suggestion, $directory);
+    }
+
+    /**
+     * Get rule
      *
      * @param string $obsoleteEntity
      * @param null|string $classScope
@@ -276,7 +289,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      * @param null|string $directory
      * @return array
      */
-    protected function _addRule($obsoleteEntity, $classScope = null, $suggestion = null, $directory = null)
+    protected function _getRule($obsoleteEntity, $classScope = null, $suggestion = null, $directory = null)
     {
         return array(
             'obsolete_entity' => $obsoleteEntity,

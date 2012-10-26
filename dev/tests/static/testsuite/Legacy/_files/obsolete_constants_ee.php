@@ -9,6 +9,6 @@
  * @license     {license_link}
  */
 return array(
-    $this->_addRule('LAST_PRODUCT_COOKIE', 'Enterprise_PageCache_Model_Processor'),
-    $this->_addRule('XML_PATH_DEFAULT_TIMEZONE', 'Enterprise_CatalogEvent_Model_Event'),
+    $this->_getRule('LAST_PRODUCT_COOKIE', 'Enterprise_PageCache_Model_Processor'),
+    $this->_getRule('XML_PATH_DEFAULT_TIMEZONE', 'Enterprise_CatalogEvent_Model_Event'),
 );
