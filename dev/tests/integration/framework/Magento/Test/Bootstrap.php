@@ -257,6 +257,7 @@ class Magento_Test_Bootstrap
         if ($resource) {
             Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
         }
+
         Mage::setIsDeveloperMode($this->_developerMode);
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
@@ -559,7 +560,7 @@ class Magento_Test_Bootstrap
      */
     protected function _createAdminUser()
     {
-        $user = new Mage_User_Model_User();
+        $user = mage::getModel('Mage_User_Model_User');
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
@@ -570,10 +571,10 @@ class Magento_Test_Bootstrap
         ));
         $user->save();
 
-        $roleAdmin = new Mage_User_Model_Role();
+        $roleAdmin = Mage::getModel('Mage_User_Model_Role');
         $roleAdmin->load(self::ADMIN_ROLE_NAME, 'role_name');
 
-        $roleUser = new Mage_User_Model_Role();
+        $roleUser = Mage::getModel('Mage_User_Model_Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,

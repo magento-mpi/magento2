@@ -11,9 +11,9 @@
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('giftcardaccount_info_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Account'));

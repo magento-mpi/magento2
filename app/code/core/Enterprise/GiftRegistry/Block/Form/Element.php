@@ -183,14 +183,14 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      * @param string $name
      * @param string $id
      * @param string $value
-     * @param null|string $format
+     * @param null|string $formatType
      * @param string $class
      * @return string
      */
-    public function getCalendarDateHtml($name, $id, $value = null, $format = null, $class = '')
+    public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
-        if (is_null($format)) {
-            $format = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
+        if (is_null($formatType)) {
+            $formatType = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date')
@@ -199,7 +199,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
             ->setImage($this->getSkinUrl('Mage_Core::calendar.gif'))
-            ->setFormat(Mage::app()->getLocale()->getDateStrFormat($format));
+            ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

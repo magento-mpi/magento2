@@ -24,11 +24,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     protected $_removeMapButtonHtml;
     protected $_shortDateFormat;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('system/convert/profile/wizard.phtml');
-    }
+    protected $_template = 'system/convert/profile/wizard.phtml';
 
     protected function _prepareLayout()
     {
@@ -212,7 +208,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getShortDateFormat()
     {
         if (!$this->_shortDateFormat) {
-            $this->_shortDateFormat = Mage::app()->getLocale()->getDateStrFormat(
+            $this->_shortDateFormat = Mage::app()->getLocale()->getDateFormat(
                 Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
             );
         }

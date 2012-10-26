@@ -22,14 +22,14 @@ class Find_Feed_Block_Adminhtml_List_Codes extends Mage_Adminhtml_Block_Widget_G
      * Initialize grid container settings
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup      = 'Find_Feed';
         $this->_controller      = 'adminhtml_list_codes';
         $this->_headerText      = Mage::helper('Find_Feed_Helper_Data')->__('Attributes map');
         $this->_addButtonLabel  = Mage::helper('Find_Feed_Helper_Data')->__('Add new');
 
-        parent::__construct();
+        parent::_construct();
 
         $url = $this->getUrl('*/codes_grid/editForm');
         $this->_updateButton('add', 'onclick', 'openNewImportWindow(\''.$url.'\');');

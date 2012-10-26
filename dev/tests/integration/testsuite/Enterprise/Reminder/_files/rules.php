@@ -11,7 +11,8 @@
 
 $conditions = serialize(array());
 
-$rule = new Enterprise_Reminder_Model_Rule;
+/** @var $rule Enterprise_Reminder_Model_Rule */
+$rule = Mage::getModel('Enterprise_Reminder_Model_Rule');
 $rule->setData(array(
     'name' => 'Rule 1',
     'description' => 'Rule 1 Desc',
@@ -26,7 +27,7 @@ $rule->setData(array(
     'to_date' => '1981-01-01',
 ))->save();
 
-$rule = new Enterprise_Reminder_Model_Rule;
+$rule = Mage::getModel('Enterprise_Reminder_Model_Rule');
 $rule->setData(array(
     'name' => 'Rule 2',
     'description' => 'Rule 2 Desc',

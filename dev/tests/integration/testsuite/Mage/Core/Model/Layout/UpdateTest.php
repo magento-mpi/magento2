@@ -18,7 +18,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Layout_Update();
+        $this->_model = Mage::getModel('Mage_Core_Model_Layout_Update');
     }
 
     protected function tearDown()
@@ -28,7 +28,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->_model = new Mage_Core_Model_Layout_Update();
+        $this->_model = Mage::getModel('Mage_Core_Model_Layout_Update');
         $this->assertInstanceOf('Mage_Core_Model_Resource_Layout_Update', $this->_model->getResource());
     }
 

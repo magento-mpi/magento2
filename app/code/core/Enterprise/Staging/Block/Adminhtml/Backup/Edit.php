@@ -16,10 +16,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
+
+    protected $_template = 'backup/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('backup/edit.phtml');
+        parent::_construct();
+
         $this->setId('enterprise_staging_backup_edit');
 
         $this->setEditFormJsObject('enterpriseStagingBackupForm');

@@ -16,7 +16,7 @@ url_rewrite_custom:
     request_path: 123
     target_path: 123
 
-simple_product_required:
+url_simple_product_required:
     product_attribute_set: Default
     general_name: Simple Product Required(%randomize%)
     general_description: Description for Simple Product Required

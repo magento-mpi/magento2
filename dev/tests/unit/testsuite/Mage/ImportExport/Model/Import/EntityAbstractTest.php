@@ -103,7 +103,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testAddRowError()
     {
-        $errorCode       = 'error_code ';
+        $errorCode = 'error_code ';
         $errorColumnName = 'error_column';
         $this->_model->addRowError($errorCode . '%s', 0, $errorColumnName);
 

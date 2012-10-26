@@ -105,12 +105,13 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
      * @param array $customerAddressData
      * @param string $messageType
      * @param array $testData
-     * @author andrey.vergeles
      *
      * @test
      * @depends preconditionsForTests
      * @dataProvider creatingOrderForExistingCustomerDataProvider
-     * @TestlinkId	TL-MAGE-4932, TL-MAGE-4956, TL-MAGE-4958,
+     *
+     * @TestlinkId	TL-MAGE-4932, TL-MAGE-4956, TL-MAGE-4958
+     * @author andrey.vergeles
      */
     public function creatingOrderForExistingCustomer($customerAddressData, $messageType, $testData)
     {

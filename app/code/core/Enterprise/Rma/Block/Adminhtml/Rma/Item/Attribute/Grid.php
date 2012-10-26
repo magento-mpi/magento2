@@ -23,9 +23,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      * Initialize grid, set grid Id
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('rmaItemAttributeGrid');
         $this->setDefaultSort('sort_order');
     }

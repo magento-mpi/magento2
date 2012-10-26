@@ -18,7 +18,7 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_block= new Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip();
+        $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip');
     }
 
     protected function tearDown()

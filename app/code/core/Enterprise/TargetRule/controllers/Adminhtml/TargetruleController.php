@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtml_Controller_Action
+class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtml_Controller_Action
 {
 
     /**

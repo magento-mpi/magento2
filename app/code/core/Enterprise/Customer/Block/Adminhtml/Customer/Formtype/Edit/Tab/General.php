@@ -23,11 +23,11 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      * Initialize Edit Form
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setDestElementId('edit_form');
         $this->setShowGlobalIcon(false);
-        parent::__construct();
+        parent::_construct();
     }
 
     /**
