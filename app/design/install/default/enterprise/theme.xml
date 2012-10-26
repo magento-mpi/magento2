@@ -11,8 +11,8 @@
 <design>
     <package code="default">
         <title>Default</title>
-        <theme version="2.0.0.0" code="enterprise" parent="default">
-            <title>Enterprise</title>
+        <theme version="2.0.0.0" code="enterprise" parent="basic">
+            <title>Magento EE</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>

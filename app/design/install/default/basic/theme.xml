@@ -10,9 +10,9 @@
 -->
 <design>
     <package code="default">
-        <title>Default Enterprise</title>
-        <theme version="2.0.0.0" code="default_enterprise" parent="default">
-            <title>Default</title>
+        <title>Default</title>
+        <theme version="2.0.0.0" code="basic">
+            <title>Magento Basic</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>

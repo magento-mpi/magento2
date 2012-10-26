@@ -11,14 +11,11 @@
 <design>
     <package code="default">
         <title>Default</title>
-        <theme version="2.0.0.0" code="default_blue" parent="default" featured="1">
-            <title>Default Blue</title>
+        <theme version="2.0.0.0" code="enterprise" parent="basic">
+            <title>Magento EE</title>
             <requirements>
                 <magento_version from="2.0.0.0-dev1" to="*"/>
             </requirements>
-            <media>
-                <preview_image>media/preview_image.jpg</preview_image>
-            </media>
         </theme>
     </package>
 </design>

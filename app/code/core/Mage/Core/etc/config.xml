@@ -171,7 +171,7 @@
     <default>
         <design>
             <theme>
-                <full_name>default/default</full_name>
+                <full_name>default/demo</full_name>
                 <allow_view_files_duplication>1</allow_view_files_duplication>
             </theme>
             <pagination>

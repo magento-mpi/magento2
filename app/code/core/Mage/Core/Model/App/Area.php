@@ -62,8 +62,7 @@ class Mage_Core_Model_App_Area
                 ->_loadPart(self::PART_EVENTS)
                 ->_loadPart(self::PART_DESIGN)
                 ->_loadPart(self::PART_TRANSLATE);
-        }
-        else {
+        } else {
             $this->_loadPart($part);
         }
         return $this;
@@ -88,7 +87,7 @@ class Mage_Core_Model_App_Area
         } else {
             $areaDesign = (string)Mage::getConfig()->getNode(
                 $this->_code . '/' . Mage_Core_Model_Design_Package::XML_PATH_THEME
-            ) ?: 'default/default';
+            ) ?: 'default/basic';
             $this->_getDesign()->setDesignTheme($areaDesign, $this->_code);
         }
     }
@@ -193,6 +192,7 @@ class Mage_Core_Model_App_Area
         if (Mage::app()->getRequest()->isStraight()) {
             return;
         }
-        Mage::getDesign()->setDesignTheme('default/default', $this->_code);
+        $defaultTheme = 'default/' . (self::AREA_FRONTEND == $this->_code ? 'demo' : 'basic');
+        Mage::getDesign()->setDesignTheme($defaultTheme, $this->_code);
     }
 }
