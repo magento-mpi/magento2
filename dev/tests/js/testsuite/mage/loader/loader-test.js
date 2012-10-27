@@ -77,5 +77,4 @@ LoaderTest.prototype.testDestroy = function() {
         loaderExist = loader.is(':mage-loader');
     loader.loader('destroy');
     assertEquals(false, loader.is(':mage-loader') === loaderExist);
-    loader.loader('destroy');
 };

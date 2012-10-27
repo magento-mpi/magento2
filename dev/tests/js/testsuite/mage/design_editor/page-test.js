@@ -110,11 +110,11 @@ PageTest.prototype.testHighlight = function() {
     </div>
     */
     jQuery.fx.off = true;
-    var page = jQuery('body').vde_page();
+    var page = jQuery(window).vde_page();
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
     $.mage.cookies.set(cookieHighlightingName, 'off');
-    page = jQuery('body').vde_page();
+    page = jQuery(window).vde_page();
     page.trigger('checked.vde_checkbox');
     var resultHierarchy = {
         vde_element_1: ['vde_element_2', 'vde_element_3'],
@@ -156,7 +156,7 @@ PageTest.prototype.testUnhighlight = function() {
     </div>
     */
     jQuery.fx.off = true;
-    var page = jQuery('body').vde_page();
+    var page = jQuery(window).vde_page();
     var highlightElementTitleSelector = page.vde_page('option', 'highlightElementTitleSelector');
     var highlightElementSelector = page.vde_page('option', 'highlightElementSelector');
     var hierarchy = {};
@@ -167,7 +167,7 @@ PageTest.prototype.testUnhighlight = function() {
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
     $.mage.cookies.clear(cookieHighlightingName);
-    page = jQuery('body').vde_page();
+    page = jQuery(window).vde_page();
     page.trigger('unchecked.vde_checkbox');
     var hierarchyIsCorrect = true;
     jQuery.each(hierarchy, function(parentKey, parentVal) {
@@ -185,7 +185,7 @@ PageTest.prototype.testUnhighlight = function() {
     jQuery.fx.off = false;
 }
 PageTest.prototype.testInitHistory = function() {
-    var page = jQuery('body').vde_page();
+    var page = jQuery(window).vde_page();
     assertEquals(true, jQuery(window).is(':vde-vde_history'));
     page.vde_page('destroy');
 }
