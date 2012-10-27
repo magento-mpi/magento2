@@ -8,96 +8,114 @@
  * @license     {license_link}
  */
 
-
-/**
- * Backend System Configuration layout converter.
- * Converts dom document to array
- *
- * @category    Mage
- * @package     Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Mage_Backend_Model_Config_Structure_Converter
 {
     /**
-     * Map of single=>plural node names
+     * Map of single=>plural sub-node names per node
+     *
+     * E.G. first element makes all 'tab' nodes be renamed to 'tabs' in system node.
      *
      * @var array
      */
     protected $nameMap = array(
-        'tab' => array('parent' => 'system', 'name' =>'tabs'),
-        'section' => array('parent' => 'system', 'name' =>'sections'),
-        'group' => array('parent' => 'section', 'name' =>'groups'),
-        'field' => array('parent' => 'group', 'name' =>'fields')
+        'system' => array('tab' => 'tabs', 'section' => 'sections'),
+        'section' => array('group' => 'groups'),
+        'group' => array('field' => 'fields'),
+        'depends' => array('field' => 'fields'),
     );
 
     /**
      * Retrieve DOMDocument as array
      *
      * @param DOMNode $root
-     * @return array
+     * @return mixed
      */
     public function convert(DOMNode $root)
     {
-        $result = array();
-
-        if ($root->hasAttributes())
-        {
-            $attrs = $root->attributes;
-
-            foreach ($attrs as $attr)
-                $result[$attr->name] = $attr->value;
-        }
+        $result = $this->_processAttributes($root);
 
         $children = $root->childNodes;
 
-        if ($children->length == 1) {
-            $child = $children->item(0);
-
-            if ($child->nodeType == XML_TEXT_NODE)
-            {
-                $result['value'] = $child->nodeValue;
-
-                if (count($result) == 1)
-                    return $result['value'];
-                else
-                    return $result;
-            }
-        }
-
-        for($i = 0; $i < $children->length; $i++)
-        {
+        $processedSubLists = array();
+        for ($i = 0; $i < $children->length; $i++) {
             $child = $children->item($i);
-            if ($child->nodeType == XML_CDATA_SECTION_NODE) {
-                return (string) $root->nodeValue;
-            }
-            $nodeName = $child->nodeName;
-            if (isset($this->nameMap[$child->nodeName])
-                && $this->nameMap[$child->nodeName]['parent'] == $root->nodeName) {
-                $nodeName = $this->nameMap[$child->nodeName]['name'];
+            $childName = $child->nodeName;
+            $convertedChild = array();
+
+            switch ($child->nodeType) {
+                case XML_COMMENT_NODE:
+                    continue 2;
+                    break;
+
+                case XML_TEXT_NODE:
+                    if ($children->length && trim($child->nodeValue, "\n ") === '') {
+                        continue 2;
+                    }
+                    $childName = 'value';
+                    $convertedChild = $child->nodeValue;
+                    break;
+
+                case XML_CDATA_SECTION_NODE:
+                    $childName = 'value';
+                    $convertedChild = $child->nodeValue;
+                    break;
+
+                default:
+                    /** @var $child DOMElement */
+                    if ($childName == 'attribute') {
+                        $childName = $child->getAttribute('type');
+                    }
+                    $convertedChild = $this->convert($child);
+                    break;
             }
 
-            if (!isset($result[$nodeName]))
-                if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE)
-                {
+            if (array_key_exists($root->nodeName, $this->nameMap)
+                && array_key_exists($child->nodeName, $this->nameMap[$root->nodeName])) {
+                $childName = $this->nameMap[$root->nodeName][$child->nodeName];
+                $processedSubLists[] = $childName;
+            }
+
+            if (in_array($childName, $processedSubLists)) {
+                if (is_array($convertedChild) && array_key_exists('id', $convertedChild)) {
+                    $result[$childName][$convertedChild['id']] = $convertedChild;
                 } else {
-                    if (isset($this->nameMap[$child->nodeName])
-                        && $this->nameMap[$child->nodeName]['parent'] == $root->nodeName) {
-                        $convertedChild = $this->convert($child);
-                        $id = $nodeName == 'attribute' ? $convertedChild['type'] : $convertedChild['id'];
-                        $result[$nodeName] = array($id => $convertedChild);
-                    } else {
-                        $result[$nodeName] = $this->convert($child);
-                    }
+                    $result[$childName][] = $convertedChild;
                 }
-            else
-            {
-                $convertedChild = $this->convert($child);
-                $id = $nodeName == 'attribute' ? $convertedChild['type'] : $convertedChild['id'];
-                $result[$nodeName][$id] = $convertedChild;
+            } else if (array_key_exists($childName, $result)) {
+                $result[$childName] = array($result[$childName], $convertedChild);
+                $processedSubLists[] = $childName;
+            } else {
+                $result[$childName] = $convertedChild;
             }
         }
 
+        if (count($result) == 1 && array_key_exists('value', $result)) {
+            $result = $result['value'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Process element attributes
+     * 
+     * @param DOMNode $root
+     * @return array
+     */
+    protected function _processAttributes(DOMNode $root)
+    {
+        $result = array();
+
+        if ($root->hasAttributes()) {
+            $attributes = $root->attributes;
+            foreach ($attributes as $attribute) {
+                if ($root->nodeName == 'attribute' && $attribute->name == 'type') {
+                    continue;
+                }
+                $result[$attribute->name] = $attribute->value;
+            }
+            return $result;
+        }
         return $result;
     }
 }

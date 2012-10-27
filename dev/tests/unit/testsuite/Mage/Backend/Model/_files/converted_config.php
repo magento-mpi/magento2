@@ -1,15 +1,16 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Backend
-     * @subpackage  unit_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
-    ?>
-<?php return array(
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Backend
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ 
+
+return array(
     'config' => array(
         'system' => array(
             'tabs' => array(
@@ -21,68 +22,102 @@
             'sections' => array(
                 'section_1' => array(
                     'id' => 'section_1',
+                    'type' => 'text',
                     'label' => 'Section 1 New',
+                    'tab' => 'tab_1',
                     'groups' => array(
                         'group_1' => array(
                             'id' => 'group_1',
+                            'type' => 'text',
                             'label' => 'Group 1 New',
                             'fields' => array(
                                 'field_2' => array(
                                     'id' => 'field_2',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
-                                    'label' => 'Field 2',
                                     'type' => 'text',
+                                    'label' => 'Field 2',
                                     'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted'
                                 )
                             ),
-                            'type' => 'text'
                         ),
                         'group_2' => array(
                             'id' => 'group_2',
+                            'type' => 'text',
                             'label' => 'Group 2',
                             'fields' => array(
                                 'field_3' => array(
                                     'id' => 'field_3',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
+                                    'type' => 'text',
                                     'label' => 'Field 3',
-                                    'type' => 'text'
                                 )
                             ),
-                            'type' => 'text'
                         )
                     ),
-                    'type' => 'text',
-                    'tab' => 'tab_1'
                 ),
                 'section_2' => array(
                     'id' => 'section_2',
-                    'label' => 'Section 2',
                     'type' => 'text',
+                    'label' => 'Section 2',
                     'tab' => 'tab_2',
                     'groups' => array(
                         'group_3' => array(
                             'id' => 'group_3',
+                            'type' => 'text',
                             'label' => 'Group 3',
+                            'comment' => '<a href="test_url">test_link</a>',
                             'fields' => array(
                                 'field_3' => array(
                                     'id' => 'field_3',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
+                                    'type' => 'text',
                                     'label' => 'Field 3',
-                                    'type' => 'text'
+                                    'attribute_0' => array(
+                                        'someArr' => array(
+                                            'someVal' => 1
+                                        )
+                                    ),
+                                    'depends' => array(
+                                        'fields' => array(
+                                            'field_4' => array(
+                                                'id' => 'field_4',
+                                                'value' => 'someValue'
+                                            ),
+                                            'field_1' => array(
+                                                'id' => 'field_1',
+                                                'value' => 'someValue'
+                                            )
+                                        )
+                                    )
                                 ),
                                 'field_4' => array(
                                     'id' => 'field_4',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
-                                    'label' => 'Field 4',
                                     'type' => 'text',
-                                    'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted'
+                                    'label' => 'Field 4',
+                                    'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted',
+                                    'attribute_1' => 'test_value_1',
+                                    'attribute_2' => 'test_value_2',
+                                    'attribute_text' => '<test_value>',
+                                    'attribute_text_in_array' => array(
+                                        'someAttribute' => 'someAttributeValue',
+                                        'var' => '<a href="test_url">test_link</a>',
+                                        'type' => 'someType'
+                                    ),
+                                    'depends' => array(
+                                        'fields' => array(
+                                            'field_3' => array(
+                                                'id' => 'field_3',
+                                                'value' => 0
+                                            )
+                                        )
+                                    )
                                 )
                             ),
-                            'type' => 'text'
                         )
                     )
                 )

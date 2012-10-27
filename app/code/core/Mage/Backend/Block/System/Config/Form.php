@@ -175,7 +175,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
 
             $helperName = $this->_systemConfig->getAttributeModule($section, $group);
 
-            $fieldsetConfig = array('legend' => $this->_getHelperFactory()->get($helperName)->__($group['label']));
+            $fieldsetConfig = array(
+                'legend' => $this->_getHelperFactory()->get($helperName)
+                    ->__(array_key_exists('label', $group) ? $group['label'] : '')
+            );
             if (isset($group['comment'])) {
                 $fieldsetConfig['comment'] = $this->_getHelperFactory()->get($helperName)->__($group['comment']);
             }
@@ -418,7 +421,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _processElementDependencies($element, $section, $group, $elementId, $fieldPrefix = '')
     {
-        foreach ($element['depends'] as $depend) {
+        foreach ($element['depends']['fields'] as $depend) {
             /* @var array $depend */
             $dependentId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $depend['id'];
             $shouldBeAddedDependence = true;
