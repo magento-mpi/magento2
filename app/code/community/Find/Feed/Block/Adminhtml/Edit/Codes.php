@@ -22,12 +22,12 @@ class Find_Feed_Block_Adminhtml_Edit_Codes extends Mage_Adminhtml_Block_Widget_F
      * Initialize form container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Find_Feed';
         $this->_controller = 'adminhtml_edit_codes';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_removeButton('back');
         $url = $this->getUrl('*/codes_grid/saveForm');

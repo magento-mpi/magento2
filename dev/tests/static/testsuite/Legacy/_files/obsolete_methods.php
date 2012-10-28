@@ -296,8 +296,6 @@ return array(
     'mergeFiles' => array('class_scope' => 'Mage_Core_Helper_Data'),
     'order_success_page_view' => array('class_scope' => 'Mage_GoogleAnalytics_Model_Observer'),
     'orderedAction' => array('class_scope' => 'Mage_Adminhtml_Report_ProductController'),
-    'parse' => array('class_scope' => 'Mage_Catalog_Model_Convert_Parser_Product'),
-    'parse' => array('class_scope' => 'Mage_Customer_Model_Convert_Parser_Customer'),
     'parseDateTime' => array('class_scope' => 'Mage_Core_Model_Date'),
     'postDispatchMyAccountSave',
     'prepareCacheId' => array('class_scope' => 'Mage_Core_Model_App'),

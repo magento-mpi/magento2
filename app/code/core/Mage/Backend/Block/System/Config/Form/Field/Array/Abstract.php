@@ -53,19 +53,19 @@ abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
      */
     protected $_isPreparedToRender = false;
 
+    protected $_template = 'Mage_Backend::system/config/form/field/array.phtml';
+
     /**
      * Check if columns are defined, set template
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         if (!$this->_addButtonLabel) {
             $this->_addButtonLabel = $this->helper('Mage_Backend_Helper_Data')->__('Add');
         }
-        parent::__construct();
-        if (!$this->getTemplate()) {
-            $this->setTemplate('Mage_Backend::system/config/form/field/array.phtml');
-        }
+        parent::_construct();
+        
     }
 
     /**

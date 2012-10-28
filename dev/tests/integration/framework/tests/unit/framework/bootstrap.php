@@ -28,3 +28,5 @@ function magentoAutoloadForIntegrationTests($class)
 
 spl_autoload_register('magentoAutoloadForIntegrationTests');
 
+Mage::setRoot();
+Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());

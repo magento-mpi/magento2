@@ -46,14 +46,12 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     protected $_hasDefaultOption = true;
 
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    protected $_template = 'Mage_Backend::store/switcher.phtml';
 
-        $this->setTemplate('Mage_Backend::store/switcher.phtml');
+    protected function _construct()
+    {
+        parent::_construct();
+
         $this->setUseConfirm(true);
         $this->setUseAjax(true);
         $this->setDefaultStoreName($this->__('All Store Views'));

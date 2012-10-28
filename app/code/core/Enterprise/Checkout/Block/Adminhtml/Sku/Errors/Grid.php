@@ -22,9 +22,9 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
      *
      * @param array $attributes
      */
-    public function __construct($attributes = array())
+    protected function _construct($attributes = array())
     {
-        parent::__construct($attributes);
+        parent::_construct($attributes);
         $this->setId('sku_errors');
         $this->setRowClickCallback(null);
     }

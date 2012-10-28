@@ -13,7 +13,8 @@ class Mage_Adminhtml_Block_Tax_ClassTest extends PHPUnit_Framework_TestCase
 {
     public function testSetClassType()
     {
-        $layout = new Mage_Core_Model_Layout();
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Tax_Class', 'block');
         $childBlock = $block->getChildBlock('grid');
         $expected = Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT;

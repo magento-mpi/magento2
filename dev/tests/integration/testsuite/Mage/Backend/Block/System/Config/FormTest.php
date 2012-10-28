@@ -13,10 +13,13 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
 {
     public function testDependenceHtml()
     {
-        $layout = new Mage_Core_Model_Layout();
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $block Mage_Backend_Block_System_Config_Form */
         $block = $layout->createBlock('Mage_Backend_Block_System_Config_Form', 'block');
         $block->setArea('adminhtml');
 
+        /** @var $childBlock Mage_Core_Block_Text */
         $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'element_dependence', 'block');
 
         $expectedValue = 'dependence_html_relations';
@@ -40,7 +43,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset($section['id'] . '_' . $group['id'], array());
 
-        $block = new Mage_Backend_Block_System_Config_FormStub();
+        /** @var $block Mage_Backend_Block_System_Config_FormStub */
+        $block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_System_Config_FormStub');
         $block->setScope(Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -96,10 +100,13 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
 
     public function testInitFormAddsFieldsets()
     {
-        new Mage_Core_Controller_Front_Action(Mage::app()->getRequest(), Mage::app()->getResponse());
+        Mage::getModel(
+            'Mage_Core_Controller_Front_Action',
+            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
+        );
         Mage::app()->getRequest()->setParam('section', 'general');
-        $block = new Mage_Backend_Block_System_Config_Form();
-        $block->setLayout(Mage::app()->getLayout());
+        /** @var $block Mage_Backend_Block_System_Config_Form */
+        $block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_System_Config_Form');
         $block->initForm();
         $expectedIds = array(
             'general_country' => array(
@@ -139,6 +146,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         );
         $elements = $block->getForm()->getElements();
         foreach ($elements as $element) {
+            /** @var $element Varien_Data_Form_Element_Fieldset */
             $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $element);
             $this->assertArrayHasKey($element->getId(), $expectedIds);
             $fields = $element->getSortedElements();

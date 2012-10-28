@@ -59,7 +59,9 @@ class Mage_Backend_Model_Config_Source_Admin_Page implements Mage_Core_Model_Opt
      */
     protected function _getMenuIterator(Mage_Backend_Model_Menu $menu)
     {
-        return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Filter_Iterator', $menu->getIterator());
+        return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Filter_Iterator',
+            array('iterator' => $menu->getIterator())
+        );
     }
 
     /**

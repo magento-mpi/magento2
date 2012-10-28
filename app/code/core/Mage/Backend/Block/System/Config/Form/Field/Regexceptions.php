@@ -18,7 +18,7 @@
 class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
     extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->addColumn('search', array(
             'label' => $this->helper('Mage_Backend_Helper_Data')->__('Search String'),
@@ -29,8 +29,8 @@ class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('Mage_Backend_Helper_Data')->__('Add Exception');
-        parent::__construct();
+        $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Exception');
+        parent::_construct();
     }
 
     /**

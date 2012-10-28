@@ -133,10 +133,10 @@ class Enterprise_Cms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+        $node = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' => array(
             'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
             'scope_id' => Mage::app()->getStore()->getId(),
-        ))->getHeritage();
+        )))->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -160,10 +160,10 @@ class Enterprise_Cms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+            $child = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' => array(
                 'scope' => $node->getScope(),
                 'scope_id' => $node->getScopeId(),
-            ));
+            )));
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
@@ -544,10 +544,10 @@ class Enterprise_Cms_Model_Observer
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+        $hierarchyModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' => array(
             'scope' => Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
             'scope_id' => Mage::app()->getStore()->getId(),
-        ))->getHeritage();
+        )))->getHeritage();
 
         $nodes = $hierarchyModel->getNodesData();
         $tree = $topMenuRootNode->getTree();

@@ -17,12 +17,9 @@
  */
 class Mage_Backend_Block_System_Config_Dwstree extends Mage_Backend_Block_Widget_Tabs
 {
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array())
+    protected function _construct()
     {
-        parent::__construct($data);
+        parent::_construct();
         $this->setId('system_config_dwstree');
         $this->setDestElementId('system_config_form');
     }

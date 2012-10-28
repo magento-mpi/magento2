@@ -74,16 +74,26 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     /**
      * Initialize operation model
      *
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Date $dateModel
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
-     * @return void
+     * @return Enterprise_ImportExport_Model_Scheduled_Operation
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Date $dateModel,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
 
         $this->_init('Enterprise_ImportExport_Model_Resource_Scheduled_Operation');
 
-        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Mage_Core_Model_Date');
+        $this->_dateModel = $dateModel;
     }
 
     /**

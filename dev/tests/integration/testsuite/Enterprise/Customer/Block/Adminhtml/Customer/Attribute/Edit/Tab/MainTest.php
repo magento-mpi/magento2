@@ -21,11 +21,13 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_MainTest
     public function testPrepareForm()
     {
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
-        $model = new Mage_Customer_Model_Attribute;
+        $model = Mage::getModel('Mage_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 
-        $block = new Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main;
+        $block = Mage::app()->getLayout()->createBlock(
+            'Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main'
+        );
         $prepareFormMethod = new ReflectionMethod(
             'Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

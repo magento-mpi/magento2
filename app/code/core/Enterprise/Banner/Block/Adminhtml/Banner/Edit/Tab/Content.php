@@ -64,53 +64,45 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Class constructor
      *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_App $app
+     * @param Enterprise_Banner_Helper_Data $bannerHelper
      * @param array $data
-     * @throws InvalidArgumentException
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_App $app,
+        Enterprise_Banner_Helper_Data $bannerHelper,
+        array $data = array()
+    ) {
+        $this->_helper = $bannerHelper;
+        $this->_wysiwygConfigModel = $wysiwygConfig;
+        $this->_eventManager = $eventManager;
+        $this->_registryManager = $registry;
+        $this->_app = $app;
 
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Enterprise_Banner_Helper_Data');
-
-        if (!($this->_helper instanceof Enterprise_Banner_Helper_Data)) {
-            throw new InvalidArgumentException('Required helper object is invalid');
-        }
-
-        $this->_wysiwygConfigModel = isset($data['wysiwyg_config']) ? $data['wysiwyg_config']
-            : Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config');
-
-        if (!($this->_wysiwygConfigModel instanceof Mage_Cms_Model_Wysiwyg_Config)) {
-            throw new InvalidArgumentException('Required config object is invalid');
-        }
-
-        $this->_eventManager = isset($data['eventManager']) ? $data['eventManager']
-            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
-
-        if (!($this->_eventManager instanceof Mage_Core_Model_Event_Manager)) {
-            throw new InvalidArgumentException('Required event manager object is invalid');
-        }
-
-        $this->_eventManager = isset($data['event_manager']) ? $data['event_manager']
-            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
-
-        if (!($this->_eventManager instanceof Mage_Core_Model_Event_Manager)) {
-            throw new InvalidArgumentException('Required event manager object is invalid');
-        }
-
-        $this->_registryManager = isset($data['registry_manager']) ? $data['registry_manager']
-            : Mage::getSingleton('Mage_Core_Model_Registry');
-
-        if (!($this->_registryManager instanceof Mage_Core_Model_Registry)) {
-            throw new InvalidArgumentException('Required registry manager object is invalid');
-        }
-
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
-
-        if (!($this->_app instanceof Mage_Core_Model_App)) {
-            throw new InvalidArgumentException('Required app object is invalid');
-        }
-
-        parent::__construct($data);
+        parent::__construct($request, $layout, $eventManager, $translator, $cache, $designPackage, $session,
+            $storeConfig, $frontController, $data
+        );
     }
 
     /**

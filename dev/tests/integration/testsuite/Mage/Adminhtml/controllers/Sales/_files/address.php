@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$address = new Mage_Sales_Model_Order_Address();
+/** @var $address Mage_Sales_Model_Order_Address */
+$address = Mage::getModel('Mage_Sales_Model_Order_Address');
 $address->setRegion('CA')
     ->setPostcode('90210')
     ->setFirstname('a_unique_firstname')

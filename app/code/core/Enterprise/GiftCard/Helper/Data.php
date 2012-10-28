@@ -20,7 +20,7 @@ class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEmailGeneratedItemsBlock()
     {
         $className = Mage::getConfig()->getBlockClassName('Mage_Core_Block_Template');
-        $block = new $className();
+        $block = Mage::getObjectManager()->create($className);
         $block->setTemplate('Enterprise_GiftCard::email/generated.phtml');
         return $block;
     }

@@ -38,8 +38,8 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_
     public function setUp()
     {
         $logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
-        $this->_menuModel = new Mage_Backend_Model_Menu(array('logger' => $logger));
-        $this->_menuSubModel = new Mage_Backend_Model_Menu(array('logger' => $logger));
+        $this->_menuModel = new Mage_Backend_Model_Menu($logger);
+        $this->_menuSubModel = new Mage_Backend_Model_Menu($logger);
 
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
@@ -76,8 +76,8 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_
             ->expects($this->at(0))
             ->method('getModelInstance')
             ->with(
-            $this->equalTo('Mage_Backend_Model_Menu_Filter_Iterator'),
-            $this->equalTo($this->_menuModel->getIterator())
+                $this->equalTo('Mage_Backend_Model_Menu_Filter_Iterator'),
+                $this->equalTo(array('iterator' => $this->_menuModel->getIterator()))
             )->will($this->returnValue(new Mage_Backend_Model_Menu_Filter_Iterator($this->_menuModel->getIterator())));
 
         $this->_factoryMock
@@ -85,7 +85,7 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_
             ->method('getModelInstance')
             ->with(
                 $this->equalTo('Mage_Backend_Model_Menu_Filter_Iterator'),
-                $this->equalTo($this->_menuSubModel->getIterator())
+                $this->equalTo(array('iterator' => $this->_menuSubModel->getIterator()))
             )->will($this->returnValue(
                 new Mage_Backend_Model_Menu_Filter_Iterator($this->_menuSubModel->getIterator())
             )

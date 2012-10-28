@@ -55,7 +55,7 @@ class Enterprise_Checkout_Model_Import extends Varien_Object
     public function uploadFile()
     {
         /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', self::FIELD_NAME_SOURCE_FILE);
+        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {

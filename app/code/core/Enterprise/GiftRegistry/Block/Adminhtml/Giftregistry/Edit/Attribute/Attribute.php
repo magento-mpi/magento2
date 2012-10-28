@@ -16,14 +16,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     protected $_typeInstance;
 
-    /**
-     * Initialize edit attribute block
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('edit/attributes.phtml');
-    }
+    protected $_template = 'edit/attributes.phtml';
 
     /**
      * Preparing block layout

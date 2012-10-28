@@ -82,13 +82,12 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * @param array $data
      */
-    public function __construct(array $data = array())
+    protected function _construct()
     {
-        $this->_systemConfig = isset($data['systemConfig']) ?
-            $data['systemConfig'] :
+        parent::_construct();
+        $this->_systemConfig = $this->hasData('systemConfig') ?
+            $this->getData('systemConfig') :
             Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
-
-        parent::__construct($data);
 
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[GLOBAL]'),

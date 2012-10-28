@@ -31,13 +31,13 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Ad
      * Initialize Form Container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId   = 'type_id';
         $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_formtype';
 
-        parent::__construct();
+        parent::_construct();
 
         $editMode = Mage::registry('edit_mode');
         if ($editMode == 'edit') {

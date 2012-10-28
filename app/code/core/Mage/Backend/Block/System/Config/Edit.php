@@ -32,17 +32,20 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected $_systemConfig;
 
     /**
-     * @param array $data
+     * Block template File
+     *
+     * @var string
      */
-    public function __construct(array $data = array())
+    protected $_template = 'Mage_Backend::system/config/edit.phtml';
+
+    protected  function _construct()
     {
-        $this->_systemConfig = isset($data['systemConfig']) ?
-            $data['systemConfig'] :
+        $this->_systemConfig = $this->hasData('systemConfig') ?
+            $this->getData('systemConfig') :
             Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
-        parent::__construct($data);
+        parent::_construct();
 
-        $this->setTemplate('Mage_Backend::system/config/edit.phtml');
         $sectionCode = $this->getRequest()->getParam('section');
 
         $this->_section = $this->_systemConfig->getSection($sectionCode);

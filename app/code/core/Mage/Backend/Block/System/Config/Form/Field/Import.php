@@ -19,12 +19,9 @@
 class Mage_Backend_Block_System_Config_Form_Field_Import extends Varien_Data_Form_Element_Abstract
 {
 
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array())
+    protected function _construct()
     {
-        parent::__construct($data);
+        parent::_construct();
         $this->setType('file');
     }
 

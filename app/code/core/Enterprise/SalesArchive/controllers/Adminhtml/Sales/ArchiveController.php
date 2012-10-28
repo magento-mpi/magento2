@@ -152,9 +152,9 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
 
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) have been removed from archive.', $removedFromArchiveCount));
-        }
-        else {
+            $this->_getSession()
+                ->addSuccess($this->__('%s order(s) have been removed from archive.', $removedFromArchiveCount));
+        } else {
             // selected orders is not available for removing from archive
         }
         $this->_redirect('*/*/orders');
@@ -325,27 +325,27 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 $acl = 'Enterprise_SalesArchive::invoices';
                 break;
 
-           case 'creditmemos':
-           case 'creditmemosgrid':
+            case 'creditmemos':
+            case 'creditmemosgrid':
                 $acl = 'Enterprise_SalesArchive::creditmemos';
                 break;
 
-           case 'shipments':
-           case 'shipmentsgrid':
+            case 'shipments':
+            case 'shipmentsgrid':
                 $acl = 'Enterprise_SalesArchive::shipments';
                 break;
 
-           case 'massadd':
-           case 'add':
-               $acl = 'Enterprise_SalesArchive::add';
+            case 'massadd':
+            case 'add':
+                $acl = 'Enterprise_SalesArchive::add';
                 break;
 
-           case 'massremove':
-           case 'remove':
+            case 'massremove':
+            case 'remove':
                 $acl = 'Enterprise_SalesArchive::remove';
                 break;
 
-           default:
+            default:
                 $acl = 'Enterprise_SalesArchive::orders';
                 break;
         }
