@@ -18,6 +18,7 @@
          * @protected
          */
         _create: function() {
+            this.baseUrl = this.element.attr('action');
             $.each(this.options.actions, function(i, v) {
                 $.template(i, v.template);
             });
@@ -43,7 +44,7 @@
             if (actions[action]) {
                 data = data || {};
                 return $.tmpl(action, {
-                    base: this.element.attr('action'),
+                    base: this.baseUrl,
                     args: actions[action].args ? $.extend(actions[action].args, data) : data
                 }).text();
             }
@@ -57,6 +58,7 @@
          * @return {string|boolean}
          */
         _submit: function(e, data) {
+            this.element.attr('action', this.baseUrl);
             var urlData = {};
             this.element.trigger('beforeSubmit', urlData);
             data = data ? $.extend(data, urlData) : urlData;
