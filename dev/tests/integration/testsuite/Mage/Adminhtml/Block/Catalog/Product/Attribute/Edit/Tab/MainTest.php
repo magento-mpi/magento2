@@ -32,9 +32,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_MainTest extends P
 
     public function testPrepareFormSystemAttribute()
     {
-        $entityType = new Varien_Object();
         Mage::register('entity_attribute', new Varien_Object(
-                array('entity_type' => $entityType, 'id' => 1, 'is_user_defined' => false))
+                array('entity_type' => new Varien_Object(), 'id' => 1, 'is_user_defined' => false))
         );
         $this->_block->toHtml();
         $this->assertTrue(
@@ -44,9 +43,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_MainTest extends P
 
     public function testPrepareFormUserDefinedAttribute()
     {
-        $entityType = new Varien_Object();
         Mage::register('entity_attribute', new Varien_Object(
-                array('entity_type' => $entityType, 'id' => 1, 'is_user_defined' => true))
+                array('entity_type' => new Varien_Object(), 'id' => 1, 'is_user_defined' => true))
         );
         $this->_block->toHtml();
         $this->assertFalse(
