@@ -33,7 +33,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Fr
             array(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT, 1, '/cd\.product_tax_class_id = [\S]{0,1}1[\S]{0,1}/'),
             array(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER, 1, '/cd\.customer_tax_class_id = [\S]{0,1}1[\S]{0,1}/')
         );
-}
+    }
 
     /**
      * Test setClassTypeFilter with wrong Class Type

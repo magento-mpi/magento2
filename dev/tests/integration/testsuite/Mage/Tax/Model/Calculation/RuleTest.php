@@ -98,7 +98,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $classes = $model->getAllOptionsForClass($classFilter);
         $this->assertCount(count($expected), $classes);
         $count = 0;
-        foreach($classes as $class) {
+        foreach ($classes as $class) {
             $this->assertEquals($expected[$count], $class['label']);
             $count++;
         }
