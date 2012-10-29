@@ -28,12 +28,14 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
      */
     const LIST_TYPE = 'add_by_sku';
 
+    protected $_template = 'sku/add.phtml';
+
     /**
      * Initialize SKU container
      */
-    public function __construct()
+    protected function _construct()
     {
-        $this->setTemplate('sku/add.phtml');
+
         // Used by JS to tell accordions from each other
         $this->setId('sku');
         /* @see Enterprise_Checkout_Adminhtml_CheckoutController::_getListItemInfo() */

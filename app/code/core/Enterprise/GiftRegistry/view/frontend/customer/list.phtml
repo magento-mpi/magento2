@@ -48,7 +48,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">decorateTable('giftregistry-table')</script>
+    <script type="text/javascript">(function($) {$('#giftregistry-table').decorate('table')})(jQuery)</script>
     <?php echo $this->getChildHtml('pager') ?>
 <?php else:?>
     <p><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('There are no created gift registries yet.'); ?></p>

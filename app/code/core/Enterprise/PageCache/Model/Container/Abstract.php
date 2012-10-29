@@ -84,7 +84,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         }
 
         if (Mage::getStoreConfig(Enterprise_PageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
-            $debugBlock = new Enterprise_PageCache_Block_Debug();
+            $debugBlock = Mage::app()->getLayout()->createBlock('Enterprise_PageCache_Block_Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());
         } else {
@@ -258,7 +258,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected function _getPlaceHolderBlock()
     {
         $blockName = $this->_placeholder->getAttribute('block');
-        $block = new $blockName;
+        $block = Mage::app()->getLayout()->createBlock($blockName);
         $block->setTemplate($this->_placeholder->getAttribute('template'));
         $block->setLayout(Mage::app()->getLayout());
         $block->setSkipRenderTag(true);

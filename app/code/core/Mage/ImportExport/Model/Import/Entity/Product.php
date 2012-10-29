@@ -291,7 +291,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
             : Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product_Option',
-                array('product_entity' => $this)
+                array('data' => array('product_entity' => $this))
             );
 
         $this->_initWebsites()
@@ -482,7 +482,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     {
         $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
-            if (!($model = Mage::getModel($typeModel, array($this, $type)))) {
+            $params = array($this, $type);
+            if (!($model = Mage::getModel($typeModel, array('params' => $params)))) {
                 Mage::throwException("Entity type model '{$typeModel}' is not found");
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
@@ -1030,7 +1031,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
                 );
-                $product = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', $rowData);
+                $product = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', array('data' => $rowData));
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);

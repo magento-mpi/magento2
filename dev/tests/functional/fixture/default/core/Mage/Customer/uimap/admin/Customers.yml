@@ -40,6 +40,7 @@ manage_customers:
                             state: //input[@name='billing_region']
                         links:
                             open_customer_by_value:
+                            select_all: //*[@data-ui-id='customer-grid-massaction-select-all-link']
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:

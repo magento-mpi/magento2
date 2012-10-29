@@ -9,27 +9,34 @@
  * @license     {license_link}
  */
 
-$billingAddress = new Mage_Sales_Model_Order_Address(array(
-    'firstname'  => 'guest',
-    'lastname'   => 'guest',
-    'email'      => 'customer@example.com',
-    'street'     => 'street',
-    'city'       => 'Los Angeles',
-    'region'     => 'CA',
-    'postcode'   => '1',
-    'country_id' => 'US',
-    'telephone'  => '1',
-));
+/** @var $billingAddress Mage_Sales_Model_Order_Address */
+$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address',
+    array(
+        'data' => array(
+            'firstname'  => 'guest',
+            'lastname'   => 'guest',
+            'email'      => 'customer@example.com',
+            'street'     => 'street',
+            'city'       => 'Los Angeles',
+            'region'     => 'CA',
+            'postcode'   => '1',
+            'country_id' => 'US',
+            'telephone'  => '1',
+        )
+    )
+);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$payment = new Mage_Sales_Model_Order_Payment();
+/** @var $payment Mage_Sales_Model_Order_Payment */
+$payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
-$orderItem = new Mage_Sales_Model_Order_Item();
+/** @var $orderItem Mage_Sales_Model_Order_Item */
+$orderItem = Mage::getModel('Mage_Sales_Model_Order_Item');
 $orderItem->setProductId(1)
     ->setProductType(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setBasePrice(100)
@@ -45,7 +52,8 @@ $orderItem->setProductId(1)
         'giftcard_email_template' => 'giftcard_email_template',
     ));
 
-$order = new Mage_Sales_Model_Order();
+/** @var $order Mage_Sales_Model_Order */
+$order = Mage::getModel('Mage_Sales_Model_Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setCustomerIsGuest(true)
@@ -57,5 +65,6 @@ $order->addItem($orderItem)
 $order->save();
 
 Mage::getConfig()->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
-$pool = new Enterprise_GiftCardAccount_Model_Pool();
+/** @var $pool Enterprise_GiftCardAccount_Model_Pool */
+$pool = Mage::getModel('Enterprise_GiftCardAccount_Model_Pool');
 $pool->setWebsiteId(1)->generatePool();

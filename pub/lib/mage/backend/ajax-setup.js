@@ -6,6 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true */
+/*global window:true FORM_KEY:true SessionError:true*/
 (function($) {
     $.ajaxSetup({
         /*
@@ -24,8 +26,7 @@
                     settings.url + '&isAjax=true' :
                     settings.url + '?isAjax=true';
             }
-            if ($.type(settings.data) === "string"
-                && settings.data.indexOf('form_key=') == -1
+            if ($.type(settings.data) === "string" && settings.data.indexOf('form_key=') === -1
                 ) {
                 settings.data += '&' + $.param({
                     form_key: FORM_KEY
@@ -44,10 +45,9 @@
         /*
          * Ajax complete callback
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
-         * @param {string}
          */
-        complete: function(jqXHR, status){
-            if (jqXHR.readyState == 4) {
+        complete: function(jqXHR){
+            if (jqXHR.readyState === 4) {
                 try {
                     var jsonObject = jQuery.parseJSON(jqXHR.responseText);
                     if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
@@ -61,5 +61,5 @@
                 }
             }
         }
-    })
+    });
 })(jQuery);

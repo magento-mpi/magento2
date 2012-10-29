@@ -309,10 +309,10 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
 
         /* @var $session Mage_Backend_Model_Auth_Session */
-        $builder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
+        $builder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array('data' => array(
             'areaConfig' => Mage::getConfig()->getAreaConfig(),
             'objectFactory' => Mage::getConfig()
-        ));
+        )));
 
         foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
             $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);

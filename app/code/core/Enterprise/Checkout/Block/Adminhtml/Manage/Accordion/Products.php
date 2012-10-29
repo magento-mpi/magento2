@@ -21,9 +21,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Block initializing, grid parameters
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('source_products');
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);

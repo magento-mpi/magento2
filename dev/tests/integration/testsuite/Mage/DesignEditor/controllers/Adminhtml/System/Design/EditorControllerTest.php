@@ -23,7 +23,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public static function prepareTheme()
     {
-        $theme = new Mage_Core_Model_Theme();
+        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme->setData(array(
             'package_title'        => 'Default',
             'parent_id'            => null,
@@ -43,7 +43,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public static function prepareThemeRollback()
     {
-        $theme = new Mage_Core_Model_Theme();
+        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme->load(self::$_themeId)->delete();
     }
 
@@ -78,6 +78,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     /**
      * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
      */
     public function testIndexActionMultipleStores()
     {
@@ -95,7 +96,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testLaunchActionSingleStore()
     {
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_skin', 'default/default/default');
         $this->getRequest()->setParam('theme_id', self::$_themeId);
@@ -108,7 +109,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     public function testLaunchActionSingleStoreWrongThemeId()
     {
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_id', 999);
         $this->dispatch('backend/admin/system_design_editor/launch');
@@ -128,7 +129,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     {
         $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
 
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_id', self::$_themeId);
         $this->dispatch('backend/admin/system_design_editor/launch');
@@ -144,7 +145,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testExitAction()
     {
-        $session = new Mage_DesignEditor_Model_Session();
+        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
         $this->assertTrue($session->isDesignEditorActive());
         $this->dispatch('backend/admin/system_design_editor/exit');
 

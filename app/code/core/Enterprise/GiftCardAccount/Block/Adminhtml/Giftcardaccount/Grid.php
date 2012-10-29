@@ -13,9 +13,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     /**
      * Set defaults
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('giftcardaccountGrid');
         $this->setDefaultSort('giftcardaccount_id');
         $this->setDefaultDir('desc');

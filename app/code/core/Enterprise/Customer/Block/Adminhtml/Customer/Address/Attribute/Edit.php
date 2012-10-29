@@ -33,13 +33,13 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
      * Initialize Customer Address Attribute Edit Container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId   = 'attribute_id';
         $this->_blockGroup = 'Enterprise_Customer';
         $this->_controller = 'adminhtml_customer_address_attribute';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_addButton(
             'save_and_edit_button',

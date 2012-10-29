@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+/** @var $query Mage_CatalogSearch_Model_Query */
 $query = Mage::getModel('Mage_CatalogSearch_Model_Query');
 $query->setStoreId(1);
 $query

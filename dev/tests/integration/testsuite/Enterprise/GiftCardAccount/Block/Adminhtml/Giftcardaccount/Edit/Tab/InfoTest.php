@@ -20,8 +20,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      */
     public function testInitForm()
     {
-        Mage::register('current_giftcardaccount', new Enterprise_GiftCardAccount_Model_Giftcardaccount);
-        $layout = new Mage_Core_Model_Layout;
+        Mage::register('current_giftcardaccount', Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount'));
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->addBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
 
         $element = $block->initForm()->getForm()->getElement('date_expires');

@@ -15,10 +15,17 @@
 class Enterprise_GiftRegistry_Block_Customer_Edit_AbstractTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Stub class name
+     */
+    const STUB_CLASS = 'Enterprise_GiftRegistry_Block_Customer_Edit_Abstract_Stub';
+
     public function testGetCalendarDateHtml()
     {
-        $block = $this->getMockForAbstractClass('Enterprise_GiftRegistry_Block_Customer_Edit_Abstract')
-            ->setLayout(new Mage_Core_Model_Layout);
+        $this->getMockForAbstractClass(
+            'Enterprise_GiftRegistry_Block_Customer_Edit_Abstract', array(), self::STUB_CLASS, false
+        );
+        $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
 
         $value = null;
         $formatType = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
