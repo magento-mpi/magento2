@@ -8,44 +8,32 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
-    $(document).ready(function () {
-
-        var topCartInit = {
-            // Default values
-            intervalDuration: 4000,
-            // Filled in initialization event
-            container: null,
-            closeButton: null
-        };
-
-        $.mage.event.trigger('mage.checkout.initialize', topCartInit);
-
-        topCartInit.container = $(topCartInit.container);
-        topCartInit.closeButton = $(topCartInit.closeButton);
-
-        var topCartSettings = {
-            element: topCartInit.container.parent(),
-            elementHeader: topCartInit.container.prev(),
-            interval: null
-        };
-
-        topCartInit.closeButton.on('click', function () {
-            topCartInit.container.slideUp('slow', function () {
-                clearTimeout(topCartInit.interval);
-            });
-        });
-
-        topCartSettings.element.on('mouseleave',function () {
-            topCartInit.interval = setTimeout(function () {
-                topCartInit.closeButton.trigger('click');
-            }, topCartInit.intervalDuration);
-        }).on('mouseenter', function () {
-            clearTimeout(topCartSettings.interval);
-        });
-
-        topCartSettings.elementHeader.on('click', function () {
-            $(topCartInit.container).slideToggle('slow');
-        });
-
+    $.widget('mage.topCart', {
+        options: {
+            intervalDuration: 4000
+        },
+        _create: function(){
+            this.closeButton = this.element.find(this.options.closeSelector);
+            this.element.parent()
+                .on('mouseleave', $.proxy(this._onMouseleave, this))
+                .on('mouseenter', $.proxy(function() {
+                clearTimeout(this.timer);
+            }, this));
+            this.element.prev().on('click', $.proxy(function () {
+                this.element.slideToggle('slow');
+            }, this));
+            this.closeButton.on('click', $.proxy(this.hide, this));
+        },
+        hide: function(){
+            $(this.element).slideUp('slow', $.proxy(function () {
+                clearTimeout(this.timer);
+            }, this));
+        },
+        _onMouseleave: function() {
+            clearTimeout(this.timer);
+            this.timer = setTimeout($.proxy(function () {
+                this.closeButton.trigger('click');
+            }, this), this.options.intervalDuration);
+        }
     });
 })(jQuery);
