@@ -23,7 +23,8 @@ return array(
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure',
-                            'documentation' => 'Data of resource'
+                            'documentation' => 'Data of resource',
+                            'required' => true,
                         )
                     ),
                 ),
@@ -45,7 +46,8 @@ return array(
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure[]',
-                            'documentation' => 'list of resources'
+                            'documentation' => 'list of resources',
+                            'required' => true,
                         )
                     ),
                 ),

@@ -12,7 +12,7 @@ return array(
             'type' => 'string',
             'required' => true,
             'default' => null,
-            'documentation' => 'String param.',
+            'documentation' => 'inline doc.String param.',
         ),
         'integerParam' => array(
             'type' => 'int',

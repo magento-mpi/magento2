@@ -48,7 +48,9 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
                 if (isset($requestData[$paramName])) {
                     $methodArguments[$paramName] = $this->_formatParamData($requestData[$paramName],
                         $paramData['type'], $apiConfig);
-                } elseif ($paramData['required']) {
+                } elseif (!$paramData['required']) {
+                    $methodArguments[$paramName] = $paramData['default'];
+                } else {
                     throw new Mage_Webapi_Exception($this->__('Required parameter "%s" is missing.', $paramName),
                         Mage_Webapi_Exception::HTTP_BAD_REQUEST);
                 }

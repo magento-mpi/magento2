@@ -9,7 +9,7 @@ class NamespaceA_ModuleA_Webapi_ModuleA_DataStructure
     /**
      * String param.
      *
-     * @var string String param.
+     * @var string inline doc.
      */
     public $stringParam;
 

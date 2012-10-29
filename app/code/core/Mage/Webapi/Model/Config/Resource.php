@@ -678,17 +678,22 @@ class Mage_Webapi_Model_Config_Resource
 
         /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
         foreach ($prototype->getParameters() as $parameter) {
-            $methodData['interface']['in']['parameters'][$parameter->getName()] = array(
+            $parameterData = array(
                 'type' => $this->_processType($parameter->getType()),
                 'required' => !$parameter->isOptional(),
                 'documentation' => $parameter->getDescription(),
             );
+            if ($parameter->isOptional()) {
+                $parameterData['default'] = $parameter->getDefaultValue();
+            }
+            $methodData['interface']['in']['parameters'][$parameter->getName()] = $parameterData;
         }
 
         if ($prototype->getReturnType() != 'void') {
             $methodData['interface']['out']['parameters']['result'] = array(
                 'type' => $this->_processType($prototype->getReturnType()),
-                'documentation' => $prototype->getReturnValue()->getDescription()
+                'documentation' => $prototype->getReturnValue()->getDescription(),
+                'required' => true,
             );
         }
 
@@ -749,6 +754,9 @@ class Mage_Webapi_Model_Config_Resource
                 }
                 /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
                 $varTag = current($varTags);
+                $varContentParts = explode(' ', $varTag->getContent(), 2);
+                $varType = current($varContentParts);
+                $varInlineDoc = (count($varContentParts) > 1) ? end($varContentParts) : '';
                 $optionalTags = $doc->getTags('optional');
                 if (!empty($optionalTags)) {
                     /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $isOptionalTag */
@@ -757,13 +765,11 @@ class Mage_Webapi_Model_Config_Resource
                 } else {
                     $isOptional = false;
                 }
-                // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
-                $varType = str_replace("\r", '', $varTag->returnValue(0));
                 $this->_data['types'][$typeName]['parameters'][$propertyName] = array(
                     'type' => $this->_processType($varType),
                     'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
                     'default' => $defaultProperties[$propertyName],
-                    'documentation' => $this->_getDescription($doc)
+                    'documentation' => $varInlineDoc . $this->_getDescription($doc)
                 );
             }
         }

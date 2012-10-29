@@ -144,17 +144,17 @@ class Mage_Webapi_Model_Soap_Wsdl
      *
      * @param string $name
      * @param array $parameters
-     * @param string $documentation
+     * @param array $annotation
      * @return mixed
      */
-    public function addComplexTypeWithParameters($name, array $parameters, $documentation = null)
+    public function addComplexTypeWithParameters($name, array $parameters, $annotation = null)
     {
         if (!isset($this->_includedTypes[$name])) {
             $complexType = $this->_dom->createElement(self::XSD_NS . ':complexType');
             $complexType->setAttribute('name', $name);
 
-            if (!empty($documentation)) {
-                $this->addDocumentation($complexType, $documentation);
+            if (!empty($annotation)) {
+                $this->addAnnotation($complexType, $annotation);
             }
             if (!empty($parameters)) {
                 $sequence = $this->_dom->createElement(self::XSD_NS . ':sequence');
@@ -168,8 +168,8 @@ class Mage_Webapi_Model_Soap_Wsdl
                     if (isset($parameterData['maxOccurs'])) {
                         $element->setAttribute('maxOccurs', $parameterData['maxOccurs']);
                     }
-                    if (isset($parameterData['documentation'])) {
-                        $this->addDocumentation($element, $parameterData['documentation']);
+                    if (isset($parameterData['annotation'])) {
+                        $this->addAnnotation($element, $parameterData['annotation']);
                     }
                     $sequence->appendChild($element);
                 }
@@ -183,21 +183,70 @@ class Mage_Webapi_Model_Soap_Wsdl
     }
 
     /**
-     * Add documentation node to given node.
+     * Add annotation node to given node.
      *
-     * @param DOMElement $node
-     * @param string $documentationText
+     * @param DOMElement $parentNode
+     * @param array $data
      * @return DOMElement
      */
-    public function addDocumentation(DOMElement $node, $documentationText)
+    public function addAnnotation(DOMElement $parentNode, $data)
     {
-        $annotation = $this->_dom->createElement(self::XSD_NS . ':annotation');
-        $documentation = $this->_dom->createElement(self::XSD_NS . ':documentation');
-        $documentation->appendChild($this->_dom->createTextNode($documentationText));
-        $annotation->appendChild($documentation);
-        $node->appendChild($annotation);
+        $annotationNode = $this->_dom->createElement(self::XSD_NS . ':annotation');
+        $documentationNode = $this->_dom->createElement(self::XSD_NS . ':documentation');
+        $documentationText = isset($data['documentation']) ? trim($data['documentation']) : '';
+        $documentationNode->appendChild($this->_dom->createTextNode($documentationText));
+        $annotationNode->appendChild($documentationNode);
 
-        return $annotation;
+        $appInfoNode = $this->_dom->createElement(self::XSD_NS . ':appinfo');
+        if (isset($data['appinfo'])) {
+            foreach ($data['appinfo'] as $appInfoKey => $appInfoData) {
+                switch ($appInfoKey) {
+                    case 'callInfo':
+                        foreach ($appInfoData as $direction => $conditions) {
+                            foreach ($conditions as $condition => $info) {
+                                $callInfoNode = $this->_dom->createElement('callInfo');
+                                if (isset($info['allCallsExcept'])) {
+                                    $allExceptNode = $this->_dom->createElement('allCallsExcept');
+                                    $allExceptNode->appendChild($this->_dom->createTextNode($info['allCallsExcept']));
+                                    $callInfoNode->appendChild($allExceptNode);
+                                } else if (isset($info['calls'])) {
+                                    foreach ($info['calls'] as $callName) {
+                                        $callNode = $this->_dom->createElement('callName');
+                                        $callNode->appendChild($this->_dom->createTextNode($callName));
+                                        $callInfoNode->appendChild($callNode);
+                                    }
+                                }
+                                $directionNode = $this->_dom->createElement($direction);
+                                $directionNode->appendChild($this->_dom->createTextNode(ucfirst($condition)));
+                                $callInfoNode->appendChild($directionNode);
+                                $appInfoNode->appendChild($callInfoNode);
+                            }
+                        }
+                        break;
+                    case 'seeLink':
+                        $seeLinkNode = $this->_dom->createElement('seeLink');
+                        foreach (array('url', 'title', 'for') as $subNodeName) {
+                            if (isset($appInfoData[$subNodeName])) {
+                                $seeLinkSubNode = $this->_dom->createElement($subNodeName);
+                                $seeLinkSubNode->appendChild($this->_dom->createTextNode($appInfoData[$subNodeName]));
+                                $seeLinkNode->appendChild($seeLinkSubNode);
+                            }
+                        }
+                        $appInfoNode->appendChild($seeLinkNode);
+                        break;
+                    default:
+                        $appInfoData = trim($appInfoData);
+                        $annotationTextNode = $this->_dom->createElement($appInfoKey);
+                        $annotationTextNode->appendChild($this->_dom->createTextNode($appInfoData));
+                        $appInfoNode->appendChild($annotationTextNode);
+                        break;
+                }
+            }
+        }
+        $annotationNode->appendChild($appInfoNode);
+        $parentNode->appendChild($annotationNode);
+
+        return $annotationNode;
     }
 
     /**

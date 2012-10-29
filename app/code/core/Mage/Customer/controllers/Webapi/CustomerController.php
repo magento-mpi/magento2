@@ -28,11 +28,13 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Create customer.
      *
      * @param Mage_Customer_Webapi_Customer_DataStructure $data Customer create data.
-     * @param string $optional may be not passed.
+     * @param string $optional {maxLength:255 chars.}May be not passed.
+     * @param int $int {min:10}{max:100} Optional integer parameter.
+     * @param bool $bool optional boolean
      * @return int ID of created customer
      * @throws Mage_Webapi_Exception
      */
-    public function createV1(Mage_Customer_Webapi_Customer_DataStructure $data, $optional = null)
+    public function createV1(Mage_Customer_Webapi_Customer_DataStructure $data, $optional = 'default', $int = null, $bool = true)
     {
         try {
             /** @var $customer Mage_Customer_Model_Customer */

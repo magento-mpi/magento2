@@ -25,7 +25,8 @@ Multiline <b>with html</b>.",
                     'parameters' => array(
                         'result' => array(
                             'type' => 'int',
-                            'documentation' => 'ID of created resource'
+                            'documentation' => 'ID of created resource',
+                            'required' => true,
                         ),
                     )
                 ),
@@ -52,7 +53,8 @@ Multiline <b>with html</b>.",
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure',
-                            'documentation' => 'data of resource'
+                            'documentation' => 'data of resource',
+                            'required' => true,
                         )
                     ),
                 ),
