@@ -110,7 +110,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Create Zend method reflection object from.
+     * Create Zend method reflection object.
      *
      * @param string|object $classOrObject
      * @param string $methodName
@@ -158,7 +158,8 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
             '/(x|ch|ss|sh)$/i' => "$1es",
             '/([^aeiouy]|qu)y$/i' => "$1ies",
             '/s$/i' => "s",
-            '/$/' => "s"
+            /** Add 's' to any string longer than 0 characters */
+            '/(.+)$/' => "$1s"
         );
         foreach ($conversionMatrix as $singularPattern => $pluralPattern) {
             if (preg_match($singularPattern, $singular)) {

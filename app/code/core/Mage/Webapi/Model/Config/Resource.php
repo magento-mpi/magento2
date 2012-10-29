@@ -305,7 +305,7 @@ class Mage_Webapi_Model_Config_Resource
                         if ($method && $version) {
                             $data['versions'][$version]['methods'][$method] = $this->_getMethodData($methodReflection);
                             $data['rest_routes'] = array_merge($data['rest_routes'],
-                                $this->_generateRestRoutes($methodReflection));
+                                $this->generateRestRoutes($methodReflection));
                         }
                     }
                     // Sort versions array for further fallback.
@@ -373,19 +373,33 @@ class Mage_Webapi_Model_Config_Resource
      * @param ReflectionMethod $methodReflection
      * @return array
      */
-    protected function _generateRestRoutes(ReflectionMethod $methodReflection)
+    public function generateRestRoutes(ReflectionMethod $methodReflection)
     {
         $routes = array();
-        // TODO: Check method interface against business rules (existence of ID field, body field where necessary)
-        $idParamName = $this->_getIdParamName($methodReflection);
         $version = $this->_getMethodVersion($methodReflection);
         $routePath = "/$version";
-        foreach ($this->getResourceNameParts($methodReflection->getDeclaringClass()->getName()) as $resourcePathPart) {
-            $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($resourcePathPart));
+        $routeParts = $this->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
+        $partsCount = count($routeParts);
+        for ($i = 0; $i < $partsCount; $i++) {
+            if ($this->_isParentResourceIdExpected($methodReflection)
+                /**
+                 * In case of subresource route, parent ID must be specified before the last route part.
+                 * E.g.: /v1/grandParent/parent/:parentId/resource
+                 */
+                && ($i == ($partsCount - 1))
+            ) {
+                $routePath .= "/:" . $this->_getIdParamName($methodReflection);;
+            }
+            $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($routeParts[$i]));
         }
-        if ($idParamName) {
-            $routePath .= "/:$idParamName";
+        if ($this->_isResourceIdExpected($methodReflection)) {
+            $routePath .= "/:" . $this->_getIdParamName($methodReflection);
         }
+
+        foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequiredParam) {
+            $routePath .= "/$additionalRequiredParam/:$additionalRequiredParam";
+        }
+
         foreach ($this->_getPathCombinations($this->_getOptionalParamNames($methodReflection)) as $routeOptionalPart) {
             $routes[$routePath . $routeOptionalPart] = array(
                 'action_type' => $this->_getResourceTypeByMethod(
@@ -453,7 +467,6 @@ class Mage_Webapi_Model_Config_Resource
     protected function _getOptionalParamNames(ReflectionMethod $methodReflection)
     {
         $optionalParamNames = array();
-        /** ID field must always be the first parameter of resource method */
         $methodInterfaces = $methodReflection->getPrototypes();
         /** Take the most full interface, that includes optional parameters also. */
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
@@ -466,6 +479,34 @@ class Mage_Webapi_Model_Config_Resource
             }
         }
         return $optionalParamNames;
+    }
+
+    /**
+     * Retrieve the list of names of required params except ID and Request body.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return array
+     */
+    protected function _getAdditionalRequiredParamNames(ReflectionMethod $methodReflection)
+    {
+        $paramNames = array();
+        $methodInterfaces = $methodReflection->getPrototypes();
+        /** Take the most full interface, that includes optional parameters also. */
+        /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+        $methodInterface = end($methodInterfaces);
+        $methodParams = $methodInterface->getParameters();
+        $idParamName = $this->_getIdParamName($methodReflection);
+        $bodyParamName = $this->getBodyParamName($methodReflection);
+        /** @var ReflectionParameter $paramReflection */
+        foreach ($methodParams as $paramReflection) {
+            if (!$paramReflection->isOptional()
+                && $paramReflection->getName() != $bodyParamName
+                && $paramReflection->getName() != $idParamName
+            ) {
+                $paramNames[] = $paramReflection->getName();
+            }
+        }
+        return $paramNames;
     }
 
     /**
@@ -484,17 +525,21 @@ class Mage_Webapi_Model_Config_Resource
         $bodyPositionCreate = 1;
         $bodyPositionUpdate = 2;
         $bodyPositionMultiUpdate = 1;
+        $bodyPositionMultiDelete = 1;
         /**#@-*/
         $bodyParamPositions = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPositionCreate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPositionUpdate,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPositionMultiUpdate
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPositionMultiUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPositionMultiDelete
         );
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
         if ($isBodyExpected) {
             $bodyParamPosition = $bodyParamPositions[$methodName];
-            if ($this->_isSubresource($methodReflection)) {
+            if ($this->_isSubresource($methodReflection)
+                && $methodName != Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE
+            ) {
                 /** For subresources parent ID param must precede request body param. */
                 $bodyParamPosition++;
             }
@@ -564,6 +609,51 @@ class Mage_Webapi_Model_Config_Resource
             $idParamName = $idParam->getName();
         }
         return $idParamName;
+    }
+
+    /**
+     * Identify if method expects Parent resource ID to be present in the request.
+     *
+     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @return bool
+     */
+    protected function _isParentResourceIdExpected(ReflectionMethod $methodReflection)
+    {
+        $isIdFieldExpected = false;
+        if ($this->_isSubresource($methodReflection)) {
+            $methodsWithParentIdExpected = array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+            );
+            $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+            if (in_array($methodName, $methodsWithParentIdExpected)) {
+                $isIdFieldExpected = true;
+            }
+        }
+        return $isIdFieldExpected;
+    }
+
+    /**
+     * Identify if method expects Resource ID to be present in the request.
+     *
+     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @return bool
+     */
+    protected function _isResourceIdExpected(ReflectionMethod $methodReflection)
+    {
+        $isIdFieldExpected = false;
+        $methodsWithIdExpected = array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+        );
+        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+        if (in_array($methodName, $methodsWithIdExpected)) {
+            $isIdFieldExpected = true;
+        }
+        return $isIdFieldExpected;
     }
 
     /**

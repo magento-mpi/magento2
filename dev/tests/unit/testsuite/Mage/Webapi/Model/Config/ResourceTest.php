@@ -9,6 +9,11 @@
  * @license     {license_link}
  */
 
+include_once __DIR__ . '/../../_files/resource_class_fixture.php';
+include_once __DIR__ . '/../../_files/subresource_class_fixture.php';
+include_once __DIR__ . '/../../_files/Customer/DataStructure.php';
+include_once __DIR__ . '/../../_files/Customer/Address/DataStructure.php';
+
 class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -178,5 +183,176 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException',
             'Resource "resourceWithoutControllerAndModule" must have module specified.');
         $this->_model->getModuleNameByOperation('resourceWithoutControllerAndModuleGet');
+    }
+
+    /**
+     * @dataProvider dataProviderTestGenerateRestRoutesTopLevelResource
+     * @param Zend\Server\Reflection\ReflectionClass $classReflection
+     * @param string $methodName
+     * @param array $expectedRoutes
+     */
+    public function testGenerateRestRoutesTopLevelResource($classReflection, $methodName, $expectedRoutes)
+    {
+        $methodReflection = new ReflectionMethod($classReflection->getName(), $methodName);
+        $zendMethodReflection = new Zend\Server\Reflection\ReflectionMethod($classReflection, $methodReflection);
+        $actualRoutes = $this->_model->generateRestRoutes($zendMethodReflection);
+        $this->assertRoutesEqual($expectedRoutes,$actualRoutes);
+    }
+
+    public static function dataProviderTestGenerateRestRoutesTopLevelResource()
+    {
+        $classReflection = new Zend\Server\Reflection\ReflectionClass(
+            new ReflectionClass('Vendor_Module_Webapi_ResourceController')
+        );
+        return array(
+            array(
+                $classReflection,
+                'createV1',
+                array(
+                    '/v1/vendorModuleResources/requiredField/:requiredField' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v1'
+                    ),
+                    '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v1'
+                    ),
+                    '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField/secondOptional/:secondOptional' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v1'
+                    )
+                ),
+            ),
+            array(
+                $classReflection,
+                'updateV2',
+                array(
+                    '/v2/vendorModuleResources/:resourceId/additionalRequired/:additionalRequired' => array(
+                        'action_type' => 'item',
+                        'resource_version' => 'v2'
+                    ),
+                ),
+            ),
+            array(
+                $classReflection,
+                'getV2',
+                array(
+                    '/v2/vendorModuleResources/:resourceId' => array(
+                        'action_type' => 'item',
+                        'resource_version' => 'v2'
+                    ),
+                ),
+            ),
+            array(
+                $classReflection,
+                'listV2',
+                array(
+                    '/v2/vendorModuleResources/additionalRequired/:additionalRequired' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v2'
+                    ),
+                    '/v2/vendorModuleResources/additionalRequired/:additionalRequired/optional/:optional' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v2'
+                    ),
+                ),
+            ),
+            array(
+                $classReflection,
+                'deleteV3',
+                array(
+                    '/v3/vendorModuleResources/:resourceId' => array(
+                        'action_type' => 'item',
+                        'resource_version' => 'v3'
+                    ),
+                ),
+            ),
+            array(
+                $classReflection,
+                'multiUpdateV2',
+                array(
+                    '/v2/vendorModuleResources' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v2'
+                    ),
+                ),
+            ),
+            array(
+                $classReflection,
+                'multiDeleteV2',
+                array(
+                    '/v2/vendorModuleResources' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v2'
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGenerateRestRoutesSubresource
+     * @param Zend\Server\Reflection\ReflectionClass $classReflection
+     * @param string $methodName
+     * @param array $expectedRoutes
+     */
+    public function testGenerateRestRoutesSubresource($classReflection, $methodName, $expectedRoutes)
+    {
+        $methodReflection = new ReflectionMethod($classReflection->getName(), $methodName);
+        $zendMethodReflection = new Zend\Server\Reflection\ReflectionMethod($classReflection, $methodReflection);
+        $actualRoutes = $this->_model->generateRestRoutes($zendMethodReflection);
+        $this->assertRoutesEqual($expectedRoutes,$actualRoutes);
+    }
+
+    public static function dataProviderTestGenerateRestRoutesSubresource()
+    {
+        $classReflection = new Zend\Server\Reflection\ReflectionClass(
+            new ReflectionClass('Vendor_Module_Webapi_Resource_SubresourceController')
+        );
+        return array(
+            array(
+                $classReflection,
+                'createV2',
+                array(
+                    '/v2/vendorModuleResources/:param1/subresources' => array(
+                        'action_type' => 'collection',
+                        'resource_version' => 'v2'
+                    )
+                ),
+            ),
+            array(
+                $classReflection,
+                'updateV1',
+                array(
+                    '/v1/vendorModuleResources/subresources/:param1' => array(
+                        'action_type' => 'item',
+                        'resource_version' => 'v1'
+                    )
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Check if list of REST routes are equal.
+     *
+     * @param array $expectedRoutes
+     * @param array $actualRoutes
+     */
+    public function assertRoutesEqual($expectedRoutes, $actualRoutes)
+    {
+        $this->assertInternalType('array', $actualRoutes,
+            "Mage_Webapi_Model_Config_Resource::generateRestRoutes() must return value of 'array' type.");
+
+        foreach ($expectedRoutes as $expectedRoute => $expectedRouteMetadata) {
+            $this->assertArrayHasKey($expectedRoute, $actualRoutes,
+                "'$expectedRoute' route was expected to be present in results.");
+        }
+        foreach ($actualRoutes as $actualRoute => $actualRouteMetadata) {
+            $this->assertArrayHasKey($actualRoute, $expectedRoutes,
+                "'$actualRoute' route was not expected to be present in results.");
+            $this->assertEquals($expectedRoutes[$actualRoute], $actualRouteMetadata,
+                "'$actualRoute' route metadata is invalid.");
+        }
     }
 }

@@ -32,7 +32,6 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      * @param string $action
      * @return array
      */
-    // TODO: Think about AOP implementation
     public function fetchRequestData($controllerInstance, $action)
     {
         $config = $this->_frontController->getResourceConfig();
@@ -112,7 +111,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         $chain = $apiTypeRoute->chain($router);
         $params = array(
             'api_type' => $this->getRequest()->getApiType(),
-            'id'       => $createdItem->getId()
+            'id' => $createdItem->getId()
         );
         $uri = $chain->assemble($params);
 
