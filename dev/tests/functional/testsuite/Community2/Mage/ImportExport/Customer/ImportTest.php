@@ -180,6 +180,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * Verify that all Customer information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5621
      */
     public function importWithRequiredColumns()
