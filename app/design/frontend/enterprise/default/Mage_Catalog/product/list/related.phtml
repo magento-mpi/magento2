@@ -39,7 +39,7 @@
         </ul>
         <?php endif ?>
         <?php endforeach ?>
-        <script type="text/javascript">decorateGeneric($$('.box-related ul.block-content'), ['odd','even','first','last'])</script>
+        <script type="text/javascript">(function($) {$('.box-related ul.block-content li').decorate('generic', ['odd','even','first','last'])})(jQuery)</script>
 
     <script type="text/javascript">
     //<![CDATA[
