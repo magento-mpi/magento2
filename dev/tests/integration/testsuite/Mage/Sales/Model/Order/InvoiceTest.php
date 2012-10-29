@@ -13,7 +13,7 @@ class Mage_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture sales_email/invoice/enabled 1
-     * @magentoConfigFixture current_store design/theme/full_name default/default/default
+     * @magentoConfigFixture current_store design/theme/full_name default/basic
      * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testSendEmail()
