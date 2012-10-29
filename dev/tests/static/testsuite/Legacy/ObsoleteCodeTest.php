@@ -275,7 +275,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      * @param null|string $directory
      * @return array
      */
-    protected function _addClass($name, $suggestion = null, $directory = null)
+    protected function _getClassRule($name, $suggestion = null, $directory = null)
     {
         return $this->_getRule($name, null, $suggestion, $directory);
     }
