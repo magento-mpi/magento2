@@ -73,7 +73,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     {
         /** @var $parentTheme Mage_Core_Model_Theme */
         $parentTheme = $this->getItemById($parentId);
-        if (!$parentTheme->getId() || ($parentTheme->isVirtual() && !$parentTheme->getParentId()) ) {
+        if (!$parentTheme->getId() || ($parentTheme->isVirtual() && !$parentTheme->getParentId())) {
             $parentId = null;
         } else if ($parentTheme->isVirtual()) {
             $parentId = $this->_getParentThemeRecursively($parentTheme->getParentId());

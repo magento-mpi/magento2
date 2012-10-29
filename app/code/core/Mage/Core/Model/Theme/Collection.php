@@ -66,7 +66,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      * @param string $area
      * @return Mage_Core_Model_Theme_Collection
      */
-    public function _addDefaultPattern($area = 'frontend')
+    protected function _addDefaultPattern($area = 'frontend')
     {
         $this->_addTargetPattern(implode(DS, array(Mage::getBaseDir('design'), $area, '*', '*', 'theme.xml')));
         return $this;
@@ -79,7 +79,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      * @param string $value
      * @return Mage_Core_Model_Theme_Collection
      */
-    public function _addTargetPattern($value)
+    protected function _addTargetPattern($value)
     {
         $this->_targetDirs[] = $value;
         return $this;

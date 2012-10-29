@@ -18,7 +18,6 @@
  * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
  * @method setPreviewImage(string $previewImage)
  * @method string getPreviewImage()
- * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
