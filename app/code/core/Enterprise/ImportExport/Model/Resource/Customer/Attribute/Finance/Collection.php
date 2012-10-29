@@ -36,10 +36,18 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     protected $_orderField;
 
     /**
-     * Class constructor
+     * @var Mage_Eav_Model_AttributeFactory
      */
-    public function __construct()
+    protected $_attributeFactory;
+
+    /**
+     * Class constructor
+     * @param Mage_Eav_Model_AttributeFactory $attributeFactory
+     */
+    public function __construct(Mage_Eav_Model_AttributeFactory $attributeFactory)
     {
+        $this->_attributeFactory = $attributeFactory;
+
         /** @var $helper Enterprise_ImportExport_Helper_Data */
         $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 
@@ -51,7 +59,9 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'backend_type'   => 'decimal',
                 'is_required'    => false,
             );
-            $this->addItem(new Mage_Eav_Model_Entity_Attribute($storeCreditData));
+            $this->addItem(
+                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $storeCreditData)
+            );
         }
 
         if ($helper->isRewardPointsEnabled()) {
@@ -62,7 +72,9 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'backend_type'   => 'int',
                 'is_required'    => false,
             );
-            $this->addItem(new Mage_Eav_Model_Entity_Attribute($rewardPointsData));
+            $this->addItem(
+                $this->_attributeFactory->createAttribute('Mage_Eav_Model_Entity_Attribute', $rewardPointsData)
+            );
         }
     }
 

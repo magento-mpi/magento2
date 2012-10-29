@@ -15,13 +15,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Staging extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_staging';
         $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Websites');
         $this->_addButtonLabel = Mage::helper('Enterprise_Staging_Helper_Data')->__('Add Staging Website');
-        parent::__construct();
+        parent::_construct();
     }
 
     public function getHeaderCssClass() {

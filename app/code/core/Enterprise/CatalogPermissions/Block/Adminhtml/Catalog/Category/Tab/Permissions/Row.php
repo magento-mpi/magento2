@@ -18,11 +18,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/category/tab/permissions/row.phtml');
-    }
+    protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     protected function _prepareLayout()
     {

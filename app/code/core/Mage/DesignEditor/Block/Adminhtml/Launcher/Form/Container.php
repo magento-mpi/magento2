@@ -23,9 +23,9 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Form_Container extends Mage_Adm
     /**
      * Customize inherited buttons
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('back');
         $this->_removeButton('reset');
         $this->_removeButton('delete');

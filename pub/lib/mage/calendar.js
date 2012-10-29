@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint browser:true jquery:true */
 (function($) {
 
     /**
@@ -62,7 +62,7 @@
             if (!element.val()) {
                 element
                     .datetimepicker('setDate', this.getTimezoneDate())
-                    .val('')
+                    .val('');
             }
         },
 
@@ -145,7 +145,7 @@
                 var symbols = format.match(/([a-z]+)/ig),
                     separators = format.match(/([^a-z]+)/ig),
                     self = this;
-                convertedFormat = '';
+                var convertedFormat = '';
                 if (symbols) {
                     $.each(symbols, function(key, val) {
                         convertedFormat +=
@@ -172,11 +172,11 @@
                     to = this.element.find('#' + this.options.to.id);
                 this.options.onSelect = function(selectedDate) {
                     to.datetimepicker('option', 'minDate', selectedDate);
-                }
+                };
                 $.mage.calendar.prototype._initPicker.call(this, from);
                 this.options.onSelect = function(selectedDate) {
                     from.datetimepicker('option', 'maxDate', selectedDate);
-                }
+                };
                 $.mage.calendar.prototype._initPicker.call(this, to);
             }
         },
@@ -193,5 +193,5 @@
             }
             $.Widget.prototype.destroy.call(this);
         }
-    })
+    });
 })(jQuery);

@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$product = new Mage_Catalog_Model_Product();
+/** @var $product Mage_Catalog_Model_Product */
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

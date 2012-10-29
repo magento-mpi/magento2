@@ -47,7 +47,11 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $config = $this->_getConfigStub();
         $config->expects($this->once())
             ->method('getModelInstance')
-            ->with('Mage_Captcha_Model_Zend', array('formId' => 'user_create', 'helper' => $this->_object))
+            ->with('Mage_Captcha_Model_Zend',
+                array(
+                    'params' => array('formId' => 'user_create', 'helper' => $this->_object)
+                )
+            )
             ->will($this->returnValue(new Mage_Captcha_Model_Zend(array('formId' => 'user_create'))));
         $this->_object->setConfig($config);
 

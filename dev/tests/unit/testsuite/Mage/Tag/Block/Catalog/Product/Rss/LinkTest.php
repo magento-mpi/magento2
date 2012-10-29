@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends PHPUnit_Framework_TestCase
+class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Tag_Block_Catalog_Product_Rss_Link
@@ -51,7 +51,7 @@ class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends PHPUnit_Framework_Test
             'tag_model'               => $tagModelMock,
             'core_url_model'          => $urlModelMock
         );
-        $this->_model = new Mage_Tag_Block_Catalog_Product_Rss_Link($data);
+        $this->_model = $this->getBlock('Mage_Tag_Block_Catalog_Product_Rss_Link', array('data' => $data));
 
         $this->assertSame($expected, $this->_model->getLinkUrl());
     }

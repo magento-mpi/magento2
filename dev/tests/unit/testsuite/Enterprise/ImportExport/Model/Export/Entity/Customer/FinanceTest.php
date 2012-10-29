@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -89,8 +90,10 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
         /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
+            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct')
+                $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
@@ -140,7 +143,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
     /**
      * Test for method exportItem()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
+     * @covers Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::exportItem
      */
     public function testExportItem()
     {
@@ -154,9 +157,9 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract',
-            array($this->_customerData)
-        );
+        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(), '', false);
+        /** @var $item Mage_Core_Model_Abstract */
+        $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);
     }

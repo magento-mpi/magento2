@@ -23,9 +23,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
      * Initialize edit tabs
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('enterprise_customer_address_attribute_edit_tabs');
         $this->setDestElementId('edit_form');

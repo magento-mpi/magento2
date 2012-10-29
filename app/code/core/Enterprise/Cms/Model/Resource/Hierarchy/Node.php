@@ -811,10 +811,10 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
     {
         // Copy hierarchy
         /** @var $nodesModel Enterprise_Cms_Model_Hierarchy_Node */
-        $nodesModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array(
+        $nodesModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node', array('data' => array(
             'scope' =>  $scope,
             'scope_id' => $scopeId,
-        ));
+        )));
 
         $nodes = array();
         foreach ($collection as $node) {

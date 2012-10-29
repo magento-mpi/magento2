@@ -14,14 +14,7 @@
 class Enterprise_Logging_Block_Adminhtml_System_Config_Actions
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    /**
-     * Set template
-     */
-    protected function _construct()
-    {
-        $this->setTemplate('system/config/actions.phtml');
-        return parent::_construct();
-    }
+    protected $_template = 'system/config/actions.phtml';
 
     /**
      * Action group labels getter

@@ -21,9 +21,9 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
     /**
      * Set grid Id
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('gridReportWishlists');
     }
 

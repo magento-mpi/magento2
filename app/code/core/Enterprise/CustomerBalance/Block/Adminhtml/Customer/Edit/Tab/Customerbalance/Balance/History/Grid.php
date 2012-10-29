@@ -23,9 +23,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
      * Initialize some params
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('historyGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('updated_at');

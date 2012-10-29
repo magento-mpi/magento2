@@ -18,7 +18,7 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = new Enterprise_Invitation_Block_Link();
+        $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Link');
     }
 
     protected function tearDown()

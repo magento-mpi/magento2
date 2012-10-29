@@ -16,10 +16,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
+
+    protected $_template = 'backup/rollback.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('backup/rollback.phtml');
+        parent::_construct();
+
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
 

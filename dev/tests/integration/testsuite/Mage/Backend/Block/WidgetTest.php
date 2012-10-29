@@ -16,7 +16,7 @@ class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSuffixId()
     {
-        $block = new Mage_Backend_Block_Widget;
+        $block = Mage::getObjectManager()->create('Mage_Backend_Block_Widget');
         $this->assertStringEndsNotWith('_test', $block->getSuffixId('suffix'));
         $this->assertStringEndsWith('_test', $block->getSuffixId('test'));
     }

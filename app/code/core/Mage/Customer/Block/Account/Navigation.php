@@ -18,7 +18,9 @@
 
 class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
 {
-
+    /**
+     * @var Varien_Object[]
+     */
     protected $_links = array();
 
     protected $_activeLink = false;
@@ -60,7 +62,7 @@ class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
     public function isActive($link)
     {
         if (empty($this->_activeLink)) {
-            $this->_activeLink = $this->getAction()->getFullActionName('/');
+            $this->_activeLink = $this->_frontController->getAction()->getFullActionName('/');
         }
         if ($this->_completePath($link->getPath()) == $this->_activeLink) {
             return true;

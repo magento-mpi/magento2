@@ -11,24 +11,23 @@
 
 class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @magentoDbIsolation enabled
      */
     public function testCollection()
     {
-        $themeCollection = new Mage_Core_Model_Resource_Theme_Collection();
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $themeCollection->load();
         $oldTotalRecords = $themeCollection->getSize();
         foreach ($this->_themeList() as $themeData) {
-            $themeModel = new Mage_Core_Model_Theme();
+            $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
         $themeCollection->save();
         $themes = $themeCollection->toArray();
 
-        $newThemeCollection = new Mage_Core_Model_Resource_Theme_Collection();
+        $newThemeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $newThemes = $newThemeCollection->toArray();
 
         $expectedTotalRecords = $oldTotalRecords + count($this->_themeList());
