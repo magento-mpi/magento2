@@ -15,11 +15,7 @@
         },
         _create: function () {
             this.options.taxConfig = this.options.spConfig.taxConfig;
-            if (this.options.containerId) {
-                this.options.setings = $('#' + this.options.spConfig.containerId + ' ' + '.super-attribute-select');
-            } else {
-                this.options.setings = $('.super-attribute-select');
-            }
+            this.options.setings = (this.options.spConfig.containerId) ? $(this.options.spConfig.containerId).find(".super-attribute-select") : $('.super-attribute-select');
             // Overwrite defaults by url
             if (this.options.spConfig.defaultValues) {
                 this.options.values = this.options.spConfig.defaultValues;
@@ -172,20 +168,10 @@
                 excl = price;
                 incl = excl + tax;
             }
-
-            if (this.options.taxConfig.showIncludeTax || this.options.taxConfig.showBothPrices) {
-                price = incl;
-            } else {
-                price = excl;
-            }
-
+            price = (this.options.taxConfig.showIncludeTax || this.options.taxConfig.showBothPrices) ? incl : excl;
             var str = option.label;
             if (price) {
-                if (this.options.taxConfig.showBothPrices) {
-                    str += ' ' + this._formatPrice(excl, true) + ' (' + this._formatPrice(price, true) + ' ' + this.options.taxConfig.inclTaxTitle + ')';
-                } else {
-                    str += ' ' + this._formatPrice(price, true);
-                }
+                str = (this.options.taxConfig.showBothPrices) ? str += ' ' + this._formatPrice(excl, true) + ' (' + this._formatPrice(price, true) + ' ' + this.options.taxConfig.inclTaxTitle + ')' : str += ' ' + this._formatPrice(price, true);
             }
             return str;
         },
@@ -202,12 +188,7 @@
                 }
             }
             var roundedPrice = (Math.round(price * 100) / 100).toString();
-            if (this.options.spConfig.prices && this.options.spConfig.prices[roundedPrice]) {
-                str += this.options.spConfig.prices[roundedPrice];
-            }
-            else {
-                str += this.options.spConfig.template.replace(/#\{(.*?)\}/, price.toFixed(2));
-            }
+            str = (this.options.spConfig.prices && this.options.spConfig.prices[roundedPrice]) ? str + this.options.spConfig.prices[roundedPrice] : str + this.options.spConfig.template.replace(/#\{(.*?)\}/, price.toFixed(2));
             return str;
         },
         _clearSelect: function (element) {
