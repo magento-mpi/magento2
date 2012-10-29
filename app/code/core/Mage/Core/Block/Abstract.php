@@ -84,13 +84,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_frameCloseTag;
 
     /**
-     * Url object
+     * Url Builder
      *
      * @var Mage_Core_Model_Url
      */
-    protected static $_urlModel;
+    protected $_urlBuilder;
 
     /**
+     * System event manager
+     *
+     *
      * @var Mage_Core_Model_Event_Manager
      */
     protected $_eventManager;
@@ -106,12 +109,14 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Url $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -120,6 +125,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
         Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Url $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Design_Package $designPackage,
@@ -132,6 +138,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         $this->_request = $request;
         $this->_layout = $layout;
         $this->_eventManager = $eventManager;
+        $this->_urlBuilder = $urlBuilder;
         $this->_translator = $translator;
         $this->_cache = $cache;
         $this->_designPackage = $designPackage;
@@ -675,26 +682,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Returns url model class name
-     *
-     * @return string
-     */
-    protected function _getUrlModelClass()
-    {
-        return 'Mage_Core_Model_Url';
-    }
-
-    /**
-     * Create and return url object
-     *
-     * @return Mage_Core_Model_Url
-     */
-    protected function _getUrlModel()
-    {
-        return Mage::getModel($this->_getUrlModelClass());
-    }
-
-    /**
      * Generate url by route and parameters
      *
      * @param   string $route
@@ -703,7 +690,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrl($route = '', $params = array())
     {
-        return $this->_getUrlModel()->getUrl($route, $params);
+        return $this->_urlBuilder->getUrl($route, $params);
     }
 
     /**
@@ -778,7 +765,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($this->getLayout()) {
             return $this->getLayout()->helper($name);
         }
-        return $this->helper($name);
+        return $this->_helperFactory->get($name);
     }
 
     /**
@@ -940,7 +927,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($this->_cache->canUse(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(false);
             Magento_Profiler::start('CACHE_URL');
-            $html = Mage::getSingleton($this->_getUrlModelClass())->sessionUrlVar($html);
+            $html = $this->_urlBuilder->sessionUrlVar($html);
             Magento_Profiler::stop('CACHE_URL');
         }
         return $html;

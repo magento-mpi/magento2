@@ -71,14 +71,14 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends Magento_Test_TestCas
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'), array(), '',
             false
         );
-        $this->_backendHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '',
-            false
-        );
+        $this->_backendHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $this->_layoutMock->expects($this->any())->method('helper')
+            ->will($this->returnValue($this->_backendHelperMock));
 
         $arguments = array(
             'layout'       => $this->_layoutMock,
-            'backendHelper'       => $this->_backendHelperMock,
             'request'      => $this->_requestMock,
+            'urlBuilder'   => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'data'         => array(
                 'massaction_id_field'  => 'test_id',
                 'massaction_id_filter' => 'test_id'

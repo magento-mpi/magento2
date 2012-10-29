@@ -19,6 +19,50 @@ class Mage_Backend_Block_System_Config_Form_Field
     extends Mage_Backend_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
+    /**
+     * Application
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $application
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $application,
+        array $data = array()
+    ) {
+        $this->_application = $application;
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+    }
 
     /**
      * Retrieve element HTML markup
@@ -121,9 +165,9 @@ class Mage_Backend_Block_System_Config_Form_Field
      */
     protected function _getInheritCheckboxLabel(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkboxLabel = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Use Default');
+        $checkboxLabel = $this->helper('Mage_Backend_Helper_Data')->__('Use Default');
         if ($element->getCanUseWebsiteValue()) {
-            $checkboxLabel =  $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Use Website');
+            $checkboxLabel =  $this->helper('Mage_Backend_Helper_Data')->__('Use Website');
         }
         return $checkboxLabel;
     }
@@ -137,7 +181,7 @@ class Mage_Backend_Block_System_Config_Form_Field
     protected function _renderScopeLabel(Varien_Data_Form_Element_Abstract $element)
     {
         $html = '<td class="scope-label">';
-        if ($element->getScope() && false == $this->_getAppModel()->isSingleStoreMode()) {
+        if ($element->getScope() && false == $this->_application->isSingleStoreMode()) {
             $html .= $element->getScopeLabel();
         }
         $html .= '</td>';

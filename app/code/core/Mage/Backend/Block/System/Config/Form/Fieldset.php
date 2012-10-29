@@ -167,7 +167,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                        }
                    };";
         }
-        return $this->_getHelperFactory()->get('Mage_Core_Helper_Js')->getScript($js);
+        return $this->helper('Mage_Core_Helper_Js')->getScript($js);
     }
 
     /**

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_Store_SwitcherTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Backend_Block_Store_Switcher
@@ -24,20 +24,25 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectFactory;
+    protected $_websiteFactory;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeGroupFactory;
 
     protected function setUp()
     {
-        $this->_applicationModel = $this->getMock('Mage_Core_Model_App', array(), array(), '', false, false);
-        $translator = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false);
-        $this->_objectFactory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
+        $this->_applicationModel = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_websiteFactory = $this->getMock('Mage_Core_Model_Website_Factory', array(), array(), '', false);
+        $this->_storeGroupFactory = $this->getMock('Mage_Core_Model_Store_Group_Factory', array(), array(), '', false);
 
-        $this->_applicationModel->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
-        $data = array(
-            'applicationModel' => $this->_applicationModel,
-            'objectFactory' => $this->_objectFactory
-        );
-        $this->_object = new Mage_Backend_Block_Store_Switcher($data);
+        $this->_object = $this->getBlock('Mage_Backend_Block_Store_Switcher', array(
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'application' => $this->_applicationModel,
+            'websiteFactory' => $this->_websiteFactory,
+            'storeGroupFactory' => $this->_storeGroupFactory
+        ));
     }
 
     /**
@@ -53,9 +58,8 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('load')->will($this->returnValue($expected));
         $collection->expects($this->never())->method('addIdFilter');
 
-        $this->_objectFactory->expects($this->once())
-            ->method('getModelInstance')
-            ->with('Mage_Core_Model_Website')
+        $this->_websiteFactory->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($websiteModel));
 
         $this->_object->setWebsiteIds(null);
@@ -81,9 +85,8 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('load')->will($this->returnValue($expected));
         $collection->expects($this->once())->method('addIdFilter')->with($ids);
 
-        $this->_objectFactory->expects($this->once())
-            ->method('getModelInstance')
-            ->with('Mage_Core_Model_Website')
+        $this->_websiteFactory->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($websiteModel));
 
         $actual = $this->_object->getWebsiteCollection();

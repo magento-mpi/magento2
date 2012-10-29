@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_Form_FieldsetTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Backend_Block_System_Config_Form_Fieldset
@@ -39,24 +39,24 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
+    protected $_layoutMock;
 
 
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
-            array(), array(), '', false, false
-        );
+        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
 
         $data = array(
             'request' => $this->_requestMock,
-            'urlModel' => $this->_urlModelMock,
-            'helperFactory' => $this->_helperFactoryMock,
-            'group' => array('fieldset_css' => 'test_fieldset_css')
+            'urlBuilder' => $this->_urlModelMock,
+            'layout' => $this->_layoutMock,
+            'data' => array(
+                'group' => array('fieldset_css' => 'test_fieldset_css')
+            )
         );
-        $this->_object = new Mage_Backend_Block_System_Config_Form_Fieldset($data);
+        $this->_object = $this->getBlock('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -93,7 +93,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $helperMock = $this->getMock('Mage_Core_Helper_Js', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_helperFactoryMock->expects($this->any())->method('get')
+        $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
         $this->_elementMock->expects($this->any())->method('getSortedElements')->will($this->returnValue(array()));
@@ -129,7 +129,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
-        $this->_helperFactoryMock->expects($this->any())->method('get')
+        $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
         $fieldMock = $this->getMock('Varien_Data_Form_Element_Text',

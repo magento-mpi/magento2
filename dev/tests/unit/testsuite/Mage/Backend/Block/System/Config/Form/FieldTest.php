@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_Form_FieldTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Mage_Backend_Block_System_Config_Form_Field
@@ -34,20 +34,19 @@ class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
+    protected $_layoutMock;
 
     protected function setUp()
     {
         $this->_appModelMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false, false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
-            array(), array(), '', false, false
-        );
+        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
 
         $data = array(
-            'applicationModel' => $this->_appModelMock,
-            'helperFactory' => $this->_helperFactoryMock,
+            'layout' => $this->_layoutMock,
+            'application' => $this->_appModelMock,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
-        $this->_object = new Mage_Backend_Block_System_Config_Form_Field($data);
+        $this->_object = $this->getBlock('Mage_Backend_Block_System_Config_Form_Field', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
@@ -134,7 +133,7 @@ class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_helperFactoryMock->expects($this->any())->method('get')
+        $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Backend_Helper_Data')->will($this->returnValue($helperMock));
 
         $expected = '<td class="use-default">';

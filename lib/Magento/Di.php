@@ -64,6 +64,7 @@ class Magento_Di extends Zend\Di\Di
                 );
             } else if (preg_match('/\w*_\w*\_Block/', $name)) {
                 if (!isset($this->_cachedInstances['request'])) {
+                    $this->_cachedInstances['urlBuilder']      = $this->get('Mage_Core_Model_Url');
                     $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
                     $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
                     $this->_cachedInstances['translate']       = $this->get('Mage_Core_Model_Translate');
@@ -71,17 +72,20 @@ class Magento_Di extends Zend\Di\Di
                     $this->_cachedInstances['session']         = $this->get('Mage_Core_Model_Session');
                     $this->_cachedInstances['storeConfig']     = $this->get('Mage_Core_Model_Store_Config');
                     $this->_cachedInstances['frontController'] = $this->get('Mage_Core_Controller_Varien_Front');
+                    $this->_cachedInstances['helperFactory']   = $this->get('Mage_Core_Model_Factory_Helper');
                 }
                 $instance = new $name(
                     $this->_cachedInstances['request'],
                     $this->_cachedInstances['layout'],
                     $this->_cachedInstances['eventManager'],
+                    $this->_cachedInstances['urlBuilder'],
                     $this->_cachedInstances['translate'],
                     $this->_cachedInstances['cache'],
                     $this->_cachedInstances['design'],
                     $this->_cachedInstances['session'],
                     $this->_cachedInstances['storeConfig'],
                     $this->_cachedInstances['frontController'],
+                    $this->_cachedInstances['helperFactory'],
                     $parameters
                 );
             } else {

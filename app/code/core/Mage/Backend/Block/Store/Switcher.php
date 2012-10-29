@@ -46,7 +46,58 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     protected $_hasDefaultOption = true;
 
+    /**
+     * Block template filename
+     *
+     * @var string
+     */
     protected $_template = 'Mage_Backend::store/switcher.phtml';
+
+    /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * Website factory
+     *
+     * @var Mage_Core_Model_Website_Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * Store Group Factory
+     *
+     * @var Mage_Core_Model_Store_Group_Factory
+     */
+    protected $_storeGroupFactory;
+
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $application,
+        Mage_Core_Model_Website_Factory $websiteFactory,
+        Mage_Core_Model_Store_Group_Factory $storeGroupFactory,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data);
+        $this->_application = $application;
+        $this->_websiteFactory = $websiteFactory;
+        $this->_storeGroupFactory = $storeGroupFactory;
+    }
+
 
     protected function _construct()
     {
@@ -62,7 +113,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     public function getWebsiteCollection()
     {
-        $collection = $this->_getObjectFactory()->getModelInstance('Mage_Core_Model_Website')->getResourceCollection();
+        $collection = $this->_websiteFactory->create()->getResourceCollection();
 
         $websiteIds = $this->getWebsiteIds();
         if (!is_null($websiteIds)) {
@@ -79,7 +130,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     public function getWebsites()
     {
-        $websites = $this->_getAppModel()->getWebsites();
+        $websites = $this->_application->getWebsites();
         if ($websiteIds = $this->getWebsiteIds()) {
             foreach ($websites as $websiteId => $website) {
                 if (!in_array($websiteId, $websiteIds)) {
@@ -97,7 +148,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getGroupCollection($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
-            $website = $this->_objectFactory->getModelInstance('Mage_Core_Model_Website')->load($website);
+            $website = $this->_websiteFactory->create()->load($website);
         }
         return $website->getGroupCollection();
     }
@@ -111,7 +162,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getStoreGroups($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
-            $website = Mage::app()->getWebsite($website);
+            $website = $this->_application->getWebsite($website);
         }
         return $website->getGroups();
     }
@@ -123,7 +174,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getStoreCollection($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = $this->_getObjectFactory()->getModelInstance('Mage_Core_Model_Store_Group')->load($group);
+            $group = $this->_storeGroupFactory->createFromArray()->load($group);
         }
         $stores = $group->getStoreCollection();
         $_storeIds = $this->getStoreIds();
@@ -142,7 +193,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getStores($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = Mage::app()->getGroup($group);
+            $group = $this->_application->getGroup($group);
         }
         $stores = $group->getStores();
         if ($storeIds = $this->getStoreIds()) {
@@ -207,7 +258,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     public function isShow()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !$this->_application->isSingleStoreMode();
     }
 
     /**
@@ -215,7 +266,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     protected function _toHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_application->isSingleStoreMode()) {
             return parent::_toHtml();
         }
         return '';

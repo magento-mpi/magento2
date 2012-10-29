@@ -18,39 +18,38 @@
 class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : null;
-    }
-
-    /**
-     * Get object factory model
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param array $data
      *
-     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Config
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    protected function _getObjectFactory()
-    {
-        if (null === $this->_objectFactory) {
-            $this->_objectFactory = Mage::getSingleton('Mage_Core_Model_Config');
-        }
-
-        return $this->_objectFactory;
-    }
-
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    protected function _getUrlModelClass()
-    {
-        return 'Mage_Backend_Model_Url';
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
     }
 
     /**

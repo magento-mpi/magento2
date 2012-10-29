@@ -104,7 +104,6 @@ return array(
                                     'attribute_2' => 'test_value_2',
                                     'attribute_text' => '<test_value>',
                                     'attribute_text_in_array' => array(
-                                        'someAttribute' => 'someAttributeValue',
                                         'var' => '<a href="test_url">test_link</a>',
                                         'type' => 'someType'
                                     ),

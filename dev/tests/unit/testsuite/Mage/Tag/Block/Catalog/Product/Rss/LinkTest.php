@@ -51,7 +51,9 @@ class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends Magento_Test_TestCase_
             'tag_model'               => $tagModelMock,
             'core_url_model'          => $urlModelMock
         );
-        $this->_model = $this->getBlock('Mage_Tag_Block_Catalog_Product_Rss_Link', array('data' => $data));
+        $this->_model = $this->getBlock('Mage_Tag_Block_Catalog_Product_Rss_Link', array(
+            'data' => $data
+        ));
 
         $this->assertSame($expected, $this->_model->getLinkUrl());
     }

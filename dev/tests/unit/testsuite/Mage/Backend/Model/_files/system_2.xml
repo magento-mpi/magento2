@@ -56,7 +56,7 @@
                     <attribute type="attribute_1">test_value_1</attribute>
                     <attribute type="attribute_2">test_value_2</attribute>
                     <attribute type="attribute_text"><![CDATA[<test_value>]]></attribute>
-                    <attribute type="attribute_text_in_array" someAttribute="someAttributeValue">
+                    <attribute type="attribute_text_in_array">
                         <var><![CDATA[<a href="test_url">test_link</a>]]></var>
                         <type>someType</type>
                     </attribute>
