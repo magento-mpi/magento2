@@ -56,7 +56,7 @@ foreach ($banners as $sortOrder => $bannerData) {
         ))
         ->addData(array(
             'instance_type'          => 'Enterprise_Banner_Block_Widget_Banner',
-            'package_theme' => 'enterprise/default',
+            'package_theme' => 'enterprise/fixed',
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder
         ))

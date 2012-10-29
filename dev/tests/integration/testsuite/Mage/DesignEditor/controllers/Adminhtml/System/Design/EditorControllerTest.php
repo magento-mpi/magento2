@@ -27,7 +27,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $theme->setData(array(
             'package_title'        => 'Default',
             'parent_id'            => null,
-            'theme_path'           => 'default/default',
+            'theme_path'           => 'default/demo',
             'theme_version'        => '2.0.0.0',
             'theme_title'          => 'Default',
             'magento_version_from' => '2.0.0.0-dev1',
