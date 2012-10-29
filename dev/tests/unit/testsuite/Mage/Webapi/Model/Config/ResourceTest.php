@@ -22,7 +22,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Webapi_Model_Config_Resource(array(
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner(),
             'applicationConfig' => new Mage_Core_Model_Config(),
-            'data' => $configData
+            'data' => $configData,
+            'helper' => new Mage_Webapi_Helper_Data()
         ));
     }
 

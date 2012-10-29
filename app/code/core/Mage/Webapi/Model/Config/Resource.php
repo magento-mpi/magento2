@@ -32,25 +32,16 @@ class Mage_Webapi_Model_Config_Resource
     protected $_serverReflection;
 
     /**
+     * @var Mage_Webapi_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Resources configuration data.
      *
      * @var array
      */
     protected $_data;
-
-    /**
-     * Resources complex types
-     *
-     * @var array
-     */
-    protected $_types;
-
-    /**
-     * Map of types to real classes.
-     *
-     * @var array
-     */
-    protected $_typeToClassMap = array();
 
     /**
      * Class map for auto loader.
@@ -88,6 +79,12 @@ class Mage_Webapi_Model_Config_Resource
             $this->_autoloader = Magento_Autoload::getInstance();
         }
 
+        if (isset($options['helper']) && $options['helper'] instanceof Mage_Webapi_Helper_Data) {
+            $this->_helper = $options['helper'];
+        } else {
+            $this->_helper = Mage::helper('Mage_Webapi_Helper_Data');
+        }
+
         if (isset($options['applicationConfig']) && $options['applicationConfig'] instanceof Mage_Core_Model_Config) {
             $this->_applicationConfig = $options['applicationConfig'];
         } else {
@@ -116,10 +113,10 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getDataType($typeName)
     {
-        if (!isset($this->_types[$typeName])) {
+        if (!isset($this->_data['types'][$typeName])) {
             throw new InvalidArgumentException(sprintf('Data type "%s" is not found in config.', $typeName));
         }
-        return $this->_types[$typeName];
+        return $this->_data['types'][$typeName];
     }
 
     /**
@@ -132,19 +129,18 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getResource($resourceName, $resourceVersion)
     {
-        $helper = Mage::helper('Mage_Webapi_Helper_Data');
-        if (!isset($this->_data[$resourceName])) {
-            throw new RuntimeException($helper->__('Unknown resource "%s".', $resourceName));
+        if (!isset($this->_data['resources'][$resourceName])) {
+            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
         }
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
         $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
-        if (!isset($this->_data[$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException($helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
+        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
+            throw new RuntimeException($this->_helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
                 $resourceName));
         }
 
         $resource = array();
-        foreach ($this->_data[$resourceName]['versions'] as $version => $data) {
+        foreach ($this->_data['resources'][$resourceName]['versions'] as $version => $data) {
             $resource = array_replace_recursive($resource, $data);
             if ($version == $resourceVersion) {
                 break;
@@ -168,12 +164,13 @@ class Mage_Webapi_Model_Config_Resource
     {
         $result = false;
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        $resourceExists = isset($this->_data[$resourceName]);
+        $resourceExists = isset($this->_data['resources'][$resourceName]);
         $versionCheckNotRequired = $resourceVersion === null;
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
         $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
+        $resourceVersion = lcfirst($resourceVersion);
         $operationValidForRequestedResourceVersion =
-            isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName]);
+            isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName]);
         if (($versionCheckNotRequired && $resourceExists) || $operationValidForRequestedResourceVersion) {
             $result = $resourceName;
         }
@@ -192,7 +189,8 @@ class Mage_Webapi_Model_Config_Resource
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
         $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
-        return isset($this->_data[$resourceName]['versions'][lcfirst($resourceVersion)]['methods'][$methodName])
+        $resourceVersion = lcfirst($resourceVersion);
+        return isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])
             ? $methodName : false;
     }
 
@@ -232,8 +230,8 @@ class Mage_Webapi_Model_Config_Resource
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
         if ($resourceName) {
-            if (isset($this->_data[$resourceName]['controller'])) {
-                return $this->_data[$resourceName]['controller'];
+            if (isset($this->_data['resources'][$resourceName]['controller'])) {
+                return $this->_data['resources'][$resourceName]['controller'];
             }
             throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
         }
@@ -251,8 +249,8 @@ class Mage_Webapi_Model_Config_Resource
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
         if ($resourceName) {
-            if (isset($this->_data[$resourceName]['module'])) {
-                return $this->_data[$resourceName]['module'];
+            if (isset($this->_data['resources'][$resourceName]['module'])) {
+                return $this->_data['resources'][$resourceName]['module'];
             }
             throw new LogicException(sprintf('Resource "%s" must have module specified.', $resourceName));
         }
@@ -312,7 +310,7 @@ class Mage_Webapi_Model_Config_Resource
                     }
                     // Sort versions array for further fallback.
                     ksort($data['versions']);
-                    $this->_data[$this->translateResourceName($className)] = $data;
+                    $this->_data['resources'][$this->translateResourceName($className)] = $data;
                 }
             }
 
@@ -320,7 +318,6 @@ class Mage_Webapi_Model_Config_Resource
                 throw new InvalidArgumentException('Can not populate config - no action controllers were found.');
             }
         }
-
         return $this->_data;
     }
 
@@ -383,10 +380,8 @@ class Mage_Webapi_Model_Config_Resource
         $idParamName = $this->_getIdParamName($methodReflection);
         $version = $this->_getMethodVersion($methodReflection);
         $routePath = "/$version";
-        /** @var Mage_Webapi_Helper_Data $helper */
-        $helper = Mage::helper('Mage_Webapi_Helper_Data');
         foreach ($this->getResourceNameParts($methodReflection->getDeclaringClass()->getName()) as $resourcePathPart) {
-            $routePath .= "/" . lcfirst($helper->convertSingularToPlural($resourcePathPart));
+            $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($resourcePathPart));
         }
         if ($idParamName) {
             $routePath .= "/:$idParamName";
@@ -597,11 +592,11 @@ class Mage_Webapi_Model_Config_Resource
         $resourceVersion = $this->_getMethodVersion($methodReflection);
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
 
-        if (!isset($this->_data[$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
+        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
             throw new InvalidArgumentException('"%s" method of "%s" resource in version "%s" is not registered.',
                 $methodName, $resourceName, $resourceVersion);
         }
-        return $this->_data[$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
+        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
     }
 
     /**
@@ -613,7 +608,7 @@ class Mage_Webapi_Model_Config_Resource
     {
         $routes = array();
         $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
-        foreach ($this->_data as $resourceName => $resourceData) {
+        foreach ($this->_data['resources'] as $resourceName => $resourceData) {
             foreach ($resourceData['rest_routes'] as $routePath => $routeData) {
                 $fullRoutePath = $apiTypeRoutePath . $routePath;
                 $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
@@ -712,10 +707,10 @@ class Mage_Webapi_Model_Config_Resource
         $typeName = $this->normalizeType($type);
         if (!$this->isTypeSimple($typeName)) {
             $complexTypeName = $this->translateTypeName($type);
-            if (!isset($this->_types[$complexTypeName])) {
+            if (!isset($this->_data['types'][$complexTypeName])) {
                 $this->_processComplexType($type);
                 if (!$this->isArrayType($complexTypeName)) {
-                    $this->_typeToClassMap[$complexTypeName] = $type;
+                    $this->_data['type_to_class_map'][$complexTypeName] = $type;
                 }
             }
             $typeName = $complexTypeName;
@@ -734,7 +729,7 @@ class Mage_Webapi_Model_Config_Resource
     protected function _processComplexType($class)
     {
         $typeName = $this->translateTypeName($class);
-        $this->_types[$typeName] = array();
+        $this->_data['types'][$typeName] = array();
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
         } else {
@@ -742,7 +737,7 @@ class Mage_Webapi_Model_Config_Resource
                 throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
-            $this->_types[$typeName]['documentation'] = $this->_getDescription($reflection->getDocBlock());
+            $this->_data['types'][$typeName]['documentation'] = $this->_getDescription($reflection->getDocBlock());
             $defaultProperties = $reflection->getDefaultProperties();
             /** @var \Zend\Code\Reflection\PropertyReflection $property */
             foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
@@ -764,7 +759,7 @@ class Mage_Webapi_Model_Config_Resource
                 }
                 // TODO: quickfix. In php 5.3.13 DocBlockReflection returns tags as "string\r"
                 $varType = str_replace("\r", '', $varTag->returnValue(0));
-                $this->_types[$typeName]['parameters'][$propertyName] = array(
+                $this->_data['types'][$typeName]['parameters'][$propertyName] = array(
                     'type' => $this->_processType($varType),
                     'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
                     'default' => $defaultProperties[$propertyName],
@@ -773,7 +768,7 @@ class Mage_Webapi_Model_Config_Resource
             }
         }
 
-        return $this->_types[$typeName];
+        return $this->_data['types'][$typeName];
     }
 
     /**
@@ -911,7 +906,7 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getTypeToClassMap()
     {
-        return $this->_typeToClassMap;
+        return $this->_data['type_to_class_map'];
     }
 
     /**
@@ -990,8 +985,8 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getRestRouteByResource($resourceName, $actionType)
     {
-        if (isset($this->_data[$resourceName]['rest_routes'])) {
-            $restRoutes = $this->_data[$resourceName]['rest_routes'];
+        if (isset($this->_data['resources'][$resourceName]['rest_routes'])) {
+            $restRoutes = $this->_data['resources'][$resourceName]['rest_routes'];
             /** The shortest routes must go first. */
             ksort($restRoutes);
             foreach ($restRoutes as $routePath => $routeMetadata) {

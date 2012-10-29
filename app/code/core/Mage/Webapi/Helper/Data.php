@@ -48,6 +48,9 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
                 if (isset($requestData[$paramName])) {
                     $methodArguments[$paramName] = $this->_formatParamData($requestData[$paramName],
                         $paramData['type'], $apiConfig);
+                } elseif ($paramData['required']) {
+                    throw new Mage_Webapi_Exception($this->__('Required parameter "%s" is missing.', $paramName),
+                        Mage_Webapi_Exception::HTTP_BAD_REQUEST);
                 }
             }
         }
@@ -69,6 +72,13 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config_Resource $apiConfig) {
         if ($apiConfig->isTypeSimple($dataType) || is_null($data)) {
             return $data;
+        } elseif ($apiConfig->isArrayType($dataType)) {
+            $itemDataType = $apiConfig->getArrayItemType($dataType);
+            $formattedData = array();
+            foreach ($data as $itemData) {
+                $formattedData[] = $this->_formatParamData($itemData, $itemDataType, $apiConfig);
+            }
+            return $formattedData;
         } else {
             $dataTypeMetadata = $apiConfig->getDataType($dataType);
             $typeToClassMap = $apiConfig->getTypeToClassMap();
@@ -151,6 +161,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($conversionMatrix as $singularPattern => $pluralPattern) {
             if (preg_match($singularPattern, $singular)) {
                 $plural = preg_replace($singularPattern, $pluralPattern, $singular);
+                break;
             }
         }
         return $plural;
