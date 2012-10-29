@@ -31,6 +31,14 @@
         },
 
         /**
+         * Get picker name
+         * @protected
+         */
+        _picker: function(){
+            return this.options.showsTime ? 'datetimepicker' : 'datepicker';
+        },
+
+        /**
          * Fix for Timepicker - Set ampm option for Timepicker if timeformat contains string 'tt'
          * @protected
          */
@@ -60,8 +68,7 @@
          */
         _setCurrentDate: function(element) {
             if (!element.val()) {
-                element
-                    .datetimepicker('setDate', this.getTimezoneDate())
+                element[this._picker()]('setDate', this.getTimezoneDate())
                     .val('');
             }
         },
@@ -72,8 +79,7 @@
          * @param {Element}
          */
         _initPicker: function(element) {
-            element
-                .datetimepicker(this.options)
+            element[this._picker()](this.options)
                 .next('.ui-datepicker-trigger')
                 .addClass('v-middle');
             this._setCurrentDate(element);
@@ -82,8 +88,8 @@
         /**
          * destroy instance of datetimepicker
          */
-        destroy: function(){
-            this.element.datetimepicker('destroy');
+        _destroy: function(){
+            this.element[this._picker()]('destroy');
             $.Widget.prototype.destroy.call(this);
         }
     });
@@ -170,13 +176,13 @@
             if (this.options.from && this.options.to) {
                 var from = this.element.find('#' + this.options.from.id),
                     to = this.element.find('#' + this.options.to.id);
-                this.options.onSelect = function(selectedDate) {
-                    to.datetimepicker('option', 'minDate', selectedDate);
-                };
+                this.options.onSelect = $.proxy(function(selectedDate) {
+                    to[this._picker()]('option', 'minDate', selectedDate);
+                }, this);
                 $.mage.calendar.prototype._initPicker.call(this, from);
-                this.options.onSelect = function(selectedDate) {
-                    from.datetimepicker('option', 'maxDate', selectedDate);
-                };
+                this.options.onSelect = $.proxy(function(selectedDate) {
+                    from[this._picker()]('option', 'maxDate', selectedDate);
+                }, this);
                 $.mage.calendar.prototype._initPicker.call(this, to);
             }
         },
@@ -186,10 +192,10 @@
          */
         destroy: function(){
             if(this.options.from) {
-                this.element.find('#' + this.options.from.id).datetimepicker('destroy');
+                this.element.find('#' + this.options.from.id)[this._picker()]('destroy');
             }
             if(this.options.to) {
-                this.element.find('#' + this.options.to.id).datetimepicker('destroy');
+                this.element.find('#' + this.options.to.id)[this._picker()]('destroy');
             }
             $.Widget.prototype.destroy.call(this);
         }
