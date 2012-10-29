@@ -32,7 +32,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
     public static function setUpBeforeClass()
     {
-        self::$_skinPublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+        self::$_skinPublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/theme';
         self::$_skinPublicMergedDir = self::$_skinPublicDir . '/_merged';
     }
 
@@ -43,7 +43,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         );
 
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setDesignTheme('package/default/theme', 'frontend');
+        $this->_model->setDesignTheme('package/default', 'frontend');
     }
 
     protected function tearDown()
@@ -87,7 +87,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->assertEquals($expectedFilename, basename($result[0]));
         foreach ($related as $file) {
             $this->assertFileExists(
-                self::$_skinPublicDir . '/frontend/package/default/theme/en_US/' . $file
+                self::$_skinPublicDir . '/frontend/package/default/en_US/' . $file
             );
         }
     }
@@ -123,7 +123,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->assertGreaterThan(1970, date('Y', $lastModified[1]));
         foreach ($related as $file) {
             $this->assertFileExists(
-                self::$_skinPublicDir . '/frontend/package/default/theme/en_US/' . $file
+                self::$_skinPublicDir . '/frontend/package/default/en_US/' . $file
             );
         }
     }
@@ -140,7 +140,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'calendar/calendar-blue.css',
                     'css/file.css',
                 ),
-                'ba1ea83ef061c58d4ceef66018beb4f2.css',
+                '97767fb7621b67c79a13de5398514b8d.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -161,7 +161,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'calendar/calendar.js',
                     'scripts.js',
                 ),
-                '916b1b8161a8f61422b432009f47f267.js',
+                '21f39f88b68bceb226c69945b311740d.js',
             ),
         );
     }
@@ -177,7 +177,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             'scripts.js',
         );
 
-        $resultingFile = self::$_skinPublicMergedDir . '/916b1b8161a8f61422b432009f47f267.js';
+        $resultingFile = self::$_skinPublicMergedDir . '/21f39f88b68bceb226c69945b311740d.js';
         $this->assertFileNotExists($resultingFile);
 
         // merge first time
