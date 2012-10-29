@@ -79,7 +79,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCollectionFromFilesystem()
     {
-        return Mage::getModel('Mage_Core_Model_Theme_Collection');
+        return Mage::getSingleton('Mage_Core_Model_Theme_Collection');
     }
 
     /**
@@ -149,17 +149,18 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isDeletable()
     {
-        return $this->_isThemeExistInFileSystem();
+        return $this->isVirtual();
     }
 
     /**
-     * Check is theme virtual
+     * Check theme is existing in filesystem
      *
      * @return bool
      */
     public function isVirtual()
     {
-        return $this->_isThemeExistInFileSystem();
+        $collection = $this->getCollectionFromFilesystem()->addPattern()->getItems();
+        return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
     }
 
     /**
@@ -171,17 +172,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $childThemes = $this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->load();
         return count($childThemes) > 0;
-    }
-
-    /**
-     * Check theme is existing in filesystem
-     *
-     * @return bool
-     */
-    protected function _isThemeExistInFilesystem()
-    {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
     }
 
     /**
@@ -470,5 +460,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'skin',
             '*'
         ));
+    }
+
+    /**
+     * Theme registration
+     *
+     * @param string $pathPattern
+     * @return Mage_Core_Model_Theme
+     */
+    public function themeRegistration($pathPattern)
+    {
+        $this->getCollectionFromFilesystem()->addPattern($pathPattern)->themeRegistration();
+        $this->getCollection()->checkParentInThemes();
+
+        return $this;
     }
 }
