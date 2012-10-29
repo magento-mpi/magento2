@@ -765,6 +765,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $data = $product->getData();
         if (isset($data['is_virtual'])) {
             $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+        } else {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
     }
 
