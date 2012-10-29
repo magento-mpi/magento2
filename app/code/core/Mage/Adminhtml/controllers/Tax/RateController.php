@@ -533,10 +533,25 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        if ($this->getRequest()->getActionName() == 'importExport') {
-            return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
-        } else {
-            return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+        switch ($this->getRequest()->getActionName()) {
+            case 'importExport':
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                break;
+
+            case 'index':
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                break;
+
+            case 'importPost':
+            case 'exportPost':
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax')
+                    || Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                break;
+
+            default:
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                break;
         }
+
     }
 }
