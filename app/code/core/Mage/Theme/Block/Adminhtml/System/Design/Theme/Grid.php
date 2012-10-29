@@ -16,9 +16,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml
     /**
      * Init Grid properties
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('theme_grid');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
