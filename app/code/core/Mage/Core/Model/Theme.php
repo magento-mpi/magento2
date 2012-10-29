@@ -18,6 +18,7 @@
  * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
  * @method setPreviewImage(string $previewImage)
  * @method string getPreviewImage()
+ * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
@@ -159,7 +160,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isVirtual()
     {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
+        $collection = $this->getCollectionFromFilesystem()->addPattern()->getItems();
         return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
     }
 
@@ -460,5 +461,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'skin',
             '*'
         ));
+    }
+
+    /**
+     * Theme registration
+     *
+     * @param string $pathPattern
+     * @return Mage_Core_Model_Theme
+     */
+    public function themeRegistration($pathPattern)
+    {
+        $this->getCollectionFromFilesystem()->addPattern($pathPattern)->themeRegistration();
+        $this->getCollection()->checkParentInThemes();
+
+        return $this;
     }
 }

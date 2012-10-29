@@ -19,13 +19,6 @@
 class Mage_Core_Model_Observer
 {
     /**
-     * Theme list
-     *
-     * @var array
-     */
-    protected $_themeList = array();
-
-    /**
      * Check if synchronize process is finished and generate notification message
      *
      * @param  Varien_Event_Observer $observer
@@ -106,159 +99,12 @@ class Mage_Core_Model_Observer
     public function themeRegistration(Varien_Event_Observer $observer)
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
-        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         try {
-            if ($pathPattern) {
-                $themeCollection->addTargetPattern($pathPattern);
-            } else {
-                $themeCollection->addDefaultPattern();
-            }
-            foreach ($themeCollection as $theme) {
-                $this->_saveThemeRecursively($theme, $themeCollection);
-            }
-            $this->_checkParentInVirtualThemes();
+            Mage::getModel('Mage_Core_Model_Theme')->themeRegistration($pathPattern);
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
         }
 
         return $this;
-    }
-
-    /**
-     * Check whether all virtual themes have non virtual parent theme
-     *
-     * @return Mage_Core_Model_Observer
-     */
-    protected function _checkParentInVirtualThemes()
-    {
-        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($themeCollection as $theme) {
-            if ($theme->getParentId()) {
-                $theme->setParentId($this->_getParentThemeRecursively($theme->getParentId(), $themeCollection));
-                $theme->save();
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Get parent non virtual theme recursively
-     *
-     * @param int $parentId
-     * @param Mage_Core_Model_Resource_Theme_Collection $collection
-     * @return int|null
-     */
-    protected function _getParentThemeRecursively($parentId, $collection)
-    {
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $collection->getItemById($parentId);
-        if (!$parentTheme->getId()) {
-            $parentId = null;
-        } else if ($parentTheme->isVirtual()) {
-            if ($parentTheme->getParentId()) {
-                $parentId = $this->_getParentThemeRecursively($parentTheme->getParentId(), $collection);
-            } else {
-                $parentId = null;
-            }
-        }
-        return $parentId;
-    }
-
-    /**
-     * Save theme recursively
-     *
-     * @throws Mage_Core_Exception
-     * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Collection $collection
-     * @return Mage_Core_Model_Observer
-     */
-    protected function _saveThemeRecursively($theme, $collection)
-    {
-        $themeModel = $this->_loadThemeByPath($theme->getThemePath());
-        if ($themeModel->getId()) {
-            return $this;
-        }
-
-        $this->_addThemeToList($theme->getThemePath());
-        if ($theme->getParentTheme()) {
-            $parentTheme = $this->_prepareParentTheme($theme, $collection);
-            if (!$parentTheme->getId()) {
-                Mage::throwException('Invalid parent theme path');
-            }
-            $theme->setParentId($parentTheme->getId());
-        }
-
-        $theme->savePreviewImage()->save();
-        $this->_emptyThemeList();
-        return $this;
-    }
-
-    /**
-     * Prepare parent theme
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Collection $collection
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _prepareParentTheme($theme, $collection)
-    {
-        $parentThemePath = implode('/', $theme->getParentTheme());
-        $themeModel = $this->_loadThemeByPath($parentThemePath);
-
-        if (!$themeModel->getId()) {
-            /**
-             * Find theme model in file system collection
-             */
-            $filesystemThemeModel = $collection->getItemByColumnValue('theme_path', $parentThemePath);
-            if ($filesystemThemeModel !== null) {
-                $this->_saveThemeRecursively($filesystemThemeModel, $collection);
-                return $filesystemThemeModel;
-            }
-        }
-
-        return $themeModel;
-    }
-
-    /**
-     * Add theme path to list
-     *
-     * @throws Mage_Core_Exception
-     * @param string $themePath
-     * @return Mage_Core_Model_Observer
-     */
-    protected function _addThemeToList($themePath)
-    {
-        if (in_array($themePath, $this->_themeList)) {
-            Mage::throwException('Invalid parent theme (сross-references) leads to an infinite loop.');
-        }
-        array_push($this->_themeList, $themePath);
-        return $this;
-    }
-
-    /**
-     * Clear theme list
-     *
-     * @return Mage_Core_Model_Observer
-     */
-    protected function _emptyThemeList()
-    {
-        $this->_themeList = array();
-        return $this;
-    }
-
-    /**
-     * Load theme by path
-     *
-     * @param string  $themePath
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _loadThemeByPath($themePath)
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-        return $themeModel->load($themePath, 'theme_path');
     }
 }
