@@ -156,6 +156,11 @@
                 </observers>
             </show_synchronize_message>
         </events>
+        <design>
+            <theme>
+                <full_name>default/basic</full_name>
+            </theme>
+        </design>
     </adminhtml>
     <install>
         <translate>
