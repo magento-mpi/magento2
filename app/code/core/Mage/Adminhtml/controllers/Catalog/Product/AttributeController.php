@@ -294,9 +294,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             if(!isset($data['apply_to'])) {
                 $data['apply_to'] = array();
-            }
-
-            if ('1' !== $model->getIsUserDefined() && $model->getId()) {
+            } elseif (!$model->getIsUserDefined() && $model->getId()) {
+                //Unset attribute field for system attributes
                 unset($data['apply_to']);
             }
 
