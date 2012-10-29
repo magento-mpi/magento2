@@ -32,7 +32,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        self::$_skinPublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/skin';
+        self::$_skinPublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/theme';
         self::$_fixtureTmpDir = Magento_Test_Bootstrap::getInstance()->getTmpDir() . '/publication';
     }
 
@@ -43,7 +43,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
 
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setDesignTheme('test/default/default', 'frontend');
+        $this->_model->setDesignTheme('test/default', 'frontend');
     }
 
     protected function tearDown()
@@ -95,16 +95,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         return array(
             'theme file' => array(
                 'css/styles.css',
-                'skin/frontend/test/default/default/en_US/css/styles.css',
+                'theme/frontend/test/default/en_US/css/styles.css',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'skin/frontend/test/default/default/fr_FR/logo.gif',
+                'theme/frontend/test/default/fr_FR/logo.gif',
                 'fr_FR',
             ),
             'modular file' => array(
                 'Module::favicon.ico',
-                'skin/frontend/test/default/default/en_US/Module/favicon.ico',
+                'theme/frontend/test/default/en_US/Module/favicon.ico',
             ),
             'lib file' => array(
                 'varien/product.js',
@@ -134,15 +134,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         return array(
             'theme css file' => array(
                 'css/styles.css',
-                'skin/frontend/test/default/default/en_US/css/styles.css',
+                'theme/frontend/test/default/en_US/css/styles.css',
             ),
             'theme file' => array(
                 'images/logo.gif',
-                'skin/frontend/test/default/skin/default/images/logo.gif',
+                'theme/frontend/test/default/images/logo.gif',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'skin/frontend/test/default/skin/default/locale/fr_FR/logo.gif',
+                'theme/frontend/test/default/locale/fr_FR/logo.gif',
                 'fr_FR',
             )
         );
@@ -155,7 +155,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         Mage::app()->getLocale()->setLocale('en_US');
         $skinParams = array('package' => 'test', 'theme' => 'default', 'skin' => 'default');
-        $cacheKey = 'frontend/test/default/default/en_US';
+        $cacheKey = 'frontend/test/default/en_US';
         Mage::app()->cleanCache();
 
         $skinFile = 'images/logo.gif';
@@ -231,18 +231,17 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'area'    => 'frontend',
             'package' => 'test',
             'theme'   => 'default',
-            'skin'    => 'default',
         );
         return array(
             'skin file' => array(
                 'images/logo_email.gif',
                 $designParams,
-                'frontend/test/default/default/en_US/images/logo_email.gif',
+                'frontend/test/default/en_US/images/logo_email.gif',
             ),
             'skin modular file' => array(
                 'Mage_Page::favicon.ico',
                 $designParams,
-                'frontend/test/default/default/en_US/Mage_Page/favicon.ico',
+                'frontend/test/default/en_US/Mage_Page/favicon.ico',
             ),
         );
     }
@@ -265,9 +264,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'Namespace_Module/absolute_valid_module.gif',
             'Mage_Page/favicon.ico', // non-fixture file from real module
         );
-        $publishedDir = self::$_skinPublicDir . '/frontend/package/default/theme/en_US';
+        $publishedDir = self::$_skinPublicDir . '/frontend/package/default/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->_model->getViewFileUrl('css/file.css', array('package' => 'package', 'skin' => 'theme'));
+        $this->_model->getViewFileUrl('css/file.css', array('package' => 'package'));
         foreach ($expectedFiles as $file) {
             $this->assertFileExists("{$publishedDir}/{$file}");
         }
@@ -311,15 +310,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 array(
                     'area'    => 'frontend',
                     'package' => 'default',
-                    'skin'    => 'default',
                     'module'  => 'Mage_Reports',
                 ),
-                'frontend/default/default/default/en_US/Mage_Reports/widgets.css',
+                'frontend/default/default/en_US/Mage_Reports/widgets.css',
                 array(
                     'url(../Mage_Catalog/images/i_block-list.gif)',
                 ),
                 array(
-                    'frontend/default/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
+                    'frontend/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
                 ),
             ),
             'adminhtml' => array(
@@ -328,17 +326,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                     'area'    => 'adminhtml',
                     'package' => 'package',
                     'theme'   => 'test',
-                    'skin'    => 'default',
                     'module'  => false,
                 ),
-                'adminhtml/package/test/default/en_US/Mage_Paypal/boxes.css',
+                'adminhtml/package/test/en_US/Mage_Paypal/boxes.css',
                 array(
                     'url(logo.gif)',
                     'url(section.png)',
                 ),
                 array(
-                    'adminhtml/package/test/default/en_US/Mage_Paypal/logo.gif',
-                    'adminhtml/package/test/default/en_US/Mage_Paypal/section.png',
+                    'adminhtml/package/test/en_US/Mage_Paypal/logo.gif',
+                    'adminhtml/package/test/en_US/Mage_Paypal/section.png',
                 ),
             ),
         );
@@ -374,8 +371,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
-        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/skin/default/';
-        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/default/en_US/';
+        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/';
+        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/en_US/';
 
         // Prepare temporary fixture directory and publish files from it
         $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
@@ -440,8 +437,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
-        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/skin/default/';
-        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/default/en_US/';
+        $fixtureSkinPath = self::$_fixtureTmpDir . '/frontend/test/default/';
+        $publishedPath = self::$_skinPublicDir . '/frontend/test/default/en_US/';
 
         // Prepare temporary fixture directory and publish files from it
         $this->_copyFixtureSkinToTmpDir($fixtureSkinPath);
@@ -475,8 +472,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
         // Copy all files to fixture location
         $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
-        $sourcePath = dirname(__DIR__) . '/_files/design/frontend/test/publication/skin/default/';
-        $files = array('../../theme.xml', 'style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
+        $sourcePath = dirname(__DIR__) . '/_files/design/frontend/test/publication/';
+        $files = array('theme.xml', 'style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
         foreach ($files as $file) {
             copy($sourcePath . $file, $fixtureSkinPath . $file);
             touch($fixtureSkinPath . $file, $mTime);
