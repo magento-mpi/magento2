@@ -93,7 +93,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $theme = new Mage_Core_Model_Theme();
         $theme->load($session->getThemeId());
 
-        $this->assertEquals('default/default_blank', $theme->getThemePath());
+        $this->assertEquals('default/blank', $theme->getThemePath());
     }
 
     /**
@@ -123,7 +123,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $theme = new Mage_Core_Model_Theme();
         $theme->load($session->getThemeId());
 
-        $this->assertNotEquals('default/default_blank', $theme->getThemePath());
+        $this->assertNotEquals('default/blank', $theme->getThemePath());
     }
 
     /**

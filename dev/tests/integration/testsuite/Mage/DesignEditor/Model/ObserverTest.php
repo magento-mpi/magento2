@@ -62,7 +62,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchApplyDesign()
     {
-        $newTheme = 'default/default_blank';
+        $newTheme = 'default/blank';
         $this->assertNotEquals($newTheme, Mage::getDesign()->getDesignTheme());
         $this->_observer->preDispatch($this->_eventObserver);
         $this->assertEquals($newTheme, Mage::getDesign()->getDesignTheme());
@@ -86,7 +86,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatchApplyDesignInactive()
     {
-        $newTheme = 'default/default_blank';
+        $newTheme = 'default/blank';
         $oldTheme = Mage::getDesign()->getDesignTheme();
         $this->assertNotEquals($newTheme, $oldTheme);
         $this->_observer->preDispatch($this->_eventObserver);
