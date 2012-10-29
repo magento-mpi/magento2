@@ -37,6 +37,7 @@
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
+            dropZone: "#product_info_tabs_group_10_content",
             sequentialUploads: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: <?php echo $this->getDataMaxSizeInBytes() ?>,
