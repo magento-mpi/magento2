@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 {
     protected $_storeSwitcherVisibility = true;
 
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected $_currentCurrencyCode = null;
 
-    protected $_template = 'Mage_Adminhtml::report/grid.phtml';
+    protected $_template = 'Mage_Reports::grid.phtml';
 
     /**
      * Filter values array
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
-                ->setTemplate('report/store/switcher.phtml')
+                ->setTemplate('Mage_Reports::store/switcher.phtml')
         );
 
         $this->addChild('refresh_button', 'Mage_Adminhtml_Block_Widget_Button', array(

@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Report_Product_Sold_Grid extends Mage_Adminhtml_Block_Report_Grid
+class Mage_Adminhtml_Block_Report_Product_Sold_Grid extends Mage_Reports_Block_Adminhtml_Grid
 {
     /**
      * Sub report size

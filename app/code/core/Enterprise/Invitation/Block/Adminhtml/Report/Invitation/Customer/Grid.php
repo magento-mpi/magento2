@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid
-    extends Mage_Adminhtml_Block_Report_Grid
+    extends Mage_Reports_Block_Adminhtml_Grid
 {
 
 
