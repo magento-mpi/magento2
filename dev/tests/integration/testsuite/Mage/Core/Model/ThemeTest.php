@@ -134,7 +134,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testIsDeletable($isVirtual)
     {
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'));
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
         $themeModel->expects($this->once())
             ->method('isVirtual')
             ->will($this->returnValue($isVirtual));
