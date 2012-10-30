@@ -10,8 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /**
- * Check the possibility to set default value to system attributes with dropdown type
+ * Check the impossibility to edit Apply to values for system attributes
  */
 class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestCase
 {
@@ -28,13 +29,13 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
     /**
      * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
      *
-     * @param $attributeCode
-     * @param $applyTo
+     * @param array $attributeCode
+     * @param array $applyTo
      * @param array $types
      *
      * @test
      * @dataProvider systemAttributesDataProvider
-     * @TestlinkId TL-MAGE-6423
+     * @TestLinkId TL-MAGE-6423
      * @author Maryna_Ilnytska
      */
     public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
@@ -57,12 +58,12 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
         $dropdownXpath = $this->_getControlXpath('dropdown', 'apply_to');
         $this->assertTrue($this->isElementPresent($dropdownXpath . "[@disabled = 'disabled']"));
         if ($applyTo == 'All Product Types') {
-            $this->assertTrue(!$this->isElementPresent('apply_product_types'));
+            $this->assertFalse($this->isElementPresent('apply_product_types'));
         }
         else {
             $multiselectXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
-            $this->assertTrue($this->isElementPresent($multiselectXpath) && !$this->isEditable($multiselectXpath),
-            'Apply To multiselect is enabled or it is absent');
+            $this->assertTrue($this->isElementPresent($multiselectXpath), 'Apply To multiselect is absent');
+            $this->assertFalse($this->isEditable($multiselectXpath), 'Apply To multiselect is enabled');
             $selected = (array)($this->getSelectedValues($multiselectXpath));
             $this->assertEmpty(array_diff($selected, $types));
         }
@@ -76,7 +77,6 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
     public function systemAttributesDataProvider()
     {
         return array(
-            //0
             array('category_ids', 'All Product Types', null),
             array('country_of_manufacture', 'Selected Product Types',
                 array('simple', 'grouped', 'configurable', 'bundle')),
@@ -90,7 +90,6 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
             array('gift_message_available', 'All Product Types', null),
             array('group_price', 'Selected Product Types',
                 array('simple', 'configurable', 'virtual', 'bundle', 'downloadable')),
-            //11
             array('image', 'All Product Types', null),
             array('is_recurring', 'Selected Product Types',
                 array('simple', 'virtual')),
@@ -105,7 +104,6 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
             array('msrp_enabled', 'Selected Product Types',
                 array('simple', 'configurable', 'virtual', 'bundle', 'downloadable')),
             array('name', 'All Product Types', null),
-            //21
             array('news_from_date', 'All Product Types', null),
             array('news_to_date', 'All Product Types', null),
             array('options_container', 'All Product Types', null),
@@ -119,7 +117,6 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
                 array('simple', 'virtual')),
             array('short_description', 'All Product Types', null),
             array('sku', 'All Product Types', null),
-            //31
             array ('small_image', 'All Product Types', null),
             array('special_from_date', 'Selected Product Types',
                 array('simple', 'configurable', 'virtual', 'bundle', 'downloadable')),

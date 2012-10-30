@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 /**
- * Check the possibility to set default value to system attributes with dropdown type
+ * Check the impossibility to edit Apply to values for system attributes
  */
 class Enterprise2_Mage_ProductAttribute_SystemAttributeTest extends Community2_Mage_ProductAttribute_SystemAttributeTest
 {
@@ -28,13 +28,13 @@ class Enterprise2_Mage_ProductAttribute_SystemAttributeTest extends Community2_M
     /**
      * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
      *
-     * @param $attributeCode
-     * @param $applyTo
+     * @param array $attributeCode
+     * @param array $applyTo
      * @param array $types
      *
      * @test
      * @dataProvider systemAttributesDataProvider
-     * @TestlinkId TL-MAGE-6423
+     * @TestLinkId TL-MAGE-6423
      * @author Maryna_Ilnytska
      */
     public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
