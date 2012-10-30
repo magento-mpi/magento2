@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option */?>
 <?php echo $this->getTemplatesHtml() ?>
 
 <script type="text/javascript">
@@ -342,7 +343,6 @@ window.productOptionScope.bindScopeCheckbox();
                 });
                 $('#import-container').dialog('open');
             });
-
         });
 
         $('#import-container').dialog({
@@ -381,7 +381,7 @@ window.productOptionScope.bindScopeCheckbox();
                                 el.id = window.productOption.getFreeOptionId(el.id);
                                 el.option_id = el.id;
                                 if (typeof el.optionValues != 'undefined') {
-                                    for (i = 0; i < el.optionValues.length; i++) {
+                                    for (var i = 0; i < el.optionValues.length; i++) {
                                         el.optionValues[i].option_id = el.id;
                                     }
                                 }

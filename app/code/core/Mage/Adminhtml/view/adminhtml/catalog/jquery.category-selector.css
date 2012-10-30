@@ -11,6 +11,7 @@
     display:inline-block;
     vertical-align:top;
     width:99%;
+    margin-bottom: 6px;
 }
 
 .category-selector-container,
@@ -176,7 +177,7 @@
     margin-top:4px;
 }
 
-.category-selector-search input.category-selector-active {
+.category-selector-search input.category-selector-active, input.input-text.parent-category-selector-active {
     background:#fff url('images/spinner.gif') no-repeat 100%;
     background:url('images/spinner.gif') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
     background:url('images/spinner.gif') no-repeat 100%, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
