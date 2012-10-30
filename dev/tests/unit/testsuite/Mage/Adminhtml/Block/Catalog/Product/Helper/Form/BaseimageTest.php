@@ -110,11 +110,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHP
                 '/f/i/file_666.png.tmp',
                 'getTmpMediaUrl',
                 'http://example.com/pub/images/image-placeholder.png'
-            ),
-            array(
-                'some_image',
-                'getMediaUrl',
-                'http://example.com/pub/images/image-placeholder.png'
             )
         );
     }

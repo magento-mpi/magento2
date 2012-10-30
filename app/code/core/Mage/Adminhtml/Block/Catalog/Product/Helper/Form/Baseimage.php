@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
      */
     protected function _getImageUrl($imagePath)
     {
-        if (($imagePath !== null) && ($imagePath != 'no_selection')) {
+        if (!in_array($imagePath, array(null, 'no_selection', '/'))) {
             if (strrpos($imagePath, '.tmp') == strlen($imagePath) - 4) {
                 $imageUrl = $this->_mediaConfig->
                     getTmpMediaUrl(substr($imagePath, 0, strlen($imagePath) - 4));
