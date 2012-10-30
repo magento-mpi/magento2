@@ -29,8 +29,9 @@ class Mage_Downloadable_Model_Observer
      */
     public function __construct(array $data = array())
     {
-        $this->_helper = isset($data['helper']) ?  $data['helper'] : Mage::helper('Mage_Core_Helper_Data');
+        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Mage_Core_Helper_Data');
     }
+
     /**
      * Prepare product to save
      *
@@ -66,7 +67,9 @@ class Mage_Downloadable_Model_Observer
         if ($product && $product->getTypeId() != Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             return $this;
         }
-        if (Mage::getModel('Mage_Downloadable_Model_Link_Purchased')->load($orderItem->getId(), 'order_item_id')->getId()) {
+        $purchasedLink = Mage::getModel('Mage_Downloadable_Model_Link_Purchased')
+            ->load($orderItem->getId(), 'order_item_id');
+        if ($purchasedLink->getId()) {
             return $this;
         }
         if (!$product) {

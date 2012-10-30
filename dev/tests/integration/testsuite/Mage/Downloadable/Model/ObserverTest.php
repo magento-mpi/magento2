@@ -10,19 +10,18 @@
  */
 
 /**
- *
+ * Test class for Mage_Downloadable_Model_Observer (duplicate downloadable data)
  */
 class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Downloadable/_files/product_with_files.php
      */
-    public function testDuplicate()
+    public function testDuplicateProductDownloadableProductWithFilesSuccessfullyDuplicated()
     {
-        $this->markTestIncomplete('MAGETWO-4103');
         $currentProduct = new Mage_Catalog_Model_Product;
         $currentProduct->load(1); // fixture for initial product
-        $currentLinks = $currentProduct->typeInstance($currentProduct)->getLinks($currentProduct);
+        $currentLinks = $currentProduct->getTypeInstance($currentProduct)->getLinks($currentProduct);
         $currentSamples = $currentProduct->getTypeInstance($currentProduct)->getSamples($currentProduct);
 
         $newProduct = $currentProduct->duplicate();
@@ -30,9 +29,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $newLinks = $newProduct->getTypeInstance($newProduct)->getLinks($newProduct);
         $newSamples = $newProduct->getTypeInstance($newProduct)->getSamples($newProduct);
 
-        $this->assertEquals($currentLinks, $newLinks,
-            'File for Links has been lost after duplication');
-        $this->assertEquals($currentSamples, $newSamples,
-            'File for Samples has been lost after duplication');
+        $this->assertEquals($currentLinks, $newLinks);
+        $this->assertEquals($currentSamples, $newSamples);
     }
 }

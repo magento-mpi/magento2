@@ -144,9 +144,10 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * set products to observer
-     * @param $currentProduct
-     * @param $newProduct
+     * Set products to observer
+     *
+     * @param array $currentProduct
+     * @param array $newProduct
      */
     protected function _setObserverExpectedMethods($currentProduct, $newProduct)
     {
@@ -161,7 +162,8 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * get Downloadable Link Data
+     * Get Downloadable Link Data
+     *
      * @return array
      */
     protected function _getLinks()
@@ -194,7 +196,8 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * get Downloadable Sample Data
+     * Get Downloadable Sample Data
+     *
      * @return array
      */
     protected function _getSamples()

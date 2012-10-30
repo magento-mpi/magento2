@@ -28,14 +28,14 @@ $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
             'sample'         => array(
                 'type'       => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
                 'url'        => null,
-                'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+                'file'       => json_encode(array(array(
                     'file'   => '/n/d/jellyfish_1_3.jpg',
                     'name'   => 'jellyfish_1_3.jpg',
                     'size'   => 54565,
                     'status' => 0,
                 ))),
             ),
-            'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+            'file'       => json_encode(array(array(
                 'file'   => '/j/e/jellyfish_2_4.jpg',
                 'name'   => 'jellyfish_2_4.jpg',
                 'size'   => 56644,
@@ -53,7 +53,7 @@ $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
             'sample_id'  => 0,
             'title'      => 'Downloadable Product Sample Title',
             'type'       => Mage_Downloadable_Helper_Download::LINK_TYPE_FILE,
-            'file'       => Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(array(
+            'file'       => json_encode(array(array(
                 'file'   => '/f/u/jellyfish_1_4.jpg',
                 'name'   => 'jellyfish_1_4.jpg',
                 'size'   => 1024,
@@ -63,5 +63,4 @@ $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
             'sort_order' => '0',
         ))
     ))
-    ->save()
-;
+    ->save();
