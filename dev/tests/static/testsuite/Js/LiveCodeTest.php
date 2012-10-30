@@ -81,7 +81,6 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     public function testCodeJsHint($filename)
     {
-
         $cmd = new Inspection_JsHint_Command($filename, self::$_reportFile);
         try {
             $cmd->canRun();
