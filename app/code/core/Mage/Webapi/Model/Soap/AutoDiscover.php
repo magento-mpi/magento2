@@ -23,13 +23,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_resourceConfig;
 
     /**
-     * List of requested resources.
-     *
-     * @var array
-     */
-    protected $_requestedResources;
-
-    /**
      * WSDL builder instance.
      *
      * @var Mage_Webapi_Model_Soap_Wsdl
@@ -75,11 +68,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
         $this->_resourceConfig = $options['resource_config'];
 
-        if (!isset($options['requested_resources'])) {
-            throw new InvalidArgumentException('"requested_resources" option is required.');
-        }
-        $this->_requestedResources = $options['requested_resources'];
-
         if (!isset($options['endpoint_url'])) {
             throw new InvalidArgumentException('"endpoint_url" option is required.');
         }
@@ -88,6 +76,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         if (isset($options['wsdl']) && $options['wsdl'] instanceof Mage_Webapi_Model_Soap_Wsdl) {
             $this->_wsdl = $options['wsdl'];
         } else {
+            // TODO: Refactor according to DI
             $this->_wsdl = Mage::getModel('Mage_Webapi_Model_Soap_Wsdl', array(
                 'name' => self::WSDL_NAME,
                 'uri' => $options['endpoint_url'],
@@ -98,26 +87,28 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Generate WSDL file based on requested resources.
      *
+     * @param array $requestedResources
      * @return string
      */
-    public function generate()
+    public function generate($requestedResources)
     {
+        $this->_collectCallInfo($requestedResources);
         $service = $this->_wsdl->addService(self::SERVICE_NAME);
 
-        foreach ($this->_requestedResources as $resourceName => $resourceData) {
-            $portTypeName = $resourceName . 'PortType';
-            $bindingName = $resourceName . 'Binding';
+        foreach ($requestedResources as $resourceName => $resourceData) {
+            $portTypeName = $this->getPortTypeName($resourceName);
+            $bindingName = $this->getBindingName($resourceName);
             $portType = $this->_wsdl->addPortType($portTypeName);
             $binding = $this->_wsdl->addBinding($bindingName, $portTypeName);
             $this->_wsdl->addSoapBinding($binding);
-            $this->_wsdl->addServicePort($service, $resourceName . 'Port', $bindingName, $this->_endpointUrl);
+            $portName = $this->getPortName($resourceName);
+            $this->_wsdl->addServicePort($service, $portName, $bindingName, $this->_endpointUrl);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $operationName = $resourceName . ucfirst($methodName);
+                $operationName = $this->getOperationName($resourceName, $methodName);
 
                 $bindingInput = array('use' => 'literal');
-                $inputMessageName = $operationName . 'Request';
-                $inputTypeName = $operationName . 'Request';
+                $inputMessageName = $inputTypeName = $this->getInputMessageName($operationName);
                 $complexTypeForElementName = ucfirst($inputTypeName);
                 $inputParameters = array();
                 $elementData = array(
@@ -145,8 +136,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 $bindingOutput = null;
                 if (isset($methodData['interface']['out']['parameters'])) {
                     $bindingOutput = array('use' => 'literal');
-                    $outputMessageName = $operationName . 'Response';
-                    $outputElementName = $operationName . 'Response';
+                    $outputMessageName = $outputElementName = $this->getOutputMessageName($operationName);
                     $complexTypeForElementName = ucfirst($outputElementName);
                     $this->_wsdl->addElement(array(
                         'name' => $outputElementName,
@@ -173,6 +163,73 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
 
         return $this->_wsdl->toXML();
+    }
+
+    /**
+     * Get name for resource portType node.
+     *
+     * @param string $resourceName
+     * @return string
+     */
+    public function getPortTypeName($resourceName)
+    {
+        return $resourceName . 'PortType';
+    }
+
+    /**
+     * Get name for resource binding node.
+     *
+     * @param string $resourceName
+     * @return string
+     */
+    public function getBindingName($resourceName)
+    {
+        return $resourceName . 'Binding';
+    }
+
+    /**
+     * Get name for resource port node.
+     *
+     * @param string $resourceName
+     * @return string
+     */
+    public function getPortName($resourceName)
+    {
+        return $resourceName . 'Port';
+    }
+
+    /**
+     * Get name of operation based on resource and method names.
+     *
+     * @param string $resourceName
+     * @param string $methodName
+     * @return string
+     */
+    public function getOperationName($resourceName, $methodName)
+    {
+        return $resourceName . ucfirst($methodName);
+    }
+
+    /**
+     * Get input message node name for operation.
+     *
+     * @param string $operationName
+     * @return string
+     */
+    public function getInputMessageName($operationName)
+    {
+        return $operationName . 'Request';
+    }
+
+    /**
+     * Get output message node name for operation.
+     *
+     * @param string $operationName
+     * @return string
+     */
+    public function getOutputMessageName($operationName)
+    {
+        return $operationName . 'Response';
     }
 
     /**
@@ -270,22 +327,32 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
     /**
      * Find in which operations given type used.
-     * Walks through all requested resources and checks all methods 'in' and 'out' parameters.
      *
-     * @param $type
+     * @param string $type
      * @return array
      */
     protected function _getComplexTypeCallInfo($type)
     {
+        return isset($this->_typeCallInfo[$type]) ?  $this->_typeCallInfo[$type] : array();
+    }
+
+    /**
+     * Collect data about complex types call info.
+     * Walks through all requested resources and checks all methods 'in' and 'out' parameters.
+     *
+     * @param array $requestedResources
+     */
+    protected function _collectCallInfo($requestedResources)
+    {
         if (is_null($this->_typeCallInfo)) {
-            foreach ($this->_requestedResources as $resourceName => $resourceData) {
+            foreach ($requestedResources as $resourceName => $resourceData) {
                 foreach ($resourceData['methods'] as $methodName => $methodData) {
                     foreach ($methodData['interface'] as $direction => $interface) {
                         $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
                         foreach ($interface['parameters'] as $parameterData) {
                             $parameterType = $parameterData['type'];
                             if (!$this->_resourceConfig->isTypeSimple($parameterType)) {
-                                $operation = $resourceName . ucfirst($methodName);
+                                $operation = $this->getOperationName($resourceName, $methodName);
                                 if ($parameterData['required']) {
                                     $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
                                 } else {
@@ -298,13 +365,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 }
             }
         }
-
-        $callInfo = array();
-        if (isset($this->_typeCallInfo[$type])) {
-            $callInfo = $this->_typeCallInfo[$type];
-        }
-
-        return $callInfo;
     }
 
     /**
@@ -360,6 +420,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                         }
                         break;
                     }
+                    case 'docInstructions':
+                        if (preg_match('/(input|output)\:(.*)/', $tagValue, $docMatches)) {
+                            $appInfo['docInstructions'][$docMatches[1]] = $docMatches[2];
+                        }
+                        break;
                     default:
                         $appInfo[$tagName] = $tagValue;
                         break;

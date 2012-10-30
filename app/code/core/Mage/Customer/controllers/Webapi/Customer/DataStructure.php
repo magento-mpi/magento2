@@ -34,6 +34,8 @@ class Mage_Customer_Webapi_Customer_DataStructure
 
     /**
      * Customer Balance.
+     * {docInstructions:input:noDoc}
+     * {docInstructions:output:noDoc}
      *
      * @var int {min:1}{max:100}
      */

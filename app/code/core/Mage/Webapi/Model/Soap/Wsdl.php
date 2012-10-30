@@ -234,6 +234,16 @@ class Mage_Webapi_Model_Soap_Wsdl
                         }
                         $appInfoNode->appendChild($seeLinkNode);
                         break;
+                    case 'docInstructions':
+                        $docInstructionsNode = $this->_dom->createElement('docInstructions');
+                        foreach ($appInfoData as $direction => $value) {
+                            $docDirectionNode = $this->_dom->createElement($direction);
+                            $docDirectionValueNode = $this->_dom->createElement($value);
+                            $docDirectionNode->appendChild($docDirectionValueNode);
+                            $docInstructionsNode->appendChild($docDirectionNode);
+                        }
+                        $appInfoNode->appendChild($docInstructionsNode);
+                        break;
                     default:
                         $appInfoData = trim($appInfoData);
                         $annotationTextNode = $this->_dom->createElement($appInfoKey);
