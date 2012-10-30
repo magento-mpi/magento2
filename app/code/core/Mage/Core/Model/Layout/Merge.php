@@ -665,5 +665,6 @@ class Mage_Core_Model_Layout_Merge
     public function __destruct()
     {
         $this->_updates = array();
+        $this->_layoutUpdatesCache = null;
     }
 }

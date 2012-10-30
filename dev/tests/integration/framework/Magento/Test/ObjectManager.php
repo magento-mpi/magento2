@@ -12,14 +12,15 @@
 class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
 {
     /**
-     * Class with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
+     * Classes with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
      *
      * @var array
      */
-    protected $_classesWithXmlProperties = array(
+    protected $_classesToDestruct = array(
         'Mage_Core_Model_Config',
         'Mage_Core_Model_Layout',
         'Mage_Core_Model_Layout_Merge',
+        'Mage_Core_Model_Layout_ScheduledStructure',
     );
 
     /**
@@ -40,7 +41,7 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
      */
     public function clearCache()
     {
-        foreach ($this->_classesWithXmlProperties as $className) {
+        foreach ($this->_classesToDestruct as $className) {
             $object = $this->get($className);
             if ($object) {
                 // force to cleanup circular references

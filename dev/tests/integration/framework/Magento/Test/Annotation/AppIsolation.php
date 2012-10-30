@@ -22,18 +22,18 @@ class Magento_Test_Annotation_AppIsolation
     private $_hasNonIsolatedTests = true;
 
     /**
-     * Is current test case object subclass of Magento_Test_TestCase_ControllerAbstract
+     * Should clearStaticVariables() be invoked in endTestSuite()
      *
      * @var bool
      */
-    protected $_isControllerTestCase = false;
+    protected $_runClearStatics = false;
 
     /**
      * Directories to clear static variables
      *
      * @var array
      */
-    protected static $_cleanableDirectories = array(
+    protected static $_cleanableFolders = array(
         '/app/code/',
         '/dev/tests/',
         '/lib/',
@@ -44,7 +44,7 @@ class Magento_Test_Annotation_AppIsolation
      *
      * @var array
      */
-    protected static $_notCleanableClasses = array(
+    protected static $_classesToSkip = array(
         'Mage',
         'Magento_Autoload',
         'Magento_Test_Bootstrap',
@@ -67,7 +67,7 @@ class Magento_Test_Annotation_AppIsolation
         }
 
         // 2. do not process blacklisted classes from integration framework
-        foreach (self::$_notCleanableClasses as $notCleanableClass) {
+        foreach (self::$_classesToSkip as $notCleanableClass) {
             if ($reflectionClass->getName() == $notCleanableClass
                 || is_subclass_of($reflectionClass->getName(), $notCleanableClass)
             ) {
@@ -80,7 +80,7 @@ class Magento_Test_Annotation_AppIsolation
 
         if ($fileName) {
             $fileName = str_replace('\\', '/', $fileName);
-            foreach (self::$_cleanableDirectories as $directory) {
+            foreach (self::$_cleanableFolders as $directory) {
                 if (stripos($fileName, $directory) !== false) {
                     return true;
                 }
@@ -171,7 +171,7 @@ class Magento_Test_Annotation_AppIsolation
             $isIsolationEnabled = $isolation === array('enabled');
         } else {
             if ($test instanceof Magento_Test_TestCase_ControllerAbstract) {
-                $this->_isControllerTestCase = true;
+                $this->_runClearStatics = true;
                 /* Controller tests should be isolated by default */
                 $isIsolationEnabled = true;
             } else {
@@ -189,11 +189,12 @@ class Magento_Test_Annotation_AppIsolation
      */
     public function endTestSuite()
     {
-        if ($this->_isControllerTestCase) {
+        if ($this->_runClearStatics) {
             self::clearStaticVariables();
             // forced garbage collection to avoid process non-zero exit code (exec returned: 139) caused by PHP bug
             gc_collect_cycles();
-            $this->_isControllerTestCase = false;
+
+            $this->_runClearStatics = false;
         }
     }
 }
