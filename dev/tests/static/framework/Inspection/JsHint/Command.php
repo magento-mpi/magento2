@@ -67,9 +67,9 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
      */
     protected function _buildShellCmd($whiteList, $blackList)
     {
-        return ltrim(str_replace('which', '', $this->_getHostScript()))
+        return ltrim(str_replace('which', '', $this->_getHostScript())) . ' '
             . $this->_getJsHintPath() . ' '
-            . $this->_fileName . ' '
+            . $this->getFileName() . ' '
             . $this->_getJsHintOptions();
     }
 
@@ -110,6 +110,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     {
         $retArray = $this->_executeCommand($shellCmd);
         $this->_lastOutput = implode(PHP_EOL, $retArray[0]);
+        $this->_lastExitCode = $retArray[1];
         if ($this->_lastExitCode == 0) {
             return $this->_lastOutput;
         }
@@ -120,19 +121,6 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
         file_put_contents($this->_reportFile, $this->_lastOutput, FILE_APPEND);
         return false;
 
-    }
-
-    /**
-     * Build and execute the shell command
-     *
-     * @return bool
-     */
-    public function run()
-    {
-        $shellCmd = $this->_buildShellCmd(null, null);
-        $result = $this->_execShellCmd($shellCmd);
-        $this->_generateLastRunMessage();
-        return $result !== false;
     }
 
     /**
