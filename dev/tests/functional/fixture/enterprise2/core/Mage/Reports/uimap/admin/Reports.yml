@@ -26,17 +26,17 @@ invitations_customers:
             fieldsets:
                 -
                     invitations_customers_grid:
-                        xpath: //div[@id='id_1d4be4516a1d16f7738a4d510a19c338']
+                        xpath: //div[@id='page:main-container']
                         buttons:
                             refresh: //button[span='Refresh']
                             export: //button[span='Export']
                         dropdowns:
-                            filter_show_by: //select[@id='report_period']
-                            export_to: //select[@id='id_1d4be4516a1d16f7738a4d510a19c338_export']
+                            filter_show_by: //select[@name='report_period']
+                            export_to: //select[@style='width:8em']
                             filter_show_report_for: //select[@id='store_switcher']
                         fields:
-                            filter_from: //input[@id='period_date_from']
-                            filter_to: //input[@id='period_date_to']
+                            filter_from: //input[@name='report_from']
+                            filter_to: //input[@name='report_to']
                         links:
                             id:  //a[@name='id']
                             name: //a[@name='name']

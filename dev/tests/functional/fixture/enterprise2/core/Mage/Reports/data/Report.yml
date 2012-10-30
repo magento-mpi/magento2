@@ -1,0 +1,29 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+grid:
+    invitations_customers:
+        button:
+            refresh:
+            export:
+        dropdown:
+            filter_show_by:
+            filter_show_report_for:
+        link:
+            id:
+            name:
+            email:
+            group:
+            invitations_sent:
+            invitation_accepted:
+        field:
+            filter_from:
+            filter_to:
