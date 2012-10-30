@@ -172,6 +172,11 @@
                 </Mage_Core>
             </modules>
         </translate>
+        <design>
+            <theme>
+                <full_name>default/basic</full_name>
+            </theme>
+        </design>
     </install>
     <default>
         <design>
