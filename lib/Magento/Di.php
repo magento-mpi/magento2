@@ -9,7 +9,10 @@
  */
 
 use Zend\Di\Exception;
-
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @todo Need decrease ExcessiveClassComplexity of this class
+ */
 class Magento_Di extends Zend\Di\Di
 {
     /**
@@ -48,13 +51,21 @@ class Magento_Di extends Zend\Di\Di
         if (!$this->definitions()->hasClass($name)) {
             array_push($this->instanceContext, array('NEW', $name, $name));
 
-            if (!$this->_cachedInstances) {
+            $isModel = preg_match('/\w*_\w*\_Model/', $name);
+            $isBlock = false;
+
+            if (!$isModel) {
+                $isBlock = preg_match('/\w*_\w*\_Block/', $name);
+            }
+
+            if (!$this->_cachedInstances && ($isModel || $isBlock)) {
                 $this->_cachedInstances = array(
                     'eventManager' => $this->get('Mage_Core_Model_Event_Manager'),
                     'cache'        => $this->get('Mage_Core_Model_Cache'),
                 );
             }
-            if (preg_match('/\w*_\w*\_Model/', $name)) {
+
+            if ($isModel) {
                 $instance = new $name(
                     $this->_cachedInstances['eventManager'],
                     $this->_cachedInstances['cache'],
@@ -62,7 +73,7 @@ class Magento_Di extends Zend\Di\Di
                     null,
                     $parameters
                 );
-            } else if (preg_match('/\w*_\w*\_Block/', $name)) {
+            } else if ($isBlock) {
                 if (!isset($this->_cachedInstances['request'])) {
                     $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
                     $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
@@ -87,6 +98,7 @@ class Magento_Di extends Zend\Di\Di
             } else {
                 $instance = new $name();
             }
+
             if ($isShared) {
                 if ($parameters) {
                     $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
