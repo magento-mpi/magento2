@@ -11,7 +11,7 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest extends PHPUnit_Framework_TestCase
 {
-    const VIRTUAL_FIELD_HTML_ID = 'weight_is_virtual';
+    const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
      * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock

@@ -17,7 +17,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends Varien_Data_Form_Element_Text
 {
-    const VIRTUAL_FIELD_HTML_ID = 'weight_is_virtual';
+    const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
      * Is virtual checkbox element
@@ -25,17 +25,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
      * @var Varien_Data_Form_Element_Checkbox
      */
     protected $_virtual;
-
-    /**
-     * Types available for transition
-     *
-     * @var array
-     */
-    protected $_transisionalTypes = array(
-        'simple' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-        'virtual' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-        'downloadable' => Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
-    );
 
     public function __construct(array $data = array())
     {
@@ -53,8 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
      */
     public function getElementHtml()
     {
-        if ($this->getForm()->getDataObject()->getTypeId() !== Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
-            && $this->_isTransitionalType()) {
+        if ($this->getForm()->getDataObject()->getTypeId() !== Mage_Catalog_Model_Product_Type::TYPE_SIMPLE) {
             $this->_virtual->setChecked('checked');
         }
         return $this->_virtual->getElementHtml() . parent::getElementHtml();
@@ -72,13 +60,4 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         return parent::setForm($form);
     }
 
-    /**
-     * Return whether product type is transitional
-     *
-     * @return bool
-     */
-    protected function _isTransitionalType()
-    {
-        return in_array($this->getForm()->getDataObject()->getTypeId(), $this->_transisionalTypes);
-    }
 }

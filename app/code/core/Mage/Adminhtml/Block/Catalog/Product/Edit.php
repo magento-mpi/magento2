@@ -18,17 +18,6 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Widget
 {
 
-    /**
-     * Types available for transition
-     *
-     * @var array
-     */
-    protected $_transisionalTypes = array(
-        'simple' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-        'virtual' => Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-        'downloadable' => Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
-    );
-
     public function __construct()
     {
         parent::__construct();
@@ -277,27 +266,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
      *
      * @return string
      */
-    public function getJSData()
+    public function getTypeSwitcherData()
     {
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',
             'current_type' => $this->getProduct()->getTypeId(),
-            'transitional_types' => $this->_transisionalTypes,
-            'is_transitional_type' => $this->_isTransitionalType(),
             'attributes' => $this->_getAttributes(),
         ));
-    }
-
-    /**
-     * Get whether product type is transitional
-     *
-     * @return bool
-     */
-    protected function _isTransitionalType()
-    {
-        return in_array($this->getProduct()->getTypeId(), $this->_transisionalTypes);
     }
 
     /**

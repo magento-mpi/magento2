@@ -44,6 +44,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
@@ -75,6 +76,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
