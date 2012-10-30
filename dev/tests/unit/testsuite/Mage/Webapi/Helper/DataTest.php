@@ -5,9 +5,9 @@
  * @copyright {}
  */
 
-include_once __DIR__ . '/../_files/Customer/Address/DataStructure.php';
-include_once __DIR__ . '/../_files/Customer/DataStructure.php';
-include_once __DIR__ . '/../_files/subresource_class_fixture.php';
+include_once __DIR__ . '/../_files/autodiscovery/Customer/Address/DataStructure.php';
+include_once __DIR__ . '/../_files/autodiscovery/Customer/DataStructure.php';
+include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
 
 /**
  * Class implements tests for Mage_Webapi_Helper_Data class.
@@ -35,7 +35,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $directoryWithFixturesForConfig = __DIR__ . '/../_files';
+        $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
         $appConfig = new Mage_Core_Model_Config();
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
         self::$_apiConfig = new Mage_Webapi_Model_Config_Resource(array(

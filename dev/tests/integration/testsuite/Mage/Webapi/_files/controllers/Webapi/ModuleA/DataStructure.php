@@ -52,6 +52,7 @@ class NamespaceA_ModuleA_Webapi_ModuleA_DataStructure
      * Link to array of loops
      *
      * @var NamespaceA_ModuleA_Webapi_ModuleA_DataStructureB[]
+     * @optional true
      */
     public $loopArray;
 }

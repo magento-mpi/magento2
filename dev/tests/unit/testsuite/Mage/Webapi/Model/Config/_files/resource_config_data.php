@@ -9,6 +9,7 @@ return array(
         'customer' => array(
             'controller' => 'Mage_Customer_Webapi_CustomerController',
             'module' => 'Mage_Customer',
+            'rest_routes' => array(),
             'versions' => array(
                 'v1' => array(
                     'methods' => array(
@@ -192,10 +193,21 @@ return array(
                     ),
                 ),
             ),
+            'rest_routes' => array(
+                '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField' => array(
+                    'action_type' => 'collection',
+                    'resource_version' => 'v1',
+                ),
+                '/v2/catalogProducts/:resourceId' => array(
+                    'action_type' => 'item',
+                    'resource_version' => 'v2',
+                ),
+            )
         ),
         'enterpriseCatalogProduct' => array(
             'controller' => 'Enterprise_Catalog_Webapi_ProductController',
             'module' => 'Enterprise_Catalog',
+            'rest_routes' => array(),
             'versions' => array(
                 'v1' => array(
                     'methods' => array(
@@ -224,6 +236,7 @@ return array(
             ),
         ),
         'resourceWithoutControllerAndModule' => array(
+            'rest_routes' => array(),
             'versions' => array(
                 'v1' => array(
                     'methods' => array(
@@ -248,6 +261,67 @@ return array(
                             ),
                         ),
                     ),
+                ),
+            ),
+        )
+    ),
+    'types' => array(
+        'VendorModuleCustomerDataStructure[]' => array(),
+        'VendorModuleCustomerDataStructure' => array(
+            'documentation' => 'Tests fixture for Auto Discovery functionality.',
+            'parameters' => array(
+                'email' => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => NULL,
+                    'documentation' => 'Customer email. Use this field to set customer <b>email</b>!',
+                ),
+                'firstname' => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => NULL,
+                    'documentation' => 'Customer first name',
+                ),
+                'lastname' => array(
+                    'type' => 'string',
+                    'required' => false,
+                    'default' => 'DefaultLastName',
+                    'documentation' => 'Customer last name',
+                ),
+                'password' => array(
+                    'type' => 'string',
+                    'required' => false,
+                    'default' => '123123q',
+                    'documentation' => 'Customer password',
+                ),
+                'address' => array(
+                    'type' => 'VendorModuleCustomerAddressDataStructure',
+                    'required' => false,
+                    'default' => NULL,
+                    'documentation' => 'Customer address',
+                ),
+            ),
+        ),
+        'VendorModuleCustomerAddressDataStructure' => array(
+            'documentation' => 'Tests fixture for Auto Discovery functionality.',
+            'parameters' => array(
+                'street' => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => NULL,
+                    'documentation' => 'Street',
+                ),
+                'city' => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => NULL,
+                    'documentation' => 'City',
+                ),
+                'state' => array(
+                    'type' => 'string',
+                    'required' => false,
+                    'default' => NULL,
+                    'documentation' => 'State',
                 ),
             ),
         )

@@ -104,9 +104,9 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
         $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
 
-        $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteByResource(
+        $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteToItem(
             $this->getRequest()->getResourceName(),
-            Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
+            $this->getRequest()->getResourceVersion()
         ));
         $chain = $apiTypeRoute->chain($router);
         $params = array(

@@ -114,7 +114,7 @@ class Mage_Webapi_Model_Config_Resource
     public function getDataType($typeName)
     {
         if (!isset($this->_data['types'][$typeName])) {
-            throw new InvalidArgumentException(sprintf('Data type "%s" is not found in config.', $typeName));
+            throw new InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
         }
         return $this->_data['types'][$typeName];
     }
@@ -275,10 +275,7 @@ class Mage_Webapi_Model_Config_Resource
     // TODO: Reimplement according to AutoDiscovery code generation
     public function getOperationDeprecationPolicy($operationName)
     {
-        return isset($this->_data['operations'][$operationName])
-            && isset($this->_data['operations'][$operationName]['deprecation_policy'])
-            ? $this->_data['operations'][$operationName]['deprecation_policy']
-            : false;
+        return false;
     }
 
     /**
@@ -303,7 +300,8 @@ class Mage_Webapi_Model_Config_Resource
                         $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
                         $version = $this->_getMethodVersion($methodReflection);
                         if ($method && $version) {
-                            $data['versions'][$version]['methods'][$method] = $this->_getMethodData($methodReflection);
+                            $data['versions'][$version]['methods'][$method] = $this->_extractMethodData(
+                                $methodReflection);
                             $data['rest_routes'] = array_merge($data['rest_routes'],
                                 $this->generateRestRoutes($methodReflection));
                         }
@@ -388,12 +386,12 @@ class Mage_Webapi_Model_Config_Resource
                  */
                 && ($i == ($partsCount - 1))
             ) {
-                $routePath .= "/:" . $this->_getIdParamName($methodReflection);;
+                $routePath .= "/:" . $this->getIdParamName($methodReflection);;
             }
             $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($routeParts[$i]));
         }
         if ($this->_isResourceIdExpected($methodReflection)) {
-            $routePath .= "/:" . $this->_getIdParamName($methodReflection);
+            $routePath .= "/:" . $this->getIdParamName($methodReflection);
         }
 
         foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequiredParam) {
@@ -495,7 +493,7 @@ class Mage_Webapi_Model_Config_Resource
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
         $methodInterface = end($methodInterfaces);
         $methodParams = $methodInterface->getParameters();
-        $idParamName = $this->_getIdParamName($methodReflection);
+        $idParamName = $this->getIdParamName($methodReflection);
         $bodyParamName = $this->getBodyParamName($methodReflection);
         /** @var ReflectionParameter $paramReflection */
         foreach ($methodParams as $paramReflection) {
@@ -567,7 +565,7 @@ class Mage_Webapi_Model_Config_Resource
      * @return bool|string Return ID param name if it is expected; false otherwise.
      * @throws LogicException If resource method interface does not contain required ID parameter.
      */
-    protected function _getIdParamName(ReflectionMethod $methodReflection)
+    public function getIdParamName(ReflectionMethod $methodReflection)
     {
         $idParamName = false;
         $isIdFieldExpected = false;
@@ -683,8 +681,8 @@ class Mage_Webapi_Model_Config_Resource
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
 
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
-            throw new InvalidArgumentException('"%s" method of "%s" resource in version "%s" is not registered.',
-                $methodName, $resourceName, $resourceVersion);
+            throw new InvalidArgumentException(sprintf('"%s" method of "%s" resource in version "%s" is not registered.',
+                $methodName, $resourceName, $resourceVersion));
         }
         return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
     }
@@ -692,13 +690,18 @@ class Mage_Webapi_Model_Config_Resource
     /**
      * Get all modules routes defined in config.
      *
-     * @return array
+     * @return Mage_Webapi_Controller_Router_Route_Rest[]
+     * @throws LogicException When config data has invalid structure.
      */
     public function getRestRoutes()
     {
         $routes = array();
         $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
         foreach ($this->_data['resources'] as $resourceName => $resourceData) {
+            if (!isset($resourceData['rest_routes'])) {
+                throw new LogicException(sprintf('"%s" resource does not have "rest_routes" array specified.',
+                    $resourceName));
+            }
             foreach ($resourceData['rest_routes'] as $routePath => $routeData) {
                 $fullRoutePath = $apiTypeRoutePath . $routePath;
                 $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
@@ -744,7 +747,7 @@ class Mage_Webapi_Model_Config_Resource
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function _getMethodData(ReflectionMethod $method)
+    protected function _extractMethodData(ReflectionMethod $method)
     {
         $methodData = array(
             'documentation' => $method->getDescription(),
@@ -824,6 +827,7 @@ class Mage_Webapi_Model_Config_Resource
     protected function _processComplexType($class)
     {
         $typeName = $this->translateTypeName($class);
+        // TODO: Think if array data type should be present here, currently it is added with empty metadata
         $this->_data['types'][$typeName] = array();
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
@@ -936,6 +940,7 @@ class Mage_Webapi_Model_Config_Resource
 
     /**
      * Translate complex type class name into type name.
+     *
      * Example:
      * <pre>
      *  Mage_Customer_Webapi_Customer_DataStructure => CustomerDataStructure
@@ -955,18 +960,17 @@ class Mage_Webapi_Model_Config_Resource
             if ($moduleName == $typeNameParts[0]) {
                 array_shift($typeNameParts);
             }
-
             return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
-
         throw new InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));
     }
 
     /**
      * Translate array complex type name.
+     *
      * Example:
      * <pre>
-     *  ComplexTypeName[] => ArrayOfComplexType
+     *  ComplexTypeName[] => ArrayOfComplexTypeName
      *  string[] => ArrayOfString
      * </pre>
      *
@@ -1072,26 +1076,28 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
-     * Identify the shortest available route for specified resource and action type (item or collection).
+     * Identify the shortest available route to the item of specified resource.
      *
      * @param string $resourceName
-     * @param string $actionType
+     * @param string $resourceVersion
      * @return string
-     * @throws LogicException
+     * @throws InvalidArgumentException
      */
-    public function getRestRouteByResource($resourceName, $actionType)
+    public function getRestRouteToItem($resourceName, $resourceVersion)
     {
         if (isset($this->_data['resources'][$resourceName]['rest_routes'])) {
             $restRoutes = $this->_data['resources'][$resourceName]['rest_routes'];
             /** The shortest routes must go first. */
             ksort($restRoutes);
             foreach ($restRoutes as $routePath => $routeMetadata) {
-                if ($routeMetadata['action_type'] == $actionType) {
+                if ($routeMetadata['action_type'] == Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
+                    && $routeMetadata['resource_version'] == $resourceVersion
+                ) {
                     return $routePath;
                 }
             }
         }
-        throw new LogicException(sprintf('No route was found for "%s" resource with "%s" action type.',
-            $resourceName, $actionType));
+        throw new InvalidArgumentException(sprintf('No route was found to the item of "%s" resource with "%s" version.',
+            $resourceName, $resourceVersion));
     }
 }

@@ -46,7 +46,7 @@ return array(
         ),
         'loopArray' => array(
             'type' => 'NamespaceAModuleADataStructureB[]',
-            'required' => true,
+            'required' => false,
             'default' => null,
             'documentation' => 'Link to array of loops',
         ),
