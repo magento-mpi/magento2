@@ -109,7 +109,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 $bindingInput = array('use' => 'literal');
                 $inputMessageName = $inputTypeName = $this->getInputMessageName($operationName);
-                $complexTypeForElementName = ucfirst($inputTypeName);
+                $complexTypeForElementName = $this->getElementComplexTypeName($inputMessageName);
                 $inputParameters = array();
                 $elementData = array(
                     'name' => $inputTypeName,
@@ -137,7 +137,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 if (isset($methodData['interface']['out']['parameters'])) {
                     $bindingOutput = array('use' => 'literal');
                     $outputMessageName = $outputElementName = $this->getOutputMessageName($operationName);
-                    $complexTypeForElementName = ucfirst($outputElementName);
+                    $complexTypeForElementName = $this->getElementComplexTypeName($outputMessageName);
                     $this->_wsdl->addElement(array(
                         'name' => $outputElementName,
                         'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeForElementName
@@ -163,6 +163,17 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
 
         return $this->_wsdl->toXML();
+    }
+
+    /**
+     * Get name of complexType for message element.
+     *
+     * @param string $messageName
+     * @return string
+     */
+    public function getElementComplexTypeName($messageName)
+    {
+        return ucfirst($messageName);
     }
 
     /**
