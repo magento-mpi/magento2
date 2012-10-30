@@ -373,7 +373,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Magento_Profiler::start('load_modules_configuration');
         $resourceConfig = sprintf('config.%s.xml', $this->getResourceConnectionModel('core'));
         $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
-        Magento_Profiler::start('load_modules_configuration');
+        Magento_Profiler::stop('load_modules_configuration');
 
         /**
          * Prevent local.xml directives overwriting
