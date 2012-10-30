@@ -67,10 +67,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[] = $product;
         }
 
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Source_Csv',
-            array('source' => __DIR__ . '/_files/products_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -109,10 +106,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $stockItems[$productId] = $stockItem;
         }
 
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Source_Csv',
-            array('source' => __DIR__ . '/_files/products_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -150,7 +144,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     {
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
-        $source = Mage::getModel('Mage_ImportExport_Model_Import_Source_Csv', array('source' => $pathToFile));
+        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToFile);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
@@ -207,8 +201,9 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[$product->getSku()] = $product;
         }
 
-        $resource = __DIR__ . '/_files/products_to_import_with_datetime.csv';
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($resource);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(
+            __DIR__ . '/_files/products_to_import_with_datetime.csv'
+        );
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -409,7 +404,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
             $this->markTestIncomplete('bug: MAGETWO-4227');
         }
-        $attribute = new Mage_Catalog_Model_Entity_Attribute;
+        $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute');
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
             // minimum required set of attributes + media images
@@ -438,7 +433,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
 
         $resource = new Mage_Catalog_Model_Resource_Product;
         $productId = $resource->getIdBySku('test_sku'); // fixture
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
         $this->assertInstanceOf('Varien_Data_Collection', $gallery);

@@ -50,10 +50,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Source_Csv',
-            array('source' => __DIR__ . '/_files/customers_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customersCollection Mage_Customer_Model_Resource_Customer_Collection */
         $customersCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
@@ -114,10 +111,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
      */
     public function testDeleteData()
     {
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Source_Csv',
-            array('source' => __DIR__ . '/_files/customers_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection Mage_Customer_Model_Resource_Customer_Collection */
         $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');

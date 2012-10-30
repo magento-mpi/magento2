@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_TestCase
+class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @covers Mage_Eav_Model_Resource_Entity_Attribute::_saveOption

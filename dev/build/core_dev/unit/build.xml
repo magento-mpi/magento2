@@ -42,6 +42,11 @@
             <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
         </exec>
     </target>
+    <target name="_unit_tests_unit_framework" depends="_product_location" description="Unit tests for unit testing framework">
+        <exec dir="${product_root_dir}/dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
+        </exec>
+    </target>
 
     <target name="_unit_tests_all" description="All unit tests">
         <antcall>
@@ -49,6 +54,7 @@
             <target name="_unit_tests_integration_framework"/>
             <target name="_unit_tests_performance_framework"/>
             <target name="_unit_tests_static_framework"/>
+            <target name="_unit_tests_unit_framework"/>
         </antcall>
     </target>
 
