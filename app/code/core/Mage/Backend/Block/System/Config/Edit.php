@@ -60,7 +60,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Save Config'),
+            'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Save Config'),
             'onclick'   => 'configForm.submit()',
             'class' => 'save',
         ));

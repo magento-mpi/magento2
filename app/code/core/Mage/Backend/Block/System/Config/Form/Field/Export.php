@@ -30,21 +30,11 @@ class Mage_Backend_Block_System_Config_Form_Field_Export extends Varien_Data_For
         if (isset($attributes['helperFactory'])) {
             $this->_helperFactory = $attributes['helperFactory'];
             unset($attributes['helperFactory']);
-        }
-        parent::__construct($attributes);
-    }
-
-    /**
-     * Get helper factory object
-     *
-     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Factory_Helper
-     */
-    protected function _getHelperFactory()
-    {
-        if (null === $this->_helperFactory) {
+        } else {
             $this->_helperFactory = Mage::getSingleton('Mage_Core_Model_Factory_Helper');
         }
-        return $this->_helperFactory;
+
+        parent::__construct($attributes);
     }
 
     public function getElementHtml()
@@ -59,9 +49,9 @@ class Mage_Backend_Block_System_Config_Form_Field_Export extends Varien_Data_For
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
+        $url = $this->_helperFactory->get('Mage_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
-            'label'     =>  $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Export CSV'),
+            'label'     =>  $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Export CSV'),
             'onclick'   => "setLocation('" . $url
                 . "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
             'class'     => '',

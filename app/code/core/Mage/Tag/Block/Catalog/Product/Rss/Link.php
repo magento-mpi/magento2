@@ -55,6 +55,8 @@ class Mage_Tag_Block_Catalog_Product_Rss_Link extends Mage_Core_Block_Template
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,

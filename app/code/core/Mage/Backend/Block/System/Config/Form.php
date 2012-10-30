@@ -80,8 +80,64 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_scopeLabels = array();
 
     /**
-     * @param array $data
+     * Backend Config model factory
+     *
+     * @var Mage_Backend_Model_Config_Factory
      */
+    protected $_configFactory;
+
+    /**
+     * Varien_Data_Form_Factory
+     *
+     * @var Varien_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Backend_Model_Config_Factory $configFactory
+     * @param Varien_Data_Form_Factory $formFactory
+     * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Backend_Model_Config_Factory $configFactory,
+        Varien_Data_Form_Factory $formFactory,
+        Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+        $this->_configFactory = $configFactory;
+        $this->_formFactory = $formFactory;
+        $this->_cloneModelFactory = $cloneModelFactory;
+    }
+
+
     protected function _construct()
     {
         parent::_construct();
@@ -90,9 +146,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
         $this->_scopeLabels = array(
-            self::SCOPE_DEFAULT  => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
-            self::SCOPE_WEBSITES => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[WEBSITE]'),
-            self::SCOPE_STORES   => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('[STORE VIEW]'),
+            self::SCOPE_DEFAULT  => $this->helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
+            self::SCOPE_WEBSITES => $this->helper('Mage_Backend_Helper_Data')->__('[WEBSITE]'),
+            self::SCOPE_STORES   => $this->helper('Mage_Backend_Helper_Data')->__('[STORE VIEW]'),
         );
     }
 
@@ -105,7 +161,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configDataObject = $this->_getObjectFactory()->getModelInstance('Mage_Backend_Model_Config')
+        $this->_configDataObject = $this->_configFactory->create()
             ->setSection($this->getSectionCode())
             ->setWebsite($this->getWebsiteCode())
             ->setStore($this->getStoreCode());
@@ -127,7 +183,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $this->_initObjects();
 
         /** @var Varien_Data_Form $form */
-        $form = $this->_getObjectFactory()->getModelInstance('Varien_Data_Form');
+        $form = $this->_formFactory->create();
 
         $section = $this->_systemConfig->getSection(
             $this->getSectionCode(),
@@ -175,11 +231,11 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $helperName = $this->_systemConfig->getAttributeModule($section, $group);
 
             $fieldsetConfig = array(
-                'legend' => $this->_getHelperFactory()->get($helperName)
+                'legend' => $this->helper($helperName)
                     ->__(array_key_exists('label', $group) ? $group['label'] : '')
             );
             if (isset($group['comment'])) {
-                $fieldsetConfig['comment'] = $this->_getHelperFactory()->get($helperName)->__($group['comment']);
+                $fieldsetConfig['comment'] = $this->helper($helperName)->__($group['comment']);
             }
             if (isset($group['expanded'])) {
                 $fieldsetConfig['expanded'] = (bool)$group['expanded'];
@@ -192,7 +248,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
 
             if (isset($group['clone_fields'])) {
                 if (isset($group['clone_model'])) {
-                    $cloneModel = $this->_objectFactory->getModelInstance($group['clone_model']);
+                    $cloneModel = $this->_cloneModelFactory->create($group['clone_model']);
                 } else {
                     Mage::throwException(
                         'Config form fieldset clone model required to be able to clone fields'
@@ -324,10 +380,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $helperName = $this->_systemConfig->getAttributeModule($section, $group, $element);
         $fieldType = isset($element['type']) ? $element['type'] : 'text';
         $name = 'groups[' . $group['id'] . '][fields][' . $fieldPrefix . $element['id'] . '][value]';
-        $label = $this->_getHelperFactory()->get($helperName)->__($labelPrefix)
-            . ' ' . $this->_getHelperFactory()
-                ->get($helperName)->__(array_key_exists('label', $element) ? (string)$element['label'] : '');
-        $hint = isset($element['hint']) ? $this->_getHelperFactory()->get($helperName)->__($element['hint']) : '';
+        $label = $this->helper($helperName)->__($labelPrefix)
+            . ' '
+            . $this->helper($helperName)->__(array_key_exists('label', $element) ? (string)$element['label'] : '');
+        $hint = isset($element['hint']) ? $this->helper($helperName)->__($element['hint']) : '';
 
         if (isset($element['backend_model'])) {
             $data = $this->_fetchBackendModelData($element, $path, $data);
@@ -562,7 +618,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                     }
                 }
             } else {
-                $comment = $this->_getHelperFactory()->get($helper)->__($element['comment']);
+                $comment = $this->helper($helper)->__($element['comment']);
             }
         }
         return $comment;
@@ -578,7 +634,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected function _prepareFieldTooltip($element, $helper)
     {
         if (isset($element['tooltip'])) {
-            return $this->_getHelperFactory()->get($helper)->__($element['tooltip']);
+            return $this->helper($helper)->__($element['tooltip']);
         } elseif (isset($element['tooltip_block'])) {
             return $this->getLayout()->createBlock($element['tooltip_block'])->toHtml();
         }
@@ -656,7 +712,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $ifModuleEnabled = isset($field['if_module_enabled']) ?  trim($field['if_module_enabled']) : false;
 
         if ($ifModuleEnabled &&
-            false == $this->_getHelperFactory()->get('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
+            false == $this->helper('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
             return false;
         }
         $showInDefault = isset($field['showInDefault']) ? (bool)$field['showInDefault'] : false;

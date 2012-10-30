@@ -40,6 +40,58 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
      */
     protected $_template = 'system/config/tabs.phtml';
 
+    /**
+     * @var Varien_Data_Collection_Factory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Varien_Object_Factory
+     */
+    protected $_objectFactory;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Varien_Data_Collection_Factory $collectionFactory
+     * @param Varien_Object_Factory $objectFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Varien_Data_Collection_Factory $collectionFactory,
+        Varien_Object_Factory $objectFactory,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+        $this->_collectionFactory = $collectionFactory;
+        $this->_objectFactory = $objectFactory;
+    }
+
+
     protected function _construct()
     {
         parent::_construct();
@@ -48,7 +100,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
             Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
 
         $this->setId('system_config_tabs');
-        $this->setTitle($this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Configuration'));
+        $this->setTitle($this->helper('Mage_Backend_Helper_Data')->__('Configuration'));
     }
 
     /**
@@ -90,7 +142,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
                 $sections->getLastItem()->setIsLast(true);
             }
         }
-        $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->addPageHelpUrl($current . '/');
+        $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($current . '/');
 
         return $this;
     }
@@ -109,7 +161,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 
         /** @var $section array */
         foreach ($sections as $section) {
-            $this->_getEventManager()->dispatch('adminhtml_block_system_config_init_tab_sections_before',
+            $this->_eventManager->dispatch('adminhtml_block_system_config_init_tab_sections_before',
                 array('section' => $section)
             );
 
@@ -124,7 +176,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
             }
 
             $helperName = $this->_systemConfig->getAttributeModule($section);
-            $label = $this->_getHelperFactory()->get($helperName)->__($section['label']);
+            $label = $this->helper($helperName)->__($section['label']);
 
             if ($code == $current) {
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
@@ -160,7 +212,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     {
         foreach ($tabs as $tab) {
             $helperName = $this->_systemConfig->getAttributeModule($tab);
-            $label = $this->_getHelperFactory()->get($helperName)->__($tab['label']);
+            $label = $this->helper($helperName)->__($tab['label']);
 
             $this->addTab($tab['id'], array(
                 'label' => $label,
@@ -178,7 +230,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
      */
     public function addTab($code, $config)
     {
-        $tab = $this->_getObjectFactory()->getModelInstance('Varien_Object', $config);
+        $tab = $this->_objectFactory->create($config);
         $tab->setId($code);
         $this->_tabs[$code] = $tab;
         return $this;
@@ -210,9 +262,9 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     {
         if($tab = $this->getTab($tabCode)) {
             if(!$tab->getSections()) {
-                $tab->setSections($this->_getObjectFactory()->getModelInstance('Varien_Data_Collection'));
+                $tab->setSections($this->_collectionFactory->create());
             }
-            $section = $this->_getObjectFactory()->getModelInstance('Varien_Object', $config);
+            $section = $this->_objectFactory->create($config);
             $section->setId($code);
             $tab->getSections()->addItem($section);
         }
@@ -245,7 +297,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 
         $options = array();
         $options['default'] = array(
-            'label'    => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Default Config'),
+            'label'    => $this->helper('Mage_Backend_Helper_Data')->__('Default Config'),
             'url'      => $this->getUrl('*/*/*', array('section' => $section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
@@ -317,37 +369,37 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('New Website'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('New Website'),
                 'onclick'   => "location.href='" . $this->getUrl('*/system_website/new') . "'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Edit Website'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Edit Website'),
                 'onclick'   => "location.href='" .
                     $this->getUrl('*/system_website/edit', array('website'=>$curWebsite)) . "'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('New Store View'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('New Store View'),
                 'onclick'   => "location.href='" .
                     $this->getUrl('*/system_store/new', array('website'=>$curWebsite)) . "'",
                 'class'     => 'add',
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Delete Website'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Delete Website'),
                 'onclick'   => "location.href='" .
                     $this->getUrl('*/system_website/delete', array('website'=>$curWebsite)) . "'",
                 'class'     => 'delete',
             ))->toHtml();
         } else {
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Edit Store View'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Edit Store View'),
                 'onclick'   => "location.href='" .
                     $this->getUrl('*/system_store/edit', array('store'=>$curStore)) .
                     "'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')->setData(array(
-                'label'     => $this->_getHelperFactory()->get('Mage_Backend_Helper_Data')->__('Delete Store View'),
+                'label'     => $this->helper('Mage_Backend_Helper_Data')->__('Delete Store View'),
                 'onclick'   => "location.href='" .
                     $this->getUrl('*/system_store/delete', array('store'=>$curStore)) . "'",
                 'class'     => 'delete',
