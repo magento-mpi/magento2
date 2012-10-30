@@ -25,26 +25,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
     protected $_maxFileSize;
 
     /**
+     * Media Uploader instance
+     *
      * @var Mage_Adminhtml_Block_Media_Uploader
      */
     protected $_mediaUploader;
 
     /**
+     * Model Url instance
+     *
      * @var Mage_Adminhtml_Model_Url
      */
     protected $_url;
 
     /**
+     * Media Config instance
+     *
      * @var Mage_Catalog_Model_Product_Media_Config
      */
     protected $_mediaConfig;
 
     /**
+     * Design Package instance
+     *
      * @var Mage_Core_Model_Design_Package
      */
     protected $_design;
 
     /**
+     * Data instance
+     *
      * @var Mage_Core_Helper_Data
      */
     protected $_helperData;
@@ -80,15 +90,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
     public function getElementHtml()
     {
         $imageUrl = $this->_helperData->escapeHtml($this->_getImageUrl($this->getValue()));
-        $uploadUrl = $this->_getUploadUrl();
+        $htmlId = $this->_helperData->escapeHtml($this->getHtmlId());
+        $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
 
-        $html = '';
-        $html .= '<input id="' . $this->getHtmlId() .'_upload" type="file" name="image" '
+        $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
                  . 'data-url="' . $uploadUrl . '" style="display: none;" value="test" />'
                  . parent::getElementHtml()
-                 . '<img align="right" src="' . $imageUrl . '" id="' . $this->getHtmlId() . '_image"'
+                 . '<img align="right" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
                  . ' title="' . $imageUrl . '" alt="' . $imageUrl . '" class="base-image-uploader"'
-                 . ' onclick="jQuery(\'#' . $this->getHtmlId() . '_upload\').trigger(\'click\')"/>';
+                 . ' onclick="jQuery(\'#' . $htmlId . '_upload\').trigger(\'click\')"/>';
         $html .= $this->_getJs();
 
         return $html;
@@ -103,7 +113,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
     {
         return "<script>/* <![CDATA[ */"
                . "jQuery(function(){"
-               . "BaseImageUploader('{$this->getHtmlId()}', {$this->_maxFileSize});"
+               . "BaseImageUploader({$this->_helperData->jsonEncode($this->getHtmlId())}, "
+               . "{$this->_helperData->jsonEncode($this->_maxFileSize)});"
                . " });"
                . "/*]]>*/</script>";
     }
@@ -118,9 +129,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
     protected function _getImageUrl($imagePath)
     {
         if (!in_array($imagePath, array(null, 'no_selection', '/'))) {
-            if (strrpos($imagePath, '.tmp') == strlen($imagePath) - 4) {
-                $imageUrl = $this->_mediaConfig->
-                    getTmpMediaUrl(substr($imagePath, 0, strlen($imagePath) - 4));
+            if (pathinfo($imagePath, PATHINFO_EXTENSION) == 'tmp') {
+                $imageUrl = $this->_mediaConfig->getTmpMediaUrl(substr($imagePath, 0, -4));
             } else {
                 $imageUrl = $this->_mediaConfig->getMediaUrl($imagePath);
             }
