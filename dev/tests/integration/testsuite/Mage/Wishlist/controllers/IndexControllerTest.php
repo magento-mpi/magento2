@@ -16,7 +16,7 @@ class Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_Controller
      */
     protected $_customerSession;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_customerSession = Mage::getModel('Mage_Customer_Model_Session');
@@ -44,7 +44,6 @@ class Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_Controller
      * - that Mage_Wishlist_Block_Customer_Wishlist_Item_Options doesn't throw a fatal error
      *
      * @magentoDataFixture Mage/Wishlist/_files/wishlist.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testItemColumnBlock()
     {
@@ -70,7 +69,8 @@ class Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_Controller
             if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
                 $isProductNamePresent = true;
             }
+            $this->assertNotContains('<script>alert("xss");</script>', $message->getCode());
         }
-        $this->assertTrue($isProductNamePresent, 'The message in wishlist has XSS');
+        $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
     }
 }

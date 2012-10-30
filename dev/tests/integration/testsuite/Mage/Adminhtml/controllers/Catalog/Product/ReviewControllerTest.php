@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Review_ReviewControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Catalog_Product_ReviewControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Review/_files/review_xss.php

@@ -158,7 +158,6 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
-     * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testRemoveActionProductNameXss()
     {
@@ -173,7 +172,8 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
             if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
                 $isProductNamePresent = true;
             }
+            $this->assertNotContains('<script>alert("xss");</script>', $message->getCode());
         }
-        $this->assertTrue($isProductNamePresent, 'The message has XSS');
+        $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
     }
 }
