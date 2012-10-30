@@ -47,8 +47,9 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
             );
 
             foreach ($themes as $themeCode) {
+                $themeTitle = $config->getThemeTitle($packageCode, $themeCode);
                 $optGroup['value'][] = array(
-                    'label' => $config->getThemeTitle($packageCode, $themeCode),
+                    'label' => $this->_prepareLabel($themeTitle, $packageCode, $themeCode),
                     'value' => $packageCode . '/' . $themeCode,
                 );
             }
@@ -86,11 +87,12 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
     {
         $options = array();
         $config = Mage::getDesign()->getThemeConfig('frontend');
-        foreach (Mage::getDesign()->getDesignEntitiesStructure('frontend') as $package => $themes) {
-            $optGroup = array('label' => $config->getPackageTitle($package), 'value' => array());
-            foreach (array_keys($themes) as $theme) {
-                $label = $this->_prepareLabel($config->getThemeTitle($package, $theme), $package, $theme);
-                $optGroup['value'][] = array('label' => $label, 'value' => "{$package}/{$theme}");
+        foreach (Mage::getDesign()->getDesignEntitiesStructure('frontend') as $packageCode => $themes) {
+            $optGroup = array('label' => $config->getPackageTitle($packageCode), 'value' => array());
+            foreach ($themes as $themeCode) {
+                $themeTitle = $config->getThemeTitle($packageCode, $themeCode);
+                $label = $this->_prepareLabel($themeTitle, $packageCode, $themeCode);
+                $optGroup['value'][] = array('label' => $label, 'value' => "{$packageCode}/{$themeCode}");
             }
             $this->_sortByKey($optGroup['value'], 'label'); // order by theme title
             $options[] = $optGroup;

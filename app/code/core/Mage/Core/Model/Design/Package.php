@@ -125,7 +125,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Retrieve package area
      *
-     * @return unknown
+     * @return string
      */
     public function getArea()
     {
@@ -143,7 +143,7 @@ class Mage_Core_Model_Design_Package
     public function getPackageName()
     {
         if (!$this->_name) {
-            $this->_name = self::DEFAULT_PACKAGE;
+            $this->_setDefaultDesignTheme();
         }
         return $this->_name;
     }
@@ -156,10 +156,28 @@ class Mage_Core_Model_Design_Package
     public function getTheme()
     {
         if (!$this->_theme) {
-            $this->_theme = self::DEFAULT_THEME;
+            $this->_setDefaultDesignTheme();
         }
 
         return $this->_theme;
+    }
+
+    /**
+     * Set default theme and package which were loaded from configuration file
+     *
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _setDefaultDesignTheme()
+    {
+        $area = $this->getArea();
+        $themeParts = explode('/', (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name"));
+        if (2 == count($themeParts)) {
+            list($this->_name, $this->_theme) = $themeParts;
+        } else {
+            $this->_name = self::DEFAULT_PACKAGE;
+            $this->_theme = self::DEFAULT_THEME;
+        }
+        return $this;
     }
 
     /**
