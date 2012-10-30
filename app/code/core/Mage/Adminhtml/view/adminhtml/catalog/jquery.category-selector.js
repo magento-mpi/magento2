@@ -60,8 +60,8 @@
             $element.append($('<input type="hidden" />').attr('name', name));
             $this.find('option').each(function() {
                 $this.trigger('categorySelector:add', {
-                    'text': $(this).text(),
-                    'value': $(this).val()
+                    text: $(this).text(),
+                    value: $(this).val()
                 });
             });
             $this.attr('disabled', 'disabled').hide();
@@ -104,9 +104,9 @@
                         return false;
                     }
                     $this.trigger('categorySelector:add', {
-                        'text': ui.item.label,
-                        'value': ui.item.value,
-                        'data': ui.item
+                        text: ui.item.label,
+                        value: ui.item.value,
+                        data: ui.item
                     });
                     $element.find('.category-selector-input').val('');
                     return false;
