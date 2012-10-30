@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
             $this->assertInstanceOf('Mage_Catalog_Model_Resource_Eav_Attribute', $attribute);
             $applyTo = $attribute->getApplyTo();
             if (count($applyTo) > 0 && !in_array('simple', $applyTo)) {
-                $isNotProductTypeAttributeExists = true;
+                $isTypeExists = true;
             }
         }
         $this->assertTrue($isTypeExists);
