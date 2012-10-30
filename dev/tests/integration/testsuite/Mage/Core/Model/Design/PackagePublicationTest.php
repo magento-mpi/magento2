@@ -195,11 +195,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * Publication of skin files in development mode
      *
-     * @param string $application
-     * @param string $package
-     * @param string $theme
-     * @param string $skin
      * @param string $file
+     * @param $designParams
      * @param string $expectedFile
      * @dataProvider publishSkinFileDataProvider
      */
@@ -310,6 +307,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 array(
                     'area'    => 'frontend',
                     'package' => 'default',
+                    'theme'   => 'default',
                     'module'  => 'Mage_Reports',
                 ),
                 'frontend/default/default/en_US/Mage_Reports/widgets.css',

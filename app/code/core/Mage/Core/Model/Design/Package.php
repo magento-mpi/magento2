@@ -233,18 +233,22 @@ class Mage_Core_Model_Design_Package
      */
     protected function _updateParamDefaults(array &$params)
     {
-        if (!empty($params['area']) && (empty($params['package']) || !array_key_exists('theme', $params))) {
+        if (!empty($params['area']) && $params['area'] !== $this->getArea()
+            && (empty($params['package']) || !array_key_exists('theme', $params))
+        ) {
             list($params['package'], $params['theme']) = $this->_getDefaultDesignTheme($params['area']);
+        } else {
+            if (empty($params['area'])) {
+                $params['area'] = $this->getArea();
+            }
+            if (empty($params['package'])) {
+                $params['package'] = $this->getPackageName();
+            }
+            if (!array_key_exists('theme', $params)) {
+                $params['theme'] = $this->getTheme();
+            }
         }
-        if (empty($params['area'])) {
-            $params['area'] = $this->getArea();
-        }
-        if (empty($params['package'])) {
-            $params['package'] = $this->getPackageName();
-        }
-        if (!array_key_exists('theme', $params)) {
-            $params['theme'] = $this->getTheme();
-        }
+
         if (!array_key_exists('module', $params)) {
             $params['module'] = false;
         }
