@@ -119,6 +119,7 @@ class Mage_Core_Model_Design_Package
     public function setArea($area)
     {
         $this->_area = $area;
+        unset($this->_name, $this->_theme);
         return $this;
     }
 

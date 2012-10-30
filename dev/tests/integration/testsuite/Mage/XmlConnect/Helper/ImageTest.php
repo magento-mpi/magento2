@@ -12,17 +12,17 @@
 class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $application
+     * @param string $area
      * @param string $file
      * @dataProvider getSkinImagesUrlDataProvider
      */
-    public function testGetSkinImagesUrl($application, $file)
+    public function testGetSkinImagesUrl($area, $file)
     {
         $helper = new Mage_XmlConnect_Helper_Image;
-        Mage::getDesign()->setDesignTheme('default/default', $application);
+        Mage::getDesign()->setArea($area);
 
         $this->assertStringMatchesFormat(
-            "http://%s/pub/media/theme/{$application}/%s/%s/%s/Mage_XmlConnect/images/{$file}",
+            "http://%s/media/theme/{$area}/%s/%s/%s/Mage_XmlConnect/images/{$file}",
             $helper->getSkinImagesUrl($file)
         );
         $this->assertFileExists(Mage::getDesign()->getViewFile("Mage_XmlConnect::/images/{$file}"));
