@@ -27,6 +27,7 @@ $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
+$paths[] = BP . DS . 'var' . DS . 'generation';
 Magento_Autoload::getInstance()->addIncludePath($paths);
 Mage::setRoot();
 $definitions = array();
