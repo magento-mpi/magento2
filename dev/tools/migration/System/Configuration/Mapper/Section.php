@@ -1,10 +1,24 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migration_System_Configuration_Mapper_Abstract
 {
+    /**
+     * @var Tools_Migration_System_Configuration_Mapper_Group
+     */
     protected $_groupMapper;
 
-    public function __construct()
+    /**
+     * @param Tools_Migration_System_Configuration_Mapper_Group $groupMapper
+     */
+    public function __construct(Tools_Migration_System_Configuration_Mapper_Group $groupMapper)
     {
         parent::__construct();
 
@@ -16,9 +30,15 @@ class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migratio
             'tab'
         );
 
-        $this->_groupMapper = new Tools_Migration_System_Configuration_Mapper_Group();
+        $this->_groupMapper = $groupMapper;
     }
 
+    /**
+     * Transform section config
+     *
+     * @param array $config
+     * @return array
+     */
     public function transform(array $config)
     {
         $output = array();
@@ -28,6 +48,12 @@ class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migratio
         return $output;
     }
 
+    /**
+     * @param array $config
+     * @param $parentNode
+     * @param $element
+     * @return mixed
+     */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {
         if ($parentNode['name'] == 'groups') {
@@ -36,7 +62,6 @@ class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migratio
                 $element['subConfig'] = $subConfig;
             }
         }
-
         return $element;
     }
 }

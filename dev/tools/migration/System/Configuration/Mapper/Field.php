@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 class Tools_Migration_System_Configuration_Mapper_Field extends Tools_Migration_System_Configuration_Mapper_Abstract
 {
@@ -28,6 +36,12 @@ class Tools_Migration_System_Configuration_Mapper_Field extends Tools_Migration_
         );
     }
 
+    /**
+     * Transform field config
+     *
+     * @param array $config
+     * @return array
+     */
     public function transform(array $config)
     {
         $output = array();
@@ -37,6 +51,12 @@ class Tools_Migration_System_Configuration_Mapper_Field extends Tools_Migration_
         return $output;
     }
 
+    /**
+     * @param array $config
+     * @param $parentNode
+     * @param $element
+     * @return mixed
+     */
     public function _transformSubConfig(array $config, $parentNode, $element)
     {
         switch ($parentNode['name']) {
@@ -54,6 +74,10 @@ class Tools_Migration_System_Configuration_Mapper_Field extends Tools_Migration_
         return $element;
     }
 
+    /**
+     * @param array $config
+     * @return array
+     */
     protected function _transformElementDepends(array $config)
     {
         $result = array();
@@ -75,6 +99,10 @@ class Tools_Migration_System_Configuration_Mapper_Field extends Tools_Migration_
         return $result;
     }
 
+    /**
+     * @param array $config
+     * @return array
+     */
     protected function _transformElementAttribute(array $config)
     {
         $result = array();

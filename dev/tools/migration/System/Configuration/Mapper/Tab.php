@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 class Tools_Migration_System_Configuration_Mapper_Tab extends Tools_Migration_System_Configuration_Mapper_Abstract
 {
@@ -16,6 +24,12 @@ class Tools_Migration_System_Configuration_Mapper_Tab extends Tools_Migration_Sy
 
     }
 
+    /**
+     * Transform tabs configuration
+     *
+     * @param array $config
+     * @return array
+     */
     public function transform(array $config)
     {
         $output = array();
@@ -25,6 +39,12 @@ class Tools_Migration_System_Configuration_Mapper_Tab extends Tools_Migration_Sy
         return $output;
     }
 
+    /**
+     * @param array $config
+     * @param $parentNode
+     * @param $element
+     * @return mixed
+     */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {
         return $element;

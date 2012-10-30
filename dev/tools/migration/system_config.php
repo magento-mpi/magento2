@@ -37,7 +37,11 @@ try {
         $logger
     );
 
-    $mapper = new Tools_Migration_System_Configuration_Mapper($logger);
+    $fieldMapper = new Tools_Migration_System_Configuration_Mapper_Field();
+    $groupMapper = new Tools_Migration_System_Configuration_Mapper_Group($fieldMapper);
+    $sectionMapper = new Tools_Migration_System_Configuration_Mapper_Section($groupMapper);
+    $tabMapper = new Tools_Migration_System_Configuration_Mapper_Tab();
+    $mapper = new Tools_Migration_System_Configuration_Mapper($tabMapper, $sectionMapper);
 
     $parser = new Tools_Migration_System_Configuration_Parser();
     $reader = new Tools_Migration_System_Configuration_Reader($fileManager, $parser, $mapper);

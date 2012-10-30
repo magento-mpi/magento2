@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 abstract class Tools_Migration_System_Configuration_Mapper_Abstract
 {
@@ -27,10 +35,33 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
     }
 
 
+    /**
+     * Transform configuration
+     *
+     * @param array $config
+     * @return mixed
+     */
     public abstract function transform(array $config);
 
+    /**
+     * Transform sub configuration
+     *
+     * @param array $config
+     * @param array $parentNode
+     * @param array $element
+     * @return mixed
+     */
     protected abstract function _transformSubConfig(array $config, $parentNode, $element);
 
+    /**
+     * Transform element configuration
+     *
+     * @param string $nodeId
+     * @param array $config
+     * @param string $nodeName
+     * @param array $allowedNames
+     * @return mixed
+     */
     protected function _transformElement($nodeId, $config, $nodeName, $allowedNames = array())
     {
         $element = array();
@@ -75,11 +106,25 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
         return isset($this->_attributeMaps[$key]) ? $this->_attributeMaps[$key] : $key;
     }
 
+    /**
+     * Check if node must be moved to attribute
+     *
+     * @param string $key
+     * @return bool
+     */
     protected function _needMoveToAttribute($key)
     {
         return isset($this->_attributeMaps[$key]);
     }
 
+    /**
+     * Transform nodes configuration
+     *
+     * @param array $config
+     * @param array $element
+     * @param array $allowedNames
+     * @return mixed
+     */
     protected function _transformNodes($config, $element, $allowedNames = array())
     {
         $element['parameters'] = array();
@@ -124,5 +169,4 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
 
         return $element;
     }
-
 }

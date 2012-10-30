@@ -1,10 +1,24 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_System_Configuration_Mapper_Abstract
 {
+    /**
+     * @var Tools_Migration_System_Configuration_Mapper_Field
+     */
     protected $_fieldMapper;
 
-    public function __construct()
+    /**
+     * @param Tools_Migration_System_Configuration_Mapper_Field $fieldMapper
+     */
+    public function __construct(Tools_Migration_System_Configuration_Mapper_Field $fieldMapper)
     {
         parent::__construct();
         $this->_allowedFieldNames = array(
@@ -19,9 +33,13 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
             'expanded'
         );
 
-        $this->_fieldMapper = new Tools_Migration_System_Configuration_Mapper_Field();
+        $this->_fieldMapper = $fieldMapper;
     }
 
+    /**
+     * @param array $config
+     * @return array
+     */
     public function transform(array $config)
     {
         $output = array();
@@ -31,6 +49,12 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
         return $output;
     }
 
+    /**
+     * @param array $config
+     * @param $parentNode
+     * @param $element
+     * @return mixed
+     */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {
         if ($parentNode['name'] == 'fields') {
