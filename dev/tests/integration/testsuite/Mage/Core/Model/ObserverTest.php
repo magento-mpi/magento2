@@ -30,15 +30,15 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer->themeRegistration($eventObserver);
 
         $defaultModel = $this->_getThemeModel();
-        $defaultModel->load('default/default', 'theme_path');
+        $defaultModel->load('default/demo', 'theme_path');
 
         $iphoneModel = $this->_getThemeModel();
         $iphoneModel->load('default/iphone', 'theme_path');
 
-        $this->assertEquals('Default', $defaultModel->getThemeTitle());
+        $this->assertEquals('Magento Demo', $defaultModel->getThemeTitle());
         $this->assertEquals(null, $defaultModel->getParentId());
 
-        $this->assertEquals('Iphone', $iphoneModel->getThemeTitle());
+        $this->assertEquals('Magento Iphone', $iphoneModel->getThemeTitle());
         $this->assertEquals($defaultModel->getId(), $iphoneModel->getParentId());
     }
 

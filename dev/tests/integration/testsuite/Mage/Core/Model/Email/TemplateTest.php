@@ -90,11 +90,11 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name default/default/blue
+     * @magentoConfigFixture fixturestore_store design/theme/full_name default/demo_blue
      */
     public function testGetProcessedTemplate()
     {
-        $expectedSkinUrl = 'skin/frontend/default/default_blue/en_US/Mage_Page/favicon.ico';
+        $expectedSkinUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
@@ -111,7 +111,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico',
+            'theme/frontend/default/modern/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -119,11 +119,11 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name default/default/blue
+     * @magentoConfigFixture fixturestore_store design/theme/full_name default/demo_blue
      */
     public function testGetProcessedTemplateSubject()
     {
-        $expectedSkinUrl = 'skin/frontend/default/default_blue/en_US/Mage_Page/favicon.ico';
+        $expectedSkinUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
