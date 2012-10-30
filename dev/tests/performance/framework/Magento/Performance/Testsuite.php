@@ -205,12 +205,12 @@ class Magento_Performance_Testsuite
     {
         $optimizer = new Magento_Performance_Testsuite_Optimizer();
         $scenarios = $this->_config->getScenarios();
-        $scenarioFixtures = array();
+        $fixtureSets = array();
         foreach ($scenarios as $scenario) {
             /** @var $scenario Magento_Performance_Scenario */
-            $scenarioFixtures[] = $scenario->getFixtures();
+            $fixtureSets[] = $scenario->getFixtures();
         }
-        $keys = $optimizer->optimizeScenarios($scenarioFixtures);
+        $keys = $optimizer->optimizeFixtureSets($fixtureSets);
 
         $result = array();
         foreach ($keys as $key) {

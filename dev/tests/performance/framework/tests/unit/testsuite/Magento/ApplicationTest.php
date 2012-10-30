@@ -41,11 +41,6 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
      */
     protected $_fixtureConfigData;
 
-    /**
-     * @var array
-     */
-    protected  $_fixtureEvents = array();
-
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
@@ -66,6 +61,8 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
         $this->_object->expects($this->any())
             ->method('_reindex')
             ->will($this->returnValue($this->_object));
+
+        $this->_object->applied = array(); // For fixture testing
     }
 
     protected function tearDown()
@@ -87,55 +84,137 @@ class Magento_ApplicationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testApplyFixtures()
+
+    /**
+     * @param array $fixtures
+     * @param array $expected
+     * @dataProvider applyFixturesDataProvider
+     */
+    public function testApplyFixtures($fixtures, $expected)
     {
-        $fixturesPath = __DIR__ . '/_files/application_test/';
-        $fixture1 = array(
-            $fixturesPath . 'fixture1.php'
-        );
-        $allFixtures = array(
-            $fixturesPath . 'fixture1.php',
-            $fixturesPath . 'fixture2.php',
-        );
-
-        try {
-            // Expose itself to fixtures, so they can call addFixtureEvent()
-            $GLOBALS['applicationTestForFixtures'] = $this;
-
-            // Test fixture application
-            $this->_fixtureEvents = array();
-            $this->_object->applyFixtures($fixture1);
-            $this->assertEquals(array('fixture1'), $this->_fixtureEvents, 'Fixture is not applied');
-
-            $this->_fixtureEvents = array();
-            $this->_object->applyFixtures($allFixtures);
-            $this->assertEquals(array('fixture2'), $this->_fixtureEvents, 'One missing fixture must be applied');
-
-            $this->_fixtureEvents = array();
-            $this->_object->applyFixtures($allFixtures);
-            $this->assertEquals(array(), $this->_fixtureEvents,
-                'No fixtures must be applied, when the same set is tried to be applied again.');
-
-            $this->_fixtureEvents = array();
-            $this->_object->applyFixtures($fixture1);
-            $this->assertEquals(array('fixture1'), $this->_fixtureEvents,
-                'Fixture must be re-applied after excessive fixtures');
-
-            unset($GLOBALS['applicationTestForFixtures']);
-        } catch (Exception $e) {
-            unset($GLOBALS['applicationTestForFixtures']);
-            throw $e;
-        }
+        $this->_object->applyFixtures($fixtures);
+        $this->assertEquals($expected, $this->_object->applied);
     }
 
     /**
-     * Log event that happened in fixtures.
-     * Method is used externally by fixtures, when they are applied (executed).
-     *
-     * @param string $name
+     * @return array
      */
-    public function addFixtureEvent($name)
+    public function applyFixturesDataProvider()
     {
-        $this->_fixtureEvents[] = $name;
+
+        return array(
+            'empty fixtures' => array(
+                array(),
+                array()
+            ),
+            'fixtures' => array(
+                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
+                array('fixture1', 'fixture2')
+            ),
+        );
+    }
+
+    /**
+     * @param array $initialFixtures
+     * @param array $subsequentFixtures
+     * @param array $subsequentExpected
+     * @dataProvider applyFixturesSeveralTimesDataProvider
+     */
+    public function testApplyFixturesSeveralTimes($initialFixtures, $subsequentFixtures, $subsequentExpected)
+    {
+        $this->_object->applyFixtures($initialFixtures);
+        $this->_object->applied = array();
+        $this->_object->applyFixtures($subsequentFixtures);
+        $this->assertEquals($subsequentExpected, $this->_object->applied);
+    }
+
+    /**
+     * @return array
+     */
+    public function applyFixturesSeveralTimesDataProvider()
+    {
+
+        return array(
+            'no fixtures applied, when sets are same' => array(
+                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
+                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
+                array()
+            ),
+            'missing fixture applied for a super set' => array(
+                $this->_getFixtureFiles(array('fixture1')),
+                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
+                array('fixture2')
+            ),
+            'fixtures are re-applied for an incompatible set' => array(
+                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
+                $this->_getFixtureFiles(array('fixture1')),
+                array('fixture1')
+            ),
+        );
+    }
+
+    /**
+     * Adds file paths to fixture in a list
+     *
+     * @param array $fixture
+     * @return array
+     */
+    protected function _getFixtureFiles($fixtures)
+    {
+        $result = array();
+        foreach ($fixtures as $fixture) {
+            $result[] = __DIR__ . "/_files/application_test/{$fixture}.php";
+        }
+        return $result;
+    }
+
+    public function testApplyFixturesInstallsApplication()
+    {
+        // Expect uninstall and install
+        $this->_shell->expects($this->at(0))
+            ->method('execute')
+            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+
+        $this->_shell->expects($this->at(1))
+            ->method('execute')
+            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+
+        $fixture1 = $this->_getFixtureFiles(array('fixture1'));
+        $this->_object->applyFixtures($fixture1);
+    }
+
+    public function testApplyFixturesSuperSetNoInstallation()
+    {
+        $this->_shell->expects($this->exactly(2)) // Initial uninstall/install only
+            ->method('execute');
+
+        $fixture1 = $this->_getFixtureFiles(array('fixture1'));
+        $this->_object->applyFixtures($fixture1);
+        $superSet = $this->_getFixtureFiles(array('fixture1', 'fixture2'));
+        $this->_object->applyFixtures($superSet);
+    }
+
+    public function testApplyFixturesIncompatibleSetReinstallation()
+    {
+        $this->_shell->expects($this->at(0))
+            ->method('execute')
+            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+
+        $this->_shell->expects($this->at(1))
+            ->method('execute')
+            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+
+        $this->_shell->expects($this->at(2))
+            ->method('execute')
+            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+
+        $this->_shell->expects($this->at(3))
+            ->method('execute')
+            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+
+        $fixtures = $this->_getFixtureFiles(array('fixture1', 'fixture2'));
+        $this->_object->applyFixtures($fixtures);
+        $incompatibleSet = $this->_getFixtureFiles(array('fixture1'));
+        $this->_object->applyFixtures($incompatibleSet);
     }
 }
