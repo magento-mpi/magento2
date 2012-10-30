@@ -169,15 +169,23 @@ class Mage_Core_Model_Design_Package
      */
     protected function _setDefaultDesignTheme()
     {
-        $area = $this->getArea();
-        $themeParts = explode('/', (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name"));
-        if (2 == count($themeParts)) {
-            list($this->_name, $this->_theme) = $themeParts;
-        } else {
-            $this->_name = self::DEFAULT_PACKAGE;
-            $this->_theme = self::DEFAULT_THEME;
-        }
+        list($this->_name, $this->_theme) = $this->_getDefaultDesignTheme($this->getArea());
         return $this;
+    }
+
+    /**
+     * Get default theme and package which were loaded from configuration file
+     *
+     * @param string $area
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _getDefaultDesignTheme($area)
+    {
+        $themeParts = explode('/', (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name"));
+        if (2 !== count($themeParts)) {
+            $themeParts = array(self::DEFAULT_PACKAGE, self::DEFAULT_THEME);
+        }
+        return $themeParts;
     }
 
     /**
@@ -225,6 +233,9 @@ class Mage_Core_Model_Design_Package
      */
     protected function _updateParamDefaults(array &$params)
     {
+        if (!empty($params['area']) && (empty($params['package']) || !array_key_exists('theme', $params))) {
+            list($params['package'], $params['theme']) = $this->_getDefaultDesignTheme($params['area']);
+        }
         if (empty($params['area'])) {
             $params['area'] = $this->getArea();
         }
