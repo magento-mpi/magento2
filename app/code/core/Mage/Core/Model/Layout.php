@@ -197,6 +197,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function __destruct()
     {
         $this->_blocks = array();
+        $this->_xml = null;
     }
 
     /**

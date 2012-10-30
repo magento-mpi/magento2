@@ -12,6 +12,17 @@
 class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
 {
     /**
+     * Class with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
+     *
+     * @var array
+     */
+    protected $_classesWithXmlProperties = array(
+        'Mage_Core_Model_Config',
+        'Mage_Core_Model_Layout',
+        'Mage_Core_Model_Layout_Merge',
+    );
+
+    /**
      * @param string $definitionsFile
      * @param Zend\Di\Di $diInstance
      */
@@ -29,6 +40,14 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
      */
     public function clearCache()
     {
+        foreach ($this->_classesWithXmlProperties as $className) {
+            $object = $this->get($className);
+            if ($object) {
+                // force to cleanup circular references
+                $object->__destruct();
+            }
+        }
+
         $resource = $this->get('Mage_Core_Model_Resource');
         $this->_di->setInstanceManager(new Magento_Test_Di_InstanceManager());
         $this->addSharedInstance($this, 'Magento_ObjectManager');
