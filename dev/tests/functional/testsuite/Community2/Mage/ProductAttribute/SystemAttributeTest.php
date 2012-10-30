@@ -31,7 +31,7 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
      *
      * @param string $attributeCode
      * @param string $applyTo
-     * @param string $types
+     * @param array $types
      *
      * @test
      * @dataProvider systemAttributesDataProvider
