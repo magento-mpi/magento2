@@ -756,18 +756,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Change product type on the fly depending on selected option
+     * Change product type on the fly depending on selected options
      *
      * @param Mage_Catalog_Model_Product $product
      */
     protected function _transitionProductType($product)
     {
-        $data = $product->getData();
-        if (isset($data['is_virtual'])) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
-        } else {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
-        }
+        $product->hasIsVirtual()
+            ? $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+            : $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
     }
 
     /**
