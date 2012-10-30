@@ -46,6 +46,7 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
      */
     public function testConfigureAction()
     {
+        $this->markTestSkipped('It was rewritten in master branch');
         $this->_configureAction['gift_card'] = array(
             'fixture' => 'Enterprise/Checkout/_files/product_gift.php',
             'must_have' => array(
@@ -60,6 +61,7 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
      */
     public function testConfigureFailedAction()
     {
+        $this->markTestSkipped('It was rewritten in master branch');
         $this->setUp();
         $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         foreach ($this->_products as $testCode => $testParams) {
