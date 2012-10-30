@@ -370,6 +370,4 @@ return array(
             'app\code\core\Mage\Catalog\Model\Convert\Parser'),
     $this->_getRule('parse', 'Mage_Customer_Model_Convert_Parser_Customer', null,
         'app\code\core\Mage\Customer\Model\Convert\Parser'),
-    //    $this->_getRule('getIsAnonymous'),
-    //    $this->_getRule('setIsAnonymous'),
 );
