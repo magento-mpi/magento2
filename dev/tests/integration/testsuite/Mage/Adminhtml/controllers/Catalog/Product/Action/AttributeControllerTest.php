@@ -19,24 +19,22 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeControllerTest extends Mage
      *
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
-    public function testSaveActionSaveButton123()
+    public function testSaveActionRedirectsSuccesfully()
     {
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load(1);
         /** @var $session Mage_Adminhtml_Model_Session */
         $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
         $session->setProductIds(array(1));
+
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');
-        $responseCode = $this->getResponse()->getHttpResponseCode();
-        $headers = $this->getResponse()->getHeaders();
-        $isRedirectPresent = false;
-        $this->assertEquals('302', $responseCode);
+
+        $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
         $expectedUrl = Mage::getUrl('backend/admin/catalog_product/index');
-        foreach ($headers as $header){
-            if (strpos($headers, $expectedUrl) !==false && $header['name']==='Location'){
+        $isRedirectPresent = false;
+        foreach ($this->getResponse()->getHeaders() as $header) {
+            if ($header['name'] === 'Location' && strpos($header['value'], $expectedUrl) === 0) {
                 $isRedirectPresent = true;
             }
         }
-        $this->assertTrue($isRedirectPresent, 'message');
+        $this->assertTrue($isRedirectPresent);
     }
 }
