@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
         $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
 
         $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
-                 . 'data-url="' . $uploadUrl . '" style="display: none;" value="test" />'
+                 . 'data-url="' . $uploadUrl . '" style="display: none;" />'
                  . parent::getElementHtml()
                  . '<img align="right" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
                  . ' title="' . $imageUrl . '" alt="' . $imageUrl . '" class="base-image-uploader"'
