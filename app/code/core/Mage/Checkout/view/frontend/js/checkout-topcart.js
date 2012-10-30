@@ -13,27 +13,24 @@
             intervalDuration: 4000
         },
         _create: function(){
-            this.closeButton = this.element.find(this.options.closeSelector);
+            this.element.find(this.options.closeSelector)
+                .on('click', $.proxy(this.hide, this));
             this.element.parent()
                 .on('mouseleave', $.proxy(this._onMouseleave, this))
-                .on('mouseenter', $.proxy(function() {
-                clearTimeout(this.timer);
-            }, this));
+                .on('mouseenter', $.proxy(this._stopTimer, this));
             this.element.prev().on('click', $.proxy(function () {
                 this.element.slideToggle('slow');
             }, this));
-            this.closeButton.on('click', $.proxy(this.hide, this));
         },
         hide: function(){
-            $(this.element).slideUp('slow', $.proxy(function () {
-                clearTimeout(this.timer);
-            }, this));
+            this.element.slideUp('slow', $.proxy(this._stopTimer, this));
+        },
+        _stopTimer: function() {
+            clearTimeout(this.timer);
         },
         _onMouseleave: function() {
-            clearTimeout(this.timer);
-            this.timer = setTimeout($.proxy(function () {
-                this.closeButton.trigger('click');
-            }, this), this.options.intervalDuration);
+            this._stopTimer();
+            this.timer = setTimeout($.proxy(this.hide, this), this.options.intervalDuration);
         }
     });
 })(jQuery);

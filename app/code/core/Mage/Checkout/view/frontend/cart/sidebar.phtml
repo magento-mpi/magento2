@@ -48,7 +48,7 @@
         <?php if ($_cartQty && $this->isPossibleOnepageCheckout()): ?>
         <div class="actions">
             <?php echo $this->getChildHtml('extra_actions') ?>
-            <button type="button" title="<?php echo $this->__('Checkout') ?>" class="button btn-checkout">
+            <button id="sidebar-btn-checkout" type="button" title="<?php echo $this->__('Checkout') ?>" class="button">
                 <span><span><?php echo $this->__('Checkout') ?></span></span></button>
         </div>
         <?php endif ?>
@@ -65,7 +65,7 @@
                 head.js("<?php echo $this->getSkinUrl('Mage_Checkout::js/sidebar.js') ?>", function() {
                     $('#cart-sidebar').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
-                        checkoutButton: 'button.btn-checkout',
+                        checkoutButton: '#sidebar-btn-checkout',
                         removeButton: '#cart-sidebar a.btn-remove',
                         confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
                     });
