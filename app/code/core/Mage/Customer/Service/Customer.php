@@ -208,24 +208,4 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 
         return $customer;
     }
-
-    /**
-     * Get customers list
-     *
-     * @param array $data
-     * @param null|string|array $attributes
-     * @return array
-     */
-    public function getList(array $data = null, $attributes = null)
-    {
-        /** @var Mage_Customer_Model_Resource_Customer_Collection $collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        if ($attributes) {
-            $collection->addAttributeToSelect($attributes);
-        }
-        if ($data) {
-            $this->_prepareCollection($collection, $data);
-        }
-        return $collection->getItems();
-    }
 }

@@ -278,29 +278,4 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             )),
         );
     }
-
-    /**
-     * @magentoDataFixture Mage/Customer/_files/customer.php
-     */
-    public function testGetList()
-    {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
-        $actual = $this->_model->getList(array(
-            'page' => 1,
-            'limit' => 1,
-            'order' => 'entity_id',
-            'dir' => 'asc',
-            'filter' => array(
-                array(
-                    'attribute' => 'entity_id',
-                    'eq' => 1
-                )
-            )
-        ), '*');
-
-        $this->assertInternalType('array', $actual);
-        $this->assertCount(1, $actual);
-        $this->assertEquals($expected->toArray(), $actual[1]->toArray());
-    }
 }
