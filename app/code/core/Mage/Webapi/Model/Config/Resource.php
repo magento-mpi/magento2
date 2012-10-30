@@ -290,20 +290,20 @@ class Mage_Webapi_Model_Config_Resource
         if (is_null($this->_data)) {
             $this->_populateClassMap();
 
+            $allRestRoutes = array();
             foreach ($this->_autoLoaderClassMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
-                    $data['rest_routes'] = array();
                     /** @var ReflectionMethod $methodReflection */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
                         $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
                         $version = $this->_getMethodVersion($methodReflection);
                         if ($method && $version) {
-                            $data['versions'][$version]['methods'][$method] = $this->_extractMethodData(
-                                $methodReflection);
-                            $data['rest_routes'] = array_merge($data['rest_routes'],
-                                $this->generateRestRoutes($methodReflection));
+                            $methodMetaData = $this->_extractMethodData($methodReflection);
+                            $data['versions'][$version]['methods'][$method] = $methodMetaData;
+                            $restRoutes = $this->generateRestRoutes($methodReflection);
+                            $allRestRoutes = array_merge($allRestRoutes, $restRoutes);
                         }
                     }
                     // Sort versions array for further fallback.
@@ -311,6 +311,7 @@ class Mage_Webapi_Model_Config_Resource
                     $this->_data['resources'][$this->translateResourceName($className)] = $data;
                 }
             }
+            $this->_data['rest_routes'] = $allRestRoutes;
 
             if (empty($this->_data)) {
                 throw new InvalidArgumentException('Can not populate config - no action controllers were found.');
@@ -373,9 +374,9 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function generateRestRoutes(ReflectionMethod $methodReflection)
     {
+        // TODO: Implement @restRoute annotations processing for adding custom routes
         $routes = array();
-        $version = $this->_getMethodVersion($methodReflection);
-        $routePath = "/$version";
+        $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
         $routeParts = $this->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
         $partsCount = count($routeParts);
         for ($i = 0; $i < $partsCount; $i++) {
@@ -398,12 +399,11 @@ class Mage_Webapi_Model_Config_Resource
             $routePath .= "/$additionalRequiredParam/:$additionalRequiredParam";
         }
 
-        foreach ($this->_getPathCombinations($this->_getOptionalParamNames($methodReflection)) as $routeOptionalPart) {
-            $routes[$routePath . $routeOptionalPart] = array(
-                'action_type' => $this->_getResourceTypeByMethod(
-                    $this->getMethodNameWithoutVersionSuffix($methodReflection)),
-                'resource_version' => $version
-            );
+        $actionType = $this->_getResourceTypeByMethod($this->getMethodNameWithoutVersionSuffix($methodReflection));
+        $resourceName = $this->translateResourceName($methodReflection->getDeclaringClass()->getName());
+        $optionalParams = $this->_getOptionalParamNames($methodReflection);
+        foreach ($this->_getPathCombinations($optionalParams, $routePath) as $finalRoutePath) {
+            $routes[$finalRoutePath] = array('actionType' => $actionType, 'resourceName' => $resourceName);
         }
 
         return $routes;
@@ -438,20 +438,30 @@ class Mage_Webapi_Model_Config_Resource
 
 
     /**
-     * Identify list of possible routes taking into account optional params.
+     * Generate list of possible routes taking into account optional params.
+     *
+     * Note: this is called recursively.
      *
      * @param array $optionalParams
+     * @param string $basePath
      * @return array List of possible route params
      */
-    // TODO: Can be improved to collect all possible combinations (in mixed order)
-    protected function _getPathCombinations($optionalParams)
+    /**
+     * TODO: Assure that performance is not heavily impacted during routes match process.
+     * TODO: It can happen due creation of routes with optional parameters. HTTP get parameters can be used for that.
+     */
+    protected function _getPathCombinations($optionalParams, $basePath)
     {
         $pathCombinations = array();
-        $currentPath = '';
-        $pathCombinations[] = $currentPath;
-        foreach ($optionalParams as $paramName) {
-            $currentPath .= "/$paramName/:$paramName";
-            $pathCombinations[] = $currentPath;
+        /** Add current base path to the resulting array of routes. */
+        $pathCombinations[] = $basePath;
+        foreach ($optionalParams as $key => $paramName) {
+            /** Add current param name to the route path and make recursive call. */
+            $optionalParamsWithoutCurrent = $optionalParams;
+            unset($optionalParamsWithoutCurrent[$key]);
+            $currentPath = "$basePath/$paramName/:$paramName";
+            $pathCombinations = array_merge($pathCombinations, $this->_getPathCombinations(
+                $optionalParamsWithoutCurrent, $currentPath));
         }
         return $pathCombinations;
     }
@@ -697,19 +707,11 @@ class Mage_Webapi_Model_Config_Resource
     {
         $routes = array();
         $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
-        foreach ($this->_data['resources'] as $resourceName => $resourceData) {
-            if (!isset($resourceData['rest_routes'])) {
-                throw new LogicException(sprintf('"%s" resource does not have "rest_routes" array specified.',
-                    $resourceName));
-            }
-            foreach ($resourceData['rest_routes'] as $routePath => $routeData) {
-                $fullRoutePath = $apiTypeRoutePath . $routePath;
-                $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
-                $route->setResourceName($resourceName)
-                    ->setResourceType($routeData['action_type'])
-                    ->setResourceVersion($routeData['resource_version']);
-                $routes[] =$route;
-            }
+        foreach ($this->_data['rest_routes'] as $routePath => $routeData) {
+            $fullRoutePath = $apiTypeRoutePath . $routePath;
+            $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
+            $route->setResourceName($routeData['resourceName'])->setResourceType($routeData['actionType']);
+            $routes[] = $route;
         }
 
         return $routes;
@@ -1079,25 +1081,21 @@ class Mage_Webapi_Model_Config_Resource
      * Identify the shortest available route to the item of specified resource.
      *
      * @param string $resourceName
-     * @param string $resourceVersion
      * @return string
      * @throws InvalidArgumentException
      */
-    public function getRestRouteToItem($resourceName, $resourceVersion)
+    public function getRestRouteToItem($resourceName)
     {
-        if (isset($this->_data['resources'][$resourceName]['rest_routes'])) {
-            $restRoutes = $this->_data['resources'][$resourceName]['rest_routes'];
-            /** The shortest routes must go first. */
-            ksort($restRoutes);
-            foreach ($restRoutes as $routePath => $routeMetadata) {
-                if ($routeMetadata['action_type'] == Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
-                    && $routeMetadata['resource_version'] == $resourceVersion
-                ) {
-                    return $routePath;
-                }
+        $restRoutes = $this->_data['rest_routes'];
+        /** The shortest routes must go first. */
+        ksort($restRoutes);
+        foreach ($restRoutes as $routePath => $routeMetadata) {
+            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
+                && $routeMetadata['resourceName'] == $resourceName
+            ) {
+                return $routePath;
             }
         }
-        throw new InvalidArgumentException(sprintf('No route was found to the item of "%s" resource with "%s" version.',
-            $resourceName, $resourceVersion));
+        throw new InvalidArgumentException(sprintf('No route was found to the item of "%s" resource.', $resourceName));
     }
 }

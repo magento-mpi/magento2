@@ -162,7 +162,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());
         $this->getRequest()->setResourceType($route->getResourceType());
-        $this->getRequest()->setResourceVersion($route->getResourceVersion());
         return $route;
     }
 

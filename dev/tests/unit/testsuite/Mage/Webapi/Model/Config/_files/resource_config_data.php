@@ -193,16 +193,6 @@ return array(
                     ),
                 ),
             ),
-            'rest_routes' => array(
-                '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField' => array(
-                    'action_type' => 'collection',
-                    'resource_version' => 'v1',
-                ),
-                '/v2/catalogProducts/:resourceId' => array(
-                    'action_type' => 'item',
-                    'resource_version' => 'v2',
-                ),
-            )
         ),
         'enterpriseCatalogProduct' => array(
             'controller' => 'Enterprise_Catalog_Webapi_ProductController',
@@ -325,5 +315,15 @@ return array(
                 ),
             ),
         )
+    ),
+    'rest_routes' => array(
+        '/:resourceVersion/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField' => array(
+            'actionType' => 'collection',
+            'resourceName' => 'vendorModuleResources',
+        ),
+        '/:resourceVersion/catalogProducts/:resourceId' => array(
+            'actionType' => 'item',
+            'resourceName' => 'vendorModuleResources',
+        ),
     )
 );

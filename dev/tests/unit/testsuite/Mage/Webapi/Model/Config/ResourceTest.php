@@ -33,6 +33,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Webapi_Model_Config_Resource(array(
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner(),
             'applicationConfig' => new Mage_Core_Model_Config(),
+            'autoloader' => Magento_Autoload::getInstance(),
+            'serverReflection' => new Reflection(),
             'data' => $configData,
             'helper' => $this->_helper
         ));
@@ -206,87 +208,96 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public static function dataProviderTestGenerateRestRoutesTopLevelResource()
     {
-        $className = 'Vendor_Module_Webapi_ResourceController';
+        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
+        $className = "Vendor_Module_Webapi_ResourceController";
         return array(
             array(
                 $className,
-                'createV1',
+                "createV1",
                 array(
-                    '/v1/vendorModuleResources/requiredField/:requiredField' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v1'
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     ),
-                    '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v1'
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     ),
-                    '/v1/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField/secondOptional/:secondOptional' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v1'
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/:secondOptional" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
+                    ),
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField/secondOptional/:secondOptional" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
+                    ),
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/:secondOptional/optionalField/:optionalField" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     )
                 ),
             ),
             array(
                 $className,
-                'updateV2',
+                "updateV2",
                 array(
-                    '/v2/vendorModuleResources/:resourceId/additionalRequired/:additionalRequired' => array(
-                        'action_type' => 'item',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources/:resourceId/additionalRequired/:additionalRequired" => array(
+                        "actionType" => "item",
+                        "resourceName" => "vendorModuleResource"
                     ),
                 ),
             ),
             array(
                 $className,
-                'getV2',
+                "getV2",
                 array(
-                    '/v2/vendorModuleResources/:resourceId' => array(
-                        'action_type' => 'item',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources/:resourceId" => array(
+                        "actionType" => "item",
+                        "resourceName" => "vendorModuleResource"
                     ),
                 ),
             ),
             array(
                 $className,
-                'listV2',
+                "listV2",
                 array(
-                    '/v2/vendorModuleResources/additionalRequired/:additionalRequired' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources/additionalRequired/:additionalRequired" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     ),
-                    '/v2/vendorModuleResources/additionalRequired/:additionalRequired/optional/:optional' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v2'
-                    ),
-                ),
-            ),
-            array(
-                $className,
-                'deleteV3',
-                array(
-                    '/v3/vendorModuleResources/:resourceId' => array(
-                        'action_type' => 'item',
-                        'resource_version' => 'v3'
+                    "/:$versionParam/vendorModuleResources/additionalRequired/:additionalRequired/optional/:optional" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     ),
                 ),
             ),
             array(
                 $className,
-                'multiUpdateV2',
+                "deleteV3",
                 array(
-                    '/v2/vendorModuleResources' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources/:resourceId" => array(
+                        "actionType" => "item",
+                        "resourceName" => "vendorModuleResource"
                     ),
                 ),
             ),
             array(
                 $className,
-                'multiDeleteV2',
+                "multiUpdateV2",
                 array(
-                    '/v2/vendorModuleResources' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
+                    ),
+                ),
+            ),
+            array(
+                $className,
+                "multiDeleteV2",
+                array(
+                    "/:$versionParam/vendorModuleResources" => array(
+                        "actionType" => "collection",
+                        "resourceName" => "vendorModuleResource"
                     ),
                 ),
             ),
@@ -308,14 +319,15 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public static function dataProviderTestGenerateRestRoutesSubresource()
     {
         $className = 'Vendor_Module_Webapi_Resource_SubresourceController';
+        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
         return array(
             array(
                 $className,
                 'createV2',
                 array(
-                    '/v2/vendorModuleResources/:param1/subresources' => array(
-                        'action_type' => 'collection',
-                        'resource_version' => 'v2'
+                    "/:$versionParam/vendorModuleResources/:param1/subresources" => array(
+                        'actionType' => 'collection',
+                        'resourceName' => 'vendorModuleResourceSubresource'
                     )
                 ),
             ),
@@ -323,9 +335,9 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 $className,
                 'updateV1',
                 array(
-                    '/v1/vendorModuleResources/subresources/:param1' => array(
-                        'action_type' => 'item',
-                        'resource_version' => 'v1'
+                    "/:$versionParam/vendorModuleResources/subresources/:param1" => array(
+                        'actionType' => 'item',
+                        'resourceName' => 'vendorModuleResourceSubresource'
                     )
                 ),
             ),
@@ -471,27 +483,16 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRouteToItem()
     {
-        $expectedRoute = '/v2/catalogProducts/:resourceId';
-        $this->assertEquals($expectedRoute, $this->_model->getRestRouteToItem('catalogProduct', 'v2'));
+        $expectedRoute = '/:resourceVersion/catalogProducts/:resourceId';
+        $this->assertEquals($expectedRoute, $this->_model->getRestRouteToItem('vendorModuleResources'));
     }
 
-    /**
-     * @dataProvider dataProviderForTestGetRestRouteByResourceInvalidArguments
-     */
-    public function testGetRestRouteToItemInvalidArguments($resourceName, $resourceVersion)
+    public function testGetRestRouteToItemInvalidArguments()
     {
+        $resourceName = 'invalidResource';
         $this->setExpectedException('InvalidArgumentException',
-            sprintf('No route was found to the item of "%s" resource with "%s" version.',
-            $resourceName, $resourceVersion));
-        $this->_model->getRestRouteToItem($resourceName, $resourceVersion);
-    }
-
-    public static function dataProviderForTestGetRestRouteByResourceInvalidArguments()
-    {
-        return array(
-            array('catalogProduct', 'v1'),
-            array('invalidResource', 'v2'),
-        );
+            sprintf('No route was found to the item of "%s" resource.', $resourceName));
+        $this->_model->getRestRouteToItem($resourceName);
     }
 
     /**

@@ -105,13 +105,13 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
 
         $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteToItem(
-            $this->getRequest()->getResourceName(),
-            $this->getRequest()->getResourceVersion()
-        ));
+            $this->getRequest()->getResourceName()));
         $chain = $apiTypeRoute->chain($router);
         $params = array(
             'api_type' => $this->getRequest()->getApiType(),
-            'id' => $createdItem->getId()
+            // TODO: ID param can be named differently
+            'id' => $createdItem->getId(),
+            Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME => $this->getRequest()->getResourceVersion()
         );
         $uri = $chain->assemble($params);
 

@@ -219,6 +219,9 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function getResourceVersion()
     {
+        if (!$this->_resourceVersion) {
+            $this->setResourceVersion($this->getParam(Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME));
+        }
         return $this->_resourceVersion;
     }
 
