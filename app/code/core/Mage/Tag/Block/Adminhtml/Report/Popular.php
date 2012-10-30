@@ -33,7 +33,7 @@ class Mage_Tag_Block_Adminhtml_Report_Popular extends Mage_Adminhtml_Block_Widge
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
-                ->setTemplate('report/store/switcher.phtml')
+                ->setTemplate('Mage_Reports::store/switcher.phtml')
         );
 
         return parent::_prepareLayout();
