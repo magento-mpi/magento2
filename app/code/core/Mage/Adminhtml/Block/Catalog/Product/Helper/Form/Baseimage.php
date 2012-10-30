@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
     {
         return "<script>/* <![CDATA[ */"
                . "jQuery(function(){"
-               . "BaseImageUploader('{$this->getHtmlId()}', {$this->_maxFileSize}, media_gallery_contentJsObject);"
+               . "BaseImageUploader('{$this->getHtmlId()}', {$this->_maxFileSize});"
                . " });"
                . "/*]]>*/</script>";
     }

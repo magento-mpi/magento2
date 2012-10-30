@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-function BaseImageUploader(id, maxFileSize, media_gallery_contentJsObject) {
+function BaseImageUploader(id, maxFileSize) {
     (function ($) {
         $('#' + id + '_upload').fileupload({
             dataType: 'json',
