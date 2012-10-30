@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
         // not clear how to test what is apply_to and what does it have to do with "editable" term
 
-        $isNotProductTypeAttributeExists = false;
+        $isTypeExists = false;
         foreach ($attributes as $attribute) {
             $this->assertInstanceOf('Mage_Catalog_Model_Resource_Eav_Attribute', $attribute);
             $applyTo = $attribute->getApplyTo();
@@ -93,7 +93,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
                 $isNotProductTypeAttributeExists = true;
             }
         }
-        $this->assertTrue($isNotProductTypeAttributeExists);
+        $this->assertTrue($isTypeExists);
     }
 
     public function testGetAttributeById()
