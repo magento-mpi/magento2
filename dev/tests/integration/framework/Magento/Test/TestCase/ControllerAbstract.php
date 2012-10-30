@@ -32,6 +32,11 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     protected $_response;
 
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Bootstrap instance getter
      *
      * @return Magento_Test_Bootstrap
@@ -48,6 +53,8 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
      */
     protected function setUp()
     {
+        $this->_objectManager = Mage::getObjectManager();
+
         /**
          * Use run options from bootstrap
          */
@@ -60,6 +67,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         $this->_request = null;
         $this->_response = null;
+        $this->_objectManager = null;
     }
 
     /**
@@ -82,6 +90,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         if (!$this->_request) {
             $this->_request = new Magento_Test_Request();
+            $this->_objectManager->addSharedInstance($this->_request, 'Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
     }
@@ -89,12 +98,13 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Response getter
      *
-     * @return Zend_Controller_Response_Http
+     * @return Magento_Test_Response
      */
     public function getResponse()
     {
         if (!$this->_response) {
             $this->_response = new Magento_Test_Response();
+            $this->_objectManager->addSharedInstance($this->_response, 'Mage_Core_Controller_Response_Http');
         }
         return $this->_response;
     }

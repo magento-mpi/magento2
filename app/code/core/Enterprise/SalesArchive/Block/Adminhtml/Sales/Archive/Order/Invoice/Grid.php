@@ -16,9 +16,9 @@
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid
     extends Mage_Adminhtml_Block_Sales_Invoice_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('sales_invoice_grid_archive');
     }
 

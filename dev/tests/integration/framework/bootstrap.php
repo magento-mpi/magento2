@@ -85,6 +85,10 @@ $eventManager = new Magento_Test_EventManager(array(
 Magento_Test_Event_PhpUnit::setDefaultEventManager($eventManager);
 Magento_Test_Event_Magento::setDefaultEventManager($eventManager);
 
+/* Initialize object manager instance */
+Mage::setRoot();
+Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
+
 /* Bootstrap the application */
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $magentoBaseDir,

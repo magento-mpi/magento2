@@ -14,18 +14,6 @@
  */
 class Varien_DateTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Varien_Date::convertZendToStrftime
-     * @todo   Implement testConvertZendToStrftime().
-     */
-    public function testConvertZendToStrftime()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
     public function testToTimestamp()
     {
         $date = new Zend_Date();

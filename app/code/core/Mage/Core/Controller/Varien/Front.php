@@ -122,7 +122,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 continue;
             }
             if (isset($routerInfo['class'])) {
-                $router = new $routerInfo['class']($routerInfo);
+                $router = Mage::getSingleton($routerInfo['class'], array('options' => $routerInfo));
                 if (isset($routerInfo['area'])) {
                     $router->collectRoutes($routerInfo['area'], $routerCode);
                 }
@@ -173,6 +173,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
+
                     $controllerInstance->dispatch($request->getActionName());
                     break;
                 }

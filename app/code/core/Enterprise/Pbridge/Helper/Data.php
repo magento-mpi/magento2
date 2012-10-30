@@ -249,7 +249,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if ($this->_encryptor === null) {
             $key = trim((string)Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = Mage::getModel('Enterprise_Pbridge_Model_Encryption', $key);
+            $this->_encryptor = Mage::getModel('Enterprise_Pbridge_Model_Encryption', array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -304,7 +304,9 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function prepareCart($order)
     {
-        $paypalCart = Mage::getModel('Mage_Paypal_Model_Cart', array($order))->isDiscountAsItem(true);
+        $paypalCart = Mage::getModel('Mage_Paypal_Model_Cart',
+            array('params' => array($order)))
+            ->isDiscountAsItem(true);
         return array($paypalCart->getItems(true), $paypalCart->getTotals());
     }
 

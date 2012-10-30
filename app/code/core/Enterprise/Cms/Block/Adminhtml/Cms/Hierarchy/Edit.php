@@ -21,13 +21,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
      * Initialize Form Container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId   = 'node_id';
         $this->_blockGroup = 'Enterprise_Cms';
         $this->_controller = 'adminhtml_cms_hierarchy';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
         $this->_removeButton('back');

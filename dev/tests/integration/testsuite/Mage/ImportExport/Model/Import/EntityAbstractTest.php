@@ -19,8 +19,8 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testSaveValidatedBunches()
     {
-        $source = new Mage_ImportExport_Model_Import_Source_Csv(
-            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
+        $source = Mage::getModel('Mage_ImportExport_Model_Import_Source_Csv',
+            array('source' => __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv')
         );
         $source->rewind();
         $expected = $source->current();

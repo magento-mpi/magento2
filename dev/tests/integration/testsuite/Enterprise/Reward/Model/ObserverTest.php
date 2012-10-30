@@ -73,7 +73,7 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('event' => $event)
         );
 
-        $rewardObserver = new Enterprise_Reward_Model_Observer();
+        $rewardObserver = Mage::getModel('Enterprise_Reward_Model_Observer');
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

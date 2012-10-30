@@ -37,9 +37,11 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Google Content'))
-             ->_title($this->__('Manage Items'));
+        $this->_initAction()
+            ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'))
+            ->_title($this->__('Catalog'))
+            ->_title($this->__('Google Content'))
+            ->_title($this->__('Manage Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
@@ -64,9 +66,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
             );
         }
 
-        $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Items'))
-            ->_addContent($contentBlock)
+        $this->_addContent($contentBlock)
             ->renderLayout();
     }
 

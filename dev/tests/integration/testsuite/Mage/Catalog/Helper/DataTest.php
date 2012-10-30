@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = new Mage_Catalog_Helper_Data;
+        $this->_helper = Mage::helper('Mage_Catalog_Helper_Data');
     }
 
     protected function tearDown()
@@ -31,7 +31,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = new Mage_Catalog_Model_Category;
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load(5);
         Mage::register('current_category', $category);
 
@@ -50,7 +50,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = new Mage_Catalog_Model_Category;
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         Mage::register('current_category', $category);
         try {
             $this->assertSame($category, $this->_helper->getCategory());
@@ -63,7 +63,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         Mage::register('current_product', $product);
         try {
             $this->assertSame($product, $this->_helper->getProduct());

@@ -53,8 +53,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
-        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance();
+        $source = Mage::getModel('Mage_ImportExport_Model_Import_Source_Csv', array('source' => $pathToCsvFile));
+        $model = Mage::getModel('Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -67,10 +67,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $customerBalanceKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = new Mage_Customer_Model_Resource_Customer_Collection();
+        $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Mage_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = new Enterprise_Reward_Model_Resource_Reward_Collection();
+            $rewardCollection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints Enterprise_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -86,7 +86,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 );
             }
 
-            $customerBalance = new Enterprise_CustomerBalance_Model_Resource_Balance_Collection();
+            $customerBalance = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance_Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance Enterprise_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
@@ -116,8 +116,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
     public function testImportDataDelete()
     {
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance_delete.csv';
-        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = new Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance();
+        $source = Mage::getModel('Mage_ImportExport_Model_Import_Source_Csv', array('source' => $pathToCsvFile));
+        $model = Mage::getModel('Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE)
         );
@@ -125,8 +125,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $model->validateData();
         $model->importData();
 
-        $rewards  = new Enterprise_Reward_Model_Resource_Reward_Collection();
-        $balances = new Enterprise_CustomerBalance_Model_Resource_Balance_Collection();
+        $rewards  = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
+        $balances = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance_Collection');
 
         $expectedRewards = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedRewards');
         /** @var $reward Enterprise_Reward_Model_Reward */

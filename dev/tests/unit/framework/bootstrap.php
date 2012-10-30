@@ -20,7 +20,7 @@ $includePaths = array(
 );
 set_include_path(implode(PATH_SEPARATOR, $includePaths));
 spl_autoload_register(function($class) {
-    $file = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+    $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
     foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
         $fileName = $path . DIRECTORY_SEPARATOR . $file;
         if (file_exists($fileName)) {
@@ -39,3 +39,5 @@ if (is_dir(TESTS_TEMP_DIR)) {
     Varien_Io_File::rmdirRecursive(TESTS_TEMP_DIR);
 }
 mkdir(TESTS_TEMP_DIR);
+
+Mage::setIsSerializable(false);

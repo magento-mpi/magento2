@@ -30,9 +30,9 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      * Internal constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('rewardPointsBalanceGrid');
         $this->setUseAjax(true);
         $this->setFilterVisibility(false);

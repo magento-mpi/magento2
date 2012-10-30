@@ -20,9 +20,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser
     /**
      * Intialize grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         if ($this->getRequest()->getParam('current_grid_id')) {
             $this->setId($this->getRequest()->getParam('current_grid_id'));
         } else {
