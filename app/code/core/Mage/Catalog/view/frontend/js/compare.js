@@ -9,25 +9,16 @@
 /*jshint browser:true jquery:true*/
 /*global confirm:true*/
 (function ($) {
-    $(document).ready(function () {
-        var _compare = {
-            listSelector: null,
-            removeConfirmMessage: null,
-            removeSelector: null,
-            clearAllConfirmMessage: null,
-            clearAllSelector: null
-        };
-
-        $.mage.event.trigger('mage.compare.initialize', _compare);
-        $(_compare.listSelector).decorate('list', true);
-
-        function _confirmMessage(selector, message) {
-            $(selector).on('click', function () {
+    $.widget('mage.compareItems', {
+        _create: function() {
+            this.element.decorate('list', true);
+            this._confirm(this.options.removeSelector, this.options.removeConfirmMessage);
+            this._confirm(this.options.clearAllSelector, this.options.clearAllConfirmMessage);
+        },
+        _confirm: function(selector, message) {
+            $(selector).on('click', function() {
                 return confirm(message);
             });
         }
-
-        _confirmMessage(_compare.removeSelector, _compare.removeConfirmMessage);
-        _confirmMessage(_compare.clearAllSelector, _compare.clearAllConfirmMessage);
     });
 })(jQuery);

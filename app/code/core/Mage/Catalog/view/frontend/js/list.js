@@ -33,35 +33,35 @@
             });
         }
 
-        // Window close
-        $(_compareList.windowCloseSelector).on('click', function () {
+        $(_compareList.windowCloseSelector).on('click', function() {
             window.close();
         });
-        // Window print
-        $(_compareList.printSelector).on('click', function (e) {
+
+        $(_compareList.printSelector).on('click', function(e) {
             e.preventDefault();
             window.print();
         });
 
-        $(_compareList.productRemoveSelector).on('click', function (e) {
+        $(_compareList.productRemoveSelector).on('click', function(e) {
             e.preventDefault();
-            // Send remove item request, after that reload windows
             $.ajax({
-                url: $(_compareList.productRemoveSelector).data('url'),
+                url: $(e.target).data('url'),
                 type: 'POST',
-                beforeSend: function () {
+                beforeSend: function() {
                     $(_compareList.ajaxSpinner).show();
                 }
-            }).done(function () {
+            }).done(function() {
                 $(_compareList.ajaxSpinner).hide();
                 window.location.reload();
                 window.opener.location.reload();
             });
         });
 
-        $.each(_compareList, function (index, prop) {
+        $.each(_compareList, function(index, prop) {
             // Removed properties that doesn't need to call _setParentWindow
-            var notAllowedProp = ['windowCloseSelector', 'printSelector', 'productRemoveSelector', 'ajaxSpinner','productFormSelector'];
+            var notAllowedProp = [
+                'windowCloseSelector', 'printSelector', 'productRemoveSelector', 'ajaxSpinner', 'productFormSelector'
+            ];
             if ($.inArray(index, notAllowedProp) === -1) {
                 _setParentWindow(prop);
             }
