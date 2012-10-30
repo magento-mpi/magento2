@@ -21,6 +21,29 @@ invitations_customers:
     mca: report_invitation/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
     title: Customers / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    invitations_customers_grid:
+                        xpath: //div[@id='id_1d4be4516a1d16f7738a4d510a19c338']
+                        buttons:
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns:
+                            filter_show_by: //select[@id='report_period']
+                            export_to: //select[@id='id_1d4be4516a1d16f7738a4d510a19c338_export']
+                            filter_show_report_for: //select[@id='store_switcher']
+                        fields:
+                            filter_from: //input[@id='period_date_from']
+                            filter_to: //input[@id='period_date_to']
+                        links:
+                            id:  //a[@name='id']
+                            name: //a[@name='name']
+                            email: //a[@name='email']
+                            group: //a[@name='group']
+                            invitations_sent: //a[@name='sent']
+                            invitation_accepted: //a[@name='accepted']
 
 # Invitations Order Conversion Rate page
 invitations_order_conversion_rate:
