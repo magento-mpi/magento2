@@ -74,6 +74,24 @@ report_product_sold:
     mca: report_product/sold/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/report_product/sold/')]
     title: Products Ordered / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_product_sold_grid:
+                        xpath: //div[@id='gridProductsSold']
+                        fields:
+                            filter_from: //input[@id='period_date_from']
+                            filter_to: //input[@id='period_date_to']
+                        dropdowns:
+                            show_report_for: //select[@name='limit']
+                            show_by: //select[@id='report_period]
+                            export_to: //select[@id='grid_ProductSold_export']
+                        buttons:
+                            export: //button[span='Export']
+                            refresh: //button[span='Refresh']
+                        pageelements:
+                            product_sold_grid: //table[@id='gridProductsSold_table']
 
 # Products: Most Viewed page
 report_product_viewed:
