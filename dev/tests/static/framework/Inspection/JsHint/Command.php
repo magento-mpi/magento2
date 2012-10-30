@@ -36,6 +36,14 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->_fileName;
+    }
+
+    /**
      * Unable to get JsHint version frm command line
      * @return string
      */
@@ -59,11 +67,14 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
      */
     protected function _buildShellCmd($whiteList, $blackList)
     {
-        return ltrim(str_replace('which', '', $this->_getHostScript())) . TESTS_JSHINT_PATH . ' ' . $this->_fileName . ' ' . $this->_getJsHintOptions();
+        return ltrim(str_replace('which', '', $this->_getHostScript()))
+            . $this->_getJsHintPath() . ' '
+            . $this->_fileName . ' '
+            . $this->_getJsHintOptions();
     }
 
     /**
-     * @return string
+     * @return boolean
      */
     protected function _isOsWin()
     {
@@ -97,13 +108,13 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
      */
     protected function _execShellCmd($shellCmd)
     {
-        exec($shellCmd, $output, $this->_lastExitCode);
-        $this->_lastOutput = implode(PHP_EOL, $output);
+        $retArray = $this->_executeCommand($shellCmd);
+        $this->_lastOutput = implode(PHP_EOL, $retArray[0]);
         if ($this->_lastExitCode == 0) {
             return $this->_lastOutput;
         }
         if ($this->_isOsWin()) {
-            $output = array_slice($output, 2);
+            $output = array_slice($retArray[0], 2);
         }
         $output[] = ''; //empty line to separate each file output
         file_put_contents($this->_reportFile, $this->_lastOutput, FILE_APPEND);
@@ -125,20 +136,49 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * @return string
+     */
+    protected function _getJsHintPath()
+    {
+        return TESTS_JSHINT_PATH;
+    }
+
+    /**
+     * @param string $fileName
+     * @return string
+     */
+    protected function _fileExists($fileName)
+    {
+        return is_file($fileName);
+    }
+
+    /**
+     * @param string $cmd
+     * @return array
+     */
+    protected function _executeCommand($cmd)
+    {
+        exec(trim($cmd), $output, $retVal);
+        return array($output, $retVal);
+    }
+
+    /**
      * @throws Exception
+     * @return boolean
      */
     public function canRun()
     {
-        exec(trim($this->_getHostScript()), $output, $retVal);
-        if ($retVal != 0) {
+        $retArray = $this->_executeCommand($this->_getHostScript());
+        if ($retArray[1] != 0) {
             throw new Exception($this->_getHostScript() . ' does not exist.');
         }
-        if (!is_file(TESTS_JSHINT_PATH)) {
-            throw new Exception(TESTS_JSHINT_PATH . ' does not exist.');
+        if (!$this->_fileExists($this->_getJsHintPath())) {
+            throw new Exception($this->_getJsHintPath() . ' does not exist.');
         }
-        if (!file_exists($this->_fileName)) {
-            throw new Exception($this->_fileName . ' does not exist.');
+        if (!$this->_fileExists($this->getFileName())) {
+            throw new Exception($this->getFileName() . ' does not exist.');
         }
+        return true;
     }
 
 }

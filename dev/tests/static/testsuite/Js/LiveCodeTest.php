@@ -83,11 +83,13 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     {
         $cmd = new Inspection_JsHint_Command($filename, self::$_reportFile);
         try {
-            $cmd->canRun();
+            if ($cmd->canRun()) {
+                $this->assertTrue($cmd->run(), $cmd->getLastRunMessage());
+            }
         } catch (Exception $e) {
             $this->markTestSkipped($e->getMessage());
         }
-        $this->assertTrue($cmd->run(), $cmd->getLastRunMessage());
+
     }
 
     /**
