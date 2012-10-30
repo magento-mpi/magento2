@@ -146,10 +146,7 @@
             "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
             "<?php echo $this->getSkinUrl('mage/validation/validate.js')?>",
             "<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
-                $('#form-validate').configure({
-                    useSecureSelector: '#use_secure',
-                    useSecureOptionsSelector: '#use_secure_options'
-                });
+                $.mage.install.configureForm('#form-validate', '#use_secure', '#use_secure_options');
             });
     })(jQuery);
 </script>
@@ -161,9 +158,9 @@
     <script type="text/javascript">
     (function($) {
         head.js("<?php echo $this->getSkinUrl('Mage_Install::js/install.js')?>", function() {
-            $('#btn-continue').configure({
-                url: '<?php echo $this->getUrl('*/*/*', array('_current' => true)) ?>'
-            });
+            $.mage.install.configureContinue(
+                '#btn-continue', '<?php echo $this->getUrl('*/*/*', array('_current' => true)) ?>'
+            );
         });
     })(jQuery);
     </script>

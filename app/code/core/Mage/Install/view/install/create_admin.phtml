@@ -105,7 +105,7 @@
             "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
             "<?php echo $this->getSkinUrl('mage/validation/validate.js')?>",
             "<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
-                $('#form-validate').createAdmin();
+                $.mage.install.createAdmin('#form-validate');
             });
     })(jQuery);
 </script>

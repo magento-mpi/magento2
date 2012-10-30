@@ -38,7 +38,7 @@
 //<![CDATA[
 (function($) {
     head.js("<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
-        $('#agree').begin({submitButtonSelector: '#submitButton'});
+        $.mage.install.begin('#agree', '#submitButton');
     });
 })(jQuery);
 //]]>
