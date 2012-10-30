@@ -77,6 +77,7 @@ class Community2_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_
 
     /**
      * <p>Verify that selection in Apply To control is used for selected product type's template</p>
+     *
      * @param array $attribute
      *
      * @test

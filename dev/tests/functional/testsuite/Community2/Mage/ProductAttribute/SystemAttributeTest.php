@@ -29,9 +29,9 @@ class Community2_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium
     /**
      * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
      *
-     * @param array $attributeCode
-     * @param array $applyTo
-     * @param array $types
+     * @param string $attributeCode
+     * @param string $applyTo
+     * @param string $types
      *
      * @test
      * @dataProvider systemAttributesDataProvider
