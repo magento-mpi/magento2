@@ -59,7 +59,6 @@ class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
         $this->_setDataUsingMethods($address, $addressData);
         $address->setCustomerId($customerId);
 
-        $this->_validate($address, 'create');
         $address->save();
         return $address;
     }
@@ -80,24 +79,6 @@ class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Validate customer address entity
-     *
-     * @param Mage_Customer_Model_Address $address
-     * @param string $validatorGroup
-     * @throws Magento_Validator_Exception when validation failed
-     */
-    protected function _validate($address, $validatorGroup)
-    {
-        $validator = $this->_validatorFactory
-            ->getValidatorBuilder('customer_address', $validatorGroup)
-            ->createValidator();
-
-        if (!$validator->isValid($address)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
-        }
-    }
-
-    /**
      * Update address entity
      *
      * @param int|string $addressId
@@ -109,7 +90,6 @@ class Mage_Customer_Service_Address extends Mage_Core_Service_ServiceAbstract
         $address = $this->_getById($addressId);
         $this->_setDataUsingMethods($address, $addressData);
 
-        $this->_validate($address, 'update');
         $address->save();
         return $address;
     }

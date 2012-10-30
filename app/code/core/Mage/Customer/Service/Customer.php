@@ -78,30 +78,8 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _save($customer, $customerData, $validatorGroup)
     {
-        $this->_validate($customer, $validatorGroup);
         $customer->save();
         $this->_sendWelcomeEmail($customer, $customerData);
-
-        return $this;
-    }
-
-    /**
-     * Validate customer entity
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @param string $validatorGroup
-     * @return Mage_Customer_Service_Customer
-     * @throws Magento_Validator_Exception when validation failed
-     */
-    protected function _validate($customer, $validatorGroup)
-    {
-        $validator = $this->_validatorFactory
-            ->getValidatorBuilder('customer', $validatorGroup)
-            ->createValidator();
-
-        if (!$validator->isValid($customer)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
-        }
 
         return $this;
     }

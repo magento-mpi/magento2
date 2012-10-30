@@ -19,6 +19,8 @@
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method Mage_Customer_Model_Resource_Customer _getResource()
+ * @method boolean getIgnoreValidation()
+ * @method Mage_Customer_Model_Customer setIgnoreValidation(boolean $flagValue)
  */
 class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 {
@@ -176,6 +178,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         parent::_beforeSave();
 
+        if (!$this->getIgnoreValidation()) {
+            $this->_validate();
+        }
+
         $storeId = $this->getStoreId();
         if ($storeId === null) {
             $this->setStoreId(Mage::app()->getStore()->getId());
@@ -183,6 +189,25 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         $this->getGroupId();
         return $this;
+    }
+
+    /**
+     * Validate customer entity
+     *
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate()
+    {
+        $validatorGroup = $this->getId() > 0 ? 'update' : 'create';
+
+        $validatorFactory = Mage::getConfig()->getValidatorConfig();
+        $validator = $validatorFactory
+            ->getValidatorBuilder('customer', $validatorGroup)
+            ->createValidator();
+
+        if (!$validator->isValid($this)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
     }
 
     /**
@@ -869,45 +894,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->_errors = array();
         return $this;
-    }
-
-    /**
-     * Validate address
-     *
-     * @param array $data
-     * @param string $type
-     * @return bool
-     */
-    public function validateAddress(array $data, $type = 'billing')
-    {
-        $fields = array('city', 'country', 'postcode', 'telephone', 'street1');
-        $usca   = array('US', 'CA');
-        $prefix = $type ? $type . '_' : '';
-
-        if ($data) {
-            foreach ($fields as $field) {
-                if (!isset($data[$prefix . $field])) {
-                    return false;
-                }
-                if ($field == 'country'
-                    && in_array(strtolower($data[$prefix . $field]), array('US', 'CA'))) {
-
-                    if (!isset($data[$prefix . 'region'])) {
-                        return false;
-                    }
-
-                    $region = Mage::getModel('Mage_Directory_Model_Region')
-                        ->loadByName($data[$prefix . 'region']);
-                    if (!$region->getId()) {
-                        return false;
-                    }
-                    unset($region);
-                }
-            }
-            unset($data);
-            return true;
-        }
-        return false;
     }
 
     /**

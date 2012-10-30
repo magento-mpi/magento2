@@ -17,6 +17,8 @@
  *
  * @method int getParentId() getParentId()
  * @method Mage_Customer_Model_Address setParentId() setParentId(int $parentId)
+ * @method boolean getIgnoreValidation()
+ * @method Mage_Customer_Model_Address setIgnoreValidation(boolean $flagValue)
  */
 class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 {
@@ -159,5 +161,40 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
     {
         $this->setData('region_id', (int) $regionId);
         return $this;
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if (!$this->getIgnoreValidation()) {
+            $this->_validate();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Validate customer address entity
+     *
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate()
+    {
+        $validatorGroup = $this->getId() > 0 ? 'update' : 'create';
+
+        $validatorFactory = Mage::getConfig()->getValidatorConfig();
+        $validator = $validatorFactory
+            ->getValidatorBuilder('customer_address', $validatorGroup)
+            ->createValidator();
+
+        if (!$validator->isValid($this)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
     }
 }
