@@ -40,7 +40,7 @@
             messagesId: 'messages',
             ignore: "",
             errorElement: 'label',
-            errorUrl: BASE_URL
+            errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null
         },
 
         /**
