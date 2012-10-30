@@ -109,7 +109,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         try {
             // TODO: Introduce Authentication
-            $role = $this->_authenticate($this->getRequest());
+            $this->_authenticate($this->getRequest());
             $route = $this->_matchRoute($this->getRequest());
 
             $operation = $this->_getOperationName();
@@ -120,7 +120,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
 
-            $this->_checkResourceAcl($role, $route->getResourceName(), $method);
+            $this->_checkResourceAcl($route->getResourceName(), $method);
 
             // TODO: Think about passing parameters if they will be available and valid in the resource action
             $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
@@ -201,7 +201,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      *
      * @throws Mage_Webapi_Exception
      * @param Mage_Webapi_Controller_RequestAbstract $request
-     * @return string
      */
     protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
     {
@@ -209,7 +208,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
         /** @var $user Mage_Webapi_Model_Acl_User */
         $user = $collection->getFirstItem();
-        return $user->getRoleId();
+        Mage::getSingleton('Mage_Webapi_Model_Authorization_RoleLocator')->setRoleId($user->getRoleId());
 
 //        try {
 //            /** @var $oauthServer Mage_Oauth_Model_Server */
