@@ -55,9 +55,13 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     /**
      * @return string
      */
-    protected function _getHostScript()
+    protected function _getHostScript($isRunCmd = false)
     {
-        return ($this->_isOsWin() === true) ? 'cscript ' : 'which rhino ';
+        if ($this->_isOsWin()) {
+            return 'cscript ';
+        } else {
+            return $isRunCmd ? 'rhino ' : 'which rhino $> /dev/null';
+        }
     }
 
     /**
@@ -67,7 +71,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
      */
     protected function _buildShellCmd($whiteList, $blackList)
     {
-        return ltrim(str_replace('which', '', $this->_getHostScript())) . ' '
+        return $this->_getHostScript(true) . ' '
             . $this->_getJsHintPath() . ' '
             . $this->getFileName() . ' '
             . $this->_getJsHintOptions();
