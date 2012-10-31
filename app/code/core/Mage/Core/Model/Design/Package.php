@@ -1084,7 +1084,7 @@ class Mage_Core_Model_Design_Package
 
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
-        $themeCollection->addPattern($area);
+        $themeCollection->addPattern();
 
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
