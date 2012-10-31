@@ -23,6 +23,7 @@ dev/tests/integration/testsuite/Social/Facebook
 dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
 dev/tools/translate
 lib/Magento/Db
+lib/Magento/Di/Generator/EntityAbstract.php
 lib/Magento/Payment
 lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php

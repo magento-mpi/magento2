@@ -82,17 +82,17 @@ abstract class Magento_Di_Generator_EntityAbstract
      * @param Magento_Autoload $autoloader
      */
     public function __construct(
-        $sourceClassName,
+        $sourceClassName = null,
         $resultClassName = null,
         $generationDirectory = null,
         Zend_CodeGenerator_Php_Class $classGenerator = null,
         Magento_Autoload $autoloader = null
     ) {
-        $this->_sourceClassName     = $sourceClassName;
+        $this->_sourceClassName = $sourceClassName;
 
         if ($resultClassName) {
             $this->_resultClassName = $resultClassName;
-        } else {
+        } elseif ($sourceClassName) {
             $this->_resultClassName = $this->_getDefaultResultClassName($sourceClassName);
         }
 
@@ -147,6 +147,42 @@ abstract class Magento_Di_Generator_EntityAbstract
     }
 
     /**
+     * @param string $className
+     * @return Magento_Di_Generator_EntityAbstract
+     */
+    public function setSourceClassName($className)
+    {
+        $this->_sourceClassName = $className;
+        return $this;
+    }
+
+    /**
+     * @param string $className
+     * @return Magento_Di_Generator_EntityAbstract
+     */
+    public function setResultClassName($className)
+    {
+        $this->_resultClassName = $className;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getSourceClassName()
+    {
+        return $this->_sourceClassName;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getResultClassName()
+    {
+        return $this->_resultClassName;
+    }
+
+    /**
      * Generates default class name for result file
      *
      * @abstract
@@ -186,22 +222,6 @@ abstract class Magento_Di_Generator_EntityAbstract
     }
 
     /**
-     * @return string
-     */
-    protected function _getSourceClassName()
-    {
-        return $this->_sourceClassName;
-    }
-
-    /**
-     * @return string
-     */
-    protected function _getResultClassName()
-    {
-        return $this->_resultClassName;
-    }
-
-    /**
      * @param string $message
      * @return Magento_Di_Generator_EntityAbstract
      */
@@ -216,8 +236,8 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _validateData()
     {
-        if (!$this->_autoloader->classExists($this->_sourceClassName)) {
-            $this->_addError('Source class ' . $this->_sourceClassName . ' doesn\'t exist.');
+        if (!$this->_autoloader->classExists($this->_getSourceClassName())) {
+            $this->_addError('Source class ' . $this->_getSourceClassName() . ' doesn\'t exist.');
             return false;
         } elseif ($this->_autoloader->classExists($this->_resultClassName)) {
             $this->_addError('Result class ' . $this->_resultClassName . ' already exists.');

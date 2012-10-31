@@ -11,6 +11,11 @@
 class Magento_Di_Generator
 {
     /**
+     * @var Magento_Di_Generator_EntityAbstract
+     */
+    protected $_generator;
+
+    /**
      * @var Magento_Autoload
      */
     protected $_autoloader;
@@ -23,10 +28,14 @@ class Magento_Di_Generator
     );
 
     /**
+     * @param Magento_Di_Generator_EntityAbstract $generator
      * @param Magento_Autoload $autoloader
      */
-    public function __construct(Magento_Autoload $autoloader = null)
-    {
+    public function __construct(
+        Magento_Di_Generator_EntityAbstract $generator = null,
+        Magento_Autoload $autoloader = null
+    ) {
+        $this->_generator = $generator;
         $this->_autoloader = $autoloader ?: Magento_Autoload::getInstance();
     }
 
@@ -58,14 +67,21 @@ class Magento_Di_Generator
         }
 
         // generate class file
-        switch ($entity) {
-            case Magento_Di_Generator_Factory::DI_GENERATOR_CODE:
-            default:
-                $generator = new Magento_Di_Generator_Factory($entityName, $className);
-                break;
+        if (!$this->_generator) {
+            switch ($entity) {
+                case Magento_Di_Generator_Factory::DI_GENERATOR_CODE:
+                    $this->_generator = new Magento_Di_Generator_Factory();
+                    break;
+
+                default:
+                    throw new Magento_Exception('Unknown generation entity.');
+                    break;
+            }
         }
-        if (!$generator->generate()) {
-            $errors = $generator->getErrors();
+        $this->_generator->setSourceClassName($entityName);
+        $this->_generator->setResultClassName($className);
+        if (!$this->_generator->generate()) {
+            $errors = $this->_generator->getErrors();
             throw new Magento_Exception(implode(' ', $errors));
         }
 
