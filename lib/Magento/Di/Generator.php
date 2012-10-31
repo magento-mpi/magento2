@@ -24,7 +24,7 @@ class Magento_Di_Generator
      * @var array
      */
     protected $_generatedEntities = array(
-        Magento_Di_Generator_Factory::DI_GENERATOR_CODE => 'Factory'
+        Magento_Di_Generator_Factory::ENTITY_TYPE
     );
 
     /**
@@ -40,6 +40,14 @@ class Magento_Di_Generator
     }
 
     /**
+     * @return array
+     */
+    public function getGeneratedEntities()
+    {
+        return $this->_generatedEntities;
+    }
+
+    /**
      * @param $className
      * @return bool
      * @throws Magento_Exception
@@ -49,11 +57,12 @@ class Magento_Di_Generator
         // check if source class a generated entity
         $entity = null;
         $entityName = null;
-        foreach ($this->_generatedEntities as $entityCode => $entityPattern) {
-            // if $className string ends on $entityPattern substring
-            if (strrpos($className, $entityPattern) === strlen($className) - strlen($entityPattern)) {
-                $entity = $entityCode;
-                $entityName = rtrim(substr($className, 0, -1 * strlen($entityPattern)), '_');
+        foreach ($this->_generatedEntities as $entityType) {
+            $entitySuffix = ucfirst($entityType);
+            // if $className string ends on $entitySuffix substring
+            if (strrpos($className, $entitySuffix) === strlen($className) - strlen($entitySuffix)) {
+                $entity = $entityType;
+                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)), '_');
                 break;
             }
         }
@@ -69,7 +78,7 @@ class Magento_Di_Generator
         // generate class file
         if (!$this->_generator) {
             switch ($entity) {
-                case Magento_Di_Generator_Factory::DI_GENERATOR_CODE:
+                case Magento_Di_Generator_Factory::ENTITY_TYPE:
                     $this->_generator = new Magento_Di_Generator_Factory();
                     break;
 

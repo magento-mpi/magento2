@@ -23,17 +23,30 @@ $paths[] = BP . DS . 'var' . DS . 'generation';
 Magento_Autoload::getInstance()->addIncludePath($paths);
 Mage::setRoot();
 
+$generator = new Magento_Di_Generator();
+$generatedEntities = $generator->getGeneratedEntities();
 if (!isset($argv[1]) || in_array($argv[1], array('-?', '/?', '-help', '--help'))) {
-    $message = " * Usage: php entity_generator.php <required_entity_class_name>\n"
-        . " * Example: php entity_generator.php Mage_Tag_Model_TagFactory"
+    $message = " * Usage: php entity_generator.php [" . implode('|', $generatedEntities)
+        . "] <required_entity_class_name>\n"
+        . " * Example: php entity_generator.php factory Mage_Tag_Model_Tag"
         . " - will generate file var/generation/Mage/Tag/Model/TagFactory.php\n";
     print($message);
     exit();
 }
-$className = $argv[1];
+
+$entityType = $argv[1];
+if (!in_array($argv[1], $generatedEntities)) {
+    print "Error! Unknown entity type.\n";
+    exit();
+}
+
+if (!isset($argv[2])) {
+    print "Error! Please, specify class name.\n";
+    exit();
+}
+$className = $argv[2] . ucfirst($entityType);
 
 try {
-    $generator = new Magento_Di_Generator();
     if ($generator->generateClass($className)) {
         print("Class {$className} was successfully generated.\n");
     } else {

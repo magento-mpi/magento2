@@ -11,6 +11,11 @@
 abstract class Magento_Di_Generator_EntityAbstract
 {
     /**
+     * Entity type
+     */
+    const ENTITY_TYPE = 'abstract';
+
+    /**
      * Default code generation directory
      */
     const DEFAULT_DIRECTORY = 'var/generation';
@@ -185,27 +190,28 @@ abstract class Magento_Di_Generator_EntityAbstract
     /**
      * Generates default class name for result file
      *
-     * @abstract
+    /**
      * @param string $modelClassName
      * @return string
      */
-    protected abstract function _getDefaultResultClassName($modelClassName);
+    protected function _getDefaultResultClassName($modelClassName)
+    {
+        return $modelClassName . ucfirst(static::ENTITY_TYPE);
+    }
 
     /**
      * Returns list of properties for class generator
      *
-     * @abstract
      * @return array
      */
-    protected abstract function _getClassProperties();
+    abstract protected function _getClassProperties();
 
     /**
      * Returns list of methods for class generator
      *
-     * @abstract
      * @return mixed
      */
-    protected abstract function _getClassMethods();
+    abstract protected function _getClassMethods();
 
     /**
      * @return string

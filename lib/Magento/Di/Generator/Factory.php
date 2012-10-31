@@ -11,18 +11,9 @@
 class Magento_Di_Generator_Factory extends Magento_Di_Generator_EntityAbstract
 {
     /**
-     * Factory generator code
+     * Entity type
      */
-    const DI_GENERATOR_CODE = 'di_factory_generator';
-
-    /**
-     * @param string $modelClassName
-     * @return string
-     */
-    protected function _getDefaultResultClassName($modelClassName)
-    {
-        return $modelClassName . 'Factory';
-    }
+    const ENTITY_TYPE = 'factory';
 
     /**
      * @return array
