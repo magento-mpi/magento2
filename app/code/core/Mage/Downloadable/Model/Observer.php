@@ -20,7 +20,7 @@ class Mage_Downloadable_Model_Observer
     const XML_PATH_DISABLE_GUEST_CHECKOUT   = 'catalog/downloadable/disable_guest_checkout';
 
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Mage_Core_Helper_Data
      */
     protected $_helper;
 
