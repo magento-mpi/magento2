@@ -1,17 +1,18 @@
 <?php
 /**
-* {license_notice}
-*
-* @category   Magento
-* @package    tools
-* @copyright  {copyright}
-* @license    {license_link}
-*/
+ * {license_notice}
+ *
+ * @category   Magento
+ * @package    tools
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 /**
  * Tools_Migration_System_Configuration_Parser test case
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/System/Configuration/Parser.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../')
+    . '/tools/migration/System/Configuration/Parser.php';
 
 class Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_TestCase
 {
@@ -44,9 +45,7 @@ class Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_
 </config>
 XML;
 
-        $expected = array(
-            'config' => array()
-        );
+        $expected = array();
         $dom = new DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));
@@ -86,22 +85,17 @@ XML;
 XMLCOMMENT;
         $expected = array(
             'comment' => $comment,
-            'config' => array(
-                'sections' => array(
-                    'some_section' => array(
-                        'label' => 'Section Name',
-                        'tab' => 'test',
-                        'frontend_type' => 'text',
-                        'sort_order' => '140',
-                        'show_in_default' => '1',
-                        'show_in_website' => '1',
-                        'show_in_store' => '1',
-                        'resource' => 'Mage_Some::resource',
-                        '@attributes' => array(
-                            'translate' => 'label',
-                            'module' => 'Mage_Some'
-                        ),
-                    )
+            'sections' => array(
+                'some_section' => array(
+                    'label' => array('#text' => 'Section Name'),
+                    'tab' => array('#text' => 'test'),
+                    'frontend_type' => array('#text' => 'text'),
+                    'sort_order' => array('#text' => '140'),
+                    'show_in_default' => array('#text' => '1'),
+                    'show_in_website' => array('#text' => '1'),
+                    'show_in_store' => array('#text' => '1'),
+                    'resource' => array('#text' => 'Mage_Some::resource'),
+                    '@attributes' => array('translate' => 'label', 'module' => 'Mage_Some')
                 )
             )
         );
@@ -109,5 +103,4 @@ XMLCOMMENT;
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));
     }
-
 }

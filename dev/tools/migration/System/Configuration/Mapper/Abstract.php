@@ -15,31 +15,26 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      * oldName => newName
      * @var array
      */
-    protected $_attributeMaps = array();
+    protected $_attributeMaps = array(
+        'sort_order' => 'sortOrder',
+        'show_in_default' => 'showInDefault',
+        'show_in_store' => 'showInStore',
+        'show_in_website' => 'showInWebsite',
+        'frontend_type' => 'type',
+    );
 
     /**
+     * List of allowed field names
+     *
      * @var array
      */
     protected $_allowedFieldNames = array();
-
-    public function __construct()
-    {
-        $this->_attributeMaps = array(
-            'sort_order' => 'sortOrder',
-            'show_in_default' => 'showInDefault',
-            'show_in_store' => 'showInStore',
-            'show_in_website' => 'showInWebsite',
-            'frontend_type' => 'type',
-        );
-
-    }
-
 
     /**
      * Transform configuration
      *
      * @param array $config
-     * @return mixed
+     * @return array
      */
     public abstract function transform(array $config);
 
@@ -60,7 +55,7 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      * @param array $config
      * @param string $nodeName
      * @param array $allowedNames
-     * @return mixed
+     * @return array
      */
     protected function _transformElement($nodeId, $config, $nodeName, $allowedNames = array())
     {
@@ -69,7 +64,7 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
         if (false === empty($nodeId)) {
             $element['@attributes']['id'] = $nodeId;
         }
-        $attributes = isset($config['@attributes']) ? $config['@attributes'] : array();
+        $attributes =  $this->_getValue($config, '@attributes', array());
         $element = $this->_transformAttributes($attributes, $element);
 
         if (false === empty($attributes)) {
@@ -99,11 +94,11 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      * Get attribute name
      *
      * @param string $key
-     * @return mixed
+     * @return string
      */
     protected function _getAttributeName($key)
     {
-        return isset($this->_attributeMaps[$key]) ? $this->_attributeMaps[$key] : $key;
+        return $this->_getValue($this->_attributeMaps, $key, $key);
     }
 
     /**
@@ -114,7 +109,7 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      */
     protected function _needMoveToAttribute($key)
     {
-        return isset($this->_attributeMaps[$key]);
+        return $this->_getValue($this->_attributeMaps, $key, false);
     }
 
     /**
@@ -123,12 +118,12 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
      * @param array $config
      * @param array $element
      * @param array $allowedNames
-     * @return mixed
+     * @return array
      */
     protected function _transformNodes($config, $element, $allowedNames = array())
     {
         $element['parameters'] = array();
-        foreach($config as $nodeName => $nodeValue) {
+        foreach ($config as $nodeName => $nodeValue) {
             if ($this->_needMoveToAttribute($nodeName)) {
                 $element['@attributes'][$this->_getAttributeName($nodeName)] = $nodeValue['#text'];
                 unset($config[$nodeName]);
@@ -136,31 +131,32 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
             }
 
             $node = array();
-            if (false === empty($allowedNames) && false == in_array($nodeName, $allowedNames)) {
-                $node['@attributes'] = array(
-                    'type' => $nodeName
-                );
+            if ($this->_isNotAllowedNodeName($allowedNames, $nodeName)) {
+                $node['@attributes'] = array('type' => $nodeName);
                 $nodeName = 'attribute';
             }
 
             $node['name'] = $nodeName;
-            if (is_array($nodeValue) && !(isset($nodeValue['#text']) || isset($nodeValue['#cdata-section']))) {
+            if ($this->_isSubConfigValue($nodeValue)) {
                 $element = $this->_transformSubConfig($nodeValue, $node, $element);
                 continue;
             } else {
-                if (isset($nodeValue['@attributes'])) {
-                    if (isset($node['@attributes'])) {
-                        $node['@attributes'] = array_merge($node['@attributes'], $nodeValue['@attributes']);
+                if ($this->_getValue($nodeValue, '@attributes', false)) {
+                    if ($this->_getValue($node, '@attributes', false)) {
+                        $node['@attributes'] = array_merge(
+                            $this->_getValue($node, '@attributes', array()),
+                            $this->_getValue($nodeValue, '@attributes', array())
+                        );
                     } else {
-                        $node['@attributes'] = $nodeValue['@attributes'];
+                        $node['@attributes'] = $this->_getValue($nodeValue, '@attributes', array());
                     }
                 }
 
-                if (isset($nodeValue['#text'])) {
-                    $node['#text'] = $nodeValue['#text'];
+                if ($this->_getValue($nodeValue, '#text', false)) {
+                    $node['#text'] = $this->_getValue($nodeValue, '#text');
                 }
-                if (isset($nodeValue['#cdata-section'])) {
-                    $node['#cdata-section'] = $nodeValue['#cdata-section'];
+                if ($this->_getValue($nodeValue, '#cdata-section', false)) {
+                    $node['#cdata-section'] = $this->_getValue($nodeValue, '#cdata-section');
                 }
             }
 
@@ -168,5 +164,42 @@ abstract class Tools_Migration_System_Configuration_Mapper_Abstract
         }
 
         return $element;
+    }
+
+    /**
+     * Check if node value must be converted as sub config
+     *
+     * @param mixed $nodeValue
+     * @return bool
+     */
+    protected function _isSubConfigValue($nodeValue)
+    {
+        return is_array($nodeValue) &&
+            !($this->_getValue($nodeValue, '#text', false) || $this->_getValue($nodeValue, '#cdata-section', false));
+    }
+
+    /**
+     * Check if specified node name is not allowed
+     *
+     * @param array $allowedNames
+     * @param string $nodeName
+     * @return bool
+     */
+    protected function _isNotAllowedNodeName($allowedNames, $nodeName)
+    {
+        return false === empty($allowedNames) && false == in_array($nodeName, $allowedNames);
+    }
+
+    /**
+     * Get value from array by key
+     *
+     * @param array $source
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function _getValue($source, $key, $default = null)
+    {
+        return array_key_exists($key, $source) ? $source[$key] : $default;
     }
 }

@@ -11,7 +11,6 @@
 /**
  * System configuration migration reader
  */
-
 class Tools_Migration_System_Configuration_Reader
 {
     /**
@@ -39,6 +38,11 @@ class Tools_Migration_System_Configuration_Reader
      */
     CONST SYSTEM_CONFIG_PATH_PATTERN = 'app/code/*/*/*/etc/system.xml';
 
+    /**
+     * @param Tools_Migration_System_FileManager $fileManager
+     * @param Tools_Migration_System_Configuration_Parser $parser
+     * @param Tools_Migration_System_Configuration_Mapper $mapper
+     */
     public function __construct(
         Tools_Migration_System_FileManager $fileManager,
         Tools_Migration_System_Configuration_Parser $parser,

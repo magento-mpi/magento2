@@ -141,7 +141,7 @@
                     <label>Catalog Price Scope</label>
                     <comment><![CDATA[Defines the base currency scope ("Currency Setup" > "Currency Options" > "Base Currency").]]></comment>
                     <source_model>Mage_Catalog_Model_Config_Source_Price_Scope</source_model>
-                    <attribute type="hide_in_single_store_mode">1</attribute>
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 </field>
             </group>
             <group id="layered_navigation" translate="label" sortOrder="490" showInDefault="1" showInWebsite="1" showInStore="1">

@@ -82,46 +82,16 @@ class Tools_Migration_System_Configuration_Mapper_GroupTest extends PHPUnit_Fram
                     'type' => 'text',
                 ),
                 'parameters' => array(
-                    array(
-                        'name' => 'class',
-                        '#text' => 'css class'
-                    ),
-                    array(
-                        'name' => 'label',
-                        '#text' => 'group label'
-                    ),
-                    array(
-                        'name' => 'comment',
-                        '#cdata-section' => 'group comment'
-                    ),
-                    array(
-                        'name' => 'resource',
-                        '#text' => 'acl'
-                    ),
-                    array(
-                        'name' => 'fieldset_css',
-                        '#text' => 'some css class'
-                    ),
-                    array(
-                        'name' => 'clone_fields',
-                        '#text' => 'some fields'
-                    ),
-                    array(
-                        'name' => 'clone_model',
-                        '#text' => 'some model'
-                    ),
-                    array(
-                        'name' => 'help_url',
-                        '#text' => 'some url'
-                    ),
-                    array(
-                        'name' => 'hide_in_single_store_mode',
-                        '#text' => 'mode'
-                    ),
-                    array(
-                        'name' => 'expanded',
-                        '#text' => 'yes'
-                    ),
+                    array('name' => 'class', '#text' => 'css class'),
+                    array('name' => 'label','#text' => 'group label'),
+                    array('name' => 'comment','#cdata-section' => 'group comment'),
+                    array('name' => 'resource', '#text' => 'acl'),
+                    array('name' => 'fieldset_css', '#text' => 'some css class'),
+                    array('name' => 'clone_fields', '#text' => 'some fields'),
+                    array('name' => 'clone_model', '#text' => 'some model'),
+                    array('name' => 'help_url', '#text' => 'some url'),
+                    array('name' => 'hide_in_single_store_mode', '#text' => 'mode'),
+                    array('name' => 'expanded', '#text' => 'yes'),
                 )
             ),
             array(

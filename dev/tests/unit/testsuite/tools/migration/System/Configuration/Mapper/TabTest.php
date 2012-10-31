@@ -26,7 +26,7 @@ class Tools_Migration_System_Configuration_Mapper_TabTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-       $this->_object = new Tools_Migration_System_Configuration_Mapper_Tab();
+        $this->_object = new Tools_Migration_System_Configuration_Mapper_Tab();
     }
 
     protected function tearDown()

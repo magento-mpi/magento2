@@ -16,20 +16,23 @@ class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migratio
     protected $_groupMapper;
 
     /**
+     * List of allowed filed names for section
+     *
+     * @var array
+     */
+    protected $_allowedFieldNames = array(
+        'label',
+        'class',
+        'resource',
+        'header_css',
+        'tab'
+    );
+
+    /**
      * @param Tools_Migration_System_Configuration_Mapper_Group $groupMapper
      */
     public function __construct(Tools_Migration_System_Configuration_Mapper_Group $groupMapper)
     {
-        parent::__construct();
-
-        $this->_allowedFieldNames = array(
-            'label',
-            'class',
-            'resource',
-            'header_css',
-            'tab'
-        );
-
         $this->_groupMapper = $groupMapper;
     }
 
@@ -49,10 +52,12 @@ class Tools_Migration_System_Configuration_Mapper_Section extends Tools_Migratio
     }
 
     /**
+     * Transform section sub configuration
+     *
      * @param array $config
-     * @param $parentNode
-     * @param $element
-     * @return mixed
+     * @param array $parentNode
+     * @param array $element
+     * @return array
      */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {

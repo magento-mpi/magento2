@@ -11,7 +11,6 @@
 /**
  * System configuration migration parser
  */
-
 class Tools_Migration_System_Configuration_Parser
 {
     /**
@@ -41,71 +40,110 @@ class Tools_Migration_System_Configuration_Parser
      * @param DOMNode $node
      * @return array
      */
-    protected function _parseNode(DOMNode $node = null)
+    protected function _parseNode(DOMNode $node)
     {
-        // return empty array if dom is blank
-        if (is_null($node)) {
-            return array();
-        }
-
-        if (!$node->hasChildNodes()) {
-            $result = $node->nodeValue;
+        $result = array();
+        if (false === $node->hasChildNodes()) {
+            $result = $this->_getSimpleNodeValue($node);
         } else {
-            $result = array();
             foreach ($node->childNodes as $childNode) {
-                // how many of these child nodes do we have?
-                // this will give us a clue as to what the result structure should be
-                $oChildNodeList = $node->getElementsByTagName($childNode->nodeName);
-                $iChildCount = 0;
-                // there are x number of childs in this node that have the same tag name
-                // however, we are only interested in the # of siblings with the same tag name
-                foreach ($oChildNodeList as $oNode) {
-                    if ($oNode->parentNode->isSameNode($childNode->parentNode)) {
-                        $iChildCount++;
-                    }
-                }
-                $mValue = $this->_parseNode($childNode);
-                $sKey   = ($childNode->nodeName{0} == '#') ? 0 : $childNode->nodeName;
-                if ($sKey !== 0) {
-                    $mValue = (is_array($mValue) && !empty($mValue) && isset($mValue[$childNode->nodeName]))? $mValue[$childNode->nodeName] : $mValue;
-                }
-                if ($sKey === 0 && is_array($mValue) && empty($mValue)) {
+                $sameNodesCount = $this->_getSameNodesCount(
+                    $node->getElementsByTagName($childNode->nodeName),
+                    $childNode
+                );
+                /** @var array $nodeValue  */
+                $nodeValue = $this->_parseNode($childNode);
+
+                $siblingKey = $this->_getSiblingKey($childNode);
+
+                if ($siblingKey !== 0) {
+                    $nodeValue = isset($nodeValue[$childNode->nodeName]) ?
+                        $nodeValue[$childNode->nodeName] :
+                        $nodeValue;
+                } elseif (empty($nodeValue)) {
                     continue;
                 }
+
                 // how many of these child nodes do we have?
-                if ($iChildCount > 1) {  // more than 1 child - make numeric array
-                    $result[$sKey][] = $mValue;
+                if ($sameNodesCount > 1) {
+                    // more than 1 child - make numeric array
+                    $result[$siblingKey][] = $nodeValue;
                 } else {
-                    $result[$sKey] = $mValue;
+                    $result[$siblingKey] = $nodeValue;
                 }
             }
             // if the child is <foo>bar</foo>, the result will be array(bar)
             // make the result just 'bar'
             if (count($result) == 1 && isset($result[0])) {
-                $result = $result[0];
+                $result = current($result);
             }
         }
 
-        // get our attributes if we have any
+        $attributes = $this->_parseNodeAttributes($node);
+        $result = array_merge($result, $attributes);
+        return $result;
+    }
+
+    /**
+     * Get sibling key
+     *
+     * @param DOMNode $childNode
+     * @return int|string
+     */
+    protected function _getSiblingKey($childNode)
+    {
+        return ($childNode->nodeName{0} == '#') ? 0 : $childNode->nodeName;
+    }
+
+
+    /**
+     * Get count of the same nodes
+     *
+     * @param DOMNodeList $childNodeList
+     * @param DOMNode $childNode
+     * @return int
+     */
+    protected function _getSameNodesCount(DOMNodeList $childNodeList, DOMNode $childNode)
+    {
+        $childCount = 0;
+        foreach ($childNodeList as $oNode) {
+            if ($oNode->parentNode->isSameNode($childNode->parentNode)) {
+                $childCount++;
+            }
+        }
+        return $childCount;
+    }
+
+    /**
+     * Get value of node without child nodes
+     *
+     * @param DOMNode $node
+     * @return array
+     */
+    protected function _getSimpleNodeValue(DOMNode $node)
+    {
+        return (trim($node->nodeValue) !== '') ? array($node->nodeName => $node->nodeValue) : array();
+    }
+
+    /**
+     * Parse node attributes
+     *
+     * @param DOMNode $node
+     * @return array
+     */
+    protected function _parseNodeAttributes(DOMNode $node)
+    {
+        $result = array();
         $attributes = array();
         if ($node->hasAttributes()) {
             foreach ($node->attributes as $oAttrNode) {
-                // retain namespace prefixes
-                $attributes["{$oAttrNode->nodeName}"] = $oAttrNode->nodeValue;
+                $attributes[$oAttrNode->nodeName] = $oAttrNode->nodeValue;
             }
         }
 
         if (count($attributes)) {
-            if (!is_array($result)) {
-                $result = (trim($result)) ? array($node->nodeName => $result) : array();
-            }
-            $result = array($node->nodeName => array_merge($result, array('@attributes' => $attributes)));
-        } else {
-            if (!is_array($result)) {
-                $result = (trim($result) !== '') ? array($node->nodeName => $result) : array();
-            }
+            $result = array('@attributes' => $attributes);
         }
-
         return $result;
     }
 }

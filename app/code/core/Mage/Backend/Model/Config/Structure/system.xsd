@@ -180,6 +180,7 @@
                     <xs:element name="more_url" type="typeUrl" />
                     <xs:element name="demo_url" type="typeUrl" />
                     <xs:element name="button_label" type="xs:string" />
+                    <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element name="upload_dir" type="typeUploadDir" />
                     <xs:element ref="depends" />
                     <xs:element ref="attribute" />
@@ -212,7 +213,7 @@
             <xs:sequence>
                 <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
             </xs:sequence>
-            <xs:attribute name="type" type="xs:string" use="required" />
+            <xs:anyAttribute processContents="lax"/>
         </xs:complexType>
     </xs:element>
 

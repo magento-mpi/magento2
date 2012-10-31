@@ -18,10 +18,18 @@ abstract class Tools_Migration_System_Configuration_LoggerAbstract
      *
      * @var array
      */
-    protected $_logs = array();
+    protected $_logs;
 
     CONST FILE_KEY_VALID = 'valid';
     CONST FILE_KEY_INVALID = 'invalid';
+
+    public function __construct()
+    {
+        $this->_logs = array(
+            self::FILE_KEY_VALID => array(),
+            self::FILE_KEY_INVALID => array()
+        );
+    }
 
     /**
      * Add log data
@@ -32,14 +40,7 @@ abstract class Tools_Migration_System_Configuration_LoggerAbstract
      */
     public function add($fileName, $type)
     {
-        switch($type) {
-            case self::FILE_KEY_VALID:
-                $this->_logs[self::FILE_KEY_VALID][] = $fileName;
-                break;
-            case self::FILE_KEY_INVALID:
-                $this->_logs[self::FILE_KEY_INVALID][] = $fileName;
-                break;
-        }
+        $this->_logs[$type][] = $fileName;
         return $this;
     }
 
@@ -50,32 +51,26 @@ abstract class Tools_Migration_System_Configuration_LoggerAbstract
      */
     public function __toString()
     {
-        $countValidFiles = isset($this->_logs[self::FILE_KEY_VALID])?
-            count($this->_logs[self::FILE_KEY_VALID]) : 0;
-        $countInvalidFiles = isset($this->_logs[self::FILE_KEY_INVALID])?
-            count($this->_logs[self::FILE_KEY_INVALID]) : 0;
-        $totalFiles = $countInvalidFiles + $countValidFiles;
+        $result = array();
+        $totalCount = 0;
+        foreach ($this->_logs as $type => $data) {
+            $countElements = count($data);
+            $totalCount += $countElements;
+            $total[] = $type . ': ' . $countElements;
 
-        $result[] = 'Total: '. $totalFiles;
-        $result[] = 'Valid: '. $countValidFiles;
-        $result[] = 'Invalid: '. $countInvalidFiles;
+            if (!$countElements) {
+                continue;
+            }
 
-        if ($countInvalidFiles > 0) {
             $result[] = '------------------------------';
-            $result[] = 'Invalid:';
-            foreach ($this->_logs[self::FILE_KEY_INVALID] as $fileName) {
+            $result[] =  $type . ':';
+            foreach ($data as $fileName) {
                 $result[] = $fileName;
             }
         }
 
-        if ($countValidFiles > 0) {
-            $result[] = '------------------------------';
-            $result[] = 'Valid:';
-            foreach ($this->_logs[self::FILE_KEY_VALID] as $fileName) {
-                $result[] = $fileName;
-            }
-        }
-
+        $total[] = 'Total: ' . $totalCount;
+        $result = array_merge($total, $result);
         return implode(PHP_EOL, $result);
     }
 
@@ -83,7 +78,6 @@ abstract class Tools_Migration_System_Configuration_LoggerAbstract
      * Generate report
      *
      * @abstract
-     * @return mixed
      */
     public abstract function report();
 }

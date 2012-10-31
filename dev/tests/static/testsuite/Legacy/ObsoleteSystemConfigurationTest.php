@@ -14,25 +14,19 @@
  */
 class Legacy_ObsoleteSystemConfigurationTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @param string $configFile
-     * @dataProvider systemConfigurationFilesDataProvider
-     */
-    public function testSystemConfigurationDeclaration($configFile)
+    public function testSystemConfigurationDeclaration()
     {
-        $configXml = simplexml_load_file($configFile);
-        $xpath = '/config/tabs|/config/sections';
-        $this->assertEmpty(
-            $configXml->xpath($xpath),
-            'Obsolete system configuration structure detected in file ' . $configFile . '.'
+        $fileList = Utility_Files::init()->getConfigFiles('system.xml',
+            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
+            false
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function systemConfigurationFilesDataProvider()
-    {
-        return Utility_Files::init()->getConfigFiles('system.xml');
+        foreach ($fileList as $configFile) {
+            $configXml = simplexml_load_file($configFile);
+            $xpath = '/config/tabs|/config/sections';
+            $this->assertEmpty(
+                $configXml->xpath($xpath),
+                'Obsolete system configuration structure detected in file ' . $configFile . '.'
+            );
+        }
     }
 }

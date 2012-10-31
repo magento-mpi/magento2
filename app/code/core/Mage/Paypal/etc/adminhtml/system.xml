@@ -131,7 +131,7 @@
                         <enable_for_countries>US, GB</enable_for_countries>
                     </attribute>
                     <config_path>payment/paypaluk_express/active</config_path>
-                    <attribute type="is_simplified">1</attribute>
+                    <attribute type="is_simplified" hello='sadfsdf'>1</attribute>
                 </field>
                 <field id="payflow_link" translate="label comment" type="checkbox" sortOrder="50" showInDefault="1" showInWebsite="1">
                     <label>Payflow Link (for USA and Canada)</label>
@@ -1189,4 +1189,4 @@
             </group>
         </section>
     </system>
-</config>
+</config>

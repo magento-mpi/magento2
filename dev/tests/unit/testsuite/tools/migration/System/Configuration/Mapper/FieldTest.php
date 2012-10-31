@@ -60,7 +60,7 @@ class Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Fram
                 'undefined' => array('#text' => 'undefined_test', '@attributes' => array('some' => 'attribute')),
                 'node' => array(
                     'label' => array(
-                        'some' => array('#text' => 'value')
+                        'nodeLabel' => array('#text' => 'nodeValue')
                     ),
                 ),
             ),
@@ -71,62 +71,20 @@ class Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Fram
                 'nodeName' => 'field',
                 '@attributes' => array('id' => 'field_1'),
                 'parameters' => array(
-                    array(
-                        'name' => 'comment',
-                        '#cdata-section' => 'comment_test',
-                    ),
-                    array(
-                        'name' => 'tooltip',
-                        '#text' => 'tooltip_test',
-                    ),
-                    array(
-                        'name' => 'frontend_class',
-                        '#text' => 'frontend_class_test',
-                    ),
-                    array(
-                        'name' => 'validate',
-                        '#text' => 'validate_test',
-                    ),
-                    array(
-                        'name' => 'can_be_empty',
-                        '#text' => 'can_be_empty_test',
-                    ),
-                    array(
-                        'name' => 'if_module_enabled',
-                        '#text' => 'if_module_enabled_test',
-                    ),
-                    array(
-                        'name' => 'frontend_model',
-                        '#text' => 'frontend_model_test',
-                    ),
-                    array(
-                        'name' => 'backend_model',
-                        '#text' => 'backend_model_test',
-                    ),
-                    array(
-                        'name' => 'source_model',
-                        '#text' => 'source_model_test',
-                    ),
-                    array(
-                        'name' => 'config_path',
-                        '#text' => 'config_path_test',
-                    ),
-                    array(
-                        'name' => 'base_url',
-                        '#text' => 'base_url_test',
-                    ),
-                    array(
-                        'name' => 'upload_dir',
-                        '#text' => 'upload_dir_test',
-                    ),
-                    array(
-                        'name' => 'button_url',
-                        '#text' => 'button_url_test',
-                    ),
-                    array(
-                        'name' => 'button_label',
-                        '#text' => 'button_label_test',
-                    ),
+                    array('name' => 'comment', '#cdata-section' => 'comment_test'),
+                    array('name' => 'tooltip', '#text' => 'tooltip_test'),
+                    array('name' => 'frontend_class', '#text' => 'frontend_class_test'),
+                    array('name' => 'validate', '#text' => 'validate_test'),
+                    array('name' => 'can_be_empty', '#text' => 'can_be_empty_test'),
+                    array('name' => 'if_module_enabled', '#text' => 'if_module_enabled_test'),
+                    array('name' => 'frontend_model', '#text' => 'frontend_model_test'),
+                    array('name' => 'backend_model', '#text' => 'backend_model_test'),
+                    array('name' => 'source_model', '#text' => 'source_model_test'),
+                    array('name' => 'config_path', '#text' => 'config_path_test'),
+                    array('name' => 'base_url', '#text' => 'base_url_test'),
+                    array('name' => 'upload_dir','#text' => 'upload_dir_test'),
+                    array('name' => 'button_url', '#text' => 'button_url_test',),
+                    array('name' => 'button_label', '#text' => 'button_label_test'),
                     array(
                         'name' => 'depends',
                         'subConfig' => array(
@@ -137,14 +95,8 @@ class Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Fram
                             )
                         )
                     ),
-                    array(
-                        'name' => 'more_url',
-                        '#text' => 'more_url_test',
-                    ),
-                    array(
-                        'name' => 'demo_url',
-                        '#text' => 'demo_url_test',
-                    ),
+                    array('name' => 'more_url', '#text' => 'more_url_test'),
+                    array('name' => 'demo_url', '#text' => 'demo_url_test'),
                     array(
                         '@attributes' => array(
                             'type' => 'undefined',
@@ -163,8 +115,8 @@ class Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Fram
                                 'nodeName' => 'label',
                                 'subConfig' => array(
                                     array(
-                                        'nodeName' => 'some',
-                                        '#text' => 'value',
+                                        'nodeName' => 'nodeLabel',
+                                        '#text' => 'nodeValue',
                                     )
                                 )
                             )

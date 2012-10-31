@@ -27,6 +27,13 @@ class Tools_Migration_System_Configuration_Generator
     protected $_logger;
 
     /**
+     * Base directory path
+     *
+     * @var string
+     */
+    protected $_basePath;
+
+    /**
      * @var Tools_Migration_System_Configuration_LoggerAbstract
      */
     protected $_fileSchemaPath;
@@ -47,6 +54,7 @@ class Tools_Migration_System_Configuration_Generator
     }
 
     /**
+     * Create configuration array from xml file
      *
      * @param string $fileName
      * @param array $configuration
@@ -79,6 +87,8 @@ class Tools_Migration_System_Configuration_Generator
     }
 
     /**
+     *  Create DOM document based on configuration
+     *
      * @param array $configuration
      * @return DOMDocument
      */
@@ -107,51 +117,58 @@ class Tools_Migration_System_Configuration_Generator
      */
     protected function _createElement($config, DOMDocument $dom)
     {
-        $element = $dom->createElement($config['nodeName'], isset($config['#text']) ? $config['#text'] : '');
-        if (isset($config['#cdata-section'])) {
-            $cdataSection = $dom->createCDATASection($config['#cdata-section']);
+        $element = $dom->createElement($this->_getValue($config, 'nodeName'), $this->_getValue($config, '#text', ''));
+        if ($this->_getValue($config, '#cdata-section')) {
+            $cdataSection = $dom->createCDATASection($this->_getValue($config, '#cdata-section', ''));
             $element->appendChild($cdataSection);
         }
-        $attributes = isset($config['@attributes']) ? $config['@attributes'] : array();
-        foreach ($attributes as $attributeName => $attributeValue) {
+
+        foreach ($this->_getValue($config, '@attributes', array()) as $attributeName => $attributeValue) {
             $element->setAttribute($attributeName, $attributeValue);
         }
 
-        $parameters = isset($config['parameters']) ? $config['parameters'] : array();
-        foreach ($parameters as $paramConfig) {
-            if ($paramConfig['name'] == '#text') {
-                $element->nodeValue = $paramConfig['value'];
+        foreach ($this->_getValue($config, 'parameters', array()) as $paramConfig) {
+            if ($this->_getValue($paramConfig, 'name') == '#text') {
+                $element->nodeValue = $this->_getValue($paramConfig, 'value', '');
                 continue;
             }
-            $childElement = $dom->createElement(
-                $paramConfig['name'],
-                isset($paramConfig['#text']) ? $paramConfig['#text'] : ''
-            );
-            if (isset($paramConfig['#cdata-section'])) {
-                $childCDataSection = $dom->createCDATASection($paramConfig['#cdata-section']);
+
+            $childElement = $dom->createElement($paramConfig['name'], $this->_getValue($paramConfig, '#text', ''));
+
+            if ($this->_getValue($paramConfig, '#cdata-section')) {
+                $childCDataSection = $dom->createCDATASection($this->_getValue($paramConfig, '#cdata-section'));
                 $childElement->appendChild($childCDataSection);
             }
 
-            $paramAttributes = isset($paramConfig['@attributes']) ? $paramConfig['@attributes'] : array();
-            foreach ($paramAttributes as $attributeName => $attributeValue) {
+            foreach ($this->_getValue($paramConfig, '@attributes', array()) as $attributeName => $attributeValue) {
                 $childElement->setAttribute($attributeName, $attributeValue);
             }
 
-            if (isset($paramConfig['subConfig'])) {
-                foreach ($paramConfig['subConfig'] as $subConfig) {
-                    $childElement->appendChild($this->_createElement($subConfig, $dom));
-                }
+            foreach ($this->_getValue($paramConfig, 'subConfig', array()) as $subConfig) {
+                $childElement->appendChild($this->_createElement($subConfig, $dom));
             }
+
             $element->appendChild($childElement);
         }
 
-        if (isset($config['subConfig'])) {
-            foreach ($config['subConfig'] as $subConfig) {
-                $element->appendChild($this->_createElement($subConfig, $dom));
-            }
+        foreach ($this->_getValue($config, 'subConfig', array()) as $subConfig) {
+            $element->appendChild($this->_createElement($subConfig, $dom));
         }
 
         return $element;
+    }
+
+    /**
+     * Get value from array by key
+     *
+     * @param array $source
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function _getValue($source, $key, $default = null)
+    {
+        return array_key_exists($key, $source) ? $source[$key] : $default;
     }
 
     /**
@@ -169,11 +186,10 @@ class Tools_Migration_System_Configuration_Generator
      * Remove path to magento application
      *
      * @param $filename
-     * @return mixed
+     * @return string
      */
     protected function _removeBasePath($filename)
     {
         return str_replace($this->_basePath . DIRECTORY_SEPARATOR, '', $filename);
     }
-
 }

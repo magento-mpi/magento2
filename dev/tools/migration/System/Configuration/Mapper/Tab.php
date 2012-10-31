@@ -10,19 +10,25 @@
 
 class Tools_Migration_System_Configuration_Mapper_Tab extends Tools_Migration_System_Configuration_Mapper_Abstract
 {
-    public function __construct()
-    {
-        $this->_attributeMaps = array(
-            'sort_order' => 'sortOrder',
-            'frontend_type' => 'type',
-            'class' => 'class'
-        );
+    /**
+     * Attribute maps
+     * oldName => newName
+     * @var array
+     */
+    protected $_attributeMaps = array(
+        'sort_order' => 'sortOrder',
+        'frontend_type' => 'type',
+        'class' => 'class'
+    );
 
-        $this->_allowedFieldNames = array(
-            'label',
-        );
-
-    }
+    /**
+     * List of allowed filed names for tab
+     *
+     * @var array
+     */
+    protected $_allowedFieldNames = array(
+        'label',
+    );
 
     /**
      * Transform tabs configuration
@@ -40,10 +46,12 @@ class Tools_Migration_System_Configuration_Mapper_Tab extends Tools_Migration_Sy
     }
 
     /**
+     * Transform sub configuration
+     *
      * @param array $config
-     * @param $parentNode
-     * @param $element
-     * @return mixed
+     * @param array $parentNode
+     * @param array $element
+     * @return array
      */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {

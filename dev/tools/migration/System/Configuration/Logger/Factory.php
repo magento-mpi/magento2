@@ -11,6 +11,8 @@
 class Tools_Migration_System_Configuration_Logger_Factory
 {
     /**
+     * Get logger instance
+     *
      * @param string $loggerType
      * @param string $filePath
      * @param Tools_Migration_System_FileManager $fileManager
@@ -18,16 +20,17 @@ class Tools_Migration_System_Configuration_Logger_Factory
      */
     public function getLogger($loggerType, $filePath, Tools_Migration_System_FileManager $fileManager)
     {
-        $loggerClassName = null;
+        /** @var Tools_Migration_System_Configuration_LoggerAbstract $loggerInstance  */
+        $loggerInstance = null;
         switch ($loggerType) {
             case 'file':
-                $loggerClassName = 'Tools_Migration_System_Configuration_Logger_File';
+                $loggerInstance = new Tools_Migration_System_Configuration_Logger_File($filePath, $fileManager);
                 break;
             default:
-                $loggerClassName = 'Tools_Migration_System_Configuration_Logger_Console';
+                $loggerInstance = new Tools_Migration_System_Configuration_Logger_Console();
                 break;
         }
 
-        return new $loggerClassName($filePath, $fileManager);
+        return $loggerInstance;
     }
 }

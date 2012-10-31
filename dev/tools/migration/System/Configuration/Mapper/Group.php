@@ -16,27 +16,32 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
     protected $_fieldMapper;
 
     /**
+     * List of allowed field names for group
+     * @var array
+     */
+    protected $_allowedFieldNames = array(
+        'label',
+        'frontend_model',
+        'clone_fields',
+        'clone_model',
+        'fieldset_css',
+        'help_url',
+        'comment',
+        'hide_in_single_store_mode',
+        'expanded'
+    );
+
+    /**
      * @param Tools_Migration_System_Configuration_Mapper_Field $fieldMapper
      */
     public function __construct(Tools_Migration_System_Configuration_Mapper_Field $fieldMapper)
     {
-        parent::__construct();
-        $this->_allowedFieldNames = array(
-            'label',
-            'frontend_model',
-            'clone_fields',
-            'clone_model',
-            'fieldset_css',
-            'help_url',
-            'comment',
-            'hide_in_single_store_mode',
-            'expanded'
-        );
-
         $this->_fieldMapper = $fieldMapper;
     }
 
     /**
+     * Transform group configuration
+     *
      * @param array $config
      * @return array
      */
@@ -51,9 +56,9 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
 
     /**
      * @param array $config
-     * @param $parentNode
-     * @param $element
-     * @return mixed
+     * @param array $parentNode
+     * @param array $element
+     * @return array
      */
     protected function _transformSubConfig(array $config, $parentNode, $element)
     {
@@ -63,7 +68,6 @@ class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_
                 $element['subConfig'] = $subConfig;
             }
         }
-
         return $element;
     }
 

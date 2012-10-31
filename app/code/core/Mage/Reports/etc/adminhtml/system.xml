@@ -17,7 +17,7 @@
                 <field id="scope" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Show for Current</label>
                     <source_model>Mage_Backend_Model_Config_Source_Reports_Scope</source_model>
-                    <attribute type="hide_in_single_store_mode">1</attribute>
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 </field>
                 <field id="viewed_count" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Default Recently Viewed Products Count</label>
@@ -45,4 +45,4 @@
             </group>
         </section>
     </system>
-</config>
+</config>
