@@ -1,8 +1,25 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: User
- * Date: 25.10.12
- * Time: 14:16
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Tools
+ * @package     unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
+
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/migration/System/Configuration/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/migration/System/Configuration/Logger/Console.php';
+
+class Tools_Migration_System_Configuration_Logger_ConsoleTest extends PHPUnit_Framework_TestCase
+{
+    public function testReport()
+    {
+        $this->expectOutputRegex('/^valid: 0(.)*/');
+        $model = new Tools_Migration_System_Configuration_Logger_Console();
+        $model->report();
+    }
+}
+
