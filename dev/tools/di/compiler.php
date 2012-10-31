@@ -9,16 +9,13 @@
  */
 
 /**
- * Require necessary files
- */
-/**
  * Constants definition
  */
-use \Zend\Di\Di;
-
 define('DS', DIRECTORY_SEPARATOR);
 define('BP', realpath(__DIR__ . '/../../..'));
-
+/**
+ * Require necessary files
+ */
 require_once BP . '/lib/Magento/Autoload.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
@@ -52,7 +49,7 @@ class ArrayDefinitionCompiler
      *
      * @var ReflectionMethod[]
      */
-    protected $_constructor;
+    protected $_constructorList;
 
     /**
      * List of common dependencies for model and block abstract
@@ -116,10 +113,10 @@ class ArrayDefinitionCompiler
         );
 
         foreach ($classList as $className) {
-            $this->_constructor[$className] = new ReflectionMethod($className, '__construct');
+            $this->_constructorList[$className] = new ReflectionMethod($className, '__construct');
 
             /** @var $param ReflectionParameter */
-            foreach ($this->_constructor[$className]->getParameters() as $param) {
+            foreach ($this->_constructorList[$className]->getParameters() as $param) {
                 if ($param->getClass() && !in_array($param->getClass()->getName(), $this->_commonDependencies)) {
                     $this->_commonDependencies[] = $param->getClass()->getName();
                 }
@@ -170,8 +167,8 @@ class ArrayDefinitionCompiler
     {
         foreach ($moduleDefinitions as $name => $definition) {
             if (!$this->_hasConstructorParams($name, $definition)
-                || $this->_isConstructorParamsEquals(self::ABSTRACT_MODEL, $definition)
-                || $this->_isConstructorParamsEquals(self::ABSTRACT_BLOCK, $definition)
+                || $this->_areConstructorParamsEquals(self::ABSTRACT_MODEL, $definition)
+                || $this->_areConstructorParamsEquals(self::ABSTRACT_BLOCK, $definition)
             ) {
                 unset($moduleDefinitions[$name]);
             }
@@ -179,13 +176,13 @@ class ArrayDefinitionCompiler
     }
 
     /**
-     * Check is class has constructor params
+     * Check if class has constructor params
      *
      * For cases when *_Model_* found function will return true, because such classes must be in compiled array.
      *
      * @param $className
      * @param $definition
-     * @return bool|int
+     * @return bool
      */
     protected function _hasConstructorParams($className, $definition)
     {
@@ -194,12 +191,12 @@ class ArrayDefinitionCompiler
             $constructorParams = array_values($definition['parameters']['__construct']);
         }
 
-        $hasParams = count($constructorParams);
-        if (!$hasParams && in_array($className, $this->_commonDependencies)) {
+        $paramNumber = count($constructorParams);
+        if (!$paramNumber && in_array($className, $this->_commonDependencies)) {
             return true;
         }
 
-        return $hasParams;
+        return (bool) $paramNumber;
     }
 
     /**
@@ -209,21 +206,21 @@ class ArrayDefinitionCompiler
      * @param array $definition
      * @return bool
      */
-    protected function _isConstructorParamsEquals($className, $definition)
+    protected function _areConstructorParamsEquals($className, $definition)
     {
-        if (!isset($this->_constructor[$className])) {
-            $this->_constructor[$className] = new ReflectionMethod($className, '__construct');
+        if (!isset($this->_constructorList[$className])) {
+            $this->_constructorList[$className] = new ReflectionMethod($className, '__construct');
         }
 
         if (isset($definition['supertypes']) && isset($definition['parameters']['__construct'])) {
             foreach ($definition['supertypes'] as $type) {
                 if (($type == $className)
                     && (count($definition['parameters']['__construct']) ==
-                        count($this->_constructor[$className]->getParameters())
+                        count($this->_constructorList[$className]->getParameters())
                     )
                 ) {
                     return $this->_compareConstructorParams($definition['parameters']['__construct'],
-                        $this->_constructor[$className]->getParameters()
+                        $this->_constructorList[$className]->getParameters()
                     );
                 }
             }
@@ -285,4 +282,3 @@ if (!file_exists(BP . '/var/di/')) {
 }
 
 file_put_contents(BP . '/var/di/definitions.php', serialize($definitions));
-//file_put_contents(BP . '/var/di/definitions_log.php', '<?php return ' . var_export($definitions, true) . ';');

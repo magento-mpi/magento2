@@ -9,16 +9,13 @@
  */
 
 use Zend\Di\Exception;
-/**
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @todo Need decrease ExcessiveClassComplexity of this class
- */
+
 class Magento_Di extends Zend\Di\Di
 {
     /**
      * @var array
      */
-    protected $_cachedInstances;
+    protected $_cachedInstances = array();
 
     /**
      * @var array
@@ -51,21 +48,9 @@ class Magento_Di extends Zend\Di\Di
         if (!$this->definitions()->hasClass($name)) {
             array_push($this->instanceContext, array('NEW', $name, $name));
 
-            $isModel = preg_match('/\w*_\w*\_Model/', $name);
-            $isBlock = false;
+            if (preg_match('/\w*_\w*\_Model/', $name)) {
+                $this->_cacheMainDependencies();
 
-            if (!$isModel) {
-                $isBlock = preg_match('/\w*_\w*\_Block/', $name);
-            }
-
-            if (!$this->_cachedInstances && ($isModel || $isBlock)) {
-                $this->_cachedInstances = array(
-                    'eventManager' => $this->get('Mage_Core_Model_Event_Manager'),
-                    'cache'        => $this->get('Mage_Core_Model_Cache'),
-                );
-            }
-
-            if ($isModel) {
                 $instance = new $name(
                     $this->_cachedInstances['eventManager'],
                     $this->_cachedInstances['cache'],
@@ -73,16 +58,9 @@ class Magento_Di extends Zend\Di\Di
                     null,
                     $parameters
                 );
-            } else if ($isBlock) {
-                if (!isset($this->_cachedInstances['request'])) {
-                    $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
-                    $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
-                    $this->_cachedInstances['translate']       = $this->get('Mage_Core_Model_Translate');
-                    $this->_cachedInstances['design']          = $this->get('Mage_Core_Model_Design_Package');
-                    $this->_cachedInstances['session']         = $this->get('Mage_Core_Model_Session');
-                    $this->_cachedInstances['storeConfig']     = $this->get('Mage_Core_Model_Store_Config');
-                    $this->_cachedInstances['frontController'] = $this->get('Mage_Core_Controller_Varien_Front');
-                }
+            } else if (preg_match('/\w*_\w*\_Block/', $name)) {
+                $this->_cacheMainDependencies();
+
                 $instance = new $name(
                     $this->_cachedInstances['request'],
                     $this->_cachedInstances['layout'],
@@ -98,13 +76,8 @@ class Magento_Di extends Zend\Di\Di
             } else {
                 $instance = new $name();
             }
-
             if ($isShared) {
-                if ($parameters) {
-                    $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
-                } else {
-                    $this->instanceManager->addSharedInstance($instance, $name);
-                }
+                $this->_addSharedInstance($instance, $name, $parameters);
             }
             array_pop($this->instanceContext);
             return $instance;
@@ -153,15 +126,52 @@ class Magento_Di extends Zend\Di\Di
         }
 
         if ($isShared) {
-            if ($parameters) {
-                $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
-            } else {
-                $this->instanceManager->addSharedInstance($instance, $name);
-            }
+            $this->_addSharedInstance($instance, $name, $parameters);
         }
 
         array_pop($this->instanceContext);
         return $instance;
+    }
+
+    /**
+     * Add shared instance to instance manager
+     *
+     * @param object $instance
+     * @param string $name
+     * @param array $parameters
+     * @return Magento_Di
+     */
+    protected function _addSharedInstance($instance, $name, array $parameters = array())
+    {
+        if ($parameters) {
+            $this->instanceManager->addSharedInstanceWithParameters($instance, $name, $parameters);
+        } else {
+            $this->instanceManager->addSharedInstance($instance, $name);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Create cache of main dependencies for model and block creation
+     *
+     * @return Magento_Di
+     */
+    protected function _cacheMainDependencies()
+    {
+        if (!$this->_cachedInstances) {
+            $this->_cachedInstances['eventManager']    = $this->get('Mage_Core_Model_Event_Manager');
+            $this->_cachedInstances['cache']           = $this->get('Mage_Core_Model_Cache');
+            $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
+            $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
+            $this->_cachedInstances['translate']       = $this->get('Mage_Core_Model_Translate');
+            $this->_cachedInstances['design']          = $this->get('Mage_Core_Model_Design_Package');
+            $this->_cachedInstances['session']         = $this->get('Mage_Core_Model_Session');
+            $this->_cachedInstances['storeConfig']     = $this->get('Mage_Core_Model_Store_Config');
+            $this->_cachedInstances['frontController'] = $this->get('Mage_Core_Controller_Varien_Front');
+        }
+
+        return $this;
     }
 
     /**
