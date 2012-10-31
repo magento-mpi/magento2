@@ -71,93 +71,27 @@ $numColumns = sizeof($this->getColumns());
                 </script>
             </td>
         <?php endif; ?>
-        <?php if($this->getExportVisibility()): ?>
-            <td class="a-right">
-                <img src="<?php echo $this->getSkinUrl('images/icon_export.gif') ?>" alt="" class="v-middle"/>&nbsp; <?php echo $this->__('Export to:') ?>
-                <select name="<?php echo $this->getSuffixId('export')?>" id="<?php echo $this->getSuffixId('export')?>" style="width:8em;">
-                <?php foreach ($this->getExportTypes() as $_type): ?>
-                    <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
-                <?php endforeach; ?>
-                </select>
-                <?php echo $this->getExportButtonHtml() ?>
+            <?php if($this->getChildBlock('grid.export')): ?>
+            <td class="export a-right">
+                <?php echo $this->getChildHtml('grid.export');?>
             </td>
-        <?php endif; ?>
+            <?php endif; ?>
             </tr>
         </table>
     <?php endif; ?>
 
     <div class="grid">
-    <table cellspacing="0" class="data" id="<?php echo $this->getSuffixId('table')?>">
-        <col/>
-        <?php foreach ($this->getColumns() as $_column): ?>
-        <col <?php echo $_column->getHtmlProperty() ?>/>
-        <?php endforeach; ?>
-        <?php if ($this->getHeadersVisibility() || $this->getFilterVisibility()): ?>
-            <thead>
-                <?php if ($this->getHeadersVisibility()): ?>
-                    <tr class="headings">
-                    <th class="no-link" style="width:100px"><span class="no-br"><?php echo $this->getPeriodText() ?></span></th>
-                    <?php foreach ($this->getColumns() as $_column): ?>
-                        <th <?php echo $_column->getHeaderHtmlProperty() ?>><span class="no-br"><?php echo $_column->getHeaderHtml() ?></span></th>
-                    <?php endforeach; ?>
-                    </tr>
-                <?php endif; ?>
-            </thead>
-        <?php endif; ?>
-        <tbody>
-        <?php if ($this->getCollection()->getSize()): ?>
-        <?php foreach ($this->getCollection()->getIntervals() as $_index => $_item): ?>
-            <tr>
-            <?php $report=$this->getReport($_item['start'], $_item['end']) ?>
-            <?php $rows=count($report) ?>
-            <?php if ($rows > 0 ): ?>
-            <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
-                <?php $i=0;foreach ($report as $_subIndex=>$_subItem): ?>
-                    <?php if($i>0): ?>
-                    <tr>
-                    <?php endif; ?>
-                    <?php $i++; ?>
-                    <?php $j=0;foreach ($this->getColumns() as $_column): ?>
-                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
-                            <?php echo (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;') ?>
-                        </td>
-                    <?php endforeach; ?>
-                    </tr>
-                <?php endforeach; ?>
-                <?php if($this->getCountTotals() && $rows > 0 && $this->getSubtotalVisibility()): ?>
-                <tr>
-                    <?php $j=0;foreach ($this->getColumns() as $_column): ?>
-                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
-                            <?php echo ($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals()) ?>
-                        </td>
-                    <?php endforeach; ?>
-                </tr>
-                <?php endif; ?>
-            <?php else: ?>
-                <td><?php echo $_index ?></td>
-                <td colspan="<?php echo $numColumns ?>" class="empty-text <?php echo $this->getEmptyTextClass() ?> last"><?php echo $this->getEmptyText() ?></td>
-            <?php endif; ?>
-            </tr>
-        <?php endforeach; ?>
-        <?php elseif ($this->getEmptyText()): ?>
-            <tr>
-              <td class="empty-text <?php echo $this->getEmptyTextClass() ?>" colspan="<?php echo $numColumns + 1 ?>"><?php echo $this->getEmptyText() ?></td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-        <?php if ($this->getCountTotals() && $this->getCollection()->getSize()): ?>
-        <tfoot>
-            <tr><th><?php echo $this->getTotalText() ?></th>
-            <?php $j=0;foreach ($this->getColumns() as $_column): ?>
-                <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>"><?php echo $_column->getRowField($this->getGrandTotals()) ?></th>
-            <?php endforeach; ?>
-            </tr>
-         </tfoot>
-        <?php endif; ?>
-    </table>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
+                <!-- Rendering column set -->
+                <?php echo $this->getChildHtml('grid.columnSet'); ?>
+                </table>
+            </div>
+        </div>
     </div>
-<?php if($this->canDisplayContainer()): ?>
 </div>
+<?php if($this->canDisplayContainer()): ?>
 <script type="text/javascript">
 //<![CDATA[
     <?php echo $this->getJsObjectName() ?> = new varienGrid('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>');

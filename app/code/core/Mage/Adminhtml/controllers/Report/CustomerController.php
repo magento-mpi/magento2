@@ -77,7 +77,6 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             ->_setActiveMenu('Mage_Reports::report_customers_orders')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'),
                 Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Orders'))
             ->renderLayout();
     }
 

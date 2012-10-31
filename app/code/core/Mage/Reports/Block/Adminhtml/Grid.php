@@ -9,10 +9,10 @@
  */
 
 /**
- * Adminhtml report grid block
+ * Backend report grid block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
@@ -21,7 +21,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected $_dateFilterVisibility = true;
 
-    protected $_exportVisibility = true;
+//    protected $_exportVisibility = true;
 
     protected $_subtotalVisibility = false;
 
@@ -60,25 +60,8 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected $_locale;
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setFilterVisibility(false);
-        $this->setPagerVisibility(false);
-
-        $this->setUseAjax(false);
-        $this->setCountTotals(true);
-    }
-
     protected function _prepareLayout()
     {
-        $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
-                ->setUseConfirm(false)
-                ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
-                ->setTemplate('Mage_Reports::store/switcher.phtml')
-        );
-
         $this->addChild('refresh_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
             'onclick'   => $this->getRefreshButtonCallback(),
@@ -86,15 +69,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         ));
         parent::_prepareLayout();
         return $this;
-    }
-
-    protected function _prepareColumns()
-    {
-        foreach ($this->_columns as $_column) {
-            $_column->setSortable(false);
-        }
-
-        parent::_prepareColumns();
     }
 
     protected function _prepareCollection()
@@ -128,61 +102,62 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         } else if(0 !== sizeof($this->_defaultFilter)) {
             $this->_setFilterValues($this->_defaultFilter);
         }
-        /** @var $collection Mage_Reports_Model_Resource_Report_Collection */
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Report_Collection');
 
-        $collection->setPeriod($this->getFilter('report_period'));
+        $collection = $this->getCollection();
+        if ($collection) {
+            $collection->setPeriod($this->getFilter('report_period'));
 
-        if ($this->getFilter('report_from') && $this->getFilter('report_to')) {
+            if ($this->getFilter('report_from') && $this->getFilter('report_to')) {
+                /**
+                 * Validate from and to date
+                 */
+                try {
+                    $from = $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
+                    $to   = $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
+
+                    $collection->setInterval($from, $to);
+                }
+                catch (Exception $e) {
+                    $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified.');
+                }
+            }
+
             /**
-             * Validate from and to date
+             * Getting and saving store ids for website & group
              */
-            try {
-                $from = $this->getLocale()->date($this->getFilter('report_from'), Zend_Date::DATE_SHORT, null, false);
-                $to   = $this->getLocale()->date($this->getFilter('report_to'), Zend_Date::DATE_SHORT, null, false);
-
-                $collection->setInterval($from, $to);
+            $storeIds = array();
+            if ($this->getRequest()->getParam('store')) {
+                $storeIds = array($this->getParam('store'));
+            } elseif ($this->getRequest()->getParam('website')){
+                $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            } elseif ($this->getRequest()->getParam('group')){
+                $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             }
-            catch (Exception $e) {
-                $this->_errors[] = Mage::helper('Mage_Reports_Helper_Data')->__('Invalid date specified.');
+
+            // By default storeIds array contains only allowed stores
+            $allowedStoreIds = array_keys(Mage::app()->getStores());
+            // And then array_intersect with post data for prevent unauthorized stores reports
+            $storeIds = array_intersect($allowedStoreIds, $storeIds);
+            // If selected all websites or unauthorized stores use only allowed
+            if (empty($storeIds)) {
+                $storeIds = $allowedStoreIds;
             }
-        }
-
-        /**
-         * Getting and saving store ids for website & group
-         */
-        $storeIds = array();
-        if ($this->getRequest()->getParam('store')) {
-            $storeIds = array($this->getParam('store'));
-        } elseif ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-        } elseif ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
-        }
-
-        // By default storeIds array contains only allowed stores
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
-        // And then array_intersect with post data for prevent unauthorized stores reports
-        $storeIds = array_intersect($allowedStoreIds, $storeIds);
-        // If selected all websites or unauthorized stores use only allowed
-        if (empty($storeIds)) {
-            $storeIds = $allowedStoreIds;
-        }
-        // reset array keys
-        $storeIds = array_values($storeIds);
+            // reset array keys
+            $storeIds = array_values($storeIds);
 
 
-        $collection->setStoreIds($storeIds);
+            $collection->setStoreIds($storeIds);
 
-        if ($this->getSubReportSize() !== null) {
-            $collection->setPageSize($this->getSubReportSize());
-        }
+            if ($this->getSubReportSize() !== null) {
+                $collection->setPageSize($this->getSubReportSize());
+            }
 
-        $this->setCollection($collection);
-
-        Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
+            Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
-        );
+            );
+        }
+
+        return $this;
     }
 
     protected function _setFilterValues($data)
@@ -243,26 +218,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     public function getDateFilterVisibility()
     {
         return $this->_dateFilterVisibility;
-    }
-
-    /**
-     * Set visibility of export action
-     *
-     * @param boolean $visible
-     */
-    public function setExportVisibility($visible=true)
-    {
-        $this->_exportVisibility = $visible;
-    }
-
-    /**
-     * Return visibility of export action
-     *
-     * @return boolean
-     */
-    public function getExportVisibility()
-    {
-        return $this->_exportVisibility;
     }
 
     /**
@@ -584,30 +539,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->_errors;
     }
 
-    /**
-     * Retrieve correct currency code for select website, store, group
-     *
-     * @return string
-     */
-    public function getCurrentCurrencyCode()
-    {
-        if (is_null($this->_currentCurrencyCode)) {
-            if ($this->getRequest()->getParam('store')) {
-                $store = $this->getRequest()->getParam('store');
-                $this->_currentCurrencyCode = Mage::app()->getStore($store)->getBaseCurrencyCode();
-            } else if ($this->getRequest()->getParam('website')){
-                $website = $this->getRequest()->getParam('website');
-                $this->_currentCurrencyCode = Mage::app()->getWebsite($website)->getBaseCurrencyCode();
-            } else if ($this->getRequest()->getParam('group')){
-                $group = $this->getRequest()->getParam('group');
-                $this->_currentCurrencyCode =  Mage::app()->getGroup($group)->getWebsite()->getBaseCurrencyCode();
-            } else {
-                $this->_currentCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
-            }
-        }
-        return $this->_currentCurrencyCode;
-    }
-    
     /**
      * Get currency rate (base to given currency)
      *

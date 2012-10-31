@@ -59,6 +59,13 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_pagerVisibility = true;
 
     /**
+     * Pager visibility
+     *
+     * @var boolean
+     */
+    protected $_filterVisibility = true;
+
+    /**
      * Massage block visibility
      *
      * @var boolean
@@ -129,11 +136,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->setRowClickCallback('openGridRow');
         }
 
-        $this->setData(
-            'filter_visibility',
-            array_key_exists('filter_visibility', $data) ? $data['filter_visibility'] : true
-        );
-
         if (isset($data['id'])) {
             $this->setId($data['id']);
         }
@@ -149,6 +151,15 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         if (isset($data['save_parameters_in_session'])) {
             $this->setSaveParametersInSession($data['save_parameters_in_session']);
         }
+
+        $this->setPagerVisibility(array_key_exists('pager_visibility', $data) ? (bool) $data['pager_visibility'] : true)
+            ->setCountTotals(array_key_exists('count_totals', $data) ? (bool) $data['count_totals'] : false);
+
+
+        $this->setData(
+            'use_ajax',
+            array_key_exists('use_ajax', $data) ? (bool) $data['use_ajax'] : true
+        );
 
         if (isset($data['rssList']) && is_array($data['rssList'])) {
             foreach ($data['rssList'] as $item) {
@@ -564,6 +575,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function setPagerVisibility($visible=true)
     {
         $this->_pagerVisibility = $visible;
+        return $this;
     }
 
     /**
@@ -577,7 +589,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Set visibility of filter
+     * Set visibility of message blocks
      *
      * @param boolean $visible
      */
@@ -587,7 +599,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Return visibility of filter
+     * Return visibility of message blocks
      *
      * @return boolean
      */

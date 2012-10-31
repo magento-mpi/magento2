@@ -136,6 +136,10 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
                 = $generatorFactory->createUrlGenerator($generatorClassName, array('args' => $rowUrlParams));
         }
 
+        $this->setFilterVisibility(
+            array_key_exists('filter_visibility', $data) ? (bool) $data['filter_visibility'] : true
+        );
+
         parent::__construct($request, $layout, $eventManager, $translator, $cache, $designPackage, $session,
             $storeConfig, $frontController, $data
         );

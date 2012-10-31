@@ -11,5 +11,310 @@
 
 -->
 <layout version="0.1.0">
+    <adminhtml_report_customer_orders_grid>
+        <reference name="adminhtml.report.customer.orders.grid.container">
+            <block type="Mage_Adminhtml_Block_Report_Customer_Orders_Grid" name="adminhtml.report.customer.orders.grid" as="grid">
+                <arguments>
+                    <use_ajax>0</use_ajax>
+                    <countTotals>1</countTotals>
+                    <pager_visibility>0</pager_visibility>
+                    <id>gridOrdersCustomer</id>
+                    <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
+                </arguments>
+                <block type="Mage_Adminhtml_Block_Store_Switcher" name="adminhtml.report.customer.orders.grid.store_switcher" as="store_switcher">
+                    <arguments>
+                        <use_confirm>0</use_confirm>
+                        <switch_url type='url'>
+                            <path>*/*/*</path>
+                            <params>
+                                <store>null</store>
+                            </params>
+                        </switch_url>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportOrdersCsv</urlPath>
+                                <label translate="true" module="Mage_Reports">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportOrdersExcel</urlPath>
+                                <label translate="true" module="Mage_Reports">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.customer.orders.grid.columnSet">
+                    <arguments>
+                        <id>sales_order_grid</id>
+                        <template>Mage_Reports::grid/column_set.phtml</template>
+                        <rowUrl>
+                            <generatorClass>Mage_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>
+                            <path>*/sales_order/view</path>
+                            <extraParamsTemplate>
+                            <order_id>getId</order_id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                        <filter_visibility>0</filter_visibility>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period_text">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Period</header>
+                            <width>100px</width>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <id>period_text</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Customer Name</header>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <index>name</index>
+                            <id>name</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_count">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Number of Orders</header>
+                            <width>100px</width>
+                            <sortable>0</sortable>
+                            <type>number</type>
+                            <index>orders_count</index>
+                            <total>sum</total>
+                            <id>orders_count</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_avg_amount">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Average Order Amount</header>
+                            <width>200px</width>
+                            <sortable>0</sortable>
+                            <type>currency</type>
+                            <currency_code>USD
+                                <updater>Mage_Reports_Model_Currency_CodeUpdater</updater>
+                            </currency_code>
+                            <total>orders_sum_amount/orders_count</total>
+                            <index>orders_avg_amount</index>
+                            <id>orders_avg_amount</id>
+                            <renderer>Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency</renderer>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="orders_sum_amount">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Total Order Amount</header>
+                            <width>200px</width>
+                            <align>right</align>
+                            <sortable>0</sortable>
+                            <type>currency</type>
+                            <currency_code>USD
+                                <updater>Mage_Reports_Model_Currency_CodeUpdater</updater>
+                            </currency_code>
+                            <total>sum</total>
+                            <index>orders_sum_amount</index>
+                            <id>orders_sum_amount</id>
+                            <renderer>Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency</renderer>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
 
+        <!--<reference name="sales_order.grid.container">-->
+            <!--<block type="Mage_Adminhtml_Block_Sales_Order_Grid" name="sales.order.grid" as="grid">-->
+                <!--<arguments>-->
+                    <!--<id>sales_order_grid</id>-->
+                    <!--<dataSource type="object">Mage_Sales_Model_Resource_Order_Grid_Collection</dataSource>-->
+                    <!--<use_ajax>true</use_ajax>-->
+                    <!--<default_sort>created_at</default_sort>-->
+                    <!--<default_dir>DESC</default_dir>-->
+                    <!--<save_parameters_in_session>1</save_parameters_in_session>-->
+                    <!--<grid_url type="url">-->
+                        <!--<path>*/*/grid</path>-->
+                        <!--<params>-->
+                            <!--<_current>1</_current>-->
+                        <!--</params>-->
+                    <!--</grid_url>-->
+                    <!--<rssList>-->
+                        <!--<orders>-->
+                            <!--<url>rss/order/new</url>-->
+                            <!--<label translate="true" module="Mage_Sales">New Order RSS</label>-->
+                        <!--</orders>-->
+                    <!--</rssList>-->
+                <!--</arguments>-->
+                <!--<block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">-->
+                    <!--<arguments>-->
+                        <!--<massaction_id_field>entity_id</massaction_id_field>-->
+                        <!--<form_field_name>order_ids</form_field_name>-->
+                        <!--<use_select_all>0</use_select_all>-->
+                        <!--<options>-->
+                            <!--<updater>Mage_Sales_Model_Order_Grid_Massaction_ItemsUpdater</updater>-->
+                            <!--<cancel_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Cancel</label>-->
+                                <!--<url>*/sales_order/massCancel</url>-->
+                            <!--</cancel_order>-->
+                            <!--<hold_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Hold</label>-->
+                                <!--<url>*/sales_order/massHold</url>-->
+                            <!--</hold_order>-->
+                            <!--<unhold_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Unhold</label>-->
+                                <!--<url>*/sales_order/massUnhold</url>-->
+                            <!--</unhold_order>-->
+                            <!--<pdfinvoices_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Print Invoices</label>-->
+                                <!--<url>*/sales_order/pdfinvoices</url>-->
+                            <!--</pdfinvoices_order>-->
+                            <!--<pdfshipments_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Print Packing Slips</label>-->
+                                <!--<url>*/sales_order/pdfshipments</url>-->
+                            <!--</pdfshipments_order>-->
+                            <!--<pdfcreditmemos_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Print Credit Memos</label>-->
+                                <!--<url>*/sales_order/pdfcreditmemos</url>-->
+                            <!--</pdfcreditmemos_order>-->
+                            <!--<pdfdocs_order>-->
+                                <!--<label translate="true" module="Mage_Sales">Print All</label>-->
+                                <!--<url>*/sales_order/pdfdocs</url>-->
+                            <!--</pdfdocs_order>-->
+                            <!--<print_shipping_label>-->
+                                <!--<label translate="true" module="Mage_Sales">Print Shipping Labels</label>-->
+                                <!--<url>*/sales_order_shipment/massPrintShippingLabel</url>-->
+                            <!--</print_shipping_label>-->
+                        <!--</options>-->
+                    <!--</arguments>-->
+                <!--</block>-->
+                <!--<block type="Mage_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">-->
+                    <!--<arguments>-->
+                        <!--<exportTypes>-->
+                            <!--<csv>-->
+                                <!--<urlPath>*/*/exportCsv</urlPath>-->
+                                <!--<label translate="true" module="Mage_Sales">CSV</label>-->
+                            <!--</csv>-->
+                            <!--<excel>-->
+                                <!--<urlPath>*/*/exportExcel</urlPath>-->
+                                <!--<label translate="true" module="Mage_Sales">Excel XML</label>-->
+                            <!--</excel>-->
+                        <!--</exportTypes>-->
+                    <!--</arguments>-->
+                <!--</block>-->
+                <!--<block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">-->
+                    <!--<arguments>-->
+                        <!--<id>sales_order_grid</id>-->
+                        <!--<rowUrl>-->
+                            <!--<generatorClass>Mage_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>-->
+                            <!--<path>*/sales_order/view</path>-->
+                            <!--<extraParamsTemplate>-->
+                                <!--<order_id>getId</order_id>-->
+                            <!--</extraParamsTemplate>-->
+                        <!--</rowUrl>-->
+                    <!--</arguments>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">-->
+                        <!--<arguments>-->
+                            <!--<header translate="true" module="Mage_Sales">Order #</header>-->
+                            <!--<width>80px</width>-->
+                            <!--<type>text</type>-->
+                            <!--<index>increment_id</index>-->
+                            <!--<id>real_order_id</id>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">-->
+                        <!--<arguments>-->
+                            <!--<header translate="true" module="Mage_Sales">Purchased From (Store)</header>-->
+                            <!--<type>store</type>-->
+                            <!--<store_view>1</store_view>-->
+                            <!--<display_deleted>1</display_deleted>-->
+                            <!--<index>store_id</index>-->
+                            <!--<id>store_id</id>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">-->
+                        <!--<arguments>-->
+                            <!--<header translate="true" module="Mage_Sales">Purchased On</header>-->
+                            <!--<width>100px</width>-->
+                            <!--<type>datetime</type>-->
+                            <!--<index>created_at</index>-->
+                            <!--<id>created_at</id>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">-->
+                        <!--<arguments>-->
+                            <!--<id>billing_name</id>-->
+                            <!--<header translate="true" module="Mage_Sales">Bill to Name</header>-->
+                            <!--<index>billing_name</index>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">-->
+                        <!--<arguments>-->
+                            <!--<id>shipping_name</id>-->
+                            <!--<header translate="true" module="Mage_Sales">Ship to Name</header>-->
+                            <!--<index>shipping_name</index>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">-->
+                        <!--<arguments>-->
+                            <!--<id>base_grand_total</id>-->
+                            <!--<header translate="true" module="Mage_Sales">G.T. (Base)</header>-->
+                            <!--<type>currency</type>-->
+                            <!--<currency>base_currency_code</currency>-->
+                            <!--<index>base_grand_total</index>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">-->
+                        <!--<arguments>-->
+                            <!--<id>grand_total</id>-->
+                            <!--<header translate="true" module="Mage_Sales">G.T. (Purchased)</header>-->
+                            <!--<type>currency</type>-->
+                            <!--<currency>order_currency_code</currency>-->
+                            <!--<index>grand_total</index>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="status">-->
+                        <!--<arguments>-->
+                            <!--<id>status</id>-->
+                            <!--<header translate="true" module="Mage_Sales">Status</header>-->
+                            <!--<width>70px</width>-->
+                            <!--<type>options</type>-->
+                            <!--<currency>order_currency_code</currency>-->
+                            <!--<index>status</index>-->
+                            <!--<options type="options">Mage_Sales_Model_Resource_Order_Grid_StatusesArray</options>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                    <!--<block type="Mage_Backend_Block_Widget_Grid_Column" as="action" acl="Mage_Sales::actions_view">-->
+                        <!--<arguments>-->
+                            <!--<id>action</id>-->
+                            <!--<header translate="true" module="Mage_Sales">Action</header>-->
+                            <!--<width>50px</width>-->
+                            <!--<type>action</type>-->
+                            <!--<getter>getId</getter>-->
+                            <!--<filter>0</filter>-->
+                            <!--<sortable>0</sortable>-->
+                            <!--<index>stores</index>-->
+                            <!--<is_system>1</is_system>-->
+                            <!--<actions>-->
+                                <!--<view_action>-->
+                                    <!--<caption translate="true" module="Mage_Sales">View</caption>-->
+                                    <!--<url>-->
+                                        <!--<base>*/sales_order/view</base>-->
+                                    <!--</url>-->
+                                    <!--<field>order_id</field>-->
+                                <!--</view_action>-->
+                            <!--</actions>-->
+                        <!--</arguments>-->
+                    <!--</block>-->
+                <!--</block>-->
+            <!--</block>-->
+        <!--</reference>-->
+
+    </adminhtml_report_customer_orders_grid>
+
+    <adminhtml_report_customer_orders>
+        <update handle="adminhtml_report_customer_orders_grid"/>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Report_Customer_Orders" name="adminhtml.report.customer.orders.grid.container" />
+        </reference>
+    </adminhtml_report_customer_orders>
 </layout>
