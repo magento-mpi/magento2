@@ -144,6 +144,9 @@ report_customer_totals:
                             number_of_orders: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Number of Orders')]
                             average_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Average Order Amount')]
                             total_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Total Order Amount')]
+                        pageelements:
+                            customer_by_orders_total_table: //table[@id='gridTotalsCustomer_table']
+
 # Customers: Customers by number of orders page
 report_customer_orders:
     mca: report_customer/orders/
