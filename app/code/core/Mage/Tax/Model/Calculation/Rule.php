@@ -48,19 +48,32 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
      *
      * @var Mage_Tax_Model_Class
      */
-    protected $_taxModelClass;
+    protected $_taxClass;
 
     /**
      * Varien model constructor
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        Mage_Tax_Helper_Data $taxHelper = null,
+        Mage_Tax_Model_Class $taxClass = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $eventDispatcher,
+            $cacheManager,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+
         $this->_init('Mage_Tax_Model_Resource_Calculation_Rule');
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Mage_Tax_Helper_Data');
-        $this->_taxModelClass = isset($data['tax_model_class']) ?
-            $data['tax_model_class'] :
-            Mage::getModel('Mage_Tax_Model_Class');
+
+        $this->_helper = $taxHelper;
+        $this->_taxClass = $taxClass;
     }
 
     /**
@@ -183,7 +196,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
      * @return array
      */
     public function getAllOptionsForClass($classFilter) {
-        $classes = $this->_taxModelClass
+        $classes = $this->_taxClass
             ->getCollection()
             ->setClassTypeFilter($classFilter)
             ->toOptionArray();
