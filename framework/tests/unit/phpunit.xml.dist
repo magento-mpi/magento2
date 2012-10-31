@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php" syntaxCheck="true">
+    <testsuite name="Mage Selenium Unit Tests">
+        <directory>./testsuite</directory>
+	<!--<directory suffix="DataGeneratorTest.php">./tests/Mage/Selenium</directory>-->
+    </testsuite>
+</phpunit>

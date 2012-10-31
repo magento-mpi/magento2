@@ -1,0 +1,443 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    uimap: &systemConfiguration
+        form:
+            tabs:              
+                -
+                    general_general:
+                        fieldsets:
+                            -
+                                website_restriction:
+                                    xpath: //fieldset[@id='general_restriction']
+                                    dropdowns:
+                                        access_restriction: //*[@id='general_restriction_is_active']
+                                        restriction_mode: //*[@id='general_restriction_mode']
+                                        startup_page: //*[@id='general_restriction_http_redirect']
+                                        landing_page_restriction: //*[@id='general_restriction_cms_page']
+                                        http_response: //*[@id='general_restriction_http_status']
+                            -
+                                single_store_mode:
+                                    xpath: //fieldset[@id='general_single_store_mode']
+                                    dropdowns:
+                                        enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
+                -
+                    general_design:
+                        fieldsets:
+                            -
+                                search_engine_robots:
+                                    xpath: //fieldset[@id='design_search_engine_robots']
+                                    fields:
+                                        edit_custom_instruction: //textarea[@name='groups[search_engine_robots][fields][custom_instructions][value]']
+                                    dropdowns:
+                                        default_robots: //select[@name='groups[search_engine_robots][fields][default_robots][value]']
+                                    checkboxes:
+                                        display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
+                                    buttons:
+                                        reset_to_default_robots: //button[span='Reset to Default']
+                -
+                    catalog_catalog:
+                        xpath: //a[contains(@href, 'edit/section/catalog/')]
+                        fieldsets:
+                            -
+                                product_creation:
+                                    xpath: //fieldset[@id='catalog_fields_masks']
+                                    fields:
+                                        sku_mask: //*[@id='catalog_fields_masks_sku']
+                                        meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
+                                        meta_description_mask: //*[@id='catalog_fields_masks_meta_description']
+                                        meta_keyword_mask: //*[@id='catalog_fields_masks_meta_keyword']
+                -
+                    catalog_google_sitemap:
+                        fieldsets:
+                            -
+                                search_engine_submission_settings:
+                                    xpath: //fieldset[@id='sitemap_search_engines']
+                                    links:
+                                        search_engine_submission_settings_link: //parent::div//a[@id='sitemap_search_engines-head']
+                                    dropdowns:
+                                        enable_submission_to_robots: //select[@name='groups[search_engines][fields][submission_robots][value]']
+                -
+                    general_content_management:
+                        fieldsets:
+                            -
+                                general_cms_page_hierarchy:
+                                    xpath: //fieldset[@id='cms_hierarchy']
+                            -
+                                general_cms_versioning:
+                                    xpath: //fieldset[@id='cms_content']
+                -
+                    catalog_catalog:
+                        fieldsets:
+                            -
+                                category_permissions:
+                                    xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
+                                    links:
+                                        permission_link: //a[@id='catalog_enterprise_catalogpermissions-head']
+                                    dropdowns:
+                                        permission_enable: //select[@id='catalog_enterprise_catalogpermissions_enabled']
+                                        allow_browsing: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view']
+                                        landing_page: //select[@id='catalog_enterprise_catalogpermissions_restricted_landing_page']
+                                        display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
+                                        allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
+                                    multiselects:
+                                        disallow_catalog_search: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
+                                        allow_browsing_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view_groups']
+                                        display_prices_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price_groups']
+                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items_groups']
+                            -
+                                states_options:
+                                    xpath: //fieldset[@id='general_region']
+                            -
+                                catalog_catalog_event:
+                                    xpath: //fieldset[@id='catalog_enterprise_catalogevent']
+                            -
+                                catalog_rule_based_product_relations:
+                                    xpath: //fieldset[@id='catalog_enterprise_targetrule']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -                                                                         
+                                order_by_sku:
+                                    xpath: //fieldset[@id='sales_product_sku']
+                                    links:
+                                        sku_link: //a[@id='sales_product_sku-head']
+                                    dropdowns:
+                                        sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
+                                    multiselects:
+                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+                            -
+                                general:
+                                    xpath: //fieldset[@id='sales_general']
+                            -
+                                dashboard_sales:
+                                    xpath: //fieldset[@id='sales_dashboard']
+                            -
+                                orders_invoices_shipments_archiving:
+                                    xpath: //fieldset[@id='sales_enterprise_salesarchive']
+                            -
+                                rma_settings:
+                                    xpath: //*[@id='sales_enterprise_rma']
+                                    dropdowns:
+                                        enable_rma_on_frontend: //*[@id='sales_enterprise_rma_enabled']
+                                        enable_rma_on_product_level: //*[@id='sales_enterprise_rma_enabled_on_product']
+                                        use_store_address: //*[@id='sales_enterprise_rma_use_store_address']
+                -
+                    customers_customer_configuration:
+                        fieldsets:
+                            -
+                                password_options:
+                                    dropdowns:
+                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
+                            -
+                                captcha:
+                                    fields:
+                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
+                            -
+                                customer_customer_segment:
+                                    xpath: //fieldset[@id='customer_enterprise_customersegment']
+                -
+                    general_design:
+                        fieldsets:
+                            -
+                                transaction_emails:
+                                    xpath: //fieldset[@id='design_email']
+                -
+                    catalog_rss_feeds:
+                        fieldsets:
+                            -
+                                order_rss:
+                                    xpath: //fieldset[@id='rss_order']
+                -
+                    sales_google_api:
+                        fieldsets:
+                            -
+                                google_shopping:
+                                    xpath: //fieldset[@id='google_googleshopping']
+                -
+                    social_facebook:
+                        xpath: //a[contains(@href, 'edit/section/facebook/')]
+                        fieldsets:
+                            -
+                                facebook_config:
+                                    xpath: //fieldset[@id='facebook_config']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -
+                                general:
+                                    xpath: //fieldset[@id='sales_general']
+                            -
+                                dashboard_sales:
+                                    xpath: //fieldset[@id='sales_dashboard']
+                -
+                    sales_pdf_print_outs:
+                        fieldsets:
+                            -
+                                invoice_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_invoice']
+                            -
+                                shipment_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_shipment']
+                            -
+                                credit_memo_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_creditmemo']
+                -
+                    sales_sales_emails:
+                        fieldsets:
+                            -
+                                order_sales:
+                                    xpath: //fieldset[@id='sales_email_order']
+                            -
+                                invoice_sales:
+                                    xpath: //fieldset[@id='sales_email_invoice']
+                            -
+                                shipment_sales:
+                                    xpath: //fieldset[@id='sales_email_shipment']
+                            -
+                                credit_memo_sales:
+                                    xpath: //fieldset[@id='sales_email_creditmemo']
+                            -
+                                rma_sales:
+                                    xpath: //fieldset[@id='sales_email_enterprise_rma']
+                            -
+                                rma_authorization:
+                                    xpath: //fieldset[@id='sales_email_enterprise_rma_auth']
+                            -
+                                rma_admin_comments:
+                                    xpath: //fieldset[@id='sales_email_enterprise_rma_comment']
+                            -
+                                rma_customer_comments:
+                                    xpath: //fieldset[@id='sales_email_enterprise_rma_customer_comment']
+                -
+                    sales_shipping_methods:
+                        fieldsets:
+                            -
+                                dhl_new:
+                                    xpath: //fieldset[@id='carriers_dhlint']
+                -
+                    services_oauth:
+                        xpath: //a[contains(@href, 'edit/section/oauth/')]
+                        fieldsets:
+                            -
+                                email:
+                                    xpath: //fieldset[@id='oauth_email']
+                            -
+                                cleanup_settings:
+                                    xpath: //fieldset[@id='oauth_cleanup']
+                -
+                    customers_wishlist:
+                        fieldsets:
+                            -
+                                general_options_wishlist:
+                                    xpath: //fieldset[@id='wishlist_general']
+                -
+                    customer_invitations:
+                        xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]
+                        fieldsets:
+                            -
+                                generaral_invitation:
+                                    xpath: //fieldset[@id='enterprise_invitation_general']
+                            -
+                                email_invitations:
+                                    xpath: //fieldset[@id='enterprise_invitation_email']
+                -
+                    customer_reward_points:
+                        xpath: //a[contains(@href, 'edit/section/enterprise_reward/')]
+                        fieldsets:
+                            -
+                                reward_reward_points:
+                                    xpath: //fieldset[@id='enterprise_reward_general']
+                            -
+                                reward_reward_actions:
+                                    xpath: //fieldset[@id='enterprise_reward_points']
+                            -
+                                reward_email:
+                                    xpath: //fieldset[@id='enterprise_reward_notification']
+                -
+                    customer_promotions:
+                        xpath: //a[contains(@href, 'edit/section/promo')]
+                        fieldsets:
+                            -
+                                customer_automated_email_rule:
+                                    xpath: //fieldset[@id='promo_enterprise_reminder']
+                            -
+                                auto_generated_specific_coupon_codes:
+                                    xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
+                -
+                    customer_reward_points:
+                        xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
+                        fieldsets:
+                            -
+                                reward_points:
+                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    links:
+                                        reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                    dropdowns:
+                                        enable_reward_points: //select[@name='groups[general][fields][is_enabled][value]']
+                            -
+                                actions_for_acquiring_reward_points:
+                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    links:
+                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                    fields:
+                                        new_tag_submission: //input[@id ='enterprise_reward_points_tag']
+                                        rewarded_tag_submission_limit: //input[@id ='enterprise_reward_points_tag_limit']
+                -
+                    customer_gift_registry:
+                        xpath: //a[contains(@href, 'edit/section/enterprise_giftregistry/')]
+                        fieldsets:
+                            -
+                                gift_registry_general:
+                                    xpath: //fieldset[@id='enterprise_giftregistry_general']
+                            -
+                                order_notification:
+                                    xpath: //fieldset[@id='enterprise_giftregistry_owner_email']
+                            -
+                                gift_registry_sharing:
+                                    xpath: //fieldset[@id='enterprise_giftregistry_sharing_email']
+                            -
+                                gift_registry_update:
+                                    xpath: //fieldset[@id='enterprise_giftregistry_update_email']
+                -
+                    customers_persistent_shopping_cart:
+                        fieldsets:
+                            -
+                                general_options_shopping_cart:
+                                    xpath: //fieldset[@id='persistent_options']
+                -
+                    advanced_developer:
+                        fieldsets:
+                            -
+                                image_processing_settings:
+                                    xpath: //fieldset[@id='dev_image']
+                            -
+                                static_files_settings:
+                                    xpath: //fieldset[@id='dev_static']
+                -
+                    advanced_admin:
+                        fieldsets:
+                            -
+                                dashboard_admin:
+                                    xpath: //fieldset[@id='admin_dashboard']
+                            -
+                                captcha_admin:
+                                    xpath: //fieldset[@id='admin_captcha']
+                            -
+                                security:
+                                    fields:
+                                        maximum_login_failures: //input[@name="groups[security][fields][lockout_failures][value]"]
+                            -
+                                admin_user_emails:
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[emails][fields][password_reset_link_expiration_period][value]']
+                -
+                    general_reports:
+                        fieldsets:
+                            -
+                                dashboard_report:
+                                    xpath: //fieldset[@id='reports_dashboard']
+                -
+                    sales_payment_methods:
+                        fieldsets:
+                            -
+                                authorize_net_payment_bridge:
+                                    xpath: //fieldset[@id='payment_pbridge_authorizenet']
+                            -
+                                payment_bridge:
+                                    xpath: //fieldset[@id='payment_pbridge']
+                            -
+                                ogone_direct_payment_bridge:
+                                    xpath: //fieldset[@id='payment_pbridge_ogone_direct']
+                            -
+                                sage_pay_direct:
+                                    xpath: //fieldset[@id='payment_sagepay_direct']
+                            -
+                                psi_gate:
+                                    xpath:  //fieldset[@id='payment_psigate_basic']
+                            -
+                                braintree_payment_bridge:
+                                    xpath: //fieldset[@id='payment_braintree_basic']
+                            -
+                                worldpay:
+                                    xpath: //fieldset[@id='payment_worldpay_direct']
+                            -
+                                first_data:
+                                    xpath: //fieldset[@id='payment_firstdata']
+                            -
+                                payone_de:
+                                    xpath: //fieldset[@id='payment_payone_gate']
+                            -
+                                dibs:
+                                    xpath: //fieldset[@id='payment_dibs']
+                            -
+                                banktransfer_payment:
+                                    xpath: //fieldset[@id='payment_banktransfer']
+                            -
+                                cash_on_delivery_payment:
+                                    xpath: //fieldset[@id='payment_cashondelivery']
+                -
+                    sales_gift_card:
+                        xpath:  //a[contains(@href, 'edit/section/giftcard/')]
+                        fieldsets:
+                            -
+                                gift_card_email_settings:
+                                    xpath:  //fieldset[@id='giftcard_email']
+                            -
+                                gift_card_general_settings:
+                                    xpath: //fieldset[@id='giftcard_general']
+                            -
+                                gift_card_email_sent:
+                                    xpath: //fieldset[@id='giftcard_giftcardaccount_email']
+                            -
+                                gift_card_account:
+                                    xpath: //fieldset[@id='giftcard_giftcardaccount_general']
+                -
+                    advanced_system:
+                        fieldsets:
+                            -
+                                admin_actions_log_archiving:
+                                    xpath: //fieldset[@id='system_rotation']
+                            -
+                                scheduled_backup_settings:
+                                    xpath: //fieldset[@id='system_backup']
+                            -
+                                full_page_cache_settings:
+                                    xpath: //fieldset[@id='system_page_cache']
+                            -
+                                full_page_cache_auto_generator:
+                                    xpath: //fieldset[@id='system_page_crawl']
+                            -
+                                scheduled_import_export:
+                                    xpath: //fieldset[@id='system_enterprise_import_export_log']
+                -
+                    all_tabs:
+                        xpath: //*[@id='system_config_tabs']/li/dl/dd
+
+system_configuration_tabs:
+    uimap: *systemConfiguration
+
+system_configuration_website:
+    uimap: *systemConfiguration
+
+system_configuration_store:
+    uimap: *systemConfiguration
+
+system_configuration_website_base:
+    uimap: *systemConfiguration
+
+

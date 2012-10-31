@@ -1,0 +1,15 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Wishlist
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+my_wishlist_index:
+    mca: wishlist/index/index/wishlist_id/%id%/
+
+share_wishlist_index:
+    mca: wishlist/index/share/wishlist_id/%id%
