@@ -273,7 +273,7 @@ var formType = {
         this.collectChilds(this.treeRoot);
         $('form_type_data').value = Object.toJSON(this.treeData);
         $('continue_edit').value = continueEdit ? 1 : 0;
-        editForm.submit();
+        jQuery('edit_form').triggerHandler(continueEdit ? 'saveAndContinueEdit' : 'save');
     }
 };
 Ext.onReady(formType.initialize.bind(formType));
