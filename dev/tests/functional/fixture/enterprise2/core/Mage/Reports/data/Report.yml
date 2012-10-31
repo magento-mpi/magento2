@@ -10,12 +10,12 @@
 #
 ---
 grid:
-    invitations_customers:
+    report_invitations_customers:
         button:
             refresh:
             export:
         dropdown:
-            filter_show_by:
+            show_by:
             filter_show_report_for:
         link:
             id:
@@ -58,6 +58,7 @@ grid:
             number_of_orders:
             average_order_amount:
             total_order_amount:
+
 #dataset for  countGridRows Test
 count_rows_by_day:
     filter_from: 10/28/2012

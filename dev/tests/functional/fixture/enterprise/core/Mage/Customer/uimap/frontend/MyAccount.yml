@@ -24,3 +24,37 @@ customer_account_no_cache:
     mca: customer/account/index/?no_cache=
     title: My Account
     uimap: *customerAccount
+
+my_invitations:
+    mca: invitation/
+    title: My Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_invitation:
+                        xpath: //div[@class="my-account"]
+                        buttons:
+                            send_invitation: //a[@class='button' and contains(.,'Send Invitations')]
+                        messages:
+                            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'Invitation for %email% has been sent.')]
+                            failed_send:  //li[normalize-space(@class)='error-msg' and contains(.,'Failed to send email to %email%.')]
+
+my_invitations_send:
+    mca: invitation/index/send/
+    title: Send Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    send_invitations:
+                        xpath: //div [@class="my-account"]
+                        fields:
+                            email_1: //input[@id='email_1']
+                            email_2: //input[@id='email_2']
+                            email_3: //input[@id='email_3']
+                            email_4: //input[@id='email_4']
+                            email_5: //input[@id='email_5']
+                            message_textarea: //textarea[@id='message']
+            buttons:
+                send_invitation: //button[span='Send Invitations']

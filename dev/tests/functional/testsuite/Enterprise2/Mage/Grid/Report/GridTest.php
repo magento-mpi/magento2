@@ -59,7 +59,9 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
 
     public function uiElementsTestDataProvider()
     {
-        return array(array('invitations_customers'), array('report_product_sold'), array('report_customer_totals'));
+        return array(array('report_invitations_customers'),
+                     array('report_product_sold'),
+                     array('report_customer_totals'));
     }
 
     /**
@@ -76,7 +78,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->clickButton('refresh');
         $gridXpath = $this->_getControlXpath('pageelement', $gridTableElement);
         $this->assertCount(3, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
-            "Wrong records number in grid $gridTableElement ");
+            'Wrong records number in grid $gridTableElement ');
     }
 
     public function countGridRowsTestDataProvider()
@@ -84,7 +86,9 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         return array(array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
                      array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
                      array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'),
-                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year')
-        );
+                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_day'),
+                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_month'),
+                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_year'),
+                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'));
     }
 }

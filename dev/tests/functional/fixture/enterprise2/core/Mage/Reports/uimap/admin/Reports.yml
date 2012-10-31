@@ -17,7 +17,7 @@ invitations_general:
     title: General / Invitations / Reports / Magento Admin
 
 #Invitations Customers page
-invitations_customers:
+report_invitations_customers:
     mca: report_invitation/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
     title: Customers / Invitations / Reports / Magento Admin
@@ -25,13 +25,13 @@ invitations_customers:
         form:
             fieldsets:
                 -
-                    invitations_customers_grid:
+                    report_invitations_customers:
                         xpath: //div[@id='page:main-container']
                         buttons:
                             refresh: //button[span='Refresh']
                             export: //button[span='Export']
                         dropdowns:
-                            filter_show_by: //select[@name='report_period']
+                            show_by: //select[@name='report_period']
                             export_to: //select[@style='width:8em']
                             filter_show_report_for: //select[@id='store_switcher']
                         fields:
@@ -44,6 +44,8 @@ invitations_customers:
                             group: //a[@name='group']
                             invitations_sent: //a[@name='sent']
                             invitation_accepted: //a[@name='accepted']
+                        pageelements:
+                            report_invitations_customers_grid: //table[@class='data']
 
 # Invitations Order Conversion Rate page
 invitations_order_conversion_rate:
