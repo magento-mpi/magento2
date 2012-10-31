@@ -108,6 +108,8 @@ abstract class Magento_Di_Generator_EntityAbstract
                     $fileName = $this->_ioObject->getResultFileName($this->_getResultClassName());
                     $this->_ioObject->writeResultFile($fileName, $sourceCode);
                     return true;
+                } else {
+                    $this->_addError('Can\'t generate source code.');
                 }
             }
         } catch (Exception $e) {
@@ -232,7 +234,7 @@ abstract class Magento_Di_Generator_EntityAbstract
                 'Can\'t create directory ' . $this->_ioObject->getResultFileDirectory($resultClassName) . '.'
             );
             return false;
-        } elseif (file_exists($resultFileName)) {
+        } elseif ($this->_ioObject->fileExists($resultFileName)) {
             $this->_addError('Result file ' . $resultFileName . ' already exists.');
             return false;
         }

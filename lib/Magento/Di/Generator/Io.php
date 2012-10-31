@@ -47,11 +47,12 @@ class Magento_Di_Generator_Io
         $this->_directorySeparator = $this->_ioObject->dirsep();
 
         if ($generationDirectory) {
-            $this->_generationDirectory = rtrim($generationDirectory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $this->_generationDirectory
+                = rtrim($generationDirectory, $this->_directorySeparator) . $this->_directorySeparator;
         } else {
             $this->_generationDirectory
                 = realpath(__DIR__ . str_replace('/', $this->_directorySeparator, '/../../../../'))
-                . DIRECTORY_SEPARATOR . self::DEFAULT_DIRECTORY . DIRECTORY_SEPARATOR;
+                . $this->_directorySeparator . self::DEFAULT_DIRECTORY . $this->_directorySeparator;
         }
     }
 
@@ -111,6 +112,15 @@ class Magento_Di_Generator_Io
     public function getGenerationDirectory()
     {
         return $this->_generationDirectory;
+    }
+
+    /**
+     * @param string $fileName
+     * @return bool
+     */
+    public function fileExists($fileName)
+    {
+        return $this->_ioObject->fileExists($fileName, true);
     }
 
     /**
