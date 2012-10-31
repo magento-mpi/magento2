@@ -20,4 +20,17 @@ class Vendor_Module_Webapi_Resource_InvalidController
     {
         // Body is intentionally left empty
     }
+
+    public function emptyInterfaceV2()
+    {
+        // Body is intentionally left empty
+    }
+
+    /**
+     * @param int $id
+     */
+    public function invalidMethodNameV2($id)
+    {
+        // Body is intentionally left empty
+    }
 }

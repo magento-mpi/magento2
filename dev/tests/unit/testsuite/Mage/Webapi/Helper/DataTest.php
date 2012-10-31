@@ -41,12 +41,6 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         self::$_apiConfig = new Mage_Webapi_Model_Config_Resource(array(
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
             'applicationConfig' => $appConfig,
-            'autoloader' => Magento_Autoload::getInstance()->addFilesMap(array(
-                'Vendor_Module_Webapi_Customer_Address_DataStructure' =>
-                    $directoryWithFixturesForConfig . 'Customer/Address/DataStructure.php',
-                'Vendor_Module_Webapi_Customer_DataStructure' =>
-                    $directoryWithFixturesForConfig . 'Customer/DataStructure.php',
-            )),
             'helper' => new Mage_Webapi_Helper_Data()
         ));
         parent::setUpBeforeClass();

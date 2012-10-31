@@ -1,8 +1,6 @@
 <?php
 /**
- * Tests fixture for Auto Discovery functionality.
- *
- * Data structure description for customer address entity.
+ * Tests fixture for Auto Discovery functionality. Customer address entity.
  *
  * @copyright {}
  */

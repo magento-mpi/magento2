@@ -25,8 +25,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      * Resource types
      */
-    const RESOURCE_TYPE_ITEM = 'item';
-    const RESOURCE_TYPE_COLLECTION = 'collection';
+    const ACTION_TYPE_ITEM = 'item';
+    const ACTION_TYPE_COLLECTION = 'collection';
     /**#@-*/
 
     /**#@+
@@ -175,13 +175,13 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
         $httpMethod = $this->getRequest()->getHttpMethod();
         $resourceType = $this->getRequest()->getResourceType();

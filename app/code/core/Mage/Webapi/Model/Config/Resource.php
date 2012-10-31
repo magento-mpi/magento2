@@ -96,12 +96,7 @@ class Mage_Webapi_Model_Config_Resource
         } else {
             $this->_serverReflection = new Reflection();
         }
-
-        if (isset($options['data']) && is_array($options['data']) && !empty($options['data'])) {
-            $this->_data = $options['data'];
-        } else {
-            $this->_extractData();
-        }
+        $this->_extractData();
     }
 
     /**
@@ -239,25 +234,6 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
-     * Identify module name by operation name.
-     *
-     * @param string $operationName
-     * @return string|bool Module name on success; false on failure.
-     * @throws LogicException In case when resource was found but module was not specified.
-     */
-    public function getModuleNameByOperation($operationName)
-    {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        if ($resourceName) {
-            if (isset($this->_data['resources'][$resourceName]['module'])) {
-                return $this->_data['resources'][$resourceName]['module'];
-            }
-            throw new LogicException(sprintf('Resource "%s" must have module specified.', $resourceName));
-        }
-        return $resourceName;
-    }
-
-    /**
      * Identify deprecation policy for the specified operation.
      *
      * Return result in the following format:<pre>
@@ -313,8 +289,8 @@ class Mage_Webapi_Model_Config_Resource
             }
             $this->_data['rest_routes'] = $allRestRoutes;
 
-            if (empty($this->_data)) {
-                throw new InvalidArgumentException('Can not populate config - no action controllers were found.');
+            if (!isset($this->_data['resources'])) {
+                throw new LogicException('Can not populate config - no action controllers were found.');
             }
         }
         return $this->_data;
@@ -342,18 +318,18 @@ class Mage_Webapi_Model_Config_Resource
      * Identify API method name without version suffix by its reflection.
      *
      * @param ReflectionMethod $methodReflection
-     * @return string|bool Method name without version suffix on success.
-     *      false is returned in case when method should not be exposed via API.
+     * @return string Method name without version suffix on success.
+     * @throws InvalidArgumentException When method name is invalid API resource method.
      */
     public function getMethodNameWithoutVersionSuffix(ReflectionMethod $methodReflection)
     {
-        $methodName = false;
         $methodNameWithSuffix = $methodReflection->getName();
         $regularExpression = $this->_getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
             $methodName = $methodMatches[1];
+            return $methodName;
         }
-        return $methodName;
+        throw new InvalidArgumentException(sprintf('"%s" is invalid API resource method.', $methodNameWithSuffix));
     }
 
     /**
@@ -399,7 +375,7 @@ class Mage_Webapi_Model_Config_Resource
             $routePath .= "/$additionalRequiredParam/:$additionalRequiredParam";
         }
 
-        $actionType = $this->_getResourceTypeByMethod($this->getMethodNameWithoutVersionSuffix($methodReflection));
+        $actionType = $this->getActionTypeByMethod($this->getMethodNameWithoutVersionSuffix($methodReflection));
         $resourceName = $this->translateResourceName($methodReflection->getDeclaringClass()->getName());
         $optionalParams = $this->_getOptionalParamNames($methodReflection);
         foreach ($this->_getPathCombinations($optionalParams, $routePath) as $finalRoutePath) {
@@ -416,12 +392,12 @@ class Mage_Webapi_Model_Config_Resource
      * @return string 'collection' or 'item'
      * @throws InvalidArgumentException When method does not match the list of allowed methods
      */
-    protected function _getResourceTypeByMethod($methodName)
+    public function getActionTypeByMethod($methodName)
     {
         // TODO: Remove dependency on Mage_Webapi_Controller_Front_Rest
-        $collection = Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_COLLECTION;
-        $item = Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM;
-        $methodToResourceTypeMap = array(
+        $collection = Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_COLLECTION;
+        $item = Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_ITEM;
+        $methodToActionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => $collection,
@@ -430,10 +406,10 @@ class Mage_Webapi_Model_Config_Resource
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $collection,
         );
-        if (!isset($methodToResourceTypeMap[$methodName])) {
+        if (!isset($methodToActionTypeMap[$methodName])) {
             throw new InvalidArgumentException(sprintf('"%s" method is not valid resource method.', $methodName));
         }
-        return $methodToResourceTypeMap[$methodName];
+        return $methodToActionTypeMap[$methodName];
     }
 
 
@@ -601,10 +577,6 @@ class Mage_Webapi_Model_Config_Resource
         if ($isIdFieldExpected) {
             /** ID field must always be the first parameter of resource method */
             $methodInterfaces = $methodReflection->getPrototypes();
-            if (empty($methodInterfaces)) {
-               throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.',
-                    $methodReflection->getName()));
-            }
             /** @var \Zend\Server\Reflection\Prototype $methodInterface */
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
@@ -669,11 +641,15 @@ class Mage_Webapi_Model_Config_Resource
      *
      * @param ReflectionMethod $methodReflection
      * @return bool
+     * @throws InvalidArgumentException In case when class name is not valid API resource class.
      */
     protected function _isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
         preg_match('/.*_Webapi_(.*)Controller*/', $className, $matches);
+        if (!isset($matches[1])) {
+            throw new InvalidArgumentException(sprintf('"%s" is not valid resource class.', $className));
+        }
         return count(explode('_', $matches[1])) > 1;
     }
 
@@ -751,26 +727,11 @@ class Mage_Webapi_Model_Config_Resource
      */
     protected function _extractMethodData(ReflectionMethod $method)
     {
-        $methodData = array(
-            'documentation' => $method->getDescription(),
-        );
-
-        // TODO: copy-past from Zend_Soap_AutoDiscover, review
-        $prototype = null;
-        $maxNumArgumentsOfPrototype = -1;
-        /** @var \Zend\Server\Reflection\Prototype $tmpPrototype */
-        foreach ($method->getPrototypes() as $tmpPrototype) {
-            $numParams = count($tmpPrototype->getParameters());
-            if ($numParams > $maxNumArgumentsOfPrototype) {
-                $maxNumArgumentsOfPrototype = $numParams;
-                $prototype = $tmpPrototype;
-            }
-        }
-        if (is_null($prototype)) {
-            throw new InvalidArgumentException(sprintf('No prototypes could be found for the "%s" function.',
-                $method->getName()));
-        }
-
+        $methodData = array('documentation' => $method->getDescription());
+        $prototypes = $method->getPrototypes();
+        /** Take the most full interface, that also includes optional parameters. */
+        /** @var \Zend\Server\Reflection\Prototype $prototype */
+        $prototype = end($prototypes);
         /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
         foreach ($prototype->getParameters() as $parameter) {
             $parameterData = array(
@@ -783,7 +744,6 @@ class Mage_Webapi_Model_Config_Resource
             }
             $methodData['interface']['in']['parameters'][$parameter->getName()] = $parameterData;
         }
-
         if ($prototype->getReturnType() != 'void') {
             $methodData['interface']['out']['parameters']['result'] = array(
                 'type' => $this->_processType($prototype->getReturnType()),
@@ -791,7 +751,6 @@ class Mage_Webapi_Model_Config_Resource
                 'required' => true,
             );
         }
-
         return $methodData;
     }
 
@@ -815,7 +774,6 @@ class Mage_Webapi_Model_Config_Resource
             }
             $typeName = $complexTypeName;
         }
-
         return $typeName;
     }
 
@@ -834,17 +792,21 @@ class Mage_Webapi_Model_Config_Resource
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
         } else {
-            if (!class_exists($class)) {
+            if (!$this->_autoloader->classExists($class)) {
                 throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
-            $this->_data['types'][$typeName]['documentation'] = $this->_getDescription($reflection->getDocBlock());
+            $docBlock = $reflection->getDocBlock();
+            $this->_data['types'][$typeName]['documentation'] = $docBlock ? $this->_getDescription($docBlock) : '';
             $defaultProperties = $reflection->getDefaultProperties();
             /** @var \Zend\Code\Reflection\PropertyReflection $property */
             foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
                 $propertyName = $property->getName();
-                $doc = $property->getDocBlock();
-                $varTags = $doc->getTags('var');
+                $propertyDocBlock = $property->getDocBlock();
+                if (!$propertyDocBlock) {
+                    throw new InvalidArgumentException('Each property must have description with @var annotation.');
+                }
+                $varTags = $propertyDocBlock->getTags('var');
                 if (empty($varTags)) {
                     throw new InvalidArgumentException('Property type must be defined with @var tag.');
                 }
@@ -853,7 +815,7 @@ class Mage_Webapi_Model_Config_Resource
                 $varContentParts = explode(' ', $varTag->getContent(), 2);
                 $varType = current($varContentParts);
                 $varInlineDoc = (count($varContentParts) > 1) ? end($varContentParts) : '';
-                $optionalTags = $doc->getTags('optional');
+                $optionalTags = $propertyDocBlock->getTags('optional');
                 if (!empty($optionalTags)) {
                     /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $isOptionalTag */
                     $isOptionalTag = current($optionalTags);
@@ -865,7 +827,7 @@ class Mage_Webapi_Model_Config_Resource
                     'type' => $this->_processType($varType),
                     'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
                     'default' => $defaultProperties[$propertyName],
-                    'documentation' => $varInlineDoc . $this->_getDescription($doc)
+                    'documentation' => $varInlineDoc . $this->_getDescription($propertyDocBlock)
                 );
             }
         }
@@ -921,7 +883,7 @@ class Mage_Webapi_Model_Config_Resource
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    protected function getResourceNameParts($className)
+    public function getResourceNameParts($className)
     {
         if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
             list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
@@ -1090,7 +1052,7 @@ class Mage_Webapi_Model_Config_Resource
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
+            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_ITEM
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;
