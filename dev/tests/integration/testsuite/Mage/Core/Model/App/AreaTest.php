@@ -34,7 +34,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->load(Mage_Core_Model_App_Area::PART_DESIGN);
         $design = Mage::getDesign();
-        $this->assertEquals('default/default/default', $design->getDesignTheme());
+        $this->assertEquals('default/demo', $design->getDesignTheme());
         $this->assertEquals('frontend', $design->getArea());
 
         // try second time and make sure it won't load second time

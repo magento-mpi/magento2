@@ -140,7 +140,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'mage/calendar.css',
                     'css/file.css',
                 ),
-                '16f3dae4a78f603c9afa37606b0f51e7.css',
+                '62f590d4535f5dca8e3d7923161eb5f4.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -161,7 +161,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'mage/calendar.js',
                     'scripts.js',
                 ),
-                'e97b02be13928ce72066d99a4b967d41.js',
+                '8fa0d695232b6117977c2b29c34e5901.js',
             ),
         );
     }
@@ -177,7 +177,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             'scripts.js',
         );
 
-        $resultingFile = self::$_skinPublicMergedDir . '/e97b02be13928ce72066d99a4b967d41.js';
+        $resultingFile = self::$_skinPublicMergedDir . '/8fa0d695232b6117977c2b29c34e5901.js';
         $this->assertFileNotExists($resultingFile);
 
         // merge first time

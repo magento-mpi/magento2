@@ -158,7 +158,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array('css/styles.css', 'mage/calendar.css'),
-                array('http://localhost/pub/media/theme/_merged/808bc0a77c00a5d3c5c0bc388a6e93cf.css')
+                array('http://localhost/pub/media/theme/_merged/dce6f2a22049cd09bbfbe344fc73b037.css')
             ),
             array(
                 array('css/styles.css'),
@@ -199,7 +199,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array('js/tabs.js', 'mage/calendar.js', 'jquery/jquery-ui-timepicker-addon.js'),
-                array('http://localhost/pub/media/theme/_merged/9618f79ac5a7d716fabb220ef0e5c0cb.js',)
+                array('http://localhost/pub/media/theme/_merged/51cf03344697f37c2511aa0ad3391d56.js',)
             ),
             array(
                 array('mage/calendar.js'),
