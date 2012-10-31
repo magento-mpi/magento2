@@ -12,26 +12,24 @@
 /**
  * @group integrity
  */
-class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstract
+class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstract
 {
     /**
      * @param string $application
      * @param string $package
      * @param string $theme
-     * @param string $skin
      * @param string $file
-     * @dataProvider skinFilesFromThemesDataProvider
+     * @dataProvider viewFilesFromThemesDataProvider
      */
-    public function testSkinFilesFromThemes($application, $package, $theme, $skin, $file)
+    public function testViewFilesFromThemes($application, $package, $theme, $file)
     {
         $params = array(
             'area'    => $application,
             'package' => $package,
-            'theme'   => $theme,
-            'skin'    => $skin
+            'theme'   => $theme
         );
-        $skinFile = Mage::getDesign()->getViewFile($file, $params);
-        $this->assertFileExists($skinFile);
+        $viewFile = Mage::getDesign()->getViewFile($file, $params);
+        $this->assertFileExists($viewFile);
 
         $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
         if (count($fileParts) > 1) {
@@ -39,7 +37,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         }
         if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
             $errors = array();
-            $content = file_get_contents($skinFile);
+            $content = file_get_contents($viewFile);
             preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $content, $matches);
             foreach ($matches[1] as $relativePath) {
                 $path = $this->_addCssDirectory($relativePath, $file);
@@ -84,31 +82,31 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
     }
 
     /**
-     * Collect getSkinUrl() and similar calls from themes
+     * Collect getViewUrl() and similar calls from themes
      *
      * @return array
      */
-    public function skinFilesFromThemesDataProvider()
+    public function viewFilesFromThemesDataProvider()
     {
-        $skins = $this->_getDesignSkins();
+        $themes = $this->_getDesignThemes();
 
-        // Find files, declared in skins
+        // Find files, declared in views
         $files = array();
-        foreach ($skins as $view) {
-            list($area, $package, $theme) = explode('/', $view);
-            $this->_collectGetSkinUrlInvokes($area, $package, $theme, $files);
+        foreach ($themes as $themeDesign) {
+            list($area, $package, $theme) = explode('/', $themeDesign);
+            $this->_collectGetViewUrlInvokes($area, $package, $theme, $files);
         }
 
-        // Populate data provider in correspondence of skins to views
+        // Populate data provider in correspondence of themes to view files
         $result = array();
-        foreach ($skins as $view) {
-            list($area, $package, $theme, $skin) = explode('/', $view);
+        foreach ($themes as $themeDesign) {
+            list($area, $package, $theme) = explode('/', $themeDesign);
             if (!isset($files[$area][$package][$theme])) {
                 continue;
             }
             foreach (array_unique($files[$area][$package][$theme]) as $file) {
-                $result["{$area}/{$package}/{$theme}/{$skin}/{$file}"] =
-                    array($area, $package, $theme, $skin, $file);
+                $result["{$area}/{$package}/{$theme}/{$file}"] =
+                    array($area, $package, $theme, $file);
             }
         }
 
@@ -116,14 +114,14 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
     }
 
     /**
-     * Collect getSkinUrl() from theme templates
+     * Collect getViewUrl() from theme templates
      *
      * @param string    $area
      * @param string    $package
      * @param string    $theme
      * @param array     &$files
      */
-    protected function _collectGetSkinUrlInvokes($area, $package, $theme, &$files)
+    protected function _collectGetViewUrlInvokes($area, $package, $theme, &$files)
     {
         $searchDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . $package
                 . DIRECTORY_SEPARATOR . $theme;
@@ -136,7 +134,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             }
 
             // Scan file for references to other files
-            foreach ($this->_findReferencesToSkinFile($fileInfo) as $file) {
+            foreach ($this->_findReferencesToViewFile($fileInfo) as $file) {
                 $files[$area][$package][$theme][] = $file;
             }
         }
@@ -149,11 +147,11 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $elements = $fileLayoutUpdates->xpath('//action[@method="addCss" or @method="addJs"]/*[1]');
         if ($elements) {
             foreach ($elements as $filenameNode) {
-                $skinFile = (string)$filenameNode;
-                if ($this->_isFileForDisabledModule($skinFile)) {
+                $viewFile = (string)$filenameNode;
+                if ($this->_isFileForDisabledModule($viewFile)) {
                     continue;
                 }
-                $files[$area][$package][$theme][] = $skinFile;
+                $files[$area][$package][$theme][] = $viewFile;
             }
         }
     }
@@ -184,22 +182,22 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
     }
 
     /**
-     * Scan specified file for getSkinUrl() pattern
+     * Scan specified file for getViewUrl() pattern
      *
      * @param SplFileInfo $fileInfo
      * @return array
      */
-    protected function _findReferencesToSkinFile(SplFileInfo $fileInfo)
+    protected function _findReferencesToViewFile(SplFileInfo $fileInfo)
     {
         $result = array();
         if (preg_match_all(
-            '/\$this->getSkinUrl\(\'([^\']+?)\'\)/', file_get_contents($fileInfo->getRealPath()), $matches)
+            '/\$this->getViewUrl\(\'([^\']+?)\'\)/', file_get_contents($fileInfo->getRealPath()), $matches)
         ) {
-            foreach ($matches[1] as $skinFile) {
-                if ($this->_isFileForDisabledModule($skinFile)) {
+            foreach ($matches[1] as $viewFile) {
+                if ($this->_isFileForDisabledModule($viewFile)) {
                     continue;
                 }
-                $result[] = $skinFile;
+                $result[] = $viewFile;
             }
         }
         return $result;

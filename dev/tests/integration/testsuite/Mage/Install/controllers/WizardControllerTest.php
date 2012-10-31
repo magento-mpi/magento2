@@ -69,7 +69,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
 
     /**
      * Tests that when $nonWritableDir folder is read-only, the installation controller prohibits continuing
-     * installation and points to fix issue with skin directory.
+     * installation and points to fix issue with theme directory.
      *
      * @param string $nonWritableDir
      */

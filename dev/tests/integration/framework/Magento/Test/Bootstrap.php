@@ -467,7 +467,7 @@ class Magento_Test_Bootstrap
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'skin');
+        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'theme');
 
         /* Copy *.xml configuration files */
         $dirs = array(

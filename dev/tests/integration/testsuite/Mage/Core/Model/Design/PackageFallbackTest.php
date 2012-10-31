@@ -56,8 +56,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $expected = '%s/frontend/package/custom_theme/Fixture_Module/fixture_script.js';
         $params = array(
             'package' => 'package',
-            'theme' => 'custom_theme',
-            'skin' => 'theme_nested_skin'
+            'theme' => 'custom_theme'
         );
         $actual = $this->_model->getViewFile('Fixture_Module::fixture_script.js', $params);
         $this->_testExpectedVersusActualFilename($expected, $actual);
