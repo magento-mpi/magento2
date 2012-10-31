@@ -99,10 +99,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     {
         parent::_construct();
 
-        if (!$this->hasData('filter_visibility')) {
-            $this->setData('filter_visibility', true);
-        }
-
         if (!$this->getRowClickCallback()) {
             $this->setRowClickCallback('openGridRow');
         }
@@ -534,7 +530,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      *
      * @param boolean $visible
      */
-    public function setPagerVisibility($visible=true)
+    public function setPagerVisibility($visible = true)
     {
         $this->_pagerVisibility = $visible;
     }
@@ -554,7 +550,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      *
      * @param boolean $visible
      */
-    public function setMessageBlockVisibility($visible=true)
+    public function setMessageBlockVisibility($visible = true)
     {
         $this->_messageBlockVisibility = $visible;
     }

@@ -38,7 +38,7 @@ $numColumns = sizeof($this->getColumns());
     <?php else: ?>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php endif; ?>
-<?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
+<?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getChildBlock('grid.columnSet')->getFilterVisibility()): ?>
     <table cellspacing="0" class="actions">
         <tr>
         <?php if($this->getPagerVisibility()): ?>
