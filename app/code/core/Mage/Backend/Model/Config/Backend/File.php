@@ -92,8 +92,8 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected function _addWhetherScopeInfo()
     {
         $fieldConfig = $this->getFieldConfig();
-        $el = $fieldConfig->descend('upload_dir');
-        return (!empty($el['scope_info']));
+        $el = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : array();
+        return (is_array($el) && array_key_exists('scope_info', $el) && $el['scope_info']);
     }
 
     /**
@@ -107,28 +107,26 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
         $fieldConfig = $this->getFieldConfig();
         /* @var $fieldConfig Varien_Simplexml_Element */
 
-        if (empty($fieldConfig->upload_dir)) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The base directory to upload file is not specified.'));
+        if (!array_key_exists('upload_dir', $fieldConfig)) {
+            Mage::throwException(
+                Mage::helper('Mage_Catalog_Helper_Data')->__('The base directory to upload file is not specified.')
+            );
         }
 
-        $uploadDir = (string)$fieldConfig->upload_dir;
+        if (is_array($fieldConfig['upload_dir'])) {
+            $uploadDir = $fieldConfig['upload_dir']['value'];
+            if (array_key_exists('scope_info', $fieldConfig['upload_dir']) && $fieldConfig['upload_dir']['scope_info']){
+                $uploadDir = $this->_appendScopeInfo($uploadDir);
+            }
 
-        $el = $fieldConfig->descend('upload_dir');
-
-        /**
-         * Add scope info
-         */
-        if (!empty($el['scope_info'])) {
-            $uploadDir = $this->_appendScopeInfo($uploadDir);
+            if (array_key_exists('config', $fieldConfig['upload_dir'])){
+                $uploadRoot = $this->_getUploadRoot($fieldConfig['upload_dir']['config']);
+                $uploadDir = $uploadRoot . '/' . $uploadDir;
+            }
+        } else {
+            $uploadDir = (string) $fieldConfig['upload_dir'];
         }
 
-        /**
-         * Take root from config
-         */
-        if (!empty($el['config'])) {
-            $uploadRoot = $this->_getUploadRoot((string)$el['config']);
-            $uploadDir = $uploadRoot . '/' . $uploadDir;
-        }
         return $uploadDir;
     }
 
