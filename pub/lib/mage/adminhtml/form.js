@@ -6,6 +6,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/*
+ * @TODO Need to be removed after refactoring all dependent of the form the components
+ */
+(function($) {
+    $(document).ready(function() {
+        $(document).on("beforeSubmit", function(e) {
+            if (typeof varienGlobalEvents !== 'undefined') {
+                varienGlobalEvents.fireEvent("formSubmit", $(e.target).attr('id'));
+            }
+        });
+    });
+})(jQuery);
+
 var varienForm = new Class.create();
 
 varienForm.prototype = {

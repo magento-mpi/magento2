@@ -72,8 +72,15 @@ varienTabs.prototype = {
 
     bindOnbeforeSubmit: function() {
         jQuery('#' + this.destElementId).on('beforeSubmit', jQuery.proxy(function(e, data) {
+            var tabsIdValue = this.activeTab.id;
+            if (this.tabsBlockPrefix) {
+                if (this.activeTab.id.startsWith(this.tabsBlockPrefix)) {
+                    tabsIdValue = tabsIdValue.substr(this.tabsBlockPrefix.length);
+                }
+            }
             jQuery(this.tabs).removeClass('error');
-            var options = {tab: this.activeTab.id};
+            var options = {action: {args: {}}};
+            options.action.args[this.tabIdArgument || 'tab'] = tabsIdValue;
             data = data ? jQuery.extend(data, options) : options;
         }, this));
     },

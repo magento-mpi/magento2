@@ -38,7 +38,7 @@
     $.widget("mage.validation", $.mage.validation, {
         options: {
             messagesId: 'messages',
-            ignore: "",
+            ignore: '',
             errorElement: 'label',
             errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null
         },

@@ -39,15 +39,16 @@ Event.observe(window, 'load', function() {
 });
 <?php endif; ?>
 
-function pagePreviewAction() {
-    var formElem = $('<?php echo $this->getForm()->getId()?>');
-    var oldUrl = formElem.action;
-    formElem.writeAttribute('target', '_blank');
-    editForm.submit('<?php echo $this->getUrl('*/cms_page_revision/preview') ?>')
-    formElem.writeAttribute('target', '');
-    formElem.action = oldUrl;
-    return true;
-}
+(function($) {
+    $(document).ready(function() {
+        $('#<?php echo $this->getForm()->getId()?>')
+            .form('extendHandlerData', {
+                preview: {
+                    action: '<?php echo $this->getUrl('*/cms_page_revision/preview') ?>'
+                }
+            });
+    });
+})(jQuery);
 //]]>
 </script>
 

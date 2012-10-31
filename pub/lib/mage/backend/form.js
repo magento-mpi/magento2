@@ -5,10 +5,16 @@
 (function($) {
     $.widget("mage.form", {
         options: {
-            actions: {
+            actionTemplate: '${base}{{each(key, value) args}}${key}/${value}/{{/each}}',
+            handlersData: {
+                save: {},
                 saveAndContinueEdit: {
-                    template: '${base}{{each(key, value) args}}${key}/${value}/{{/each}}',
-                    args: {'back': 'edit'}
+                    action: {
+                        args: {'back': 'edit'}
+                    }
+                },
+                preview: {
+                    target: '_blank'
                 }
             }
         },
@@ -18,19 +24,51 @@
          * @protected
          */
         _create: function() {
-            this.baseUrl = this.element.attr('action');
-            $.each(this.options.actions, function(i, v) {
-                $.template(i, v.template);
-            });
+            $.template('actionTemplate', this.options.actionTemplate);
             this._bind();
         },
 
         /**
-         * Bind '_submit' method on 'save' and 'saveAndContinueEdit' events
+         * Set form attributes to initial state
+         * @protected
+         */
+        _rollback: function() {
+            if (this.oldAttributes) {
+                this.element.prop(this.oldAttributes);
+            }
+        },
+
+        /**
+         * Join all handlers names in string
+         * @protected
+         */
+        _getHandlersString: function() {
+            var handlers = [];
+            $.each(this.options.handlersData, function(key) {
+                handlers.push(key);
+            });
+            return handlers.join(' ');
+        },
+
+        /**
+         * Store initial value of form attribute
+         * @param {string} Name of attribute
+         * @protected
+         */
+        _storeAttribute: function(attrName) {
+            this.oldAttributes = this.oldAttributes ? this.oldAttributes : {};
+            if (!this.oldAttributes[attrName]) {
+                var prop = this.element.prop(attrName);
+                this.oldAttributes[attrName] = prop ? prop : '';
+            }
+        },
+
+        /**
+         * Bind hendlers
          * @protected
          */
         _bind: function() {
-            this.element.on('save saveAndContinueEdit', $.proxy(this._submit, this));
+            this.element.on(this._getHandlersString(), $.proxy(this._submit, this));
         },
 
         /**
@@ -39,16 +77,49 @@
          * @param {Object} object with parameters for action url
          * @return {string|boolean}
          */
-        _getActionUrl: function(action, data) {
-            var actions = this.options.actions;
-            if (actions[action]) {
-                data = data || {};
-                return $.tmpl(action, {
-                    base: this.baseUrl,
-                    args: actions[action].args ? $.extend(actions[action].args, data) : data
+        _getActionUrl: function(data) {
+            if ($.type(data) === 'object') {
+                return $.tmpl('actionTemplate', {
+                    base: this.oldAttributes.action,
+                    args: data.args
                 }).text();
+            } else {
+                return $.type(data) === 'string' ? data : this.oldAttributes.action;
             }
-            return false;
+        },
+
+        /**
+         * Prepare data for form attributes
+         * @param {Object}
+         * @protected
+         */
+        _processData: function(data) {
+            $.each(data, $.proxy(function(attrName, attrValue) {
+                this._storeAttribute(attrName);
+                if(attrName === 'action') {
+                    data[attrName] = this._getActionUrl(attrValue);
+                }
+            }, this));
+            return data;
+        },
+
+        /**
+         * Get additional data before form submit
+         * @param {string}
+         * @param {Object}
+         * @protected
+         */
+        _beforeSubmit: function(handlerName, data) {
+            var submitData = {};
+            this.element.trigger('beforeSubmit', submitData);
+            data = $.extend(
+                true,
+                {},
+                this.options.handlersData[handlerName] || {},
+                submitData,
+                data
+            );
+            this.element.prop(this._processData(data));
         },
 
         /**
@@ -58,14 +129,8 @@
          * @return {string|boolean}
          */
         _submit: function(e, data) {
-            this.element.attr('action', this.baseUrl);
-            var urlData = {};
-            this.element.trigger('beforeSubmit', urlData);
-            data = data ? $.extend(data, urlData) : urlData;
-            var url = this._getActionUrl(e.type, data);
-            if (url) {
-                this.element.attr('action', url);
-            }
+            this._rollback();
+            this._beforeSubmit(e.type, data);
             this.element.triggerHandler('submit');
         }
     });
@@ -75,14 +140,30 @@
          * Button creation
          * @protected
          */
-        _create: function(){
-            var data = this.element.data().widgetButton;
-            if ($.type(data) === 'object') {
-                this.element.on('click', function() {
-                    $(data.related).trigger(data.event);
-                });
-            }
+        _create: function() {
+            this._processDataAttr();
+            this._bind();
             this._super("_create");
+        },
+
+        /**
+         * Get additional options from data attribute and merge it in this.options
+         * @protected
+         */
+        _processDataAttr: function() {
+            data = this.element.data().widgetButton;
+            $.extend(true, this.options, $.type(data) === 'object' ? data : {});
+        },
+
+        /**
+         * Bind handler on button click
+         * @protected
+         */
+        _bind: function() {
+            this.element.on('click', $.proxy(function() {
+                $(this.options.related)
+                    .trigger(this.options.event, this.options.eventData ? [this.options.eventData] : [{}]);
+            }, this));
         }
     });
 })(jQuery);
