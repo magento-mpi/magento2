@@ -134,10 +134,10 @@ report_product_sold:
                     report_product_sold:
                         xpath: //div[@id='gridProductsSold']
                         fields:
-                            filter_from: //input[@id='period_date_from']
-                            filter_to: //input[@id='period_date_to']
+                            filter_from: //input[@id='gridProductsSold_period_date_from']
+                            filter_to: //input[@id='gridProductsSold_period_date_to']
                         dropdowns:
-                            show_by: //select[@id='report_period']
+                            show_by: //select[@id='gridProductsSold_report_period']
                             export_to: //select[@id='gridProductsSold_export']
                         buttons:
                              export: //button[span='Export']
