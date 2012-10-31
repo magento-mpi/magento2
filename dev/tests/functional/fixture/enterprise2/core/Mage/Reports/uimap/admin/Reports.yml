@@ -178,14 +178,14 @@ report_customer_totals:
         form:
             fieldsets:
                 -
-                    customers_by_orders_total_grid:
+                    report_customer_totals:
                         xpath: //div[@id='gridTotalsCustomer']
                         buttons:
                             refresh: //button[span='Refresh']
                             export: //button[span='Export']
                         dropdowns:
                             filter_show_report_for: //select[@id='store_switcher']
-                            filter_show_by: //select[@id='gridTotalsCustomer_report_period']
+                            show_by: //select[@id='gridTotalsCustomer_report_period']
                             export_to: //select[@id='gridTotalsCustomer_export']
                         fields:
                             filter_from: //input[@id='gridTotalsCustomer_period_date_from']
