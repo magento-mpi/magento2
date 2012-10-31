@@ -36,7 +36,6 @@ class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_S
         $customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $addressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer($customerData, $addressData);
-        $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' ' . $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
         $this->openTab('addresses');
         $addressData['_entity_id'] = $this->customerHelper()->isAddressPresent($addressData);

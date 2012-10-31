@@ -87,10 +87,9 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodDirectPostTe
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
             array('general_name' => $testData['sku'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'authorizenetdp_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);

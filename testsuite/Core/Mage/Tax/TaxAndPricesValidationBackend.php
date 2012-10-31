@@ -96,11 +96,10 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
      * @test
      * @dataProvider createOrderBackendDataProvider
      * @depends preconditionsForTests
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function createOrderBackend($sysConfigData, $testData)
     {
+        $this->markTestIncomplete('MAGE-1987');
         list($customer, $products) = $testData;
         //Preconditions
         $this->navigate('system_configuration');

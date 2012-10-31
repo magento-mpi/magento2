@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_SalesOrderActionsTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -218,7 +218,7 @@ class Community2_Mage_ACL_SalesOrderActionsTest extends Mage_Selenium_TestCase
      * <p>1. Button "Back" is presented on order page</p>
      * <p>2. Button "Hold" is presented on order page</p>
      * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Ship', 'Unhold', 'Credit Memo', 'Invoice', 'Reorder', 'Void' are not presented</p>
-     * <p>4. Order is holded</p>
+     * <p>4. Order is holden</p>
      *
      * @param $orderId
      *
@@ -274,13 +274,13 @@ class Community2_Mage_ACL_SalesOrderActionsTest extends Mage_Selenium_TestCase
      * <p>2. Create new "test admin user" with this role</p>
      * <p>Steps:</p>
      * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"(holded)</p>
+     * <p>2. Find  in orders grid and click "test order"(holden)</p>
      * <p>3. Unhold "test order"</p>
      * <p>Expected results</p>
      * <p>1. Button "Back" is presented on order page</p>
      * <p>2. Button "Unhold" is presented on order page</p>
      * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Ship', 'Hold', 'Credit Memo', 'Invoice', 'Reorder', 'Void'</p>
-     * <p>4. Order is unholded</p>
+     * <p>4. Order is unholden</p>
      *
      * @param $orderId
      *

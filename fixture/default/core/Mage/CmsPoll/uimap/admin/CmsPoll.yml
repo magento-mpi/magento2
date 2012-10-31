@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -77,6 +76,8 @@ new_poll:
                                     xpath: //div[contains(div/div/h4,'Assigned Answers')]
                                     buttons:
                                         add_new_answer: //button[span='Add New Answer']
+                                    pageelements:
+                                        assigned_answers_block: //div[@id='poll_answer_fieldset_%answerId%']
                             -
                                 assigned_answers_set:
                                     xpath: //div[@class='fieldset fieldset-wide']

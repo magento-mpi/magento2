@@ -12,28 +12,34 @@
 -->
 <phpunit backupGlobals="true"
          backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
+         bootstrap="./framework/bootstrap.php"
          cacheTokens="true"
-         colors="true"
+         colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          forceCoversAnnotation="false"
          mapTestClassNameToCoveredClassName="false"
-         printerClass="PHPUnit_TextUI_ResultPrinter"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         testSuiteLoaderClass="Mage_Test_Loader"
          strict="false"
+         syntaxCheck="false"
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core/Mage</directory>
+            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <!-- Whether to install the application before tests execution. Value 'enabled' turns installation on. -->
+        <const name="SELENIUM_TESTS_INSTALLATION" value="disabled"/>
+        <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
+        <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
+    </php>
     <logging>
         <log type="json" target="./var/logs/logfile.json"/>
         <log type="tap" target="./var/logs/logfile.tap"/>
@@ -41,17 +47,4 @@
         <log type="testdox-html" target="./var/logs/testdox.html"/>
         <log type="testdox-text" target="./var/logs/testdox.txt"/>
     </logging>
-    <listeners>
-        <listener class="Mage_Listener_EventListener">
-        </listener>
-        <listener class="Mage_Testlink_Listener">
-            <arguments>
-                <string>Project Name</string>
-                <string>http://localhost/testlink/lib/api/xmlrpc.php</string>
-                <string>user token</string>
-                <string>Test Plan Name(ID)</string>
-                <string>build number</string>
-            </arguments>
-        </listener>
-    </listeners>
 </phpunit>

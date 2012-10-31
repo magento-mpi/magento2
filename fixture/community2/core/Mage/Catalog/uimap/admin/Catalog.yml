@@ -9,11 +9,6 @@
 #
 #
 ---
-url_rewrite_management:
-    mca: urlrewrite/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'urlrewrite/')]
-    title: Rewrite Rules / Magento Admin
-
 search_terms:
     mca: catalog_search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_search/')]

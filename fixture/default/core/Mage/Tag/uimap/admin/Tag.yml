@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -12,7 +11,7 @@
 # All Tags page
 all_tags:
     mca: tag/
-    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
+    click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: &allTags
         form: &searchTagsGrid
@@ -22,6 +21,9 @@ all_tags:
                         xpath: //div[@id='tag_tag_grid']
                         links:
                             select_all: //a[text()='Select All']
+                            unselect_all: //a[text()='Unselect All']
+                            select_visible: //a[text()='Select Visible']
+                            unselect_visible: //a[text()='Unselect Visible']                            
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -39,6 +41,7 @@ all_tags:
                             customers_to: //input[@name='customers[to]']
                         pageelements:
                             tags_grid_head: //table[@id='tag_tag_grid_table']//thead/tr[@class='headings']
+                            tags_grid: //table[@id='tag_tag_grid_table']
         buttons:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
@@ -46,22 +49,24 @@ all_tags:
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
+            error_deleted_tag_has_no_permissions: //li[normalize-space(@class)='error-msg' and contains(.,'Not enough permissions to delete this item.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_massaction_delete: Are you sure?
+            select_items_to_delete: Please select items.
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
             required_name: //div[@id='advice-required-entry-name' and text()='This is a required field.']
 
 all_tags_index:
     mca: tag/index/
-    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
+    click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: *allTags
 
 # Edit Tag Page
 edit_tag:
     mca: tag/edit/store/%storeId%/tag_id/%id%
-    title: %tagName% / Tags / Catalog / Magento Admin
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: &editTagUimap
         form:
             fieldsets:
@@ -136,13 +141,17 @@ edit_tag:
 # Edit tag '%tagName%' page
 edit_tag_more_options:
     mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
-    title: %tagName% / Tags / Catalog / Magento Admin
+    title: %elementTitle% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
+
+edit_tag_more_options_pending:
+    mca: tag/edit/store/%storeId%/tag_id/%id%/ret/pending
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 
 # New Tag page
 new_tag:
     mca: tag/edit/store/%storeId%
-    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
     title: New Tag / Tags / Catalog / Magento Admin
     uimap:
         form:
@@ -175,8 +184,13 @@ pending_tags:
         form:
             fieldsets:
                 -
-                    pending_tags_grid:
+                    tags_grid:
                         xpath: //div[@id='pending_grid']
+                        links:
+                            select_all: //a[text()='Select All']
+                            unselect_all: //a[text()='Unselect All']
+                            select_visible: //a[text()='Select Visible']
+                            unselect_visible: //a[text()='Unselect Visible']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -191,3 +205,18 @@ pending_tags:
                             products_to: //input[@id='pending_grid_filter_products_to']
                             customers_from: //input[@id='pending_grid_filter_customers_from']
                             customers_to: //input[@id='pending_grid_filter_customers_to']
+                        pageelements:
+                            tags_grid_head: //table[@id='pending_grid_table']//thead/tr[@class='headings']
+                            tags_grid: //table[@id='pending_grid_table']
+            messages: *tagsMesssages
+
+product_tags:
+    mca: tag/edit/tag_id/%id%/product_id/%prodId%
+    title: %elementTitle% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
+
+customer_tags:
+    mca: tag/edit/tag_id/%id%/customer_id/%custId%
+    title: %elementTitle% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
+

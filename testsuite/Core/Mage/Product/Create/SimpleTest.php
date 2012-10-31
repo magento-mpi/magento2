@@ -100,10 +100,10 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
      * <p>3. Click "Continue" button;</p>
      * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
+     * <p>5. Click 'Save and Continue Edit' button;</p>
      * <p>Expected result:</p>
-     * <p>Error message appears;</p>
+     * <p>1. Product is saved, confirmation message appears;</p>
+     * <p>2. Auto-increment is added to SKU;</p>
      *
      * @param $productData
      *
@@ -115,10 +115,17 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function existSkuInSimple($productData)
     {
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->addParameter('elementTitle', $productData['general_name']);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
-        $this->assertMessagePresent('validation', 'existing_sku');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', $productData['general_name']);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertMessagePresent('success', 'sku_autoincremented');
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -146,18 +153,12 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_visibility') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } elseif ($emptyField == 'inventory_qty') {
-            $overrideData = array($emptyField => '');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'simple_product_required', $overrideData);
+        $field = key($emptyField);
+        $product = $this->loadDataSet('Product', 'simple_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($product);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -165,16 +166,16 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_weight', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown'),
-            array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown'),
-            array('inventory_qty', 'field')
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_weight' => '%noValue%'), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
+            array(array('prices_price' => '%noValue%'), 'field'),
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
+            array(array('inventory_qty' => ''), 'field')
         );
     }
 
@@ -293,7 +294,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3420
      * @test
-     * @group skip_due_to_bug
      */
     public function invalidWeightInSimple()
     {

@@ -72,5 +72,6 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontAddProductToCart($options);
         //Verifying
         $this->validatePage('shopping_cart');
+        $this->assertFalse($this->textIsPresent('Internal server error'), 'HTTP Error 500 Internal server error');
     }
 }

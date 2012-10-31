@@ -211,9 +211,9 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_no_img_one_page',
             array ('gift_wrapping_for_items'    => '$' . $giftWrappingData['gift_wrapping_price'],
-                    'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+                   'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
             array('product_1'                   => $products[0]['general_name'],
-                   'validate_product_1'         => $products[0]['general_name']));
+                  'validate_product_1'         => $products[0]['general_name']));
         $giftMsg = $checkoutData['shipping_data']['add_gift_options']['individual_items']['item_1'];
         $vrfGiftData = $this->loadDataSet('OnePageCheckout', 'verify_gift_data',
             array('sku_product'                 => $products[0]['general_sku'],
@@ -547,7 +547,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price',
             array('gift_wrapping_for_order'   => '$' . $giftWrappingData['gift_wrapping_price'],
                   'gift_wrapping_for_items'   => '$' . ($productGiftOptions['gift_options_price_for_gift_wrapping'] +
-                                                 $giftWrappingData['gift_wrapping_price'])),
+                                                        $giftWrappingData['gift_wrapping_price'])),
             array('product_1'                 => $products[0]['general_name'],
                   'product_2'                 => $products[1]['general_name'],
                   'validate_product_1'        => $products[0]['general_name'],
@@ -642,7 +642,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price_on_site',
             array('gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
                   'gift_wrapping_for_items' => '$' . ($productGiftOptionsSite['gift_options_price_for_gift_wrapping'] +
-                                               $giftWrappingData['gift_wrapping_price'])),
+                                                      $giftWrappingData['gift_wrapping_price'])),
             array('product_1'               => $products[0]['general_name'],
                   'product_2'               => $products[1]['general_name'],
                   'validate_product_1'      => $products[0]['general_name'],

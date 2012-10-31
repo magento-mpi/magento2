@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -217,6 +216,7 @@ create_tax_rate:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_valid_digits: "//div[@id='advice-validate-digits-%fieldId%' and not(contains(@style,'display: none;'))]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 # 'Edit Tax Rate' Page
@@ -339,6 +339,7 @@ create_tax_rule:
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             empty_required_field:  "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 # Edit Tax Rule page

@@ -29,7 +29,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('pageelement', 'captcha')) {
             $this->loginAdminUser();
             $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+            $this->systemConfigurationHelper()->configure('Captcha/disable_admin_captcha');
             $this->logoutAdminUser();
         }
     }

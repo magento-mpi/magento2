@@ -70,3 +70,9 @@ root_category_all: &categoryAll
 sub_category_all:
     <<: *categoryAll
     parent_category: Default Category
+
+sub_category_required_url_rewrite:
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
+    url_key: %noValue%
+    is_active: Yes

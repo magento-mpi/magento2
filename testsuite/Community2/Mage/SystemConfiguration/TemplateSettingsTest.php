@@ -43,9 +43,6 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
      */
     public function diffEmailSendersAdminTemplate($emailSender)
     {
-        //Steps
-        $this->navigate('system_configuration');
-        //Verification
         $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced', 'admin_user_emails_settings',
             array('forgot_password_email_sender' => $emailSender)));
     }
@@ -57,7 +54,8 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
             array('Sales Representative'),
             array('Customer Support'),
             array('Custom Email 1'),
-            array('Custom Email 2'));
+            array('Custom Email 2')
+        );
     }
 
     /**
@@ -82,16 +80,13 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
         $config = $this->loadDataSet('Advanced', 'admin_user_emails_settings',
             array('recovery_link_exp_period' => $expirationPeriod));
         //Steps
-        $this->navigate('system_configuration');
-        //Verification
         if ($expirationPeriod == 'a' || $expirationPeriod == '1.1') {
-            $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '.
-                'Please avoid spaces or other characters such as dots or commas.');
-        } elseif ($expirationPeriod == '0') {
-            $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                '"Recovery Link Expiration Period (days)": The value is not within the specified range.');
+            $message = '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '
+                       . 'Please avoid spaces or other characters such as dots or commas.';
+        } else {
+            $message = '"Recovery Link Expiration Period (days)": The value is not within the specified range.';
         }
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->systemConfigurationHelper()->configure($config);
     }
 
@@ -100,7 +95,8 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
         return array(
             array('a'),
             array('1.1'),
-            array('0'));
+            array('0')
+        );
     }
 
     /**
@@ -155,8 +151,6 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
     public function diffEmailSendersForCustomerTemplate($emailSender)
     {
         //Steps
-        $this->navigate('system_configuration');
-        //Verification
         $this->systemConfigurationHelper()->configure($this->loadDataSet('Advanced',
             'customer_configuration_password_options', array('forgot_email_sender' => $emailSender)));
     }
@@ -168,7 +162,8 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
             array('Sales Representative'),
             array('Customer Support'),
             array('Custom Email 1'),
-            array('Custom Email 2'));
+            array('Custom Email 2')
+        );
     }
 
     /**
@@ -197,8 +192,8 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
         //Verification
         if ($expirationPeriod == 'a' || $expirationPeriod == '1.1') {
             $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '.
-                'Please avoid spaces or other characters such as dots or commas.');
+                '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '
+                . 'Please avoid spaces or other characters such as dots or commas.');
         } elseif ($expirationPeriod == '0') {
             $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
                 '"Recovery Link Expiration Period (days)": The value is not within the specified range.');
@@ -211,7 +206,8 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
         return array(
             array('a'),
             array('1.1'),
-            array('0'));
+            array('0')
+        );
     }
 
     /**
@@ -226,7 +222,9 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
      * <p>New template is applied and configuration is successfully saved.<p>
      *
      * @dataProvider diffEmailTemplatesDataProvider
+     *
      * @param string $emailTemplate
+     *
      * @test
      * @TestlinkId TL-MAGE-2046, TL-MAGE-2063
      *
@@ -253,6 +251,7 @@ class Community2_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Sele
     {
         return array(
             array('forgot_email_template'),
-            array('remind_email_template'));
+            array('remind_email_template')
+        );
     }
 }

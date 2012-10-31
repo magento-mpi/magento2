@@ -50,7 +50,9 @@ manage_catalog_price_rules:
             invalid_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_discount_amount' and not(contains(@style,'display: none;'))]"
             invalid_sub_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_sub_discount_amount' and not(contains(@style,'display: none;'))]"
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
+            no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
 
 add_new_rule:
     mca: promo_catalog/new/

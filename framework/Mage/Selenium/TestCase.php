@@ -15,39 +15,59 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Core_Mage_AdminUser_Helper adminUserHelper()
- * @method Core_Mage_AttributeSet_Helper attributeSetHelper()
- * @method Core_Mage_Category_Helper categoryHelper()
- * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
- * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper checkoutOnePageHelper()
- * @method Core_Mage_CmsPages_Helper cmsPagesHelper()
- * @method Core_Mage_CmsPolls_Helper cmsPollsHelper()
- * @method Core_Mage_CmsStaticBlocks_Helper cmsStaticBlocksHelper()
- * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper|Community2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
- * @method Core_Mage_CompareProducts_Helper compareProductsHelper()
- * @method Core_Mage_CustomerGroups_Helper customerGroupsHelper()
- * @method Core_Mage_Customer_Helper customerHelper()
- * @method Core_Mage_Installation_Helper installationHelper()
- * @method Core_Mage_Newsletter_Helper newsletterHelper()
- * @method Core_Mage_OrderCreditMemo_Helper orderCreditMemoHelper()
- * @method Core_Mage_OrderInvoice_Helper orderInvoiceHelper()
- * @method Core_Mage_OrderShipment_Helper orderShipmentHelper()
- * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper orderHelper()
- * @method Core_Mage_Paypal_Helper paypalHelper()
- * @method Core_Mage_PriceRules_Helper priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper productAttributeHelper()
- * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper productHelper()
- * @method Core_Mage_Rating_Helper ratingHelper()
- * @method Core_Mage_Review_Helper reviewHelper()
- * @method Core_Mage_ShoppingCart_Helper|Community17_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper shoppingCartHelper()
- * @method Core_Mage_Store_Helper storeHelper()
- * @method Core_Mage_SystemConfiguration_Helper|Community1701_Mage_SystemConfiguration_Helper systemConfigurationHelper()
- * @method Core_Mage_Tags_Helper tagsHelper()
- * @method Core_Mage_Tax_Helper taxHelper()
- * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper wishlistHelper()
- * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
- * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
+ * @method Enterprise2_Mage_AddBySku_Helper                                                                                        addBySkuHelper()
+ * @method Core_Mage_AdminUser_Helper|Community2_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper                           adminUserHelper()
+ * @method Community2_Mage_AdvancedSearch_Helper                                                                                   advancedSearchHelper()
+ * @method Community2_Mage_Agcc_Helper                                                                                             agccHelper()
+ * @method Core_Mage_AttributeSet_Helper|Community2_Mage_AttributeSet_Helper                                                       attributeSetHelper()
+ * @method Enterprise2_Mage_Attributes_Helper                                                                                      attributesHelper()
+ * @method Enterprise2_Mage_CacheStorageManagement_Helper                                                                          cacheStorageManagementHelper()
+ * @method Core_Mage_Category_Helper|Enterprise2_Mage_Category_Helper                                                              categoryHelper()
+ * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper                             checkoutMultipleAddressesHelper()
+ * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper                                                 checkoutOnePageHelper()
+ * @method Enterprise2_Mage_CmsBanners_Helper                                                                                      cmsBannersHelper()
+ * @method Core_Mage_CmsPages_Helper                                                                                               cmsPagesHelper()
+ * @method Core_Mage_CmsPolls_Helper                                                                                               cmsPollsHelper()
+ * @method Core_Mage_CmsStaticBlocks_Helper                                                                                        cmsStaticBlocksHelper()
+ * @method Core_Mage_CmsWidgets_Helper|Community2_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper|Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Core_Mage_CompareProducts_Helper                                                                                        compareProductsHelper()
+ * @method Community2_Mage_Csv_Helper|Enterprise2_Mage_Csv_Helper                                                                  csvHelper()
+ * @method Core_Mage_CustomerGroups_Helper                                                                                         customerGroupsHelper()
+ * @method Core_Mage_Customer_Helper|Community2_Mage_Customer_Helper|Enterprise2_Mage_Customer_Helper                              customerHelper()
+ * @method Enterprise2_Mage_CustomerSegment_Helper                                                                                 customerSegmentHelper()
+ * @method Enterprise2_Mage_GiftRegistry_Helper                                                                                    giftRegistryHelper()
+ * @method Enterprise_Mage_GiftWrapping_Helper                                                                                     giftWrappingHelper()
+ * @method Community2_Mage_ImportExport_Helper|Enterprise2_Mage_ImportExport_Helper                                                importExportHelper()
+ * @method Enterprise2_Mage_ImportExportScheduled_Helper                                                                           importExportScheduledHelper()
+ * @method Core_Mage_Installation_Helper                                                                                           installationHelper()
+ * @method Community17_Mage_LayeredNavigation_Helper                                                                               layeredNavigationHelper()
+ * @method Core_Mage_Newsletter_Helper|Community2_Mage_Newsletter_Helper|Enterprise2_Mage_Newsletter_Helper                        newsletterHelper()
+ * @method Core_Mage_OrderCreditMemo_Helper                                                                                        orderCreditMemoHelper()
+ * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                                                     orderHelper()
+ * @method Core_Mage_OrderInvoice_Helper                                                                                           orderInvoiceHelper()
+ * @method Core_Mage_OrderShipment_Helper                                                                                          orderShipmentHelper()
+ * @method Core_Mage_Paypal_Helper                                                                                                 paypalHelper()
+ * @method Core_Mage_PriceRules_Helper|Enterprise2_Mage_PriceRules_Helper                                                          priceRulesHelper()
+ * @method Core_Mage_ProductAttribute_Helper|Community2_Mage_ProductAttribute_Helper                                               productAttributeHelper()
+ * @method Core_Mage_Product_Helper|Community2_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Enterprise2_Mage_Product_Helper  productHelper()
+ * @method Enterprise2_Mage_Rma_Helper                                                                                             rmaHelper()
+ * @method Core_Mage_Rating_Helper                                                                                                 ratingHelper()
+ * @method Community2_Mage_Reports_Helper                                                                                          reportsHelper()
+ * @method Core_Mage_Review_Helper                                                                                                 reviewHelper()
+ * @method Enterprise_Mage_Rollback_Helper                                                                                         rollbackHelper()
+ * @method Community2_Mage_RssFeeds_Helper                                                                                         rssFeedsHelper()
+ * @method Core_Mage_ShoppingCart_Helper|Community17_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                  shoppingCartHelper()
+ * @method Enterprise_Mage_StagingWebsite_Helper                                                                                   stagingWebsiteHelper()
+ * @method Core_Mage_Store_Helper|Community2_Mage_Store_Helper|Enterprise2_Mage_Store_Helper                                       storeHelper()
+ * @method Core_Mage_SystemConfiguration_Helper|Community1701_Mage_SystemConfiguration_Helper                                      systemConfigurationHelper()
+ * @method Core_Mage_Tags_Helper                                                                                                   tagsHelper()
+ * @method Core_Mage_Tax_Helper                                                                                                    taxHelper()
+ * @method Community2_Mage_TermsAndConditions_Helper                                                                               termsAndConditionsHelper()
+ * @method Community2_Mage_TransactionalEmails_Helper|Enterprise2_Mage_TransactionalEmails_Helper                                  transactionalEmailsHelper()
+ * @method Community2_Mage_ValidationVatNumber_Helper                                                                              validationVatNumberHelper()
+ * @method Enterprise2_Mage_WebsiteRestrictions_Helper                                                                             websiteRestrictionsHelper()
+ * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                                               wishlistHelper()
+ * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper                                                    xmlSitemapHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
@@ -451,6 +471,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getParamsHelper()
     {
         return $this->_paramsHelper;
+    }
+
+    /**
+     * @return Mage_Selenium_Helper_Uimap
+     */
+    public function getUimapHelper()
+    {
+        return $this->_uimapHelper;
     }
     ################################################################################
     #                                                                              #
@@ -1214,6 +1242,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->waitForAjax();
         if ($validatePage) {
             $this->validatePage($page);
+        } else {
+            $this->setCurrentPage($this->_findCurrentPageFromUrl());
         }
 
         return $this;
@@ -1485,23 +1515,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
+        $this->assertEmptyPageErrors();
+        $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        if (!is_null($expectedTitle)) {
+            $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected.';
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if (strlen($messagesOnPage) > 0) {
+                $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
+            }
+            $this->assertSame($expectedTitle, $this->title(), $errorMessage);
+        }
+        $this->setCurrentPage($page);
+    }
+
+    public function assertEmptyPageErrors()
+    {
         $this->assertFalse($this->textIsPresent('Fatal error'), 'Fatal error on page');
         $this->assertFalse($this->textIsPresent('There has been an error processing your request'),
             'Fatal error on page: "There has been an error processing your request"');
+        $this->assertFalse($this->textIsPresent('The page you requested was not found'),
+            'The page you requested was not found');
         $this->assertFalse($this->textIsPresent('Notice:'), 'PHP Notice error on page');
         $this->assertFalse($this->textIsPresent('Parse error'), 'Parse error on page');
         $this->assertFalse($this->textIsPresent('If you typed the URL directly'), 'The requested page was not found.');
-        $this->assertFalse($this->textIsPresent('was not found'), 'Something was not found:)');
         $this->assertFalse($this->textIsPresent('Service Temporarily Unavailable'), 'Service Temporarily Unavailable');
-        $this->assertFalse($this->textIsPresent('The page isn\'t redirecting properly'),
-            'The page isn\'t redirecting properly');
+        $this->assertFalse($this->textIsPresent("The page isn't redirecting properly"),
+            'The page is not redirecting properly');
         $this->assertFalse($this->textIsPresent('Internal server error'), 'HTTP Error 500 Internal server error');
-        $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        if (!is_null($expectedTitle)) {
-            $this->assertSame($expectedTitle, $this->title(),
-                $this->locationToString() . 'Title for page "' . $page . '" is unexpected.');
-        }
-        $this->setCurrentPage($page);
+        $this->assertFalse($this->textIsPresent('was not found'), 'Something was not found:)');
     }
 
     ################################################################################
@@ -1543,10 +1584,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
         //Delete action part of mca if it's index
         $mca = preg_replace('|/index/?$|', '/', $mca);
+        //
+        $mca = preg_replace('|/form_key/[A-Za-z0-9]+/?|', '/', $mca);
         //Delete action part of mca if it's ?SID=
         $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
+
         //@TODO Temporary fix for magento2
-        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '', $mca);
+        //$value = preg_quote('?ajax=true&isAjax=true');
+        //$mca = preg_replace('/' . $value . '(\/)?/', '', $mca);
+        //$mca = preg_replace('/\&set=[0-9]+/', '', $mca);
 
         return preg_replace('|^/|', '', $mca);
     }
@@ -1638,15 +1684,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     /**
      * Get part of UIMap for opened tab
+     * @throws RuntimeException
      * @return Mage_Selenium_Uimap_Tab
      */
     public function _getActiveTabUimap()
     {
+        $tabsOnPage = false;
         $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
         /**
          * @var Mage_Selenium_Uimap_Tab $tabUimap
          */
         foreach ($tabData as $tabUimap) {
+            $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
                 $tabClass = $availableElement->attribute('class');
@@ -1654,6 +1703,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     return $tabUimap;
                 }
             }
+        }
+        if ($tabsOnPage && $this->getArea() == 'admin') {
+            throw new RuntimeException($this->locationToString() . 'It\'s impossible to define active tab');
         }
         return null;
     }
@@ -1896,6 +1948,31 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $url
+     *
+     * @return mixed
+     * @throws RuntimeException
+     */
+    public function getFile($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        $data = curl_exec($curl);
+        $data = substr($data, curl_getinfo($curl, CURLINFO_HEADER_SIZE));
+        $info = curl_getinfo($curl);
+        if (!$info) {
+            throw new RuntimeException("CURL error when accessing '$url': " . curl_error($curl));
+        }
+        curl_close($curl);
+        return $data;
+    }
+
+    /**
      * SavesHTML content of the current page and return information about it.
      * Return an empty string if the screenshotPath property is empty.
      *
@@ -2088,15 +2165,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->focusOnElement($availableElement);
             $availableElement->click();
             $actualText = $this->alertText();
-            if ($actualText == $confirmation) {
-                $this->acceptAlert();
-                if ($willChangePage) {
-                    $this->waitForPageToLoad();
-                    $this->validatePage();
-                }
-            } else {
-                $this->fail("The confirmation text incorrect: '$actualText' != '$confirmation''");
+            $this->acceptAlert();
+            $this->waitForAjax();
+            if ($willChangePage) {
+                $this->waitForPageToLoad();
+                $this->validatePage();
             }
+            $this->assertSame($confirmation, $actualText, 'The confirmation text incorrect');
         } else {
             $this->fail("There is no way to click on control(There is no '$controlName' $controlType)");
         }
@@ -2121,12 +2196,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
+     * @param mixed $uimap
      *
      * @return bool
      */
-    public function controlIsPresent($controlType, $controlName)
+    public function controlIsPresent($controlType, $controlName, $uimap = null)
     {
-        $locator = $this->_getControlXpath($controlType, $controlName);
+        $locator = $this->_getControlXpath($controlType, $controlName, $uimap);
         if ($this->elementIsPresent($locator)) {
             return true;
         }
@@ -2202,7 +2278,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
+                $this->assertEmptyPageErrors();
             }
+        }
+        $openedTab = $this->_getActiveTabUimap()->getTabId();
+        if ($openedTab !== $tabName) {
+            $this->fail($this->locationToString() . "'$tabName' tab is not opened");
         }
     }
 
@@ -2253,6 +2334,71 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getColumnIdByName($columnName, $tableXpath = '//table[@id]')
     {
         return array_search($columnName, $this->getTableHeadRowNames($tableXpath)) + 1;
+    }
+
+    /*
+    * Set sort order in grid
+    *
+    * @param string $tableColumnName Column name
+    * @param string $tableOrder 'desc' or 'asc'
+    * @param string $tableXpath Table xPath
+    */
+    public function sortTableOrderByColumn($tableColumnName, $sortOrder, $tableXpath = '//table[@id]')
+    {
+        //Get records count on the page
+        $tableXpath .= "/thead//th//a[span='$tableColumnName']";
+        $availableElement = $this->elementIsPresent($tableXpath);
+        if ($availableElement) {
+            if ($availableElement->attribute('class') == 'not-sort') {
+                $this->focusOnElement($availableElement);
+                $availableElement->click();
+                $this->pleaseWait();
+            }
+            $element = $this->getElement($tableXpath);
+            $currentOrder = $element->attribute('title');
+            if ($currentOrder != $sortOrder) {
+                $this->focusOnElement($availableElement);
+                $element->click();
+                $this->pleaseWait();
+            }
+        } else {
+            $this->fail('ddd');
+        }
+    }
+
+    /*
+    * Get info from table as array
+    *
+    * @param array $tableHeaderNames Columns headers
+    * @param string $tableXpath Table xPath
+    *
+    * @return array Associative array  Column Header => Value
+    */
+    public function getInfoInTable(array $tableHeaderNames, $tableXpath = '//table[@id]')
+    {
+        $columnsData = array();
+        $tableValues = array();
+        if (empty($tableHeaderNames)) {
+            //Get all available columns
+            $columnsData = $this->getTableHeadRowNames($tableXpath);
+        } else {
+            foreach ($tableHeaderNames as $tableHeaderName) {
+                $id = $this->getColumnIdByName($tableHeaderName, $tableXpath);
+                $columnsData[$id] = $tableHeaderName;
+            }
+        }
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $line
+         */
+        $tableElements = $this->getElements($tableXpath . '/tbody/tr', false);
+        foreach ($tableElements as $key => $line) {
+            $rowValues = array();
+            foreach ($columnsData as $columnIndex => $columnName) {
+                $rowValues[$columnName] = $this->getChildElement($line, "td[$columnIndex]");
+            }
+            $tableValues[$key] = $rowValues;
+        }
+        return $tableValues;
     }
 
     /**
@@ -2317,6 +2463,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
+        $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
@@ -2351,6 +2498,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
+        $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
@@ -2391,6 +2539,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
+        $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
@@ -2430,6 +2579,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             usleep(500000);
         }
+        $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
     }
 
@@ -2473,6 +2623,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->waitForElement(self::$xpathLoadingHolder);
+        if (!is_null($tabUimap)) {
+            $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
+                'Opened wrong tab after Save and Continue Edit action');
+        }
     }
 
     /**
@@ -2799,7 +2953,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         $this->fillMultiselect($formFieldName, $formField['value'], $formField['path']);
                         break;
                     default:
-                        throw new PHPUnit_Framework_Exception('Unsupported field type');
+                        throw new PHPUnit_Framework_Exception('Unsupported field type ' . $formField['type']);
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
@@ -2864,7 +3018,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             switch ($formField['type']) {
                 case self::FIELD_TYPE_INPUT:
                     $actualValue = $availableElement->value();
-                    if ($actualValue != $formField['value']) {
+                    if ((string)$actualValue != (string)$formField['value']) {
                         $this->addVerificationMessage(
                             $formFieldName . ": The stored value is not equal to specified: ('" . $formField['value']
                             . "' != '" . $actualValue . "')");
@@ -2982,10 +3136,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->waitForElementEditable($locator, 10);
         $currentValue = $element->value();
-        if ($currentValue != $value) {
+        if ((string)$currentValue != (string)$value) {
             $this->focusOnElement($element);
             $element->clear();
-            $element->value((string)$value);
+            $element->value($value);
             $this->clearActiveFocus();
             $this->waitForAjax();
         }
@@ -3007,6 +3161,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->waitForElementEditable($locator, 10);
         $this->focusOnElement($element);
+        $this->select($element)->clearSelectedOptions();
         if (strtolower($value) == 'all') {
             $options = $this->select($element)->selectOptionValues();
         } else {
@@ -3038,10 +3193,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $name
      * @param string $value
      * @param string|null $locator
+     * @param bool $confirmation
      *
      * @throws RuntimeException
+     * @return void
      */
-    public function fillDropdown($name, $value, $locator = null)
+    public function fillDropdown($name, $value, $locator = null, $confirmation = false)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('dropdown', $name);
@@ -3054,6 +3211,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->elementIsPresent($locator . $optionLocator)) {
                 $this->focusOnElement($element);
                 $this->select($element)->selectOptionByCriteria($this->using('xpath')->value('.' . $optionLocator));
+                if ($confirmation) {
+                    $this->acceptAlert();
+                }
                 $this->clearActiveFocus();
                 $this->waitForAjax();
                 return;
@@ -3143,11 +3303,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForElement(array($this->_getControlXpath('pageelement', 'admin_logo'),
                                         $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
-            if ($this->controlIsPresent('link', 'go_to_notifications')) {
-                try {
-                    $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
-                } catch (RuntimeException $e) {
-                }
+            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->controlIsPresent('button', 'close')) {
+                $this->clickControl('button', 'close', false);
             }
         }
         $this->validatePage($this->_firstPageAfterAdminLogin);
@@ -3339,11 +3496,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $controlName
      * @param null|string $scopePath
      * @param string $scopeType
+     * @param bool $confirmation
      *
      * @throws OutOfRangeException
      * @return bool
      */
-    public function selectStoreScope($controlType, $controlName, $scopePath = null, $scopeType = 'storeView')
+    public function selectStoreScope($controlType, $controlName, $scopePath = null, $confirmation = false, $scopeType = 'storeView')
     {
         if (is_null($scopePath)) {
             $scopePath = 'Main Website/Main Website Store/Default Store View';
@@ -3375,7 +3533,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         $storeViewElement = $storeElement->element($this->using('xpath')
                             ->value("option[contains(text(),'$storeView')]"));
                         $value = $storeViewElement->attribute('value');
-                        $this->$method($controlName, $value);
+                        $this->$method($controlName, $value, $locator, $confirmation);
                         break;
                 }
                 break;
@@ -3405,7 +3563,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $locatorType = 'xpath';
         if (preg_match('/^css=/', $locator)) {
-            $locatorType = 'css locator';
+            $locatorType = 'css selector';
         }
         return $locatorType;
     }
@@ -3419,14 +3577,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getElements($locator, $failIfEmpty = true)
     {
         $locatorType = $this->getLocatorStrategy($locator);
-        //@TODO Temporary fix for CI.
-        //error: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [xpcIJSWeakReference.get]
-        try {
-            $elements = $this->elements($this->using($locatorType)->value($locator));
-        } catch (RuntimeException $e) {
-            $this->markTestIncomplete($e->getMessage());
-        }
+        $locator = str_replace('css=', '', $locator);
+        $elements = $this->elements($this->using($locatorType)->value($locator));
         if (empty($elements) && $failIfEmpty) {
+            $this->assertEmptyPageErrors();
             $this->fail('Element(s) with locator: "' . $locator . '" is not found on page');
         }
         return $elements;
@@ -3663,4 +3817,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
     }
+
+    /**
+     * Get suite
+     *
+     * @param string $className
+     * @param Mage_Test_SkipFilter|null $filter
+     * @return PHPUnit_Framework_TestSuite
+     */
+    public static function suite($className, $filter = null)
+    {
+        $class = new ReflectionClass($className);
+        $staticProperties = $class->getStaticProperties();
+
+        // Create tests from test methods for multiple browsers.
+        if (!empty($staticProperties['browsers'])) {
+            $suite = new Mage_Selenium_TestSuite();
+            if (null !== $filter) {
+                $suite->setTestFilter($filter);
+            }
+
+            foreach ($staticProperties['browsers'] as $browser) {
+                $browserSuite = PHPUnit_Extensions_SeleniumBrowserSuite::fromClassAndBrowser($className, $browser);
+                foreach ($class->getMethods() as $method) {
+                    $browserSuite->addTestMethod($class, $method);
+                }
+                $browserSuite->setupSpecificBrowser($browser);
+
+                $suite->addTest($browserSuite);
+            }
+        } else {
+            $suite = new Mage_Selenium_TestSuite($class, '', $filter);
+        }
+        return $suite;
+    }    
 }

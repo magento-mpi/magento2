@@ -56,7 +56,7 @@ new_customer_attribute:
             tabs:
                 -
                     properties: &customerAttributeProperties
-                        xpath: //a[@id='customer_attribute_tabs_general']/span
+                        xpath: //a[@id='customer_attribute_tabs_general']
                         fieldsets:
                             -
                                 attribute_properties:
@@ -96,7 +96,7 @@ new_customer_attribute:
                                     required: [sort_order]
                 -
                     manage_labels_options:
-                        xpath: //a[@id='customer_attribute_tabs_options']/span
+                        xpath: //a[@id='customer_attribute_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
@@ -117,7 +117,10 @@ new_customer_attribute:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
                                         option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
             back: //button[span='Back']
@@ -129,7 +132,7 @@ new_customer_attribute:
 # Manage customer Attributes page
 edit_customer_attribute:
     mca: customer_attribute/edit/attribute_id/%id%/
-    title: %attribute_code% / Manage Customer Attributes / Magento Admin
+    title: %elementTitle% / Manage Customer Attributes / Magento Admin
     uimap:
         form: &editCustomerAttributeForm
             tabs:
@@ -137,7 +140,7 @@ edit_customer_attribute:
                     properties: *customerAttributeProperties
                 -
                     manage_labels_options:
-                        xpath: //a[@id='customer_attribute_tabs_options']/span
+                        xpath: //a[@id='customer_attribute_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
@@ -157,7 +160,10 @@ edit_customer_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
             back: //button[span='Back']

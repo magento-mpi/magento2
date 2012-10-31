@@ -101,7 +101,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         //Creating a customer
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
-           $website['general_information']['staging_website_code']);
+            $website['general_information']['staging_website_code']);
         $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
@@ -643,11 +643,11 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         //Data
         $productGiftSettings = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
         $productGiftSettingsOnStoreView = $this->loadDataSet('GiftWrapping',
-                                                 'gift_options_custom_wrapping_price_on_store_view');
+            'gift_options_custom_wrapping_price_on_store_view');
         $this->assertNotEquals($productGiftSettings['gift_options_price_for_gift_wrapping'],
-                               $productGiftSettingsOnStoreView['gift_options_price_for_gift_wrapping']);
+            $productGiftSettingsOnStoreView['gift_options_price_for_gift_wrapping']);
         $this->assertNotEquals($productGiftSettings['gift_options_price_for_gift_wrapping'],
-                               $testData['wrapping']['gift_wrapping_price']);
+            $testData['wrapping']['gift_wrapping_price']);
         $website = $testData['website'];
         $product1 = $testData['products'][0]; // This product will have custom gift option settings
         $product2 = $testData['products'][1];

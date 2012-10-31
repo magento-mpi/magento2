@@ -27,16 +27,10 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function createAttribute($attrData)
     {
         $this->clickButton('add_new_attribute');
-        $position = '';
-        if (isset($attrData['position'])) {
-            $position = $attrData['position'];
-            unset($attrData['position']);
+        $this->fillTab($attrData, 'properties', false);
+        if (!$this->fillTab($attrData, 'manage_labels_options', false)) {
+            $this->openTab('manage_labels_options');
         }
-        $this->fillForm($attrData, 'properties');
-        if ($position) {
-            $this->fillField('position', $position);
-        }
-        $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
@@ -80,11 +74,14 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      * Preconditions: Product page is opened.
      *
      * @param array $attrData
+     * @param string $saveInAttributeSet
      */
-    public function createAttributeOnGeneralTab($attrData)
+    public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
     {
         // Defining and adding %fieldSetId% for Uimap pages.
-        $id = explode('_', $this->getControlAttribute('fieldset', 'product_general', 'id'));
+        $tabUimap = $this->_getActiveTabUimap();
+        list($activeFieldsetName) = $tabUimap->getFieldsetNames();
+        $id = explode('_', $this->getControlAttribute('fieldset', $activeFieldsetName, 'id'));
         foreach ($id as $value) {
             if (is_numeric($value)) {
                 $fieldSetId = $value;
@@ -92,16 +89,37 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                 break;
             }
         }
+        $productId = $this->defineIdFromUrl();
+        $pageName = 'new_product_attribute_from_product_page';
+        if (!is_null($productId)) {
+            $this->addParameter('productId', $productId);
+            $pageName = 'new_product_attribute_from_saved_product_page';
+        }
         //Steps. Click 'Create New Attribute' button, select opened window.
         $this->clickButton('create_new_attribute', false);
         $this->selectLastWindow();
-        $this->validatePage('new_product_attribute_from_product_page');
+        $this->validatePage($pageName);
         $this->fillForm($attrData, 'properties');
         $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
-        $this->addParameter('attributeId', 0);
-        $this->saveForm('save_attribute', false);
+        //$this->addParameter('attributeId', 0);
+        if ($saveInAttributeSet) {
+            $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            $this->clickButton('save_in_new_attribute_set', false);
+            $this->alertText($saveInAttributeSet);
+            $this->acceptAlert();
+            $this->waitForElementVisible($messagesXpath);
+            $this->addParameter('setId', $this->defineParameterFromUrl('new_attribute_set_id'));
+        } else {
+            $this->saveForm('save_attribute', false);
+        }
+        $this->window('');
+        if (isset($attrData['attribute_code'])) {
+            $this->addParameter('elementId', $attrData['attribute_code']);
+            $this->waitForElement("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
+        }
+        $this->validatePage();
     }
 
     /**

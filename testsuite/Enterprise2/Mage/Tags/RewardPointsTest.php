@@ -29,8 +29,8 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         $this->tagsHelper()->deleteAllTags();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Customers/unset_rewarded_tag_submission_quantity_limit');
-        $this->systemConfigurationHelper()->configure('Customers/disable_reward_points_for_tag_submission');
+        $this->systemConfigurationHelper()->configure('General/unset_rewarded_tag_submission_quantity_limit');
+        $this->systemConfigurationHelper()->configure('General/disable_reward_points_for_tag_submission');
         $this->logoutCustomer();
     }
 
@@ -65,8 +65,8 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
 
         //Enable reward points functionality for tags
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Customers/enable_reward_points');
-        $this->systemConfigurationHelper()->configure('Customers/enable_reward_points_for_tag_submission');
+        $this->systemConfigurationHelper()->configure('General/enable_reward_points');
+        $this->systemConfigurationHelper()->configure('General/enable_reward_points_for_tag_submission');
 
         return array('customer' => $customerData,
             'product' => $product['general_name']);
@@ -104,7 +104,8 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     {
         $tag = $this->generate('string', 4, ':lower:');
         $rewardTagConfig = $this->loadDataSet('General', 'enable_reward_points_for_tag_submission');
-        $rewardBalance = $rewardTagConfig['tab_1']['configuration']['new_tag_submission'];
+        $rewardBalance =
+            $rewardTagConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']['new_tag_submission'];
 
         //Step 1
         $this->customerHelper()->frontLoginCustomer(array(
@@ -122,15 +123,13 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => 'Pending'));
         $this->navigate('manage_products');
-        $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
+        $this->assertTrue($this->tagsHelper()->verifyTagProduct(
                 array('tag_search_name' => $tag,
                     'tag_search_email' => $testData['customer']['email']),
                 array('product_name' => $testData['product'])),
             'Customer tagged product verification failed');
         //Step 6
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $testData['customer']['first_name']
-            . ' ' . $testData['customer']['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $testData['customer']['email']));
         //Step 7
         $this->assertEquals('No records found.', $this->customerHelper()->getRewardPointsBalance(),
@@ -194,7 +193,7 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
 
         //Set “Rewarded Tag Submission Quantity Limit” to 3.
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Customers/set_rewarded_tag_submission_quantity_limit');
+        $this->systemConfigurationHelper()->configure('General/set_rewarded_tag_submission_quantity_limit');
 
         return array('customer' => $customerData,
             'product' => array($products[0]['general_name'], $products[1]['general_name']));
@@ -240,10 +239,12 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         );
 
         $rewardTagConfig = $this->loadDataSet('General', 'enable_reward_points_for_tag_submission');
-        $rewardPointsForTag = $rewardTagConfig['tab_1']['configuration']['new_tag_submission'];
+        $rewardPointsForTag =
+            $rewardTagConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']['new_tag_submission'];
 
         $rewardTagLimitConfig = $this->loadDataSet('General', 'set_rewarded_tag_submission_quantity_limit');
-        $rewardPointsLimit = $rewardTagLimitConfig['tab_1']['configuration']['rewarded_tag_submission_limit'];
+        $rewardPointsLimit =
+            $rewardTagLimitConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']['rewarded_tag_submission_limit'];
 
         $rewardBalance = $rewardPointsForTag * $rewardPointsLimit;
 
@@ -268,7 +269,7 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
             }
             foreach ($addedTags[$i] as $tag) {
                 $this->navigate('manage_products');
-                $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
+                $this->assertTrue($this->tagsHelper()->verifyTagProduct(
                         array('tag_search_name' => $tag,
                             'tag_search_email' => $testData['customer']['email']),
                         array('product_name' => $testData['product'][$i])),
@@ -277,8 +278,6 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         }
         //Steps 8-9
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $testData['customer']['first_name']
-            . ' ' . $testData['customer']['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $testData['customer']['email']));
         //Step 10
         $this->assertEquals('No records found.', $this->customerHelper()->getRewardPointsBalance(),

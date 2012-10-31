@@ -301,9 +301,9 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         $this->clickControl('link', 'sku_link');
         //Verifying
         $this->assertTrue($this->checkCurrentPage('order_by_sku'),'This is not Order by SKU page');
-        $this->assertTrue($this->getValue($this->_getControlXpath('field','sku')) == '',
+        $this->assertTrue($this->getControlAttribute('field','sku', 'value') == '',
                 'SKU filed is not empty');
-         $this->assertTrue($this->getValue($this->_getControlXpath('field','qty')) == '',
+         $this->assertTrue($this->getControlAttribute('field', 'qty', 'value') == '',
                 'Qty filed is not empty');
     }
     
@@ -378,7 +378,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);  
         //Verifying    
-        $this->assertTrue($this->getText($this->_getControlXpath('link','sku_link')) == 
+        $this->assertTrue($this->getControlAttribute('link','sku_link', 'value') ==
                 $widgetOptions['sku_link_text'], 'The link on the Order by SKU widget is not changed. ');         
     }
     
@@ -420,9 +420,9 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         $this->clickControl('link', 'sku_link');
         //Verifying
         $this->assertTrue($this->checkCurrentPage('order_by_sku'),'This is not Order by SKU page');
-        $this->assertTrue($this->getValue($this->_getControlXpath('field','sku')) == '',
+        $this->assertTrue($this->getControlAttribute('field','sku', 'text') == '',
                 'SKU filed is not empty');
-         $this->assertTrue($this->getValue($this->_getControlXpath('field','qty')) == '',
+         $this->assertTrue($this->getControlAttribute('field','qty', 'text') == '',
                 'Qty filed is not empty');
     }
     

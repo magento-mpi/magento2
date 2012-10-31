@@ -86,10 +86,9 @@ class Community2_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest exte
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
             array('payment' => $paymentData), $testData['products']);
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/' . $payment);
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification

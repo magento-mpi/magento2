@@ -332,7 +332,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             $addressText = $this->getControlAttribute('pageelement', $addressType . '_method_address', 'text');
             $addressText = explode("\n", $addressText);
             foreach ($addressText as $addressLine) {
-                $addressLine = trim(preg_replace('/^(T:)|(F:)/', '', $addressLine));
+                $addressLine = trim(preg_replace('/^(T:)|(F:)|(VAT:)/', '', $addressLine));
                 if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $addressLine)) {
                     $headerAddresses[$header][] = $addressLine;
                 } else {
@@ -444,7 +444,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         if ($card) {
             $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
             $this->addParameter('paymentId', $paymentId);
-            $this->fillFieldset($card, 'payment_method');
+            if ($paymentId != 'authorizenet_directpost') {
+                $this->fillFieldset($card, 'payment_method');
+            }
         }
     }
 

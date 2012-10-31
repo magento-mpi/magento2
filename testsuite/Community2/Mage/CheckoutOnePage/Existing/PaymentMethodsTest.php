@@ -89,11 +89,9 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_S
             array('general_name'  => $testData['sku'],
                   'email_address' => $testData['email'],
                   'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
-
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/' . $payment);
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification

@@ -44,13 +44,10 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
         //Steps
         $this->fillDropdown('product_massaction', 'Delete');
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not
+        $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
         match');
+        $this->acceptAlert();
     }
 
     /**
@@ -71,13 +68,10 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
         $this->fillDropdown('product_massaction', 'Change status');
         $this->fillDropdown('product_status', 'Disabled');
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not
+        $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
         match');
+        $this->acceptAlert();
     }
 
     /**
@@ -96,13 +90,10 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
         //Steps
         $this->fillDropdown('product_massaction', 'Update Attributes');
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not
+        $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
         match');
+        $this->acceptAlert();
     }
 
     /**
@@ -138,7 +129,7 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
         }
         $this->addParameter('qtyUpdatedProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Change status');
@@ -184,7 +175,7 @@ class Community2_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'manage_products');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Update Attributes');

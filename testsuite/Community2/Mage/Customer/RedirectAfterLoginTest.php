@@ -70,7 +70,7 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
     {
         //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "NO"
         $this->navigate('system_configuration');
-        $redirectOption = $this->loadDataSet('CustomerRedirect', 'customers_customer_configuration_redirect',
+        $redirectOption = $this->loadDataSet('CustomerRedirect', 'enable_customer_configuration_redirect',
             array('redirect_customer_to_account_dashboard_after_logging_in' => 'No'));
         $this->systemConfigurationHelper()->configure($redirectOption);
         //Go to frontend as non registered customer
@@ -80,14 +80,14 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
         //Log in as registered from PreConditions customer
         $this->logoutCustomer();
         $this->customerHelper()->clickControl('link', 'log_in', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->addParameter('referer', $this->defineParameterFromUrl('referer'));
         $this->validatePage('customer_login_refer');
         $this->fillFieldset(array('email' => $userData['email'], 'password' => $userData['password']),
             'log_in_customer');
         $this->clickButton('login', false);
         //Validate that Product page is opened
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->validatePage('product_page');
     }
 
@@ -114,8 +114,7 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
     {
         //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"
         $this->navigate('system_configuration');
-        $redirectOption = $this->loadDataSet('CustomerRedirect', 'customers_customer_configuration_redirect');
-        $this->systemConfigurationHelper()->configure($redirectOption);
+        $this->systemConfigurationHelper()->configure('CustomerRedirect/enable_customer_configuration_redirect');
         //Go to frontend as non registered customer
         $this->frontend();
         //Open Product page

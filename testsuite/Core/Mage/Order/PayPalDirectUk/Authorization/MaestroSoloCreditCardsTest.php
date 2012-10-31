@@ -62,6 +62,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      */
     public function orderWithSwitchMaestroCard($sku)
     {
+        $this->markTestIncomplete('MAGETWO-2706');
         //Data
         $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk', array('payment_info' => $paymentInfo));
@@ -338,16 +339,11 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
-     * @group skip_due_to_bug1.7
-     * @group skip_due_to_bug_ce2
      */
     public function reorderPendingOrder($orderData)
     {

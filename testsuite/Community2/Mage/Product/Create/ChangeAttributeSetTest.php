@@ -38,9 +38,8 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
     public function preconditionsForTests()
     {
         //Data
-        $testData = $this->loadDataSet('AttributeSet', 'attribute_set');
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+        $testData = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('General' => $attrData['attribute_code']));
         $setName = $testData['set_name'];
         //Steps
@@ -49,8 +48,6 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->createAttributeSet($testData);
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 

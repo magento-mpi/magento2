@@ -55,7 +55,7 @@ class Enterprise2_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->changeTagsStatus(array($tagData), 'Pending');
         //massDelete
         $tagData['tag_status'] = 'Pending';
-        $this->searchAndChoose($tagData);
+        $this->searchAndChoose($tagData, 'tags_grid');
         $this->fillDropdown('tags_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         $this->addParameter('qtyDeletedTags', '1');
@@ -83,8 +83,9 @@ class Enterprise2_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
      * @dataProvider tagActionsDataProvider
      * @TestlinkId TL-MAGE-6108
      */
-    public function actionLogs($userData, $action, $actionFullName)
+    public function actionLogs($action, $actionFullName, $userData)
     {
+        $this->loginAdminUser();
         $this->navigate('admin_action_log_report');
         $this->assertTrue((bool)$this->search(
                 array(
@@ -92,7 +93,7 @@ class Enterprise2_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
                     'action_username' => $userData['user_name'],
                     'action' => $action,
                     'action_result' => 'Success',
-                    'action_full_name' => $actionFullName)),
+                    'action_full_name' => $actionFullName), 'all_tags_grid'),
             "Admin Action Logs does not contain {$action}");
     }
 

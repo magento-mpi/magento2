@@ -57,6 +57,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
+        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
         $this->attributesHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
@@ -85,18 +86,20 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
      * <p>Expected result:</p>
      * <p>"Delete Attribute" button isn't present.</p>
      *
+     * @param array $attributeCode
      * @param array $attributeName
      *
      * @test
      * @dataProvider deleteSystemAttributeDataProvider
      * @TestlinkId TL-MAGE-5597
      */
-    public function deletedSystemAttribute($attributeName)
+    public function deletedSystemAttribute($attributeCode, $attributeName)
     {
         //Data
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
-            array('attribute_code'  => $attributeName));
+            array('attribute_code'  => $attributeCode));
         //Steps
+        $this->addParameter('elementTitle', $attributeName);
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->assertFalse($this->buttonIsPresent('delete_attribute'),
@@ -106,20 +109,20 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
     public function deleteSystemAttributeDataProvider()
     {
         return array(
-            array('prefix'),
-            array('firstname'),
-            array('middlename'),
-            array('lastname'),
-            array('suffix'),
-            array('company'),
-            array('street'),
-            array('city'),
-            array('country_id '),
-            array('region '),
-            array('postcode'),
-            array('telephone'),
-            array('fax'),
-            array('vat_id'),
+            array('prefix', 'Prefix'),
+            array('firstname', 'First Name'),
+            array('middlename', 'Middle Name/Initial'),
+            array('lastname', 'Last Name'),
+            array('suffix', 'Suffix'),
+            array('company', 'Company'),
+            array('street', 'Street Address'),
+            array('city', 'City'),
+            array('country_id', 'Country'), //need to clarify attribute name
+            array('region', 'State/Province'), //need to clarify attribute name
+            array('postcode', 'Zip/Postal Code'),
+            array('telephone', 'Telephone'),
+            array('fax', 'Fax'),
+            array('vat_id', 'VAT number'),
         );
     }
 }

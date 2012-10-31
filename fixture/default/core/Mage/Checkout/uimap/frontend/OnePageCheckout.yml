@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -176,7 +175,7 @@ onepage_checkout:
                             shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]
                             shipping_method_checkout_price: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]/span
                             payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]
-                            payment_method_checkout_credit_card: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]/p/strong
+                            payment_method_checkout_credit_card: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]/p
                         links:
                             billing_information_change: "//dt[contains(.,'Billing Address')]/a[@href='#billing']"
                             shipping_information_change: "//dt[contains(.,'Shipping Address')]/a[@href='#payment']"
@@ -205,6 +204,7 @@ onepage_checkout:
                 shipping_alert: Please specify shipping method.
                 payment_alert: Please specify payment method.
                 success_checkout: //h1[contains(.,'Your order has been received')]
+                zero_payment: //dt[contains(label,'No Payment Information Required')]
 
 onepage_checkout_success:
     mca: checkout/onepage/success/

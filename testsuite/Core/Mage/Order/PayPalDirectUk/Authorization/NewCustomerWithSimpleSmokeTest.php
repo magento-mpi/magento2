@@ -372,16 +372,12 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3299
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
-     * @group skip_due_to_bug1.7
      */
     public function reorderPendingOrder($orderData)
     {

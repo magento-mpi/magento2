@@ -27,7 +27,7 @@ manage_sales_orders:
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            actions: //select[@id='sales_order_grid_massaction-select']
+                            filter_massaction: //select[@id='sales_order_grid_massaction-select']
                             filter_massaction: //select[@id='filter_massaction']
                             filter_status: //select[@id='filter_status']
                             view_per_page: //select[@name='limit']
@@ -73,7 +73,8 @@ manage_sales_orders:
             failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
             failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were put on hold.')]
             failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from holding status.')]
-            failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled')]
+            failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
+            failed_massaction_cancel_different_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled')]
             failed_massaction_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not put on hold.')]
             failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from holding status.')]
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
@@ -112,6 +113,7 @@ manage_sales_orders:
             failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
+            zero_payment: //dt[contains(label,'No Payment Information Required')]
 
 # 'New Order' page
 create_order_for_new_customer:
@@ -463,7 +465,7 @@ create_order_for_existing_customer:
 
 view_order:
     mca: sales_order/view/order_id/%id%/
-    title: %elementTitle% / Orders / Sales / Magento Admin
+    title: '%elementTitle% / Orders / Sales / Magento Admin'
     uimap:
         form: &orderView
             tabs:

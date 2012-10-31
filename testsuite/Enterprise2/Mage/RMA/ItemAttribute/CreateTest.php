@@ -16,7 +16,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise2_Mage_RMA_ItemAttribute_CreateTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

@@ -60,6 +60,8 @@ new_rating:
                                     xpath: //div[@id='visibility_form']
                                     multiselects:
                                         visible_in: //select[@name='stores[]']
+                                    checkboxes:
+                                        is_active: //input[@id='is_active']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -214,6 +216,10 @@ edit_review:
             reset: //button[span='Reset']
             save_review: //button[span='Save Review']
             delete_review: //button[span='Delete Review']
+            prev_review: //button[span='Previous']
+            prev_save_review: //button[span='Save and Previous']
+            next_review: //button[span='Next']
+            next_save_review: //button[span='Save and Next']
         messages: *reviewMessages
 
 edit_pending_review:

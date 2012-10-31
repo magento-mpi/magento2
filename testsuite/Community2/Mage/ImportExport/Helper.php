@@ -16,49 +16,50 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Build full export URL
      *
      * @return string
      */
-    protected function _getExportFileUrl()
+    public function _getExportFileUrl()
     {
-        $entityType = $this->getSelectedValue(
-            $this->_getControlXpath('dropdown', 'entity_type'));
-        $path        = '/export/entity/' . $entityType;
-        $path        = $path . '/file_format/' .
-            $this->getSelectedValue(
-                $this->_getControlXpath('dropdown', 'file_format'));
+        $path = '/export/entity/' . $this->getControlAttribute('dropdown', 'entity_type', 'selectedValue');
+        $path .= '/file_format/' . $this->getControlAttribute('dropdown', 'file_format', 'selectedValue');
         return $path;
     }
+
     /**
      * Generate URL for selected area
      *
      * @param string $uri
      * @param null|array $params
+     *
      * @return string
      */
-    protected function _getUrl($uri, $params = null)
+    public function _getUrl($uri, $params = null)
     {
-        $baseUrl = $this->_configHelper->getBaseUrl();
+        $baseUrl = $this->getConfigHelper()->getBaseUrl();
         $baseUrl = rtrim($baseUrl, '/');
-        $uri     = ltrim($uri, '/');
+        $uri = ltrim($uri, '/');
         return $baseUrl . '/' . $uri . (is_null($params) ? '' : '?' . http_build_query($params));
     }
+
     /**
      * Build full import URL
      *
      * @param bool $validate Specify step of Import - Data Validate or Import
      *                       true - Data Validate
      *                       false - Import step
+     *
      * @return string
      */
-    protected function _getImportFileUrl($validate = true)
+    public function _getImportFileUrl($validate = true)
     {
         return ($validate ? 'validate/?form_key=' : 'start/?form_key=');
     }
+
     /**
      * Get file from admin area
      * Suitable for export testing
@@ -66,17 +67,16 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @param string $urlPage Url to the page for defining form key
      * @param string $url Url to the file or submit form
      * @param array $parameters Submit form parameters
+     *
      * @return string
      */
-    protected function _getFile($urlPage, $url, $parameters = array())
+    public function _getFile($urlPage, $url, $parameters = array())
     {
-        $cookie = $this->getCookie();
-        $chr     = curl_init();
+        $chr = curl_init();
         //Open export page and get from key
         curl_setopt($chr, CURLOPT_URL, $urlPage);
         curl_setopt($chr, CURLOPT_HEADER, false);
         curl_setopt($chr, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chr, CURLOPT_COOKIE, $cookie);
         curl_setopt($chr, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($chr, CURLOPT_TIMEOUT, 120);
         $data = curl_exec($chr);
@@ -107,13 +107,15 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return response
         return $data;
     }
+
     /**
      * Return Form key
      *
      * @param string $pageHTML HTML response from the server
+     *
      * @return string
      */
-    protected function _getFormKey($pageHTML)
+    public function _getFormKey($pageHTML)
     {
         $formKey = '';
         //Load page HTML to Dom model
@@ -122,34 +124,39 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Find form key
         $domXPath = new DOMXPath($dom);
         $formKeyFilter = $domXPath->query("//div/input[@name='form_key' and @type='hidden']");
-        if (!is_null($formKeyFilter->item(0))) {
+        $item = $formKeyFilter->item(0);
+        if (!is_null($item)) {
             //Get first found form key
-            $formKey = $formKeyFilter->item(0)->getAttribute('value');
+            $formKey = $item->getAttribute('value');
         } else {
             $this->fail('Form Key was not defined. Can not continue Import/Export.');
         }
         //Return form key
         return $formKey;
     }
+
     /**
      * Return Form key
      *
      * @param string $response HTML response from the server
+     *
      * @return void
      */
-    protected function _parseResponseMessages($response)
+    public function _parseResponseMessages($response)
     {
         $dom = new DOMDocument;
         //Check fatal error
-        if (preg_match('/Fatal error/i', $response, $result) == true
-            || $response=='') {
+        if (preg_match('/Fatal error/i', $response, $result) == true || $response == '') {
             $this->addMessage('error', $response);
             return;
-        };
+        }
         //parse response
         preg_match('/{"import_validation_messages":(".*")}/i', $response, $result);
         if (!isset($result[1])) {
             preg_match('/{"import_validation_container_header":(".*")}/i', $response, $result);
+            if (!isset($result[1])) {
+                $this->markTestIncomplete('MAGETWO-3858');
+            }
             preg_match('/"import_validation_messages":"(.*)"/i', $result[1], $result);
         }
         $result = stripcslashes($result[1]);
@@ -165,19 +172,16 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             //get text
             foreach ($filteredMessages as $filteredMessage) {
                 $messageText = $filteredMessage->nodeValue;
-                switch($messageType){
+                switch ($messageType) {
                     case 'notice-msg':
                         $this->addMessage('validation', $messageText);
                         break;
-
                     case 'success-msg':
                         $this->addMessage('success', $messageText);
                         break;
-
                     case 'error-msg':
                         $this->addMessage('error', $messageText);
                         break;
-
                     default:
                         $this->addMessage('error', 'Unexpected message: ' . $messageText);
                         break;
@@ -185,49 +189,46 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
     }
+
     /**
      * Prepare import parameters array for uploadFile method and Export functionality
      *
      * @param array $parameters
+     *
      * @return array
      */
-    protected function _prepareImportParameters($parameters = array())
+    public function _prepareImportParameters($parameters = array())
     {
-        $entityType = $this->getSelectedValue(
-            $this->_getControlXpath('dropdown', 'entity_type'));
-        $parameters['entity'] = $entityType;
-        $entityBehavior = $this->getSelectedValue(
-            $this->_getControlXpath('dropdown', 'import_behavior'));
-        $parameters['behavior'] = $entityBehavior;
+        $parameters['entity'] = $this->getControlAttribute('dropdown', 'entity_type', 'selectedValue');
+        $parameters['behavior'] = $this->getControlAttribute('dropdown', 'import_behavior', 'selectedValue');
         return $parameters;
     }
+
     /**
      * Prepare export parameters array for getFile method and Export functionality
      *
      * @param array $parameters
+     *
      * @return array
      */
-    protected function _prepareExportParameters($parameters = array())
+    public function _prepareExportParameters($parameters = array())
     {
-        $elementTypes = array('input','select');
+        $elementTypes = array('input', 'select');
         foreach ($elementTypes as $elementType) {
             $tablePath = "css=table#export_filter_grid_table>tbody>tr>td.last>{$elementType}[name*='export_filter']";
-            $size = $this->getXpathCount($tablePath);
-            for ($parameterNumber = 0; $parameterNumber < $size; $parameterNumber++) {
+            $elements = $this->getElements($tablePath);
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+             */
+            foreach ($elements as $element) {
                 $attValue = '';
-                //Get attributes filters and values array
-                $tableElementPath = $tablePath . ":nth({$parameterNumber})";
-                $attName = $this->getAttribute($tableElementPath . '@name');
+                $attName = $element->attribute('name');
                 switch ($elementType) {
                     case 'input':
-                        $attValue = $this->getValue($tableElementPath);
+                        $attValue = $element->attribute('value');
                         break;
-
                     case 'select':
-                        $attValue = $this->getSelectedValue($tableElementPath);
-                        break;
-
-                    default:
+                        $attValue = $this->select($element)->selectedLabel();
                         break;
                 }
                 $parameters[trim($attName)] = $attValue;
@@ -235,31 +236,34 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $parameters;
     }
+
     /**
      * Prepare skip attributes for getFile method and Export functionality
      *
      * @param array $parameters
+     *
      * @return array
      */
-    protected function _prepareExportSkipAttributes($parameters = array())
+    public function _prepareExportSkipAttributes($parameters = array())
     {
         //Collect skip attributes
         $tablePath = "css=table#export_filter_grid_table>tbody>tr>td>input[name='skip_attr[]']";
-        $size = $this->getXpathCount($tablePath);
-        $parameters['skip_attr[]'] = array();
-        for ($attributeNumber = 0; $attributeNumber < $size; $attributeNumber++) {
-            if ($this->isChecked($tablePath . ":nth({$attributeNumber})")) {
-                //get attribute id
-                $attID = $this->getAttribute($tablePath . ":nth({$attributeNumber})" . '@value');
-                //save attribute id, inverse saving
-                $parameters['skip_attr[]'][]=$attID;
+        $skipAttributes = array();
+        $elements = $this->getElements($tablePath);
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            if ($element->selected()) {
+                $skipAttributes = $element->attribute('value');
             }
         }
-        if (count($parameters['skip_attr[]'])==0) {
-            unset($parameters['skip_attr[]']);
+        if (!empty($skipAttributes)) {
+            $parameters['skip_attr[]'] = $skipAttributes;
         }
         return $parameters;
     }
+
     /**
      * Upload file to import area
      *
@@ -272,16 +276,13 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    protected function _uploadFile($urlPage, $importUrl, $startUrl, $parameters = array(), $fileName,
-        $continueOnError = true
-    ) {
-        $cookie = $this->getCookie();
-        $chr     = curl_init();
+    public function _uploadFile($urlPage, $importUrl, $startUrl, $parameters = array(), $fileName, $continueOnError = true)
+    {
+        $chr = curl_init();
         //Open import page
         curl_setopt($chr, CURLOPT_URL, $urlPage);
         curl_setopt($chr, CURLOPT_HEADER, false);
         curl_setopt($chr, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chr, CURLOPT_COOKIE, $cookie);
         curl_setopt($chr, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($chr, CURLOPT_TIMEOUT, 120);
         $data = curl_exec($chr);
@@ -290,9 +291,9 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Add request parameters
         $parameters['form_key'] = $formKey;
         //Make tmp file
-        $tempFile = $this->_testConfig->getHelper('config')->getLogDir() . DIRECTORY_SEPARATOR .
-            (is_null($fileName) ? 'customer_' . date('Ymd_His') . '.csv' : $fileName);
-        $handle   = fopen($tempFile, 'w+');
+        $tempFile = $this->getConfigHelper()->getLogDir() . DIRECTORY_SEPARATOR . (is_null($fileName) ?
+            'customer_' . date('Ymd_His') . '.csv' : $fileName);
+        $handle = fopen($tempFile, 'w+');
         fwrite($handle, $parameters['import_file']);
         fclose($handle);
         //Add request parameters
@@ -316,10 +317,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $importErrorOccurred = false;
         if (isset($importMessages['validation']['validation'])) {
             foreach ($importMessages['validation']['validation'] as $validationMessage) {
-                if (preg_match(
-                    '/Checked rows: (\d+), checked entities: (\d+), invalid rows: (\d+), total errors: (\d+)/i',
-                    $validationMessage, $result) != false
-                ) {
+                $pattern = '/Checked rows: (\d+), checked entities: (\d+), invalid rows: (\d+), total errors: (\d+)/i';
+                if (preg_match($pattern, $validationMessage, $result) != false) {
                     //compare checked and invalid rows
                     $continueImport = intval($result[1]) > intval($result[3]);
                     $importErrorOccurred = intval($result[1]) <> intval($result[3]);
@@ -352,6 +351,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return messages
         return $importMessages;
     }
+
     /**
      * Perform import with current selected options
      *
@@ -377,6 +377,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return messages array
         return $report;
     }
+
     /**
      * Perform export with current selected options
      *
@@ -397,6 +398,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Convert Csv to array
         return $this->csvHelper()->csvToArray($report);
     }
+
     /**
      * Choose Import dialog options
      *
@@ -411,10 +413,9 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     {
         $this->fillDropdown('entity_type', $entityType);
         if (!is_null($importBehavior)) {
-            if (!$this->waitForElementVisible(
-                $this->_getControlXpath('dropdown', 'import_behavior'))) {
+            if (!$this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'))) {
                 $this->fail('Can\'t find element: dropdown - import_behavior');
-            };
+            }
             $this->fillDropdown('import_behavior', $importBehavior);
         }
         if (!is_null($fileName) && $this->controlIsVisible('field', 'file_to_import')) {
@@ -423,6 +424,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         return $this;
     }
+
     /**
      * Choose Export dialog options
      *
@@ -436,11 +438,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         $this->fillDropdown('entity_type', $entityType);
         if (!$this->waitForElementVisible($this->_getControlXpath('button', 'continue'))) {
-                    $this->fail('Can\'t find element: button - continue');
+            $this->fail('Can\'t find element: button - continue');
         }
 
         return $this;
     }
+
     /**
      * Search customer/address/finance line in exported array
      * Returns line index
@@ -448,6 +451,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @param string $fileType File type (master|address|finance)
      * @param array $needleData Main/Address/Finance line data
      * @param array $fileLines Array from csv file
+     *
      * @return int|null
      */
     public function lookForEntity($fileType, $needleData, $fileLines)
@@ -456,11 +460,9 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             case 'master':
                 $needleData = $this->prepareMasterData($needleData);
                 break;
-
             case 'address':
                 $needleData = $this->prepareAddressData($needleData);
                 break;
-
             case 'finance':
                 $needleData = $this->prepareFinanceData($needleData);
                 break;
@@ -469,6 +471,9 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         foreach ($fileLines as $lineIndex => $line) {
             $i = 0;
             foreach ($needleData as $name => $val) {
+                if (!array_key_exists($name, $line)) {
+                    $this->markTestIncomplete('MAGETWO-3858');
+                }
                 if ($line[$name] != $val) {
                     break;
                 }
@@ -480,32 +485,19 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return null;
     }
+
     /**
      * Converts customer data to format comparable with csv data
      *
      * @param $rawData
+     *
      * @return array
      */
     public function prepareMasterData($rawData)
     {
-        $excludeComparison = array(
-            'associate_to_website',
-            'group',
-            'send_welcome_email',
-            'send_from',
-            'send_from',
-            'password',
-            'auto_generated_password'
-        );
-
-        $convertToNumeric = array(
-            'Yes'       => 1,
-            'Enabled'   => 1,
-            'In Stock'  => 1,
-            'No'        => 0,
-            '%noValue%' => 0
-        );
-
+        $excludeComparison = array('associate_to_website', 'group', 'send_welcome_email', 'send_from', 'send_from',
+                                   'password', 'auto_generated_password');
+        $convertToNumeric = array('Yes' => 1, 'Enabled' => 1, 'In Stock' => 1, 'No' => 0, '%noValue%' => 0);
         $tastyData = array();
 
         foreach ($excludeComparison as $excludeField) {
@@ -524,10 +516,10 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         foreach ($customerToCsvKeys as $key => $value) {
             $customerToCsvKeys[$key] = $key;
         }
-        $customerToCsvKeys['first_name']     = "firstname";
-        $customerToCsvKeys['middle_name']    = 'middlename';
-        $customerToCsvKeys['last_name']      = 'lastname';
-        $customerToCsvKeys['date_of_birth']  = 'dob';
+        $customerToCsvKeys['first_name'] = "firstname";
+        $customerToCsvKeys['middle_name'] = 'middlename';
+        $customerToCsvKeys['last_name'] = 'lastname';
+        $customerToCsvKeys['date_of_birth'] = 'dob';
         $customerToCsvKeys['tax_vat_number'] = 'taxvat';
 
         // keys exchange and copying values
@@ -536,10 +528,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $tastyData;
     }
+
     /**
      * * Converts address data to format comparable with csv data
      *
      * @param $rawData
+     *
      * @return array
      */
     public function prepareAddressData($rawData)
@@ -547,18 +541,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         // convert street
         $rawData['street'] = $rawData['street_address_line_1'] . "\n" . $rawData['street_address_line_2'];
 
-        $excludeComparison = array(
-            'country',
-            'street_address_line_1',
-            'street_address_line_2'
-        );
-        $convertToNumeric = array(
-            'Yes'       => 1,
-            'Enabled'   => 1,
-            'In Stock'  => 1,
-            'No'        => 0,
-            '%noValue%' => 0
-        );
+        $excludeComparison = array('country', 'street_address_line_1', 'street_address_line_2');
+        $convertToNumeric = array('Yes' => 1, 'Enabled' => 1, 'In Stock' => 1, 'No' => 0, '%noValue%' => 0);
         foreach ($excludeComparison as $excludeField) {
             if (array_key_exists($excludeField, $rawData)) {
                 unset($rawData[$excludeField]);
@@ -591,10 +575,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $tastyData;
     }
+
     /**
      * Converts finance data to format comparable with csv data
      *
      * @param $rawData
+     *
      * @return array
      */
     public function prepareFinanceData($rawData)
@@ -606,11 +592,14 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $rawData;
     }
+
     /**
      * Apply customer attributes filter
+     *
      * @param array $fieldParams
      *            example:
      *             array('attribute_label' => 'text_label', 'attribute_code' => 'text_code')))
+     *
      * @return void
      */
     public function customerFilterAttributes(array $fieldParams)
@@ -621,6 +610,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $this->clickButton('search', false);
         $this->waitForAjax();
     }
+
     /**
      * Search attribute in grid and return attribute xPath
      *
@@ -631,10 +621,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     public function customerSearchAttributes(array $fieldParams, $fieldset)
     {
-        $sets         = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
-        $gridFieldSet = $sets[$fieldset];
-        $gridXpath    = $gridFieldSet->getXPath();
-        $conditions   = array();
+        $gridXpath = $this->_getControlXpath('fieldset', $fieldset);
+        $conditions = array();
         if (array_key_exists('attribute_label', $fieldParams)) {
             $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
         }
@@ -642,22 +630,22 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
         }
         $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']';
-        return $this->getElementByXpath($rowXPath);
+        return $this->getElementsValue($rowXPath, 'text');
     }
+
     /**
      * Mark attribute as skipped
      *
      * @param array $fieldParams
      * @param string $fieldset
      * @param bool $skip
+     *
      * @return bool
      */
     public function customerSkipAttribute(array $fieldParams, $fieldset, $skip = true)
     {
-        $sets         = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
-        $gridFieldSet = $sets[$fieldset];
-        $gridXpath    = $gridFieldSet->getXPath();
-        $conditions   = array();
+        $gridXpath = $this->_getControlXpath('fieldset', $fieldset);
+        $conditions = array();
         if (array_key_exists('attribute_label', $fieldParams)) {
             $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
         }
@@ -665,16 +653,18 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
         }
         $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']/td/input[@name="skip_attr[]"]';
-        if ($this->isElementPresent($rowXPath) && $this->isVisible($rowXPath)) {
-            $currentStatus = $this->isChecked($rowXPath);
+        $availableElement = $this->elementIsPresent($rowXPath);
+        if ($availableElement && $availableElement->displayed()) {
+            $currentStatus = $availableElement->selected();
             if (($currentStatus && !$skip) || (!$currentStatus && $skip)) {
-                $this->click($rowXPath);
+                $this->focusOnElement($availableElement);
+                $availableElement->click();
             }
-        } else {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
+
     /**
      * Get list of Customer Entity Types specific for Magento versions
      *
@@ -684,10 +674,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     {
         return array('Customers Main File', 'Customer Addresses');
     }
+
     /**
      * Fill filter form
      *
      * @param array $data array(attribute_code => attribute_value)
+     *
      * @throws Exception
      */
     public function setFilter($data)

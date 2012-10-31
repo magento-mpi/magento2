@@ -67,7 +67,7 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         for ($i = 1; $i <= $tagQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'tags_grid');
         }
         $this->addParameter('qtyDeletedTags', $tagQty);
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -109,7 +109,7 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         for ($i = 1; $i <= $tagQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'tags_grid');
         }
         $this->addParameter('qtyDeletedTags', $tagQty);
         $this->fillDropdown('tags_massaction', 'Delete');

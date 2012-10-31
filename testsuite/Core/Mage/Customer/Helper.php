@@ -45,9 +45,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('address_number', $id);
             $this->waitForElementVisible($this->_getControlXpath('fieldset', 'edit_address'));
             if ($this->verifyForm($addressData, 'addresses')) {
+                $this->clearMessages('verification');
                 return $id;
             }
         }
+        $this->clearMessages('verification');
         return 0;
     }
 
@@ -134,7 +136,20 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openCustomer(array $searchData)
     {
-        $this->searchAndOpen($searchData, 'customers_grid');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $xpathTR = $this->search($searchData, 'customers_grid');
+        $this->assertNotNull($xpathTR, 'Customer is not found');
+        $cellId = $this->getColumnIdByName('Name');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->clickControl('pageelement', 'table_line_cell_index', false);
+        $this->waitForPageToLoad();
+        $pageUIMap = $this->getUimapPage('admin', 'edit_customer');
+        $locator = $this->_getControlXpath('pageelement', 'customer_header', $pageUIMap);
+        $param = trim($this->getElement($locator)->text());
+        $this->addParameter('elementTitle', $param);
+        $this->validatePage('edit_customer');
     }
 
     /**
@@ -154,7 +169,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if ($disableCaptcha && $this->controlIsPresent('pageelement', 'captcha')) {
             $this->loginAdminUser();
             $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('disable_customer_captcha');
+            $this->systemConfigurationHelper()->configure('Captcha/disable_frontend_captcha');
             $this->frontend($currentPage);
             $this->clickButton('create_account');
         }

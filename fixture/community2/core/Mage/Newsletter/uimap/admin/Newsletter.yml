@@ -75,7 +75,7 @@ newsletter_template_new:
 # Newsletter edit template page
 edit_news_template:
     mca: newsletter_template/edit/id/%id%/
-    title: %news_name% / Newsletter Templates / Newsletter / Magento Admin
+    title: %elementTitle% / Newsletter Templates / Newsletter / Magento Admin
     uimap:
         form: *newsletterEditForm
         buttons:

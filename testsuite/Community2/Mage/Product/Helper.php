@@ -12,30 +12,27 @@
  */
 /**
  * Helper class
- *
  */
 class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
     /**
      * Change attribute set
      *
-     * @param array $newAttributeSet
+     * @param string $newAttributeSet
      */
     public function changeAttributeSet($newAttributeSet)
     {
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'choose_attribute_set');
-        $currentAttributeSet = $this->getSelectedValue($dropdownXpath);
-        $fieldXpath = $this->_getControlXpath('pageelement', 'product_page_title');
-        $popupXpath = $this->_getControlXpath('fieldset', 'change_attribute_set');
-        $actualTitle = $this->getText($fieldXpath);
-        $newTitle = str_replace($newAttributeSet, $currentAttributeSet, $actualTitle);
-        $this->clickButton('change_attribute_set', false)
-            ->waitForElement($popupXpath);
+        $actualTitle = $this->getControlAttribute('pageelement', 'product_page_title', 'text');
+        $this->clickButton('change_attribute_set', false);
+        $this->waitForElementEditable($this->_getControlXpath('dropdown', 'choose_attribute_set'));
+        $currentSetName = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedLabel');
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $this->addParameter('setId', $dropdownXpath)->clickButton('apply')
-            ->validatePage();
-        $this->assertNotSame($this->getText($fieldXpath), $newTitle,
-            "Attribute set in title should be $newAttributeSet, but now it's $currentAttributeSet");
+        $newTitle = str_replace($currentSetName, $newAttributeSet, $actualTitle);
+        $param = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedValue');
+        $this->addParameter('setId', $param);
+        $this->clickButton('apply');
+        $this->assertSame($newTitle, $this->getControlAttribute('pageelement', 'product_page_title', 'text'),
+            "Attribute set in title should be $newAttributeSet, but now it's $currentSetName");
     }
 
     /**
@@ -47,9 +44,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         $this->openTab('custom_options');
         $this->clickButton('import_options', false);
-        $this->waitForElement($this->_getControlXpath('fieldset', 'select_product_custom_option'));
+        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'select_product_custom_option'));
         foreach ($productData as $value) {
-            $this->searchAndChoose($value);
+            $this->searchAndChoose($value, 'select_product_custom_option_grid');
         }
         $this->clickButton('import', false);
         $this->pleaseWait();
@@ -61,12 +58,10 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function deleteAllCustomOptions()
     {
         $this->openTab('custom_options');
-        while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set'))) {
-            if (!$this->controlIsPresent('button', 'delete_custom_option')) {
-                $this->fail('Current location url: ' . $this->getLocation() . "\n"
-                    . 'Current page: ' . $this->getCurrentPage() . "\nProblem with 'Delete Option' button.\n"
-                    . 'Control is not present on the page');
-            }
+        while ($this->controlIsPresent('fieldset', 'custom_option_set')) {
+            $this->assertTrue($this->buttonIsPresent('button', 'delete_custom_option'),
+                $this->locationToString() . "Problem with 'Delete Option' button.\n"
+                . 'Control is not present on the page');
             $this->clickButton('delete_custom_option', false);
         }
     }
@@ -81,11 +76,11 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function verifyCustomOption(array $customOptionData)
     {
         $this->openTab('custom_options');
-        $optionsQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set'));
+        $optionsQty = $this->getControlCount('fieldset', 'custom_option_set');
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
-            $this->addVerificationMessage('Product must be contains ' . $needCount
-                . ' Custom Option(s), but contains ' . $optionsQty);
+            $this->addVerificationMessage(
+                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
         $numRow = 1;
@@ -110,14 +105,16 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function getOptionId($rowNum)
     {
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'custom_option_set') . "[$rowNum]";
-        if ($this->isElementPresent($fieldsetXpath)) {
-            $optionId = $this->getAttribute($fieldsetXpath . '@id');
+        $availableElement = $this->elementIsPresent($fieldsetXpath);
+        if ($availableElement) {
+            $optionId = $availableElement->attribute('id');
             foreach (explode('_', $optionId) as $value) {
                 if (is_numeric($value)) {
                     return $value;
                 }
             }
         }
+        return '';
     }
 
     /**
@@ -133,7 +130,10 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         if ($productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
-        $this->productHelper()->fillProductInfo($productData, $productType);
+        if ($productType == 'configurable') {
+            $this->fillConfigurableSettings($productData);
+        }
+        $this->fillProductInfo($productData, $productType);
         if ($isSave) {
             $this->saveForm('save');
         }
@@ -149,13 +149,10 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         $this->clickButton('add_new_product_split_select', false);
         $this->addParameter('productType', $productType);
-        $this->clickControl('dropdown', 'add_product_by_type', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->clickButton('add_product_by_type', false);
+        $this->waitForPageToLoad();
         $this->addParameter('setId', $this->defineParameterFromUrl('set'));
         $this->validatePage();
-        if ($productType == 'configurable') {
-            $this->fillConfigurableSettings($productData);
-        }
     }
 
     /**
@@ -175,24 +172,22 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      *
      * @param array $productData
      * @param bool $isSave
-     * @param string $keyUp
-     * @param array $productFields
+     * @param array $skipFieldFillIn
      * @param string $productType
      */
-    public function createProductWithAutogeneration(array $productData, $isSave = false, $keyUp = 'general_name',
-        array $productFields = null, $productType = 'simple'
-    ) {
-        if (!empty($productFields)) {
-            foreach ($productFields as $value) {
+    public function createProductWithAutoGeneration(array $productData, $isSave = false, $skipFieldFillIn = array(), $productType = 'simple')
+    {
+        if (!empty($skipFieldFillIn)) {
+            foreach ($skipFieldFillIn as $value) {
                 unset($productData[$value]);
             }
         }
-        $this->productHelper()->createProduct($productData, $productType, false);
-        $this->openTab('general');
-        $this->keyUp($this->_getControlXpath('field', $keyUp), ' ');
-        if ($isSave) {
-            $this->saveForm('save');
-        }
+        $this->createProduct($productData, $productType, $isSave);
+        //$this->openTab('general');
+        //$this->keyUp($this->_getControlXpath('field', $keyUp), ' ');
+        //    if ($isSave) {
+        //        $this->saveForm('save');
+        //    }
     }
 
     /**
@@ -205,9 +200,10 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function formFieldValueFromMask($mask, array $placeholders)
     {
+        $this->openTab('general');
         foreach ($placeholders as $value) {
             $productField = 'general_' . str_replace(array('{{', '}}'), '', $value);
-            $maskData = $this->getValue($this->_getControlXpath('field', $productField));
+            $maskData = $this->getControlAttribute('field', $productField, 'value');
             $mask = str_replace($value, $maskData, $mask);
         }
         return $mask;
@@ -221,12 +217,13 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function deleteCustomOptions()
     {
         $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionsQty = $this->getXpathCount($fieldSetXpath);
-        $optionId ='';
-        While ($optionsQty > 0) {
-            $elementId = $this->getAttribute($fieldSetXpath . "[{$optionsQty}]/@id");
-            $elementId = explode('_', $elementId);
+        $customOptions = $this->getControlElements('fieldset', 'custom_option_set');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $customOption
+         */
+        foreach ($customOptions as $customOption) {
+            $optionId = '';
+            $elementId = explode('_', $customOption->attribute('id'));
             foreach ($elementId as $id) {
                 if (is_numeric($id)) {
                     $optionId = $id;
@@ -234,34 +231,40 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             }
             $this->addParameter('optionId', $optionId);
             $this->clickButton('delete_option', false);
-            $optionsQty--;
         }
     }
+
     /**
      * Get Custom Option Id By Title
      *
      * @param string
+     *
      * @return integer
      */
     public function getCustomOptionId($optionTitle)
     {
-        $optionId = '';
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")) {
-            $elementId = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
-            $elementId = explode('_', $elementId);
-            foreach ($elementId as $id) {
+        $optionSetElement = $this->getControlElement('fieldset', 'custom_option_set');
+        $optionElements = $this->getChildElements($optionSetElement, "//input[@value='{$optionTitle}']", false);
+        if (!empty($optionElements)) {
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+             */
+            list($element) = $optionElements;
+            $elementId = $element->attribute('id');
+            foreach (explode('_', $elementId) as $id) {
                 if (is_numeric($id)) {
-                    $optionId = $id;
+                    return $id;
                 }
             }
         }
-        return $optionId;
+        return null;
     }
+
     /**
      * Check if product is present in products grid
      *
      * @param array $productData
+     *
      * @return bool
      */
     public function isProductPresentInGrid($productData)
@@ -285,22 +288,19 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab)
     {
-        if(isset($dataForAttributesTab)) {
+        if (isset($dataForAttributesTab)) {
             $this->fillFieldset($dataForAttributesTab, 'attributes');
-        }
-        else {
+        } else {
             $this->fail('data for attributes tab is absent');
         }
-        if(isset($dataForInventoryTab)) {
+        if (isset($dataForInventoryTab)) {
             $this->fillFieldset($dataForInventoryTab, 'inventory');
-        }
-        else {
+        } else {
             $this->fail('data for inventory tab is absent');
         }
-        if(isset($dataForWebsitesTab)) {
+        if (isset($dataForWebsitesTab)) {
             $this->fillFieldset($dataForWebsitesTab, 'add_product');
-        }
-        else {
+        } else {
             $this->fail('data for websites tab is absent');
         }
     }

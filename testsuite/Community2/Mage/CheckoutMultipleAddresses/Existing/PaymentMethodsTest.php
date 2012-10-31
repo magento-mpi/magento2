@@ -82,12 +82,10 @@ class Community2_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest exte
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('payment' => $paymentData,
-                  'email'   => $testData['email']), $testData['products']);
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
+            array('payment' => $paymentData, 'email' => $testData['email']), $testData['products']);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/' . $payment);
         $this->frontend();
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification

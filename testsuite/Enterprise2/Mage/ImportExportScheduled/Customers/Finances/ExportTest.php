@@ -35,7 +35,6 @@ class Enterprise2_Mage_ImportExportScheduled_Export_FinancesTest extends Mage_Se
         $this->navigate('manage_customers');
         $customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($customerData);
-        $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' ' . $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
         $storeCreditBalance = $this->generate('string', 3, ':digit:');
         $rewardPointsBalance = $this->generate('string', 3, ':digit:');

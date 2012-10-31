@@ -16,45 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_RssFeeds_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_RssFeeds_Helper extends Mage_Selenium_AbstractHelper
 {
-    /**
-     * Get file from admin area
-     *
-     * @param string $urlPage Url to the file or submit form
-     *
-     * @return string
-     */
-    protected function _getFile($urlPage)
-    {
-        $cookie = $this->getCookie();
-        $connect     = curl_init();
-        //Open page and get content
-        curl_setopt($connect, CURLOPT_URL, $urlPage);
-        curl_setopt($connect, CURLOPT_HEADER, false);
-        curl_setopt($connect, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($connect, CURLOPT_COOKIE, $cookie);
-        curl_setopt($connect, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($connect, CURLOPT_TIMEOUT, 120);
-        $data = curl_exec($connect);
-        curl_close($connect);
-        //Return response
-        return $data;
-    }
-
-    /**
-     * Get rss xml by URL
-     *
-     * @param string $url Path to rss feeds
-     *
-     * @return string
-     */
-    public function getRssFeedsByUrl($url)
-    {
-        $data = $this->_getFile($url);
-        return $data;
-    }
-
     /**
      * Get rss by link element
      *
@@ -65,10 +28,8 @@ class Community2_Mage_RssFeeds_Helper extends Mage_Selenium_TestCase
      */
     public function getRssFeeds($rssControlType, $rssControl)
     {
-        $xPath = $this->_getControlXpath($rssControlType, $rssControl);
-        $url = $this->getAttribute($xPath . '@href');
-        $data = $this->getRssFeedsByUrl($url);
-        return $data;
+        $url = $this->getControlAttribute($rssControlType, $rssControl, 'href');
+        return $this->getFile($url);
     }
 
     /**
@@ -84,10 +45,13 @@ class Community2_Mage_RssFeeds_Helper extends Mage_Selenium_TestCase
         $result = $xml->xpath('/rss/channel/item');
         //combine to array
         $data = array();
+        /**
+         * @var SimpleXMLElement $item
+         */
         foreach ($result as $item) {
             $dataRow = array();
             foreach ($item->children() as $key => $value) {
-                $dataRow[$key] = (string) $value;
+                $dataRow[$key] = (string)$value;
             }
             $data[] = $dataRow;
             unset($dataRow);

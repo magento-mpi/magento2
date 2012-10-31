@@ -18,16 +18,11 @@ class Community2_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest ex
 {
     public function setUpBeforeTests()
     {
-        //Data
-        $storeInfo = $this->loadDataSet('VatID', 'store_information_data');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($storeInfo);
-        $xpath = $this->_getControlXpath('link','store_information_link');
-        if (!$this->isElementPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link','store_information_link', false);
-        }
+        $this->systemConfigurationHelper()->configure('VatID/store_information_data');
+        $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verifying
@@ -36,9 +31,9 @@ class Community2_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest ex
 
     protected function tearDownAfterTestClass()
     {
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options_disable');
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($accountOptions);
+        $this->systemConfigurationHelper()->configure('VatID/create_new_account_options_disable');
     }
 
     /**
@@ -65,20 +60,21 @@ class Community2_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest ex
         $userRegisterData = $this->loadDataSet('Customers', 'generic_customer_account',
             array('disable_automatic_group_change' => 'Yes'));
         $addressData = $this->loadDataSet('Customers', 'generic_address', $customerData);
-        $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userRegisterData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->addParameter('customer_first_last_name', $userDataParam);
         $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
+        $this->assertMessagePresent('success', 'success_saved_customer');
         //Verifying
-        $this->validationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => 'General'),'account_information');
+        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
+        $this->openTab('account_information');
+        $this->verifyForm(array('group' => 'General'), 'account_information');
     }
 
     public function creatingCustomerWithDisableAutomaticGroupDataProvider()

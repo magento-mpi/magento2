@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Bug Cover<p/>

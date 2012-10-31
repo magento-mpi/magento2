@@ -73,7 +73,6 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      * @TestlinkId TL-MAGE-839
      * @TestlinkId TL-MAGE-841
      * @TestlinkId TL-MAGE-843
-     * @group skip_due_to_bug1.12
      */
     public function changeGiftOptionsSettings($settings)
     {

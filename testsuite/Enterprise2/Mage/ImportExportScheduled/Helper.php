@@ -16,12 +16,12 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * FTP Connection handle
      *
-     * @var null
+     * @var resource
      */
     protected static $_connId = NULL;
     /**
@@ -92,6 +92,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             }
         }
     }
+
     /**
      * Get file from FTP server and return file content as string
      *
@@ -128,10 +129,8 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $this->_fillConnectionParameters($exportData);
         if ($this->_connectToFtp($exportData['host'], $exportData['user_name'], $exportData['password'])) {
             $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
-            $fileContent = $this->getFileFromFtp(
-                $exportData['file_mode'],
-                $exportData['file_path'],
-                $exportData['file_name']);
+            $fileContent =
+                $this->getFileFromFtp($exportData['file_mode'], $exportData['file_path'], $exportData['file_name']);
             return $this->csvHelper()->csvToArray($fileContent);
         } else {
             return false;
@@ -175,10 +174,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         if ($this->_connectToFtp($importData['host'], $importData['user_name'], $importData['password'])) {
             $fileContent = $this->csvHelper()->arrayToCsv($fileContent);
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
-            return $this->putFileToFtp(
-                $importData['file_mode'],
-                $importData['file_path'],
-                $importData['file_name'],
+            return $this->putFileToFtp($importData['file_mode'], $importData['file_path'], $importData['file_name'],
                 $fileContent);
         } else {
             return false;
@@ -211,11 +207,12 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         foreach ($skipped as $attributeToSkip) {
             $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
         }
-        if (count($filters)>0) {
+        if (count($filters) > 0) {
             $this->importExportHelper()->setFilter($filters);
         }
         $this->saveForm('save');
     }
+
     /**
      * Create scheduled import job
      *
@@ -231,6 +228,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $this->fillForm($importData);
         $this->saveForm('save');
     }
+
     /**
      * Open scheduled job
      *
@@ -243,6 +241,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $this->addParameter('type', $searchData['operation']);
         $this->searchAndOpen($searchData, true, 'grid_and_filter');
     }
+
     /**
      * Get current outcome
      *
@@ -254,17 +253,16 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
-        $columnNumber =  $this->getColumnIdByName('Last Outcome',
-            $this->_getControlXpath('field', 'grid'));
-        if (!$xpath) {
-            $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
-        }
-        return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
+        $columnNumber = $this->getColumnIdByName('Last Outcome', $this->_getControlXpath('field', 'grid'));
+        $this->assertNotNull($xpath, 'Can\'t find item in grid for data: ' . print_r($searchData, true));
+        return $this->getElementsValue($xpath . "/td[{$columnNumber}]", 'text');
     }
+
     /**
      * Check if scheduled import/export is present in grid
      *
      * @param array $searchData
+     *
      * @return bool
      */
     public function isImportExportPresentInGrid(array $searchData)
@@ -276,6 +274,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
         return true;
     }
+
     /**
      * Get last run date
      *
@@ -287,13 +286,11 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
-        $columnNumber =  $this->getColumnIdByName('Last Run Date',
-            $this->_getControlXpath('field', 'grid'));
-        if (!$xpath) {
-            $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
-        }
-        return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
+        $columnNumber = $this->getColumnIdByName('Last Run Date', $this->_getControlXpath('field', 'grid'));
+        $this->assertNotNull($xpath, 'Can\'t find item in grid for data: ' . print_r($searchData, true));
+        return $this->getElementsValue($xpath . "/td[{$columnNumber}]", 'text');
     }
+
     /**
      * Get last file prefix date
      *
@@ -321,8 +318,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
-        $columnNumber =  $this->getColumnIdByName('Action',
-            $this->_getControlXpath('field', 'grid'));
+        $columnNumber = $this->getColumnIdByName('Action', $this->_getControlXpath('field', 'grid'));
         if ($xpath) {
             $this->fillDropdown('action', $action, $xpath . "/td[{$columnNumber}]/select");
             $this->waitForPageToLoad();
@@ -336,6 +332,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
     }
+
     /**
      * Searches the specified data in the specific grid. Returns null or XPath of the found data.
      *
@@ -349,19 +346,18 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = '';
         $xpathContainer = null;
         if ($fieldSetName) {
-            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
-            $xpath = $xpathContainer->getXpath($this->_paramsHelper);
+            $xpath = $this->_getControlXpath('fieldset', $fieldSetName);
         }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
+        $totalCount = intval($this->getElement($xpath . $qtyElementsInTable)->text());
         $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
         $xpathTR = $this->formSearchXpath($data);
         //fill filter
         $this->fillForm($data);
         $this->clickButton('search', false);
         $this->waitForElement($xpathPager);
-        if ($this->isElementPresent($xpath . $xpathTR)) {
+        if ($this->elementIsPresent($xpath . $xpathTR)) {
             return $xpath . $xpathTR;
         }
         return null;
@@ -373,8 +369,8 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     public function deleteAllJobs()
     {
         $this->admin('scheduled_import_export');
-        if ($this->isImportExportPresentInGrid(array('operation' => 'Export')) ||
-            $this->isImportExportPresentInGrid(array('operation' => 'Import'))
+        if ($this->isImportExportPresentInGrid(array('operation' => 'Export'))
+            || $this->isImportExportPresentInGrid(array('operation' => 'Import'))
         ) {
             $this->clickControl('link', 'selectall', false);
             $this->fillDropdown('grid_massaction_select', 'Delete');

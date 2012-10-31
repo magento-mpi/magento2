@@ -13,6 +13,10 @@ admin_header:
         form:
             fieldsets:
                 -
+                    websites:
+                        dropdowns:
+                             choose_store_view: //select[@id='store_switcher']
+                -
                     incoming_message:
                         xpath: //*[@id='message-popup-window' and @class='message-popup show']
                         buttons:
@@ -68,6 +72,9 @@ admin_header:
                             element_with_class_active: "%elementXpath%[contains(@class,'active')]"
                             element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
                             element_by_id: "//*[@id='%elementId%']"
+                            store_view_hint: "/../../td[@class='scope-label'][contains(.,'[STORE VIEW]')]"
+                            global_view_hint: "/../../td[@class='scope-label'][contains(.,'[GLOBAL]')]"
+                            website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
         messages:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"

@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_SystemPermissionTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -79,22 +79,20 @@ class Community2_Mage_ACL_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         // Verify that navigation menu has only 2 child elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals('1', count($this->getElementsByXpath($xpath)),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_children_menu_items');
-        $this->assertEquals('1', count($this->getElementsByXpath($xpath)),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of child Navigation Menu not equal 1, should be equal 1');
         $this->navigate('manage_roles');
         $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null,
-            array('roleName'    => $testData['role_name']));
+            array('roleName' => $testData['role_name']));
         $editedRole['role_resources_tab']['role_resources']['resource_2'] = 'System/Configuration';
         //Data
         $this->adminUserHelper()->editRole($editedRole);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('system_configuration');
-        $this->assertEquals('2', count($this->getElementsByXpath($xpath)),
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of child Navigation Menu not equal 2, should be equal 2');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree

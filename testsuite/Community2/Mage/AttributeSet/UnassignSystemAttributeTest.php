@@ -227,7 +227,6 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
      * @test
      * @depends preconditionsForTests
      * @depends fromDefaultAttributeSet
-     * @group preConditions
      * @TestLinkId TL-MAGE-6125
      */
     public function verifyOnProductPage($attributeCode)

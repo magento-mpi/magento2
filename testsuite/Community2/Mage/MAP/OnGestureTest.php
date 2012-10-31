@@ -16,7 +16,7 @@
  * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_MAP_OnGestureTest extends Mage_Selenium_TestCase
+class Community2_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -64,12 +64,10 @@ class Community2_Mage_MAP_OnGestureTest extends Mage_Selenium_TestCase
      */
     public function enableMinimumAdvertisedPriceOnGesture($category)
     {
-        //Data
-        $config = $this->loadDataSet('MAP', 'enable_map_gesture');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('MAP/enable_map_gesture');
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);
         //Verification

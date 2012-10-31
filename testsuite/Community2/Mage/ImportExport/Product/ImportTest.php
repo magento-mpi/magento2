@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -66,8 +66,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //$csv = array_slice($csv, 0, 1);
         //Remove custom options columns from export csv
         $fieldsPosition = array_search("_custom_option_store", array_keys($csv[0]));
@@ -83,8 +82,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -107,12 +105,10 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Clear Products Custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->productHelper()->deleteCustomOptions();
@@ -128,8 +124,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -175,6 +170,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      * @depends preconditionReplaceImport
      * @test
      * @TestlinkId TL-MAGE-1141
+     *
      * @param array $productData
      */
     public function replaceWithoutOptions(array $productData)
@@ -187,24 +183,14 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Remove custom options columns from export csv
         $csvWithoutOptions = array($csv[0]);
-        $customOptionsData = array(
-            '_custom_option_store',
-            '_custom_option_type',
-            '_custom_option_title',
-            '_custom_option_is_required',
-            '_custom_option_price',
-            '_custom_option_sku',
-            '_custom_option_max_characters',
-            '_custom_option_sort_order',
-            '_custom_option_row_title',
-            '_custom_option_row_price',
-            '_custom_option_row_sku',
-            '_custom_option_row_sort',
-        );
+        $customOptionsData =
+            array('_custom_option_store', '_custom_option_type', '_custom_option_title', '_custom_option_is_required',
+                  '_custom_option_price', '_custom_option_sku', '_custom_option_max_characters',
+                  '_custom_option_sort_order', '_custom_option_row_title', '_custom_option_row_price',
+                  '_custom_option_row_sku', '_custom_option_row_sort',);
         foreach ($customOptionsData as $value) {
             $csvWithoutOptions[0][$value] = '';
         }
@@ -218,14 +204,13 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
         $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $this->assertEquals(0, $this->getXpathCount($fieldSetXpath), 'Custom options were not deleted');
+        $this->assertEquals(0, $this->getControlCount('fieldset', 'custom_option_set'),
+            'Custom options were not deleted');
     }
 
     /**
@@ -266,12 +251,10 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Clear Products Custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->productHelper()->deleteCustomOptions();
@@ -287,8 +270,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -355,14 +337,10 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         $returnData = array();
         //Create first product
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] = array(
-            'custom_options_field' => $this->loadDataSet('Product', 'custom_options_field', array(
-                'custom_options_general_title' => 'brand')),
-        );
-        $customOptionCsv = array(
-            '_custom_option_type' => 'area',
-            '_custom_option_price' => '18.0000',
-        );
+        $productData['custom_options_data'] =
+            array('custom_options_field' => $this->loadDataSet('Product', 'custom_options_field',
+                array('custom_options_general_title' => 'brand')),);
+        $customOptionCsv = array('_custom_option_type' => 'area', '_custom_option_price' => '18.0000',);
         $validation = array('validation' => array(
             'error' => array(
                 "Custom options have different types. in rows: 1"
@@ -380,9 +358,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             'custom_options_area2' => $this->loadDataSet('Product', 'custom_options_area', array(
                 'custom_options_general_title' => 'brand')),
         );
-        $customOptionCsv = array(
-            '_custom_option_price' => '20.0000',
-        );
+        $customOptionCsv = array('_custom_option_price' => '20.0000',);
         $validation = array('validation' => array(
             'error' => array(
                 "There are several existing custom options with such name. in rows: 1"
@@ -402,7 +378,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
     {
         //Precondition: create product
         $this->navigate('manage_products');
-        if ($this->search(array('status' => 'Enabled')) || $this->search(array('status' => 'Disabled'))) {
+        if (!$this->controlIsPresent('message', 'no_records_found')) {
             $this->clickControl('link', 'selectall', false);
             $this->fillDropdown('product_massaction', 'Delete');
             $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');

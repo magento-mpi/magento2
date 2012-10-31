@@ -10,30 +10,16 @@
 #
 ---
 #Test data for Admin User and Admin Role
-
 url_rewrite_custom:
     id_path: 123
     request_path: 123
     target_path: 123
 
-url_simple_product_required:
-    product_attribute_set: Default
-    general_name: Simple Product Required(%randomize%)
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
-    general_sku: simple_sku_req_%randomize%
-    general_weight: 1.13
-    general_url_key: simple-product-url-key(%randomize%)
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 9.99
-    prices_special_price: %noValue%
-    prices_tax_class: None
-    inventory_qty: %noValue%
-    websites: Main Website
-    categories: Default Category
-
 url_rewrite_product:
+    request_path: Product(%randomize%).html
+
+url_rewrite_product_custom:
+    id_path: %randomize%
     request_path: Product(%randomize%).html
 
 url_rewrite_category:
@@ -44,14 +30,14 @@ url_rewrite_custom_sample:
     description: Test description
     request_store: Default Store View
 
-new_cms_page_req_ee:
+url_cms_page_req:
     page_information:
         page_title: new cms page(%randomize%)
         url_key: cms_page_url_%randomize%
-        status: Published
         store_view: Default Store View
+        status: Enabled
     content:
-        content_heading: %noValue%
+        content_heading: test
         editor: test
 
 url_search_url:

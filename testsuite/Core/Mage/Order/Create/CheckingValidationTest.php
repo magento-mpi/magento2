@@ -191,7 +191,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             array('shipping_last_name'),
             array('shipping_street_address_1'),
             array('shipping_city'),
-            //array('shipping_country'),  bug_ce_1.6
+            array('shipping_country'),
             array('shipping_state'),
             array('shipping_zip_code'),
             array('shipping_telephone')

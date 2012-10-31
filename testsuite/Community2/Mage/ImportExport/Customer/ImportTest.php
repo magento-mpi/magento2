@@ -35,8 +35,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         self::$_addressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer(self::$_customerData, self::$_addressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->addParameter('customer_first_last_name',
-            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         self::$_addressData['address_id'] = $this->customerHelper()->isAddressPresent(self::$_addressData);
     }
@@ -69,8 +67,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     public function importSettingsGeneralView()
     {
         //Verifying Entity Type dropdown
-        $entityTypes =
-            $this->getElementsByXpath($this->_getControlXpath('dropdown', 'entity_type') . '/option', 'text');
+        $entityTypes = $this->select($this->getControlElement('dropdown', 'entity_type'))->selectOptionLabels();
         $oldEntityTypeValues = array('Products', 'Customers');
         $newEntityTypeValues = $this->importExportHelper()->getCustomerEntityType();
         $expectedEntityTypes = array_merge(array('-- Please Select --', 'Products', 'Customers'),
@@ -84,9 +81,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         foreach ($oldEntityTypeValues as $value) {
             $this->importExportHelper()->chooseImportOptions($value);
             $expectedBehavior = array_merge(array('-- Please Select --'), $oldImportBehavior);
-            $actualImportBehavior =
-                $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
-            $this->assertEquals($expectedBehavior, $actualImportBehavior,
+            $actualBehavior =
+                $this->select($this->getControlElement('dropdown', 'import_behavior'))->selectOptionLabels();
+            $this->assertEquals($expectedBehavior, $actualBehavior,
                 'Import Behavior dropdown contains incorrect values');
             $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
         }
@@ -94,9 +91,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         foreach ($newEntityTypeValues as $value) {
             $this->importExportHelper()->chooseImportOptions($value);
             $expectedBehavior = array_merge(array('-- Please Select --'), $newImportBehavior);
-            $actualImportBehavior =
-                $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
-            $this->assertEquals($expectedBehavior, $actualImportBehavior,
+            $actualBehavior =
+                $this->select($this->getControlElement('dropdown', 'import_behavior'))->selectOptionLabels();
+            $this->assertEquals($expectedBehavior, $actualBehavior,
                 'Import Behavior dropdown contains incorrect values');
             $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
         }
@@ -129,7 +126,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         //add store credit and reward points (for EE)
         $customerTypes = $this->importExportHelper()->getCustomerEntityType();
         if (in_array('Customer Finances', $customerTypes)) {
-            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -213,7 +209,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
-        $this->addParameter('customer_first_last_name', $data[0]['firstname'] . ' ' . $data[0]['lastname']);
         $this->customerHelper()->openCustomer(array('email' => strtolower($data[0]['email'])));
         //Verify customer account
         $customerData['group'] = 'Retailer';
@@ -223,7 +218,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             'Existent customer has not been updated');
         //Verify customer account
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $data[1]['firstname'] . ' ' . $data[1]['lastname']);
         $this->customerHelper()->openCustomer(array('email' => strtolower($data[1]['email'])));
         $customerData['group'] = 'Retailer';
         $customerData['email'] = strtolower($customerCsv[1]['email']);
@@ -281,8 +275,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             $this->navigate('manage_customers');
             $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($value),
                 'New customer has not been created');
-            $this->addParameter('customer_first_last_name',
-                $value['first_name'] . ' ' . $value['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $value['email']));
             //Verifying customer data
             $this->assertTrue($this->verifyForm($value, 'account_information'),
@@ -363,8 +355,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             "File import has not been finished successfully" . print_r($importData, true));
         //Step 6
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name',
-            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
         foreach ($updatedData as $value) {
@@ -445,8 +435,6 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $this->assertEquals($validation, $importData, 'Import has been finished with issues');
         //Step 6
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name',
-            $newCustomerData['first_name'] . ' ' . $newCustomerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $newCustomerData['email']));
         //Verifying that new customer is created
         $this->assertTrue($this->verifyForm($newCustomerData, 'account_information'),

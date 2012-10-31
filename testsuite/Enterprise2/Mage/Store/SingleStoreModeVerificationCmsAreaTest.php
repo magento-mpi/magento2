@@ -22,7 +22,7 @@ class Enterprise2_Mage_CmsSingleStoreMode_VerificationCmsAreaSingleStoreModeTest
     {
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $config = $this->loadDataSet('SingleStoreMode', 'enable_single_store_mode');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);

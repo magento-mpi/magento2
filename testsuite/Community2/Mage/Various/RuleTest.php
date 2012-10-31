@@ -37,15 +37,14 @@ class Community2_Mage_Various_RuleTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
-        $this->addParameter('attribute_code','weight');
-        $this->searchAndOpen(array('attribute_code' => 'weight'), true);
+        $this->productAttributeHelper()->openAttribute(array('attribute_code' => 'weight'));
         $this->fillDropdown('use_for_promo_rule_conditions', 'Yes');
         $this->saveForm('save_attribute');
+        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate($ruleType);
         $this->clickButton('add_new_rule');
         //Verifying
-        $this->assertTrue(
-            $this->controlIsPresent('pageelement','weight_attribute'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'weight_attribute'),
             "There is no Weight attribute in " . strstr($ruleType, '_'));
     }
 

@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -62,9 +62,8 @@ class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('system_configuration');
-        $xpath = $this->_getControlXpath('tab', 'all_tabs');
         //verify that only one tab is presented on page
-        $this->assertEquals(1, count($this->getElementsByXpath($xpath)),
+        $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
@@ -172,12 +171,12 @@ class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($testData);
         //set the configuration scope default config
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', 'Default Config');
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Default Config');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verifying that all necessary tabs and fieldsets are present
-        foreach ($tabElement as $tab=> $tabName) {
+        foreach ($tabElement as $tab => $tabName) {
             $this->systemConfigurationHelper()->openConfigurationTab($tab);
-            foreach ($tabName as $fieldset=> $fieldsetName) {
+            foreach ($tabName as $fieldset => $fieldsetName) {
                 if (!$this->controlIsPresent('fieldset', $fieldset)) {
                     $this->addVerificationMessage(
                         'The fieldset "' . $fieldset . '" does not present on tab "' . $tab . '"');
@@ -214,7 +213,7 @@ class Community2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('system_configuration');
         //set the configuration scope Main Website
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', 'Main Website');
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_website');
         //verifying that all necessary tabs and fieldsets are present
         foreach ($tabElement as $tab => $tabName) {

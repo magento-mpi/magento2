@@ -90,7 +90,7 @@ class Community2_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
 
 
         //Steps
-        $this->reviewHelper()->fillSearchFormAndOpenReview($search);
+        $this->reviewHelper()->openReview($search);
         //Verification
         $this->assertTrue($this->buttonIsPresent('next_review'), 'There is no "Next" button on the page');
         $this->assertTrue($this->buttonIsPresent('next_save_review'),
@@ -99,8 +99,6 @@ class Community2_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
             'There is present "Previous" button on the page');
         $this->assertFalse($this->buttonIsPresent('prev_save_review'),
             'There is present "Save and Previous" button on the page');
-
-        $fieldReviewTextXpath = $this->_getControlXpath('field', 'review');
 
         // Check 'Next' and 'Prev' buttons don't save changes and move to other reviews
         $this->fillField('review', 'test text');
@@ -116,11 +114,11 @@ class Community2_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $this->clickButton('prev_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
 
-        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewDataSecond['review']);
+        $this->assertEquals($reviewDataSecond['review'], $this->getControlAttribute('field', 'review', 'value'));
 
         $this->clickButton('next_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
-        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewDataFirst['review']);
+        $this->assertEquals($reviewDataFirst['review'], $this->getControlAttribute('field', 'review', 'value'));
 
         $this->fillField('review', 'test text');
         $this->clickButton('prev_save_review');
@@ -129,11 +127,11 @@ class Community2_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $this->fillField('review', 'test text');
         $this->clickButton('next_save_review');
         $this->assertMessagePresent('success', 'success_saved_review');
-        $this->assertElementValueEquals($fieldReviewTextXpath, 'test text');
+        $this->assertEquals('test text', $this->getControlAttribute('field', 'review', 'value'));
 
         $this->clickButton('prev_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
-        $this->assertElementValueEquals($fieldReviewTextXpath, 'test text');
+        $this->assertEquals('test text', $this->getControlAttribute('field', 'review', 'value'));
     }
 
     /**
@@ -172,7 +170,7 @@ class Community2_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_review');
 
         //Steps
-        $this->reviewHelper()->fillSearchFormAndOpenReview($search);
+        $this->reviewHelper()->openReview($search);
         //Verification
         $this->assertTrue($this->buttonIsPresent('next_review'), 'There is no "Next" button on the page');
         $this->assertTrue($this->buttonIsPresent('next_save_review'),

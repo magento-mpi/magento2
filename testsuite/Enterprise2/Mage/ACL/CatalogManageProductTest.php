@@ -12,7 +12,7 @@
  *
  */
 
-class Enterprise2_Mage_ACL_CatalogManageProductTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -211,8 +211,7 @@ class Enterprise2_Mage_ACL_CatalogManageProductTest extends Mage_Selenium_TestCa
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_products');
         // Verifying visibility Price column
-        $xPath = $this->_getControlXpath('pageelement', 'product_grid_columns_price');
-        if ($this->isElementPresent($xPath)) {
+        if ($this->controlIsPresent('pageelement', 'product_grid_columns_price')) {
             $this->fail("This user doesn't have permission to watch Column Price");
         }
         //Data

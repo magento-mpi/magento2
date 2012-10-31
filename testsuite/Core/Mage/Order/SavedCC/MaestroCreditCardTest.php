@@ -62,6 +62,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      */
     public function orderWithSwitchMaestroCard($sku)
     {
+        $this->markTestIncomplete('MAGETWO-2706');
         //Data
         $paymentInfo = $this->loadDataSet('Payment', 'saved_switch_maestro');
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
@@ -257,19 +258,12 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *
      * @test
      * @depends orderWithSwitchMaestroCard
      * @TestlinkId TL-MAGE-5397
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7
-     * @group skip_due_to_bug1.7.0.1
-     * @group skip_due_to_bug_ce2
      */
     public function reorderPendingOrder($orderData)
     {

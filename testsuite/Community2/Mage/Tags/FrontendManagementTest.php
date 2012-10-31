@@ -54,8 +54,8 @@ class Community2_Mage_Tags_FrontendManagementTest extends Community2_Mage_Tags_T
         //Steps
         $this->tagsHelper()->frontendAddTag($tags);
         //Verification
-        $this->verifyMessagePresent('success', $message);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $this->assertMessagePresent('success', $message);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
         if ($status != 'Pending') {
             $this->navigate('all_tags');

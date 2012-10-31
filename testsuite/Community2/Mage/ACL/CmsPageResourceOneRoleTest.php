@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -112,12 +112,10 @@ class Community2_Mage_ACL_CmsPageResourceOneRoleTest extends Mage_Selenium_TestC
         // Verify that navigation menu has only 1 parent element
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_pages');
-        $this->assertEquals('1', count($this->getElementsByXpath(
-                $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals('1', count($this->getElementsByXpath(
-                $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
         $elements= $this->loadDataSet('CmsPageElements','manage_cms_pages_elements');

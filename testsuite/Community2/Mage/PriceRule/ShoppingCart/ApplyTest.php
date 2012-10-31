@@ -23,13 +23,8 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
-        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
-        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Currency/enable_usd');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
-        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_without_3Dsecure');
     }
 
@@ -80,8 +75,7 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
             $products['sku'][$i] = $simple['general_sku'];
             $products['name'][$i] = $simple['general_name'];
         }
-        return array(array('email'    => $user['email'],
-                           'password' => $user['password'],), $products, $categoryPath);
+        return array(array('email' => $user['email'], 'password' => $user['password']), $products, $categoryPath);
     }
 
     /**
@@ -117,7 +111,8 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
             array('payment_data'  => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions'=> ''));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
+            array('conditions' => '%noValue%'));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->priceRulesHelper()->createRule($ruleData);
@@ -148,9 +143,10 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
 
     public function createSCPRDataProvider()
     {
-        return array(array('percent_of_product_price_discount'),
-                     array('fixed_amount_discount'),
-                     array('fixed_amount_discount_for_whole_cart')
+        return array(
+            array('percent_of_product_price_discount'),
+            array('fixed_amount_discount'),
+            array('fixed_amount_discount_for_whole_cart')
         );
     }
 
@@ -189,7 +185,8 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
             array('payment_data'  => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions'=> ''));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
+            array('conditions' => '%noValue%'));
         //prepare all necessary data to place order
         foreach ($products['name'] as $key => $productName) {
             $orderData['products_to_add']['product_' . $key]['filter_name'] = $productName;
@@ -218,9 +215,10 @@ class Community2_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_Te
 
     public function createSCPRonBackendDataProvider()
     {
-        return array(array('percent_of_product_price_discount','$509.80'),
-                     array('fixed_amount_discount','$449.77'),
-                     array('fixed_amount_discount_for_whole_cart','$584.77')
+        return array(
+            array('percent_of_product_price_discount', '$509.80'),
+            array('fixed_amount_discount', '$449.77'),
+            array('fixed_amount_discount_for_whole_cart', '$584.77')
         );
     }
 }

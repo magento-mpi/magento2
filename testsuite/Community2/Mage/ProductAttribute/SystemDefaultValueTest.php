@@ -25,7 +25,6 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
         $this->navigate('manage_attributes');
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Default value for System attributes</p>
      * <p>Preconditions:</p>
@@ -65,9 +64,10 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      *
      * @test
      * @dataProvider systemAttributeDataProvider
-     * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
+     * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754,
+     *             TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760,
+     *             TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
      */
-    // @codingStandardsIgnoreEnd
     public function checkDefaultValue($attributeCode, $productType, $uimapName)
     {
         //Data
@@ -75,24 +75,25 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
         unset($productData[$uimapName]);
         //Steps
-        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
+        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeData['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
-        //Steps
-        $this->productAttributeHelper()->processAttributeValue($attributeData);
-        $this->saveForm('save_attribute');
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
+        $isSelected = $this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue');
+        $this->assertTrue($isSelected,
+            'Option with value "' . $attributeData['default_value'] . '" is not set as default for attribute');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->searchAndOpen(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
         if ($attributeCode == 'custom_design') {
             $this->openTab('design');
             $this->assertEquals($attributeData['default_control_value'],
-                $this->getValue($this->_getControlXpath('dropdown', $uimapName) . "//option[@selected='selected']"),
+                $this->getControlAttribute('dropdown', $uimapName, 'selectedValue'),
                 'Incorrect default value for custom design attribute.');
         } else {
             $productData[$uimapName] = $attributeData['default_value'];
@@ -120,7 +121,8 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
             array('price_view', 'bundle', 'prices_price_view_bundle'),
             array('status', 'simple', 'general_status'),
             array('tax_class_id', 'simple', 'prices_tax_class'),
-            array('visibility', 'simple', 'general_visibility'));
+            array('visibility', 'simple', 'general_visibility')
+        );
     }
 
     /**
@@ -148,20 +150,20 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
     public function resetDefaultValue()
     {
         //Data
-        $attributeData = $this->loadDataSet('SystemAttributes', 'tax_class_id');
+        $attribute = $this->loadDataSet('SystemAttributes', 'tax_class_id',
+            array('default_value' => '-- Please Select --'));
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         unset($productData['prices_tax_class']);
         //Preconditions
-        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
-        $this->productAttributeHelper()->processAttributeValue($attributeData);
-        $this->saveForm('save_attribute');
+        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attribute['attribute_code']));
+        $this->productAttributeHelper()->processAttributeValue($attribute, false, true);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
+        $isSelected = $this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue');
+        $this->assertTrue($isSelected,
+            'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
         //Steps
-        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
-        $attributeData['default_value'] = '-- Please Select --';
-        $this->productAttributeHelper()->processAttributeValue($attributeData);
-        $this->saveForm('save_attribute');
-        $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying

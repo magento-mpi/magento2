@@ -90,10 +90,9 @@ class Community2_Mage_CheckoutOnePage_LoggedIn_PaymentMethodDirectPostTest exten
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
             array('general_name' => $testData['sku'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'authorizenetdp_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);

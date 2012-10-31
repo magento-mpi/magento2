@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -121,6 +120,14 @@ sub_category_page_before_reindex:
 category_page_index:
     mca: %categoryUrl%.html%categoryParam%
     title: %elementTitle%
-    uimap:
-        form: *categoryPage
-        messages: *categoryPageMessages
+    uimap: *categoryUIMap
+
+category_layered_navigation:
+    mca: %categoryName%.html?cat=%catid%
+    title: %elementTitle%
+    uimap: *categoryUIMap
+
+attribute_layered_navigation:
+    mca: %categoryName%.html?%attributeCode%=%attributeId%
+    title: %elementTitle%
+    uimap: *categoryUIMap

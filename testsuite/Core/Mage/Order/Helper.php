@@ -761,4 +761,91 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             }
         }
     }
+
+    /**
+     * @param $searchOrder
+     */
+    public function openOrder($searchOrder)
+    {
+        $xpathTR = $this->search($searchOrder, 'sales_order_grid');
+        $this->assertNotNull($xpathTR, 'Order is not found');
+        $cellId = $this->getColumnIdByName('Order #');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', '#' . $param);
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->clickControl('pageelement', 'table_line_cell_index');
+    }
+
+    /**
+     * Create order with status "Processing" by creating Invoice
+     *
+     * @param string $searchData
+     */
+    public function createProcessingOrderWithInvoice($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+    }
+
+    /**
+     * Create order wit h status "Processing" by creating Shipment
+     *
+     * @param string $searchData
+     */
+    public function createProcessingOrderWithShipment($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
+    }
+
+    /**
+     * Create order with status "Complete"
+     *
+     * @param string $searchData
+     */
+    public function createCompleteOrder($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
+    }
+
+    /**
+     * Create order with status "Closed"
+     *
+     * @param string $searchData
+     */
+    public function createClosedOrder($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
+    }
+
+    /**
+     * Create order with status "Canceled"
+     *
+     * @param string $searchData
+     */
+    public function createCanceledOrder($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->assertMessagePresent('success', 'success_canceled_order');
+    }
+
+    /**
+     * Create order with status "On Hold"
+     *
+     * @param string $searchData
+     */
+    public function createHoldenOrder($searchData)
+    {
+        $this->openOrder($searchData);
+        $this->clickButton('hold');
+        $this->assertMessagePresent('success', 'success_hold_order');
+    }
 }

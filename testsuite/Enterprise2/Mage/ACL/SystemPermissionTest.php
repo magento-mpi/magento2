@@ -12,7 +12,7 @@
  *
  */
 
-class Enterprise2_Mage_ACL_SystemPermissionTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -132,7 +132,7 @@ class Enterprise2_Mage_ACL_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->navigate('permissions_locked_users');
         //perform unlock action for "User2"
         $this->searchAndChoose($this->loadDataSet('AdminUserRole', 'search__locked_user',
-            array('username' => $newUserTestData['user_name'])));
+            array('username' => $newUserTestData['user_name'])), 'locked_user_grid');
         $this->fillDropdown('locked_actions', 'Unlock');
         $this->clickControlAndWaitMessage('button', 'submit');
         //The test failed because of bug MAGETWO-2789

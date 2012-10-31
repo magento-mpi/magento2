@@ -17,7 +17,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -77,12 +77,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
 
         return $loginData;
     }
@@ -115,6 +113,7 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
+        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
         $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
@@ -148,6 +147,7 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
+        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
         $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
@@ -200,12 +200,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->validatePage('manage_customer_segments');
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
 
         return $loginData;
     }
@@ -231,9 +229,8 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_segments');
         $this->clickButton('add_new_segment');
-        $xpath = $this->_getControlXpath('multiselect', 'assigned_to_website');
         //verify that assigned to website multiselect is present
-        if ($this->isElementPresent($xpath)) {
+        if ($this->controlIsPresent('multiselect', 'assigned_to_website')) {
             $segmData = $this->loadDataSet('CustomerSegment', 'segm_with_website');
         } else {
             $segmData = $this->loadDataSet('CustomerSegment', 'segm_without_website');
@@ -243,6 +240,7 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_segment');
         //Opening and verifying
+        $this->addParameter('elementTitle', $segmData['general_properties']['segment_name']);
         $this->customerSegmentHelper()->openSegment(array('segment_name' => $segmData['general_properties']['segment_name']));
         $this->assertTrue($this->verifyForm($segmData, 'general_properties'), $this->getParsedMessages());
     }
@@ -291,12 +289,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->validatePage('manage_invitations');
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
 
         return $loginData;
     }
@@ -374,12 +370,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->validatePage('manage_gift_registry');
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
     }
 
     /**
@@ -426,12 +420,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->validatePage('manage_gift_card_account');
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
     }
 
     /**
@@ -482,12 +474,10 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->validatePage('manage_reward_rates');
         //Verifying  count of main menu elements
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
+        $navigationElements = $this->getElements($xpath);
         $this->assertEquals('1', count($navigationElements));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
         $this->navigate('manage_reward_rates');
         $this->clickButton('add_new_rate');
         $this->validatePage('new_reward_rate');
@@ -500,9 +490,12 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $xpathTR = $this->search($rewardData, 'reward_point_grid');
         $this->assertNotNull($xpathTR, 'Reward rate is not found');
         $cellId = $this->getColumnIdByName('ID');
-        $this->addParameter('id', $this->getText($xpathTR . '//td[' . $cellId . ']'));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $param = $this->getElementsValue($xpathTR . '//td[' . $cellId . ']', 'text');
+        $this->addParameter('id', end($param));
+        $this->addParameter('elementTitle', '#' . end($param));
+        $element = $this->getElement($xpathTR . '//td[' . $cellId . ']');
+        $element->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_delete_rate');

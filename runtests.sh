@@ -43,7 +43,7 @@ function parseArgs()
 	let i=0
 	# Just showing configurations that will be used in tests (marked up as "application:browser")
 	for config in $configs
-	do 	
+	do
 		case "$config" in
 		*:*)
 		conf=`echo "$config" | sed 's/ //g' | sed 's/:/_/g'`
@@ -55,7 +55,7 @@ function parseArgs()
 	done
 }
 
-function startPreparation() 
+function startPreparation()
 {
     for (( i=0; i<${#resultArr[@]}; i++))
     do
@@ -85,7 +85,7 @@ function startPreparation()
 }
 
 function runTest()
-{	
+{
 	for (( i=0; i<${#phpunitArr[@]}; i++))
 	do
 		eval "cd ${phpunitArr[${i}]}"
@@ -114,7 +114,7 @@ echo "For each run of the script new folder inside the PWD will be created."
 echo "********************************************************************************"
 
 if [ "$*" ]
-then 
+then
    	ARGS=$*;
    	parseArgs
 	for (( i=0; i<${#baseStructure[@]}; i++))

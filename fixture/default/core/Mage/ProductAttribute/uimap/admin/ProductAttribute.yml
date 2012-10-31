@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -123,10 +122,10 @@ new_product_attribute:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
-                                    required: [admin_option]
                                     pageelements:
                                         manage_options_option: //tr[contains(@class,'option-row')]
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
+                                    required: [admin_option_name]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -138,7 +137,7 @@ new_product_attribute:
 edit_product_attribute:
     mca: catalog_product_attribute/edit/attribute_id/%id%/
     title: %elementTitle% / Manage Attributes / Attributes / Catalog / Magento Admin
-    uimap:
+    uimap: &edit_product_attribute
         form: &editProductAttributeForm
             tabs:
                 -
@@ -156,20 +155,24 @@ edit_product_attribute:
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: //div[@id='matage-options-panel']
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
                                     checkboxes:
                                         is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
+                                        default_value: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-radio']
+                                        default_value_by_option_name: //tr[td//input/@value='%optionName%']//input[@type='radio']
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
+                                        admin_option_name_disabled: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
                                         option_position: //input[@name='option[order][%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
-                                    required: [admin_option]
                                     pageelements:
+                                        option_line: //tr[contains(@class,'option-row')]
                                         manage_options_option: //tr[contains(@class,'option-row')]
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
+                                    required: [admin_option_name]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -177,6 +180,11 @@ edit_product_attribute:
             save_attribute: //button[span='Save Attribute']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *productAttributeMessages
+
+edit_product_attribute_save_and_continue:
+    mca: catalog_product_attribute/edit/attribute_id/%id%/back/edit/tab/%tab%
+    title: %elementTitle% / Manage Attributes / Attributes / Catalog / Magento Admin
+    uimap: *edit_product_attribute
 
 product_attribute:
     mca: catalog_product_attribute/edit/
@@ -200,6 +208,20 @@ new_product_attribute_from_product_page:
             close_window: //button[span='Close Window']
             reset: //button[span='Reset']
             save_attribute: //button[span='Save Attribute']
+            save_in_new_attribute_set: //button[@id='save_in_new_set']
+        messages: *productAttributeMessages
+
+# Add New Product Attribute from Product page and save it in new attribute set
+new_product_attribute_from_saved_product_page:
+    mca: catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/product/%productId%/set/%setId%/type/%productType%/popup/1/
+    title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
+    uimap:
+        form: *newProductAttributeForm
+        buttons:
+            close_window: //button[span='Close Window']
+            reset: //button[span='Reset']
+            save_attribute: //button[span='Save Attribute']
+            save_in_new_attribute_set: //button[@id='save_in_new_set']
         messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:

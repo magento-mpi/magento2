@@ -15,7 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_RMA_ItemAttribute_EditTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_ItemAttribute_EditTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -49,21 +49,24 @@ class Enterprise2_Mage_RMA_ItemAttribute_EditTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
-        $this->addParameter('attribute_admin_title', $attrData['admin_title']);
+        $this->addParameter('elementTitle', $attrData['admin_title']);
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']));
+        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
         $this->fillField('sort_order', 5);
         $attrData['sort_order'] = 5;
         $this->openTab('manage_labels_options');
         $this->fillField('admin_title', 'Title after edit');
         $attrData['admin_title'] = 'Title after edit';
-        $this->clickButton('save_attribute');
+        $this->clickButton('save_attribute', false);
+        $this->waitForAjax();
+        $this->waitForPageToLoad();
+        $this->validatePage();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->addParameter('attribute_admin_title', $attrData['admin_title']);
-        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']));
+        $this->addParameter('elementTitle', $attrData['admin_title']);
+        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
 

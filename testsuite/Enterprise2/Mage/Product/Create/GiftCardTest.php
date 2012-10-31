@@ -218,7 +218,7 @@ class Enterprise2_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCas
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        $rowQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'prices_gift_card_amounts'));
+        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts'));
         for ($i = 0; $i < $rowQty; $i++) {
             $this->addParameter('giftCardId', $i);
             $this->addFieldIdToMessage('field', 'prices_gift_card_amount');
@@ -385,7 +385,7 @@ class Enterprise2_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCas
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        $rowQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'prices_gift_card_amounts'));
+        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts'));
         for ($i = 0; $i < $rowQty; $i++) {
             $this->addParameter('giftCardId', $i);
             $this->addFieldIdToMessage('field', 'prices_gift_card_amount');

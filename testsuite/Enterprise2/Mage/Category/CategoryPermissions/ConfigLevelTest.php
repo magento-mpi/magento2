@@ -48,7 +48,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         $this->navigate('system_configuration');
         $this->clickControl('tab', 'catalog_catalog', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->assertTrue($this->controlIsPresent('dropdown', 'permission_enable'),
             'There is no "permission_enable" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'allow_browsing'),
@@ -366,10 +366,10 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
         $this->assertTrue($this->controlIsPresent('pageelement', 'front_navigation_menu'),
             'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
-        $url = $this->getLocation();
+        $url = $this->url();
         $this->customerHelper()->logoutCustomer();
-        $this->open($url);
-        $this->assertSame($this->getTitle(), 'About Us', 'Open wrong page');
+        $this->url($url);
+        $this->assertSame($this->url(), 'About Us', 'Open wrong page');
     }
 
     /**

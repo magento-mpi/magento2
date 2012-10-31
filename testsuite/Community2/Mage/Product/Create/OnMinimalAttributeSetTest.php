@@ -167,17 +167,12 @@ class Community2_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Sele
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-
-        if ($fieldType == 'dropdown') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'simple_product_minimal', $overrideData);
+        $field = key($emptyField);
+        $productData = $this->loadDataSet('Product', 'simple_product_minimal', $emptyField);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -188,14 +183,15 @@ class Community2_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Sele
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_weight', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown'),
-            array('general_min_price', 'field'),
-            array('general_min_tax_class', 'dropdown'));
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_weight' => '%noValue%'), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
+            array(array('general_min_price' => '%noValue%'), 'field'),
+            array(array('general_min_tax_class' => '-- Please Select --'), 'dropdown')
+        );
     }
 }

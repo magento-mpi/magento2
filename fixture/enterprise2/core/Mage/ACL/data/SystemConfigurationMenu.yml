@@ -113,7 +113,7 @@ configuration_menu_default:
         share_options:
         my_wishlist_link:
     customer_invitations:
-        generaral_invitation:
+        general_invitation:
         email_invitations:
     customer_reward_points:
         reward_reward_points:
@@ -353,7 +353,7 @@ configuration_menu_website:
         share_options:
         my_wishlist_link:
     customer_invitations:
-        generaral_invitation:
+        general_invitation:
         email_invitations:
     customer_reward_points:
         reward_reward_points:

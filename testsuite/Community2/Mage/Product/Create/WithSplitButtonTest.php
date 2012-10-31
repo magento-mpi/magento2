@@ -46,7 +46,7 @@ class Community2_Mage_Product_Create_WithSplitButtontTest extends Mage_Selenium_
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->clickButton('add_new_product_split', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->addParameter('productType', $this->defineParameterFromUrl('type'));
         $this->addParameter('setId', $this->defineParameterFromUrl('set'));
         $this->validatePage();

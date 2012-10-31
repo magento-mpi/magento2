@@ -96,6 +96,23 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
     }
 
     /**
+     * @param array $searchRole
+     */
+    public function openRole(array $searchRole)
+    {
+        $productSearch = $this->_prepareDataForSearch($searchRole);
+        $xpathTR = $this->search($productSearch, 'role_list');
+        $this->assertNotNull($xpathTR, 'Role is not found');
+        $cellId = $this->getColumnIdByName('Role Name');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->clickControl('pageelement', 'table_line_cell_index');
+    }
+
+    /**
      * Edit Role
      *
      * @param array $roleData
@@ -112,9 +129,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         $roleUsers = (isset($roleData['role_users_tab'])) ? $roleData['role_users_tab'] : array();
 
         if (!empty($searchUserRole)) {
-            $this->addParameter('roleName', $searchUserRole['role_name']);
-            $this->searchAndOpen($searchUserRole);
-            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->openRole($searchUserRole);
         }
         $this->fillTab($roleInfo, 'role_info');
         if (!empty($roleResources)) {
@@ -123,7 +138,6 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         if (!empty($roleUsers)) {
             $this->openTab('role_users');
             foreach ($roleUsers as $user) {
-
                 $this->searchAndChoose($user, 'role_users');
             }
         }
@@ -139,9 +153,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
     {
         $searchUserRole = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
         if (!empty($searchUserRole)) {
-            $this->addParameter('roleName', $searchUserRole['role_name']);
-            $this->searchAndOpen($searchUserRole);
-            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->openRole($searchUserRole);
         }
         $this->clickButtonAndConfirm('delete_role', 'confirmation_for_delete');
     }

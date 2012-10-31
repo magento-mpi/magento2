@@ -50,7 +50,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Community2_Mage_Tags_TagsFi
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
         if ($status != 'Pending') {
             $this->navigate('all_tags');
@@ -100,7 +100,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Community2_Mage_Tags_TagsFi
         $this->navigate('pending_tags');
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags)), $status);
         //Steps
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         //Open tagged product
         foreach ($tags as $tag) {
             $this->navigate('manage_products');
@@ -180,16 +180,13 @@ class Community2_Mage_Tags_ProductCreateTest extends Community2_Mage_Tags_TagsFi
         $this->clickButton('search', false);
         $this->waitForAjax();
         //Check records count
-        $totalCount = intval($this->getText($this->_getControlXpath('pageelement', 'qtyElementsInTable')));
-        $this->assertEquals(1, $totalCount,
-            'Total records found is incorrect');
-        $this->assertTrue((bool) $this->tagsHelper()->search(
-            array(
-                'tag_name' => $tags['tag_name'],
-                'status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']), null, false),
-            'Tags search is failed: ' . print_r($tags['tag_name'], true));
+        $totalCount = intval($this->getControlAttribute('pageelement', 'qtyElementsInTable', 'text'));
+        $this->assertEquals(1, $totalCount, 'Total records found is incorrect');
+        $this->assertNotNull($this->tagsHelper()->search(array('tag_name'                   => $tags['tag_name'],
+                                                               'status'                     => $tags['tag_status'],
+                                                               'tag_search_num_of_use_from' => $tags['base_popularity'],
+                                                               'tag_search_num_of_use_to'   => $tags['base_popularity']),
+            'tags_grid'), 'Tags search is failed: ' . print_r($tags['tag_name'], true));
     }
     public function tagSearchNameDataProvider()
     {

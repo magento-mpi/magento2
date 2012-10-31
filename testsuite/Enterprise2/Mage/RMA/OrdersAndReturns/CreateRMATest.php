@@ -15,7 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -93,7 +93,7 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'search_type_id' => 'Email Address',
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         //Steps
-        $this->addParameter('orderId', $orderNumber);
+        $this->addParameter('elementTitle', $orderNumber);
         $this->frontend('orders_and_returns');
         $this->fillFieldset($orderInfo, 'orders_and_returns_form');
         $this->clickButton('continue');
@@ -157,10 +157,12 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->frontend();
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
         //Verification
         $this->validatePage('guest_view_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -206,10 +208,12 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->frontend();
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
         //Verification
         $this->validatePage('guest_create_rma');
         $this->assertMessagePresent('error', 'specify_product_quantity');
@@ -260,10 +264,12 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->frontend();
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData);
         //Verification
         $this->validatePage('guest_view_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -313,13 +319,16 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->frontend();
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData1);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData1);
         $this->validatePage('guest_view_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData2);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData2);
         //Verification
         $this->validatePage('guest_view_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -372,14 +381,17 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
         $shipmentData = array('ship_product_sku' => $testData['products']['simple1']['sku'], 'ship_product_qty' => '3');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()
             ->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber), array('shipment' => $shipmentData));
         //Steps
         $this->frontend();
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData1);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData1);
         $this->validatePage('guest_create_rma');
         $this->assertMessagePresent('error', 'specify_product_quantity');
-        $this->RMAHelper()->frontGuestCreateRMA($orderInfo, $rmaData2);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontGuestCreateRMA($orderInfo, $rmaData2);
         //Verification
         $this->validatePage('guest_view_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -418,7 +430,7 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'search_type_id' => 'Email Address',
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         //Steps
-        $this->addParameter('orderId', $orderNumber);
+        $this->addParameter('elementTitle', $orderNumber);
         $this->frontend('orders_and_returns');
         $this->fillFieldset($orderInfo, 'orders_and_returns_form');
         $this->clickButton('continue');
@@ -464,9 +476,11 @@ class Enterprise2_Mage_RMA_createRMATest extends Mage_Selenium_TestCase
                             'email' => $checkoutData['billing_address_data']['billing_email']);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->addParameter('orderId', $orderNumber);
+        $this->addParameter('elementTitle', $orderNumber);
         $this->frontend('orders_and_returns');
         $this->fillFieldset($orderInfo, 'orders_and_returns_form');
         $this->clickButton('continue');

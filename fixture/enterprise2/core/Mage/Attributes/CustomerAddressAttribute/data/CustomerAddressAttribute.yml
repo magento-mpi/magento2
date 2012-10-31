@@ -36,9 +36,9 @@ customer_address_attribute_textfield: &customerAddressAttributeTextfield
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-            admin_title: Textfield_Admin_Title_%randomize%
-            store_view_titles:
-                Default Store View: Textfield_Title_%randomize%
+        admin_title: Textfield_Admin_Title_%randomize%
+        store_view_titles:
+            Default Store View: Textfield_Title_%randomize%
 
 # Test Datasets for Add New TextArea type Customer Address Attribute
 customer_address_attribute_textarea: &customerAddressAttributeTextarea
@@ -55,9 +55,9 @@ customer_address_attribute_textarea: &customerAddressAttributeTextarea
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-            admin_title: Text_Area_Admin
-            store_view_titles:
-                Default Store View: Textarea_Title_%randomize%
+        admin_title: Text_Area_Admin
+        store_view_titles:
+            Default Store View: Textarea_Title_%randomize%
 
 # Test Datasets for Add New Multiple Line type Customer Address Attribute
 customer_address_attribute_multipleline: &customerAddressAttributeMultipLine
@@ -76,9 +76,9 @@ customer_address_attribute_multipleline: &customerAddressAttributeMultipLine
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-            admin_title: MultipLine_Area_Admin
-            store_view_titles:
-                Default Store View: MultipLine_Title_%randomize%
+        admin_title: MultipLine_Area_Admin
+        store_view_titles:
+            Default Store View: MultipLine_Title_%randomize%
 
 # Test Datasets for Add New Date type Customer Address Attribute
 customer_address_attribute_date: &customerAddressAttributeDate
@@ -96,9 +96,9 @@ customer_address_attribute_date: &customerAddressAttributeDate
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-            admin_title: Date_Admina
-            store_view_titles:
-                Default Store View: Date_Title_%randomize%
+        admin_title: Date_Admina
+        store_view_titles:
+            Default Store View: Date_Title_%randomize%
 
 # Test Datasets for Add New Dropdown type  Customer Address Attribute
 customer_address_attribute_dropdown: &customerAddressAttributeDropdown
@@ -184,9 +184,9 @@ customer_address_attribute_yesno: &customerAddressAttributeYesno
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-            admin_title: Yes/No_Admin
-            store_view_titles:
-                Default Store View: Yesno_Title_%randomize%
+        admin_title: Yes/No_Admin
+        store_view_titles:
+            Default Store View: Yesno_Title_%randomize%
 
 # Test Datasets for Attach File type Customer Address Attribute
 customer_address_attribute_attach_file: &customerAddressAttributeAttachFile
@@ -201,9 +201,9 @@ customer_address_attribute_attach_file: &customerAddressAttributeAttachFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-            admin_title: File Attachment_Admin
-            store_view_titles:
-                Default Store View: Price_StoreView
+        admin_title: File Attachment_Admin
+        store_view_titles:
+            Default Store View: Price_StoreView
 
 # Test Datasets for Image File type Customer  Address Attribute
 customer_address_attribute_image_file: &customerAddressAttributeImageFile
@@ -219,9 +219,9 @@ customer_address_attribute_image_file: &customerAddressAttributeImageFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-            admin_title: Image file_Admin
-            store_view_titles:
-                Default Store View: ImageFile_Title_%randomize%
+        admin_title: Image file_Admin
+        store_view_titles:
+            Default Store View: ImageFile_Title_%randomize%
 
 # Test Dataset for Add New Customer Address Attribute for ALL types
 customer_address_attributes:
@@ -234,3 +234,22 @@ customer_address_attributes:
     customer_address_attribute_yesno: *customerAddressAttributeYesno
     customer_address_attribute_attach_file: *customerAddressAttributeAttachFile
     customer_address_attribute_image_file: *customerAddressAttributeImageFile
+
+generic_customer_address_attribute:
+    properties:
+        input_type: Text Field
+        attribute_code: 'attr_%randomize%'
+        default_text_field_value: 'attr_default_%randomize%'
+        values_required: No
+        input_validation: None
+        min_text_length: 1
+        max_text_length: 255
+        input_filter: None
+        used_for_customer_segment: No
+        visible_on_frontend: Yes
+        sort_order: 1
+        used_in_forms: Customer Account Address, Customer Address Registration
+    manage_labels_options:
+        admin_title: 'Text_Field_Admin_%randomize%'
+        store_view_titles:
+                    Default Store View: Textfield_Title_%randomize%

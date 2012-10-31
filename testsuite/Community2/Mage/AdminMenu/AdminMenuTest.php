@@ -33,11 +33,12 @@ class Community2_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
      * Steps to reproduce:
      * 1. Navigate menu according to dataset.
      * 2. Verify that all pages that described in dataset is presented.
-     * 3. Verify that only one top level element(element menu parent level0) has [ <li class = "active parent level0"  ..]  and they HTML tag A  = [<a class="active" ..]
+     * 3. Verify that only one top level element(element menu parent level0)
+     *    has [ <li class = "active parent level0"  ..]  and they HTML tag A  = [<a class="active" ..]
      *
-     * @test
      * @param string $currentPageName
      *
+     * @test
      * @dataProvider menuItemsWithParentsDataProvider
      * @TestlinkId TL-MAGE-5674
      */
@@ -45,14 +46,12 @@ class Community2_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
     {
         $this->navigate($currentPageName);
 
-        $area = $this->_configHelper->getArea();
-        $mca = $this->_uimapHelper->getPageMca($area, $currentPageName);
+        $area = $this->getConfigHelper()->getArea();
+        $mca = $this->getUimapHelper()->getPageMca($area, $currentPageName);
         $this->addParameter('mcaXpath', $mca);
-        $xPath = $this->_getControlXpath('pageelement', 'general_menu_xpath');
-        $this->assertTrue($this->isElementPresent($xPath),
-            "Expected menu item for page $currentPageName ($xPath) doesn't exist");
-        $countXpath = $this->_getControlXpath('pageelement', 'active_menu_element');
-        $this->assertCount(1, $this->getElementsByXpath($countXpath));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'general_menu_xpath'),
+            "Expected menu item for page $currentPageName doesn't exist");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'));
     }
 
     /**
@@ -62,7 +61,7 @@ class Community2_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
     {
         $items = array();
         $menuArray = $this->loadDataSet('MenuElements', 'menu');
-        foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($menuArray)) as $currentPageName => $value) {
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($menuArray)) as $currentPageName => $value) {
             $items[] = array($currentPageName);
         }
         return $items;

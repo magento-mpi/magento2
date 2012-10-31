@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -60,6 +59,7 @@ checkout_multishipping_login:
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
             message_with_order_ids: //*[contains(text(),'Your order')]
+            zero_payment: //dt[contains(label,'No Payment Information Required')]
 
 checkout_multishipping_login_with_params:
     mca: checkout/multishipping/login/?no_cache=

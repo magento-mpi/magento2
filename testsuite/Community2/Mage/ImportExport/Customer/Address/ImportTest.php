@@ -81,10 +81,6 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $this->customerHelper()->createCustomer($userWithAddressData, $existingAddressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Get existing address id to use in csv file
-        $this->addParameter(
-            'customer_first_last_name',
-            $userWithAddressData['first_name'] . ' ' . $userWithAddressData['last_name']
-        );
         $this->customerHelper()->openCustomer(array('email' => $userWithAddressData['email']));
         $this->openTab('addresses');
         $addressIdExisting = $this->customerHelper()->isAddressPresent($existingAddressData);
@@ -136,8 +132,6 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
-        $this->addParameter('customer_first_last_name',
-            $userWithoutAddress['first_name'] . ' ' . $userWithoutAddress['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userWithoutAddress['email']));
         $newAddressData = array(
             'city'                  => $data[0]['city'],
@@ -153,10 +147,6 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
             'New customer address has not been created ' . print_r($newAddressData, true));
         //Verify customer account
         $this->navigate('manage_customers');
-        $this->addParameter(
-            'customer_first_last_name',
-            $userWithAddressData['first_name'] . ' ' . $userWithAddressData['last_name']
-        );
         $this->customerHelper()->openCustomer(array('email' => $userWithAddressData['email']));
         $existingAddressData['city'] = $data[1]['city'];
         $existingAddressData['first_name'] = $data[1]['firstname'];
@@ -213,10 +203,6 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $this->assertEquals($validation, $importData, 'Import has been finished with issues');
         //Step 7
         $this->navigate('manage_customers');
-        $this->addParameter(
-            'customer_first_last_name',
-            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']
-        );
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
         //Verifying if new address is present

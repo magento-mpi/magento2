@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_TermsAndConditions_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create a Terms and Conditions
@@ -46,16 +46,18 @@ class Community2_Mage_TermsAndConditions_Helper extends Mage_Selenium_TestCase
     public function openTermsAndConditions(array $searchTerms)
     {
         if (array_key_exists('filter_store_view', $searchTerms)
-            && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
+            && !$this->controlIsPresent('dropdown', 'filter_store_view')
+        ) {
             unset($searchTerms['filter_store_view']);
         }
         $xpathTR = $this->search($searchTerms, 'sales_checkout_terms_and_conditions_grid');
         $this->assertNotEquals(null, $xpathTR, 'Terms is not found');
-        $Id = $this->getColumnIdByName('Condition Name');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $Id . ']'));
+        $id = $this->getColumnIdByName('Condition Name');
+        $param = trim($this->getElement($xpathTR . '//td[' . $id . ']')->text());
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->getElement($xpathTR)->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 
@@ -79,7 +81,7 @@ class Community2_Mage_TermsAndConditions_Helper extends Mage_Selenium_TestCase
         while (!$this->controlIsPresent('message', 'no_records_found')) {
             $this->addParameter('columnId', $id);
             $this->addParameter('elementTitle',
-                $this->getText($this->_getControlXpath('pageelement', 'select_terms_in_grid')));
+                $this->getControlAttribute('pageelement', 'select_terms_in_grid', 'text'));
             $this->clickControl('pageelement', 'select_terms_in_grid');
             $this->clickButtonAndConfirm('delete_condition', 'confirmation_for_delete');
             $this->assertMessagePresent('success', 'condition_deleted');
@@ -115,7 +117,7 @@ class Community2_Mage_TermsAndConditions_Helper extends Mage_Selenium_TestCase
     public function getAgreementId($searchData)
     {
         $xpathTR = $this->search($searchData, 'sales_checkout_terms_and_conditions_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Terms is not found');
-        return trim($this->getText($xpathTR . '//td[' . $this->getColumnIdByName('ID') . ']'));
+        $this->assertNotNull($xpathTR, 'Terms is not found');
+        return trim($this->getElement($xpathTR . '//td[' . $this->getColumnIdByName('ID') . ']')->text());
     }
 }

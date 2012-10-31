@@ -54,8 +54,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             unset($ruleInfo['websites']);
         }
         $this->fillTab($ruleInfo, 'rule_information');
-        $this->fillConditionsTab($ruleConditions);
-        $this->fillActionsTab($ruleActions);
+        if ($ruleConditions) {
+            $this->fillConditionsTab($ruleConditions);
+        }
+        if ($ruleActions) {
+            $this->fillActionsTab($ruleActions);
+        }
         if ($ruleLabels) {
             $this->fillLabelsTab($ruleLabels);
         }

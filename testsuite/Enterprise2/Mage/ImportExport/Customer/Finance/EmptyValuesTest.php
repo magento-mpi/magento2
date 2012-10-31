@@ -66,8 +66,6 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userDataEmpty[0]['first_name'] . ' '
-            . $userDataEmpty[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataEmpty[0]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
@@ -79,8 +77,6 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userDataEmpty[1]['first_name'] . ' '
-            . $userDataEmpty[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataEmpty[1]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '200'));
@@ -113,8 +109,6 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         //Step 6
         $this->navigate('manage_customers');
         //Step 7. First Customer
-        $this->addParameter('customer_first_last_name', $userDataEmpty[0]['first_name'] . ' '
-            . $userDataEmpty[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataEmpty[0]['email']));
         //Verify customer account
         $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -123,8 +117,6 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
             'Adding customer reward points balance is failed');
         //Step 7. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userDataEmpty[1]['first_name'] . ' '
-            . $userDataEmpty[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataEmpty[1]['email']));
         //Verify customer account
         $this->openTab('store_credit');

@@ -209,7 +209,8 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
         $this->pleaseWait();
         $this->assertFalse($this->controlIsPresent('pageelement', 'sku_required_grid'),
                                                    'Required attention grid is present on the page');
-        $this->addBySkuHelper()->verifyProductAbsentInGrid($product, array('sku_product_required', 'sku_product_added'));
+        $this->addBySkuHelper()->verifyProductAbsentInGrid($product[0], array('sku_product_required', 'sku_product_added'));
+        $this->addBySkuHelper()->verifyProductAbsentInGrid($product[1], array('sku_product_required', 'sku_product_added'));
     }
 
     /**

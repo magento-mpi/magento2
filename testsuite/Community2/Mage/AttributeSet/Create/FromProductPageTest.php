@@ -77,8 +77,7 @@ class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selen
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
-        $this->productAttributeHelper()
-            ->createAttributeOnProductPage($attributeData, 'general', $newAttributeSet, true);
+        $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $newAttributeSet);
         //Verifying
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet($newAttributeSet);
@@ -125,8 +124,7 @@ class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selen
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
-        $this->productAttributeHelper()
-            ->createAttributeOnProductPage($attributeData, 'general', $attributeSetName, true);
+        $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
         $this->addParameter('productName', 'New Product');
@@ -178,8 +176,7 @@ class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selen
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->openTab('general');
-        $this->productAttributeHelper()
-            ->createAttributeOnProductPage($attributeData, 'general', $attributeSetName, true);
+        $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
         $this->addParameter('productName', $productData['general_name']);
@@ -225,8 +222,7 @@ class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selen
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->openTab('meta_information');
-        $this->productAttributeHelper()
-            ->createAttributeOnProductPage($attributeData, 'meta_information', $attributeSetName, true);
+        $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         $this->openTab('meta_information');
         //Verifying
         $this->addParameter('productName', $productData['general_name']);

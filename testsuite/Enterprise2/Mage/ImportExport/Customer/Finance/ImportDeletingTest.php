@@ -60,8 +60,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userDataDelete[0]['first_name'] . ' '
-            . $userDataDelete[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataDelete[0]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '25'));
@@ -73,8 +71,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userDataDelete[1]['first_name'] . ' '
-            . $userDataDelete[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataDelete[1]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '30'));
@@ -99,8 +95,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         //Step 6
         $this->navigate('manage_customers');
         //Step 7. First Customer
-        $this->addParameter('customer_first_last_name', $userDataDelete[0]['first_name'] . ' '
-            . $userDataDelete[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataDelete[0]['email']));
         //Verify customer account
         $this->assertEquals('$0.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -109,8 +103,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
             'Reward Points Balance is not deleted');
         //Step 7. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userDataDelete[1]['first_name'] . ' '
-            . $userDataDelete[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataDelete[1]['email']));
         //Verify customer account
         $this->assertEquals('$0.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -172,7 +164,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '25'));
@@ -184,7 +175,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '75'));
@@ -208,7 +198,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         //Step 6
         $this->navigate('manage_customers');
         //Step 7. First Customer
-        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
         //Verify customer account
         $this->assertEquals('$25.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -217,7 +206,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
             'Reward Points Balance is deleted');
         //Step 7. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
         //Verify customer account
         $this->assertEquals('$75.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -281,7 +269,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
          $this->assertMessagePresent('success', 'success_saved_customer');
 
          //Update Customer 1
-         $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
          $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
 
          $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
@@ -293,7 +280,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
          $this->assertMessagePresent('success', 'success_saved_customer');
 
          //Update Customer 2
-         $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
          $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
 
          $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '200'));
@@ -324,7 +310,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
          //Step 5
          $this->navigate('manage_customers');
          //Step 6. First Customer
-         $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
          $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
          //Verify customer account
          $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -333,7 +318,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
              'Reward Points Balance is deleted');
          //Step 6. Second Customer
          $this->navigate('manage_customers');
-         $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
          $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
          //Verify customer account
          $this->assertEquals('$200.00', $this->customerHelper()->getStoreCreditBalance(),

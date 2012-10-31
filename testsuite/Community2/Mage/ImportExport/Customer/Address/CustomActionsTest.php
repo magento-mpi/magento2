@@ -53,8 +53,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.'));
             $this->customerHelper()->createCustomer($userUpdateData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userUpdateData['first_name'] . ' '
-                . $userUpdateData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
             self::$_customersUpdateData[] =
                 array('email'      => $userUpdateData['email'],
@@ -74,8 +72,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             );
             $this->customerHelper()->createCustomer($userUpdateData, $userAddressData[0]);
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userUpdateData['first_name'] . ' '
-                . $userUpdateData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
             $this->customerHelper()->saveForm('save_customer');
@@ -138,9 +134,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             array('middle_name' => 'C.'));
         for ($i = 0; $i < 4; $i++) {
             $this->navigate('manage_customers');
-            $this->addParameter('customer_first_last_name',
-                self::$_customersUpdateData[$i]['first_name'] . ' ' . self::$_customersUpdateData[$i]['last_name']
-            );
             $this->customerHelper()->openCustomer(array('email' => self::$_customersUpdateData[$i]['email']));
             $userAddressData['first_name'] = $data[$i]['firstname'];
             $userAddressData['last_name'] = $data[$i]['lastname'];
@@ -174,8 +167,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 array('zip_code' => $this->generate('string', 6, ':digit:'), 'middle_name' => 'C.'));
             $this->customerHelper()->createCustomer($userEmptyData, $userAddressData[0]);
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userEmptyData['first_name'] . ' '
-                . $userEmptyData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userEmptyData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
             $this->customerHelper()->saveForm('save_customer');
@@ -238,8 +229,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Verifying
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name',
-            self::$_customersEmptyData[0]['first_name'] . ' ' . self::$_customersEmptyData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customersEmptyData[0]['email']));
         for ($i = 0; $i < count($data); $i++) {
             $addressAttributes = array(
@@ -305,8 +294,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userDeleteData, $userAddressData[0]);
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userDeleteData['first_name'] . ' '
-                . $userDeleteData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
             $this->customerHelper()->addAddress($userAddressData[1]);
             $this->customerHelper()->saveForm('save_customer');
@@ -379,8 +366,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             'Import has been finished with issues: ' . print_r($importResult, true));
         //Verifying
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name',
-            self::$_customersDeleteData[0]['first_name'] . ' ' . self::$_customersDeleteData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customersDeleteData[0]['email']));
         $this->assertFalse((bool)$this->customerHelper()->isAddressPresent(self::$_customersDeleteData[0]['address']),
             'Address found for: ' . print_r(self::$_customersDeleteData[0]['address'], true));

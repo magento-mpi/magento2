@@ -20,19 +20,15 @@ class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
 {
     /**
      * Create Status Order
-     *
      * Preconditions: 'New Order Status' page is opened.
      *
      * @param array|string $data
-     *
      */
     public function createStatus($data)
     {
         if (is_string($data)) {
             $elements = explode('/', $data);
-            $fileName = (count($elements) > 1)
-                ? array_shift($elements)
-                : '';
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $data = $this->loadDataSet($fileName, implode('/', $elements));
         }
 
@@ -43,18 +39,15 @@ class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
 
     /**
      * Assign Order Status new state values
-     *
      * Preconditions: 'Order statuses' page is opened.
-     * @param array|string $data
      *
+     * @param array|string $data
      */
     public function assignStatus($data)
     {
         if (is_string($data)) {
             $elements = explode('/', $data);
-            $fileName = (count($elements) > 1)
-                ? array_shift($elements)
-                : '';
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $data = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->clickButton('assign_status_to_state');
@@ -67,20 +60,31 @@ class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
      *
      * @param array $excludeList
      */
-    public function deleteStoreViewsExceptSpecified(array $excludeList)
+    public function deleteStoreViewsExceptSpecified(array $excludeList = array('Default Store View'))
     {
-        $tableXpath = $this->_getControlXpath('pageelement', 'stores_table');
-        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
-        $columnId = $this->getColumnIdByName('Store View Name') - 1;
-        $storeViews = array();
-        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
-            $storeView = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
-            if (!in_array($storeView, $excludeList)) {
-                $storeViews[] = $storeView;
-            }
+        $excludeList[] = '';
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
+        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
+        if ($totalCount > 20) {
+            $this->addParameter('limit', 200);
+            $this->fillDropdown('items_per_page', 200);
+            $this->waitForPageToLoad();
+            $this->validatePage('manage_stores_items_per_page');
         }
+        $columnId = $this->getColumnIdByName('Store View Name');
+        $storeViews = array();
+        $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
+        $elements = $this->getControlElements('pageelement', 'table_line');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $key => $element) {
+            $storeViews[$key] = trim($this->getChildElement($element, "td[$columnId]")->text());
+        }
+        $storeViews = array_diff($storeViews, $excludeList);
         foreach ($storeViews as $storeView) {
-            $this->storeHelper()->deleteStore(array('store_view_name' => $storeView));
+            $this->deleteStore(array('store_view_name' => $storeView));
         }
     }
 }

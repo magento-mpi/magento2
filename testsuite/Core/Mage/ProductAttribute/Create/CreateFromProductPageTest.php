@@ -60,13 +60,11 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $attrData = $this->loadDataSet('ProductAttribute', $attributeType, null);
+        $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productData);
-        $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
+        $this->productHelper()->selectTypeProduct($productData, 'simple');
+        $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
-        $this->window('');
         $code = ($attributeType != 'product_attribute_fpt')
             ? $attrData['attribute_code']
             : $attrData['attribute_code'] . '_table';

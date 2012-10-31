@@ -19,7 +19,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ACL_CreateAclTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -93,13 +93,9 @@ class Community2_Mage_ACL_CreateAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage($page);
         //Verifying  count of main menu elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals($menuElementCount, count($navigationElements));
+        $this->assertEquals($menuElementCount, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals($globalSearchFieldCount, count($globSearchCount));
+        $this->assertEquals($globalSearchFieldCount, $this->getControlCount('field', 'global_record_search'));
     }
 
     public function roleResourceAccessDataProvider()

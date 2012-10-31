@@ -75,10 +75,9 @@ class Community2_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsT
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
             array('payment' => $paymentData), $testData['products']);
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/' . $payment);
         $this->frontend();
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification

@@ -91,10 +91,9 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest exten
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
             array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'authorizenetdp_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying

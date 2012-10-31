@@ -17,14 +17,10 @@
  */
 class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Configuration</p>
-     */
-    protected function assertPreConditions() // Preconditions
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser(); // Log-in
-        $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
     }
 
     /**
@@ -38,17 +34,18 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $productCat = array('categories' => $catPath);
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $catPath));
+        //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
+
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        return array('productNames'       => array('simple' => $simple['general_name']),
-                     'catName'            => $category['name'], 'catPath'            => $catPath);
+
+        return array('simple' => $simple['general_name'], 'catName' => $category['name'], 'catPath' => $catPath);
     }
 
     /**
@@ -61,27 +58,23 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p> Flat Catalog Category should be enabled.;</p>
      *
-     *
      * @test
-     * @TestlinkId    TL-MAGE-1964
+     * @TestlinkId TL-MAGE-1964
      */
     public function flatCategoryIsEnabled()
     {
         //Data
-        $flatCatalogData =
+        $flatCatalog =
             $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('use_flat_catalog_category' => 'Yes'));
-        $this->addParameter('indexName', 'Category Flat Data');
-        $this->addParameter('flatCatalogCategorySelected', '1');
         //Steps
-        $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
-        $this->systemConfigurationHelper()->configure($flatCatalogData);
-        $this->navigate('index_management');
-        $this->clickControl('link', 'reindex_index');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($flatCatalog);
+        $this->reindexInvalidedData();
         //Verification
         $this->navigate('system_configuration');
-        $this->openTab('catalog_catalog');
-        $this->assertTrue($this->verifyForm($flatCatalogData, 'catalog_catalog',
-            array('list_mode', 'product_listing_sort_by', 'allow_all_products_per_page'), 'Unexpected value in field'));
+        $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
+        $this->systemConfigurationHelper()
+            ->verifyConfigurationOptions($flatCatalog['tab_1']['configuration'], 'catalog_catalog');
     }
 
     /**
@@ -96,12 +89,11 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p>"Site Map" link is not displayed in the footer. ;</p>
      *
-     * @param $siteMap
-     *
-     * @dataProvider flatCategorySiteMapDataProvider
+     * @param string $siteMap
      *
      * @test
-     * @TestlinkId    TL-MAGE-1883/1884
+     * @dataProvider flatCategorySiteMapDataProvider
+     * @TestlinkId TL-MAGE-1883/1884
      */
     public function flatCategorySiteMap($siteMap)
     {
@@ -120,8 +112,9 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
 
     public function flatCategorySiteMapDataProvider()
     {
-        return array(array('Enable'),
-                     array('Disable')
+        return array(
+            array('Enable'),
+            array('Disable')
         );
     }
 
@@ -137,12 +130,11 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p> "Search Terms" link is displayed in the footer.;</p>
      *
-     * @param $searchTerms
-     *
-     * @dataProvider flatCategorySearchTermsDataProvider
+     * @param string $searchTerms
      *
      * @test
-     * @TestlinkId    TL-MAGE-1885/1886
+     * @dataProvider flatCategorySearchTermsDataProvider
+     * @TestlinkId TL-MAGE-1885/1886
      */
     public function flatCategorySearchTerms($searchTerms)
     {
@@ -151,9 +143,7 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
             array('popular_search_terms' => $searchTerms));
         //Steps
         $this->systemConfigurationHelper()->configure($flatCatalogData);
-        $this->navigate('cache_storage_management');
-        $this->clickControl('link', 'select_all', FALSE);
-        $this->clickButton('submit');
+        $this->flushCache();
         $this->goToArea('frontend');
         //Verification
         if ($searchTerms == 'Enable') {
@@ -165,8 +155,9 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
 
     public function flatCategorySearchTermsDataProvider()
     {
-        return array(array('Enable'),
-                     array('Disable')
+        return array(
+            array('Enable'),
+            array('Disable')
         );
     }
 
@@ -184,29 +175,26 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>4. Click link "Be the first to review this product ";</p>
      * <p>Expected result:</p>
      * <p> "Only registered users can write reviews.
-     * Please, log in or register" warning is displayed under "Write Your Owm Revievw" on the detail page of the product.;</p>
-     *
+     * Please, log in or register" warning is displayed under "Write Your Owm Review" on the detail page of the product.;</p>
      *
      * @param $testData
      * @param $allowReviews
      *
+     * @test
      * @dataProvider flatCategoryAllowReviewsDataProvider
      * @depends preconditionsForTests
-     *
-     * @test
-     * @TestlinkId    TL-MAGE-1882/1881
+     * @TestlinkId TL-MAGE-1882/1881
      */
     public function flatCategoryAllowReviews($allowReviews, $testData)
     {
         //Data
         $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_reviews',
             array('allow_guests_to_write_reviews' => $allowReviews));
-        $product = $testData['productNames']['simple'];
+        $product = $testData['simple'];
         //Steps
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->goToArea('frontend');
         $this->productHelper()->frontOpenProduct($product);
-        $this->assertTrue($this->controlIsPresent('link', 'first_review'));
         $this->clickControl('link', 'first_review');
         //Verification
         if ($allowReviews == 'Yes') {
@@ -218,8 +206,9 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
 
     public function flatCategoryAllowReviewsDataProvider()
     {
-        return array(array('Yes'),
-                     array('No')
+        return array(
+            array('Yes'),
+            array('No')
         );
     }
 
@@ -232,25 +221,23 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p> Name options is displayed default in the "Sort By X" dropdown  in the  page category.;</p>
      *
-     *
-     * @param array   $testData
-     *
-     * @depends preconditionsForTests
+     * @param array $testData
      *
      * @test
-     * @TestlinkId    TL-MAGE-1880
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-1880
      */
     public function flatCategoryListingSortBy($testData)
     {
         //Data
-        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
-            array('product_listing_sort_by' => 'Name'));
-        $this->addParameter('sortBy', 'Name');
+        $flatCatalogData =
+            $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('product_listing_sort_by' => 'Name'));
         //Steps
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->goToArea('frontend');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         //Verification
+        //$this->addParameter('sortBy', 'Name');
         $this->assertTrue($this->controlIsPresent('dropdown', 'sort_by_selected'));
     }
 
@@ -263,15 +250,13 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Expected result:</p>
      * <p> There is no "All" option in the Show X per page dropdown on the view page category on the  frontend.;</p>
      *
-     *
-     * @param array   $testData
+     * @param array $testData
      * @param $allProductsPerPage
      *
+     * @test
      * @dataProvider flatCategoryAllProductsPerPageDataProvider
      * @depends preconditionsForTests
-     *
-     * @test
-     * @TestlinkId    TL-MAGE-1879/1878
+     * @TestlinkId TL-MAGE-1879/1878
      */
     public function flatCategoryAllProductsPerPage($allProductsPerPage, $testData)
     {
@@ -292,8 +277,9 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
 
     public function flatCategoryAllProductsPerPageDataProvider()
     {
-        return array(array('Yes'),
-                     array('No')
+        return array(
+            array('Yes'),
+            array('No')
         );
     }
 
@@ -307,44 +293,31 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>3. Set "10" value in the field "Products per Page on List Default Value";</p>
      * <p>4. Navigate to frontend to view page category;</p>
      * <p>Expected result:</p>
-     * <p>Should be showed 10  per page (default). "10,20,30,40" values are displayed in the "Show X per page" drop box on the view page category.;</p>
+     * <p>Should be showed 10 per page(default). "10,20,30,40"
+     * values are displayed in the "Show X per page" drop box on the view page category.;</p>
      *
-     *
-     * @param array   $testData
-     *
-     * @depends preconditionsForTests
+     * @param array $testData
      *
      * @test
-     * @TestlinkId    TL-MAGE-1877
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-1877
      */
     public function flatCategoryProductsOnList($testData)
     {
         //Data
         $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
             array('products_per_page_on_list_allowed_values' => '10,20,30,40',
-                  'products_per_page_on_list_default_value' => '10',
-                  'list_mode' => 'List Only')
-        );
-        $this->addParameter('showPerPage', '10');
+                  'products_per_page_on_list_default_value'  => '10', 'list_mode' => 'List Only'));
         //Steps
-        $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->goToArea('frontend');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page_selected'));
-        //Steps
-        $this->addParameter('showPerPage', '20');
-        //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page'));
-        //Steps
-        $this->addParameter('showPerPage', '30');
-        //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page'));
-        //Steps
-        $this->addParameter('showPerPage', '40');
-        //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page'));
+        $val = explode(',',
+            $flatCatalogData['tab_1']['configuration']['frontend']['products_per_page_on_list_allowed_values']);
+        $actual = $this->select($this->getControlElement('dropdown', ''))->selectOptionLabels();
+        $this->assertEquals($val, $actual);
     }
 
     /**
@@ -364,37 +337,27 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>Should be showed 10  per page (default). "10,20,30" values are  displayed in the "Show X per page" drop box
      * on the view page category.;</p>
      *
-     *
-     * @param array   $testData
-     *
-     * @depends preconditionsForTests
+     * @param array $testData
      *
      * @test
-     * @TestlinkId    TL-MAGE-1876
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-1876
      */
     public function flatCategoryProductsOnGrid($testData)
     {
         //Data
         $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
             array('products_per_page_on_grid_allowed_values' => '8,18,28',
-                  'products_per_page_on_grid_default_value'  => '8',
-                  'list_mode' => 'Grid Only')
-        );
-        $this->addParameter('showPerPage', '8');
+                  'products_per_page_on_grid_default_value'  => '8', 'list_mode' => 'Grid Only'));
         //Steps
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->goToArea('frontend');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page_selected'));
-        //Steps
-        $this->addParameter('showPerPage', '18');
-        //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page'));
-        //Steps
-        $this->addParameter('showPerPage', '28');
-        //Verification
-        $this->assertTrue($this->controlIsPresent('dropdown', 'show_per_page'));
+        $val = explode(',',
+            $flatCatalogData['tab_1']['configuration']['frontend']['products_per_page_on_grid_allowed_values']);
+        $actual = $this->select($this->getControlElement('dropdown', ''))->selectOptionLabels();
+        $this->assertEquals($val, $actual);
     }
 
     /**
@@ -409,7 +372,7 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>2. Select value  "Grid Only" in the field "List Mode" under "Frontend".;</p>
      * <p>3. Select value  "List Only" in the field "List Mode" under "Frontend".;</p>
      * <p>4. Select value  "Grid (default)/ List" in the field "List Mode" under "Frontend";</p>
-     * <p>5. Select value  "List (default)/Grig" in the field "List Mode" under "Frontend";</p>
+     * <p>5. Select value  "List (default)/Grid" in the field "List Mode" under "Frontend";</p>
      * <p>Expected result:</p>
      * <p>2. Products should  be displayed in a grid only.
      * Customers should not be able to change the product display;</p>
@@ -420,15 +383,12 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
      * <p>5. Products should  be displayed in a list (default),
      * but customers should  be able to change the product display as grid;</p>
      *
-     *
-     *
-     * @param array   $testData
+     * @param array $testData
      * @param $listMode
      *
+     * @test
      * @dataProvider flatCategoryListModeDataProvider
      * @depends preconditionsForTests
-     *
-     * @test
      * @TestlinkId    TL-MAGE-1875
      */
     public function flatCategoryListMode($listMode, $testData)
@@ -436,9 +396,9 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
         //Data
         $flatCatalogDataListMode =
             $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('list_mode' => $listMode));
-        $this->addParameter('productName', $testData['productNames']['simple']);
+        $this->addParameter('productName', $testData['simple']);
         //Steps
-        $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($flatCatalogDataListMode);
         $this->goToArea('frontend');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
@@ -464,11 +424,11 @@ class Community17_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCas
 
     public function flatCategoryListModeDataProvider()
     {
-        return array(array('List Only'),
-                     array('Grid Only'),
-                     array('List (default) / Grid'),
-                     array('Grid (default) / List')
+        return array(
+            array('List Only'),
+            array('Grid Only'),
+            array('List (default) / Grid'),
+            array('Grid (default) / List')
         );
     }
 }
-?>

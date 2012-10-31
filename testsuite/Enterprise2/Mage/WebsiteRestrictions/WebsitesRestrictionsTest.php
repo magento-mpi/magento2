@@ -97,7 +97,7 @@ class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->frontend('home_page', false);
         $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '200');
-        $this->assertEquals($this->getTitle(), '503 Service Unavailable', "Open wrong page");
+        $this->assertEquals('503 Service Unavailable', $this->title(), "Open wrong page");
     }
 
     /**
@@ -130,7 +130,7 @@ class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->frontend('home_page', false);
         $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '503');
-        $this->assertEquals($this->getTitle(), '503 Service Unavailable', "Open wrong page");
+        $this->assertEquals('503 Service Unavailable', $this->title(), "Open wrong page");
     }
 
     /**
@@ -193,8 +193,7 @@ class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         //Verification
-        $pagetitle = $this->getTitle();
-        $this->assertTrue($pagetitle == 'About Us', "Open wrong page '$pagetitle'");
+        $this->assertEquals('About Us', $this->title(), "Open wrong page ");
     }
 
     /**

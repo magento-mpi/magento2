@@ -27,6 +27,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
     {
         return parent::_preconditionsForTaggedProductTests();
     }
+
     /**
      * Backend verification customer tagged product from frontend on the Product Page
      * Verify starting to edit customer
@@ -53,34 +54,27 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
+        //Open tagged product
         $this->loginAdminUser();
-        if ($status != 'Pending') {
-            $this->navigate('all_tags');
-            foreach ($tags as $tag) {
+        foreach ($tags as $tag) {
+            $searchTag = array('tag_search_name' => $tag, 'tag_search_email' => $testData['user'][$customer]['email']);
+            $searchProduct = array('product_name' => $testData['simple']);
+            if ($status != 'Pending') {
+                $this->navigate('all_tags');
                 $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), $status);
             }
-        }
-        //Open tagged product
-        foreach ($tags as $tag) {
             $this->navigate('manage_products');
-            $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
-                array(
-                    'tag_search_name' => $tag,
-                    'tag_search_email' => $testData['user'][$customer]['email']),
-                array('product_name' => $testData['simple'])),
-            'Customer tagged product verification is failure');
-            $this->addParameter('customer_first_last_name',
-                'First Name Last Name');
-            $this->searchAndOpen(
-                array(
-                    'tag_search_email' => $testData['user'][$customer]['email'],
-                    'tag_search_name' => $tag), true, 'customer_tags'
-            );
+            $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct($searchTag, $searchProduct),
+                'Customer tagged product verification is failure');
+            $this->addParameter('elementTitle', 'First Name Last Name');
+            $this->searchAndOpen(array('tag_search_email' => $testData['user'][$customer]['email'],
+                                       'tag_search_name'  => $tag), true, 'customer_tags');
             $this->customerHelper()->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
     }
+
     public function tagNameDataProvider()
     {
         return array(
@@ -88,6 +82,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
             array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
         );
     }
+
     /**
      * Backend verification customer tagged product from backend on the Product Page
      *
@@ -104,28 +99,24 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
     public function addFromBackendTags($tags, $status, $testData)
     {
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
-            array(
-                'tag_name' => $tags,
-                'tag_status' => 'Pending',
-                'prod_tag_admin_name' => $testData['simple'],
-                'base_popularity' => '0',
-                'switch_store' => '%noValue%'));
+            array('tag_name'        => $tags, 'tag_status' => 'Pending', 'prod_tag_admin_name' => $testData['simple'],
+                  'base_popularity' => '0', 'switch_store' => '%noValue%'));
         //Setup
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
-        $this->navigate('pending_tags');
-        $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags)), $status);
-        //Steps
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         //Open tagged product
         foreach ($tags as $tag) {
+            $searchTag = array('tag_search_name' => $tag);
+            $searchProduct = array('product_name' => $testData['simple']);
+            $this->navigate('pending_tags');
+            $this->tagsHelper()->changeTagsStatus(array($searchTag), $status);
             $this->navigate('manage_products');
-            $this->assertFalse($this->tagsHelper()->verifyCustomerTaggedProduct(
-                    array('tag_search_name' => $tag),
-                    array('product_name' => $testData['simple'])),
+            $this->assertFalse($this->tagsHelper()->verifyCustomerTaggedProduct($searchTag, $searchProduct),
                 'Administrator tagged product verification is failure');
         }
     }
+
     public function tagAdminNameDataProvider()
     {
         return array(
@@ -133,6 +124,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
             array($this->generate('string', 4, ':alpha:'), 'Disabled')
         );
     }
+
     /**
      * Backend verification customer tagged product searching
      *
@@ -147,55 +139,46 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
      */
     public function searchTags($tags, $testData)
     {
+        $searchTagProduct =
+            array('tag_search_name' => $tags['tag_name'], 'tag_search_email' => $testData['user'][1]['email']);
+        $searchTagCustomer = array('tag_customer_search_name'  => $tags['tag_name'],
+                                   'tag_customer_search_email' => $testData['user'][1]['email']);
+        //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
-        //Steps
         $this->tagsHelper()->frontendAddTag($tags['tag_name']);
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
+        //Steps
         $this->loginAdminUser();
         $this->navigate('pending_tags');
         //Change statuses product tags
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags['tag_name'])), $tags['tag_status']);
+        $this->assertMessagePresent('success');
         $this->navigate('manage_products');
-        $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
-                array(
-                    'tag_search_name' => $tags,
-                    'tag_search_email' => $testData['user'][1]['email']),
-                array('product_name' => $testData['simple'])),
+        $this->assertTrue($this->tagsHelper()
+                ->verifyCustomerTaggedProduct($searchTagProduct, array('product_name' => $testData['simple'])),
             'Product verification is failure');
         //Fill filter
-        $this->tagsHelper()->fillForm(
-            array(
-                'tag_customer_search_name' => $tags['tag_name'],
-                'tag_customer_search_email' => $testData['user'][1]['email']
-            ));
+        $this->tagsHelper()->fillForm($searchTagCustomer);
         $this->clickButton('search', false);
         $this->waitForAjax();
         //Check records count
-        $totalCount = intval($this->getText($this->_getControlXpath('pageelement', 'qtyElementsInTable')));
-        $this->assertEquals(1, $totalCount,
-            'Total records found is incorrect');
-        $this->assertTrue((bool) $this->tagsHelper()->search(
-                array(
-                    'tag_search_name' => $tags['tag_name'],
-                    'tag_search_email' => $testData['user'][1]['email']
-                ), null, false),
-            'Tags search is failed: ' . print_r($tags['tag_name'], true));
+        $totalCount = intval($this->getControlAttribute('pageelement', 'qtyElementsInTable', 'text'));
+        $this->assertEquals(1, $totalCount, 'Total records found is incorrect');
+        $this->assertNotNull($this->search($searchTagProduct, 'tags_grid'),
+            'Tag ' . $tags['tag_name'] . ' is not found');
     }
+
     public function tagSearchNameDataProvider()
     {
         return array(
-            array(
-                array('tag_name' => $this->generate('string', 4, ':alpha:'),
-                    'tag_status' => 'Approved', 'base_popularity' => '1')),
-            array(
-                array('tag_name' => $this->generate('string', 4, ':alpha:'),
-                    'tag_status' => 'Pending', 'base_popularity' => '1')),
-            array(
-                array('tag_name' => $this->generate('string', 4, ':alpha:'),
-                    'tag_status' => 'Disabled', 'base_popularity' => '1'))
+            array(array('tag_name'        => $this->generate('string', 4, ':alpha:'),
+                        'tag_status'      => 'Approved', 'base_popularity' => '1')),
+            array(array('tag_name'        => $this->generate('string', 4, ':alpha:'),
+                        'tag_status'      => 'Pending', 'base_popularity' => '1')),
+            array(array('tag_name'        => $this->generate('string', 4, ':alpha:'),
+                        'tag_status'      => 'Disabled', 'base_popularity' => '1'))
         );
     }
-
 }

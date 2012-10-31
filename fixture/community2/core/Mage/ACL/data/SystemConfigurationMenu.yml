@@ -94,14 +94,14 @@ configuration_menu_default:
     customers_newsletter:
         subscription_options:
     customers_customer_configuration:
-        account_sharing_options:
-        online_customer_options:
         create_new_account_options:
         password_options:
         name_and_address_options:
         login_options:
         address_templates:
         captcha_customer:
+        account_sharing_options:
+        online_customer_options:
     customers_wishlist:
         general_options_wishlist:
         share_options:
@@ -303,6 +303,8 @@ configuration_menu_website:
         login_options:
         address_templates:
         captcha_customer:
+        account_sharing_options:
+        online_customer_options:
     customers_wishlist:
         general_options_wishlist:
         share_options:

@@ -16,18 +16,17 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
+class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Set category ID from link into UImap
+     * Set category ID from link into UIMap
+     *
      * @param string $categoryName
      */
     public function setCategoryIdFromLink($categoryName)
     {
         $this->addParameter('categoryName', $categoryName);
-        $linkXpath = $this->_getControlXpath('link', 'category_name');
-        $link = $this->getAttribute($linkXpath . '/@href');
+        $link = $this->getControlAttribute('link', 'category_name', 'href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
         parse_str($parsedLink['query']);
@@ -39,7 +38,8 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Set ID from link into UImap
+     * Set ID from link into UIMap
+     *
      * @param string $attributeName
      * @param string $attributeCode
      * @param string $categoryName
@@ -50,12 +50,11 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
         $this->addParameter('attributeCode', $attributeCode);
         if (isset($attributeName)) {
             $this->addParameter('attributeName', $attributeName);
-            $linkXpath = $this->_getControlXpath('link', 'attribute_name');
+            $link = $this->getControlAttribute('link', 'attribute_name', 'href');
         } else {
             $this->addParameter('priceAttributeCode', $attributeCode);
-            $linkXpath = $this->_getControlXpath('link', 'price_attribute');
+            $link = $this->getControlAttribute('link', 'price_attribute', 'href');
         }
-        $link = $this->getAttribute($linkXpath . '/@href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
         parse_str($parsedLink['query']);
@@ -75,8 +74,7 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
             'There is no currently_shopping_by block in layered navigation');
         $this->assertTrue($this->controlIsPresent('button', 'remove_this_item'),
             'There is no "remove this item" button');
-        $this->assertTrue($this->controlIsPresent('link', 'clear_all'),
-            'There is no "Clear All" link');
+        $this->assertTrue($this->controlIsPresent('link', 'clear_all'), 'There is no "Clear All" link');
     }
 
     /**
@@ -91,5 +89,4 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
         $this->assertFalse($this->controlIsPresent('pageelement', 'currently_shopping_by'),
             'currently_shopping_by block still present in layered navigation block');
     }
-
 }

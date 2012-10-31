@@ -363,7 +363,6 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      * <p>Message "The order has been created." is displayed.</p>
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
-     * <p>Bug MAGE-5802</p>
      *
      * @param array $orderData
      *

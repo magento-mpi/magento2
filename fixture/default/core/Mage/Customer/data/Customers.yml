@@ -20,21 +20,12 @@ customer_account_register:
     password_confirmation: 123123q
 
 #*******************************************************
-#*       Data for system configuration(Backend)        *
-#*******************************************************
-disable_customer_captcha:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: customers_customer_configuration
-        configuration:
-            captcha_enable_frontend: No
-
-#*******************************************************
 #*       Test data for customer creation(Backend)      *
 #*******************************************************
 generic_customer_account:
     associate_to_website: Main Website
     group: General
+    disable_automatic_group_change: %noValue%
     prefix: %noValue%
     first_name: First Name
     middle_name: %noValue%
@@ -83,6 +74,7 @@ generic_address:
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
+    billing_vat_number: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 

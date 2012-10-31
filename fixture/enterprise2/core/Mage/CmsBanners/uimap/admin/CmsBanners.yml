@@ -238,7 +238,7 @@ create_cms_banner:
 
 edit_cms_banner:
     mca: banner/edit/id/%id%/
-    title: %bannerName% / Banners / CMS / Magento Admin
+    title: %elementTitle% / Banners / CMS / Magento Admin
     uimap:
         form: *createBanner
         buttons:

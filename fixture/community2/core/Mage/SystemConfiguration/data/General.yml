@@ -9,10 +9,10 @@
 # @license     {license_link}
 #
 ---
-
-disable_httponly:
+disable_http_only:
     configuration_scope: Default Config
     tab_1:
         tab_name: general_web
         configuration:
-            use_http_only: No
+            session_cookie_management:
+                use_http_only: No

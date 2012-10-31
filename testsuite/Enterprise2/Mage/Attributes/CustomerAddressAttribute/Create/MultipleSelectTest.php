@@ -215,6 +215,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_MultipleSelectTest ex
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
+        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
@@ -249,6 +250,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_MultipleSelectTest ex
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
+        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);

@@ -42,8 +42,6 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * Login Admin User
      *
      * @param array $loginData
-     *
-     * @throws RuntimeException
      */
     public function loginAdmin($loginData)
     {

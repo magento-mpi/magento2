@@ -76,7 +76,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->navigate('manage_customers');
         $userDataTwo = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userDataTwo);
-        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '1234'));
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -115,8 +114,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
-        $this->addParameter('customer_first_last_name',
-            $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
         $this->customerHelper()->openCustomer(
             array(
                 'email' => $userDataOne['email']
@@ -126,8 +123,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name',
-            $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
         $this->customerHelper()->openCustomer(
             array(
                 'email' => $userDataTwo['email']
@@ -183,8 +178,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->assertEquals($validationMessage, $importData, 'Import has been finished with issues');
         //Step 5
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', self::$_customerData['first_name'] . ' '
-            . self::$_customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         //Verifying finance data
         $this->assertEquals('$' . $csvData[0]['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),

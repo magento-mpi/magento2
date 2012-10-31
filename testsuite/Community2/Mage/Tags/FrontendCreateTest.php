@@ -55,7 +55,7 @@ class Community2_Mage_Tags_FrontendCreateTest extends Community2_Mage_Tags_TagsF
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
         if ($status == 'Approved') {
             $this->navigate('all_tags');
@@ -114,7 +114,7 @@ class Community2_Mage_Tags_FrontendCreateTest extends Community2_Mage_Tags_TagsF
         $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags)), 'Approved');
-        $this->assertTrue((bool) $this->search(array('tag_name' => $tags, 'status' => 'Approved')),
+        $this->assertNotNull($this->search(array('tag_name' => $tags, 'status' => 'Approved'), 'tags_grid'),
             'The same Tag has been added twice ' . print_r($tags, true));
         $this->tagsHelper()->verifyTag(array('tag_name' => $tags, 'status' => 'Approved'));
     }

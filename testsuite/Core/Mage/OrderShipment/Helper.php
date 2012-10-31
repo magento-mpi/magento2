@@ -61,4 +61,16 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
                 'Qty of shipped products is incorrect at the orders form');
         }
     }
+
+    /**
+     * Create Shipment for existing order
+     *
+     * @param array $orderData
+     * @param array $shipmentData
+     */
+    public function openOrderAndCreateShipment(array $orderData, array $shipmentData = array())
+    {
+        $this->orderHelper()->openOrder($orderData);
+        $this->createShipmentAndVerifyProductQty($shipmentData);
+    }
 }

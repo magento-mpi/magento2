@@ -168,7 +168,7 @@ report_tag_customer:
 # Tags: Tags Submitted by Customer
 tags_submitted_by_customer:
     mca: report_tag/customerDetail/id/%id%/
-    title: Tags Submitted by %customer_first_last_name% / Customers / Tags / Reports / Magento Admin
+    title: Tags Submitted by %elementTitle% / Customers / Tags / Reports / Magento Admin
     uimap:
         buttons:
             back: //button[span='Back']
@@ -202,7 +202,7 @@ report_tag_product:
 # Tags: Tags Submitted to Product
 tags_submitted_to_product:
     mca: report_tag/productDetail/id/%id%/
-    title: Tags submitted to %productName% / Products / Tags / Reports / Magento Admin
+    title: Tags submitted to %elementTitle% / Products / Tags / Reports / Magento Admin
     uimap:
         buttons:
             back: //button[span='Back']
@@ -234,7 +234,7 @@ report_tag_popular:
 # Tags: Tag Details
 tag_details:
     mca: report_tag/tagDetail/id/%id%/
-    title: Tag "%tagName%" details / Popular / Tags / Reports / Magento Admin
+    title: Tag "%elementTitle%" details / Popular / Tags / Reports / Magento Admin
     uimap:
         buttons:
             back: //button[span='Back']

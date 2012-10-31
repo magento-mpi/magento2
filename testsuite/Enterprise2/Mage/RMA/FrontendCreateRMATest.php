@@ -15,7 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_FrontendCreateRmaTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -93,6 +93,7 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->frontend('customer_account');
         $this->assertTrue($this->controlIsPresent('link', 'my_returns_tab'), 'My Returns tab must be present');
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->clickControl('link', 'view_order');
         $this->assertTrue($this->controlIsPresent('link', 'return'), 'Return link must be present');
         $this->clickControl('link', 'return');
@@ -149,7 +150,8 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData);
         //Verification
         $this->validatePage('my_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -194,7 +196,8 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData);
         //Verification
         $this->validatePage('create_new_return');
         $this->assertMessagePresent('error', 'specify_product_quantity');
@@ -244,7 +247,8 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData);
         //Verification
         $this->validatePage('my_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -293,10 +297,12 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData1);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData1);
         $this->validatePage('my_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData2);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData2);
         //Verification
         $this->validatePage('my_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -349,10 +355,12 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
             ->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber), array('shipment' => $shipmentData));
         //Steps
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData1);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData1);
         $this->validatePage('create_new_return');
         $this->assertMessagePresent('error', 'specify_product_quantity');
-        $this->RMAHelper()->frontCreateRMA($orderNumber, $rmaData2);
+        $this->addParameter('elementTitle', $orderNumber);
+        $this->rmaHelper()->frontCreateRMA($orderNumber, $rmaData2);
         //Verification
         $this->validatePage('my_returns');
         $this->assertMessagePresent('success', 'successfully_submitted_return');
@@ -390,6 +398,7 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->addParameter('orderId', $orderNumber);
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->clickControl('link', 'view_order');
         //Verification
         $this->assertFalse($this->controlIsPresent('link', 'return'), 'Return link must be absent');
@@ -436,6 +445,7 @@ class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
         $this->frontend('customer_account');
         $this->assertFalse($this->controlIsPresent('link', 'my_returns_tab'), 'My Returns tab must be absent');
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $orderNumber);
         $this->clickControl('link', 'view_order');
         //Verification
         $this->assertFalse($this->controlIsPresent('link', 'return'), 'Return link must be absent');

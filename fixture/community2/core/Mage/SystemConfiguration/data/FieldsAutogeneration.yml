@@ -15,8 +15,8 @@ fields_autogeneration_masks:
     tab_1:
         tab_name: catalog_catalog
         configuration:
-            sku_mask: %noValue%
-            meta_title_mask: %noValue%
-            meta_description_mask: %noValue%
-            meta_keyword_mask: %noValue%
-
+            product_creation:
+                sku_mask: %noValue%
+                meta_title_mask: %noValue%
+                meta_description_mask: %noValue%
+                meta_keyword_mask: %noValue%

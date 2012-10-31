@@ -17,7 +17,7 @@ new_product_attribute:
             tabs:
                 -
                     properties:
-                        xpath: //a[@id='product_attribute_tabs_main']/span
+                        xpath: //a[@id='product_attribute_tabs_main']
                         fieldsets:
                             -
                                 attribute_properties:
@@ -59,7 +59,7 @@ new_product_attribute:
                                         position: //input[@id='position'][not(@disabled)]
                 -
                     manage_labels_options:
-                        xpath: //a[@id='product_attribute_tabs_labels']/span
+                        xpath: //a[@id='product_attribute_tabs_labels']
                         fieldsets:
                             -
                                 manage_titles:
@@ -79,7 +79,7 @@ new_product_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
                                     required: [admin_option]
         buttons:
             back: //button[span='Back']

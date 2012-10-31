@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Action_helper method for Create Segment
@@ -28,7 +28,7 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
     public function createSegment($segmData)
     {
         $this->clickButton('add_new_segment');
-        $this->fillTabs($segmData,'general properties');
+        $this->fillTabs($segmData, 'general properties');
         $this->saveForm('save_segment');
     }
 
@@ -44,9 +44,9 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $segmData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $generalPropertiesTab = (isset($segmData['general_properties']))? $segmData['general_properties']: array();
-        $this->fillTab($generalPropertiesTab , 'general_properties');
-        }
+        $generalPropertiesTab = (isset($segmData['general_properties'])) ? $segmData['general_properties'] : array();
+        $this->fillTab($generalPropertiesTab, 'general_properties');
+    }
 
     /**
      * Open Customer Segment.
@@ -61,10 +61,10 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'customer_segment_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
         $cellId = $this->getColumnIdByName('Segment Name');
-        $this->addParameter('segment_title', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('segment_title', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
- }
+}

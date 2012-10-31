@@ -26,7 +26,7 @@ class Enterprise2_Mage_Store_CmsVerificationMultiStoreModeTest extends Mage_Sele
      * <p>3. Click 'Save Store View' button.</p>
      * <p>Expected result:</p>
      * <p>Store View is created.</p>
-     * <p>Success Message is displayed</p>     *
+     * <p>Success Message is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3628

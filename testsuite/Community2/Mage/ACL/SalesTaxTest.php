@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_SalesTaxTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {

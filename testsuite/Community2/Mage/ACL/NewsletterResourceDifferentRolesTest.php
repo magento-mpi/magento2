@@ -11,7 +11,7 @@
  * @license     {license_link}
  *
  */
-class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -68,7 +68,7 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_save_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newsData);
-        $this->assertNotNull($this->search($searchData),
+        $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template( Name: ' . $newsData['newsletter_template_name'] . ' ) is not presented in grid');
 
         return $newsData;
@@ -124,7 +124,7 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_save_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
-        $this->assertNotNull($this->search($searchData),
+        $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');
 
         return $newNewsletterData;
@@ -182,7 +182,8 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
-        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject'])),
+        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject']),
+                'newsletter_templates_grid'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
 
@@ -236,14 +237,13 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_delete_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
-        $this->assertNull($this->search($searchData),
+        $this->assertNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template(Name:' . $newNewsletterData['newsletter_template_subject']
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $this->assertNull($this->search(array('filter_queue_subject'=>
-                                              $newNewsletterData['newsletter_template_subject'])),
-            'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
-            . ') is presented in queue grid, should be deleted');
+        $this->assertNull($this->search(array('filter_queue_subject'=> $newNewsletterData['newsletter_template_subject']),
+            'newsletter_templates_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
+                                          . ') is presented in queue grid, should be deleted');
     }
 
     /**
@@ -291,7 +291,7 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
      * <p>Steps:</p>
      * <p>1. Login to backend as test admin user</p>
      * <p>2. Go to Newsletter>Newsletter Subscribers</p>
-     * <p>3. Find in grid test subscribed customer and select(checkobx)</p>
+     * <p>3. Find in grid test subscribed customer and select(checkbox)</p>
      * <p>4. In Mass action dropdown select "Unsubscribe", click "Submit" </p>
      * <p>5. In Mass action dropdown select "Delete", click "Submit" </p>
      * <p>Expected results:</p>
@@ -340,7 +340,7 @@ class Community2_Mage_ACL_NewsletterResourceDifferentRolesTest extends Mage_Sele
         //Delete customers from subscribers list
         $this->newsletterHelper()->massAction('delete', array($subscriberEmail));
         $this->assertMessagePresent('success', 'success_delete');
-        $this->assertNull($this->search($subscriberEmail),
+        $this->assertNull($this->search($subscriberEmail, 'newsletter_templates_grid'),
             'Subscriber ' . $subscriberEmail['filter_email'] . ' still presented in grid, should be deleted');
     }
 }

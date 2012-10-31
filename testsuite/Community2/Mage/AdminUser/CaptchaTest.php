@@ -16,46 +16,51 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
-
+class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
+{
     public function setUpBeforeTests()
     {
         $this->admin('log_in_to_admin', false);
-        if (!$this->controlIsPresent('field', 'captcha')) {
-            $this->loginAdminUser();
-            $this->navigate('system_configuration');
-            $config = $this->loadDataSet('Captcha', 'enable_admin_captcha');
-            try {
-                $this->systemConfigurationHelper()->configure($config);
-            } catch (Exception $e) { }
-            $this->admin('log_in_to_admin', false);
-            $this->logoutAdminUser();
+        if ($this->getCurrentPage() != $this->_firstPageAfterAdminLogin) {
+            if ($this->controlIsPresent('field', 'captcha')) {
+                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                                   'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
+                $this->adminUserHelper()->loginAdmin($loginData);
+                $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
+            } else {
+                $this->loginAdminUser();
+            }
         }
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
+        $this->systemConfigurationHelper()->configure('Captcha/enable_admin_captcha');
     }
 
-    protected function tearDownAfterTestClass()
+    public function tearDownAfterTestClass()
     {
-        $this->admin('log_in_to_admin');
-        if ($this->controlIsPresent('field', 'captcha')) {
-            $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                               'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1111');
-            $disCaptcha = $this->loadDataSet('AdminUsers', 'disable_admin_captcha');
-            //Steps
-            $this->adminUserHelper()->loginAdmin($loginData);
-            $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure($disCaptcha);
-            $this->logoutAdminUser();
+        $this->admin('log_in_to_admin', false);
+        if ($this->getCurrentPage() != $this->_firstPageAfterAdminLogin) {
+            if ($this->controlIsPresent('field', 'captcha')) {
+                $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                                   'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
+                $this->adminUserHelper()->loginAdmin($loginData);
+                $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
+            } else {
+                $this->loginAdminUser();
+            }
         }
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
     }
 
     /**
      *  <p>Preconditions:</p>
      * <p>Navigate to Login Admin Page</p>
      */
-    protected function assertPreconditions() {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out');
+    protected function assertPreconditions()
+    {
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
+        if ($this->getCurrentPage() != 'log_in_to_admin' && $this->controlIsPresent('link', 'log_out')) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -77,8 +82,8 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
     public function loginEmptyCaptcha()
     {
         //data
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword());
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword());
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -89,7 +94,7 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
     /**
      * <p>Login with wrong "Captcha"</p>
      * <p>Steps</p>
-     * <p>1. Enter valid data in the user and password fields </p> 
+     * <p>1. Enter valid data in the user and password fields </p>
      * <p>2. Enter "1112" in the  captcha field;</p>
      * <p>3. Click "Login" button;</p>
      * <p>Expected result:</p>
@@ -101,8 +106,8 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
     public function loginWrongCaptcha()
     {
         //data
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1112');
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => '1112');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -124,8 +129,8 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
     public function loginValidCaptcha()
     {
         //Data
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1111');
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => '1111');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -153,10 +158,11 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
         $emailData = array('email' => $userData['email']);
         //Steps
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1111');
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => '1111');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

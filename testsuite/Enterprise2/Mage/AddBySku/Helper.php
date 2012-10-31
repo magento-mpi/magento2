@@ -16,17 +16,18 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Add next product
      *
      * @param array $nextProduct
+     * @param bool $pressButton
      */
     public function addProductShoppingCart(array $nextProduct, $pressButton = true) {
         if (!empty($nextProduct)) {
             $i = 0;
-            foreach ($nextProduct as $key => $value) {
+            foreach ($nextProduct as $value) {
                 if ($i > 0) {
                     $this->clickButton('add_sku', false);
                     $this->waitForAjax();
@@ -50,7 +51,7 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
     public function openShoppingCart()
     {
         $this->clickButton('manage_shopping_cart', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->addParameter('store', $this->defineParameterFromUrl('store'));
         $this->addParameter('customer', $this->defineParameterFromUrl('customer'));
         $this->validatePage('customer_shopping_cart');
@@ -62,17 +63,17 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
         $productLine = $this->_getControlXpath('pageelement', $productTableLine);
 
-        $productCount = $this->getXpathCount($productLine);
+        $productCount = count($this->getElements($productLine));
         for ($i = 1; $i <= $productCount; $i++) {
             foreach ($tableRowNames as $key => $value) {
                 if (in_array($key, $skipFields)) {
                     continue;
                 }
                 $xpathValue = $productLine . "[$i]//td[$value]";
-                if ($key == 'qty' && $this->isElementPresent($xpathValue . '/input/@value')) {
-                    $productValues['product_' . $i][$key] = $this->getAttribute($xpathValue . '/input/@value');
+                if ($key == 'qty') {
+                    $productValues['product_' . $i][$key] = $this->getElement($xpathValue . '/input')->value();
                 } else {
-                    $text = $this->getText($xpathValue);
+                    $text = $this->getElement($xpathValue)->attribute('text');
                     if (preg_match('/Excl. Tax/', $text)) {
                         $text = preg_replace("/ \\n/", ':', $text);
                         $values = explode(':', $text);
@@ -174,29 +175,26 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
      */
     public function verifyProductAbsentInGrid($sku, array $tables)
     {
-        foreach ($tables as $table)
-        {
-            if (is_string($sku))
-            {
-                $this->addParameter('skuProduct', $sku);
-            }
-            $this->assertFalse($this->ControlIsPresent('pageelement', $table),
+        foreach ($tables as $table) {
+            $this->addParameter('skuProduct', $sku);
+            $this->assertFalse($this->controlIsPresent('pageelement', $table),
                 "Product with SKU: $sku is present in $table");
-            if (is_array($sku))
-            {
-                foreach ($sku as $value)
+            if (is_array($sku)) {
+                foreach ($sku as $value) {
                     $this->addParameter('skuProduct', $value);
-                    if ($this->controlIsPresent('pageelement', $table))
+                    if ($this->controlIsPresent('pageelement', $table)) {
                         $this->addVerificationMessage("Product with SKU: $value is present in $table");
+                    }
+                }
+                $this->assertEmptyVerificationErrors();
             }
-            $this->assertEmptyVerificationErrors();
         }
     }
 
     public function getRowCount($type, $name, $paramName)
     {
         $gridRow = $this->_getControlXpath($type, $name);
-        $rowCount = $this->getXpathCount($gridRow);
+        $rowCount = count($this->getElements($gridRow));
         $this->addParameter($paramName, $rowCount);
     }
 
@@ -212,8 +210,8 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
             if (empty($productValues)) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     public function verifyErrorTableIsEmpty() {
@@ -268,12 +266,12 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
             $this->assertFalse($this->controlIsVisible('pageelement', 'price'),
                 'Unit price is available for added product. ');
         }
-        $qtyXpath = $this->_getControlXpath('field', 'qty');
-        $this->assertEquals($this->getValue($qtyXpath), $product['qty'], 'Entered qty is not correspond to added qty');
+        $this->assertEquals($this->getControlAttribute('field', 'qty', 'value'), $product['qty'],
+            'Entered qty is not correspond to added qty');
         if ($qtyIsEnabled) {
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[not(@disabled)]"), 'Qty field is disabled. ');
+            $this->assertTrue($this->getControlElement('field', 'qty')->enabled(), 'Qty field is disabled. ');
         } else {
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[(@disabled)]"),
+            $this->assertFalse($this->getControlElement('field', 'qty')->enabled(),
                 'Qty field available for editing. ');
         }
     }
@@ -286,7 +284,7 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
     public function clickSpecifyLink($productName)
     {
         $this->clickControl('link', 'specify_product', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('id'));
         $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
         $this->addParameter('sku', $this->defineParameterFromUrl('sku'));

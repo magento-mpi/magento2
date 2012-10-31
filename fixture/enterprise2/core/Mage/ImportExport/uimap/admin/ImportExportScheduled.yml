@@ -68,7 +68,7 @@ scheduled_import_export:
 
 scheduled_importexport_add:
     mca: scheduled_operation/new/type/%type%/
-    title: New Scheduled %type% / Scheduled Imports/Exports / Magento Admin
+    title: New Scheduled %elementTitle% / Scheduled Imports/Exports / Magento Admin
     uimap: &createImportExport
         form:
             fieldsets:
@@ -136,6 +136,6 @@ scheduled_importexport_add:
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
-    title: Edit Scheduled %type% / Scheduled Imports/Exports / Magento Admin
+    title: Edit Scheduled %elementTitle% / Scheduled Imports/Exports / Magento Admin
     uimap: *createImportExport
 

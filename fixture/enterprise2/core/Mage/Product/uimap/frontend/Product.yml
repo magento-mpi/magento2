@@ -12,7 +12,7 @@
 #    
 products_failed:    
     mca: checkout/cart/configureFailed/id/%id%/qty/%qty%/sku/%sku%/
-    title: %productName%
+    title: %elementTitle%
     uimap:
         form:
             fieldsets:

@@ -39,53 +39,57 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
-            $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
             if ($tab) {
                 $this->openConfigurationTab($tab);
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $formLocator = $this->getControlElement('fieldset', $fieldsetName);
-                    if ($formLocator->name() == 'fieldset') {
-                        $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
-                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-                            $this->focusOnElement($fieldsetLink);
-                            $fieldsetLink->click();
-                            $this->clearActiveFocus();
-                        }
-                        $this->fillFieldset($fieldsetData, $fieldsetName);
-                        $this->focusOnElement($fieldsetLink);
-                        $fieldsetLink->click();
-                        $this->clearActiveFocus();
-                    } else {
-                        $this->fillFieldset($fieldsetData, $fieldsetName);
-                    }
+                    $this->expandFieldSet($fieldsetName);
+                    $this->fillFieldset($fieldsetData, $fieldsetName);
                 }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
-                foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $formLocator = $this->getControlElement('fieldset', $fieldsetName);
-                    if ($formLocator->name() == 'fieldset') {
-                        $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
-                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-                            $this->focusOnElement($fieldsetLink);
-                            $fieldsetLink->click();
-                            $this->clearActiveFocus();
-                        }
-                    }
-                    $this->verifyForm($fieldsetData, $tab);
-                }
-                if ($this->getParsedMessages('verification')) {
-                    $messages = $this->getParsedMessages('verification');
-                    $this->clearMessages('verification');
-                    foreach ($messages as $errorMessage) {
-                        if (!preg_match('#|(\!\= \'\*\*)#i', $errorMessage)) {
-                            //if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
-                            $this->addVerificationMessage($errorMessage);
-                        }
-                    }
-                    $this->assertEmptyVerificationErrors();
+                $this->verifyConfigurationOptions($settings, $tab);
+            }
+        }
+    }
+
+    /**
+     * @param string $fieldsetName
+     */
+    public function expandFieldSet($fieldsetName)
+    {
+        $formLocator = $this->getControlElement('fieldset', $fieldsetName);
+        if ($formLocator->name() == 'fieldset') {
+            $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
+            if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                $this->focusOnElement($fieldsetLink);
+                $fieldsetLink->click();
+                $this->clearActiveFocus();
+            }
+        }
+    }
+
+    /**
+     * @param array $tabSettings
+     * @param string $tab
+     */
+    public function verifyConfigurationOptions(array $tabSettings, $tab)
+    {
+        foreach ($tabSettings as $fieldsetName => $fieldsetData) {
+            $this->expandFieldSet($fieldsetName);
+            $this->verifyForm($fieldsetData, $tab);
+        }
+        if ($this->getParsedMessages('verification')) {
+            $messages = $this->getParsedMessages('verification');
+            $this->clearMessages('verification');
+            $skipError = preg_quote("' != '**");
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
                 }
             }
         }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**

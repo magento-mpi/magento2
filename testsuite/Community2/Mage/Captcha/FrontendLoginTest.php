@@ -18,16 +18,23 @@
  */
 class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->logoutCustomer();
-    }
-
-    protected function tearDownAfterTestClass()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
+    }
+
+    public function assertPreConditions()
+    {
+        $this->logoutCustomer();
+        $this->loginAdminUser();
+    }
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
     }
 
     /**
@@ -40,7 +47,6 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -67,12 +73,9 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
      */
     public function enableCaptcha()
     {
-        //Data
-        $config = $this->loadDataSet('Captcha', 'enable_front_login_captcha');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('Captcha/enable_front_login_captcha');
         $this->frontend('customer_login');
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));
@@ -101,11 +104,10 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->logoutCustomer();
         $this->frontend('customer_login');
-        $xpath = $this->_getControlXpath('pageelement', 'captcha') . '@src';
-        $captchaUrl1 = $this->getAttribute($xpath);
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         $this->clickControl('button', 'captcha_reload', false);
         $this->waitForAjax();
-        $captchaUrl2 = $this->getAttribute($xpath);
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         //Verification
         $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
     }
@@ -130,26 +132,21 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
      */
     public function refreshCaptchaWithMergeJS()
     {
-        //Data
-        $config1 = $this->loadDataSet('MergeJS', 'enable_merge_js');
-        $config2 = $this->loadDataSet('MergeJS', 'disable_merge_js');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config1);
+        $this->systemConfigurationHelper()->configure('MergeJS/enable_merge_js');
         $this->clearInvalidedCache();
         $this->frontend('customer_login');
-        $xpath = $this->_getControlXpath('pageelement', 'captcha') . '@src';
-        $captchaUrl1 = $this->getAttribute($xpath);
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         $this->clickControl('button', 'captcha_reload', false);
         $this->waitForAjax();
-        $captchaUrl2 = $this->getAttribute($xpath);
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         //Verification
         $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
-        //Postconditions
+        //PostConditions
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config2);
+        $this->systemConfigurationHelper()->configure('MergeJS/disable_merge_js');
         $this->clearInvalidedCache();
     }
 
@@ -210,7 +207,7 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $testUser['captcha'] = '1234';
         //Steps
         $this->customerHelper()->frontLoginCustomer($testUser, false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         //Verification
         $this->validatePage('customer_login');
         $this->assertMessagePresent('error', 'incorrect_captcha');
@@ -265,11 +262,9 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $incorrectUser = array('email' => $this->generate('email', 20, 'valid'), 'password' => 'password');
-        $config = $this->loadDataSet('Captcha', 'front_captcha_after_attempts_to_login');
         //Preconditions
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('Captcha/front_captcha_after_attempts_to_login');
         //Steps
         $this->frontend('customer_login');
 
@@ -278,7 +273,7 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
             $this->assertFalse($this->controlIsVisible('pageelement', 'captcha'));
             $this->assertFalse($this->controlIsVisible('button', 'captcha_reload'));
             $this->customerHelper()->frontLoginCustomer($incorrectUser, false);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
         }
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));

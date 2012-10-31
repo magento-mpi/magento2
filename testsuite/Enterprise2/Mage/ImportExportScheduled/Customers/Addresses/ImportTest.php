@@ -53,8 +53,6 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
         foreach ($addressData as $key => $value) {
             if ($value) {
                 $this->navigate('manage_customers');
-                $this->addParameter('customer_first_last_name',
-                    $customerData['first_name'] . ' ' . $customerData['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
                 $this->openTab('addresses');
                 if ($this->customerHelper()->isAddressPresent($value) == 0) {

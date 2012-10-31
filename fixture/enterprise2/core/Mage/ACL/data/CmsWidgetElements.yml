@@ -21,5 +21,5 @@ manage_cms_widget_elements:
     dropdown:
         view_per_page:
         filter_type:
-        filter_package_theme:
+        filter_design_package_theme:
 

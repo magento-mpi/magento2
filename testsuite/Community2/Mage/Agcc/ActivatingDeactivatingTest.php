@@ -50,12 +50,15 @@ class Community2_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_Test
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
+        if (array_key_exists('websites', $verificationData['info']) &&
+            !$this->controlIsPresent('multiselect', 'websites')) {
+            unset($verificationData['info']['websites']);
+        }
         $this->verifyForm($verificationData['info'], 'rule_information');
         //Steps
         $this->openTab('manage_coupon_codes');
-        $fieldXpath = $this->_getControlXpath('field', 'coupon_qty');
         //Verification
-        if ($this->isEditable($fieldXpath)) {
+        if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
             $this->fail('Manage Coupon Codes tab is active');
         }
     }
@@ -84,12 +87,15 @@ class Community2_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_Test
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
+        if (array_key_exists('websites', $ruleData['info']) &&
+            !$this->controlIsPresent('multiselect', 'websites')) {
+            unset($ruleData['info']['websites']);
+        }
         $this->verifyForm($ruleData['info'], 'rule_information');
         //Steps
         $this->openTab('manage_coupon_codes');
-        $fieldXpath = $this->_getControlXpath('field', 'coupon_qty');
         //Verification
-        if (!$this->isEditable($fieldXpath)) {
+        if (!$this->getControlElement('field', 'coupon_qty')->enabled()) {
             $this->fail('Manage Coupon Codes tab is not active');
         }
     }
@@ -122,12 +128,15 @@ class Community2_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_Test
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
+        if (array_key_exists('websites', $verificationData['info']) &&
+            !$this->controlIsPresent('multiselect', 'websites')) {
+            unset($verificationData['info']['websites']);
+        }
         $this->verifyForm($verificationData['info'], 'rule_information');
         //Steps
         $this->openTab('manage_coupon_codes');
-        $fieldXpath = $this->_getControlXpath('field', 'coupon_qty');
         //Verification
-        if (!$this->isEditable($fieldXpath)) {
+        if (!$this->getControlElement('field', 'coupon_qty')->enabled()) {
             $this->fail('Manage Coupon Codes tab is not active');
         }
     }
@@ -182,12 +191,15 @@ class Community2_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_Test
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
+        if (array_key_exists('websites', $ruleData['info']) &&
+            !$this->controlIsPresent('multiselect', 'websites')) {
+            unset($ruleData['info']['websites']);
+        }
         $this->verifyForm($ruleData['info'], 'rule_information');
         //Steps
         $this->openTab('manage_coupon_codes');
-        $fieldXpath = $this->_getControlXpath('field', 'coupon_qty');
         //Verification
-        if ($this->isEditable($fieldXpath)) {
+        if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
             //Data
             $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_deactivate_agcc');
             //Steps
@@ -197,13 +209,11 @@ class Community2_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_Test
             $this->assertMessagePresent('success', 'success_saved_rule');
             //Steps
             $this->openTab('manage_coupon_codes');
-            $fieldXpath = $this->_getControlXpath('field', 'coupon_qty');
             //Verification
-            if ($this->isEditable($fieldXpath)) {
+            if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
                 $this->fail('Manage Coupon Codes tab is active');
             }
-        }
-        else {
+        } else {
             $this->fail('Manage Coupon Codes tab is not active');
         }
     }

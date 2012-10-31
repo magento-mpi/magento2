@@ -1,5 +1,4 @@
 #
-#
 # {license_notice}
 #
 # @category    Magento
@@ -215,11 +214,11 @@ system_configuration:
                                         design_package_link: //parent::div//a[@id='design_package-head']
                                     fields:
                                         current_package_name: //input[@name='groups[package][fields][name][value]']
-                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(., '[%rowId%][value]')]]
+                                        package_matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        package_value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
                                         current_package_add_exception: //tr[@id='row_design_package_ua_regexp']//button[span='Add Exception']
-                                        delete: //tr[@id='%rowId%']//button[span='Delete']
+                                        package_delete: //tr[@id='%rowId%']//button[span='Delete']
                                     checkboxes:
                                         current_package_name_use_default: //input[@name='groups[package][fields][name][inherit]']
                                         current_package_add_exception_use_default: //input[@name='groups[package][fields][ua_regexp][inherit]']
@@ -234,10 +233,10 @@ system_configuration:
                                         skin: //input[@name='groups[theme][fields][skin][value]']
                                         layout: //input[@name='groups[theme][fields][layout][value]']
                                         default: //input[@name='groups[theme][fields][default][value]']
-                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(., '[%rowId%][value]')]]
+                                        themes_matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        themes_value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
-                                        delete: //tr[@id='%rowId%']//button[span='Delete']
+                                        themes_delete: //tr[@id='%rowId%']//button[span='Delete']
                                         templates_add_exception: //tr[@id='row_design_theme_template_ua_regexp']//button[span='Add Exception']
                                         skin_add_exception: //tr[@id='row_design_theme_skin_ua_regexp']//button[span='Add Exception']
                                         layout_add_exception: //tr[@id='row_design_theme_layout_ua_regexp']//button[span='Add Exception']
@@ -1042,10 +1041,10 @@ system_configuration:
                                         pdf_use_default: //input[@name='groups[address_templates][fields][pdf][inherit]']
                                         javascript_template_use_default: //input[@name='groups[address_templates][fields][js_template][inherit]']
                             -
-                                captcha:
+                                customer_captcha:
                                       xpath: //fieldset[@id='customer_captcha']
                                       links:
-                                        captcha_link: //parent::div//a[@id='customer_captcha-head']
+                                          customer_captcha_link: //parent::div//a[@id='customer_captcha-head']
                                       dropdowns:
                                           captcha_enable_frontend: //select[@id='customer_captcha_enable']
                                           captcha_font: //select[@id='customer_captcha_font']
@@ -3930,17 +3929,17 @@ system_configuration:
                                 captcha:
                                     xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        dashboard_link: //parent::div//a[@id='admin_captcha-head']
+                                        captcha_link: //parent::div//a[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']
                                         captcha_display_mode: //select[@id='admin_captcha_mode']
                                         captcha_case_sensitive: //select[@id='admin_captcha_case_sensitive']
                                     fields:
-                                        captcha_number_of_attempts: //input[@id='admin_captcha_case_sensitive']
                                         captcha_timeout: //input[@id='admin_captcha_timeout']
                                         captcha_word_length: //input[@id='admin_captcha_length']
                                         captcha_symbols: //input[@id='admin_captcha_symbols']
+                                        captcha_number_of_attempts: //input[@id='admin_captcha_failed_attempts_login']
                                     multiselects:
                                         captcha_forms: //select[@id='admin_captcha_forms']
                 -
@@ -4354,5 +4353,10 @@ system_configuration_store:
 
 system_configuration_country:
     mca: system_config/edit/section/payment/country/%country%
+    title: Configuration / System / Magento Admin
+    uimap: *system_configuration_uimap
+
+system_configuration_website_base:
+    mca: system_config/edit/website/base/
     title: Configuration / System / Magento Admin
     uimap: *system_configuration_uimap

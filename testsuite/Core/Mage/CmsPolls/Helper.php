@@ -30,6 +30,8 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_AbstractHelper
         foreach ($answersSet as $value) {
             $this->clickButton('add_new_answer', false);
             $this->addParameter('answerId', '-' . $answerId++);
+            $this->assertTrue($this->controlIsPresent('pageelement', 'assigned_answers_block'),
+                'New Assigned Answers block is not added');
             $this->fillForm($value, 'poll_answers');
         }
     }

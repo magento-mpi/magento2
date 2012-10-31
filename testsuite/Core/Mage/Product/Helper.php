@@ -60,8 +60,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             foreach ($attributes as $attributeTitle) {
                 $this->addParameter('attributeTitle', $attributeTitle);
                 if ($this->controlIsPresent('checkbox', 'configurable_attribute_title')) {
-                    $attributesId[] =
-                        $this->getControlAttribute('checkbox', 'configurable_attribute_title', 'selectedValue');
+                    $attributesId[] = $this->getControlAttribute('checkbox', 'configurable_attribute_title', 'value');
                     $this->fillCheckbox('configurable_attribute_title', 'Yes');
                 } else {
                     $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
@@ -408,8 +407,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $productData
      * @param string $productType
+     * @param bool $isSave
      */
-    public function createProduct(array $productData, $productType = 'simple')
+    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
         $this->clickButton('add_new_product');
         $this->fillProductSettings($productData, $productType);
@@ -417,7 +417,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
-        $this->saveForm('save');
+        if ($isSave) {
+            $this->saveForm('save');
+        }
     }
 
     /**
@@ -1055,7 +1057,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    private function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
+    public function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
     {
         $xpathArray = array();
         if (array_key_exists('custom_options_price_type', $value)) {
@@ -1130,7 +1132,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
+    public function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {
         $xpathArray = array();
         $count = 0;

@@ -41,7 +41,7 @@ class Community2_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Se
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_disable');
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->deleteAllTerms();
         $this->paypalHelper()->paypalDeveloperLogin();
         $this->paypalHelper()->deleteAllAccounts();
@@ -67,7 +67,7 @@ class Community2_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Se
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         $this->assertMessagePresent('success', 'condition_saved');
         $agreementId =

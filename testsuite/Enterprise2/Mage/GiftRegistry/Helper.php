@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_GiftRegistry_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Add Attribute
@@ -26,13 +26,14 @@ class Enterprise2_Mage_GiftRegistry_Helper extends Mage_Selenium_TestCase
     public function addAttributes(array $attData)
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'attributes_set');
-        $attributeId = $this->getXpathCount($fieldSetXpath) + 1;
+        $attributeId = count($this->getControlElements('fieldset', 'attributes_set')) + 1;
         $this->addParameter('attributeId', $attributeId);
         $this->clickButton('add_attribute', false);
         $this->fillFieldSet($attData, 'attributes_set');
         foreach ($attData as $optionKey => $optionValue) {
             if (preg_match('/^attributes_option/', $optionKey) && is_array($optionValue)) {
-                $attributeId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'attribute_')][not(@style)]");
+                $attributeId = count($this->getElements($fieldSetXpath .
+                    "//tr[contains(@id,'attribute_')][not(@style)]"));
                 $this->addParameter('optionId', $attributeId);
                 $this->clickButton('add_option', false);
                 $this->fillFieldSet($optionValue, 'attributes_set');
@@ -70,10 +71,10 @@ class Enterprise2_Mage_GiftRegistry_Helper extends Mage_Selenium_TestCase
         $xpathGR = $this->search($searchGiftRegistry, 'giftRegistryGrid');
         $this->assertNotEquals(null, $xpathGR, 'Gift Registry is not found');
         $Id = $this->getColumnIdByName('Label');
-        $this->addParameter('elementLabel', $this->getText($xpathGR . '//td[' . $Id . ']'));
+        $this->addParameter('elementLabel', $this->getElement($xpathGR . '//td[' . $Id . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathGR));
-        $this->click($xpathGR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->getElement($xpathGR)->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 

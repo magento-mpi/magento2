@@ -95,10 +95,9 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotal
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -142,10 +141,9 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotal
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);

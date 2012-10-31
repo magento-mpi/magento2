@@ -26,15 +26,13 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function createNewsletterTemplate($newsletterData)
     {
-        if (empty($newsletterData)) {
-            $this->fail('$newsletterData parameter is empty');
-        }
         if (is_string($newsletterData)) {
             $elements = explode('/', $newsletterData);
-            $fileName = (count($elements) > 1)
-                ? array_shift($elements)
-                : '';
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $newsletterData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
+        if (empty($newsletterData)) {
+            $this->fail('$newsletterData parameter is empty');
         }
         $this->clickButton('add_new_template');
         $this->fillNewsletterForm($newsletterData);
@@ -49,14 +47,13 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function fillNewsletterForm(array $newsletterData, $fieldName = 'newsletter_edit_form')
     {
-        if (!empty($newsletterData)) {
-            if (isset($newsletterData['newsletter_content_data'])) {
-                if ($this->buttonIsPresent('convert_to_plain_text')) {
-                    $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
-                }
-            }
-            $this->fillFieldset($newsletterData, $fieldName);
+        if (empty($newsletterData)) {
+            return;
         }
+        if (isset($newsletterData['newsletter_content_data']) && $this->buttonIsPresent('convert_to_plain_text')) {
+            $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
+        }
+        $this->fillFieldset($newsletterData, $fieldName);
     }
 
     /**
@@ -73,9 +70,7 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
         if (empty($newNewsData)) {
             $this->fail('$newNewsData parameter is empty');
         }
-        $this->addParameter('news_name', $dataForSearch['newsletter_template_name']);
-        $searchData = $this->convertToFilter($dataForSearch);
-        $this->searchAndOpen($searchData);
+        $this->openNewsletter($this->convertToFilter($dataForSearch));
         $this->fillNewsletterForm($newNewsData);
         $this->clickButton('save_template');
     }
@@ -89,30 +84,32 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function convertToFilter(array $dataForSearch)
     {
-        if (!empty($dataForSearch)) {
-            $searchData = array();
-            foreach ($dataForSearch as $key => $value) {
-                if (preg_match('/^newsletter/', $key)) {
-                    $strArr = explode('_', $key);
-                    if (isset($strArr[0]) && $strArr[0] == 'newsletter') {
-                        $strArr[0] = 'filter';
-                    }
-                    $key = implode('_', $strArr);
-                    $searchData[$key] = $value;
-                }
-            }
-            if (isset($searchData['filter_template_sender_name'])) {
-                unset($searchData['filter_template_sender_name']);
-            }
-            if (isset($searchData['filter_template_sender_email'])) {
-                $searchData['filter_template_sender'] = $searchData['filter_template_sender_email'];
-                unset($searchData['filter_template_sender_email']);
-            }
-            if (isset($searchData['filter_content_data'])) {
-                unset($searchData['filter_content_data']);
-            }
-            return $searchData;
+        if (empty($dataForSearch)) {
+            return array();
         }
+
+        $searchData = array();
+        foreach ($dataForSearch as $key => $value) {
+            if (preg_match('/^newsletter/', $key)) {
+                $strArr = explode('_', $key);
+                if (isset($strArr[0]) && $strArr[0] == 'newsletter') {
+                    $strArr[0] = 'filter';
+                }
+                $key = implode('_', $strArr);
+                $searchData[$key] = $value;
+            }
+        }
+        if (isset($searchData['filter_template_sender_name'])) {
+            unset($searchData['filter_template_sender_name']);
+        }
+        if (isset($searchData['filter_template_sender_email'])) {
+            $searchData['filter_template_sender'] = $searchData['filter_template_sender_email'];
+            unset($searchData['filter_template_sender_email']);
+        }
+        if (isset($searchData['filter_content_data'])) {
+            unset($searchData['filter_content_data']);
+        }
+        return $searchData;
     }
 
     /**
@@ -146,9 +143,24 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
         if (empty($newNewsData)) {
             $this->fail('$newNewsData parameter is empty');
         }
-        $searchData = $this->convertToFilter($newNewsData);
-        $this->addParameter('news_name', $newNewsData['newsletter_template_name']);
-        $this->searchAndOpen($searchData);
+        $this->openNewsletter($this->convertToFilter($newNewsData));
         $this->clickButtonAndConfirm('delete_template', 'confirmation_for_delete');
+    }
+
+    /**
+     * @param array $searchData
+     */
+    public function openNewsletter(array $searchData)
+    {
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $locator = $this->search($searchData, 'newsletter_templates_grid');
+        $this->assertNotNull($locator, 'Newsletter is not found');
+        $cellId = $this->getColumnIdByName('Template Name');
+        $this->addParameter('tableLineXpath', $locator);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
+        $this->addParameter('id', $this->defineIdFromTitle($locator));
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 }

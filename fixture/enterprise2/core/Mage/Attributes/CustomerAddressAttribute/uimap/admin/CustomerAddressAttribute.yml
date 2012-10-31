@@ -58,7 +58,7 @@ new_customer_address_attribute:
             tabs:
                 -
                     properties: &addressAttributeProperties
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_general']/span
+                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_general']
                         fieldsets:
                             -
                                 attribute_properties:
@@ -98,7 +98,7 @@ new_customer_address_attribute:
                                     required: [sort_order]
                 -
                     manage_labels_options:
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']/span
+                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
@@ -119,7 +119,10 @@ new_customer_address_attribute:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
                                         option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
             back: //button[span='Back']
@@ -131,7 +134,7 @@ new_customer_address_attribute:
 # Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
-    title: %attribute_code% / Manage Customer Address Attributes / Magento Admin
+    title: %elementTitle% / Manage Customer Address Attributes / Magento Admin
     uimap:
         form: &editAddressAttributeForm
             tabs:
@@ -139,7 +142,7 @@ edit_customer_address_attribute:
                     properties: *addressAttributeProperties
                 -
                     manage_labels_options:
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']/span
+                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
@@ -159,7 +162,10 @@ edit_customer_address_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
             back: //button[span='Back']

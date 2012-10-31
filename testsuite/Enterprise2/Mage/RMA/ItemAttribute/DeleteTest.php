@@ -16,7 +16,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise2_Mage_RMA_ItemAttribute_DeleteTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -49,11 +49,11 @@ class Enterprise2_Mage_RMA_ItemAttribute_DeleteTest extends Mage_Selenium_TestCa
     {
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
-        $this->addParameter('attribute_admin_title', $attrData['admin_title']);
+        $this->addParameter('elementTitle', $attrData['admin_title']);
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']));
+        $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
@@ -88,10 +88,9 @@ class Enterprise2_Mage_RMA_ItemAttribute_DeleteTest extends Mage_Selenium_TestCa
      */
     public function systemAttribute($attributeLabel)
     {
-        //Data
-        $this->addParameter('attribute_admin_title', $attributeLabel);
         //Steps
-        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel));
+        $this->addParameter('elementTitle', $attributeLabel);
+        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         //Verifying
         $this->assertFalse($this->controlIsPresent('button', 'delete_attribute'),
             'Delete button must be absent for system RMA attribute');

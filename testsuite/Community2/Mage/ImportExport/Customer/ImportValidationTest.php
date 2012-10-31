@@ -223,7 +223,6 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
 
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('addresses');
         $addressData['entity_id'] = $this->customerHelper()->isAddressPresent($addressData);

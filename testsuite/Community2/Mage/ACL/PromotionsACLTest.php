@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -82,8 +82,8 @@ class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotions menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElementsByXpath($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules');
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
@@ -141,8 +141,8 @@ class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElementsByXpath($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules');
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
@@ -152,7 +152,7 @@ class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
         //verify NO rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'access_denied', $uimap),
             "Element isn't present on the page");
     }
 
@@ -200,8 +200,8 @@ class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElementsByXpath($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields');
@@ -210,7 +210,7 @@ class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'access_denied', $uimap),
             "Element isn't present on the page");
     }
 }

@@ -14,11 +14,13 @@ SID_disable:
     tab_1:
         tab_name: general_web
         configuration:
-            use_sid_on_frontend: No
+            session_validation_settings:
+                use_sid_on_frontend: No
 
 SID_enable:
     configuration_scope: Default Config
     tab_1:
         tab_name: general_web
         configuration:
-            use_sid_on_frontend: Yes
+            session_validation_settings:
+                use_sid_on_frontend: Yes

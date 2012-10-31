@@ -261,7 +261,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3383
      * @test
-     * @group skip_due_to_bug
      */
     public function specialSymbolsInCustomOptionsPrice($optionDataName)
     {
@@ -303,7 +302,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3384
      * @test
-     * @group skip_due_to_bug
      */
     public function textValueInCustomOptionsPrice($optionDataName)
     {
@@ -361,12 +359,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3380
      * @test
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7
-     * @group skip_due_to_bug1.7.0.1
-     * @group skip_due_to_bug_ce2
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
     {
@@ -385,10 +377,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
-            array('custom_options_file'), //Fails due to MAGE-4609
-            array('custom_options_date'),
-            array('custom_options_date_time'),
-            array('custom_options_time')
+            array('custom_options_file')
         );
     }
 
@@ -440,7 +429,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             array('custom_options_dropdown'),
             array('custom_options_radiobutton'),
             array('custom_options_checkbox'),
-            array('custom_options_multipleselect')
+            array('custom_options_multipleselect'),
+            array('custom_options_date'),
+            array('custom_options_date_time'),
+            array('custom_options_time')
         );
     }
 }

@@ -23,6 +23,7 @@ scpr_required_fields_without_agcc:
         coupon: Specific Coupon
         coupon_code: test_code_%randomize%
         use_auto_generation: No
+        websites: Main Website
     actions:
         apply: Percent of product price discount
         discount_amount: 15
@@ -34,6 +35,7 @@ verification_scpr_required_fields_without_agcc:
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: No
+        websites: Main Website
     actions:
         apply: Percent of product price discount
         discount_amount: 15
@@ -46,6 +48,7 @@ scpr_required_fields_with_agcc:
         customer_groups: NOT LOGGED IN, General, Wholesale, Retailer
         coupon: Specific Coupon
         use_auto_generation: Yes
+        websites: Main Website
     actions:
         apply: Percent of product price discount
         discount_amount: 15
@@ -59,6 +62,7 @@ scpr_required_fields_with_agcc_and_coupon_code:
         coupon: Specific Coupon
         coupon_code: test_code_%randomize%
         use_auto_generation: Yes
+        websites: Main Website
     actions:
         apply: Percent of product price discount
         discount_amount: 15
@@ -71,6 +75,7 @@ verification_scpr_required_fields_with_agcc_and_coupon_code:
         coupon: Specific Coupon
         coupon_code: %noValue%
         use_auto_generation: Yes
+        websites: Main Website
     actions:
         apply: Percent of product price discount
         discount_amount: 15

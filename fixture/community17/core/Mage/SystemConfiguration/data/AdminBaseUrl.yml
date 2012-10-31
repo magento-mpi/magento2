@@ -19,5 +19,6 @@ admin_custom_url_is_equal:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            use_custom_admin_url: Yes
-            custom_admin_url: http://127.0.0.1/CE2/
+            admin_base_url:
+                use_custom_admin_url: Yes
+                custom_admin_url: %noValue%

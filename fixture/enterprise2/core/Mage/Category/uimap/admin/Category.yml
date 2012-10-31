@@ -15,7 +15,7 @@ manage_categories:
             tabs:
                 -
                     category_permissions_tab:
-                        xpath: //a[@id='category_info_tabs_permissions']/span
+                        xpath: //a[@id='category_info_tabs_permissions']
                         fieldsets:
                             -
                                 category_permissions:

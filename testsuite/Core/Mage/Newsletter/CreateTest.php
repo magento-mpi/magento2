@@ -286,6 +286,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $this->newsletterHelper()->massAction('delete', array($search));
         //Verifying
         $this->assertMessagePresent('success', 'success_delete');
+        $this->assertNull($this->search($search, 'subscribers_grid'), 'Subscriber is not deleted');
     }
 
     /**

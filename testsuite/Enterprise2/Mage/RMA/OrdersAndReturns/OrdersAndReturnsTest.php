@@ -15,7 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -46,6 +46,7 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
 
         return array('order_id'          => $orderNumber,
                      'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+                     'search_type_id'    => 'Email Address',
                      'email'             => $checkoutData['billing_address_data']['billing_email'],
                      'zip'               => $checkoutData['billing_address_data']['billing_zip_code']);
     }
@@ -90,7 +91,7 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
      * <p>1. Show message "This is a required field."</p>
      *
      * @param array $testData
-     * @param array $field
+     * @param string $field
      *
      * @test
      * @depends preconditionsForTests
@@ -106,7 +107,6 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
             $testData['search_type_id'] = 'ZIP Code';
             unset ($testData['email']);
         } else {
-            $testData['search_type_id'] = 'Email Address';
             unset ($testData['zip']);
         }
         //Steps
@@ -141,7 +141,7 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
      * <p>1. Show message "Entered data is incorrect. Please try again."</p>
      *
      * @param array $testData
-     * @param array $field
+     * @param string $field
      *
      * @test
      * @depends preconditionsForTests
@@ -157,7 +157,6 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
             $testData['search_type_id'] = 'ZIP Code';
             unset ($testData['email']);
         } else {
-            $testData['search_type_id'] = 'Email Address';
             unset ($testData['zip']);
         }
         //Steps
@@ -207,10 +206,9 @@ class Enterprise2_Mage_RMA_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
             $testData['search_type_id'] = 'ZIP Code';
             unset ($testData['email']);
         } else {
-            $testData['search_type_id'] = 'Email Address';
             unset ($testData['zip']);
         }
-        $this->addParameter('orderId', $testData['order_id']);
+        $this->addParameter('elementTitle', $testData['order_id']);
         //Steps
         $this->fillFieldset($testData, 'orders_and_returns_form');
         $this->clickButton('continue');

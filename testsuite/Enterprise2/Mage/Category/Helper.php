@@ -26,26 +26,24 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
     {
         $tabs = $this->getCurrentUimapPage()->getAllTabs();
         foreach ($tabs as $tab => $values) {
-            switch ($tab) {
-                case 'category_permissions_tab':
-                    if (!isset($categoryData['category_permissions'])) {
-                        break;
-                    }
-                    $this->openTab('category_permissions_tab');
-                    $this->addNewCategoryPermissions($categoryData['category_permissions']);
-                    break;
-                case 'category_products':
-                    $arrayKey = $tab . '_data';
-                    if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
-                        $this->openTab($tab);
-                        foreach ($categoryData[$arrayKey] as $value) {
-                            $this->productHelper()->assignProduct($value, $tab);
-                        }
-                    }
-                    break;
-                default:
-                    $this->fillForm($categoryData, $tab);
-                    break;
+            if (!$this->controlIsPresent('tab', $tab)) {
+                continue;
+            }
+            if ($tab != 'category_products' && $tab != 'category_permissions_tab') {
+                $this->fillTab($categoryData, $tab, false);
+                continue;
+            }
+            if ($tab == 'category_permissions_tab' && isset($categoryData['category_permissions'])) {
+                $this->openTab('category_permissions_tab');
+                $this->addNewCategoryPermissions($categoryData['category_permissions']);
+                continue;
+            }
+            $arrayKey = $tab . '_data';
+            if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
+                $this->openTab($tab);
+                foreach ($categoryData[$arrayKey] as $value) {
+                    $this->productHelper()->assignProduct($value, $tab);
+                }
             }
         }
     }
@@ -69,9 +67,8 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
      */
     public function addNewCategoryPermissions($permissions = array())
     {
-        $xpath = $this->_getControlXpath('fieldset', 'new_category_permission');
         foreach ($permissions as $permission) {
-            $count = $this->getXpathCount($xpath);
+            $count = count($this->getControlElements('fieldset', 'new_category_permission'));
             $this->addParameter('row', $count + 1);
             $this->clickButton('new_permission', false);
             $this->waitForElement($this->_getControlXpath('button', 'delete_permissions'));
@@ -82,46 +79,5 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
                 $this->fillFieldset($permission, 'new_category_permission');
             }
         }
-    }
-
-    /**
-     * Find category with valid name
-     *
-     * @param string $catName
-     * @param null|string $parentCategoryId
-     * @param string $fieldsetName
-     *
-     * @return array
-     */
-    public function defineCorrectCategory($catName, $parentCategoryId = null, $fieldsetName = 'select_category')
-    {
-        $isCorrectName = array();
-        $categoryText = '/div/a/span';
-
-        if (!$parentCategoryId) {
-            $this->addParameter('rootName', $catName);
-            $catXpath =
-                $this->_getControlXpath('link', 'root_category', $this->_findUimapElement('fieldset', $fieldsetName));
-        } else {
-            $this->addParameter('parentCategoryId', $parentCategoryId);
-            $this->addParameter('subName', $catName);
-            $isDiscloseCategory =
-                $this->_getControlXpath('link', 'expand_category', $this->_findUimapElement('fieldset', $fieldsetName));
-            $catXpath =
-                $this->_getControlXpath('link', 'sub_category', $this->_findUimapElement('fieldset', $fieldsetName));
-            if ($this->isElementPresent($isDiscloseCategory)) {
-                $this->click($isDiscloseCategory);
-                $this->pleaseWait();
-            }
-        }
-        $this->waitForAjax();
-
-        $text = $this->getText($catXpath . '[1]' . $categoryText);
-        $text = preg_replace('/ \([0-9]+\)/', '', $text);
-        if ($catName === $text) {
-            $isCorrectName[] = $this->getAttribute($catXpath . '[1]' . '/div/a/@id');
-        }
-
-        return $isCorrectName;
     }
 }

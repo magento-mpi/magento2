@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function tearDownAfterTest()
     {
@@ -115,14 +115,10 @@ class Community2_Mage_ACL_SalesOrderActionsOneRoleTest extends Mage_Selenium_Tes
     {
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         // Verify that navigation menu has only one element
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals('1', count($navigationElements),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_children_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals('4', count($navigationElements),
+        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of child Navigation Menu not equal 4, should be equal 4');
     }
 
@@ -131,7 +127,7 @@ class Community2_Mage_ACL_SalesOrderActionsOneRoleTest extends Mage_Selenium_Tes
      *
      * <p>Steps:</p>
      * <p>1. Login to backend as test admin user</p>
-     * <p>2. Create order(click "Creat New Order" and fill all required fields)</p>
+     * <p>2. Create order(click "Create New Order" and fill all required fields)</p>
      * <p>Expected results:</p>
      * <p>1. Sales Order page is opened</p>
      * <p>2. Order is created, success message is appeared</p>

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Checks if full page cache is enabled
@@ -28,18 +28,19 @@ class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestC
         $pageCacheXpath = "//td[normalize-space(text())='FPC']";
 
         $this->addParameter('indexName', 'FPC');
-        if (!$this->isElementPresent($this->_findUimapElement('checkbox', 'select_cache'))) {
-            $this->fail(
-                'Page Cache type is not present on the page'
-            );
+        if (!$this->controlIsPresent('checkbox', 'select_cache')) {
+            $this->fail('Page Cache type is not present on the page');
         }
-        if ($this->isElementPresent($this->_findUimapElement('pageelement', 'cache_enabled') . $pageCacheXpath) ||
-            $this->isElementPresent($this->_findUimapElement('pageelement', 'cache_invalided') . $pageCacheXpath)) {
+        $cacheEnabled = $this->_getControlXpath('pageelement', 'cache_enabled');
+        $cacheInvalided = $this->_getControlXpath('pageelement', 'cache_invalided');
+        if ($this->elementIsPresent($cacheEnabled . $pageCacheXpath)
+            || $this->elementIsPresent($cacheInvalided . $pageCacheXpath)
+        ) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
+
     /**
      * Enables Full page caching
      *
@@ -58,6 +59,7 @@ class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestC
             return false;
         }
     }
+
     /**
      * Disables Full page caching
      *

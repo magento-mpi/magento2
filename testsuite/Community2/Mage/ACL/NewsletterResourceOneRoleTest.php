@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -71,12 +71,10 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
     {
         $this->adminUserHelper()->loginAdmin($loginData);
         // Verify that navigation menu has only 1 parent element
-        $this->assertEquals('1', count($this->getElementsByXpath(
-                $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $this->assertEquals('4', count($this->getElementsByXpath(
-                $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
+        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         $this->assertTrue($this->buttonIsPresent('add_new_template'),
             'There is no "Add New Template" button on the page');
@@ -96,7 +94,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
      * <p>3. Fill all fields and click "Save Template" button</p>
      * <p>Expected results:</p>
      * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appered "The newsletter template has been saved."</p>
+     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
      * <p>3. Templates grid contains created template </p>
      *
      * @param $loginData
@@ -116,7 +114,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_save_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newsData);
-        $this->assertNotNull($this->search($searchData),
+        $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template( Name: ' . $newsData['newsletter_template_name'] . ' ) is not presented in grid');
 
         return $newsData;
@@ -131,7 +129,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
      * <p>3. Fill all fields with new data and click "Save Template" button</p>
      * <p>Expected results:</p>
      * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appered "The newsletter template has been saved."</p>
+     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
      * <p>3. Templates grid contains created template </p>
      *
      * @param array $loginData
@@ -152,7 +150,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
         $this->validatePage('newsletter_templates');
        // $this->assertMessagePresent('success', 'success_save_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
-        $this->assertNotNull($this->search($searchData),
+        $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');
 
         return $newNewsletterData;
@@ -170,7 +168,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
      * <p>6. Click "Save Newsletter" button</p>
      * <p>Expected results:</p>
      * <p>1. Opened page is "Newsletter Queue" </p>
-     * <p>2. Success Message is appered "The newsletter Queue has been saved."</p>
+     * <p>2. Success Message is appeared "The newsletter Queue has been saved."</p>
      * <p>3. Queue grid contains created template </p>
      *
      * @param array $loginData
@@ -190,7 +188,8 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
-        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject'])),
+        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject']),
+                'newsletter_templates_grid'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
 
@@ -199,12 +198,12 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
      *
      * <p>Steps:</p>
      * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test teplate in Newsletter Template grid and click</p>
+     * <p>2. Find test template in Newsletter Template grid and click</p>
      * <p>3. Click "Delete Template"</p>
      * <p>4. Go to Newsletter>Newsletter queue</p>
      * <p>Expected results:</p>
      * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appered "The newsletter template has been deleted."</p>
+     * <p>2. Success Message is appeared "The newsletter template has been deleted."</p>
      * <p>3. Templates grid does not contain created template </p>
      * <p>4. Queue grid does not contain created template </p>
      *
@@ -225,14 +224,13 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_delete_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
-        $this->assertNull($this->search($searchData),
+        $this->assertNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template(Name:' . $newNewsletterData['newsletter_template_subject']
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $this->assertNull($this->search(array('filter_queue_subject'=>
-                                              $newNewsletterData['newsletter_template_subject'])),
-            'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
-            . ') is presented in queue grid, should be deleted');
+        $this->assertNull($this->search(array('filter_queue_subject'=> $newNewsletterData['newsletter_template_subject']),
+            'newsletter_templates_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
+                                          . ') is presented in queue grid, should be deleted');
     }
 
     /**
@@ -275,15 +273,15 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
      * <p>Steps:</p>
      * <p>1. Login to backend as test admin user</p>
      * <p>2. Go to Newsletter>Newsletter Subscribers</p>
-     * <p>3. Find in grid test subscribed customer and select(checkobx)</p>
+     * <p>3. Find in grid test subscribed customer and select(checkbox)</p>
      * <p>4. In Mass action dropdown select "Unsubscribe", click "Submit" </p>
      * <p>5. In Mass action dropdown select "Delete", click "Submit" </p>
      * <p>Expected results:</p>
      * <p>1. after step 4: Opened page is "Newsletter Subscribers" </p>
-     * <p>2. after step 4: Success Message is appered "Total of 1 record(s) were updated"</p>
+     * <p>2. after step 4: Success Message is appeared "Total of 1 record(s) were updated"</p>
      * <p>3. after step 4: Subscribers grid contains this user with status = Unsubscribe </p>
      * <p>4. after step 5: Opened page is "Newsletter Subscribers" </p>
-     * <p>5. after step 5: Success Message is appered "Total of 1 record(s) were updated"</p>
+     * <p>5. after step 5: Success Message is appeared "Total of 1 record(s) were updated"</p>
      * <p>6. after step 5: Subscribers grid does not contain this user</p>
      *
      * @param $loginData
@@ -311,7 +309,7 @@ class Community2_Mage_ACL_NewsletterResourceOneRoleTest extends Mage_Selenium_Te
         //Delete customers from subscribers list
         $this->newsletterHelper()->massAction('delete', array($subscriberEmail));
         $this->assertMessagePresent('success', 'success_delete');
-        $this->assertNull($this->search($subscriberEmail),
+        $this->assertNull($this->search($subscriberEmail, 'newsletter_templates_grid'),
             'Subscriber ' . $subscriberEmail['filter_email'] . ' still presented in grid, should be deleted');
     }
 }

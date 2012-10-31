@@ -25,7 +25,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    protected function _convertTagsStringToArray($tagName)
+    public function _convertTagsStringToArray($tagName)
     {
         $tags = array();
         $tagNameArray = array_filter(explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
@@ -127,9 +127,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
             $this->frontend('category_page_before_reindex');
             $this->addParameter('tagName', $tag);
             $this->assertTrue($this->controlIsPresent('link', 'tag_name'), "Cannot find tag with name: $tag");
+            $this->addParameter('elementTitle', $tag);
             $this->clickControl('link', 'tag_name');
             $this->assertTrue($this->checkCurrentPage('tags_products'), $this->getParsedMessages());
-            $this->assertTrue($this->controlIsPresent('link', 'product_name'));
+            $this->assertTrue($this->controlIsPresent('link', 'product_name'),
+                'Product with name "' . $product . '" is not tagged with "' . $tag . '" tag');
         }
     }
 
@@ -161,7 +163,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getControlAttribute('field', 'tag_name', 'value');
-            $this->addParameter('tagName', $tagName);
+            $this->addParameter('elementTitle', $tagName);
             //Fill additional options
             $this->clickButton('save_and_continue_edit');
             $this->clickButton('reset');
@@ -209,9 +211,12 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         $cellId = $this->getColumnIdByName('Tag');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
-        $this->addParameter('tagName', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
+        $this->addParameter('elementTitle', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $this->clickControl('pageelement', 'table_line_cell_index', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('storeId', $this->defineParameterFromUrl('store'));
+        $this->validatePage();
     }
 
     /**
@@ -225,7 +230,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
     public function changeTagsStatus(array $tagsSearchData, $newStatus)
     {
         foreach ($tagsSearchData as $searchData) {
-            $this->searchAndChoose($searchData, 'pending_tags_grid');
+            $this->searchAndChoose($searchData, 'tags_grid');
         }
         $this->fillDropdown('tags_massaction', 'Change status');
         $this->fillDropdown('tags_status', $newStatus);
@@ -309,5 +314,74 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         } while (true);
 
         return false;
+    }
+
+    /**
+     * Checks tag.
+     *
+     * @param array $tagData Data used in Search Grid for tags. Same as used for openTag
+     * @param array|null $products
+     * @param array|null $customers
+     *
+     * @return bool
+     */
+    public function verifyTag(array $tagData, array $products = null, array $customers = null)
+    {
+        $this->openTag($tagData);
+        $this->assertTrue($this->verifyForm($tagData), 'Tag verification is failure ' . print_r($tagData, true));
+        //Verification in "Edit Tag" -> "Customers Submitted this Tag", "Products Tagged by Customers"
+        $this->clickControl('link', 'prod_tag_customer_expand', false);
+        $this->waitForAjax();
+        if ($products) {
+            foreach ($products as $product) {
+                $this->assertNotNull($this->search(array('prod_tag_customer_product_name' => $product['name']),
+                        'products_tagged_by_customers'),
+                    "Cannot find product $product in Products Tagged by Customers");
+            }
+        }
+        $this->clickControl('link', 'customers_submit_tag_expand', false);
+        $this->waitForAjax();
+        if ($customers) {
+            foreach ($customers as $customer) {
+                $this->assertNotNull($this->search(array('first_name' => $customer['first_name'],
+                                                         'last_name'  => $customer['last_name']),
+                    'customers_submitted_tags'), "Cannot find customer in Customers Submitted this Tag");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the customer tagged product is assigned to the product.
+     * Returns true if assigned, or False otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
+     * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
+     *
+     * @return bool
+     */
+    public function verifyCustomerTaggedProduct(array $tagSearchData, array $productSearchData)
+    {
+        $this->productHelper()->openProduct($productSearchData);
+        $this->openTab('customer_tags');
+        $xpathTR = $this->search($tagSearchData, 'customer_tags');
+        return $xpathTR ? true : false;
+    }
+
+    /**
+     * Checks if tag is selected in grid.
+     * Returns true if selected, or false otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag
+     *
+     * @return bool
+     */
+    public function isTagSelected(array $tagSearchData)
+    {
+        $this->_prepareDataForSearch($tagSearchData);
+        $xpathTR = $this->search($tagSearchData, 'tags_grid');
+        $this->assertNotNull($xpathTR, 'Tag is not found');
+        $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
+        return $this->getElement($xpathTR)->selected();
     }
 }

@@ -44,6 +44,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->doOnePageCheckoutSteps($checkoutData);
         $this->frontOrderReview($checkoutData);
+        $this->selectTermsAndConditions($checkoutData);
         return $this->submitOnePageCheckoutOrder();
     }
 
@@ -54,7 +55,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     {
         $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
         $waitConditions = array($this->_getMessageXpath('success_checkout'), $errorMessageXpath,
-                                $this->_getMessageXpath('general_validation'));
+                                $this->_getMessageXpath('general_validation'),
+                                $this->_getControlXpath('pageelement', 'andp_iframe'));
         $this->clickButton('place_order', false);
         $this->waitForElementOrAlert($waitConditions);
         $this->verifyNotPresetAlert();
@@ -62,6 +64,12 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessageNotPresent('error');
         $this->assertEmptyVerificationErrors();
+        if ($this->controlIsVisible('pageelement', 'andp_iframe')) {
+            $this->frame('directpost-iframe');
+            $message = $this->getElement("//table//td")->text();
+            $this->frame(null);
+            $this->fail($message);
+        }
         $this->validatePage('onepage_checkout_success');
         if ($this->controlIsPresent('link', 'order_number')) {
             return $this->getControlAttribute('link', 'order_number', 'text');
@@ -263,8 +271,14 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
         $this->assertOnePageCheckoutTabOpened('payment_method');
-        $this->checkoutMultipleAddressesHelper()->selectPaymentMethod($paymentMethod);
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
+        if (!$this->controlIsPresent('message', 'zero_payment') || $payment != 'No Payment Information Required') {
+            $this->checkoutMultipleAddressesHelper()->selectPaymentMethod($paymentMethod);
+        }
         $this->goToNextOnePageCheckoutStep('payment_method');
+        if (isset($paymentMethod['payment_info']) && ($this->getParameter('paymentId') === 'authorizenet_directpost')) {
+            $this->fillFieldset($paymentMethod['payment_info'], 'andp_frame');
+        }
     }
 
     /**
@@ -470,7 +484,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         $addressText = explode("\n", $addressText);
         $actualAddress = array();
         foreach ($addressText as $addressLine) {
-            $addressLine = trim(preg_replace('/^(T:)|(F:)/', '', $addressLine));
+            $addressLine = trim(preg_replace('/^(T:)|(F:)|(VAT:)/', '', $addressLine));
             if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $addressLine)) {
                 $actualAddress[] = $addressLine;
             } else {
@@ -496,6 +510,27 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             if (!in_array($value, $actualAddress)) {
                 $this->addVerificationMessage(
                     $field . ' with value ' . $value . ' is not shown on the checkout progress bar');
+            }
+        }
+    }
+
+    /**
+     * @param array $checkoutData
+     */
+    public function selectTermsAndConditions(array $checkoutData)
+    {
+        $agreements = (isset($checkoutData['agreement'])) ? $checkoutData['agreement'] : array();
+        foreach ($agreements as $agreement) {
+            $id = isset($agreement['agreement_id']) ? $agreement['agreement_id'] : null;
+            $this->addParameter('termsId', $id);
+            $this->fillCheckbox('agreement_select', $agreement['agreement_select']);
+            if ($agreement['agreement_checkbox_text']) {
+                $actualText = $this->getControlAttribute('pageelement', 'agreement_checkbox_text', 'text');
+                $this->assertSame($agreement['agreement_checkbox_text'], $actualText, 'Text is not identical');
+            }
+            if ($agreement['agreement_content']) {
+                $actualText = $this->getControlAttribute('pageelement', 'agreement_content', 'text');
+                $this->assertSame($agreement['agreement_content'], $actualText, 'Text is not identical');
             }
         }
     }

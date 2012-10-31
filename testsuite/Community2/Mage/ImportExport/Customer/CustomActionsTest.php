@@ -76,8 +76,6 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
             if (!is_null($updatedCustomerData[$key])) {
                 $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($updatedCustomerData[$key]),
                     'Customer not found');
-                $this->addParameter('customer_first_last_name', $updatedCustomerData[$key]['first_name']
-                    . ' ' . $updatedCustomerData[$key]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => $updatedCustomerData[$key]['email']));
                 $this->assertTrue($this->verifyForm($updatedCustomerData[$key], 'account_information'),
                     'Customer has not been updated');

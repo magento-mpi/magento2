@@ -14,10 +14,11 @@ store_information_data:
     tab_1:
         tab_name: general_general
         configuration:
-            store_name: Test Store Name
-            store_contact_telephone: 111-222-333-444
-            store_country: Germany
-            billing_vat_number: 111607872
+            store_information:
+                store_name: Test Store Name
+                store_contact_telephone: 111-222-333-444
+                store_country: Germany
+                billing_vat_number: 111607872
 
 #<-------------Settings for "Create New Account Options" tab------------------------>
 create_new_account_options:
@@ -25,14 +26,15 @@ create_new_account_options:
     tab_1:
         tab_name: customers_customer_configuration
         configuration:
-            enable_automatic_assignment_group: Yes
-            tax_calculated_based_on: Billing Address
-            group_default: %noValue%
-            group_valid_vat_domestic: %noValue%
-            group_valid_vat_intraunion: %noValue%
-            group_invalid_vat: %noValue%
-            show_vat_number_frontend: Yes
-            default_value_for_disable_automatic_group: %noValue%
+            create_new_account_options:
+                enable_automatic_assignment_group: Yes
+                tax_calculated_based_on: Billing Address
+                group_default: %noValue%
+                group_valid_vat_domestic: %noValue%
+                group_valid_vat_intraunion: %noValue%
+                group_invalid_vat: %noValue%
+                show_vat_number_frontend: Yes
+                default_value_for_disable_automatic_group: %noValue%
             
 #<-------Disabling "Enable Automatic Assignment to Customer Group" option----------->
 create_new_account_options_disable:
@@ -40,5 +42,6 @@ create_new_account_options_disable:
     tab_1:
         tab_name: customers_customer_configuration
         configuration:
-            enable_automatic_assignment_group: No
-            default_value_for_disable_automatic_group: No
+            create_new_account_options:
+                enable_automatic_assignment_group: No
+                default_value_for_disable_automatic_group: No

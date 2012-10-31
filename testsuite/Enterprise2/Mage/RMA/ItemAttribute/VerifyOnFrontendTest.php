@@ -16,7 +16,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise2_Mage_RMA_ItemAttribute_VerifyOnFrontendTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -98,6 +98,7 @@ class Enterprise2_Mage_RMA_ItemAttribute_VerifyOnFrontendTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $testData['order_id']);
         $this->clickControl('link', 'view_order');
         $this->clickControl('link', 'return');
         //Verification
@@ -150,6 +151,7 @@ class Enterprise2_Mage_RMA_ItemAttribute_VerifyOnFrontendTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $testData['order_id']);
         $this->clickControl('link', 'view_order');
         $this->clickControl('link', 'return');
         //Verification
@@ -202,12 +204,13 @@ class Enterprise2_Mage_RMA_ItemAttribute_VerifyOnFrontendTest extends Mage_Selen
         $this->addParameter('orderId', $testData['order_id']);
         $this->addParameter('param', '0');
         //Steps
-        $this->searchAndOpen(array ('attribute_label' => $attributeLabel));
+        $this->searchAndOpen(array ('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'No');
         $this->clickButton('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
+        $this->addParameter('elementTitle', $testData['order_id']);
         $this->clickControl('link', 'view_order');
         $this->clickControl('link', 'return');
         //Verification
@@ -215,7 +218,8 @@ class Enterprise2_Mage_RMA_ItemAttribute_VerifyOnFrontendTest extends Mage_Selen
         //Postcondition
         $this->loginAdminUser();
         $this->navigate('manage_rma_items_attribute');
-        $this->searchAndOpen(array ('filter_attribute_label' => $attributeLabel));
+        $this->addParameter('elementTitle', $attributeLabel);
+        $this->searchAndOpen(array ('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'Yes');
         $this->clickButton('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');

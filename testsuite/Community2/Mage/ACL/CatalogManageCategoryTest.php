@@ -12,7 +12,7 @@
  *
  */
 
-class Community2_Mage_ACL_CatalogManageCategoryTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

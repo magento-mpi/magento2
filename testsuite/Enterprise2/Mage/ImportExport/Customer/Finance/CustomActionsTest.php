@@ -60,9 +60,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         for ($i = 0; $i < count($updateData); $i++) {
             if ($updateData[$i]['store_credit']!='' || $updateData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 if ($updateData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
@@ -112,9 +109,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                       'Customer was found!'
                  );
             } else {
-                 $this->addParameter(
-                     'customer_first_last_name',
-                     self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                  $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                  $this->assertEquals(
                      $dataUpdateCsv[$i]['store_credit'],
@@ -144,9 +138,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         for ($i = 0; $i < count($emptyData); $i++) {
             if ($emptyData[$i]['store_credit']!='' || $emptyData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 if ($emptyData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
@@ -196,9 +187,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                     'Customer was found!'
                 );
             } else {
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 $this->assertEquals(
                     $dataEmptyCsv[$i]['store_credit'],
@@ -229,9 +217,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             $dataCsv[$i]['_email'] = self::$_customersData[$i]['email'];
             if ($deletePositiveData[$i]['store_credit']!='' || $deletePositiveData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 if ($deletePositiveData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
@@ -270,9 +255,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         //Verifying
         for ($i = 0; $i < count($dataCsv); $i++) {
             $this->navigate('manage_customers');
-            $this->addParameter(
-                'customer_first_last_name',
-                self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
             $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
             $currentBalance = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
             $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
@@ -299,9 +281,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         for ($i = 0; $i < count($deleteNegativeData); $i++) {
             if ($deleteNegativeData[$i]['store_credit']!='' || $deleteNegativeData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 if ($deleteNegativeData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
@@ -356,9 +335,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                     'Customer was found!'
                 );
             } else {
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                 $this->assertEquals(
                     $dataCsv[$i]['store_credit'],
@@ -406,8 +382,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userData[0]['first_name'] . ' '
-            . $userData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData[0]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
@@ -419,7 +393,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userData[1]['first_name'] . ' ' . $userData[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData[1]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '200'));
@@ -450,7 +423,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         //Step 5
         $this->navigate('manage_customers');
         //Step 6. First Customer
-        $this->addParameter('customer_first_last_name', $userData[0]['first_name'] . ' ' . $userData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData[0]['email']));
         //Verify customer account
         $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
@@ -459,7 +431,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             'Reward Points Balance is deleted');
         //Step 6. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userData[1]['first_name'] . ' ' . $userData[1]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData[1]['email']));
         //Verify customer account
         $this->assertEquals('$200.00', $this->customerHelper()->getStoreCreditBalance(),

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
+class Community2_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Post conditions:</p>
@@ -73,13 +73,9 @@ class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_customers');
         //Verifying  count of main menu elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals('1', count($navigationElements));
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertEquals(0, $this->getControlCount('field', 'global_record_search'));
     }
 
     /**
@@ -215,13 +211,9 @@ class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_customer_groups');
         //Verifying  count of main menu elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals('1', count($navigationElements));
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertEquals(0, $this->getControlCount('field', 'global_record_search'));
     }
 
     /**
@@ -296,12 +288,8 @@ class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('online_customers');
         //Verifying  count of main menu elements
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals('1', count($navigationElements));
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
-        $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
-        $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
-        $this->assertEquals('0', count($globSearchCount));
+        $this->assertEquals(0, $this->getControlCount('field', 'global_record_search'));
     }
 }

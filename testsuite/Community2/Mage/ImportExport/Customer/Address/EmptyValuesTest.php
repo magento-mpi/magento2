@@ -60,7 +60,6 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
         $this->customerHelper()->createCustomer($userData, $addressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->openTab('addresses');
         $addressId = $this->customerHelper()->isAddressPresent($addressData);
@@ -89,7 +88,6 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
         //Step 6
         $this->navigate('manage_customers');
         //Step 7
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         //Verify Customer Address
         $this->openTab('addresses');

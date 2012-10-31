@@ -43,8 +43,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
         //Verifying
@@ -73,8 +74,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createProcessingOrderWithInvoice($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
@@ -103,8 +105,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createCompleteOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
@@ -133,8 +136,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createClosedOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
@@ -163,8 +167,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createCanceledOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
@@ -189,12 +194,13 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->orderHelper()->createHoldedOrder($searchData['order1']);
+        $this->orderHelper()->createHoldenOrder($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
         //Verifying
@@ -220,10 +226,11 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         //Steps
         $this->orderHelper()->createProcessingOrderWithInvoice($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Hold');
         $this->clickButton('submit');
         //Verifying
@@ -233,7 +240,7 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Unholding orders with status "Pending"</p>
+     * <p>Unhold orders with status "Pending"</p>
      * <p>Steps:</p>
      * <p>1. Create two orders</p>
      * <p>2. Select action "Unhold" for your orders</p>
@@ -248,8 +255,9 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Unhold');
         $this->clickButton('submit');
@@ -258,27 +266,28 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Unholding orders with status "Hold"</p>
+     * <p>Unhold orders with status "Hold"</p>
      * <p>Steps:</p>
      * <p>1. Create two orders and hold them</p>
      * <p>2. Select action "Unhold" for your orders</p>
      * <p>Expected result:</p>
-     * <p>Received the message that the orders has been unholded</p>
+     * <p>Received the message that the orders has been unholden</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5947
      */
-    public function unholdHoldedOrders()
+    public function unholdUnholdenOrders()
     {
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->orderHelper()->createHoldedOrder($searchData['order1']);
+        $this->orderHelper()->createHoldenOrder($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->addParameter('orderQty', '2');
         $this->fillDropdown('filter_massaction', 'Unhold');
         $this->clickButton('submit');
@@ -287,7 +296,7 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Unholding orders with different status</p>
+     * <p>Unhold orders with different status</p>
      * <p>Steps:</p>
      * <p>1. Create two orders with status "Pending" and "Hold"</p>
      * <p>3. Select action "Unhold" for your orders</p>
@@ -304,10 +313,11 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         //Steps
         $this->orderHelper()->createProcessingOrderWithInvoice($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Unhold');
         $this->clickButton('submit');
         //Verifying
@@ -334,13 +344,10 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
         $this->navigate('manage_sales_orders');
         $this->fillDropdown('filter_massaction', $actionValue);
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not
-        match');
+        $this->assertSame('Please select items.', $this->alertText(),
+            'actual and expected confirmation message does not match');
+        $this->acceptAlert();
     }
 
     public function updateAttributesByBatchUpdatesNegativeDataProvider()
@@ -350,7 +357,8 @@ class Community2_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_Te
             array('Hold'),
             array('Unhold'),
             array('Print Invoices'),
-            array('Print Packingslips'),
+            array('Print Packing Slips'),
+            array('Print Credit Memos'),
             array('Print All'),
             array('Print Shipping Labels')
         );
