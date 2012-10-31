@@ -26,20 +26,14 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
-     */
-    public  function assertPostConditions(){
-        $this->logoutAdminUser();
-    }
-
-    /**
      * Need to verify that all elements is presented on invitation report_invitations_customers page
      * @test
      * @dataProvider uiElementsTestDataProvider
-     * 2
+     *
      */
     public function uiElementsTest($pageName)
     {
+        $this->loginAdminUser();
         $this->navigate($pageName);
         $page = $this->loadDataSet('Report', 'grid');
         foreach ($page[$pageName] as $control=> $type) {
@@ -53,9 +47,10 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->assertEmptyVerificationErrors();
     }
 
-
 public function uiElementsTestDataProvider()
 {
-    return array(array('invitations_customers'));
+    return array(array('invitations_customers'),
+                 array('report_product_sold'),
+                 );
 }
 }

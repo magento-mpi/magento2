@@ -27,3 +27,15 @@ grid:
         field:
             filter_from:
             filter_to:
+    report_product_sold:
+        button:
+            export:
+            refresh:
+        dropdown:
+            show_by:
+            export_to:
+        field:
+            filter_from:
+            filter_to:
+        pageelement:
+            product_sold_grid:
