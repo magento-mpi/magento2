@@ -96,6 +96,7 @@ return array(
     'Mage_Core_Model_Layout_Data' => array('suggestion' => 'Mage_Core_Model_Layout_Update'),
     'Mage_Customer_Block_Account',
     'Mage_Directory_Model_Resource_Currency_Collection',
+    'Mage_DesignEditor_Block_Toolbar_Skin',
     'Mage_Downloadable_FileController' => array(
         'suggestion' => 'Mage_Downloadable_Adminhtml_Downloadable_FileController'
     ),
