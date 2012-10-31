@@ -9,7 +9,10 @@
  */
 
 use Zend\Di\Exception;
-
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @todo Need decrease ExcessiveClassComplexity of this class, it will be implemented in MAGETWO-3861
+ */
 class Magento_Di extends Zend\Di\Di
 {
     /**
@@ -48,29 +51,29 @@ class Magento_Di extends Zend\Di\Di
         if (!$this->definitions()->hasClass($name)) {
             array_push($this->instanceContext, array('NEW', $name, $name));
 
-            if (preg_match('/\w*_\w*\_Model/', $name)) {
-                $this->_cacheMainDependencies();
+            if ($this->_isArrayHasDataKey($parameters)) {
+                $parameters = reset($parameters);
+            }
 
+            if (preg_match('/\w*_\w*\_Model/', $name)) {
                 $instance = new $name(
-                    $this->_cachedInstances['eventManager'],
-                    $this->_cachedInstances['cache'],
+                    $this->_getCachedDependency('Mage_Core_Model_Event_Manager'),
+                    $this->_getCachedDependency('Mage_Core_Model_Cache'),
                     null,
                     null,
                     $parameters
                 );
             } else if (preg_match('/\w*_\w*\_Block/', $name)) {
-                $this->_cacheMainDependencies();
-
                 $instance = new $name(
-                    $this->_cachedInstances['request'],
-                    $this->_cachedInstances['layout'],
-                    $this->_cachedInstances['eventManager'],
-                    $this->_cachedInstances['translate'],
-                    $this->_cachedInstances['cache'],
-                    $this->_cachedInstances['design'],
-                    $this->_cachedInstances['session'],
-                    $this->_cachedInstances['storeConfig'],
-                    $this->_cachedInstances['frontController'],
+                    $this->_getCachedDependency('Mage_Core_Controller_Request_Http'),
+                    $this->_getCachedDependency('Mage_Core_Model_Layout'),
+                    $this->_getCachedDependency('Mage_Core_Model_Event_Manager'),
+                    $this->_getCachedDependency('Mage_Core_Model_Translate'),
+                    $this->_getCachedDependency('Mage_Core_Model_Cache'),
+                    $this->_getCachedDependency('Mage_Core_Model_Design_Package'),
+                    $this->_getCachedDependency('Mage_Core_Model_Session'),
+                    $this->_getCachedDependency('Mage_Core_Model_Store_Config'),
+                    $this->_getCachedDependency('Mage_Core_Controller_Varien_Front'),
                     $parameters
                 );
             } else {
@@ -134,6 +137,18 @@ class Magento_Di extends Zend\Di\Di
     }
 
     /**
+     * Check is array has 'data' key
+     * Function used to provide possibility to use old and new format of params array, when new model instantiated
+     *
+     * @param $array
+     * @return bool
+     */
+    protected function _isArrayHasDataKey($array)
+    {
+        return (count($array) == 1) && array_key_exists('data', $array);
+    }
+
+    /**
      * Add shared instance to instance manager
      *
      * @param object $instance
@@ -153,25 +168,18 @@ class Magento_Di extends Zend\Di\Di
     }
 
     /**
-     * Create cache of main dependencies for model and block creation
+     * Retrieve cached object
      *
-     * @return Magento_Di
+     * @param string $className
+     * @return mixed
      */
-    protected function _cacheMainDependencies()
+    protected function _getCachedDependency($className)
     {
-        if (!$this->_cachedInstances) {
-            $this->_cachedInstances['eventManager']    = $this->get('Mage_Core_Model_Event_Manager');
-            $this->_cachedInstances['cache']           = $this->get('Mage_Core_Model_Cache');
-            $this->_cachedInstances['request']         = $this->get('Mage_Core_Controller_Request_Http');
-            $this->_cachedInstances['layout']          = $this->get('Mage_Core_Model_Layout');
-            $this->_cachedInstances['translate']       = $this->get('Mage_Core_Model_Translate');
-            $this->_cachedInstances['design']          = $this->get('Mage_Core_Model_Design_Package');
-            $this->_cachedInstances['session']         = $this->get('Mage_Core_Model_Session');
-            $this->_cachedInstances['storeConfig']     = $this->get('Mage_Core_Model_Store_Config');
-            $this->_cachedInstances['frontController'] = $this->get('Mage_Core_Controller_Varien_Front');
+        if (!isset($this->_cachedInstances[$className])) {
+            $this->_cachedInstances[$className] = $this->get($className);
         }
 
-        return $this;
+        return $this->_cachedInstances[$className];
     }
 
     /**
