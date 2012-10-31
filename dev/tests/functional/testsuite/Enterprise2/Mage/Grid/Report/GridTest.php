@@ -53,4 +53,27 @@ public function uiElementsTestDataProvider()
                  array('report_product_sold'),
                  );
 }
+
+    /**
+     * Need to verify count of Grid Rows according to "From:", "To:","Show By:" values
+     * @test
+     *
+     *@dataProvider countGridRowsTestDataProvider
+     */
+    public function countGridRows($page,$gridFieldset,$gridTable,$dataSet,$count)
+    {
+        $this->loginAdminUser();
+        $this->navigate($page);
+        $data = $this->loadDataSet('Report',$dataSet);
+        $this->fillFieldset($data,$gridFieldset);
+        $this->clickButton('refresh');
+        $gridXpath = $this->_getControlXpath('pageelement',$gridTable );
+        $this->assertCount($count, $this->getElementsByXpath($gridXpath . '/tbody/tr'),'Wrong records number in grid ');
+    }
+
+    public function countGridRowsTestDataProvider()
+    {
+        return array(array('report_product_sold','report_product_sold_grid','product_sold_grid','count_rows_by_day',3),
+        );
+    }
 }
