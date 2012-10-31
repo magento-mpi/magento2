@@ -13,20 +13,22 @@ class Vendor_ModuleB_Webapi_ModuleB_DataStructure
      *
      * @var string
      */
-    public $string;
+    public $stringParam;
 
     /**
      * Integer doc.
      * {min:10}{max:100}
+     * {callInfo:vendorModuleBGet:returned:Conditionally}
      *
      * @var int {callInfo:allCallsExcept(vendorModuleBUpdate):requiredInput:yes}
      */
-    public $integer = 5;
+    public $integerParam = 5;
 
     /**
      * Optional bool doc.
      * {summary:this is summary}
      * {seeLink:http://google.com/:link title:link for}
+     * {docInstructions:output:noDoc}
      *
      * @var bool
      */

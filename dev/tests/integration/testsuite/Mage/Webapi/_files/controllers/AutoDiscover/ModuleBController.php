@@ -43,4 +43,15 @@ class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_Act
     {
 
     }
+
+    /**
+     * Get resource operation.
+     *
+     * @param int $resourceId Resource ID.
+     * @return Vendor_ModuleB_Webapi_ModuleB_DataStructure
+     */
+    public function getV1($resourceId)
+    {
+
+    }
 }

@@ -259,9 +259,14 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $parameterType = $parameterData['type'];
             $isRequired = isset($parameterData['required']) && $parameterData['required'];
             $annotationCallInfo = $callInfo;
+            // TODO: refactor this part
             if (!$isRequired && isset($annotationCallInfo['requiredInput']['yes']['calls'])) {
                 $annotationCallInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
                 unset($annotationCallInfo['requiredInput']['yes']);
+            }
+            if (!$isRequired && isset($annotationCallInfo['returned']['always']['calls'])) {
+                $annotationCallInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
+                unset($annotationCallInfo['returned']['always']);
             }
             $defaultValue = isset($parameterData['default']) ? $parameterData['default'] : null;
             $wsdlData['annotation'] = $this->_getAnnotation($parameterData['documentation'], $parameterType,
@@ -411,6 +416,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                         $callInfoRegExp = '/([a-z].*)\:(returned|requiredInput)\:(yes|no|always|conditionally)/i';
                         if (preg_match($callInfoRegExp, $tagValue)) {
                             list($callName, $direction, $condition) = explode(':', $tagValue);
+                            $condition = strtolower($condition);
                             if (preg_match('/allCallsExcept\(([a-z].*)\)/', $callName, $calls)) {
                                 $callInfo[$direction][$condition] = array(
                                     'allCallsExcept' => $calls[1],
@@ -459,12 +465,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _overrideCallInfoName(&$callInfo, $callName)
     {
-        foreach ($callInfo as &$callInfoData) {
-            foreach ($callInfoData as &$data) {
+        foreach ($callInfo as $direction => &$callInfoData) {
+            foreach ($callInfoData as $condition => &$data) {
                 if (isset($data['calls'])) {
                     $foundCallNameIndex = array_search($callName, $data['calls']);
                     if ($foundCallNameIndex !== false) {
                         unset($data['calls'][$foundCallNameIndex]);
+                        if (empty($data['calls'])) {
+                            unset($callInfo[$direction][$condition]);
+                        }
                         break;
                     }
                 }
