@@ -60,7 +60,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
         if ($this->_isOsWin()) {
             return 'cscript ';
         } else {
-            return $isRunCmd ? 'rhino ' : 'which rhino $> /dev/null';
+            return $isRunCmd ? 'rhino ' : 'which rhino &> /dev/null';
         }
     }
 
