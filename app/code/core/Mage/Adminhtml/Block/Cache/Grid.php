@@ -14,9 +14,9 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
     /**
      * Class constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('cache_grid');
         $this->_filterVisibility = false;
         $this->_pagerVisibility  = false;
@@ -34,16 +34,6 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
         $this->setCollection($collection);
         return parent::_prepareCollection();
-    }
-
-    /**
-     * Add name and description to collection elements
-     */
-    protected function _afterLoadCollection()
-    {
-        foreach ($this->_collection as $item) {
-        }
-        return $this;
     }
 
     /**

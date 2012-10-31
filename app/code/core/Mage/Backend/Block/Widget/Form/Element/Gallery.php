@@ -21,10 +21,7 @@ class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_
 
     protected $_element = null;
 
-    public function __construct()
-    {
-        $this->setTemplate('Mage_Backend::widget/form/element/gallery.phtml');
-    }
+    protected $_template = 'Mage_Backend::widget/form/element/gallery.phtml';
 
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
@@ -50,21 +47,17 @@ class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_
 
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Delete'),
-                    'onclick'   => "deleteImage(#image#)",
-                    'class' => 'delete'
-                )));
+        $this->addChild('delete_button', 'Mage_Backend_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Delete'),
+            'onclick'   => "deleteImage(#image#)",
+            'class' => 'delete'
+        ));
 
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Add New Image'),
-                    'onclick'   => 'addNewImage()',
-                    'class' => 'add'
-                )));
+        $this->addChild('add_button', 'Mage_Backend_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Add New Image'),
+            'onclick'   => 'addNewImage()',
+            'class' => 'add'
+        ));
         return parent::_prepareLayout();
     }
 

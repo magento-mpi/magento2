@@ -97,7 +97,8 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
                     $placeholder .= ' ' . $k . '="' . $v . '"';
                 }
             }
-            $placeholder = Mage::getModel('Enterprise_PageCache_Model_Container_Placeholder', $placeholder);
+            $placeholder = Mage::getModel('Enterprise_PageCache_Model_Container_Placeholder',
+                array('definition' => $placeholder));
             return $placeholder;
         }
         return false;

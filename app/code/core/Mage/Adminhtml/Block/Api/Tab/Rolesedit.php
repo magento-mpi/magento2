@@ -10,8 +10,11 @@
 
 class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget_Form {
 
-    public function __construct() {
-        parent::__construct();
+    protected $_template = 'api/rolesedit.phtml';
+
+
+    protected function _construct() {
+        parent::_construct();
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
@@ -32,7 +35,7 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget
 
         $this->setSelectedResources($selrids);
 
-        $this->setTemplate('api/rolesedit.phtml');
+
         //->assign('resources', $resources);
         //->assign('checkedResources', join(',', $selrids));
     }

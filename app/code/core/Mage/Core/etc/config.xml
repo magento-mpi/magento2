@@ -92,6 +92,11 @@
                 </observers>
             </theme_registration_from_filesystem>
         </events>
+        <di>
+            <Magento_Data_Structure>
+                <shared>0</shared>
+            </Magento_Data_Structure>
+        </di>
     </global>
     <frontend>
         <routers>
@@ -161,6 +166,11 @@
                 <full_name>default/basic</full_name>
             </theme>
         </design>
+        <di>
+            <preferences>
+                <Mage_Core_Model_Url>Mage_Backend_Model_Url</Mage_Core_Model_Url>
+            </preferences>
+        </di>
     </adminhtml>
     <install>
         <translate>

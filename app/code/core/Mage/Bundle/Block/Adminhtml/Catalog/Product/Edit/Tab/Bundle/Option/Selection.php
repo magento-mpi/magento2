@@ -17,12 +17,14 @@
  */
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection extends Mage_Adminhtml_Block_Widget
 {
+    protected $_template = 'product/edit/bundle/option/selection.phtml';
+
     /**
      * Initialize bundle option selection block
      */
-    public function __construct()
+    protected function _construct()
     {
-        $this->setTemplate('product/edit/bundle/option/selection.phtml');
+
         $this->setCanReadPrice(true);
         $this->setCanEditPrice(true);
     }
@@ -54,14 +56,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     protected function _prepareLayout()
     {
-        $this->setChild('selection_delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
-                    'class' => 'delete icon-btn',
-                    'on_click' => 'bSelection.remove(event)'
-                ))
-        );
+        $this->addChild('selection_delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
+            'class' => 'delete icon-btn',
+            'on_click' => 'bSelection.remove(event)'
+        ));
         return parent::_prepareLayout();
     }
 

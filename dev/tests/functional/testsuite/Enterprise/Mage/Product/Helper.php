@@ -80,4 +80,18 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
 
     }
+
+    /**
+     * Verify product info on frontend
+     *
+     * @param array $productData
+     */
+    public function frontVerifyProductInfo(array $productData)
+    {
+        if (isset($productData['general_short_description'])) {
+            unset($productData['general_short_description']);
+        }
+
+        parent::frontVerifyProductInfo($productData);
+    }
 }

@@ -21,10 +21,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected $_withProductCount;
 
-    public function __construct()
+    protected $_template = 'catalog/category/tree.phtml';
+
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('catalog/category/tree.phtml');
+        parent::_construct();
         $this->setUseAjax(true);
         $this->_withProductCount = true;
     }
@@ -37,27 +39,21 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             '_query' => false
         ));
 
-        $this->setChild('add_sub_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Subcategory'),
-                    'onclick'   => "addNew('".$addUrl."', false)",
-                    'class'     => 'add',
-                    'id'        => 'add_subcategory_button',
-                    'style'     => $this->canAddSubCategory() ? '' : 'display: none;'
-                ))
-        );
+        $this->addChild('add_sub_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Subcategory'),
+            'onclick'   => "addNew('".$addUrl."', false)",
+            'class'     => 'add',
+            'id'            => 'add_subcategory_button',
+            'style'     => $this->canAddSubCategory() ? '' : 'display: none;'
+        ));
 
         if ($this->canAddRootCategory()) {
-            $this->setChild('add_root_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Root Category'),
-                        'onclick'   => "addNew('".$addUrl."', true)",
-                        'class'     => 'add',
-                        'id'        => 'add_root_category_button'
-                    ))
-            );
+            $this->addChild('add_root_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Root Category'),
+                'onclick'   => "addNew('".$addUrl."', true)",
+                'class'     => 'add',
+                'id'        => 'add_root_category_button'
+            ));
         }
 
         $this->setChild('store_switcher',

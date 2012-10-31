@@ -16,10 +16,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
+
+    protected $_template = 'staging/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('staging/edit.phtml');
+        parent::_construct();
+
         $this->setId('enterprise_staging_edit');
 
         $this->setEditFormJsObject('enterpriseStagingForm');
@@ -43,85 +46,61 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
      */
     protected function _prepareLayout()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
-                    'class' => 'back'
-                ))
-        );
+        $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Back'),
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
+            'class' => 'back'
+        ));
 
-        $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
-                ))
-        );
+        $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset'),
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
+        ));
 
         if ($this->getStaging()->canMerge()) {
-            $this->setChild('merge_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Merge...'),
-                        'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
-                        'class'     => 'add'
-                    ))
-            );
+            $this->addChild('merge_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Merge...'),
+                'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
+                'class'     => 'add'
+            ));
         } elseif ($this->getStaging()->getId()) {
-            $this->setChild('merge_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Merge'),
-                        'class'     => 'disabled'
-                    ))
-            );
+            $this->addChild('merge_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Merge'),
+                'class'     => 'disabled'
+            ));
         }
 
         if ($this->getStaging()->canSave()) {
-            $this->setChild('save_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Save'),
-                        'onclick'   => $this->getEditFormJsObject().'.submit()',
-                        'class' => 'save'
-                    ))
-            );
+            $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Save'),
+                'onclick'   => $this->getEditFormJsObject().'.submit()',
+                'class' => 'save'
+            ));
         } else {
             if ($this->getRequest()->getParam('type')) {
-                $this->setChild('create_button',
-                    $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                        ->setData(array(
-                            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Create'),
-                            'onclick'   => $this->getEditFormJsObject().'.runCreate()',
-                            'class'  => 'add'
-                        ))
-                );
+                $this->addChild('create_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                    'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Create'),
+                    'onclick'   => $this->getEditFormJsObject().'.runCreate()',
+                    'class'  => 'add'
+                ));
             }
         }
 
         if ($this->getStaging()->canResetStatus()) {
-            $this->setChild('reset_status_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset Status'),
-                        'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/resetStatus', array('_current'=>true)) . '\')',
-                        'class' => 'reset'
-                ))
-            );
+            $this->addChild('reset_status_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset Status'),
+                'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/resetStatus', array('_current'=>true)) . '\')',
+                'class' => 'reset'
+            ));
         }
 
         $stagingId = $this->getStagingId();
         if ($stagingId && $this->getStaging()->isScheduled()) {
-            $this->setChild('unschedule_button',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                    ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Unschedule Merge'),
-                        'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/unschedule', array('id' => $stagingId)) . '\')',
-                        'class' => 'reset'
-                ))
-            );
+            $this->addChild('unschedule_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Unschedule Merge'),
+                'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/unschedule', array('id' => $stagingId)) . '\')',
+                'class' => 'reset'
+            ));
         }
 
         return parent::_prepareLayout();

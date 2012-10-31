@@ -124,7 +124,7 @@
         </span>
     </div>
     <script type="text/javascript">
-        decorateTable('product_comparison');
+        (function($) {$('#product_comparison').decorate('table')})(jQuery);
 
         /**
          * Send remove item request, after that reload windows

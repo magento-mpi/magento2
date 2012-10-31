@@ -11,9 +11,9 @@
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('enterprise_targetrule_form');
         $this->setTitle(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule Information'));
     }

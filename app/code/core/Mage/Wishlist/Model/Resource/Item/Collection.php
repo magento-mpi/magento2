@@ -36,7 +36,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      * If product out of stock, its item will be removed after load
      *
      * @var bool
-      */
+     */
     protected $_productInStock = false;
 
     /**
@@ -223,10 +223,10 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     {
         $this->getSelect()
             ->join(
-                array('wishlist' => $this->getTable('wishlist')),
-                'main_table.wishlist_id = wishlist.wishlist_id',
-                array()
-            )
+            array('wishlist' => $this->getTable('wishlist')),
+            'main_table.wishlist_id = wishlist.wishlist_id',
+            array()
+        )
             ->where('wishlist.customer_id = ?', $customerId);
         return $this;
     }
@@ -314,31 +314,13 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Set add days in wishlist
+     * Set flag of adding days in wishlist
      *
-     * @TODO This method should be refactored. It appears in 1.5.0.0 in deprecated state, because:
-     * @TODO - we need it to make wishlist item collection interface as much as possible compatible with old
-     * @TODO  wishlist product collection
-     * @TODO - this method is useless because we can calculate days in php, and don't use MySQL for it
-     *
-     * @deprecated since 1.5.0.0
      * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function addDaysInWishlist()
     {
         $this->_addDaysInWishlist = true;
-
-        $adapter = $this->getConnection();
-        $dateModel = Mage::getSingleton('Mage_Core_Model_Date');
-        $resHelper = Mage::getResourceHelper('Mage_Core');
-
-        $offsetFromDb = (int) $dateModel->getGmtOffset();
-        $startDate = $adapter->getDateAddSql('added_at', $offsetFromDb, Varien_Db_Adapter_Interface::INTERVAL_SECOND);
-
-        $nowDate = $dateModel->date();
-        $dateDiff = $resHelper->getDateDiff($startDate, $adapter->formatDate($nowDate));
-
-        $this->getSelect()->columns(array('days_in_wishlist' => $dateDiff));
         return $this;
     }
 
@@ -363,14 +345,14 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         if (isset($constraints['from'])) {
             $lastDay = new Zend_Date($now, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
-                ->subDay($constraints['from'] - 1);
+                ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
             $firstDay = new Zend_Date($now, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
-                ->subDay($constraints['to']);
+                ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;
         }
 
@@ -391,7 +373,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     {
         if (!$this->_isProductNameJoined) {
             $entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
-                    ->getEntityTypeId();
+                ->getEntityTypeId();
             $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute')
                 ->loadByCode($entityTypeId, 'name');
 
@@ -399,13 +381,13 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
             $this->getSelect()
                 ->join(
-                    array('product_name_table' => $attribute->getBackendTable()),
-                    'product_name_table.entity_id=main_table.product_id' .
-                        ' AND product_name_table.store_id=' . $storeId .
-                        ' AND product_name_table.attribute_id=' . $attribute->getId().
-                        ' AND product_name_table.entity_type_id=' . $entityTypeId,
-                    array()
-                );
+                array('product_name_table' => $attribute->getBackendTable()),
+                'product_name_table.entity_id=main_table.product_id' .
+                    ' AND product_name_table.store_id=' . $storeId .
+                    ' AND product_name_table.attribute_id=' . $attribute->getId().
+                    ' AND product_name_table.entity_type_id=' . $entityTypeId,
+                array()
+            );
 
             $this->_isProductNameJoined = true;
         }
@@ -445,7 +427,8 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      *
      * @return int
      */
-    public function getItemsQty(){
+    public function getItemsQty()
+    {
         if (is_null($this->_itemsQty)) {
             $this->_itemsQty = 0;
             foreach ($this as $wishlistItem) {
@@ -455,5 +438,29 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         }
 
         return (int)$this->_itemsQty;
+    }
+
+    /**
+     * @return Mage_Wishlist_Model_Resource_Item_Collection|Varien_Data_Collection_Db
+     */
+    protected function _afterLoadData()
+    {
+        parent::_afterLoadData();
+
+        if ($this->_addDaysInWishlist) {
+            $gmtOffset = (int) Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset();
+            $nowTimestamp = Mage::getSingleton('Mage_Core_Model_Date')->timestamp();
+
+            foreach ($this as $wishlistItem) {
+                $wishlistItemTimestamp = Mage::getSingleton('Mage_Core_Model_Date')
+                    ->timestamp($wishlistItem->getAddedAt());
+
+                $wishlistItem->setDaysInWishlist(
+                    (int) (($nowTimestamp - $gmtOffset - $wishlistItemTimestamp) / 24 / 60 / 60)
+                );
+            }
+        }
+
+        return $this;
     }
 }

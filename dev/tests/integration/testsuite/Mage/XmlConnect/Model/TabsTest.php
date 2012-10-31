@@ -23,7 +23,7 @@ class Mage_XmlConnect_Model_TabsTest extends PHPUnit_Framework_TestCase
 
     public function testGetRenderTabs()
     {
-        $model = new Mage_XmlConnect_Model_Tabs(false);
+        $model = Mage::getModel('Mage_XmlConnect_Model_Tabs', array('data' => false));
         $tabs = $model->getRenderTabs();
         $this->assertInternalType('array', $tabs);
         $this->assertNotEmpty($tabs);
@@ -42,7 +42,9 @@ class Mage_XmlConnect_Model_TabsTest extends PHPUnit_Framework_TestCase
 
     public function testGetRenderTabsJson()
     {
-        $model = new Mage_XmlConnect_Model_Tabs('{"enabledTabs":[{"image":"images/tab_account.png"}]}');
+        $model = Mage::getModel('Mage_XmlConnect_Model_Tabs',
+            array('data' => '{"enabledTabs":[{"image":"images/tab_account.png"}]}')
+        );
         $tabs = $model->getRenderTabs();
         $this->assertInternalType('array', $tabs);
         $this->assertNotEmpty($tabs);

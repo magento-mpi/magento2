@@ -38,10 +38,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      */
     protected $_destElementId = 'content';
 
-    protected function _construct()
-    {
-        $this->setTemplate('Mage_Backend::widget/tabs.phtml');
-    }
+    protected $_template = 'Mage_Backend::widget/tabs.phtml';
 
     /**
      * retrieve destination html element id
@@ -93,7 +90,10 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         }
         elseif (is_string($tab)) {
             if (strpos($tab, '_Block_')) {
-                $this->_tabs[$tabId] = $this->getLayout()->createBlock($tab);
+                $this->_tabs[$tabId] = $this->getLayout()->createBlock(
+                    $tab,
+                    $this->getNameInLayout() . '_tab_' . $tabId
+                );
             }
             elseif ($this->getChildBlock($tab)) {
                 $this->_tabs[$tabId] = $this->getChildBlock($tab);

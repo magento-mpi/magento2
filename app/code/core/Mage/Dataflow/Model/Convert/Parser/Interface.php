@@ -19,8 +19,6 @@
 interface Mage_Dataflow_Model_Convert_Parser_Interface
 {
 
-    public function parse();
-
     public function unparse();
 
 }

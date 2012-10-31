@@ -32,14 +32,16 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     protected $_purchasedSeparatelyAttribute = null;
 
+    protected $_template = 'product/edit/downloadable/links.phtml';
+
     /**
      * Class constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('product/edit/downloadable/links.phtml');
+        parent::_construct();
+
         $this->setCanEditPrice(true);
         $this->setCanReadPrice(true);
     }
@@ -237,15 +239,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'upload_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->addData(array(
-                'id'      => '',
-                'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
-                'type'    => 'button',
-                'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
-            ))
-        );
+        $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => '',
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'type'    => 'button',
+            'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
+        ));
     }
 
     /**

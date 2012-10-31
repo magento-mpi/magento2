@@ -17,23 +17,23 @@
  */
 class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
+
+    protected $_template = 'system/cache/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('system/cache/edit.phtml');
+        parent::_construct();
+
         $this->setTitle('Cache Management');
     }
 
     protected function _prepareLayout()
     {
-        $this->setChild('save_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Cache Settings'),
-                    'onclick'   => 'configForm.submit()',
-                    'class' => 'save',
-                ))
-        );
+        $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save Cache Settings'),
+            'onclick'   => 'configForm.submit()',
+            'class' => 'save',
+        ));
         return parent::_prepareLayout();
     }
 

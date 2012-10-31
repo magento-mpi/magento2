@@ -20,13 +20,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
     extends Mage_Adminhtml_Block_Template
     implements Varien_Data_Form_Element_Renderer_Interface
 {
-    /**
-     * Internal constructor
-     */
-    protected function _construct()
-    {
-        $this->setTemplate('rate/form/renderer/rate.phtml');
-    }
+    protected $_template = 'rate/form/renderer/rate.phtml';
 
     /**
      * Return HTML

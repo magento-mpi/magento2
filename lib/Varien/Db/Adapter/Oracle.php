@@ -60,6 +60,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     protected $_transactionLevel    = 0;
 
     /**
+     * Whether transaction was rolled back or not
+     *
+     * @var bool
+     */
+    protected $_isRolledBack = false;
+
+    /**
      * Set attribute to connection flag
      *
      * @var bool
@@ -223,6 +230,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function beginTransaction()
     {
+        if ($this->_isRolledBack) {
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
+        }
         if ($this->_transactionLevel == 0) {
             $this->_debugTimer();
             parent::beginTransaction();
@@ -240,12 +250,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function commit()
     {
-        if ($this->_transactionLevel == 1) {
+        if ($this->_transactionLevel == 1 && !$this->_isRolledBack) {
             $this->_debugTimer();
             parent::commit();
             $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
         } elseif ($this->_transactionLevel === 0) {
-            throw new Exception('Asymmetric transaction commit.');
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ASYMMETRIC_COMMIT_MESSAGE);
+        } elseif ($this->_isRolledBack) {
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
         }
         --$this->_transactionLevel;
 
@@ -262,9 +274,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($this->_transactionLevel == 1) {
             $this->_debugTimer();
             parent::rollBack();
+            $this->_isRolledBack = false;
             $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
         } elseif ($this->_transactionLevel === 0) {
-            throw new Exception('Asymmetric transaction rollback.');
+            throw new Exception(Varien_Db_Adapter_Interface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE);
+        } else {
+            $this->_isRolledBack = true;
         }
         --$this->_transactionLevel;
 

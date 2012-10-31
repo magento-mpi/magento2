@@ -38,9 +38,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
      * Initialize Grid
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('source_wishlist');
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
@@ -123,18 +123,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
-
-        $this->addColumn('qty', array(
-            'sortable'  => false,
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Qty To Add'),
-            'renderer'  => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty',
-            'name'      => 'qty',
-            'inline_css'=> 'qty',
-            'align'     => 'right',
-            'type'      => 'input',
-            'validate_class' => 'validate-number',
-            'index'     => 'qty',
-            'width'     => '1',
+        $this->getColumn('qty')->addData(array(
+            'renderer' => 'Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty'
         ));
 
         return $this;

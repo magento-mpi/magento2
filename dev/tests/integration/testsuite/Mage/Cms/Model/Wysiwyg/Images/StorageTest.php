@@ -35,7 +35,8 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
     public function testGetFilesCollection()
     {
         Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
-        $model = new Mage_Cms_Model_Wysiwyg_Images_Storage;
+        /** @var $model Mage_Cms_Model_Wysiwyg_Images_Storage */
+        $model = Mage::getModel('Mage_Cms_Model_Wysiwyg_Images_Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Mage_Cms_Model_Wysiwyg_Images_Storage_Collection', $collection);
         foreach ($collection as $item) {

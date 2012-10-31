@@ -16,14 +16,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     protected $_typeInstance;
 
-    /**
-     * Initialize edit attribute block
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('edit/attributes.phtml');
-    }
+    protected $_template = 'edit/attributes.phtml';
 
     /**
      * Preparing block layout
@@ -32,22 +25,16 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     protected function _prepareLayout()
     {
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Attribute'),
-                    'class' => 'add',
-                    'id'    => $this->getFieldPrefix() . '_add_new_attribute'
-                ))
-        );
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Attribute'),
+            'class' => 'add',
+            'id'    => $this->getFieldPrefix() . '_add_new_attribute'
+        ));
 
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Attribute'),
-                    'class' => 'delete delete-attribute-option'
-                ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Attribute'),
+            'class' => 'delete delete-attribute-option'
+        ));
         return parent::_prepareLayout();
     }
 

@@ -15,9 +15,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('giftregistry_customer_items_grid');
         $this->setSortable(false);
         $this->setPagerVisibility(false);

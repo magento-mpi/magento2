@@ -21,14 +21,14 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
+class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Initialize grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('reviwGrid');
         $this->setDefaultSort('created_at');
     }

@@ -19,12 +19,7 @@
 class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
 
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('system/email/template/edit.phtml');
-    }
+    protected $_template = 'system/email/template/edit.phtml';
 
     protected function _prepareLayout()
     {
@@ -132,9 +127,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
         );
 
 
-        $this->setChild('form',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Edit_Form')
-        );
+        $this->addChild('form', 'Mage_Adminhtml_Block_System_Email_Template_Edit_Form');
         return parent::_prepareLayout();
     }
 

@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-throw new LogicException('Bug MAGETWO-2595');
-
 require __DIR__ . '/../../Catalog/_files/product_simple.php';
 
-$review = new Mage_Review_Model_Review(array(
-    'nickname' => 'Nickname',
-    'title' => 'Review Summary',
-    'detail' => 'Review text'
+$review = Mage::getModel('Mage_Review_Model_Review', array(
+    'data' => array(
+        'nickname' => 'Nickname',
+        'title'    => 'Review Summary',
+        'detail'   => 'Review text'
+    )
 ));
 $review
     ->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
@@ -26,10 +26,12 @@ $review
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = new Mage_Review_Model_Review(array(
-    'nickname' => 'Nickname',
-    'title' => '2 filter first review',
-    'detail' => 'Review text'
+$review = Mage::getModel('Mage_Review_Model_Review', array(
+    'data' => array(
+        'nickname' => 'Nickname',
+        'title'    => '2 filter first review',
+        'detail'   => 'Review text'
+    )
 ));
 $review
     ->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
@@ -39,10 +41,12 @@ $review
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = new Mage_Review_Model_Review(array(
-    'nickname' => 'Nickname',
-    'title' => '1 filter second review',
-    'detail' => 'Review text'
+$review = Mage::getModel('Mage_Review_Model_Review', array(
+    'data' => array(
+        'nickname' => 'Nickname',
+        'title'    => '1 filter second review',
+        'detail'   => 'Review text'
+    )
 ));
 $review
     ->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))

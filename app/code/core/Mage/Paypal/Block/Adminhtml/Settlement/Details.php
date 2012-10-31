@@ -21,9 +21,9 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details extends Mage_Adminhtml_Bloc
      * Block construction
      * Initialize titles, buttons
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_controller = '';
         $this->_headerText = Mage::helper('Mage_Paypal_Helper_Data')->__('View Transaction Details');
         $this->_removeButton('reset')
@@ -38,7 +38,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details extends Mage_Adminhtml_Bloc
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->setChild('form', $this->getLayout()->createBlock('Mage_Paypal_Block_Adminhtml_Settlement_Details_Form'));
+        $this->addChild('form', 'Mage_Paypal_Block_Adminhtml_Settlement_Details_Form');
         return $this;
     }
 }

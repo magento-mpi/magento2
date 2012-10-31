@@ -12,7 +12,7 @@
 /**
  * Test theme model
  */
-class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_ThemeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Test load from configuration
@@ -21,10 +21,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
-        $themePath = join(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme.xml'));
+        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme.xml'));
 
         /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
         $themeMock->loadFromConfiguration($themePath);
 
         $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());
@@ -38,10 +39,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidConfiguration()
     {
-        $themePath = join(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme_invalid.xml'));
+        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme_invalid.xml'));
 
         /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
         $themeMock->loadFromConfiguration($themePath);
 
         $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());

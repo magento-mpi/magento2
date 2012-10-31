@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_System_Config_Source_Package
+class Mage_Adminhtml_Model_System_Config_Source_Design_Package
 {
 
     public function toOptionArray()

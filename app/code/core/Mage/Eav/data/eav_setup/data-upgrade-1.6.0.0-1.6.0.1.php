@@ -8,11 +8,9 @@
  * @license     {license_link}
  */
 
-/** Bug MAGETWO-3318 Segmentation Fault */
-return;
-
 /** @var $installer Mage_Core_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup_Migration', 'core_setup');
+$installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup_Migration',
+    array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('eav_attribute', 'attribute_model',

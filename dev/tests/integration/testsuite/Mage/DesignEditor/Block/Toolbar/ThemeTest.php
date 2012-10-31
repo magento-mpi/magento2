@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_block = new Mage_DesignEditor_Block_Toolbar_Theme();
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_DesignEditor_Block_Toolbar_Skin');
     }
 
     protected function tearDown()

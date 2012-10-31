@@ -19,11 +19,14 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     protected $_product = null;
-    public function __construct()
+
+    protected $_template = 'product/edit/bundle.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setSkipGenerateContent(true);
-        $this->setTemplate('product/edit/bundle.phtml');
+
     }
 
     public function getTabUrl()
@@ -43,15 +46,12 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
      */
     protected function _prepareLayout()
     {
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add New Option'),
-                    'class' => 'add',
-                    'id'    => 'add_new_option',
-                    'on_click' => 'bOption.add()'
-                ))
-        );
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add New Option'),
+            'class' => 'add',
+            'id'    => 'add_new_option',
+            'on_click' => 'bOption.add()'
+        ));
 
         $this->setChild('options_box',
             $this->getLayout()->createBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option',

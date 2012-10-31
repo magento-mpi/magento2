@@ -16,15 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Init class
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('taxRuleForm');
         $this->setTitle(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information'));
@@ -44,24 +44,14 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
+            'legend' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information')
         ));
-
-        $productClasses = Mage::getModel('Mage_Tax_Model_Class')
-            ->getCollection()
-            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
-            ->toOptionArray();
-
-        $customerClasses = Mage::getModel('Mage_Tax_Model_Class')
-            ->getCollection()
-            ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
-            ->toOptionArray();
 
         $rates = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
             ->getCollection()
             ->toOptionArray();
 
-        $fieldset->addField('code', 'text',
+         $fieldset->addField('code', 'text',
             array(
                 'name'      => 'code',
                 'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Name'),
@@ -70,38 +60,60 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
             )
         );
 
-        $fieldset->addField('tax_customer_class', 'multiselect',
+        // Editable multiselect for customer tax class
+        $selectConfig = $this->getTaxClassSelectConfig(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER);
+        $selectedCustomerTax = $model->getId()
+            ? $model->getCustomerTaxClasses()
+            : $model->getCustomerTaxClassWithDefault();
+        $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+            'editablemultiselect',
             array(
-                'name'      => 'tax_customer_class',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
-                'class'     => 'required-entry',
-                'values'    => $customerClasses,
-                'value'     => $model->getCustomerTaxClasses(),
-                'required'  => true,
+                'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Customer Tax Class'),
+                'class' => 'required-entry',
+                'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+                'value' => $selectedCustomerTax,
+                'required' => true,
+                'select_config' => $selectConfig,
+            ),
+            false,
+            true
+        );
+
+        // Editable multiselect for product tax class
+        $selectConfig = $this->getTaxClassSelectConfig(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT);
+        $selectedProductTax = $model->getId()
+            ? $model->getProductTaxClasses()
+            : $model->getProductTaxClassWithDefault();
+        $fieldset->addField($this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+            'editablemultiselect',
+            array(
+                'name' => $this->getTaxClassSelectHtmlId(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
+                'class' => 'required-entry',
+                'values' => $model->getAllOptionsForClass(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+                'value' => $selectedProductTax,
+                'required' => true,
+                'select_config' => $selectConfig
+            ),
+            false,
+            true
+        );
+
+        $fieldset->addField('tax_rate',
+            'editablemultiselect',
+            array(
+                'name' => 'tax_rate',
+                'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
+                'class' => 'required-entry',
+                'values' => $rates,
+                'value' => $model->getRates(),
+                'required' => true,
+                'element_js_class' => 'TaxRateEditableMultiselect',
+                'select_config' => array('is_entity_editable' => true),
             )
         );
 
-        $fieldset->addField('tax_product_class', 'multiselect',
-            array(
-                'name'      => 'tax_product_class',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Product Tax Class'),
-                'class'     => 'required-entry',
-                'values'    => $productClasses,
-                'value'     => $model->getProductTaxClasses(),
-                'required'  => true,
-            )
-        );
-
-        $fieldset->addField('tax_rate', 'multiselect',
-            array(
-                'name'      => 'tax_rate',
-                'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate'),
-                'class'     => 'required-entry',
-                'values'    => $rates,
-                'value'     => $model->getRates(),
-                'required'  => true,
-            )
-        );
         $fieldset->addField('priority', 'text',
             array(
                 'name'      => 'priority',
@@ -110,7 +122,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
                 'value'     => (int) $model->getPriority(),
                 'required'  => true,
                 'note'      => Mage::helper('Mage_Tax_Helper_Data')->__('Tax rates at the same priority are added, others are compounded.'),
-            )
+            ),
+            false,
+            true
         );
         $fieldset->addField('position', 'text',
             array(
@@ -119,7 +133,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPosition(),
                 'required'  => true,
-            )
+            ),
+            false,
+            true
         );
 
         if ($model->getId() > 0 ) {
@@ -138,5 +154,63 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * Retrieve HTML element ID for corresponding tax class selector
+     *
+     * @param string $classType
+     * @return string
+     */
+    public function getTaxClassSelectHtmlId($classType)
+    {
+        return 'tax_' . strtolower($classType) . '_class';
+    }
+
+
+    /**
+     * Retrieve configuration options for tax class editable multiselect
+     *
+     * @param string $classType
+     * @return array
+     */
+    public function getTaxClassSelectConfig($classType)
+    {
+        $config = array(
+            'new_url' => $this->getUrl('*/tax_class/ajaxSave/'),
+            'save_url' => $this->getUrl('*/tax_class/ajaxSave/'),
+            'delete_url' => $this->getUrl('*/tax_class/ajaxDelete/'),
+            'delete_confirm_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax class?'),
+            'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
+            'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
+            'submit_data' => array(
+                'class_type' => $classType,
+                'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
+            ),
+            'entity_id_name' => 'class_id',
+            'entity_value_name' => 'class_name',
+            'is_entity_editable' => true
+        );
+        return $config;
+    }
+
+    /**
+     * Retrieve Tax Rate delete URL
+     *
+     * @return string
+     */
+    public function getTaxRateDeleteUrl()
+    {
+        return $this->getUrl('*/tax_rate/ajaxDelete/');
+    }
+
+    /**
+     * Retrieve Tax Rate save URL
+     *
+     * @return string
+     */
+    public function getTaxRateSaveUrl()
+    {
+        return $this->getUrl('*/tax_rate/ajaxSave/');
     }
 }

@@ -12,7 +12,8 @@
 /**
  * Test class for Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
  */
-class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
+    extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Customer financial data export model
@@ -182,7 +183,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
+            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+            $arguments['data'] = $customerData;
+            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
 
@@ -203,8 +206,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+            $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
-                array($attributeData), '', true, true, true, array('_construct')
+                $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }

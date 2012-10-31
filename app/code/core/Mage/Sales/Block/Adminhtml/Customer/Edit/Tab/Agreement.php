@@ -28,9 +28,9 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      * Disable filters and paging
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customer_edit_tab_agreements');
     }
 
@@ -113,9 +113,9 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
     {
         $result = parent::_prepareColumns();
 
-        foreach ($this->_columns as $key => $value) {
+        foreach ($this->getColumns() as $key => $value) {
             if (in_array($key, $this->_columnsToRemove)) {
-                unset($this->_columns[$key]);
+                $this->removeColumn($key);
             }
         }
         return $result;

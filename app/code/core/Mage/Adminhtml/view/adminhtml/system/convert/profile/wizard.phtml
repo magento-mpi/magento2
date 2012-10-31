@@ -8,19 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php
-/**
- * @methods
- * - getValue($key, $default)
- * - getSelected($key, $value)
- * - getChecked($key)
- * - getAttributes()
- * - getMappings()
- * - getAddMapButtonHtml()
- * - getRemoveMapButtonHtml()
- */
-?>
-
+<?php /** @var $this Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard */ ?>
 <script type="text/javascript">
 //<![CDATA[
 var profileImportOnly = ['profile_number_of_records', 'profile_decimal_separator'];
@@ -94,7 +82,7 @@ function exportUrlField()
     var urlFieldEl = $('profile_add_url_field').up();
     var entityType = $('profile_entity_type').value;
     var direction  = $('profile_direction').value;
-    var storeId    = $('profile_store_id').value;
+    var storeId    = $('profile_store_id') ? $('profile_store_id').value : 0;
 
     if (entityType == 'product' && direction == 'export' && storeId > 0) {
         urlFieldEl.show();
@@ -169,39 +157,41 @@ Event.observe(window, 'load', function(){
                 <option value="export" <?php echo $this->getSelected('direction', 'export') ?>><?php echo $this->__("Export") ?></option>
             </select>
         </span>
-        <span class="field-row">
-            <label for="profile_store_id"><?php echo $this->__("Store:") ?></label>
-            <span class="with-tip">
-                <select id="profile_store_id" name="store_id" onchange="exportUrlField();">
-                <option value="0"><?php echo $this->__('Default (Admin) Values') ?></option>
-                    <?php foreach ($this->getWebsiteCollection() as $_website): ?>
-                        <?php $_websiteShow=false; ?>
-                        <?php foreach ($this->getGroupCollection() as $_group): ?>
-                            <?php if ($_website->getId() != $_group->getWebsiteId()) continue; ?>
-                            <?php $_groupShow=false; ?>
-                            <?php foreach ($this->getStoreCollection() as $_store): ?>
-                                <?php if ($_group->getId() != $_store->getGroupId()) continue; ?>
-                                <?php if (!$_websiteShow): ?>
-                                    <?php $_websiteShow=true; ?>
-                                    <optgroup label="<?php echo $_website->getName() ?>"></optgroup>
+        <?php if (!Mage::app()->isSingleStoreMode()) :?>
+            <span class="field-row">
+                <label for="profile_store_id"><?php echo $this->__("Store:") ?></label>
+                <span class="with-tip">
+                    <select id="profile_store_id" name="store_id" onchange="exportUrlField();">
+                    <option value="0"><?php echo $this->__('Default (Admin) Values') ?></option>
+                        <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+                            <?php $_websiteShow=false; ?>
+                            <?php foreach ($this->getGroupCollection() as $_group): ?>
+                                <?php if ($_website->getId() != $_group->getWebsiteId()) continue; ?>
+                                <?php $_groupShow=false; ?>
+                                <?php foreach ($this->getStoreCollection() as $_store): ?>
+                                    <?php if ($_group->getId() != $_store->getGroupId()) continue; ?>
+                                    <?php if (!$_websiteShow): ?>
+                                        <?php $_websiteShow=true; ?>
+                                        <optgroup label="<?php echo $_website->getName() ?>"></optgroup>
+                                    <?php endif; ?>
+                                    <?php if (!$_groupShow): ?>
+                                        <?php $_groupShow=true; ?>
+                                        <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_group->getName() ?>">
+                                    <?php endif; ?>
+                                    <option value="<?php echo $_store->getId() ?>" <?php echo $this->getSelected('store_id', $_store->getId()) ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_store->getName() ?></option>
+                                <?php endforeach; ?>
+                                <?php if ($_groupShow): ?>
+                                    </optgroup>
                                 <?php endif; ?>
-                                <?php if (!$_groupShow): ?>
-                                    <?php $_groupShow=true; ?>
-                                    <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_group->getName() ?>">
-                                <?php endif; ?>
-                                <option value="<?php echo $_store->getId() ?>" <?php echo $this->getSelected('store_id', $_store->getId()) ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_store->getName() ?></option>
                             <?php endforeach; ?>
-                            <?php if ($_groupShow): ?>
-                                </optgroup>
-                            <?php endif; ?>
                         <?php endforeach; ?>
-                    <?php endforeach; ?>
-                </select>
-                <small class="profile_direction_import profile_entity_type_product">
-                        <?php echo $this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)") ?>
-                </small>
+                    </select>
+                    <small class="profile_direction_import profile_entity_type_product">
+                            <?php echo $this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)") ?>
+                    </small>
+                </span>
             </span>
-        </span>
+        <?php endif;?>
         <span class="field-row">
             <label for="profile_add_url_field"><?php echo $this->__("Add Field with URL:") ?></label>
             <select id="profile_add_url_field" name="gui_data[export][add_url_field]" class="option-control">
@@ -509,30 +499,27 @@ Event.observe(window, 'load', function(){
                     <input class="input-text" id="customer_filter_region" name="gui_data[customer][filter][region]" value="<?php echo $this->getValue('gui_data/customer/filter/region') ?>"/>
                     <?php echo $this->__('(For US 2-letter state names)') ?>
                 </span>
-                <span class="field-row">
+                <span class="field-row" id="customer_filter_created_at_range">
                     <label for="customer_filter_created_at_from"><?php echo $this->__("Customer Since:") ?></label>
                     <input class="input-text" style="width:5em" id="customer_filter_created_at_from" name="gui_data[customer][filter][created_at][from]" value="<?php echo $this->getValue('gui_data/customer/filter/created_at/from') ?>"/>
-                    <img src="<?php echo $this->getViewFileUrl('images/grid-cal.gif') ?>" alt="" class="v-middle" id="customer_filter_created_at_from_trig" title="<?php echo $this->__('Date selector') ?>" />
                      <?php echo $this->__('to') ?>
                     <input class="input-text" style="width:5em" id="customer_filter_created_at_to" name="gui_data[customer][filter][created_at][to]" value="<?php echo $this->getValue('gui_data/customer/filter/created_at/to') ?>"/>
-                    <img src="<?php echo $this->getViewFileUrl('images/grid-cal.gif') ?>" alt="" class="v-middle" id="customer_filter_created_at_to_trig" title="<?php echo $this->__('Date selector') ?>" />
-<script type="text/javascript">
-    Calendar.setup({
-        inputField : "customer_filter_created_at_from",
-        ifFormat : "<?php echo $this->getShortDateFormat() ?>",
-        button : "customer_filter_created_at_from_trig",
-        align : "Bl",
-        singleClick : true
-    });
-    Calendar.setup({
-        inputField : "customer_filter_created_at_to",
-        ifFormat : "<?php echo $this->getShortDateFormat() ?>",
-        button : "customer_filter_created_at_to_trig",
-        align : "Bl",
-        singleClick : true
-    });
-</script>
                 </span>
+                <script type="text/javascript">
+                    (function( $ ) {
+                        $("#customer_filter_created_at_range").dateRange({
+                            dateFormat: "<?php echo $this->getShortDateFormat() ?>",
+                            buttonImage: "<?php echo $this->getViewFileUrl('images/grid-cal.gif') ?>",
+                            buttonText: "<?php echo $this->__('Date selector') ?>",
+                            from: {
+                                id: "customer_filter_created_at_from"
+                            },
+                            to: {
+                                id: "customer_filter_created_at_to"
+                            }
+                        })
+                    })(jQuery)
+                </script>
             </div>
         </fieldset>
     </div>

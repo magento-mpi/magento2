@@ -18,11 +18,7 @@
 abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends Mage_Adminhtml_Block_Widget
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('Mage_Adminhtml::catalog/product/attribute/options.phtml');
-    }
+    protected $_template = 'Mage_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
      * Preparing layout, adding buttons
@@ -31,20 +27,16 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
      */
     protected function _prepareLayout()
     {
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Delete'),
-                    'class' => 'delete delete-option'
-                )));
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Delete'),
+            'class' => 'delete delete-option'
+        ));
 
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Add Option'),
-                    'class' => 'add',
-                    'id'    => 'add_new_option_button'
-                )));
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Add Option'),
+            'class' => 'add',
+            'id'    => 'add_new_option_button'
+        ));
         return parent::_prepareLayout();
     }
 

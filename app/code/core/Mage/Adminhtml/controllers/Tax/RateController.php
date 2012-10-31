@@ -110,6 +110,63 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
+     * Save Tax Rate via AJAX
+     */
+    public function ajaxSaveAction()
+    {
+        $responseContent = '';
+        try {
+            $rateData = $this->_processRateData($this->getRequest()->getPost());
+            $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
+                ->setData($rateData)
+                ->save();
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => true,
+                'error' => false,
+                'error_message' => '',
+                'tax_calculation_rate_id' => $rate->getId(),
+                'code' => $rate->getCode(),
+            ));
+        } catch (Mage_Core_Exception $e) {
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error' => true,
+                'error_message' => $e->getMessage(),
+                'tax_calculation_rate_id' => '',
+                'code' => '',
+            ));
+        } catch (Exception $e) {
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error' => true,
+                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('There was an error saving tax rate.'),
+                'tax_calculation_rate_id' => '',
+                'code' => '',
+            ));
+        }
+        $this->getResponse()->setBody($responseContent);
+    }
+
+    /**
+     * Validate/Filter Rate Data
+     *
+     * @param array $rateData
+     * @return array
+     */
+    protected function _processRateData($rateData)
+    {
+        $result = array();
+        foreach ($rateData as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = $this->_processRateData($value);
+            } else {
+                $result[$key] = trim(strip_tags($value));
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Show Edit Form
      *
      */
@@ -177,6 +234,38 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
         }
+    }
+
+    /**
+     * Delete Tax Rate via AJAX
+     */
+    public function ajaxDeleteAction()
+    {
+
+        $responseContent = '';
+        $rateId = (int)$this->getRequest()->getParam('tax_calculation_rate_id');
+        try {
+            $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rateId);
+            $rate->delete();
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => true,
+                'error' => false,
+                'error_message' => ''
+            ));
+        } catch (Mage_Core_Exception $e) {
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error' => true,
+                'error_message' => $e->getMessage()
+            ));
+        } catch (Exception $e) {
+            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error' => true,
+                'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax rate.')
+            ));
+        }
+        $this->getResponse()->setBody($responseContent);
     }
 
     /**
@@ -252,11 +341,10 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
             }
-        }
-        else {
+        } else {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
         }
-        $this->_redirect('*/*/importExport');
+        $this->_redirectReferer();
     }
 
     protected function _importRates()
@@ -445,17 +533,25 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-
         switch ($this->getRequest()->getActionName()) {
             case 'importExport':
                 return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
                 break;
+
             case 'index':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::tax_rates');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
                 break;
+
+            case 'importPost':
+            case 'exportPost':
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax')
+                    || Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                break;
+
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::tax_rates');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
                 break;
         }
+
     }
 }

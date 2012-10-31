@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_ImportExport_Block_Adminhtml_Import_Edit_Before
  */
-class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * Test model
@@ -66,7 +66,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_F
 
     public function setUp()
     {
-        $coreHelper = $this->getMock('stdClass', array('jsonEncode'));
+        $coreHelper = $this->getMock('Mage_Core_Helper_Data', array('jsonEncode'));
         $coreHelper->expects($this->any())
             ->method('jsonEncode')
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
@@ -82,10 +82,11 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_F
             ->method('getUniqueEntityBehaviors')
             ->will($this->returnValue($this->_sourceBehaviors));
 
-        $this->_model = new Mage_ImportExport_Block_Adminhtml_Import_Edit_Before(array(
-            'core_helper'  => $coreHelper,
-            'import_model' => $importModel,
-        ));
+        $arguments = array(
+            'coreHelper'  => $coreHelper,
+            'importModel' => $importModel
+        );
+        $this->_model = $this->getBlock('Mage_ImportExport_Block_Adminhtml_Import_Edit_Before', $arguments);
     }
 
     public function tearDown()
@@ -128,4 +129,3 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_F
         $this->assertEquals($expectedBehaviors, $actualBehaviors);
     }
 }
-

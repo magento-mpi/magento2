@@ -18,12 +18,12 @@
 class Mage_Backend_Block_Widget_Accordion extends Mage_Backend_Block_Widget
 {
     protected $_items = array();
-    public function __construct() 
-    {
-        parent::__construct();
-        $this->setTemplate('Mage_Backend::widget/accordion.phtml');
-    }
-    
+
+    /**
+     * @var string
+     */
+    protected $_template = 'Mage_Backend::widget/accordion.phtml';
+
     public function getItems()
     {
         return $this->_items;
@@ -31,7 +31,11 @@ class Mage_Backend_Block_Widget_Accordion extends Mage_Backend_Block_Widget
     
     public function addItem($itemId, $config)
     {
-        $this->_items[$itemId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Accordion_Item')
+        $this->_items[$itemId] = $this->getLayout()
+            ->createBlock(
+                'Mage_Backend_Block_Widget_Accordion_Item',
+                $this->getNameInLayout() . '-' . $itemId
+            )
             ->setData($config)
             ->setAccordion($this)
             ->setId($itemId);

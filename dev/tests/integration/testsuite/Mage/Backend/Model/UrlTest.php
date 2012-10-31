@@ -21,7 +21,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Backend_Model_Url;
+        $this->_model = Mage::getModel('Mage_Backend_Model_Url');
     }
 
     protected function tearDown()
@@ -84,7 +84,8 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
-        $request = new Mage_Core_Controller_Request_Http;
+        /** @var $request Mage_Core_Controller_Request_Http */
+        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
@@ -118,7 +119,8 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-        $request = new Mage_Core_Controller_Request_Http;
+        /** @var $request Mage_Core_Controller_Request_Http */
+        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);

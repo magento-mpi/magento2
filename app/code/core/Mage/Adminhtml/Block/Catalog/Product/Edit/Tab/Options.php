@@ -18,36 +18,23 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/product/edit/options.phtml');
-    }
-
+    protected $_template = 'catalog/product/edit/options.phtml';
 
     protected function _prepareLayout()
     {
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Option'),
-                    'class' => 'add',
-                    'id'    => 'add_new_defined_option'
-                ))
-        );
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Option'),
+            'class' => 'add',
+            'id'    => 'add_new_defined_option'
+        ));
 
-        $this->setChild('options_box',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option')
-        );
+        $this->addChild('options_box', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option');
 
-        $this->setChild('import_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import Options'),
-                    'class' => 'add',
-                    'id'    => 'import_new_defined_option'
-            ))
-        );
+        $this->addChild('import_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import Options'),
+            'class' => 'add',
+            'id'    => 'import_new_defined_option'
+        ));
 
         return parent::_prepareLayout();
     }

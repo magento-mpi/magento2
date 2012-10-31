@@ -18,13 +18,13 @@
 
 class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    public function __construct()
+    public function _construct()
     {
         $this->_controller = 'adminhtml_event';
         $this->_blockGroup = 'Enterprise_CatalogEvent';
         $this->_headerText = Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Manage Catalog Events');
         $this->_addButtonLabel = Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Add Catalog Event');
-        parent::__construct();
+        parent::_construct();
     }
 
     public function getHeaderCssClass() {

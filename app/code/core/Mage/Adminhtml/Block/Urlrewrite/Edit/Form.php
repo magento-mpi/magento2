@@ -44,9 +44,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      * Set form id and title
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('urlrewrite_form');
         $this->setTitle(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Block Information'));
     }
@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     protected function _prepareStoreElement($fieldset)
     {
         // get store switcher or a hidden field with it's id
-        if (Mage::app()->hasSingleStore()) {
+        if (Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'  => 'store_id',
                 'value' => Mage::app()->getStore(true)->getId()

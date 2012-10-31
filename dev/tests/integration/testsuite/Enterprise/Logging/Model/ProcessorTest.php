@@ -47,7 +47,10 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 
-        $this->getRequest()->setPost($post);
+        $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
+        $this->getRequest()->setPost(
+            array_merge($post, array('form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey()))
+        );
         $this->dispatch($url);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $this->assertEquals($eventCount + 1, count($collection), $action . ' event wasn\'t logged');
@@ -73,10 +76,20 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
             array(
                 'backend/admin/user_role/saverole', 'save',
                 array(
-                    'rolename' => 'newrole2'
+                    'rolename' => 'newrole2',
+                    'gws_is_all' => '1'
                 )
             ),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
+            array('backend/admin/tax_class/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/admin/tax_class/ajaxSave', 'save',
+                array(
+                    'class_id' => null,
+                    'class_name' => 'test',
+                    'class_type' => 'PRODUCT',
+                    'isAjax' => true,
+                )
+            )
         );
     }
 }

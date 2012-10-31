@@ -83,9 +83,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      * Enter description here...
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]'),
             self::SCOPE_WEBSITES => Mage::helper('Mage_Adminhtml_Helper_Data')->__('[WEBSITE]'),
@@ -224,8 +224,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     protected function _getDependence()
     {
         if (!$this->getChildBlock('element_dependence')){
-            $this->setChild('element_dependence',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence'));
+            $this->addChild('element_dependence', 'Mage_Adminhtml_Block_Widget_Form_Element_Dependence');
         }
         return $this->getChildBlock('element_dependence');
     }

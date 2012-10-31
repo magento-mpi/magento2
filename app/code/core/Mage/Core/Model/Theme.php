@@ -79,7 +79,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCollectionFromFilesystem()
     {
-        return Mage::getModel('Mage_Core_Model_Theme_Collection');
+        return Mage::getSingleton('Mage_Core_Model_Theme_Collection');
     }
 
     /**
@@ -143,14 +143,35 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check theme is existing in filesystem
+     * Check is theme deletable
      *
      * @return bool
      */
     public function isDeletable()
     {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
+        return $this->isVirtual();
+    }
+
+    /**
+     * Check theme is existing in filesystem
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        $collection = $this->getCollectionFromFilesystem()->addPattern()->getItems();
         return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
+    }
+
+    /**
+     * Check is theme has child themes
+     *
+     * @return bool
+     */
+    public function hasChildThemes()
+    {
+        $childThemes = $this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->load();
+        return count($childThemes) > 0;
     }
 
     /**
@@ -401,5 +422,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _getPreviewImageDefaultUrl()
     {
         return Mage::getDesign()->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
+    }
+
+    /**
+     * Theme registration
+     *
+     * @param string $pathPattern
+     * @return Mage_Core_Model_Theme
+     */
+    public function themeRegistration($pathPattern)
+    {
+        $this->getCollectionFromFilesystem()->addPattern($pathPattern)->themeRegistration();
+        $this->getCollection()->checkParentInThemes();
+
+        return $this;
     }
 }

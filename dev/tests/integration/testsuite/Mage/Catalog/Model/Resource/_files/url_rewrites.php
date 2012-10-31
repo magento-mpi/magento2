@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$category = new Mage_Catalog_Model_Category();
+/** @var $category Mage_Catalog_Model_Category */
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -33,7 +34,7 @@ $urlKeys = array(
 
 foreach ($urlKeys as $i => $urlKey) {
     $id = $i + 1;
-    $product = new Mage_Catalog_Model_Product();
+    $product = Mage::getModel('Mage_Catalog_Model_Product');
     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setId($id)
         ->setStoreId(1)

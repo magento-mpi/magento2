@@ -18,15 +18,8 @@
 
 class Mage_Adminhtml_Block_System_Email_Template extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Set transactional emails grid template
-     *
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('system/email/template/list.phtml');
-    }
+
+    protected $_template = 'system/email/template/list.phtml';
 
     /**
      * Create add button and grid blocks
@@ -35,13 +28,11 @@ class Mage_Adminhtml_Block_System_Email_Template extends Mage_Adminhtml_Block_Te
      */
     protected function _prepareLayout()
     {
-        $this->setChild('add_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New Template'),
-                    'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
-                    'class'     => 'add'
-        )));
+        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New Template'),
+            'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
+            'class'     => 'add'
+        ));
         $this->setChild(
             'grid',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Email_Template_Grid', 'email.template.grid')

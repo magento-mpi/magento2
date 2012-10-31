@@ -315,7 +315,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
-                $this->_calculators[$type] = Mage::getModel('Mage_Core_Model_Calculator', $this->getStore());
+                $this->_calculators[$type] = Mage::getModel('Mage_Core_Model_Calculator',
+                    array('store' => $this->getStore()));
             }
             $price = $this->_calculators[$type]->deltaRound($price, $negative);
         }
@@ -698,24 +699,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        // Start store emulation process
-        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
-
-        try {
-            // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
-                ->setIsSecureMode(true);
-            $paymentBlock->getMethod()->setStore($storeId);
-            $paymentBlockHtml = $paymentBlock->toHtml();
-        } catch (Exception $exception) {
-            // Stop store emulation process
-            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
-            throw $exception;
-        }
-
-        // Stop store emulation process
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+        $paymentBlockHtml = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -761,6 +745,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
             )
         );
         $mailer->send();
+
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
 

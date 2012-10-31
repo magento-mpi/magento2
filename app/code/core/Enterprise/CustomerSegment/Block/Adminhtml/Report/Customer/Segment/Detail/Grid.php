@@ -23,9 +23,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
      *
      * @param array $attributes
      */
-    public function __construct($attributes = array())
+    protected function _construct($attributes = array())
     {
-        parent::__construct($attributes);
+        parent::_construct($attributes);
         $this->setId('segmentGrid')->setUseAjax(true);
     }
 

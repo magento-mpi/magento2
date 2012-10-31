@@ -25,15 +25,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     protected $_config;
 
-    /**
-     * Class constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('product/edit/downloadable/samples.phtml');
-    }
+    protected $_template = 'product/edit/downloadable/samples.phtml';
 
     /**
      * Get model of the product that is being edited
@@ -140,16 +132,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'upload_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->addData(array(
-                    'id'      => '',
-                    'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
-                    'type'    => 'button',
-                    'onclick' => 'Downloadable.massUploadByType(\'samples\')'
-                ))
-        );
+        $this->addChild('upload_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'id'      => '',
+            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Upload Files'),
+            'type'    => 'button',
+            'onclick' => 'Downloadable.massUploadByType(\'samples\')'
+        ));
     }
 
     /**

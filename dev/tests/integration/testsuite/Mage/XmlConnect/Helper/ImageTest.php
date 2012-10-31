@@ -18,7 +18,7 @@ class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinImagesUrl($area, $file)
     {
-        $helper = new Mage_XmlConnect_Helper_Image;
+        $helper = Mage::helper('Mage_XmlConnect_Helper_Image');
         Mage::getDesign()->setArea($area);
 
         $this->assertStringMatchesFormat(

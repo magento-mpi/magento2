@@ -20,11 +20,14 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 {
     protected $_titles = null;
 
-    public function __construct()
+    protected $_template = 'tax/rate/form.phtml';
+
+
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setDestElementId('rate_form');
-        $this->setTemplate('tax/rate/form.phtml');
+
     }
 
     protected function _prepareForm()
@@ -160,5 +163,30 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         );
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * Get Tax Rates Collection
+     *
+     * @return array
+     */
+    public function getRateCollection()
+    {
+        if ($this->getData('rate_collection') == null) {
+            $rateCollection = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->getCollection()
+                ->joinRegionTable();
+            $rates = array();
+
+            foreach ($rateCollection as $rate) {
+                $item = $rate->getData();
+                foreach ($rate->getTitles() as $title) {
+                    $item['title[' . $title->getStoreId() . ']'] = $title->getValue();
+                }
+                $rates[] = $item;
+            }
+
+            $this->setRateCollection($rates);
+        }
+        return $this->getData('rate_collection');
     }
 }

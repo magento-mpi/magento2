@@ -8,11 +8,9 @@
  * @license     {license_link}
  */
 
-/** Bug MAGETWO-3318 Segmentation Fault */
-return;
-
 /** @var $installer Enterprise_Enterprise_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Enterprise_Enterprise_Model_Resource_Setup_Migration', 'core_setup');
+$installer = Mage::getResourceModel('Enterprise_Enterprise_Model_Resource_Setup_Migration',
+    array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_targetrule', 'conditions_serialized',

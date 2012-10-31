@@ -20,7 +20,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Constructor
      */
-    public function __construct()
+    public function _construct()
     {
         $this->_init('Enterprise_Logging_Model_Resource_Event');
     }

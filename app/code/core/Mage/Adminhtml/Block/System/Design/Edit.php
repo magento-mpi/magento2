@@ -10,41 +10,35 @@
 
 class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widget
 {
-    public function __construct()
+
+    protected $_template = 'system/design/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('system/design/edit.phtml');
+        parent::_construct();
+
         $this->setId('design_edit');
     }
 
     protected function _prepareLayout()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
-                    'class' => 'back'
-                ))
-        );
+        $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Back'),
+            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'class' => 'back'
+        ));
 
-        $this->setChild('save_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Save'),
-                    'onclick'   => 'designForm.submit()',
-                    'class' => 'save'
-                ))
-        );
+        $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Save'),
+            'onclick'   => 'designForm.submit()',
+            'class' => 'save'
+        ));
 
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
-                ->setData(array(
-                    'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('Mage_Core_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                    'class'  => 'delete'
-                ))
-        );
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Delete'),
+            'onclick'   => 'confirmSetLocation(\''.Mage::helper('Mage_Core_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+            'class'  => 'delete'
+        ));
         return parent::_prepareLayout();
     }
 

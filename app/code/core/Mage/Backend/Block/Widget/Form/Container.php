@@ -24,13 +24,12 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
     protected $_mode = 'edit';
     protected $_blockGroup = 'Mage_Backend';
 
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_template = 'Mage_Backend::widget/form/container.phtml';
 
-        if (!$this->hasData('template')) {
-            $this->setTemplate('Mage_Backend::widget/form/container.phtml');
-        }
+
+    protected function _construct()
+    {
+        parent::_construct();
 
         $this->_addButton('back', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),
@@ -70,7 +69,7 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
         if ($this->_blockGroup && $this->_controller && $this->_mode
             && !$this->_layout->getChildName($this->_nameInLayout, 'form')
         ) {
-            $this->setChild('form', $this->getLayout()->createBlock($this->_buildFormClassName()));
+            $this->addChild('form', $this->_buildFormClassName());
         }
         return parent::_prepareLayout();
     }

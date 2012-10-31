@@ -13,9 +13,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
     /**
      * Set default sort
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('customerGrid');
         $this->setUseAjax(true);

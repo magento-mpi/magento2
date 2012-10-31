@@ -21,12 +21,12 @@ class Enterprise_Customer_Model_Sales_Order_AddressTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_Customer_Model_Sales_Order_Address;
+        $this->_model = Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $address = new Mage_Sales_Model_Order_Address();
+        $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new Varien_Object(array('id' => $address->getId()));
