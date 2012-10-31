@@ -499,6 +499,7 @@ return array(
         'Mage_Backend_Model_Config_Source_Yesnocustom'
     ),
     $this->_getClassRule('Mage_Adminhtml_Model_System_Store', 'Mage_Core_Model_System_Store'),
+    $this->_getClassRule('Mage_Adminhtml_Model_Url', 'Mage_Backend_Model_Url'),
     $this->_getClassRule('Mage_Adminhtml_Rss_CatalogController'),
     $this->_getClassRule('Mage_Adminhtml_Rss_OrderController'),
     $this->_getClassRule('Mage_Adminhtml_SystemController', 'Mage_Backend_Adminhtml_SystemController'),
