@@ -16,7 +16,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
 
     public static function setUpBeforeClass()
     {
-        $rate = new Enterprise_Reward_Model_Reward_Rate();
+        $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
         Mage::register('current_reward_rate', $rate);
     }
 
