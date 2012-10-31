@@ -33,14 +33,14 @@
     <?php endif; ?>
     </p>
 </div>
-<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product_edit_form" enctype="multipart/form-data">
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
     <div style="display:none"></div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
     var productTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
-    jQuery('#product_edit_form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    jQuery('#product-edit-form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
     function setSettings(urlTemplate, setElement, typeElement) {
         var template = new Template(urlTemplate, productTemplateSyntax);
         setLocation(template.evaluate({attribute_set:$F(setElement),type:$F(typeElement)}));
@@ -59,7 +59,7 @@
             $(validateField).value = 'has-attributes';
         }
 
-        if (jQuery('#product_edit_form').valid()) {
+        if (jQuery('#product-edit-form').valid()) {
             var template = new Template(urlTemplate, productTemplateSyntax);
             var url = template.evaluate({
                 attributes: encode_base64(attributes.join(',')).replace(new RegExp('/','g'),'%2F').replace(new RegExp('=','g'),'%3D')

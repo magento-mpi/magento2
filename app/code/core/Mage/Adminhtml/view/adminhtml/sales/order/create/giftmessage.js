@@ -186,9 +186,7 @@ GiftOptionsPopup.prototype = {
         if (!giftOptionsForm.validate().valid()) {
             return false;
         }
-        if (typeof giftOptionsForm[0].reset === 'function' ||
-            (typeof giftOptionsForm[0].reset === 'object' && !giftOptionsForm[0].reset.nodeType)
-        ) {
+        if (jQuery.isFunction(giftOptionsForm[0].reset)) {
             giftOptionsForm[0].reset();
         }
         this.closeWindow();
