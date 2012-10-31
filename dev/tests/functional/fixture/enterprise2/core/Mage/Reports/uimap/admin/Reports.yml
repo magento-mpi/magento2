@@ -131,7 +131,7 @@ report_product_sold:
         form:
             fieldsets:
                 -
-                    report_product_sold_grid:
+                    report_product_sold:
                         xpath: //div[@id='gridProductsSold']
                         fields:
                             filter_from: //input[@id='period_date_from']

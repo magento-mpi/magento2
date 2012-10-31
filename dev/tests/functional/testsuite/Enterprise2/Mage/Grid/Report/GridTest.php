@@ -21,8 +21,18 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     /**
      *
      */
-    public function setUpBeforeTests(){
+    protected function assertPreConditions()
+    {
         $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Post conditions:</p>
+     * <p>Log out from Backend.</p>
+     */
+    protected function tearDownAfterTest()
+    {
+        $this->logoutAdminUser();
     }
 
     /**
@@ -47,33 +57,32 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->assertEmptyVerificationErrors();
     }
 
-public function uiElementsTestDataProvider()
-{
-    return array(array('invitations_customers'),
-                 array('report_product_sold'),
-                 );
-}
+    public function uiElementsTestDataProvider()
+    {
+        return array(array('invitations_customers'), array('report_product_sold'),);
+    }
 
     /**
      * Need to verify count of Grid Rows according to "From:", "To:","Show By:" values
      * @test
      *
-     *@dataProvider countGridRowsTestDataProvider
+     * @dataProvider countGridRowsTestDataProvider
      */
-    public function countGridRows($page,$gridFieldset,$gridTable,$dataSet,$count)
+    public function countGridRows($page, $gridTableElement, $dataSet)
     {
-        $this->loginAdminUser();
         $this->navigate($page);
-        $data = $this->loadDataSet('Report',$dataSet);
-        $this->fillFieldset($data,$gridFieldset);
+        $data = $this->loadDataSet('Report', $dataSet);
+        $this->fillFieldset($data, $page);
         $this->clickButton('refresh');
-        $gridXpath = $this->_getControlXpath('pageelement',$gridTable );
-        $this->assertCount($count, $this->getElementsByXpath($gridXpath . '/tbody/tr'),'Wrong records number in grid ');
+        $gridXpath = $this->_getControlXpath('pageelement', $gridTableElement);
+        $this->assertCount(3, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
+            'Wrong records number in grid $gridTableElement ');
     }
 
     public function countGridRowsTestDataProvider()
     {
-        return array(array('report_product_sold','report_product_sold_grid','product_sold_grid','count_rows_by_day',3),
-        );
+        return array(array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
+                     array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
+                     array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'));
     }
 }

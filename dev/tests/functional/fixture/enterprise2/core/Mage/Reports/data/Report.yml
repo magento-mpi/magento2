@@ -44,3 +44,11 @@ count_rows_by_day:
     filter_from: 10/28/2012
     filter_to: 10/30/2012
     show_by: Day
+count_rows_by_month:
+    filter_from: 05/28/2012
+    filter_to: 07/30/2012
+    show_by: Month
+count_rows_by_year:
+    filter_from: 05/28/2009
+    filter_to: 07/30/2011
+    show_by: Year
