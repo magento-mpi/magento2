@@ -37,7 +37,7 @@
                 <div class="product-shop">
                     <div class="product-main-info">
                         <div class="product-name">
-                            <h1>vijay3<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                         </div>
                         <p class="product-ids"><?php echo $this->__('SKU# %s', $this->escapeHtml($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
