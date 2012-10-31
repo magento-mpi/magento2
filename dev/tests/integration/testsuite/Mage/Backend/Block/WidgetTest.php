@@ -21,8 +21,7 @@ class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtml()
     {
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $layout->setArea('adminhtml');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
@@ -41,8 +40,7 @@ class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
-        $layout->setArea('adminhtml');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
