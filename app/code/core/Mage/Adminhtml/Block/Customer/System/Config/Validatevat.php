@@ -55,7 +55,8 @@ class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backe
         $this->addData(array(
             'button_label' => Mage::helper('Mage_Customer_Helper_Data')->__($originalData['button_label']),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('*/customer_system_config_validatevat/validate')
+            'ajax_url' => Mage::getSingleton('Mage_Backend_Model_Url')
+                ->getUrl('*/customer_system_config_validatevat/validate')
         ));
 
         return $this->_toHtml();

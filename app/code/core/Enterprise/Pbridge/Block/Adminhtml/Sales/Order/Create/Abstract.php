@@ -89,7 +89,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
      */
     public function getRedirectUrl()
     {
-        return Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('*/pbridge/result',
+        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }

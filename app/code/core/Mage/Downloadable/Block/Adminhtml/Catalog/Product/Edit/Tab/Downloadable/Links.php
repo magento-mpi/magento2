@@ -277,7 +277,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getUploadUrl($type)
     {
-        return Mage::getModel('Mage_Adminhtml_Model_Url')->addSessionParam()
+        return Mage::getModel('Mage_Backend_Model_Url')->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => $type, '_secure' => true));
     }
 
