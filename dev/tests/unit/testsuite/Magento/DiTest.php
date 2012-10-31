@@ -211,7 +211,7 @@ class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
         // assert cache
         if (isset($this->_cachedInstances[$className])) {
             $expectedCache = array();
-            foreach ($this->_cachedInstances[$className] as $key => $class) {
+            foreach ($this->_cachedInstances[$className] as $class) {
                 $this->assertArrayHasKey($class, $this->_sharedInstances);
                 $expectedCache[$class] = $this->_sharedInstances[$class];
             }
