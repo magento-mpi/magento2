@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_
         $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
                  . 'data-url="' . $uploadUrl . '" style="display: none;" />'
                  . parent::getElementHtml()
-                 . '<img align="right" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
+                 . '<img align="left" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
                  . ' title="' . $imageUrl . '" alt="' . $imageUrl . '" class="base-image-uploader"'
                  . ' onclick="jQuery(\'#' . $htmlId . '_upload\').trigger(\'click\')"/>';
         $html .= $this->_getJs();

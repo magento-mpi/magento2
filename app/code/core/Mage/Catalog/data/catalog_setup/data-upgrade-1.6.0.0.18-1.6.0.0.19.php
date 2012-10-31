@@ -13,11 +13,9 @@
 $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'image');
 
 if ($attribute) {
-    $minimalAttributeSet = $this->getAttributeSetId($attribute['entity_type_id'], 'Minimal');
-
     $this->addAttributeToSet(
         $attribute['entity_type_id'],
-        $minimalAttributeSet,
+        $this->getAttributeSetId($attribute['entity_type_id'], 'Minimal'),
         $this->getGeneralGroupName(),
         $attribute['attribute_id'],
         0
@@ -25,7 +23,7 @@ if ($attribute) {
 
     $this->addAttributeToGroup(
         $attribute['entity_type_id'],
-        $minimalAttributeSet,
+        $this->getAttributeSetId($attribute['entity_type_id'], 'Default'),
         $this->getGeneralGroupName(),
         $attribute['attribute_id'],
         0
