@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- *
- */
 class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -31,9 +28,11 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helperJsonEncode = $this->getMock('Varien_Object', array('jsonEncode'));
-        $this->_model  = new Mage_Downloadable_Model_Observer(array(
-            'helper' => $this->_helperJsonEncode));
+        $this->_helperJsonEncode = $this->getMockBuilder('Mage_Core_Helper_Data')
+            ->setMethods(array('jsonEncode'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_model = new Mage_Downloadable_Model_Observer(array('helper' => $this->_helperJsonEncode));
     }
 
     protected function tearDown()
@@ -43,7 +42,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_observer = null;
     }
 
-    public function testDuplicateNotDownloadable()
+    public function testDuplicateProductNotDownloadable()
     {
         $currentProduct = $this->getMock('Mage_Catalog_Model_Product', array('getTypeId'), array(), '', false);
 
@@ -58,7 +57,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->duplicateProduct($this->_observer);
     }
 
-    public function testDuplicateEmptyLinks()
+    public function testDuplicateProductEmptyLinks()
     {
         $currentProduct = $this->getMock('Mage_Catalog_Model_Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
@@ -88,7 +87,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($newProduct->getDownloadableData());
     }
 
-    public function testDuplicateTypeFile()
+    public function testDuplicateProductTypeFile()
     {
         $currentProduct = $this->getMock('Mage_Catalog_Model_Product',
             array('getTypeId', 'getTypeInstance'), array(), '', false);
