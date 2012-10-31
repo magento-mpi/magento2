@@ -16,16 +16,6 @@ abstract class Magento_Di_Generator_EntityAbstract
     const ENTITY_TYPE = 'abstract';
 
     /**
-     * Default code generation directory
-     */
-    const DEFAULT_DIRECTORY = 'var/generation';
-
-    /**
-     * Directory permission for created directories
-     */
-    const DIRECTORY_PERMISSION = 0777;
-
-    /**
      * @var array
      */
     private $_errors = array();
@@ -45,25 +35,9 @@ abstract class Magento_Di_Generator_EntityAbstract
     private $_resultClassName;
 
     /**
-     * File directory of result file
-     *
-     * @var string
+     * @var Magento_Di_Generator_Io
      */
-    private $_resultFileDirectory;
-
-    /**
-     * Result file name
-     *
-     * @var string
-     */
-    private $_resultFileName;
-
-    /**
-     * Path to directory where new file must be created
-     *
-     * @var string
-     */
-    private $_generationDirectory;
+    private $_ioObject;
 
     /**
      * Autoloader instance
@@ -75,22 +49,22 @@ abstract class Magento_Di_Generator_EntityAbstract
     /**
      * Class generator object
      *
-     * @var Zend_CodeGenerator_Php_Class
+     * @var Magento_Di_Generator_CodeGenerator_Interface
      */
     protected $_classGenerator;
 
     /**
      * @param string $sourceClassName
      * @param string $resultClassName
-     * @param string $generationDirectory
-     * @param Zend_CodeGenerator_Php_Class $classGenerator
+     * @param Magento_Di_Generator_Io $ioObject
+     * @param Magento_Di_Generator_CodeGenerator_Interface $classGenerator
      * @param Magento_Autoload $autoloader
      */
     public function __construct(
         $sourceClassName = null,
         $resultClassName = null,
-        $generationDirectory = null,
-        Zend_CodeGenerator_Php_Class $classGenerator = null,
+        Magento_Di_Generator_Io $ioObject = null,
+        Magento_Di_Generator_CodeGenerator_Interface $classGenerator = null,
         Magento_Autoload $autoloader = null
     ) {
         $this->_sourceClassName = $sourceClassName;
@@ -101,16 +75,16 @@ abstract class Magento_Di_Generator_EntityAbstract
             $this->_resultClassName = $this->_getDefaultResultClassName($sourceClassName);
         }
 
-        if ($generationDirectory) {
-            $this->_generationDirectory = rtrim($generationDirectory, DS) . DS;
+        if ($ioObject) {
+            $this->_ioObject = $ioObject;
         } else {
-            $this->_generationDirectory = BP . DS . self::DEFAULT_DIRECTORY . DS;
+            $this->_ioObject = new Magento_Di_Generator_Io();
         }
 
         if ($classGenerator) {
             $this->_classGenerator = $classGenerator;
         } else {
-            $this->_classGenerator = new Zend_CodeGenerator_Php_Class();
+            $this->_classGenerator = new Magento_Di_Generator_CodeGenerator_Zend();
         }
 
         if ($autoloader) {
@@ -131,7 +105,8 @@ abstract class Magento_Di_Generator_EntityAbstract
             if ($this->_validateData()) {
                 $sourceCode = $this->_generateCode();
                 if ($sourceCode) {
-                    $this->_writeResultFile($sourceCode);
+                    $fileName = $this->_ioObject->getResultFileName($this->_getResultClassName());
+                    $this->_ioObject->writeResultFile($fileName, $sourceCode);
                     return true;
                 }
             }
@@ -188,9 +163,6 @@ abstract class Magento_Di_Generator_EntityAbstract
     }
 
     /**
-     * Generates default class name for result file
-     *
-    /**
      * @param string $modelClassName
      * @return string
      */
@@ -242,18 +214,26 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _validateData()
     {
-        if (!$this->_autoloader->classExists($this->_getSourceClassName())) {
-            $this->_addError('Source class ' . $this->_getSourceClassName() . ' doesn\'t exist.');
+        $sourceClassName = $this->_getSourceClassName();
+        $resultClassName = $this->_getResultClassName();
+        $resultFileName = $this->_ioObject->getResultFileName($resultClassName);
+
+        if (!$this->_autoloader->classExists($sourceClassName)) {
+            $this->_addError('Source class ' . $sourceClassName . ' doesn\'t exist.');
             return false;
-        } elseif ($this->_autoloader->classExists($this->_resultClassName)) {
-            $this->_addError('Result class ' . $this->_resultClassName . ' already exists.');
+        } elseif ($this->_autoloader->classExists($resultClassName)) {
+            $this->_addError('Result class ' . $resultClassName . ' already exists.');
             return false;
-        } elseif (!$this->_makeDirectory($this->_generationDirectory)) {
+        } elseif (!$this->_ioObject->makeGenerationDirectory()) {
+            $this->_addError('Can\'t create directory ' . $this->_ioObject->getGenerationDirectory() . '.');
             return false;
-        } elseif (!$this->_makeDirectory($this->_getResultFileDirectory())) {
+        } elseif (!$this->_ioObject->makeResultFileDirectory($resultClassName)) {
+            $this->_addError(
+                'Can\'t create directory ' . $this->_ioObject->getResultFileDirectory($resultClassName) . '.'
+            );
             return false;
-        } elseif (file_exists($this->_getResultFileName())) {
-            $this->_addError('Result file ' . $this->_getResultFileName() . ' already exists.');
+        } elseif (file_exists($resultFileName)) {
+            $this->_addError('Result file ' . $resultFileName . ' already exists.');
             return false;
         }
         return true;
@@ -264,32 +244,28 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _getClassDocBlock()
     {
-        $this->_classGenerator->setDocblock(array('shortDescription' => '{license_notice}'));
-        $classDocBlock = $this->_classGenerator->getDocblock();
+        $tags = array();
 
         $classNameParts = explode('_', $this->_getResultClassName());
         unset($classNameParts[count($classNameParts) - 1]);
         if (isset($classNameParts[0])) {
-            $classDocBlock->setTag(array(
+            $tags[] = array(
                 'name'        => 'category',
                 'description' => ' ' . $classNameParts[0]
-            ));
+            );
             if (isset($classNameParts[1])) {
-                $classDocBlock->setTag(array(
+                $tags[] = array(
                     'name'        => 'package',
                     'description' => '  ' . $classNameParts[0] . '_' . $classNameParts[1]
-                ));
+                );
             }
         }
 
-        $classDocBlock->setTags(array(
-            array('name' => 'copyright', 'description' => '{copyright}'),
-            array('name' => 'license', 'description' => '  {license_link}'),
-        ));
+        $tags[] = array('name' => 'copyright', 'description' => '{copyright}');
+        $tags[] = array('name' => 'license', 'description' => '  {license_link}');
 
-        return $classDocBlock;
+        return array('shortDescription' => '{license_notice}', 'tags' => $tags);
     }
-
 
     /**
      * @return string
@@ -310,58 +286,5 @@ abstract class Magento_Di_Generator_EntityAbstract
         $sourceCode = preg_replace("/{\n+/m", "{\n", $sourceCode);
         $sourceCode = preg_replace("/\n+}/m", "\n}", $sourceCode);
         return $sourceCode;
-    }
-
-    /**
-     * @return string
-     */
-    private function _getResultFileDirectory()
-    {
-        if (is_null($this->_resultFileDirectory)) {
-            $classParts = explode('_', $this->_resultClassName);
-            unset($classParts[count($classParts) - 1]);
-            $this->_resultFileDirectory = $this->_generationDirectory . implode(DS, $classParts) . DS;
-        }
-        return $this->_resultFileDirectory;
-    }
-
-    /**
-     * @return string
-     */
-    private function _getResultFileName()
-    {
-        if (is_null($this->_resultFileName)) {
-            $resultFileName = str_replace('_', DS, $this->_resultClassName);
-            $this->_resultFileName = $this->_generationDirectory . $resultFileName . '.php';
-        }
-        return $this->_resultFileName;
-    }
-
-    /**
-     * @param $content
-     * @return bool
-     */
-    private function _writeResultFile($content)
-    {
-        $content = "<?php\n" . $content;
-        return file_put_contents($this->_getResultFileName(), $content) !== false;
-    }
-
-    /**
-     * @param string $directory
-     * @return bool
-     */
-    private function _makeDirectory($directory)
-    {
-        if (is_dir($directory)) {
-            if (!is_writable($directory)) {
-                $this->_addError('Directory ' . $directory . ' is not writable.');
-                return false;
-            }
-        } elseif (!@mkdir($directory, self::DIRECTORY_PERMISSION, true)) {
-            $this->_addError('Can\'t create directory ' . $directory . '.');
-            return false;
-        }
-        return true;
     }
 }
