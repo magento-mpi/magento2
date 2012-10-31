@@ -99,6 +99,10 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     {
         parent::_construct();
 
+        if (!$this->hasData('filter_visibility')) {
+            $this->setData('filter_visibility', true);
+        }
+
         if (!$this->getRowClickCallback()) {
             $this->setRowClickCallback('openGridRow');
         }
