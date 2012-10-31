@@ -40,6 +40,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Admi
 
         $this->dispatch('admin/cms_page_revision/drop/');
         $this->markTestIncomplete('MAGETWO-770');
-        $this->assertContains('skin/frontend/default/modern/default', $this->getResponse()->getBody());
+        $this->assertContains('theme/frontend/default/modern', $this->getResponse()->getBody());
     }
 }

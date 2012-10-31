@@ -1072,7 +1072,6 @@ class Mage_Core_Model_Design_Package
      *          )
      *     )
      * )
-     * TODO: Get rid of this method or use the Mage_Core_Model_Theme_Collection model
      *
      * @param string $area
      * @param bool $addInheritedSkins

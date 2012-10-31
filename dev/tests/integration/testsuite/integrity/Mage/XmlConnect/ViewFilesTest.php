@@ -12,15 +12,15 @@
 /**
  * @group integrity
  */
-class Integrity_Mage_XmlConnect_SkinFilesTest extends PHPUnit_Framework_TestCase
+class Integrity_Mage_XmlConnect_ViewFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test that skin files are available at both backend and frontend
+     * Test that view files are available at both backend and frontend
      *
      * @param string $file
-     * @dataProvider sharedSkinFilesDataProvider
+     * @dataProvider sharedViewFilesDataProvider
      */
-    public function testSharedSkinFiles($file)
+    public function testSharedViewFiles($file)
     {
         $params = array(
             'area'    => 'adminhtml',
@@ -35,7 +35,7 @@ class Integrity_Mage_XmlConnect_SkinFilesTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function sharedSkinFilesDataProvider()
+    public function sharedViewFilesDataProvider()
     {
         return array(
             array('Mage_XmlConnect::images/tab_home.png'),

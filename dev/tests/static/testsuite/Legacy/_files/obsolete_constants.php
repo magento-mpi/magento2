@@ -46,4 +46,5 @@ return array(
     'TYPE_LONGVARBINARY' => array('suggestion' => 'Varien_Db_Ddl_Table::TYPE_BLOB'),
     'HASH_ALGO',
     'SEESION_MAX_COOKIE_LIFETIME',
+    'URL_TYPE_SKIN',
 );
