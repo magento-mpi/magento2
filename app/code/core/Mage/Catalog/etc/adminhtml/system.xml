@@ -193,7 +193,7 @@
                 </field>
             </group>
             <group id="custom_options" translate="label" type="text" sortOrder="700" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Date</label>
+                <label><![CDATA[Date & Time Custom Options]]></label>
                 <field id="use_calendar" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Use JavaScript Calendar</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>

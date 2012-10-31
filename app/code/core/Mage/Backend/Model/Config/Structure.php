@@ -58,6 +58,7 @@ class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
     public function __wakeUp()
     {
         $this->_app = Mage::app();
+        $this->_helperFactory = Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper');
     }
 
     /**
