@@ -230,18 +230,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $this->getResponse()->setHttpResponseCode(400);
 
         $apiUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
-        // TODO: Collect the following details dynamically after Auto Discovery proposal implementation
-        $details = array(
-            "availableResources" => array(
-                'customers' => array(
-                    'v1' => $apiUrl . '?wsdl&modules[Mage_Customer]=v1',
-                    'v2' => $apiUrl . '?wsdl&modules[Mage_Customer]=v2',
-                ),
-                'catalogProducts' => array(
-                    'v1' => $apiUrl . '?wsdl&modules[Mage_Catalog]=v1',
-                ),
-            )
-        );
+
+        $details = array();
+        foreach ($this->getResourceConfig()->getAllResources() as $resourceName => $versions) {
+            foreach ($versions as $version) {
+                $details['availableResources'][$resourceName][$version] = sprintf('%s?wsdl&resources[%s]=%s', $apiUrl,
+                    $resourceName, $version);
+            }
+        }
         $this->_setResponseBody($this->_getSoapFaultMessage($message, self::FAULT_CODE_SENDER, 'en', $details));
     }
 

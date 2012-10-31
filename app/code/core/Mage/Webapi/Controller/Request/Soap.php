@@ -37,24 +37,20 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
     public function getRequestedResources()
     {
         $helper = Mage::helper('Mage_Webapi_Helper_Data');
-        $baseUrl = Mage::getBaseUrl();
         $wsdlParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_WSDL;
         $resourcesParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_RESOURCES;
-        $exampleUrl = "{$baseUrl}api/soap?{$wsdlParam}&{$resourcesParam}[customer]=v1&{$resourcesParam}[catalog]=v1";
         $requestParams = array_keys($this->getParams());
         $allowedParams = array('api_type', $wsdlParam, $resourcesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
-            $message = $helper->__('Not allowed parameters: %s', implode(', ', $notAllowedParameters)) . PHP_EOL
-                . $helper->__('Please, use only "%s" and "%s". Example: ', $wsdlParam, $resourcesParam) . $exampleUrl;
+            $message = $helper->__('Not allowed parameters: %s.', implode(', ', $notAllowedParameters)) . PHP_EOL
+                . $helper->__('Please, use only "%s" and "%s".', $wsdlParam, $resourcesParam);
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $requestedResources = $this->getParam($resourcesParam);
         if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
-            $message = $helper->__('Missing requested resources. Example: ') . $exampleUrl . PHP_EOL
-                // TODO: change documentation link
-                . $helper->__('See documentation: https://wiki.corp.x.com/display/APIA/New+API+module+architecture#NewAPImodulearchitecture-Resourcesversioning');
+            $message = $helper->__('Missing requested resources.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedResources;

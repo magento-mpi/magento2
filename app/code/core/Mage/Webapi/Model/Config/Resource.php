@@ -1060,4 +1060,19 @@ class Mage_Webapi_Model_Config_Resource
         }
         throw new InvalidArgumentException(sprintf('No route was found to the item of "%s" resource.', $resourceName));
     }
+
+    /**
+     * Retrieve all resources and their versions.
+     *
+     * @return array
+     */
+    public function getAllResources()
+    {
+        $resources = array();
+        foreach ($this->_data['resources'] as $resourceName => $data) {
+            $resources[$resourceName] = array_keys($data['versions']);
+        }
+
+        return $resources;
+    }
 }
