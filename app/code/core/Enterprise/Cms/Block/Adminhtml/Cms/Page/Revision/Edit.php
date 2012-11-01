@@ -101,6 +101,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                 )
             );
 
+            $page = Mage::registry('cms_page');
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
@@ -110,7 +111,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                         'event' => 'save',
                         'related' => '#edit_form',
                         'eventData' => array(
-                            'action' => $this->getNewVersionUrl()
+                            'action' => $this->getNewVersionUrl(),
+                            'target' => 'cms-page-preview-' . ($page ? $page->getPageId() : ''),
                         )
                     )
                 ),

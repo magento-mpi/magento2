@@ -25,15 +25,6 @@
         },
 
         /**
-         * Extend hendlerData
-         * @param {Object}
-         * @protected
-         */
-        extendHandlerData: function(data) {
-            $.extend(true, this.options.handlersData, data);
-        },
-
-        /**
          * Process preview action before form submit
          * @param {string}
          * @param {Object}

@@ -41,8 +41,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
                             'class'     => 'preview',
                             'data_attr'  => array(
-                                'widget-button' => array('event' => 'preview', 'related' => '#edit_form')
-                            )
+                                'widget-button' => array(
+                                    'event' => 'preview',
+                                    'related' => '#edit_form',
+                                    'eventData' => array(
+                                        'action' => $this->getUrl('*/cms_page_revision/preview'),
+                                    )
+                                )
+                            ),
                         ));
                     }
 
