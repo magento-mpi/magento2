@@ -33,4 +33,16 @@
             </design_fallback>
         </dev>
     </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Core>
+                    <files>
+                        <!-- Translation files are relative to app/code/<pool>/<Namespace>/<Module>/locale/<locale> -->
+                        <fixture>../../../../../../../dev/tests/integration/testsuite/Mage/Core/_files/fixture.csv</fixture>
+                    </files>
+                </Mage_Core>
+            </modules>
+        </translate>
+    </frontend>
 </config>

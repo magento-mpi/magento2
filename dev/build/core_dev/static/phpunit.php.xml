@@ -19,6 +19,9 @@
         <testsuite name="Code Integrity Tests">
             <directory>testsuite/Integrity</directory>
         </testsuite>
+        <testsuite name="Code Legacy Tests">
+            <directory>testsuite/Legacy</directory>
+        </testsuite>
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
