@@ -804,7 +804,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getMainButtonsHtml()
     {
         $html = '';
-        if($this->getData('filter_visibility')) {
+        if($this->getColumnSet()->isFilterVisible()) {
             $html.= $this->getResetFilterButtonHtml();
             $html.= $this->getSearchButtonHtml();
         }
