@@ -38,17 +38,5 @@ Event.observe(window, 'load', function() {
     }
 });
 <?php endif; ?>
-
-(function($) {
-    $(document).ready(function() {
-        $('#<?php echo $this->getForm()->getId()?>')
-            .form('extendHandlerData', {
-                preview: {
-                    action: '<?php echo $this->getUrl('*/cms_page_revision/preview') ?>'
-                }
-            });
-    });
-})(jQuery);
-//]]>
 </script>
 
