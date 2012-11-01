@@ -103,6 +103,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             $this->_setFilterValues($this->_defaultFilter);
         }
 
+        /** @var $collection Mage_Reports_Model_Resource_Report_Collection */
         $collection = $this->getCollection();
         if ($collection) {
             $collection->setPeriod($this->getFilter('report_period'));
@@ -155,6 +156,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
+            $collection->initReport($this->getSourceCollection());
         }
 
         return $this;

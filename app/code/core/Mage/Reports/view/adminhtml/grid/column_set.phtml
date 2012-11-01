@@ -27,7 +27,7 @@
     <?php if ($this->getCollection()->getSize()): ?>
         <?php foreach ($this->getCollection()->getIntervals() as $_index => $_item): ?>
                     <tr>
-                    <?php $report=$this->getReport($_item['start'], $_item['end']) ?>
+                    <?php $report=$this->getCollection()->getReport($_item['start'], $_item['end']) ?>
             <?php $rows=count($report) ?>
             <?php if ($rows > 0 ): ?>
                 <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
@@ -35,8 +35,9 @@
                     <?php if($i>0): ?>
                             <tr>
                             <?php endif; ?>
-                    <?php $i++; ?>
-                    <?php $j=0;foreach ($this->getColumns() as $_column): ?>
+                    <?php $i++;?>
+                    <?php $j=0;foreach ($this->getColumns() as $index=>$_column): ?>
+                        <?php if ($index == 'period_text') continue; ?>
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
                             <?php echo (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;') ?>
                         </td>
