@@ -106,63 +106,89 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($resourceName, $methodName);
+                $inputBinding = array('use' => 'literal');
+                $inputMessageName = $this->_createOperationInput($operationName, $methodData);
 
-                $bindingInput = array('use' => 'literal');
-                $inputMessageName = $inputTypeName = $this->getInputMessageName($operationName);
-                $complexTypeForElementName = $this->getElementComplexTypeName($inputMessageName);
-                $inputParameters = array();
-                $elementData = array(
-                    'name' => $inputTypeName,
-                    'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeForElementName
-                );
-                if (isset($methodData['interface']['in']['parameters'])) {
-                    $inputParameters = $methodData['interface']['in']['parameters'];
-                } else {
-                    $elementData['nillable'] = 'true';
-                }
-                $this->_wsdl->addElement($elementData);
-
-                $callInfo = array();
-                $callInfo['requiredInput']['yes']['calls'] = array($operationName);
-                $this->_processComplexType($complexTypeForElementName, $inputParameters, $methodData['documentation'],
-                    $callInfo);
-                $this->_wsdl->addMessage($inputMessageName, array(
-                    'messageParameters' => array(
-                        'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputTypeName
-                    )
-                ));
-
-                $outputMessageName = null;
-                $bindingOutput = null;
+                $outputMessageName = false;
+                $outputBinding = false;
                 if (isset($methodData['interface']['out']['parameters'])) {
-                    $bindingOutput = array('use' => 'literal');
-                    $outputMessageName = $outputElementName = $this->getOutputMessageName($operationName);
-                    $complexTypeForElementName = $this->getElementComplexTypeName($outputMessageName);
-                    $this->_wsdl->addElement(array(
-                        'name' => $outputElementName,
-                        'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeForElementName
-                    ));
-                    $outputParameters = $methodData['interface']['out']['parameters'];
-                    $documentation = sprintf('Response container for the %s call.', $operationName);
-                    $callInfo = array();
-                    $callInfo['returned']['always']['calls'] = array($operationName);
-                    $this->_processComplexType($complexTypeForElementName, $outputParameters, $documentation,
-                        $callInfo);
-                    $this->_wsdl->addMessage($outputMessageName, array(
-                        'messageParameters' => array(
-                            'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputElementName
-                        )
-                    ));
+                    $outputBinding = $inputBinding;
+                    $outputMessageName = $this->_createOperationOutput($operationName, $methodData);
                 }
 
                 $this->_wsdl->addPortOperation($portType, $operationName, $inputMessageName, $outputMessageName);
-                $bindingOperation = $this->_wsdl->addBindingOperation($binding, $operationName, $bindingInput, $bindingOutput);
+                $bindingOperation = $this->_wsdl->addBindingOperation($binding, $operationName, $inputBinding,
+                    $outputBinding);
                 $this->_wsdl->addSoapOperation($bindingOperation, $operationName);
                 // @TODO: implement faults binding
             }
         }
 
         return $this->_wsdl->toXML();
+    }
+
+    /**
+     * Create input message and corresponding element and complex types in WSDL.
+     *
+     * @param string $operationName
+     * @param array $methodData
+     * @return string input message name
+     */
+    protected function _createOperationInput($operationName, $methodData)
+    {
+        $inputMessageName = $this->getInputMessageName($operationName);
+        $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
+        $inputParameters = array();
+        $elementData = array(
+            'name' => $inputMessageName,
+            'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeName
+        );
+        if (isset($methodData['interface']['in']['parameters'])) {
+            $inputParameters = $methodData['interface']['in']['parameters'];
+        } else {
+            $elementData['nillable'] = 'true';
+        }
+        $this->_wsdl->addElement($elementData);
+
+        $callInfo = array();
+        $callInfo['requiredInput']['yes']['calls'] = array($operationName);
+        $this->_processComplexType($complexTypeName, $inputParameters, $methodData['documentation'], $callInfo);
+        $this->_wsdl->addMessage($inputMessageName, array(
+            'messageParameters' => array(
+                'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputMessageName
+            )
+        ));
+
+        return $inputMessageName;
+    }
+
+    /**
+     * Create output message and corresponding element and complex types in WSDL.
+     *
+     * @param $operationName
+     * @param $methodData
+     * @return string output message name
+     */
+    protected function _createOperationOutput($operationName, $methodData)
+    {
+        $outputMessageName = $this->getOutputMessageName($operationName);
+        $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
+        $this->_wsdl->addElement(array(
+            'name' => $outputMessageName,
+            'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeName
+        ));
+        $outputParameters = $methodData['interface']['out']['parameters'];
+        $documentation = sprintf('Response container for the %s call.', $operationName);
+        $callInfo = array();
+        $callInfo['returned']['always']['calls'] = array($operationName);
+        $this->_processComplexType($complexTypeName, $outputParameters, $documentation, $callInfo);
+        $this->_wsdl->addMessage($outputMessageName, array(
+            'messageParameters' => array(
+                'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName
+            )
+        ));
+
+        return $outputMessageName;
     }
 
     /**
@@ -253,42 +279,42 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _processComplexType($name, array $parameters, $documentation = null, $callInfo = array())
     {
-        $complexTypeParameters = array();
-        foreach ($parameters as $parameterName => $parameterData) {
-            $wsdlData = array();
-            $parameterType = $parameterData['type'];
-            $isRequired = isset($parameterData['required']) && $parameterData['required'];
-            $annotationCallInfo = $callInfo;
-            // TODO: refactor this part
-            if (!$isRequired && isset($annotationCallInfo['requiredInput']['yes']['calls'])) {
-                $annotationCallInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
-                unset($annotationCallInfo['requiredInput']['yes']);
+        $wsdlParameters = array();
+        foreach ($parameters as $parameterName => $paramData) {
+            $data = array();
+            $type = $paramData['type'];
+            $isRequired = isset($paramData['required']) && $paramData['required'];
+            $paramCallInfo = $callInfo;
+            if (!$isRequired) {
+                if (isset($callInfo['requiredInput']['yes'])) {
+                    $paramCallInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
+                    unset($paramCallInfo['requiredInput']['yes']);
+                }
+                if (isset($callInfo['returned']['always'])) {
+                    $paramCallInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
+                    unset($paramCallInfo['returned']['always']);
+                }
             }
-            if (!$isRequired && isset($annotationCallInfo['returned']['always']['calls'])) {
-                $annotationCallInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
-                unset($annotationCallInfo['returned']['always']);
-            }
-            $defaultValue = isset($parameterData['default']) ? $parameterData['default'] : null;
-            $wsdlData['annotation'] = $this->_getAnnotation($parameterData['documentation'], $parameterType,
-                $annotationCallInfo, $defaultValue);
 
-            if ($this->_resourceConfig->isArrayType($parameterType)) {
-                $this->_processComplexTypeArray($parameterType, $callInfo);
+            $default = isset($paramData['default']) ? $paramData['default'] : null;
+            $data['annotation'] = $this->_getAnnotation($paramData['documentation'], $type, $paramCallInfo, $default);
+            if ($this->_resourceConfig->isArrayType($type)) {
+                $this->_processArrayParameter($type, $callInfo);
                 $typeNs = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
-                $wsdlParameterType = $this->_resourceConfig->translateArrayTypeName($parameterType);
+                $wsdlParameterType = $this->_resourceConfig->translateArrayTypeName($type);
             } else {
-                $wsdlData['minOccurs'] = $isRequired ? 1 : 0;
-                $wsdlData['maxOccurs'] = 1;
-                $typeNs = $this->_processComplexTypeParameter($parameterType, $callInfo);
-                $wsdlParameterType = $parameterType;
+                $data['minOccurs'] = $isRequired ? 1 : 0;
+                $data['maxOccurs'] = 1;
+                $typeNs = $this->_processComplexTypeParameter($type, $callInfo);
+                $wsdlParameterType = $type;
             }
 
-            $wsdlData['type'] = $typeNs . ':' . $wsdlParameterType;
-            $complexTypeParameters[$parameterName] = $wsdlData;
+            $data['type'] = $typeNs . ':' . $wsdlParameterType;
+            $wsdlParameters[$parameterName] = $data;
         }
 
         $annotation = $this->_getAnnotation($documentation, $name);
-        $this->_wsdl->addComplexTypeWithParameters($name, $complexTypeParameters, $annotation);
+        $this->_wsdl->addComplexTypeWithParameters($name, $wsdlParameters, $annotation);
     }
 
     /**
@@ -297,7 +323,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param string $type
      * @param array $callInfo
      */
-    protected function _processComplexTypeArray($type, $callInfo)
+    protected function _processArrayParameter($type, $callInfo)
     {
         $arrayItemType = $this->_resourceConfig->getArrayItemType($type);
         $arrayTypeName = $this->_resourceConfig->translateArrayTypeName($type);
@@ -312,7 +338,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 'annotation' => $arrayItemAnnotation
             )
         );
-        $documentation = sprintf('An array of %s complex type items.', $arrayItemType);
+        $documentation = sprintf('An array of %s items.', $arrayItemType);
         $annotation = $this->_getAnnotation($documentation, $arrayItemType);
         $this->_wsdl->addComplexTypeWithParameters($arrayTypeName, $arrayTypeParameters, $annotation);
     }
@@ -389,35 +415,35 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Override default callInfo values if defined in parameter documentation.
      *
      * @param string $documentation parameter documentation string
-     * @param string $parameterType
+     * @param string $type
      * @param array $callInfo callInfo list for given parameter
      * @param null $default
      * @return array
      */
-    protected function _getAnnotation($documentation, $parameterType, $callInfo = array(), $default = null)
+    protected function _getAnnotation($documentation, $type, $callInfo = array(), $default = null)
     {
         $appInfo = array();
-        if ($parameterType == 'boolean') {
+        if ($type == 'boolean') {
             $default = (bool)$default ? 'true' : 'false';
         }
         if ($default) {
             $appInfo['default'] = $default;
         }
-        if ($this->_resourceConfig->isArrayType($parameterType)) {
+        if ($this->_resourceConfig->isArrayType($type)) {
             $appInfo['natureOfType'] = 'array';
         }
-        if (preg_match_all('/\{(.*)\:(.*)\}/U', $documentation, $matches)) {
+        if (preg_match_all('/{([a-z]+):(.+)}/Ui', $documentation, $matches)) {
             for ($i = 0; $i < count($matches[0]); $i++) {
                 $appinfoTag = $matches[0][$i];
                 $tagName = $matches[1][$i];
                 $tagValue  = $matches[2][$i];
                 switch ($tagName) {
                     case 'callInfo':
-                        $callInfoRegExp = '/([a-z].*)\:(returned|requiredInput)\:(yes|no|always|conditionally)/i';
+                        $callInfoRegExp = '/([a-z].+):(returned|requiredInput):(yes|no|always|conditionally)/i';
                         if (preg_match($callInfoRegExp, $tagValue)) {
                             list($callName, $direction, $condition) = explode(':', $tagValue);
                             $condition = strtolower($condition);
-                            if (preg_match('/allCallsExcept\(([a-z].*)\)/', $callName, $calls)) {
+                            if (preg_match('/allCallsExcept\(([a-z].+)\)/', $callName, $calls)) {
                                 $callInfo[$direction][$condition] = array(
                                     'allCallsExcept' => $calls[1],
                                 );
@@ -428,7 +454,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                         }
                         break;
                     case 'seeLink':{
-                        if (preg_match('/([http\:\/\/]?.*)\:(.*):(.*)/', $tagValue, $linkMatches)) {
+                        if (preg_match('|([http://]?.+):(.+):(.+)|i', $tagValue, $linkMatches)) {
                             $appInfo['seeLink'] = array(
                                 'url' => $linkMatches[1],
                                 'title' => $linkMatches[2],
@@ -438,7 +464,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                         break;
                     }
                     case 'docInstructions':
-                        if (preg_match('/(input|output)\:(.*)/', $tagValue, $docMatches)) {
+                        if (preg_match('/(input|output):(.+)/', $tagValue, $docMatches)) {
                             $appInfo['docInstructions'][$docMatches[1]] = $docMatches[2];
                         }
                         break;

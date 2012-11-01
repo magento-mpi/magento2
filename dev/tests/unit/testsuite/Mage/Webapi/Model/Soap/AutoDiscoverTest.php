@@ -161,7 +161,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 'parameters' => array(
                     'result' => array(
                         'type' => 'ComplexTypeB',
-                        'required' => true,
+                        'required' => false,
                         'documentation' => 'Operation result.'
                     )
                 ),
