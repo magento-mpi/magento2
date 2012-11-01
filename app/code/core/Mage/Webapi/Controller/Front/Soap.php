@@ -130,8 +130,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Authenticate user
-     *
-     * @return string
      */
     protected function _authenticate()
     {
