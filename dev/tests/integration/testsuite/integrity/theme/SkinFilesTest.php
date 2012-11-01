@@ -30,7 +30,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             'theme'   => $theme,
             'skin'    => $skin
         );
-        $skinFile = Mage::getDesign()->getSkinFile($file, $params);
+        $skinFile = Mage::getDesign()->getViewFile($file, $params);
         $this->assertFileExists($skinFile);
 
         $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
@@ -43,7 +43,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $content, $matches);
             foreach ($matches[1] as $relativePath) {
                 $path = $this->_addCssDirectory($relativePath, $file);
-                $pathFile = Mage::getDesign()->getSkinFile($path, $params);
+                $pathFile = Mage::getDesign()->getViewFile($path, $params);
                 if (!is_file($pathFile)) {
                     $errors[] = $relativePath;
                 }

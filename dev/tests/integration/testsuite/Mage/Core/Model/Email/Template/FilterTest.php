@@ -31,10 +31,10 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
      *
      * @magentoAppIsolation enabled
      */
-    public function testSkinDirective()
+    public function testViewDirective()
     {
-        $url = $this->_model->skinDirective(array(
-            '{{skin url="Mage_Page::favicon.ico"}}',
+        $url = $this->_model->viewDirective(array(
+            '{{view url="Mage_Page::favicon.ico"}}',
             'skin',
             ' url="Mage_Page::favicon.ico"', // note leading space
         ));
@@ -87,6 +87,8 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture frontend/design/theme/full_name test/default
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
      * @dataProvider layoutDirectiveDataProvider
      *
      * @param string $currentArea
@@ -97,7 +99,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
     {
         $this->_emulateCurrentArea($currentArea);
         Mage::getConfig()->setOptions(array('design_dir' => dirname(__DIR__) . '/_files/design'));
-        Mage::getDesign()->setDesignTheme('test/default/default');
+        Mage::getDesign()->setDesignTheme('test/default');
 
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',

@@ -27,7 +27,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             'theme'   => 'default',
             'skin'    => 'default'
         );
-        $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**
@@ -123,7 +123,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             'theme' => 'default',
             'skin' => 'default',
         );
-        $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**

@@ -78,14 +78,14 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
             'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('From Date'),
-            'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'         => 'to_date',
             'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('To Date'),
-            'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));

@@ -445,8 +445,8 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinUrl()
     {
-        $this->assertStringStartsWith('http://localhost/pub/media/skin/frontend/', $this->_block->getSkinUrl());
-        $this->assertStringEndsWith('css/styles.css', $this->_block->getSkinUrl('css/styles.css'));
+        $this->assertStringStartsWith('http://localhost/pub/media/theme/frontend/', $this->_block->getViewFileUrl());
+        $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
     }
 
     public function testGetSetMessagesBlock()
@@ -601,7 +601,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetVar()
     {
         Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
-        Mage::getDesign()->setDesignTheme('test/default/default');
+        Mage::getDesign()->setDesignTheme('test/default');
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
         $this->_block->setModuleName('Namespace_Module');
