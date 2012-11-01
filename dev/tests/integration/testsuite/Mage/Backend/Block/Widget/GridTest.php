@@ -97,4 +97,10 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         $this->_block->setSortable(false);
         $this->_block->toHtml();
     }
+
+    public function testGetMainButtonsHtmlReturnsEmptyStringIfFiltersArentVisible()
+    {
+        $this->_columnSetMock->expects($this->once())->method('isFilterVisible')->will($this->returnValue(false));
+        $this->_block->getMainButtonsHtml();
+    }
 }
