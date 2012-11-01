@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Grid_Report_Invitation_GridTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -67,11 +67,13 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
      * <p>2. Navigate to Reports>Invitations>Customers</p>
      * <p>3. Enter current date in to the "From" and "To" field</p>
      * <p>4. Click Refresh button</p>
+     *
+     * @param $page
      */
-    public function workflowWithReport()
+    public function workflowWithReport($page)
     {
         $this->loginAdminUser();
-        $this->navigate('report_invitations_customers');
+        $this->navigate($page);
         $date = getdate();
         $validDate = $date['mon'] . '/' . $date['mday'] . '/' . $date['year'];
         $this->fillField('filter_from', $validDate);
@@ -100,18 +102,16 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
      * @test
      * @TestlinkId TL-MAGE-6438
      */
-    public function verifyGrid()
+    public function verifyCustomerGrid()
     {
-        self::workflowWithReport();
+        $this->workflowWithReport('report_invitations_customers');
         $gridXpath = $this->_getControlXpath('pageelement', 'report_invitations_customers_grid');
         $count = $this->getElementsByXpath($gridXpath . '/tbody/tr');
         $newCount = count($count) + 1;
         $this->logoutAdminUser();
-        self::createInvitation();
-        self::workflowWithReport();
-        $gridXpath = $this->_getControlXpath('pageelement', 'report_invitations_customers_grid');
+        $this->createInvitation();
+        $this->workflowWithReport('report_invitations_customers');
         $this->assertCount($newCount, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
             'Wrong records number in grid report_invitations_customers');
     }
-
 }

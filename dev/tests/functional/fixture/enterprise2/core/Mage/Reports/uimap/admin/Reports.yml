@@ -9,6 +9,7 @@
 # @license     {license_link}
 #
 ---
+
 # Report Invitations General page
 report_invitations_general:
     mca: report_invitation/
@@ -16,9 +17,9 @@ report_invitations_general:
     title: General / Invitations / Reports / Magento Admin
     uimap:
         form:
-            fielsets:
+            fieldsets:
                 -
-                    general:
+                    report_invitations_general:
                         xpath: //div[@id='page:main-container']
                         buttons: &reportInvitationsButtons
                             refresh: //button[span='Refresh']
