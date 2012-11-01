@@ -22,21 +22,25 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
         $clickSave = "\$('_sendaction').value = 0;";
         $clickSave .= "\$('_sendrecipient_email').removeClassName('required-entry');";
         $clickSave .= "\$('_sendrecipient_name').removeClassName('required-entry');";
-        $clickSave .= "editForm.submit();";
 
         $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save'));
         $this->_updateButton('save', 'onclick', $clickSave);
+        $this->_updateButton('save', 'data_attr', array(
+            'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+        ));
         $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Delete'));
 
         $clickSend = "\$('_sendrecipient_email').addClassName('required-entry');";
         $clickSend .= "\$('_sendrecipient_name').addClassName('required-entry');";
         $clickSend .= "\$('_sendaction').value = 1;";
-        $clickSend .= "editForm.submit();";
 
         $this->_addButton('send', array(
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save & Send Email'),
             'onclick'   => $clickSend,
             'class'     => 'save',
+            'data_attr' => array(
+                'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+            )
         ));
     }
 

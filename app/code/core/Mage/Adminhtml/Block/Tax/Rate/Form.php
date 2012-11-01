@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 {
     protected $_titles = null;
 
-    const FORM_ELEMENT_ID = 'rate_form';
+    const FORM_ELEMENT_ID = 'rate-form';
 
     public function __construct()
     {
