@@ -98,93 +98,52 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateOperations()
     {
-        $wsdlNs = Mage_Webapi_Model_Soap_Wsdl::WSDL_NS;
-        $tns = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
-
         $this->_assertServiceNode();
         $binding = $this->_assertBinding();
         $portType = $this->_assertPortType();
 
         foreach ($this->_resourceData['methods'] as $methodName => $methodData) {
             $operationName = $this->_autoDiscover->getOperationName($this->_resourceName, $methodName);
-            $operationXpath = sprintf('%s:operation[@name="%s"]', Mage_Webapi_Model_Soap_Wsdl::WSDL_NS, $operationName);
-            // Assert binding operation
-            /** @var DOMElement $bindingOperation */
-            $bindingOperation = $this->_xpath->query($operationXpath, $binding)->item(0);
-            $this->assertNotNull($bindingOperation, sprintf('Operation "%s" was not found in binding "%s".',
-                $operationName, $this->_autoDiscover->getBindingName($this->_resourceName)));
-            // Assert portType operation
-            /** @var DOMElement $portOperation */
-            $portOperation = $this->_xpath->query($operationXpath, $portType)->item(0);
-            $this->assertNotNull($portOperation, sprintf('Operation "%s" was not found in portType "%s".',
-                $operationName, $this->_autoDiscover->getPortTypeName($this->_resourceName)));
+            $this->_assertBindingOperation($operationName, $binding);
+            $portOperation = $this->_assertPortTypeOperation($operationName, $portType);
             // Assert portType operation input
             /** @var DOMElement $operationInput */
             $operationInput = $portOperation->getElementsByTagName('input')->item(0);
-            $this->assertNotNull($operationInput, sprintf('Input node was not found in "%s" port operation.',
+            $this->assertNotNull($operationInput, sprintf('"input" node was not found in "%s" port operation.',
                 $operationName));
-            $inputMessageName = $this->_autoDiscover->getInputMessageName($operationName);
-            $this->assertTrue($operationInput->hasAttribute('message'));
-            $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' .$inputMessageName,
-                $operationInput->getAttribute('message'));
-            $this->_assertMessage($inputMessageName);
-            $requestTypeName = $this->_autoDiscover->getElementComplexTypeName($inputMessageName);
-            $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
-            /** @var DOMElement $request */
-            $request = $this->_xpath->query(sprintf($complexTypeXpath, $requestTypeName))->item(0);
-            $this->assertNotNull($request, sprintf('Request complex type for "%s" operation was not found in WSDL.',
-                $methodName));
-            $this->_assertDocumentation($methodData['documentation'], $request);
-            // Assert parameters
-            if (isset($methodData['interface']['in'])) {
-                foreach ($methodData['interface']['in']['parameters'] as $parameterName => $parameterData) {
-                    /** @var DOMElement $element */
-                    $element = $this->_xpath->query("{$xsdNs}:sequence/{$xsdNs}:element[@name='{$parameterName}']",
-                        $request)->item(0);
-                    $this->assertNotNull($element, sprintf('Element for parameter "%s" was not found in "%s".',
-                        $parameterName, $requestTypeName));
-                    $paramType = $parameterData['type'];
-                    $expectedTypeNs = $this->_config->isTypeSimple($paramType) ? $xsdNs : $tns;
-                    $this->assertEquals($expectedTypeNs . ':' . $paramType, $element->getAttribute('type'));
-                    $this->assertEquals($parameterData['required'] ? 1 : 0, $element->getAttribute('minOccurs'));
-                    $this->assertEquals(1, $element->getAttribute('maxOccurs'));
-                    $this->_assertDocumentation($parameterData['documentation'], $element);
-                    /** @var DOMElement $callInfo */
-                    $callInfo = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:appinfo/callInfo", $element)
-                        ->item(0);
-                    $this->assertNotNull($callInfo, sprintf('callInfo node was not found in "%s" annotation.',
-                        $parameterName));
-                    $callNameNodes = $callInfo->getElementsByTagName('callName');
-                    $this->assertEquals(1, $callNameNodes->length);
-                    /** @var DOMElement $callName */
-                    $callName = $callNameNodes->item(0);
-                    $this->assertEquals($operationName, $callName->nodeValue);
-                    $requiredInput = $this->_xpath->query('requiredInput', $callInfo)->item(0);
-                    $this->assertNotNull($requiredInput, sprintf(
-                        '"requiredInput" node was not found in "%s" callInfo.', $parameterName));
-                    $this->assertEquals($parameterData['required'] ? 'Yes' : 'No', $requiredInput->nodeValue);
-                }
+            $messageName = $this->_autoDiscover->getInputMessageName($operationName);
+            $operationRequest = $this->_assertMessage($operationInput, $messageName, $methodData['documentation']);
+            foreach ($methodData['interface']['in']['parameters'] as $parameterName => $parameterData) {
+                $expectedAppinfo = array(
+                    'callInfo' => array(
+                        $operationName => array(
+                            'requiredInput' => $parameterData['required'] ? 'Yes' : 'No'
+                        )
+                    ),
+                );
+                $this->_assertParameter($parameterName, $parameterData['type'], $parameterData['required'],
+                    $parameterData['documentation'], $expectedAppinfo, $operationRequest);
             }
             // Assert portType operation output
             if (isset($methodData['interface']['out'])) {
                 /** @var DOMElement $operationOutput */
                 $operationOutput = $portOperation->getElementsByTagName('output')->item(0);
-                $this->assertNotNull($operationOutput, sprintf('Output node was not found in "%s" port operation.',
+                $this->assertNotNull($operationOutput, sprintf('"output" node was not found in "%s" port operation.',
                     $operationName));
-                $outputMessageName = $this->_autoDiscover->getOutputMessageName($operationName);
-                $this->assertTrue($operationOutput->hasAttribute('message'));
-                $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName,
-                    $operationOutput->getAttribute('message'));
-                $this->_assertMessage($outputMessageName);
-                $responseTypeName = $this->_autoDiscover->getElementComplexTypeName($outputMessageName);
-                /** @var DOMElement $response */
-                $response = $this->_xpath->query(sprintf($complexTypeXpath, $responseTypeName))->item(0);
-                $this->assertNotNull($response, sprintf(
-                    'Response complex type for "%s" operation was not found in WSDL.', $methodName));
-                // Assert annotation documentation
-                $expectedDocumentation = sprintf('Response container for the %s call.', $operationName);
-                $this->_assertDocumentation($expectedDocumentation, $response);
+                $messageName = $this->_autoDiscover->getInputMessageName($operationOutput);
+                $expectedDoc = sprintf('Response container for the %s call.', $operationName);
+                $operationResponse = $this->_assertMessage($operationOutput, $messageName, $expectedDoc);
+                foreach ($methodData['interface']['out']['parameters'] as $parameterName => $parameterData) {
+                    $expectedAppinfo = array(
+                        'callInfo' => array(
+                            $operationName => array(
+                                'returned' => $parameterData['required'] ? 'Always' : 'Conditionally'
+                            ),
+                        ),
+                    );
+                    $this->_assertParameter($parameterName, $parameterData['type'], $parameterData['required'],
+                        $parameterData['documentation'], $expectedAppinfo, $operationResponse);
+                }
             }
         }
     }
@@ -198,6 +157,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $wsdlNs = Mage_Webapi_Model_Soap_Wsdl::WSDL_NS;
         $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
 
+        // Generated from Vendor_ModuleB_Webapi_ModuleB_DataStructure class.
         $dataStructureName = 'VendorModuleBDataStructure';
         $typeData = $this->_config->getDataType($dataStructureName);
         $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
@@ -206,51 +166,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($dataStructure, sprintf('Complex type for data structure "%s" was not found in WSDL.',
             $dataStructureName));
         $this->_assertDocumentation($typeData['documentation'], $dataStructure);
-        // Expected appinfo tags. See Vendor_ModuleB_Webapi_ModuleB_DataStructure properties docBlock.
-        $expectedAppinfo = array(
-            'stringParam' => array(
-                'maxLength' => '255 chars.',
-                'callInfo' => array(
-                    'vendorModuleBUpdate' => array('requiredInput' => 'Yes'),
-                    'vendorModuleBCreate' => array('requiredInput' => 'Conditionally'),
-                    'vendorModuleBGet' => array('returned' => 'Always'),
-                ),
-            ),
-            'integerParam' => array(
-                'default' => $typeData['parameters']['integerParam']['default'],
-                'min' => 10,
-                'max' => 100,
-                'callInfo' => array(
-                    'vendorModuleBCreate' => array('requiredInput' => 'No'),
-                    'vendorModuleBUpdate' => array('requiredInput' => 'No'),
-                    'allCallsExcept' => array('calls' => 'vendorModuleBUpdate', 'requiredInput' => 'Yes'),
-                    'vendorModuleBGet' => array('returned' => 'Conditionally'),
-                ),
-            ),
-            'optionalBool' => array(
-                'default' => 'false',
-                'summary' => 'this is summary',
-                'seeLink' => array(
-                    'url' => 'http://google.com/',
-                    'title' => 'link title',
-                    'for' => 'link for',
-                ),
-                'docInstructions' => array('output' => 'noDoc'),
-                'callInfo' => array(
-                    'vendorModuleBCreate' => array('requiredInput' => 'No'),
-                    'vendorModuleBUpdate' => array('requiredInput' => 'No'),
-                    'vendorModuleBGet' => array('returned' => 'Conditionally'),
-                ),
-            ),
-            'optionalComplexType' => array(
-                'tagStatus' => 'some status',
-                'callInfo' => array(
-                    'vendorModuleBCreate' => array('requiredInput' => 'No'),
-                    'vendorModuleBUpdate' => array('requiredInput' => 'No'),
-                    'vendorModuleBGet' => array('returned' => 'Conditionally'),
-                ),
-            ),
-        );
+        // Expected appinfo tags.
+        $expectedAppinfo = include __DIR__ . '/../../_files/controllers/annotation_fixture.php';
 
         foreach ($typeData['parameters'] as $parameterName => $parameterData) {
             // remove all appinfo placeholders from expected doc.
@@ -280,7 +197,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $complexType)->item(0);
         $this->assertNotNull($parameterElement, sprintf('"%s" element was not found in complex type "%s".',
             $expectedName, $complexType->getAttribute('name')));
-        $this->assertEquals($expectedIsRequired ? 1 : 0, $parameterElement->getAttribute('minOccurs'));
+        $isArray = $this->_config->isArrayType($expectedType);
+        if ($isArray) {
+            $expectedType = $this->_config->translateArrayTypeName($expectedType);
+        } else {
+            $this->assertEquals($expectedIsRequired ? 1 : 0, $parameterElement->getAttribute('minOccurs'));
+            $this->assertEquals(1, $parameterElement->getAttribute('maxOccurs'));
+        }
         $expectedNs = $this->_config->isTypeSimple($expectedType) ? $xsdNs : $tns;
         $this->assertEquals("{$expectedNs}:{$expectedType}", $parameterElement->getAttribute('type'));
         $this->_assertDocumentation($expectedDoc, $parameterElement);
@@ -301,76 +224,22 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $elementName = $element->getAttribute('name');
         $this->assertNotNull($appInfoNode, sprintf('"appinfo" node not found in "%s" element.', $elementName));
 
-        foreach ($expectedAppinfo as $appInfoKey => $appInfo) {
+        foreach ($expectedAppinfo as $appInfoKey => $appInfoData) {
             switch ($appInfoKey) {
                 case 'callInfo':
-                    foreach ($appInfo as $callName => $callData) {
-                        if ($callName == 'allCallsExcept') {
-                            /** @var DOMElement $callNode */
-                            $callNode = $this->_xpath->query("callInfo/allCallsExcept[text()='{$callData['calls']}']",
-                                $appInfoNode)->item(0);
-                            $this->assertNotNull($callNode,
-                                sprintf('allCallsExcept node for call "%s" was not found in element "%s" appinfo.',
-                                    $callData['calls'], $elementName));
-                        } else {
-                            /** @var DOMElement $callNameNode */
-                            $callNode = $this->_xpath->query("callInfo/callName[text()='{$callName}']", $appInfoNode)
-                                ->item(0);
-                            $this->assertNotNull($callNode,
-                                sprintf('callName node for call "%s" was not found in element "%s" appinfo.', $callName,
-                                    $elementName));
-                        }
-                        $callInfoNode = $callNode->parentNode;
-                        if (isset($callData['requiredInput'])) {
-                            $direction = 'requiredInput';
-                            $condition = $callData['requiredInput'];
-                        } else if (isset($callData['returned'])) {
-                            $direction = 'returned';
-                            $condition = $callData['returned'];
-                        }
-                        $conditionNode = $this->_xpath->query("{$direction}[text()='{$condition}']", $callInfoNode)
-                            ->item(0);
-                        $this->assertNotNull($conditionNode,
-                            sprintf('"%s" node with value "%s" not found for callName "%s" in element "%s"',
-                                $direction, $condition, $callName, $elementName));
-                    }
+                    $this->_assertCallInfo($appInfoNode, $appInfoData);
                     break;
                 case 'seeLink':
-                    /** @var DOMElement $seeLinkNode */
-                    $seeLinkNode = $this->_xpath->query('seeLink', $appInfoNode)->item(0);
-                    $this->assertNotNull($seeLinkNode, sprintf('"seeLink" node was not found in "%s" element appinfo.',
-                        $elementName));
-                    foreach (array('url', 'title', 'for') as $subNodeName) {
-                        if (isset($appInfo[$subNodeName])) {
-                            /** @var DOMElement $subNode */
-                            $subNodeValue = $appInfo[$subNodeName];
-                            $subNode = $this->_xpath->query("{$subNodeName}[text()='{$subNodeValue}']",
-                                $seeLinkNode)->item(0);
-                            $this->assertNotNull($subNode,
-                                sprintf('"%s" node with value "%s" was not found in "%s" element appinfo "seeLink".',
-                                    $subNodeName, $subNodeValue, $elementName));
-                        }
-                    }
+                    $this->_assertSeeLink($appInfoNode, $appInfoData);
                     break;
                 case 'docInstructions':
-                    /** @var DOMElement $docInstructionsNode */
-                    $docInstructionsNode = $this->_xpath->query('docInstructions', $appInfoNode)->item(0);
-                    $this->assertNotNull($docInstructionsNode,
-                        sprintf('"docInstructions" node was not found in "%s" element appinfo.', $elementName));
-                    foreach ($appInfo as $direction => $value) {
-                        /** @var DOMElement $subNode */
-                        $subNode = $this->_xpath->query("{$direction}/{$value}", $docInstructionsNode)->item(0);
-                        $this->assertNotNull($subNode,
-                            sprintf('"%s/%s" node  was not found in "%s" element appinfo "docInstructions".',
-                                $direction, $value, $elementName));
-                    }
+                    $this->_assertDocInstructions($appInfoNode, $appInfoData);
                     break;
                 default:
-                    $tagNode = $this->_xpath->query($appInfoKey, $appInfoNode)
-                        ->item(0);
+                    $tagNode = $this->_xpath->query($appInfoKey, $appInfoNode)->item(0);
                     $this->assertNotNull($tagNode, sprintf('Appinfo node "%s" was not found in element "%s"',
                         $appInfoKey, $elementName));
-                    $this->assertEquals($appInfo, $tagNode->nodeValue, sprintf('Appinfo node "%s" is not correct.',
+                    $this->assertEquals($appInfoData, $tagNode->nodeValue, sprintf('Appinfo node "%s" is not correct.',
                         $appInfoKey));
                     break;
             }
@@ -378,12 +247,98 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Assert docInstructions appinfo node and it's subnodes.
+     *
+     * @param DOMElement $appInfoNode
+     * @param array $appInfoData
+     */
+    protected function _assertDocInstructions(DOMElement $appInfoNode, array $appInfoData)
+    {
+        $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
+        /** @var DOMElement $docInstructionsNode */
+        $docInstructionsNode = $this->_xpath->query('docInstructions', $appInfoNode)->item(0);
+        $this->assertNotNull($docInstructionsNode,
+            sprintf('"docInstructions" node was not found in "%s" element appinfo.', $elementName));
+        foreach ($appInfoData as $direction => $value) {
+            /** @var DOMElement $subNode */
+            $subNode = $this->_xpath->query("{$direction}/{$value}", $docInstructionsNode)->item(0);
+            $this->assertNotNull($subNode,
+                sprintf('"%s/%s" node  was not found in "%s" element appinfo "docInstructions".',
+                    $direction, $value, $elementName));
+        }
+    }
+
+    /**
+     * Assert 'seeLink' annotation node and it's subnodes.
+     *
+     * @param DOMElement $appInfoNode
+     * @param array $appInfoData
+     */
+    protected function _assertSeeLink(DOMElement $appInfoNode, array $appInfoData)
+    {
+        $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
+        /** @var DOMElement $seeLinkNode */
+        $seeLinkNode = $this->_xpath->query('seeLink', $appInfoNode)->item(0);
+        $this->assertNotNull($seeLinkNode, sprintf('"seeLink" node was not found in "%s" element appinfo.',
+            $elementName));
+        foreach (array('url', 'title', 'for') as $subNodeName) {
+            if (isset($appInfoData[$subNodeName])) {
+                /** @var DOMElement $subNode */
+                $subNodeValue = $appInfoData[$subNodeName];
+                $subNode = $this->_xpath->query("{$subNodeName}[text()='{$subNodeValue}']", $seeLinkNode)->item(0);
+                $this->assertNotNull($subNode,
+                    sprintf('"%s" node with value "%s" was not found in "%s" element appinfo "seeLink".',
+                        $subNodeName, $subNodeValue, $elementName));
+            }
+        }
+    }
+
+    /**
+     * Assert 'callInfo' annotation node and it's subnodes.
+     *
+     * @param DOMElement $appInfoNode
+     * @param array $appInfoData
+     */
+    protected function _assertCallInfo(DOMElement $appInfoNode, array $appInfoData)
+    {
+        $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
+        foreach ($appInfoData as $callName => $callData) {
+            if ($callName == 'allCallsExcept') {
+                /** @var DOMElement $callNode */
+                $callNode = $this->_xpath->query("callInfo/allCallsExcept[text()='{$callData['calls']}']",
+                    $appInfoNode)->item(0);
+                $this->assertNotNull($callNode,
+                    sprintf('allCallsExcept node for call "%s" was not found in element "%s" appinfo.',
+                        $callData['calls'], $elementName));
+            } else {
+                /** @var DOMElement $callNameNode */
+                $callNode = $this->_xpath->query("callInfo/callName[text()='{$callName}']", $appInfoNode)->item(0);
+                $this->assertNotNull($callNode,
+                    sprintf('callName node for call "%s" was not found in element "%s" appinfo.', $callName,
+                        $elementName));
+            }
+            if (isset($callData['requiredInput'])) {
+                $direction = 'requiredInput';
+                $condition = $callData['requiredInput'];
+            } else if (isset($callData['returned'])) {
+                $direction = 'returned';
+                $condition = $callData['returned'];
+            }
+            $conditionNode = $this->_xpath->query("{$direction}[text()='{$condition}']", $callNode->parentNode)
+                ->item(0);
+            $this->assertNotNull($conditionNode,
+                sprintf('"%s" node with value "%s" not found for callName "%s" in element "%s"', $direction,
+                    $condition, $callName, $elementName));
+        }
+    }
+
+    /**
      * Assert that given complex type has correct documentation node.
      *
-     * @param string $expectedDocumentation
+     * @param string $expectedDoc
      * @param DOMElement $element
      */
-    protected function _assertDocumentation($expectedDocumentation, DOMElement $element)
+    protected function _assertDocumentation($expectedDoc, DOMElement $element)
     {
         $elementName = $element->getAttribute('name');
         $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
@@ -391,20 +346,35 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $documentation = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:documentation", $element)->item(0);
         $this->assertNotNull($documentation,
             sprintf('"annotation/documentation" node was not found inside "%s" element.', $elementName));
-        $this->assertEquals($expectedDocumentation, $documentation->nodeValue,
+        $this->assertEquals($expectedDoc, $documentation->nodeValue,
             sprintf('"documentation" node value is incorrect in "%s" element.', $elementName));
     }
 
     /**
-     * Assert message is present in WSDL.
+     * Assert operation message (input/output) and that message node is present in WSDL
      *
-     * @param string $messageName
+     * @param DOMElement $operationMessage
+     * @param $methodName
+     * @param $expectedDoc
+     * @return DOMElement
      */
-    protected function _assertMessage($messageName)
+    protected function _assertMessage(DOMElement $operationMessage, $methodName, $expectedDoc)
     {
         $wsdlNs = Mage_Webapi_Model_Soap_Wsdl::WSDL_NS;
         $tns = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
         $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+
+        $this->assertTrue($operationMessage->hasAttribute('message'));
+        $messageName = str_replace("{$tns}:", '', $operationMessage->getAttribute('message'));
+        $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' .$messageName,
+            $operationMessage->getAttribute('message'));
+        $messageTypeName = $this->_autoDiscover->getElementComplexTypeName($messageName);
+        $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
+        /** @var DOMElement $messageComplexType */
+        $messageComplexType = $this->_xpath->query(sprintf($complexTypeXpath, $messageTypeName))->item(0);
+        $this->assertNotNull($messageComplexType,
+            sprintf('Complex type for "%s" operation was not found in WSDL.', $methodName));
+        $this->_assertDocumentation($expectedDoc, $messageComplexType);
 
         /** @var DOMElement $message */
         $expression = "//{$wsdlNs}:message[@name='{$messageName}']";
@@ -414,13 +384,39 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $messagePart = $this->_xpath->query($partXpath, $message)->item(0);
         $this->assertNotNull($messagePart, sprintf('Message part not found in "%s".', $messageName));
 
-        $elementXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:element[@name='{$messageName}']";
-        /** @var DOMElement $typeElement */
-        $typeElement = $this->_xpath->query($elementXpath)->item(0);
-        $this->assertNotNull($typeElement, sprintf('Message "%s" element not found in types.', $messageName));
-        $requestComplexTypeName = $this->_autoDiscover->getElementComplexTypeName($messageName);
-        $this->assertTrue($typeElement->hasAttribute('type'));
-        $this->assertEquals($tns. ':' .$requestComplexTypeName, $typeElement->getAttribute('type'));
+        return $messageComplexType;
+    }
+
+    /**
+     * Assert operation is present in portType node and return it.
+     *
+     * @param $operationName
+     * @param DOMElement $portType
+     * @return DOMElement
+     */
+    protected function _assertPortTypeOperation($operationName, DOMElement $portType)
+    {
+        $operationXpath = sprintf('%s:operation[@name="%s"]', Mage_Webapi_Model_Soap_Wsdl::WSDL_NS, $operationName);
+        /** @var DOMElement $portOperation */
+        $portOperation = $this->_xpath->query($operationXpath, $portType)->item(0);
+        $this->assertNotNull($portOperation, sprintf('Operation "%s" was not found in portType "%s".',
+            $operationName, $this->_autoDiscover->getPortTypeName($this->_resourceName)));
+        return $portOperation;
+    }
+
+    /**
+     * Assert operation is present in binding node.
+     *
+     * @param string $operationName
+     * @param DOMElement $binding
+     */
+    protected function _assertBindingOperation($operationName, DOMElement $binding)
+    {
+        $operationXpath = sprintf('%s:operation[@name="%s"]', Mage_Webapi_Model_Soap_Wsdl::WSDL_NS, $operationName);
+        /** @var DOMElement $bindingOperation */
+        $bindingOperation = $this->_xpath->query($operationXpath, $binding)->item(0);
+        $this->assertNotNull($bindingOperation, sprintf('Operation "%s" was not found in binding "%s".',
+            $operationName, $this->_autoDiscover->getBindingName($this->_resourceName)));
     }
 
     /**
