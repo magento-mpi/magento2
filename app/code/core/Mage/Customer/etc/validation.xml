@@ -28,7 +28,6 @@
                         <method name="setReadOnlyProperties">
                             <argument>
                                 <option>entity_id</option>
-                                <option>entity_type_id</option>
                             </argument>
                         </method>
                     </constraint>

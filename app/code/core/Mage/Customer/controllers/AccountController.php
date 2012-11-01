@@ -234,6 +234,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     /**
      * Create customer account action
+     *
+     * @throws Magento_Validator_Exception
      */
     public function createPostAction()
     {
@@ -243,120 +245,98 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             return;
         }
         $session->setEscapeMessages(true); // prevent XSS injection in user input
-        if ($this->getRequest()->isPost()) {
-            $errors = array();
 
-            if (!$customer = Mage::registry('current_customer')) {
-                $customer = Mage::getModel('Mage_Customer_Model_Customer')->setId(null);
-            }
+        if (!$this->getRequest()->isPost() || $this->getRequest()->has('entity_id')) {
+            $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
+            return;
+        }
 
-            /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = Mage::getModel('Mage_Customer_Model_Form');
-            $customerForm->setFormCode('customer_account_create')
-                ->setEntity($customer);
+        /** @var Mage_Customer_Model_Customer $customer */
+        if (!$customer = Mage::registry('current_customer')) {
+            $customer = Mage::getModel('Mage_Customer_Model_Customer')->setId(null);
+        }
+        // Initialize customer group id
+        $customer->getGroupId();
 
-            $customerData = $customerForm->extractData($this->getRequest());
-
-            if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $customer->setIsSubscribed(1);
-            }
-
-            /**
-             * Initialize customer group id
-             */
-            $customer->getGroupId();
-
+        try {
             if ($this->getRequest()->getPost('create_address')) {
-                /* @var $address Mage_Customer_Model_Address */
-                $address = Mage::getModel('Mage_Customer_Model_Address');
-                /* @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = Mage::getModel('Mage_Customer_Model_Form');
-                $addressForm->setFormCode('customer_register_address')
-                    ->setEntity($address);
-
-                $addressData    = $addressForm->extractData($this->getRequest(), 'address', false);
-                $addressErrors  = $addressForm->validateData($addressData);
-                if ($addressErrors === true) {
-                    $address->setId(null)
-                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-                    $addressForm->compactData($addressData);
-                    $customer->addAddress($address);
-
-                    $addressErrors = $address->validate();
-                    if (is_array($addressErrors)) {
-                        $errors = array_merge($errors, $addressErrors);
-                    }
-                } else {
-                    $errors = array_merge($errors, $addressErrors);
-                }
+                $this->_addAddress($customer);
             }
 
-            try {
-                $customerErrors = $customerForm->validateData($customerData);
-                if ($customerErrors !== true) {
-                    $errors = array_merge($customerErrors, $errors);
-                } else {
-                    $customerForm->compactData($customerData);
-                    $customer->setPassword($this->getRequest()->getPost('password'));
-                    $customer->setConfirmation($this->getRequest()->getPost('confirmation'));
-                    $customerErrors = $customer->validate();
-                    if (is_array($customerErrors)) {
-                        $errors = array_merge($customerErrors, $errors);
-                    }
-                }
-
-                $validationResult = count($errors) == 0;
-
-                if (true === $validationResult) {
-                    $customer->save();
-
-                    Mage::dispatchEvent('customer_register_success',
-                        array('account_controller' => $this, 'customer' => $customer)
-                    );
-
-                    if ($customer->isConfirmationRequired()) {
-                        $customer->sendNewAccountEmail(
-                            'confirmation',
-                            $session->getBeforeAuthUrl(),
-                            Mage::app()->getStore()->getId()
-                        );
-                        $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
-                        $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
-                        return;
-                    } else {
-                        $session->setCustomerAsLoggedIn($customer);
-                        $url = $this->_welcomeCustomer($customer);
-                        $this->_redirectSuccess($url);
-                        return;
-                    }
-                } else {
-                    $session->setCustomerFormData($this->getRequest()->getPost());
-                    if (is_array($errors)) {
-                        foreach ($errors as $errorMessage) {
-                            $session->addError($errorMessage);
-                        }
-                    } else {
-                        $session->addError($this->__('Invalid customer data'));
-                    }
-                }
-            } catch (Mage_Core_Exception $e) {
-                $session->setCustomerFormData($this->getRequest()->getPost());
-                if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
-                    $url = Mage::getUrl('customer/account/forgotpassword');
-                    $message = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a href="%s">click here</a> to get your password and access your account.', $url);
-                    $session->setEscapeMessages(false);
-                } else {
-                    $message = $e->getMessage();
-                }
-                $session->addError($message);
-            } catch (Exception $e) {
-                $session->setCustomerFormData($this->getRequest()->getPost())
-                    ->addException($e, $this->__('Cannot save the customer.'));
+            $customer->addData($this->getRequest()->getPost());
+            $customerErrors = $customer->validate();
+            if (is_array($customerErrors)) {
+                throw new Magento_Validator_Exception($customerErrors);
             }
+
+            $customer->save();
+            Mage::dispatchEvent('customer_register_success',
+                array('account_controller' => $this, 'customer' => $customer)
+            );
+
+            if ($customer->isConfirmationRequired()) {
+                $customer->sendNewAccountEmail(
+                    'confirmation',
+                    $session->getBeforeAuthUrl(),
+                    Mage::app()->getStore()->getId()
+                );
+                $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
+                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                return;
+            } else {
+                $customer->setIgnoreValidation(true);
+                $session->setCustomerAsLoggedIn($customer);
+                $url = $this->_welcomeCustomer($customer);
+                $this->_redirectSuccess($url);
+                return;
+            }
+        } catch (Mage_Core_Exception $e) {
+            $session->setCustomerFormData($this->getRequest()->getPost());
+            if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
+                $url = Mage::getUrl('customer/account/forgotpassword');
+                $message = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a href="%s">click here</a> to get your password and access your account.', $url);
+                $session->setEscapeMessages(false);
+            } else {
+                $message = $e->getMessage();
+            }
+            $session->addError($message);
+        } catch (Exception $e) {
+            $session->setCustomerFormData($this->getRequest()->getPost())
+                ->addException($e, $this->__('Cannot save the customer.'));
         }
 
         $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
+    }
+
+
+    /**
+     * Add address to customer during create account
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @throws Magento_Validator_Exception
+     */
+    protected function _addAddress($customer)
+    {
+        /* @var $address Mage_Customer_Model_Address */
+        $address = Mage::getModel('Mage_Customer_Model_Address');
+        /* @var $addressForm Mage_Customer_Model_Form */
+        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+        $addressForm->setFormCode('customer_register_address')
+            ->setEntity($address);
+
+        $addressData    = $addressForm->extractData($this->getRequest(), 'address', false);
+        $addressErrors  = $addressForm->validateData($addressData);
+        if ($addressErrors === true) {
+            $address->setId(null)
+                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+            $addressForm->compactData($addressData);
+            $customer->addAddress($address);
+            $addressErrors = $address->validate();
+        }
+        if (is_array($addressErrors)) {
+            throw new Magento_Validator_Exception($addressErrors);
+        }
     }
 
     /**

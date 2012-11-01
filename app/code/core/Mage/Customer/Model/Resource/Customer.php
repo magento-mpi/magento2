@@ -48,12 +48,14 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Varien_Object $customer
      * @throws Mage_Customer_Exception
+     * @throws Mage_Core_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
     protected function _beforeSave(Varien_Object $customer)
     {
+        /** @var Mage_Customer_Model_Customer $customer */
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
@@ -94,7 +96,31 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
             $customer->setConfirmation(null);
         }
 
+        if (!$customer->getIgnoreValidation()) {
+            $this->_validate($customer);
+        }
+
         return $this;
+    }
+
+    /**
+     * Validate customer entity
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate($customer)
+    {
+        $validatorGroup = $customer->getId() > 0 ? 'update' : 'create';
+
+        $validatorFactory = Mage::getConfig()->getValidatorConfig();
+        $validator = $validatorFactory
+            ->getValidatorBuilder('customer', $validatorGroup)
+            ->createValidator();
+
+        if (!$validator->isValid($customer)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
     }
 
     /**
