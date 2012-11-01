@@ -181,7 +181,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * Source model
      *
-     * @var Mage_ImportExport_Model_Import_Adapter_Abstract
+     * @var Mage_ImportExport_Model_Import_SourceAbstract
      */
     protected $_source;
 
@@ -524,7 +524,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      * Source object getter
      *
      * @throws Exception
-     * @return Mage_ImportExport_Model_Import_Adapter_Abstract
+     * @return Mage_ImportExport_Model_Import_SourceAbstract
      */
     public function getSource()
     {
@@ -671,10 +671,10 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * Source model setter
      *
-     * @param Mage_ImportExport_Model_Import_Adapter_Abstract $source
+     * @param Mage_ImportExport_Model_Import_SourceAbstract $source
      * @return Mage_ImportExport_Model_Import_EntityAbstract
      */
-    public function setSource(Mage_ImportExport_Model_Import_Adapter_Abstract $source)
+    public function setSource(Mage_ImportExport_Model_Import_SourceAbstract $source)
     {
         $this->_source = $source;
         $this->_dataValidated = false;
