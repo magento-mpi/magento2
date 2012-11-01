@@ -13,23 +13,18 @@
  */
 abstract class Tools_Migration_System_Configuration_LoggerAbstract
 {
+    CONST FILE_KEY_VALID = 'valid';
+    CONST FILE_KEY_INVALID = 'invalid';
+
     /**
      * List of logs
      *
      * @var array
      */
-    protected $_logs;
-
-    CONST FILE_KEY_VALID = 'valid';
-    CONST FILE_KEY_INVALID = 'invalid';
-
-    public function __construct()
-    {
-        $this->_logs = array(
-            self::FILE_KEY_VALID => array(),
-            self::FILE_KEY_INVALID => array()
-        );
-    }
+    protected $_logs = array(
+        self::FILE_KEY_VALID => array(),
+        self::FILE_KEY_INVALID => array()
+    );
 
     /**
      * Add log data

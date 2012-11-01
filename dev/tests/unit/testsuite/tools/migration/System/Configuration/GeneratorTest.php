@@ -59,12 +59,12 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
     {
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_INVALID
+            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
         );
 
         $dom = new DOMDocument();
         $dom->loadXML(
-            preg_replace('/\n|\s{4}/', '' , file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
+            preg_replace('/\n|\s{4}/', '', file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
         );
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
@@ -74,13 +74,17 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
         ->with($this->stringContains('system.xml'), $expectedXml);
 
         $this->_formatterMock->expects($this->once())->method('parseString')
-            ->will($this->returnCallback(function($xml) {
-                $dom = new DOMDocument();
-                $dom->loadXML($xml);
-                $dom->preserveWhiteSpace = false;
-                $dom->formatOutput = true;
-                return $dom->saveXML();
-            }));
+            ->will(
+                $this->returnCallback(
+                    function($xml) {
+                        $dom = new DOMDocument();
+                        $dom->loadXML($xml);
+                        $dom->preserveWhiteSpace = false;
+                        $dom->formatOutput = true;
+                        return $dom->saveXML();
+                    }
+                )
+            );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');
     }

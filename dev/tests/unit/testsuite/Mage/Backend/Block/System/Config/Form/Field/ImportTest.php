@@ -1,21 +1,21 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Mage
-     * @package     Mage_Backend
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 
-    /**
-     * Custom import CSV file field for shipping table rates
-     *
-     * @category   Mage
-     * @package    Mage_Backend
-     * @author     Magento Core Team <core@magentocommerce.com>
-     */
+/**
+ * Custom import CSV file field for shipping table rates
+ *
+ * @category   Mage
+ * @package    Mage_Backend
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Framework_TestCase
 {
     /**
