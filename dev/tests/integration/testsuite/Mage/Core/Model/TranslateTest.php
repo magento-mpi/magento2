@@ -54,6 +54,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             '<Mage_Core>
                 <files>
                     <default>Mage_Core.csv</default>
+                    <fixture>../../../../../../../dev/tests/integration/testsuite/Mage/Core/_files/fixture.csv</fixture>
                 </files>
             </Mage_Core>',
             $modulesConfig->$checkedNode->asXML()

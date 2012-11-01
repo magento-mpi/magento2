@@ -50,7 +50,18 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClass));
+        $model = new Mage_Tax_Model_Calculation_Rule(
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache'),
+            null,
+            null,
+            Mage::helper('Mage_Tax_Helper_Data'),
+            $this->_getTaxClassMock(
+                'getCustomerClasses',
+                Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
+            ),
+            array()
+        );
         $this->assertEquals(1, $model->getCustomerTaxClassWithDefault());
     }
 
@@ -61,7 +72,18 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_customerTaxClass));
+        $model = new Mage_Tax_Model_Calculation_Rule(
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache'),
+            null,
+            null,
+            Mage::helper('Mage_Tax_Helper_Data'),
+            $this->_getTaxClassMock(
+                'getCustomerClasses',
+                Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
+            ),
+            array()
+        );
         $this->assertEquals(2, $model->getCustomerTaxClassWithDefault());
     }
 
@@ -72,7 +94,18 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFirstValue()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClass));
+        $model = new Mage_Tax_Model_Calculation_Rule(
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache'),
+            null,
+            null,
+            Mage::helper('Mage_Tax_Helper_Data'),
+            $this->_getTaxClassMock(
+                'getProductClasses',
+                 Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+            ),
+            array()
+        );
         $this->assertEquals(1, $model->getProductTaxClassWithDefault());
     }
 
@@ -83,7 +116,18 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProductTaxClassWithDefaultFromConfig()
     {
-        $model = new Mage_Tax_Model_Calculation_Rule(array('tax_model_class' => $this->_productTaxClass));
+        $model = new Mage_Tax_Model_Calculation_Rule(
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache'),
+            null,
+            null,
+            Mage::helper('Mage_Tax_Helper_Data'),
+            $this->_getTaxClassMock(
+                'getProductClasses',
+                 Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+            ),
+            array()
+        );
         $this->assertEquals(2, $model->getProductTaxClassWithDefault());
     }
 
@@ -94,7 +138,15 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAllOptions($classFilter, $expected)
     {
-        $model = new Mage_Tax_Model_Calculation_Rule();
+        $model = new Mage_Tax_Model_Calculation_Rule(
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache'),
+            null,
+            null,
+            Mage::helper('Mage_Tax_Helper_Data'),
+            Mage::getModel('Mage_Tax_Model_Class'),
+            array()
+        );
         $classes = $model->getAllOptionsForClass($classFilter);
         $this->assertCount(count($expected), $classes);
         $count = 0;
@@ -145,7 +197,13 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
 
         $mock = $this->getMock(
             'Mage_Tax_Model_Class',
-            array('getCollection')
+            array('getCollection'),
+            array(
+                Mage::getModel('Mage_Core_Model_Event_Manager'),
+                Mage::getModel('Mage_Core_Model_Cache')
+            ),
+            '',
+            true
         );
         $mock->expects($this->any())
             ->method('getCollection')

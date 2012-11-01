@@ -103,6 +103,10 @@ return array(
     $this->_getClassRule('Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config'),
     $this->_getClassRule('Mage_GoogleOptimizer_IndexController',
         'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'),
+    $this->_getClassRule('Mage_ImportExport_Model_Import_Adapter_Abstract',
+        'Mage_ImportExport_Model_Import_SourceAbstract'),
+    $this->_getClassRule('Mage_ImportExport_Model_Import_Adapter_Csv',
+        'Mage_ImportExport_Model_Import_Source_Csv'),
     $this->_getClassRule('Mage_Ogone_Model_Api_Debug'),
     $this->_getClassRule('Mage_Ogone_Model_Resource_Api_Debug'),
     $this->_getClassRule('Mage_Page_Block_Html_Toplinks'),
@@ -227,4 +231,5 @@ return array(
     $this->_getClassRule('Varien_Convert_Validator_Interface'),
     $this->_getClassRule('Varien_File_Uploader_Image'),
     $this->_getClassRule('Varien_Profiler', 'Magento_Profiler'),
+    $this->_getClassRule('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Upload'),
 );

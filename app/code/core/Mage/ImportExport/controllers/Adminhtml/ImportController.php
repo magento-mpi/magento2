@@ -53,27 +53,21 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Index action.
+     * Index action
      *
-     * @return void
+     * @return null
      */
     public function indexAction()
     {
-        $maxUploadSize = Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSize();
-        $this->_getSession()->addNotice(
-            $this->__('Total size of uploadable files must not exceed %s', $maxUploadSize)
-        );
-        $this->_initAction()
-            ->_title($this->__('Import'))
-            ->_addBreadcrumb($this->__('Import'), $this->__('Import'));
-
+        $this->_getSession()->addNotice(Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage());
+        $this->_initAction()->_title($this->__('Import'))->_addBreadcrumb($this->__('Import'), $this->__('Import'));
         $this->renderLayout();
     }
 
     /**
-     * Start import process action.
+     * Start import process action
      *
-     * @return void
+     * @return null
      */
     public function startAction()
     {

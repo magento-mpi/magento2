@@ -94,47 +94,6 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
         return $this->_config;
     }
 
-    public function getPostMaxSize()
-    {
-        return ini_get('post_max_size');
-    }
-
-    public function getUploadMaxSize()
-    {
-        return ini_get('upload_max_filesize');
-    }
-
-    public function getDataMaxSize()
-    {
-        return min($this->getPostMaxSize(), $this->getUploadMaxSize());
-    }
-
-    public function getDataMaxSizeInBytes()
-    {
-        $iniSize = $this->getDataMaxSize();
-        $size = substr($iniSize, 0, strlen($iniSize)-1);
-        $parsedSize = 0;
-        switch (strtolower(substr($iniSize, strlen($iniSize)-1))) {
-            case 't':
-                $parsedSize = $size*(1024*1024*1024*1024);
-                break;
-            case 'g':
-                $parsedSize = $size*(1024*1024*1024);
-                break;
-            case 'm':
-                $parsedSize = $size*(1024*1024);
-                break;
-            case 'k':
-                $parsedSize = $size*1024;
-                break;
-            case 'b':
-            default:
-                $parsedSize = $size;
-                break;
-        }
-        return $parsedSize;
-    }
-
     /**
      * Retrieve full uploader SWF's file URL
      * Implemented to solve problem with cross domain SWFs
@@ -147,5 +106,15 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     public function getUploaderUrl($url)
     {
         return Mage::getDesign()->getViewFileUrl($url);
+    }
+
+    /**
+     * Get file storage helper
+     *
+     * @return Mage_Core_Helper_File_Storage
+     */
+    public function getFileStorageHelper()
+    {
+        return Mage::helper('Mage_Core_Helper_File_Storage');
     }
 }

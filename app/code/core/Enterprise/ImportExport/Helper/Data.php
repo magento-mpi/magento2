@@ -120,8 +120,7 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
     {
         $message = '';
         if ($type == 'import') {
-            $maxUploadSize = $this->getMaxUploadSize();
-            $message = $this->__('Total size of the file must not exceed %s', $maxUploadSize);
+            $message = $this->getMaxUploadSizeMessage();
         }
         return $message;
     }

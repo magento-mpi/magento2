@@ -19,7 +19,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
 
     public static function setUpBeforeClass()
     {
-        $model = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
     }
 
@@ -30,16 +30,15 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
 
     public function setUp()
     {
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = new Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info();
-        $this->_block->setLayout($layout);
+        $this->_block = $layout
+            ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
     }
 
     /**
      * Test Prepare Form in Single Store mode
      *
-     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
      */
     public function testPrepareFormSingleStore()
@@ -56,7 +55,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
     /**
      * Test Prepare Form in Multiple Store mode
      *
-     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store general/single_store_mode/enabled 0
      */
     public function testPrepareFormMultipleStore()
@@ -88,7 +86,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      */
     public function testInitForm()
     {
-        Mage::register('current_giftcardaccount', Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount'));
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->addBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
