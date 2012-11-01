@@ -9,8 +9,6 @@
 /*jshint browser:true jquery:true*/
 (function ($) {
     $.widget('mage.giftCard', {
-        options: {
-        },
         _create: function () {
             this.giftCardCode = $(this.options.giftCardCodeSelector);
             $(this.options.applyButton).on('click', $.proxy(function () {
