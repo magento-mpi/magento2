@@ -233,6 +233,23 @@ report_customer_orders:
     mca: report_customer/orders/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
     title: Customers by Number of Orders / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_product_sold:
+                        xpath: //div[@id='gridOrdersCustomer']
+                        fields:
+                            filter_from: //input[@id='gridOrdersCustomer_period_date_from']
+                            filter_to: //input[@id='gridOrdersCustomer_period_date_to']
+                        dropdowns:
+                            show_by: //select[@id='gridOrdersCustomer_report_period']
+                            export_to: //select[@id='gridOrdersCustomer_export']
+                        buttons:
+                             export: //button[span='Export']
+                             refresh: //button[span='Refresh']
+                        pageelements:
+                             product_sold_grid: //table[@id='gridOrdersCustomer_table']
 
 # Tags: Customers Tags page
 report_tag_customer:
