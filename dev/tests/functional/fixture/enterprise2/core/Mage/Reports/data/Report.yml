@@ -58,7 +58,19 @@ grid:
             number_of_orders:
             average_order_amount:
             total_order_amount:
-
+    invitations_order_conversion_rate:
+        button:
+            refresh:
+            export:
+        dropdown:
+            filter_show_report_for:
+            show_by:
+            export_to:
+        field:
+            filter_from:
+            filter_to:
+        pageelement:
+            customer_by_orders_total_table:
 #dataset for  countGridRows Test
 count_rows_by_day:
     filter_from: 10/28/2012

@@ -69,6 +69,17 @@ invitations_order_conversion_rate:
     mca: report_invitation/order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
     title: Order Conversion Rate / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    invitations_order_conversion_rate:
+                        xpath: //div[@id='page:main-container']
+                        fields: &reportInvitationsFields
+                        dropdowns: &reportInvitationsDropdowns
+                        buttons: &reportInvitationsButtons
+                        pageelements:
+                                product_sold_grid: //table[@class='data']
 
 # Customer Segment Report page
 customer_segment_report:
