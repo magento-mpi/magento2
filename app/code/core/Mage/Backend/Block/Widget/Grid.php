@@ -695,6 +695,16 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve grid reload url
+     *
+     * @return string;
+     */
+    public function getGridUrl()
+    {
+        return $this->hasData('grid_url') ? $this->getData('grid_url') : $this->getAbsoluteGridUrl();
+    }
+
+    /**
      * Grid url getter
      * Version of getGridUrl() but with parameters
      *
