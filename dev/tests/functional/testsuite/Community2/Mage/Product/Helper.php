@@ -159,6 +159,17 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     }
 
     /**
+     * Select Dropdown Attribute(s) for configurable product creation
+     *
+     * @param array $productData
+     */
+    public function fillConfigurableSettings(array $productData)
+    {
+        $this->openTab('associated');
+        parent::fillConfigurableSettings($productData);
+    }
+
+    /**
      * Fill Product info
      *
      * @param array $productData
