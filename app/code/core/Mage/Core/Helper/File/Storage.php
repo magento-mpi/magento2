@@ -154,7 +154,7 @@ class Mage_Core_Helper_File_Storage extends Mage_Core_Helper_Abstract
      * @param string $param The configuration option name
      * @return string
      */
-    protected function _iniGet(string $param)
+    protected function _iniGet($param)
     {
         return trim(ini_get($param));
     }
