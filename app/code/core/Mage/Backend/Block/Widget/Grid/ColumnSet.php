@@ -143,7 +143,15 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         parent::__construct($request, $layout, $eventManager, $translator, $cache, $designPackage, $session,
             $storeConfig, $frontController, $data
         );
-        $this->setEmptyText($this->_helper->__('No records found.'));
+
+        $this->setEmptyText($this->_helper->__(
+            isset($data['empty_text'])? $data['empty_text'] : 'No records found.'
+        ));
+
+        $this->setEmptyCellLabel($this->_helper->__(
+            isset($data['empty_cell_label'])? $data['empty_cell_label'] : 'No records found.'
+        ));
+
     }
 
     /**
@@ -229,6 +237,9 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         foreach ($columns as $columnId => $column) {
             $column->setId($columnId);
             $column->setGrid($this->getGrid());
+            if ($column->isGrouped()) {
+                $this->isColumnGrouped($column->getIndex(), true);
+            }
         }
         $last = array_pop($columns);
         if ($last) {
@@ -467,7 +478,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * Set label for empty cell
      *
      * @param string $label
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Mage_Backend_Block_Widget_Grid_ColumnSet
      */
     public function setEmptyCellLabel($label)
     {

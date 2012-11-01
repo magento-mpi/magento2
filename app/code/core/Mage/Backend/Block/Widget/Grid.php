@@ -223,24 +223,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Check whether should render cell
-     *
-     * @param Varien_Object $item
-     * @param Mage_Backend_Block_Widget_Grid_Column $column
-     * @return boolean
-     */
-    public function shouldRenderCell($item, $column)
-    {
-        if ($this->isColumnGrouped($column) && $item->getIsEmpty()) {
-            return true;
-        }
-        if (!$item->getIsEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Count grid columns
      *
      * @return int

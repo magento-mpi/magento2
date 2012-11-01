@@ -20,7 +20,7 @@
                     <pager_visibility>0</pager_visibility>
                     <id>gridOrdersCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
-                    <source_collection>Mage_Reports_Model_Resource_Customer_Orders_Collection</source_collection>
+                    <!--<source_collection>Mage_Reports_Model_Resource_Customer_Orders_Collection</source_collection>-->
                 </arguments>
                 <block type="Mage_Adminhtml_Block_Store_Switcher" name="adminhtml.report.customer.orders.grid.store_switcher" as="store_switcher">
                     <arguments>
@@ -50,23 +50,22 @@
                 <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.customer.orders.grid.columnSet">
                     <arguments>
                         <id>sales_order_grid</id>
-                        <template>Mage_Reports::grid/column_set.phtml</template>
-                        <rowUrl>
-                            <generatorClass>Mage_Sales_Model_Order_Grid_Row_UrlGenerator</generatorClass>
-                            <path>*/sales_order/view</path>
-                            <extraParamsTemplate>
-                            <order_id>getId</order_id>
-                            </extraParamsTemplate>
-                        </rowUrl>
+                        <!--<template>Mage_Reports::grid/column_set.phtml</template>-->
                         <filter_visibility>0</filter_visibility>
+                        <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
+                        <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
+                        <!--<subtotal_visibility>1</subtotal_visibility>-->
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period_text">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Period</header>
                             <width>100px</width>
                             <sortable>0</sortable>
                             <type>text</type>
-                            <id>period_text</id>
+                            <id>period</id>
+                            <index>period</index>
+                            <!--<data_visibility>0</data_visibility>-->
+                            <grouped>1</grouped>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">

@@ -1,0 +1,46 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<td class="a-left filter" id="<?php echo $this->getSuffixId('period_date_range')?>">
+    <div class="f-left">
+        <div><?php echo $this->__('From') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="<?php echo $this->getSuffixId('period_date_from')?>" name="report_from" value="<?php echo $this->getFilter('report_from') ?>" style="width:5em" />&nbsp;&nbsp;</div>
+        <div id="<?php echo $this->getSuffixId('period_date_from_advice')?>"></div>
+    </div>
+
+    <div class="f-left">
+        <div><?php echo $this->__('To') ?>:&nbsp;<input  class="input-text no-changes required-entry" type="text" id="<?php echo $this->getSuffixId('period_date_to')?>" name="report_to"  value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" />&nbsp;&nbsp;</div>
+        <div id="<?php echo $this->getSuffixId('period_date_to_advice')?>"></div>
+    </div>
+
+    <div class="f-left">
+        <?php echo $this->__('Show By') ?>:
+        <select name="report_period" id="<?php echo $this->getSuffixId('report_period')?>" style="width:6em;">
+            <?php foreach ($this->getPeriods() as $_value=>$_label): ?>
+            <option value="<?php echo $_value ?>" <?php if($this->getFilter('report_period')==$_value): ?> selected<?php endif; ?>><?php echo $_label ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php echo $this->getRefreshButtonHtml() ?>
+    </div>
+    <script type="text/javascript">
+        (function( $ ) {
+            $("#<?php echo $this->getSuffixId('period_date_range') ?>").dateRange({
+                dateFormat: "<?php echo $this->getDateFormat() ?>",
+                buttonImage: "<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>",
+                buttonText: "<?php echo $this->__('Select Date') ?>",
+                from: {
+                    id: "<?php echo $this->getSuffixId('period_date_from')?>"
+                },
+                to: {
+                    id: "<?php echo $this->getSuffixId('period_date_to')?>"
+                }
+            })
+        })(jQuery)
+    </script>
+</td>

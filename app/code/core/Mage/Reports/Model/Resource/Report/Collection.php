@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Report_Collection
+class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate, Countable
 {
     /**
      * From value
@@ -106,9 +106,9 @@ class Mage_Reports_Model_Resource_Report_Collection
     /**
      * Get intervals
      *
-     * @return unknown
+     * @return array
      */
-    public function getIntervals()
+    protected function _getIntervals()
     {
         if (!$this->_intervals) {
             $this->_intervals = array();
@@ -125,13 +125,13 @@ class Mage_Reports_Model_Resource_Report_Collection
 
                 switch ($this->_period) {
                     case 'day':
-                        $t['title'] = $dateStart->toString(Mage::app()->getLocale()->getDateFormat());
+                        $t['period'] = $dateStart->toString(Mage::app()->getLocale()->getDateFormat());
                         $t['start'] = $dateStart->toString('yyyy-MM-dd HH:mm:ss');
                         $t['end'] = $dateStart->toString('yyyy-MM-dd 23:59:59');
                         $dateStart->addDay(1);
                         break;
                     case 'month':
-                        $t['title'] =  $dateStart->toString('MM/yyyy');
+                        $t['period'] =  $dateStart->toString('MM/yyyy');
                         $t['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
                             : $dateStart->toString('yyyy-MM-01 00:00:00');
 
@@ -150,7 +150,7 @@ class Mage_Reports_Model_Resource_Report_Collection
                         $firstInterval = false;
                         break;
                     case 'year':
-                        $t['title'] =  $dateStart->toString('yyyy');
+                        $t['period'] =  $dateStart->toString('yyyy');
                         $t['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
                             : $dateStart->toString('yyyy-01-01 00:00:00');
 
@@ -168,7 +168,7 @@ class Mage_Reports_Model_Resource_Report_Collection
                         $firstInterval = false;
                         break;
                 }
-                $this->_intervals[$t['title']] = $t;
+                $this->_intervals[$t['period']] = new Varien_Object($t);
             }
         }
         return  $this->_intervals;
@@ -217,7 +217,7 @@ class Mage_Reports_Model_Resource_Report_Collection
      */
     public function getSize()
     {
-        return count($this->getIntervals());
+        return count($this->_getIntervals());
     }
 
     /**
@@ -279,7 +279,66 @@ class Mage_Reports_Model_Resource_Report_Collection
      */
     public function getReport($from, $to)
     {
-        return $this->_model->getReport($this->timeShift($from), $this->timeShift($to));
+        $reportResource = new Mage_Reports_Model_Resource_Customer_Orders_Collection();
+        $reportResource
+            ->setDateRange($this->timeShift($from), $this->timeShift($to))
+            ->setPageSize($this->getPageSize())
+            ->setStoreIds($this->getStoreIds());
+        return $reportResource;
+
+//        $this->_reportResource
+//            ->setDateRange($from, $to)
+//            ->setPageSize($this->getPageSize())
+//            ->setStoreIds($this->getStoreIds());
+//
+//        $totalObj = Mage::getModel('Mage_Reports_Model_Totals');
+//        $this->setTotals($totalObj->countTotals($this, $from, $to));
+//        $this->addGrandTotals($this->getTotals());
+//        return $this->_model->getReport($this->timeShift($from), $this->timeShift($to));
+    }
+
+    public function getReports()
+    {
+        $reports = array();
+        foreach ($this->_getIntervals() as $interval) {
+            $reports[] = $interval->setChildren(
+                $this->getReport($interval->getStart(), $interval->getEnd())
+            );
+        }
+        return $reports;
+    }
+
+    public function addGrandTotals($total)
+    {
+        $totalData = $total->getData();
+        foreach ($totalData as $key=>$value) {
+            $_column = $this->getColumn($key);
+            if ($_column->getTotal() != '') {
+                $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
+            }
+        }
+        /*
+         * recalc totals if we have average
+         */
+        foreach ($this->getColumns() as $key=>$_column) {
+            if (strpos($_column->getTotal(), '/') !== FALSE) {
+                list($t1, $t2) = explode('/', $_column->getTotal());
+                if ($this->getGrandTotals()->getData($t2) != 0) {
+                    $this->getGrandTotals()->setData(
+                        $key,
+                        (float)$this->getGrandTotals()->getData($t1)/$this->getGrandTotals()->getData($t2)
+                    );
+                }
+            }
+        }
+    }
+
+    public function getGrandTotals()
+    {
+        if (!$this->_grandTotals) {
+            $this->_grandTotals = new Varien_Object();
+        }
+        return $this->_grandTotals;
     }
 
     /**
@@ -293,5 +352,25 @@ class Mage_Reports_Model_Resource_Report_Collection
         return Mage::app()->getLocale()
             ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)
             ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or <b>Traversable</b>
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->getReports());
+    }
+
+    /**
+     * Count elements of an object
+     *
+     * @return int The custom count as an integer.
+     */
+    public function count()
+    {
+        return count($this->getReports());
     }
 }

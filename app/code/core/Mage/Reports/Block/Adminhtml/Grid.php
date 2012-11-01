@@ -21,8 +21,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected $_dateFilterVisibility = true;
 
-//    protected $_exportVisibility = true;
-
     protected $_subtotalVisibility = false;
 
     protected $_filters = array();
@@ -37,12 +35,9 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected $_grandTotals;
 
-    protected $_errors = array();
+    protected $_totals;
 
-    /**
-     * stores current currency code
-     */
-    protected $_currentCurrencyCode = null;
+    protected $_errors = array();
 
     protected $_template = 'Mage_Reports::grid.phtml';
 
@@ -59,17 +54,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
      * @var Mage_Core_Model_Locale
      */
     protected $_locale;
-
-    protected function _prepareLayout()
-    {
-        $this->addChild('refresh_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh'),
-            'onclick'   => $this->getRefreshButtonCallback(),
-            'class'   => 'task'
-        ));
-        parent::_prepareLayout();
-        return $this;
-    }
 
     protected function _prepareCollection()
     {
@@ -123,31 +107,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
                 }
             }
 
-            /**
-             * Getting and saving store ids for website & group
-             */
-            $storeIds = array();
-            if ($this->getRequest()->getParam('store')) {
-                $storeIds = array($this->getParam('store'));
-            } elseif ($this->getRequest()->getParam('website')){
-                $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-            } elseif ($this->getRequest()->getParam('group')){
-                $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
-            }
-
-            // By default storeIds array contains only allowed stores
-            $allowedStoreIds = array_keys(Mage::app()->getStores());
-            // And then array_intersect with post data for prevent unauthorized stores reports
-            $storeIds = array_intersect($allowedStoreIds, $storeIds);
-            // If selected all websites or unauthorized stores use only allowed
-            if (empty($storeIds)) {
-                $storeIds = $allowedStoreIds;
-            }
-            // reset array keys
-            $storeIds = array_values($storeIds);
-
-
-            $collection->setStoreIds($storeIds);
+            $collection->setStoreIds($this->_getAllowedStoreIds());
 
             if ($this->getSubReportSize() !== null) {
                 $collection->setPageSize($this->getSubReportSize());
@@ -156,10 +116,41 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
-            $collection->initReport($this->getSourceCollection());
+//            $collection->initReport($this->getSourceCollection());
         }
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getAllowedStoreIds()
+    {
+        /**
+         * Getting and saving store ids for website & group
+         */
+        $storeIds = array();
+        if ($this->getRequest()->getParam('store')) {
+            $storeIds = array($this->getParam('store'));
+        } elseif ($this->getRequest()->getParam('website')){
+            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+        } elseif ($this->getRequest()->getParam('group')){
+            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+        }
+
+        // By default storeIds array contains only allowed stores
+        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        // And then array_intersect with post data for prevent unauthorized stores reports
+        $storeIds = array_intersect($allowedStoreIds, $storeIds);
+        // If selected all websites or unauthorized stores use only allowed
+        if (empty($storeIds)) {
+            $storeIds = $allowedStoreIds;
+        }
+        // reset array keys
+        $storeIds = array_values($storeIds);
+
+        return $storeIds;
     }
 
     protected function _setFilterValues($data)
@@ -300,29 +291,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->_locale;
     }
 
-    /**
-     * Add new export type to grid
-     *
-     * @param   string $url
-     * @param   string $label
-     * @return  Mage_Adminhtml_Block_Widget_Grid
-     */
-    public function addExportType($url, $label)
-    {
-        $this->_exportTypes[] = new Varien_Object(
-            array(
-                'url'   => $this->getUrl($url,
-                    array(
-                        '_current'=>true,
-                        'filter' => $this->getParam($this->getVarNameFilter(), null)
-                        )
-                    ),
-                'label' => $label
-            )
-        );
-        return $this;
-    }
-
     public function getReport($from, $to)
     {
         if ($from == '') {
@@ -375,126 +343,126 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->__('Period');
     }
 
-    /**
-     * Retrieve grid as CSV
-     *
-     * @return unknown
-     */
-    public function getCsv()
-    {
-        $csv = '';
-        $this->_prepareGrid();
-
-        $data = array('"'.$this->__('Period').'"');
-        foreach ($this->_columns as $column) {
-            if (!$column->getIsSystem()) {
-                $data[] = '"'.$column->getHeader().'"';
-            }
-        }
-        $csv.= implode(',', $data)."\n";
-
-        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
-            $report = $this->getReport($_item['start'], $_item['end']);
-            foreach ($report as $_subIndex=>$_subItem) {
-                $data = array('"'.$_index.'"');
-                foreach ($this->_columns as $column) {
-                    if (!$column->getIsSystem()) {
-                        $data[] = '"' . str_replace(
-                            array('"', '\\'),
-                            array('""', '\\\\'),
-                            $column->getRowField($_subItem)
-                        ) . '"';
-                    }
-                }
-                $csv.= implode(',', $data)."\n";
-            }
-            if ($this->getCountTotals() && $this->getSubtotalVisibility())
-            {
-                $data = array('"'.$_index.'"');
-                $j = 0;
-                foreach ($this->_columns as $column) {
-                    $j++;
-                    if (!$column->getIsSystem()) {
-                        $data[] = ($j == 1) ?
-                                '"' . $this->__('Subtotal') . '"' :
-                                '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
-                    }
-                }
-                $csv.= implode(',', $data)."\n";
-            }
-        }
-
-        if ($this->getCountTotals())
-        {
-            $data = array('"'.$this->__('Total').'"');
-            foreach ($this->_columns as $column) {
-                if (!$column->getIsSystem()) {
-                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getGrandTotals())).'"';
-                }
-            }
-            $csv.= implode(',', $data)."\n";
-        }
-
-        return $csv;
-    }
+//    /**
+//     * Retrieve grid as CSV
+//     *
+//     * @return unknown
+//     */
+//    public function getCsv()
+//    {
+//        $csv = '';
+//        $this->_prepareGrid();
+//
+//        $data = array('"'.$this->__('Period').'"');
+//        foreach ($this->_columns as $column) {
+//            if (!$column->getIsSystem()) {
+//                $data[] = '"'.$column->getHeader().'"';
+//            }
+//        }
+//        $csv.= implode(',', $data)."\n";
+//
+//        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
+//            $report = $this->getReport($_item['start'], $_item['end']);
+//            foreach ($report as $_subIndex=>$_subItem) {
+//                $data = array('"'.$_index.'"');
+//                foreach ($this->_columns as $column) {
+//                    if (!$column->getIsSystem()) {
+//                        $data[] = '"' . str_replace(
+//                            array('"', '\\'),
+//                            array('""', '\\\\'),
+//                            $column->getRowField($_subItem)
+//                        ) . '"';
+//                    }
+//                }
+//                $csv.= implode(',', $data)."\n";
+//            }
+//            if ($this->getCountTotals() && $this->getSubtotalVisibility())
+//            {
+//                $data = array('"'.$_index.'"');
+//                $j = 0;
+//                foreach ($this->_columns as $column) {
+//                    $j++;
+//                    if (!$column->getIsSystem()) {
+//                        $data[] = ($j == 1) ?
+//                                '"' . $this->__('Subtotal') . '"' :
+//                                '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
+//                    }
+//                }
+//                $csv.= implode(',', $data)."\n";
+//            }
+//        }
+//
+//        if ($this->getCountTotals())
+//        {
+//            $data = array('"'.$this->__('Total').'"');
+//            foreach ($this->_columns as $column) {
+//                if (!$column->getIsSystem()) {
+//                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getGrandTotals())).'"';
+//                }
+//            }
+//            $csv.= implode(',', $data)."\n";
+//        }
+//
+//        return $csv;
+//    }
 
     /**
      * Retrieve grid as Excel Xml
      *
      * @return unknown
      */
-    public function getExcel($filename = '')
-    {
-        $this->_prepareGrid();
-
-        $data = array();
-        $row = array($this->__('Period'));
-        foreach ($this->_columns as $column) {
-            if (!$column->getIsSystem()) {
-                $row[] = $column->getHeader();
-            }
-        }
-        $data[] = $row;
-
-        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
-            $report = $this->getReport($_item['start'], $_item['end']);
-            foreach ($report as $_subIndex=>$_subItem) {
-                $row = array($_index);
-                foreach ($this->_columns as $column) {
-                    if (!$column->getIsSystem()) {
-                        $row[] = $column->getRowField($_subItem);
-                    }
-                }
-                $data[] = $row;
-            }
-            if ($this->getCountTotals() && $this->getSubtotalVisibility())
-            {
-                $row = array($_index);
-                $j = 0;
-                foreach ($this->_columns as $column) {
-                    $j++;
-                    if (!$column->getIsSystem()) {
-                        $row[] = ($j==1)?$this->__('Subtotal'):$column->getRowField($this->getTotals());
-                    }
-                }
-                $data[] = $row;
-            }
-        }
-
-        if ($this->getCountTotals())
-        {
-            $row = array($this->__('Total'));
-            foreach ($this->_columns as $column) {
-                if (!$column->getIsSystem()) {
-                    $row[] = $column->getRowField($this->getGrandTotals());
-                }
-            }
-            $data[] = $row;
-        }
-
-        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
-        return $convert->convert('single_sheet');
-    }
+//    public function getExcel($filename = '')
+//    {
+//        $this->_prepareGrid();
+//
+//        $data = array();
+//        $row = array($this->__('Period'));
+//        foreach ($this->_columns as $column) {
+//            if (!$column->getIsSystem()) {
+//                $row[] = $column->getHeader();
+//            }
+//        }
+//        $data[] = $row;
+//
+//        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
+//            $report = $this->getReport($_item['start'], $_item['end']);
+//            foreach ($report as $_subIndex=>$_subItem) {
+//                $row = array($_index);
+//                foreach ($this->_columns as $column) {
+//                    if (!$column->getIsSystem()) {
+//                        $row[] = $column->getRowField($_subItem);
+//                    }
+//                }
+//                $data[] = $row;
+//            }
+//            if ($this->getCountTotals() && $this->getSubtotalVisibility())
+//            {
+//                $row = array($_index);
+//                $j = 0;
+//                foreach ($this->_columns as $column) {
+//                    $j++;
+//                    if (!$column->getIsSystem()) {
+//                        $row[] = ($j==1)?$this->__('Subtotal'):$column->getRowField($this->getTotals());
+//                    }
+//                }
+//                $data[] = $row;
+//            }
+//        }
+//
+//        if ($this->getCountTotals())
+//        {
+//            $row = array($this->__('Total'));
+//            foreach ($this->_columns as $column) {
+//                if (!$column->getIsSystem()) {
+//                    $row[] = $column->getRowField($this->getGrandTotals());
+//                }
+//            }
+//            $data[] = $row;
+//        }
+//
+//        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
+//        return $convert->convert('single_sheet');
+//    }
 
     public function getSubtotalText()
     {
@@ -551,4 +519,18 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     {
         return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
     }
+
+
+    /**
+     * Prepare grid filter buttons
+     */
+    protected function _prepareFilterButtons()
+    {
+        $this->addChild('refresh_button', 'Mage_Backend_Block_Widget_Button', array(
+            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Refresh'),
+            'onclick'   => "{$this->getJsObjectName()}.doFilter();",
+            'class'     => 'task'
+        ));
+    }
+
 }
