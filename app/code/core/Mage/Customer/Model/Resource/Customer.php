@@ -111,7 +111,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     protected function _validate($customer)
     {
-        $validatorGroup = $customer->getId() > 0 ? 'update' : 'create';
+        $validatorGroup = $customer->isObjectNew() ? 'create' : 'update';
 
         $validatorFactory = Mage::getConfig()->getValidatorConfig();
         $validator = $validatorFactory

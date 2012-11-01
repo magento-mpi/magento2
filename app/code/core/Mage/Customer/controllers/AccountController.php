@@ -234,8 +234,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
     /**
      * Create customer account action
-     *
-     * @throws Magento_Validator_Exception
      */
     public function createPostAction()
     {
@@ -255,18 +253,44 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if (!$customer = Mage::registry('current_customer')) {
             $customer = Mage::getModel('Mage_Customer_Model_Customer')->setId(null);
         }
+
+        /* @var $customerForm Mage_Customer_Model_Form */
+        $customerForm = Mage::getModel('Mage_Customer_Model_Form');
+        $customerForm->setFormCode('customer_account_create')
+            ->setEntity($customer);
+
+        $customerData = $customerForm->extractData($this->getRequest());
+
         // Initialize customer group id
         $customer->getGroupId();
 
         try {
+            $errors = array();
             if ($this->getRequest()->getPost('create_address')) {
-                $this->_addAddress($customer);
+                $addressErrors = $this->_addAddress($customer);
+                if (is_array($addressErrors)) {
+                    $errors = array_merge($errors, $addressErrors);
+                }
             }
 
-            $customer->addData($this->getRequest()->getPost());
+            $customerForm->compactData($customerData);
+            $customer->setPassword($this->getRequest()->getPost('password'));
+            $customer->setConfirmation($this->getRequest()->getPost('confirmation'));
+            if ($this->getRequest()->getParam('is_subscribed', false)) {
+                $customer->setIsSubscribed(1);
+            }
             $customerErrors = $customer->validate();
             if (is_array($customerErrors)) {
-                throw new Magento_Validator_Exception($customerErrors);
+                $errors = array_merge($errors, $customerErrors);
+            }
+
+            if (count($errors) > 0) {
+                $session->setCustomerFormData($this->getRequest()->getPost());
+                foreach ($errors as $errorMessage) {
+                    $session->addError($errorMessage);
+                }
+                $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
+                return;
             }
 
             $customer->save();
@@ -300,6 +324,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $message = $e->getMessage();
             }
             $session->addError($message);
+        } catch (Magento_Validator_Exception $e) {
+            $session->setCustomerFormData($this->getRequest()->getPost());
+            $this->_addSessionErrorMessages($e->getMessages());
+
+            foreach ($e->getMessages() as $messages) {
+                foreach ($messages as $message) {
+                    $session->addError($message);
+                }
+            }
         } catch (Exception $e) {
             $session->setCustomerFormData($this->getRequest()->getPost())
                 ->addException($e, $this->__('Cannot save the customer.'));
@@ -308,12 +341,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
     }
 
-
     /**
      * Add address to customer during create account
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @throws Magento_Validator_Exception
+     * @return array
      */
     protected function _addAddress($customer)
     {
@@ -325,18 +357,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             ->setEntity($address);
 
         $addressData    = $addressForm->extractData($this->getRequest(), 'address', false);
-        $addressErrors  = $addressForm->validateData($addressData);
-        if ($addressErrors === true) {
-            $address->setId(null)
-                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-            $addressForm->compactData($addressData);
-            $customer->addAddress($address);
-            $addressErrors = $address->validate();
-        }
-        if (is_array($addressErrors)) {
-            throw new Magento_Validator_Exception($addressErrors);
-        }
+        $address->setId(null)
+            ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+            ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+        $addressForm->compactData($addressData);
+        $customer->addAddress($address);
+        return $address->validate();
     }
 
     /**
