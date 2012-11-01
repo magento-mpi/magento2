@@ -40,15 +40,21 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
 
             $this->addButton('save_and_previous', array(
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
-                'onclick' => 'submitAndGo(\'' . $prevId . '\')',
-                'class'   => 'save'
+                'class'   => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
+                    'next-id' => intval($prevId),
+                ),
             ), 3, 11);
         }
         if ($nextId !== false) {
             $this->addButton('save_and_next', array(
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
-                'onclick' => 'submitAndGo(\'' . $nextId . '\')',
-                'class'   => 'save'
+                'class'   => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
+                    'next-id' => intval($nextId),
+                ),
             ), 3, 100);
 
             $this->addButton('next', array(
@@ -112,16 +118,6 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         }
 
         $this->_formInitScripts[] = '
-            function submitAndGo(id)
-            {
-                var nextIdElement = document.createElement("input");
-                nextIdElement.name = "next_item";
-                nextIdElement.type = "text";
-                nextIdElement.value = id;
-                document.getElementById("edit_form").appendChild(nextIdElement);
-                editForm.submit();
-            }
-
             var review = {
                 updateRating: function() {
                         elements = [
@@ -143,6 +139,15 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
            Event.observe(window, \'load\', function(){
                  Event.observe($("select_stores"), \'change\', review.updateRating);
            });
+        ';
+        $this->_formScripts[] = '
+            jQuery("#save_and_previous, #save_and_next").on("click", function(e) {
+                var targetData = jQuery(e.target).data();
+                jQuery(\'[name="next_item"]\').length ?
+                    jQuery(\'[name="next_item"]\').val(id) :
+                    jQuery(\'<input name="next_item" type="text" value="\' + targetData.nextId + \'" />\')
+                        .appendTo(\'#edit_form\');
+            })
         ';
     }
 

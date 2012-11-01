@@ -523,6 +523,9 @@
     $.validator.addClassRules("required-entry", {
         required: true
     });
+    $.validator.addClassRules("required-option", {
+        required: true
+    });
 
     var showLabel = $.validator.prototype.showLabel;
     $.extend(true, $.validator.prototype, {
