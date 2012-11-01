@@ -11,6 +11,10 @@
 
 /**
  * Test class for Mage_ImportExport_Model_Import_Entity_Product
+ *
+ * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framework_TestCase
 {
@@ -63,10 +67,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[] = $product;
         }
 
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Adapter_Csv',
-            array('source' => __DIR__ . '/_files/products_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -105,10 +106,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $stockItems[$productId] = $stockItem;
         }
 
-        $source = Mage::getModel(
-            'Mage_ImportExport_Model_Import_Adapter_Csv',
-            array('source' => __DIR__ . '/_files/products_to_import.csv')
-        );
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -146,7 +144,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     {
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
-        $source = Mage::getModel('Mage_ImportExport_Model_Import_Adapter_Csv', array('source' => $pathToFile));
+        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToFile);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
@@ -203,8 +201,9 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $productsBeforeImport[$product->getSku()] = $product;
         }
 
-        $resource = __DIR__ . '/_files/products_to_import_with_datetime.csv';
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($resource);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(
+            __DIR__ . '/_files/products_to_import_with_datetime.csv'
+        );
         $this->_model->setParameters(array(
             'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
@@ -394,6 +393,76 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
                 '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE
             )
         );
+    }
+
+    /**
+     * @magentoDataIsolation enabled
+     * @magentoDataFixture mediaImportImageFixture
+     */
+    public function testSaveMediaImage()
+    {
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            $this->markTestIncomplete('bug: MAGETWO-4227');
+        }
+        $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute');
+        $attribute->loadByCode('catalog_product', 'media_gallery');
+        $data = implode(',', array(
+            // minimum required set of attributes + media images
+            'sku', '_attribute_set', '_type', '_product_websites', 'name', 'price',
+            'description', 'short_description', 'weight', 'status', 'visibility', 'tax_class_id',
+            '_media_attribute_id', '_media_image', '_media_label', '_media_position', '_media_is_disabled'
+        )) . "\n";
+        $data .= implode(',', array(
+            'test_sku', 'Default', Mage_Catalog_Model_Product_Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
+            'Product description', 'Short desc.', '1',
+            Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
+            $attribute->getId(), 'magento_image.jpg', 'Image Label', '1', '0'
+        )) . "\n";
+        $data = 'data://text/plain;base64,' . base64_encode($data);
+        $fixture = new Mage_ImportExport_Model_Import_Source_Csv($data);
+
+        foreach (new Mage_Catalog_Model_Resource_Product_Collection as $product) {
+            $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
+        }
+
+        $this->_model->setSource($fixture)
+            ->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND))
+            ->isDataValid();
+        $this->_model->importData();
+
+        $resource = new Mage_Catalog_Model_Resource_Product;
+        $productId = $resource->getIdBySku('test_sku'); // fixture
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load($productId);
+        $gallery = $product->getMediaGalleryImages();
+        $this->assertInstanceOf('Varien_Data_Collection', $gallery);
+        $items = $gallery->getItems();
+        $this->assertCount(1, $items);
+        $item = array_pop($items);
+        $this->assertInstanceOf('Varien_Object', $item);
+        $this->assertEquals('/m/a/magento_image.jpg', $item->getFile());
+        $this->assertEquals('Image Label', $item->getLabel());
+    }
+
+    /**
+     * Copy a fixture image into media import directory
+     */
+    public static function mediaImportImageFixture()
+    {
+        $dir = Mage::getBaseDir('media') . '/import';
+        mkdir($dir);
+        copy(__DIR__ . '/../../../../Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
+    }
+
+    /**
+     * Cleanup media import and catalog directories
+     */
+    public static function mediaImportImageFixtureRollback()
+    {
+        $media = Mage::getBaseDir('media');
+        Varien_Io_File::rmdirRecursive("{$media}/import");
+        Varien_Io_File::rmdirRecursive("{$media}/catalog");
     }
 
     /**

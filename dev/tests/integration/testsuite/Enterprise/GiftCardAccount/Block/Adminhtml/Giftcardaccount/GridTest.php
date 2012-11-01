@@ -19,7 +19,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extend
 
     public function setUp()
     {
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout->createBlock(
             'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid',

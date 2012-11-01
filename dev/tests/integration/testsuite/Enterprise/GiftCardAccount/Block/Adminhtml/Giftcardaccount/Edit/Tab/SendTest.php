@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoAppIsolation enabled
- */
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
@@ -19,7 +16,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTe
 
     public static function setUpBeforeClass()
     {
-        $model = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
     }
 
@@ -30,10 +27,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTe
 
     public function setUp()
     {
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = new Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send();
-        $this->_block->setLayout($layout);
+        $this->_block = $layout
+            ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');
     }
 
     /**

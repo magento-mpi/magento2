@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoAppIsolation enabled
- */
 class Enterprise_Reward_Block_Adminhtml_Reward_Rate_GridTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid */
@@ -19,7 +16,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_GridTest extends PHPUnit_Fra
 
     public function setUp()
     {
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout->createBlock(
             'Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid'

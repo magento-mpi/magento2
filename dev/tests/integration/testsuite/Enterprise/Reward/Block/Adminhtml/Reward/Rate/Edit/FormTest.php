@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoAppIsolation enabled
- */
 class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form */
@@ -19,7 +16,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
 
     public static function setUpBeforeClass()
     {
-        $rate = new Enterprise_Reward_Model_Reward_Rate();
+        $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
         Mage::register('current_reward_rate', $rate);
     }
 
@@ -30,10 +27,10 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
 
     public function setUp()
     {
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
 
-        $this->_block = new Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form();
-        $this->_block->setLayout($layout);
+        $this->_block = $layout
+            ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form');
     }
 
     /**

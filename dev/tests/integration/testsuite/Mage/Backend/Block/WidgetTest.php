@@ -21,12 +21,11 @@ class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtml()
     {
-        $layout = new Mage_Core_Model_Layout(array('area' => 'adminhtml'));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = new Mage_Backend_Block_Widget();
-        $widget->setLayout($layout);
+        $widget = $layout->createBlock('Mage_Backend_Block_Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',
@@ -41,12 +40,11 @@ class Mage_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
-        $layout = new Mage_Core_Model_Layout(array('area' => 'adminhtml'));
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
         $layout->getUpdate()->load();
         $layout->generateXml()->generateElements();
 
-        $widget = new Mage_Backend_Block_Widget();
-        $widget->setLayout($layout);
+        $widget = $layout->createBlock('Mage_Backend_Block_Widget');
 
         $this->assertRegExp(
             '/<button.*onclick\=\"this.form.submit\(\)\".*\>[\s\S]*Button Label[\s\S]*<\/button>/iu',

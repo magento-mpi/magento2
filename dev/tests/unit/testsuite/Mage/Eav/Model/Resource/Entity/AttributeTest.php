@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
+class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @covers Mage_Eav_Model_Resource_Entity_Attribute::_saveOption
@@ -167,9 +167,9 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
      */
     protected function _prepareResourceModel()
     {
-        $adapter = $this->_getAdapterMock('Varien_Db_Adapter_Pdo_Mysql', array(
+        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(
             '_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update',
-        ));
+        ), array(), '', false);
         $adapter->expects($this->any())
             ->method('describeTable')
             ->with('eav_attribute')
