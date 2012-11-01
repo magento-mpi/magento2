@@ -20,8 +20,21 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
 {
 
     /**
-     * Create invitation use as precondition and part of test
+     * <p>Create invitation use as precondition and part of test
+     * <p>Steps:</p>
+     * <p>1. Log in to admin</p>
+     * <p>2. Go to Customers-Manage Customers</p>
+     * <p>3. Create new customer associated to Main website</p>
+     * <p>4. Log out from backend</p>
+     * <p>5. Log in to Main website with newly created customer</p>
+     * <p>6. Go to My Account>My Invitations</p>
+     * <p>7. Click Send Invitations button</p>
+     * <p>8. Enter valid email in the field</p>
+     * <p>9. Click Send Invitations button</p>
+     * <p>Expected result</p>
+     * <p>The message "Invitation for "email" has been sent." is displayed.</p>
      * @test
+     * @TestlinkId TL-MAGE-6438
      */
     public function createInvitation()
     {
@@ -41,6 +54,7 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
         $this->fillField('email_1', $data);
         $this->addParameter('email', $data);
         $this->clickButton('send_invitation');
+        //Verification
         //$this->assertMessagePresent('success','success_send');
         $this->assertMessagePresent('error', 'failed_send'); //for run test on localhost
 
@@ -48,6 +62,11 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
 
     /**
      * This method is described the main workflow on report invitations customers page
+     * <Steps>
+     * <p>1. Log in to admin</p>
+     * <p>2. Navigate to Reports>Invitations>Customers</p>
+     * <p>3. Enter current date in to the "From" and "To" field</p>
+     * <p>4. Click Refresh button</p>
      */
     public function workflowWithReport()
     {
@@ -58,12 +77,28 @@ class Enterprise2_Mage_Grid_Report_Invitation_Customer_GridTest extends Mage_Sel
         $this->fillField('filter_from', $validDate);
         $this->fillField('filter_to', $validDate);
         $this->clickButton('refresh');
-
     }
 
     /**
      * Verifying that number of elements is increased after create new invitation
+     * <p>Preconditions</p>
+     * <p> At least one invitations is created</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to admin</p>
+     * <p>2. Navigate to Reports>Invitations>Customers</p>
+     * <p>3. Enter current date in to the "From" and "To" field</p>
+     * <p>4. Click Refresh button</p>
+     * <p>5. Count qty of rows</p>
+     * <p>6. Create new invitation</p>
+     * <p>7. Log in to admin</p>
+     * <p>8. Navigate to Reports>Invitations>Customers</p>
+     * <p>9. Enter current date in to the "From" and "To" field</p>
+     * <p>10. Click Refresh button</p>
+     * <p>11. Count qty of rows</p>
+     * <p>Expected result:</p>
+     * <p>The count of rows is increased on 1 item</p>
      * @test
+     * @TestlinkId TL-MAGE-6438
      */
     public function verifyGrid()
     {
