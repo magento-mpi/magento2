@@ -13,7 +13,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_CollectionTest extends 
         $select = $collection->getSelect();
         $this->assertSame(array(), $select->getPart(Zend_Db_Select::WHERE));
 
-        $product = new Mage_Catalog_Model_Product;
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setId(4);
         $collection->addProductFilter(1)->addProductFilter(array(2, 3))->addProductFilter($product);
         $this->assertStringMatchesFormat(
