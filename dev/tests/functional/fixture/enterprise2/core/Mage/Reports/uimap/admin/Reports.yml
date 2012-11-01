@@ -237,7 +237,7 @@ report_customer_orders:
         form:
             fieldsets:
                 -
-                    report_product_sold:
+                    report_customer_orders:
                         xpath: //div[@id='gridOrdersCustomer']
                         fields:
                             filter_from: //input[@id='gridOrdersCustomer_period_date_from']
@@ -249,7 +249,7 @@ report_customer_orders:
                              export: //button[span='Export']
                              refresh: //button[span='Refresh']
                         pageelements:
-                             product_sold_grid: //table[@id='gridOrdersCustomer_table']
+                             customer_orders_grid: //table[@id='gridOrdersCustomer_table']
 
 # Tags: Customers Tags page
 report_tag_customer:
