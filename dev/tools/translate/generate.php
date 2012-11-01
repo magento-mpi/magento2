@@ -64,7 +64,7 @@ if (!is_writeable(dirname($args['output']))) {
     die(USAGE . sprintf('Output dir %s isn\'t writeable', realpath(dirname($args['output']))) ."\n");
 }
 
-require_once 'config.inc.php';
+require_once __DIR__ . '/config.inc.php';
 require_once BASE_PATH . DS . 'lib/Varien/File/Csv.php';
 
 $CONFIG['generate'] = array(
