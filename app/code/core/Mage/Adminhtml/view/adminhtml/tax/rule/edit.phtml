@@ -15,7 +15,8 @@
         function toggleLoadingMask()
         {
             var loaderArea = $('#html-body .wrapper')[0],
-                loadingMask = $('#loading-mask');
+                loadingMask = $('#loading-mask'),
+                flag = $('#loading-mask').is(':visible');
 
             loadingMask.css({
                 top:  0,
@@ -25,7 +26,7 @@
                 'z-index':1005
             });
             loadingMask.toggle();
-            toggleSelectsUnderBlock($('loading-mask'), false);
+            toggleSelectsUnderBlock($('loading-mask'), flag);
         }
 
         $.widget("adminhtml.dialogRates", $.ui.dialog, {
