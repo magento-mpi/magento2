@@ -207,7 +207,7 @@ class Mage_Core_Helper_File_Storage extends Mage_Core_Helper_Abstract
     {
         if (!is_numeric($setting)) {
             $type = strtoupper(substr($setting, -1));
-            $setting = (integer)substr($setting, 0, -1);
+            $setting = (integer)$setting;
 
             switch ($type) {
                 case 'K':
