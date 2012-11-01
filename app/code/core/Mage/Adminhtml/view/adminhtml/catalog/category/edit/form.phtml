@@ -42,7 +42,7 @@
     jQuery('#category_edit_form').categoryForm({
         refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'
     }).validation({submitHandler: function(form){
-        jQuery(form).submit();
+        form.submit();
         displayLoadingMask();
     }});
 
