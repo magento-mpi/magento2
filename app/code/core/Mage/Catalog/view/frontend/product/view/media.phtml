@@ -26,7 +26,7 @@
     ?>
 </p>
 <p class="zoom-notice" id="track_hint"><?php echo $this->__('Double click on above image to view full picture') ?></p>
-<div class="zoom no-bg">
+<div class="zoom">
     <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" title="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out" />
     <div id="slider"></div>
     <img id="zoom_in" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_in.gif') ?>" alt="<?php echo $this->__('Zoom In') ?>" title="<?php echo $this->__('Zoom In') ?>" class="btn-zoom-in" />
@@ -34,15 +34,14 @@
 <script type="text/javascript">
 //<![CDATA[
 (function ($) {
-    $.mage.load.css("<?php echo $this->getSkinUrl('Mage_Catalog::zoom.css') ?>");
-    $.mage.event.observe('mage.zoom.initialize', function (event, initData) {
-        initData.imageSelector = '#image',
-        initData.sliderSelector = '#slider',
-        initData.zoomNoticeSelector = '#track_hint',
-        initData.zoomInSelector = '#zoom_in',
-        initData.zoomOutSelector = '#zoom_out'
+    head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/zoom.js')?>", function() {
+        $('#image').zoom({
+            sliderSelector: '#slider',
+            zoomNoticeSelector: '#track_hint',
+            zoomInSelector: '#zoom_in',
+            zoomOutSelector: '#zoom_out'
+        });
     });
-    $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/zoom.js') ?>");
 })(jQuery);
 //]]>
 </script>

@@ -6,9 +6,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-.ui-slider {
-    margin: 0 2px;
+.product-img-box .ui-slider-handle {
+    background: url("images/magnifier_handle.gif") no-repeat scroll 0 0 transparent;
+    height: 22px;
+    left: 0;
+    position: absolute;
+    top: -2px;
+    width: 9px;
+    margin-left: -5px;
 }
-#zoom_out, #zoom_in {
-    top: -3px;
+.product-img-box .ui-slider {
+    height: 20px;
+    border: none;
+    position: relative;
+    background: none;
+    z-index: 100;
+}
+body .product-view .product-img-box .zoom {
+    padding: 0 31px;
 }

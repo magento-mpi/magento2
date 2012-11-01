@@ -82,6 +82,21 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Overwrite parent method, keep report file, Build and execute the shell command
+     *
+     * @param array $whiteList Files/directories to be inspected
+     * @param array $blackList Files/directories to be excluded from the inspection
+     * @return bool
+     */
+    public function run(array $whiteList, array $blackList = array())
+    {
+        $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
+        $result = $this->_execShellCmd($shellCmd);
+        $this->_generateLastRunMessage();
+        return $result !== false;
+    }
+
+    /**
      * Check if OS is windows
      * @return boolean
      */
