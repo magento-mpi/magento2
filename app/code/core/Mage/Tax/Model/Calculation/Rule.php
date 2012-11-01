@@ -56,10 +56,10 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
+        Mage_Tax_Helper_Data $taxHelper,
+        Mage_Tax_Model_Class $taxClass,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        Mage_Tax_Helper_Data $taxHelper = null,
-        Mage_Tax_Model_Class $taxClass = null,
         array $data = array()
     ) {
         parent::__construct(
