@@ -9,12 +9,35 @@
 # @license     {license_link}
 #
 ---
-# Invitations General page
-
-invitations_general:
+# Report Invitations General page
+report_invitations_general:
     mca: report_invitation/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/') and (span='General')]
     title: General / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fielsets:
+                -
+                    general:
+                        xpath: //div[@id='page:main-container']
+                        buttons: &reportInvitationsButtons
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns: &reportInvitationsDropdowns
+                            show_by: //select[@name='report_period']
+                            export_to: //td[@class="a-right"]/select
+                            filter_show_report_for: //select[@id='store_switcher']
+                        fields: &reportInvitationsFields
+                            filter_from: //input[@name='report_from']
+                            filter_to: //input[@name='report_to']
+                        links:
+                            invitations_sent: //a[@name='sent']
+                            invitation_accepted: //a[@name='accepted']
+                            invitation_discarded: //a[@name='canceled']
+                            invitation_accepted_rate: //a[@name='accepted_rate']
+                            invitation_date: //a[@name='canceled_rate']
+                        pageelements:
+                            report_invitations_general_grid: //table[@class='data']
 
 #Invitations Customers page
 report_invitations_customers:
@@ -27,16 +50,9 @@ report_invitations_customers:
                 -
                     report_invitations_customers:
                         xpath: //div[@id='page:main-container']
-                        buttons:
-                            refresh: //button[span='Refresh']
-                            export: //button[span='Export']
-                        dropdowns:
-                            show_by: //select[@name='report_period']
-                            export_to: //select[@style='width:8em']
-                            filter_show_report_for: //select[@id='store_switcher']
-                        fields:
-                            filter_from: //input[@name='report_from']
-                            filter_to: //input[@name='report_to']
+                        buttons: *reportInvitationsButtons
+                        dropdowns: *reportInvitationsDropdowns
+                        fields: *reportInvitationsFields
                         links:
                             id:  //a[@name='id']
                             name: //a[@name='name']
