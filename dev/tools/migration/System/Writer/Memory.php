@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once __DIR__ . '/../WriterInterface.php';
+
 class Tools_Migration_System_Writer_Memory implements Tools_Migration_System_WriterInterface
 {
     /**

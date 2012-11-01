@@ -9,6 +9,7 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/System/Writer/Factory.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/migration/System/Writer/FileSystem.php';
 
 class Tools_Migration_System_Writer_FactoryTest extends PHPUnit_Framework_TestCase
 {

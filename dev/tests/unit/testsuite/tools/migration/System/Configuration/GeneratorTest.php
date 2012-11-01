@@ -43,8 +43,8 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
-        $this->_loggerMock = $this->getMock('Tools_Migration_System_Configuration_LoggerAbstract', array(), array(),
-            '', false
+        $this->_loggerMock = $this->getMockForAbstractClass('Tools_Migration_System_Configuration_LoggerAbstract',
+            array(), '', false, false, false, array('add')
         );
         $this->_formatterMock = $this->getMock('Tools_Migration_System_Configuration_Formatter', array(), array(),
             '', false
@@ -57,11 +57,6 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
 
     public function testCreateConfigurationGeneratesConfiguration()
     {
-        $this->_loggerMock->expects($this->once())->method('add')->with(
-            'someFile',
-            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
-        );
-
         $dom = new DOMDocument();
         $dom->loadXML(
             preg_replace('/\n|\s{4}/', '', file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
@@ -85,6 +80,11 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
                     }
                 )
             );
+
+        $this->_loggerMock->expects($this->once())->method('add')->with(
+            'someFile',
+            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
+        );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');
     }

@@ -8,12 +8,12 @@
  * @license    {license_link}
  */
 
-/**
- * Tools_Migration_System_Configuration_Parser test case
- */
 require_once realpath(dirname(__FILE__) . '/../../../../../../../')
     . '/tools/migration/System/Configuration/Parser.php';
 
+/**
+ * Tools_Migration_System_Configuration_Parser test case
+ */
 class Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_TestCase
 {
     /**

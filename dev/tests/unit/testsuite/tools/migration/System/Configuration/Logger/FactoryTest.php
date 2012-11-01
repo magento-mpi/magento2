@@ -22,6 +22,8 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/System/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/System/FileReader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+    . '/tools/migration/System/WriterInterface.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/System/Writer/Memory.php';
 
 
