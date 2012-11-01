@@ -95,7 +95,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             if ($addressId) {
                 $existsAddress = $customer->getAddressById($addressId);
                 if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
-                    $address->setId($existsAddress->getId());
+                    $address->load($existsAddress->getId());
                 }
             }
 
@@ -106,10 +106,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address);
             $addressData    = $addressForm->extractData($this->getRequest());
-            $addressErrors  = $addressForm->validateData($addressData);
-            if ($addressErrors !== true) {
-                $errors = $addressErrors;
-            }
 
             try {
                 $addressForm->compactData($addressData);

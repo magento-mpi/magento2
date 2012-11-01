@@ -28,7 +28,6 @@
                         <method name="setReadOnlyProperties">
                             <argument>
                                 <option>entity_id</option>
-                                <option>entity_type_id</option>
                             </argument>
                         </method>
                     </constraint>
@@ -88,7 +87,6 @@
                                 <option>attribute_set_id</option>
                                 <option>increment_id</option>
                                 <option>entity_id</option>
-                                <option>entity_type_id</option>
                             </argument>
                         </method>
                     </constraint>

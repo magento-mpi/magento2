@@ -178,10 +178,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         parent::_beforeSave();
 
-        if (!$this->getIgnoreValidation()) {
-            $this->_validate();
-        }
-
         $storeId = $this->getStoreId();
         if ($storeId === null) {
             $this->setStoreId(Mage::app()->getStore()->getId());
@@ -189,25 +185,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         $this->getGroupId();
         return $this;
-    }
-
-    /**
-     * Validate customer entity
-     *
-     * @throws Magento_Validator_Exception when validation failed
-     */
-    protected function _validate()
-    {
-        $validatorGroup = $this->getId() > 0 ? 'update' : 'create';
-
-        $validatorFactory = Mage::getConfig()->getValidatorConfig();
-        $validator = $validatorFactory
-            ->getValidatorBuilder('customer', $validatorGroup)
-            ->createValidator();
-
-        if (!$validator->isValid($this)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
-        }
     }
 
     /**
@@ -791,7 +768,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * For existing customer password + confirmation will be validated only when password is set
      * (i.e. its change is requested)
      *
-     * @return bool
+     * @return bool|array
      */
     public function validate()
     {
