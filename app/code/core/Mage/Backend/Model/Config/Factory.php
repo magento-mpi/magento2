@@ -9,7 +9,7 @@
  */
 
 /**
- * System configuration structure reader
+ * System configuration object factory
  */
 class Mage_Backend_Model_Config_Factory
 {
