@@ -28,8 +28,16 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit extends Mage_Adminhtml_Block_
         $this->_updateButton('delete', 'label', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete Profile'));
         $this->_addButton('savecontinue', array(
             'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
-            'onclick' => "$('edit_form').action += 'continue/true/'; editForm.submit();",
             'class' => 'save',
+            'data_attr'  => array(
+                'widget-button' => array(
+                    'event' => 'save',
+                    'related' => '#edit_form',
+                    'eventData' => array(
+                        'action' => array('args' => array('continue' => true)),
+                    ),
+                ),
+            ),
         ), -100);
 
     }

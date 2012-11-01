@@ -10,7 +10,7 @@
                 save: {},
                 saveAndContinueEdit: {
                     action: {
-                        args: {'back': 'edit'}
+                        args: {back: 'edit'}
                     }
                 },
                 preview: {
@@ -56,7 +56,7 @@
          * @protected
          */
         _storeAttribute: function(attrName) {
-            this.oldAttributes = this.oldAttributes ? this.oldAttributes : {};
+            this.oldAttributes = this.oldAttributes || {};
             if (!this.oldAttributes[attrName]) {
                 var prop = this.element.prop(attrName);
                 this.oldAttributes[attrName] = prop ? prop : '';
