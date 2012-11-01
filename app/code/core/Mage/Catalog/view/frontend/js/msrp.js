@@ -40,8 +40,8 @@
         $.each(_clickForPrice.helpLink, function (index, value) {
 
             $(value.popupId).on('click', function (e) {
-                if(value.submitUrl){
-                    location.href=value.submitUrl;
+                if (value.submitUrl) {
+                    location.href = value.submitUrl;
                 } else {
                     $('#map-popup-heading').text(value.productName);
                     $('#map-popup-price').html($(value.realPrice));
@@ -80,7 +80,7 @@
         $.each($.merge(_cartData.cartFormData, _popupCartData.cartData), function (index, value) {
             $(value.cartButtonId).on('click', function () {
 
-                if(value.cartForm){
+                if (value.cartForm) {
                     $(value.cartForm).mage().validate({
                         errorPlacement: function (error, element) {
                             if (element.is(':radio') || element.is(':checkbox')) {
@@ -105,17 +105,15 @@
                         }
                     });
                 }
-                if(value.addToCartUrl) {
-                    if($('#map-popup')){
-                        $('#map-popup').hide();
-                    }
-                    if(opener !== null){
-                        opener.location.href=value.addToCartUrl;
+                if (value.addToCartUrl) {
+                    $('#map-popup').hide();
+                    if (opener !== null) {
+                        opener.location.href = value.addToCartUrl;
                     } else {
-                        location.href=value.addToCartUrl;
+                        location.href = value.addToCartUrl;
                     }
 
-                }else if(value.cartForm){
+                } else if (value.cartForm) {
                     $(value.cartForm).submit();
                 }
 
