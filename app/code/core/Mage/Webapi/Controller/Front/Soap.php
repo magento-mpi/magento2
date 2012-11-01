@@ -234,7 +234,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $details = array();
         $resourceConfig = $this->getResourceConfig();
         if (!is_null($resourceConfig)) {
-            foreach ($resourceConfig->getAllResources() as $resourceName => $versions) {
+            foreach ($resourceConfig->getAllResourcesVersions() as $resourceName => $versions) {
                 foreach ($versions as $version) {
                     $details['availableResources'][$resourceName][$version] = sprintf('%s?wsdl&resources[%s]=%s',
                         $apiUrl, $resourceName, $version);
@@ -532,7 +532,7 @@ FAULT_MESSAGE;
             );
         }
         $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        $this->_validateVersionNumber($version);
+        $this->_validateVersionNumber($version, $resourceName);
         return $version;
     }
 }

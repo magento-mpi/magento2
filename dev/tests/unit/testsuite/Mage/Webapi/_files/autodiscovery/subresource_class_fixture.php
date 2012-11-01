@@ -41,7 +41,7 @@ class Vendor_Module_Webapi_Resource_SubresourceController
      * @param int $param1
      * @param float $param2
      */
-    public function updateV3($param1, $param2)
+    public function updateV4($param1, $param2)
     {
         // Body is intentionally left empty
     }

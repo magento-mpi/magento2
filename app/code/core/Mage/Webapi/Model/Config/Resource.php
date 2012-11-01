@@ -146,6 +146,26 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
+     * Identify the maximum version of the specified resource available.
+     *
+     * @param string $resourceName
+     * @return int
+     * @throws InvalidArgumentException When resource with the specified name does not exist.
+     */
+    public function getResourceMaxVersion($resourceName)
+    {
+        if (!isset($this->_data['resources'][$resourceName])) {
+            throw new InvalidArgumentException(sprintf('Resource "%s" does not exist.', $resourceName));
+        }
+        $resourceVersions = array_keys($this->_data['resources'][$resourceName]['versions']);
+        foreach ($resourceVersions as &$version) {
+            $version = str_replace('v', '', $version);
+        }
+        $maxVersion = max($resourceVersions);
+        return (int)$maxVersion;
+    }
+
+    /**
      * Identify resource name by operation name.
      *
      * If $resourceVersion is set, the check for operation validity in specified resource version will be performed.
@@ -157,19 +177,23 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getResourceNameByOperation($operationName, $resourceVersion = null)
     {
-        $result = false;
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
         $resourceExists = isset($this->_data['resources'][$resourceName]);
-        $versionCheckNotRequired = $resourceVersion === null;
-        /** Allow to take resource version in two formats: with 'v' prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
-        $resourceVersion = lcfirst($resourceVersion);
-        $operationValidForRequestedResourceVersion =
-            isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName]);
-        if (($versionCheckNotRequired && $resourceExists) || $operationValidForRequestedResourceVersion) {
-            $result = $resourceName;
+        if (!$resourceExists) {
+            return false;
         }
-        return $result;
+        $resourceData = $this->_data['resources'][$resourceName];
+        $versionCheckRequired = is_string($resourceVersion);
+        if ($versionCheckRequired) {
+            /** Allow to take resource version in two formats: with 'v' prefix and without it */
+            $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
+            $resourceVersion = lcfirst($resourceVersion);
+            $operationIsValid = isset($resourceData['versions'][$resourceVersion]['methods'][$methodName]);
+            if (!$operationIsValid) {
+                return false;
+            }
+        }
+        return $resourceName;
     }
 
     /**
@@ -179,9 +203,13 @@ class Mage_Webapi_Model_Config_Resource
      * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return string|bool Method name on success; false on failure
      */
-    public function getMethodNameByOperation($operationName, $resourceVersion)
+    public function getMethodNameByOperation($operationName, $resourceVersion = null)
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
+        $versionCheckRequired = is_string($resourceVersion);
+        if (!$versionCheckRequired) {
+            return $methodName;
+        }
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
         $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
         $resourceVersion = lcfirst($resourceVersion);
@@ -194,43 +222,42 @@ class Mage_Webapi_Model_Config_Resource
      *
      * <pre>Result format:
      * array(
-     *      0 => false|'resourceName',
-     *      1 => false|'methodName'
+     *      0 => 'resourceName',
+     *      1 => 'methodName'
      * )</pre>
      *
      * @param string $operationName
      * @return array
+     * @throws InvalidArgumentException In case when the specified operation name is invalid.
      */
     protected function _parseOperationName($operationName)
     {
-        $result = array(false, false);
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
         $regEx = sprintf('/(.*?)(%s)$/i', implode('|', $this->_getAllowedMethods()));
         if (preg_match($regEx, $operationName, $matches)) {
             $resourceName = $matches[1];
             $methodName = lcfirst($matches[2]);
             $result = array($resourceName, $methodName);
+            return $result;
         }
-        return $result;
+        throw new InvalidArgumentException(sprintf('The "%s" is not valid API resource operation name.',
+            $operationName));
     }
 
     /**
      * Identify controller class by operation name and its version.
      *
      * @param string $operationName
-     * @return bool|string Resource name on success; false if operation was not found
+     * @return string Resource name on success
      * @throws LogicException
      */
     public function getControllerClassByOperationName($operationName)
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        if ($resourceName) {
-            if (isset($this->_data['resources'][$resourceName]['controller'])) {
-                return $this->_data['resources'][$resourceName]['controller'];
-            }
-            throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
+        if (isset($this->_data['resources'][$resourceName]['controller'])) {
+            return $this->_data['resources'][$resourceName]['controller'];
         }
-        return $resourceName;
+        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
     }
 
     /**
@@ -271,6 +298,7 @@ class Mage_Webapi_Model_Config_Resource
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
+                    $data['versions'] = array();
                     /** @var ReflectionMethod $methodReflection */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
                         try {
@@ -891,7 +919,7 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getResourceNameParts($className)
     {
-        if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className, $matches)) {
+        if (preg_match('/^(.*)_Webapi_(.*)Controller$/', $className, $matches)) {
             list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
             $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
 
@@ -904,7 +932,6 @@ class Mage_Webapi_Model_Config_Resource
             array_unshift($resourceNameParts, $parentResourceName);
             return $resourceNameParts;
         }
-
         throw new InvalidArgumentException(sprintf('Invalid controller class name "%s".', $className));
     }
 
@@ -1068,11 +1095,11 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
-     * Retrieve all resources and their versions.
+     * Retrieve the list of all resources with their versions.
      *
      * @return array
      */
-    public function getAllResources()
+    public function getAllResourcesVersions()
     {
         $resources = array();
         foreach ($this->_data['resources'] as $resourceName => $data) {

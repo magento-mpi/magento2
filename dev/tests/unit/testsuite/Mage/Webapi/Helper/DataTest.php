@@ -5,9 +5,13 @@
  * @copyright {}
  */
 
+/**#@+
+ * API resources must be available without auto loader as the file name cannot be calculated from class name.
+ */
 include_once __DIR__ . '/../_files/autodiscovery/Customer/Address/DataStructure.php';
 include_once __DIR__ . '/../_files/autodiscovery/Customer/DataStructure.php';
 include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
+/**#@-*/
 
 /**
  * Class implements tests for Mage_Webapi_Helper_Data class.

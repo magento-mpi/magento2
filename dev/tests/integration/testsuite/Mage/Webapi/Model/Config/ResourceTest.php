@@ -6,7 +6,7 @@
  */
 
 /**#@+
- * Data structure should be available to auto loader. However, the file name cannot be identified from class name.
+ * Data structures should be available without auto loader as the file name cannot be calculated from class name.
  */
 include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructure.php';
 include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructureB.php';

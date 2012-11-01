@@ -328,7 +328,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             throw new LogicException(
                 "Please be sure to call Mage_Webapi_Controller_Request_Rest::setResourceVersion() first.");
         }
-        $this->_validateVersionNumber($resourceVersion);
+        $this->_validateVersionNumber($resourceVersion, $this->getRequest()->getResourceName());
         return $resourceVersion;
     }
 

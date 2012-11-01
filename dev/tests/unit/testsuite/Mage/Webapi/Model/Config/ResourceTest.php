@@ -5,13 +5,18 @@
  * @copyright {}
  */
 
+/**#@+
+ * API resources must be available without auto loader as the file name cannot be calculated from class name.
+ */
 require_once __DIR__ . '/../../_files/autodiscovery/resource_class_fixture.php';
 require_once __DIR__ . '/../../_files/autodiscovery/subresource_class_fixture.php';
 require_once __DIR__ . '/../../_files/autodiscovery/Customer/DataStructure.php';
 require_once __DIR__ . '/../../_files/autodiscovery/Customer/Address/DataStructure.php';
 require_once __DIR__ . '/_files/resource_with_invalid_interface.php';
+require_once __DIR__ . '/_files/resource_with_invalid_name.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_var_tags/data_type.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_property_description/data_type.php';
+/**#@-*/
 
 /**
  * Test of API configuration class: Mage_Webapi_Model_Config_Resource
@@ -87,9 +92,28 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function dataProviderTestGetResourceNameByOperationNegative()
     {
         return array(
-            array('customerMultiDeleteExcessiveSuffix', 'v2', false, 'Excessive suffix is ignored.'),
-            array('customerInvalid', 'v1', false, "In case when operation not found 'false' is expected."),
-            array('customerUpdate', 'v100', false, "In case when version not found 'false' is expected."),
+            array('customerUpdate', 'v1', false, "In case when resource not found 'false' is expected."),
+            array('vendorModuleResourceCreate', 'v100', false, "In case when version not found 'false' is expected."),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGetResourceNameByOperationException
+     * @param string $operation
+     * @param string $resourceVersion
+     */
+    public function testGetResourceNameByOperationException($operation, $resourceVersion)
+    {
+        $this->setExpectedException('InvalidArgumentException',
+            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
+    }
+
+    public function dataProviderTestGetResourceNameByOperationException()
+    {
+        return array(
+            array('customerMultiDeleteExcessiveSuffix', 'v2', 'Excessive suffix is ignored.'),
+            array('customerInvalid', 'v1', "In case when operation not found 'false' is expected."),
         );
     }
 
@@ -113,9 +137,29 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             array('vendorModuleResourceCreate', 'v1', 'create'),
             array('vendorModuleResourceMultiUpdate', 'v2', 'multiUpdate',
                 'Compound method names seem be be identified incorrectly or version processing is broken.'),
-            array('vendorModuleResourceMultiUpdateExcessiveSuffix', 'v2', false, 'Excessive suffix is ignored.'),
-            array('vendorModuleResourceInvalid', 'v1', false, "In case when operation not found 'false' is expected."),
+            array('vendorModuleResourceSubresourceMultiDelete', null, 'multiDelete',
+                "If version is not set - no check must be performed for operation existence in resource."),
             array('vendorModuleResourceUpdate', 'v100', false, "In case when version not found 'false' is expected."),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGetMethodNameByOperationException
+     * @param string $operation
+     * @param string $resourceVersion
+     */
+    public function testGetMethodNameByOperationException($operation, $resourceVersion)
+    {
+        $this->setExpectedException('InvalidArgumentException',
+            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->_getModel()->getMethodNameByOperation($operation, $resourceVersion);
+    }
+
+    public function dataProviderTestGetMethodNameByOperationException()
+    {
+        return array(
+            array('vendorModuleResourceMultiUpdateExcessiveSuffix', 'v2', 'Excessive suffix is ignored.'),
+            array('vendorModuleResourceInvalid', 'v1', "In case when operation not found 'false' is expected."),
         );
     }
 
@@ -129,12 +173,12 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderTestGetControllerClassByOperationNameNegative
      * @param string $operation
-     * @param string $message
      */
-    public function testGetControllerClassByOperationNameNegative($operation, $message)
+    public function testGetControllerClassByOperationNameNegative($operation)
     {
-        $actualControllerClass = $this->_getModel()->getControllerClassByOperationName($operation);
-        $this->assertEquals(false, $actualControllerClass, $message);
+        $this->setExpectedException('InvalidArgumentException',
+            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->_getModel()->getControllerClassByOperationName($operation);
     }
 
     public function dataProviderTestGetControllerClassByOperationNameNegative()
@@ -150,6 +194,33 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException',
             'Resource "resourceWithoutControllerAndModule" must have associated controller class.');
         $this->_getModel()->getControllerClassByOperationName('resourceWithoutControllerAndModuleGet');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetResourceMaxVersion
+     * @param string $resourceName
+     * @param int $expectedMaxVersion
+     */
+    public function testGetResourceMaxVersion($resourceName, $expectedMaxVersion)
+    {
+        $this->assertEquals($expectedMaxVersion, $this->_getModel()->getResourceMaxVersion($resourceName),
+            "Resource Maximum available version was identified incorrectly.");
+    }
+
+    public function dataProviderForTestGetResourceMaxVersion()
+    {
+        return array(
+            array('vendorModuleResource', 3),
+            array('vendorModuleResourceSubresource', 4),
+        );
+    }
+
+    public function testGetResourceMaxVersionException()
+    {
+        $resourceName = 'InvalidResource';
+        $this->setExpectedException('InvalidArgumentException',
+            sprintf('Resource "%s" does not exist.', $resourceName));
+        $this->_getModel()->getResourceMaxVersion($resourceName);
     }
 
     /**
@@ -406,6 +477,50 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException', 'must have at least one parameter: resource ID.');
         $this->_getModel()->getIdParamName($this->_createMethodReflection(
             'Vendor_Module_Webapi_Resource_InvalidController', 'emptyInterfaceV2'));
+    }
+
+    public function testGetResourceNamePartsException()
+    {
+        $className = 'Vendor_Module_Webapi_Resource_Invalid';
+        $this->setExpectedException('InvalidArgumentException', sprintf('Invalid controller class name "%s".', $className));
+        $this->_getModel()->getResourceNameParts($className);
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetResourceNameParts
+     * @param $className
+     * @param $expectedResourceParts
+     */
+    public function testGetResourceNameParts($className, $expectedResourceParts)
+    {
+        $this->assertEquals($expectedResourceParts, $this->_getModel()->getResourceNameParts($className),
+            "Resource parts for rest route were identified incorrectly.");
+    }
+
+    public static function dataProviderForTestGetResourceNameParts()
+    {
+        return array(
+            array('Enterprise_Customer_Webapi_Customer_AddressController', array('EnterpriseCustomer', 'Address')),
+            /** Check removal of 'Mage' prefix as well as duplicating parts ('Customer') */
+            array('Mage_Customer_Webapi_Customer_AddressController', array('Customer', 'Address')),
+        );
+    }
+
+    public function testGetIdParamException()
+    {
+        $className = 'Vendor_Module_Webapi_Resource_Invalid';
+        $this->setExpectedException('LogicException', sprintf('"%s" is not valid resource class.', $className));
+        $this->_getModel()->getIdParamName($this->_createMethodReflection($className, 'updateV1'));
+    }
+
+    public function testGetAllResourcesVersions()
+    {
+        $expectedResult = array(
+            'vendorModuleResource' =>array('v1', 'v2', 'v3'),
+            'vendorModuleResourceSubresource' => array('v1', 'v2', 'v4')
+        );
+        $allResourcesVersions = $this->_getModel()->getAllResourcesVersions();
+        $this->assertEquals($expectedResult, $allResourcesVersions, "The list of all resources versions is incorrect.");
     }
 
     public function testGetMethodMetadataDataNotAvailable()

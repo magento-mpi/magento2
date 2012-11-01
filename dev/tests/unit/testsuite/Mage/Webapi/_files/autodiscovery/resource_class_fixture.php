@@ -72,4 +72,12 @@ class Vendor_Module_Webapi_ResourceController
     {
         // Body is intentionally omitted
     }
+
+    /**
+     * Test situation of internal method, that should not be exposed through API.
+     */
+    public function someMethodThatWillBeSkipped()
+    {
+        // Body is intentionally omitted
+    }
 }

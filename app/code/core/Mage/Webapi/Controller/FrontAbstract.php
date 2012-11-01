@@ -15,12 +15,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
 {
     const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
-    /**#@+
-     * Version limits
-     */
     const VERSION_MIN = 1;
-    const VERSION_MAX = 200;
-    /**#@-*/
 
     /** @var Mage_Webapi_Controller_RequestAbstract */
     protected $_request;
@@ -282,19 +277,20 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Check if version number is from valid range.
      *
      * @param int $version
+     * @param string $resourceName
      * @throws Mage_Webapi_Exception
      */
-    protected function _validateVersionNumber($version)
+    protected function _validateVersionNumber($version, $resourceName)
     {
-        // TODO: Validate version against maximum available version in resource instead of abstract VERSION_MAX
-        if ((int)$version > self::VERSION_MAX) {
+        $maxVersion = $this->getResourceConfig()->getResourceMaxVersion($resourceName);
+        if ((int)$version > $maxVersion) {
             throw new Mage_Webapi_Exception(
-                $this->getHelper()->__("Resource version cannot be greater than %s.", self::VERSION_MAX),
+                $this->getHelper()->__('The maximum version of the requested resource is "%s".', $maxVersion),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } elseif ((int)$version < self::VERSION_MIN) {
             throw new Mage_Webapi_Exception(
-                $this->getHelper()->__("Resource version cannot be lower than %s.", self::VERSION_MIN),
+                $this->getHelper()->__('Resource version cannot be lower than "%s".', self::VERSION_MIN),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
