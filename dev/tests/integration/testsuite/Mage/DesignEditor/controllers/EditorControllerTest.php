@@ -90,7 +90,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->dispatch('design/editor/theme');
         $this->assertRedirect();
 
-        $theme = new Mage_Core_Model_Theme();
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load($session->getThemeId());
 
         $this->assertEquals('default/blank', $theme->getThemePath());
@@ -106,7 +106,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->dispatch('design/editor/theme');
         $this->assertRedirect();
 
-        $theme = new Mage_Core_Model_Theme();
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load($session->getThemeId());
 
         $this->assertNotEquals('wrong/theme/applied', $theme->getThemePath());
@@ -120,7 +120,7 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
 
         $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
 
-        $theme = new Mage_Core_Model_Theme();
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load($session->getThemeId());
 
         $this->assertNotEquals('default/blank', $theme->getThemePath());

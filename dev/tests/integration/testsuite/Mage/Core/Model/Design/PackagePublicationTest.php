@@ -307,15 +307,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 array(
                     'area'    => 'frontend',
                     'package' => 'default',
-                    'theme'   => 'demo',
+                    'theme'   => 'default',
                     'module'  => 'Mage_Reports',
                 ),
-                'frontend/default/demo/en_US/Mage_Reports/widgets.css',
+                'frontend/default/default/en_US/Mage_Reports/widgets.css',
                 array(
                     'url(../Mage_Catalog/images/i_block-list.gif)',
                 ),
                 array(
-                    'frontend/default/demo/en_US/Mage_Catalog/images/i_block-list.gif',
+                    'frontend/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
                 ),
             ),
             'adminhtml' => array(

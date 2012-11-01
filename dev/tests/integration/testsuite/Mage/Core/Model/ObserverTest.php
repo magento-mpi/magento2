@@ -26,26 +26,27 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $eventObserver = $this->_createEventObserverForThemeRegistration();
         $eventObserver->getEvent()->setPathPattern($pathPattern);
 
-        $observer = new Mage_Core_Model_Observer();
+        /** @var $observer Mage_Core_Model_Observer */
+        $observer = Mage::getModel('Mage_Core_Model_Observer');
         $observer->themeRegistration($eventObserver);
 
         $defaultModel = $this->_getThemeModel();
-        $defaultModel->load('default/demo', 'theme_path');
+        $defaultModel->load('default/default', 'theme_path');
 
         $iphoneModel = $this->_getThemeModel();
-        $iphoneModel->load('default/iphone', 'theme_path');
+        $iphoneModel->load('default/default_iphone', 'theme_path');
 
-        $this->assertEquals('Magento Demo', $defaultModel->getThemeTitle());
+        $this->assertEquals('Default', $defaultModel->getThemeTitle());
         $this->assertEquals(null, $defaultModel->getParentId());
 
-        $this->assertEquals('Magento Iphone', $iphoneModel->getThemeTitle());
+        $this->assertEquals('Iphone', $iphoneModel->getThemeTitle());
         $this->assertEquals($defaultModel->getId(), $iphoneModel->getParentId());
     }
 
     /**
      * Get theme model
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_Core_Model_Theme
      */
     protected function _getThemeModel()
     {
@@ -59,8 +60,8 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _createEventObserverForThemeRegistration()
     {
-        $response = new Varien_Object(array('additional_options' => array()));
-        $event = new Varien_Event(array('response_object' => $response));
-        return new Varien_Event_Observer(array('event' => $event));
+        $response = Mage::getModel('Varien_Object', array('additional_options' => array()));
+        $event = Mage::getModel('Varien_Event', array('response_object' => $response));
+        return Mage::getModel('Varien_Event_Observer', array('event' => $event));
     }
 }
