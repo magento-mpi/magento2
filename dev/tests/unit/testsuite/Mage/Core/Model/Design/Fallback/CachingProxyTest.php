@@ -52,7 +52,6 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             'area' => 'frontend',
             'package' => 'package',
             'theme' => 'theme',
-            'skin' => 'skin',
             'locale' => 'en_US',
             'appConfig' => false,
             'themeConfig' => false,
@@ -122,7 +121,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     public function testGetViewFile()
     {
         $module = 'Some_Module';
-        $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'skin_file.ext';
+        $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'view_file.ext';
         $this->_fallback->expects($this->once())
             ->method('getViewFile')
             ->with('file.ext', $module)
@@ -166,8 +165,8 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     public function testSaving()
     {
         $module = 'Some_Module';
-        $file = 'internal/path/to/skin_file.ext';
-        $expectedPublicFile = 'public/path/to/skin_file.ext';
+        $file = 'internal/path/to/view_file.ext';
+        $expectedPublicFile = 'public/path/to/view_file.ext';
 
         $params = array(
             'area' => 'frontend',

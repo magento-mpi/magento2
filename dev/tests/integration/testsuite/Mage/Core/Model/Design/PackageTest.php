@@ -239,11 +239,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $file
      * @param string $result
-     * @covers Mage_Core_Model_Design_Package::getSkinUrl
-     * @dataProvider getSkinUrlDataProvider
+     * @covers Mage_Core_Model_Design_Package::getViewUrl
+     * @dataProvider getViewUrlDataProvider
      * @magentoConfigFixture current_store dev/static/sign 0
      */
-    public function testGetSkinUrl($devMode, $file, $result)
+    public function testGetViewUrl($devMode, $file, $result)
     {
         Mage::setIsDeveloperMode($devMode);
         $this->assertEquals($this->_model->getViewFileUrl($file), $result);
@@ -253,10 +253,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @param string $result
      * @covers Mage_Core_Model_Design_Package::getSkinUrl
-     * @dataProvider getSkinUrlDataProvider
+     * @dataProvider getViewUrlDataProvider
      * @magentoConfigFixture current_store dev/static/sign 1
      */
-    public function testGetSkinUrlSigned($devMode, $file, $result)
+    public function testGetViewUrlSigned($devMode, $file, $result)
     {
         Mage::setIsDeveloperMode($devMode);
         $url = $this->_model->getViewFileUrl($file);
@@ -272,7 +272,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getSkinUrlDataProvider()
+    public function getViewUrlDataProvider()
     {
         return array(
             array(

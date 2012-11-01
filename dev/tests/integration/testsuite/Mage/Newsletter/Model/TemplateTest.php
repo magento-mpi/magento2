@@ -45,7 +45,7 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
             $this->_model->getProcessedTemplate()
         );
         $this->_model->emulateDesign($store, $area);
-        $expectedTemplateText = "skin/{$area}/{$design}/en_US/Mage_Page/favicon.ico";
+        $expectedTemplateText = "theme/{$area}/{$design}/en_US/Mage_Page/favicon.ico";
         $this->assertStringEndsWith($expectedTemplateText, $this->_model->getProcessedTemplate());
         $this->_model->revertDesign();
     }

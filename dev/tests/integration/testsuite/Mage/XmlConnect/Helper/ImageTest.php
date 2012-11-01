@@ -14,9 +14,9 @@ class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $area
      * @param string $file
-     * @dataProvider getSkinImagesUrlDataProvider
+     * @dataProvider getViewImagesUrlDataProvider
      */
-    public function testGetSkinImagesUrl($area, $file)
+    public function testGetViewImagesUrl($area, $file)
     {
         $helper = Mage::helper('Mage_XmlConnect_Helper_Image');
         Mage::getDesign()->setArea($area);
@@ -31,7 +31,7 @@ class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getSkinImagesUrlDataProvider()
+    public function getViewImagesUrlDataProvider()
     {
         return array(
             array('adminhtml', 'dropdown-arrow.gif'),

@@ -1067,12 +1067,10 @@ class Mage_Core_Model_Design_Package
      * The format of the result is a multidimensional array with following structure
      * array (
      *     'package_name' => array (
-     *         'theme_name' => array (
-     *             'skin_name' => true
-     *          )
+     *         '0' => 'theme_name_1',
+     *         '1' => 'theme_name_2',
      *     )
      * )
-     * TODO: Get rid of this method or use the Mage_Core_Model_Theme_Collection model
      *
      * @param string $area
      * @param bool $addInheritedSkins
@@ -1092,48 +1090,6 @@ class Mage_Core_Model_Design_Package
             $areaStructure[$package][] = $theme;
         }
         return $areaStructure;
-    }
-
-    /**
-     * Get entities file system structure of area
-     *
-     * The format of the result is a multidimensional array with following structure
-     * array (
-     *     'package_name' => array (
-     *         'theme_name' => array (
-     *             'skin_name' => true
-     *          )
-     *     )
-     * )
-     *
-     * @param string $area
-     * @return array
-     */
-    protected function _getDesignEntitiesFilesystemStructure($area)
-    {
-        $areaDirPath = Mage::app()->getConfig()->getOptions()->getDesignDir() . DIRECTORY_SEPARATOR . $area;
-        $structure = array();
-
-        $themePaths = glob($areaDirPath . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-        foreach ($themePaths as $themePath) {
-            $themePath = str_replace(DIRECTORY_SEPARATOR, '/', $themePath);
-            if (preg_match('/\/([^\/.]+)\/([^\/.]+)\/([^\/.]+)$/i', $themePath, $packageThemeMatches)) {
-                list (, , $packageName, $themeName) = $packageThemeMatches;
-                $structure[$packageName][$themeName] = array();
-            } else {
-                continue;
-            }
-            $skinPaths = glob($areaDirPath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR .
-                $themeName . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-            foreach ($skinPaths as $skinPath) {
-                $skinPath = str_replace(DIRECTORY_SEPARATOR, '/', $skinPath);
-                if (preg_match('/\/([^\/.]+)$/i', $skinPath, $skinMatches)) {
-                    $structure[$packageName][$themeName][$skinMatches[1]] = true;
-                }
-            }
-        }
-
-        return $structure;
     }
 
     /**

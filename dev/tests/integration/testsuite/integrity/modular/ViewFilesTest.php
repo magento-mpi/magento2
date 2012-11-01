@@ -12,30 +12,29 @@
 /**
  * @group integrity
  */
-class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstract
+class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstract
 {
     /**
      * @param string $application
      * @param string $file
-     * @dataProvider skinFilesFromModulesViewDataProvider
+     * @dataProvider viewFilesFromModulesViewDataProvider
      */
-    public function testSkinFilesFromModulesView($application, $file)
+    public function testViewFilesFromModulesView($application, $file)
     {
         $params = array(
             'area'    => $application,
             'package' => 'default',
-            'theme'   => 'default',
-            'skin'    => 'default'
+            'theme'   => 'default'
         );
         $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**
-     * Collect getSkinUrl() calls from base templates
+     * Collect getViewUrl() calls from base templates
      *
      * @return array
      */
-    public function skinFilesFromModulesViewDataProvider()
+    public function viewFilesFromModulesViewDataProvider()
     {
         $files = array();
         foreach ($this->_getEnabledModules() as $moduleName) {
@@ -43,7 +42,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             if (!is_dir($moduleViewDir)) {
                 continue;
             }
-            $this->_findSkinFilesInViewFolder($moduleViewDir, $files);
+            $this->_findViewFilesInViewFolder($moduleViewDir, $files);
         }
         $result = array();
         foreach ($files as $area => $references) {
@@ -55,13 +54,13 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     }
 
     /**
-     * Find skin file references per area in declared modules.
+     * Find view file references per area in declared modules.
      *
      * @param string $moduleViewDir
      * @param array $files
      * @return null
      */
-    protected function _findSkinFilesInViewFolder($moduleViewDir, &$files)
+    protected function _findViewFilesInViewFolder($moduleViewDir, &$files)
     {
         foreach (new DirectoryIterator($moduleViewDir) as $viewAppDir) {
             $area = $viewAppDir->getFilename();
@@ -71,7 +70,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             foreach (new RecursiveIteratorIterator(
                          new RecursiveDirectoryIterator($viewAppDir->getRealPath())) as $fileInfo
             ) {
-                $references = $this->_findReferencesToSkinFile($fileInfo);
+                $references = $this->_findReferencesToViewFile($fileInfo);
                 if (!isset($files[$area])) {
                     $files[$area] = $references;
                 } else {
@@ -83,12 +82,12 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     }
 
     /**
-     * Scan specified file for getSkinUrl() pattern
+     * Scan specified file for getViewUrl() pattern
      *
      * @param SplFileInfo $fileInfo
      * @return array
      */
-    protected function _findReferencesToSkinFile(SplFileInfo $fileInfo)
+    protected function _findReferencesToViewFile(SplFileInfo $fileInfo)
     {
         if (!$fileInfo->isFile() || !preg_match('/\.phtml$/', $fileInfo->getFilename())) {
             return array();
@@ -96,7 +95,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
 
         $result = array();
         $content = file_get_contents($fileInfo->getRealPath());
-        if (preg_match_all('/\$this->getSkinUrl\(\'([^\']+?)\'\)/', $content, $matches)) {
+        if (preg_match_all('/\$this->getViewUrl\(\'([^\']+?)\'\)/', $content, $matches)) {
             foreach ($matches[1] as $value) {
                 if ($this->_isFileForDisabledModule($value)) {
                     continue;
@@ -108,20 +107,19 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     }
 
     /**
-     * getSkinUrl() hard-coded in the php-files
+     * getViewUrl() hard-coded in the php-files
      *
      * @param string $application
      * @param string $file
-     * @dataProvider skinFilesFromModulesCodeDataProvider
+     * @dataProvider viewFilesFromModulesCodeDataProvider
      */
-    public function testSkinFilesFromModulesCode($application, $file)
+    public function testViewFilesFromModulesCode($application, $file)
     {
         $params = array('area' => $application,
             // other legacy params, caused by cramped Mage_Core_Model_Design_Package
             // expected defaults: default/default/default
             'package' => 'default',
             'theme' => 'default',
-            'skin' => 'default',
         );
         $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
@@ -129,7 +127,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     /**
      * @return array
      */
-    public function skinFilesFromModulesCodeDataProvider()
+    public function viewFilesFromModulesCodeDataProvider()
     {
         // All possible files to test
         $allFiles = array(
