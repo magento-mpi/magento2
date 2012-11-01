@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Test suite to run PHP static code analysis
+ * Test suite to run PHP code legacy tests
  *
  * {license_notice}
  *
@@ -13,11 +13,8 @@
 -->
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
-        <testsuite name="PHP Coding Standard Verification">
-            <file>testsuite/Php/LiveCodeTest.php</file>
-        </testsuite>
-        <testsuite name="Code Integrity Tests">
-            <directory>testsuite/Integrity</directory>
+        <testsuite name="Code Legacy Tests">
+            <directory>testsuite/Legacy</directory>
         </testsuite>
     </testsuites>
     <php>
