@@ -656,8 +656,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             && !$product->getOptionsReadonly()
         );
 
-        $this->_transitionProductType($product);
-
         Mage::dispatchEvent(
             'catalog_product_prepare_save',
             array('product' => $product, 'request' => $this->getRequest())
@@ -701,6 +699,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
+
+            $this->_transitionProductType($product);
 
             try {
                 $originalSku = $product->getSku();
