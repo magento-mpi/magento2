@@ -213,9 +213,14 @@
             <xs:sequence>
                 <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
             </xs:sequence>
-            <xs:anyAttribute processContents="lax"/>
+            <xs:attributeGroup ref="attributeAttributeGroup"/>
         </xs:complexType>
     </xs:element>
+
+    <xs:attributeGroup name="attributeAttributeGroup">
+        <xs:attribute name="type" type="xs:string" use="required" />
+        <xs:anyAttribute processContents="lax"/>
+    </xs:attributeGroup>
 
     <xs:element name="depends">
         <xs:annotation>
