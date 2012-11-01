@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category  Dummy
+ * @package   Module_Dummy
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+-->
+<config>
+    <system>
+        <tab id="tab_1" sortOrder="10" type="text" class="css class">
+            <label>tab label</label>
+            <comment><![CDATA[tab comment]]></comment>
+        </tab>
+        <section id="section_1" sortOrder="10" type="text">
+            <class>css class</class>
+            <label>section label</label>
+            <comment><![CDATA[section comment]]></comment>
+            <resource>acl</resource>
+            <header_css>some css class</header_css>
+            <tab>tab_1</tab>
+            <group id="group_1" sortOrder="10" type="text">
+                <class>css class</class>
+                <label>group label</label>
+                <comment><![CDATA[group comment]]></comment>
+                <resource>acl</resource>
+                <fieldset_css>some css class</fieldset_css>
+                <clone_fields>some fields</clone_fields>
+                <clone_model>some model</clone_model>
+                <help_url>some url</help_url>
+                <hide_in_single_store_mode>mode</hide_in_single_store_mode>
+                <expanded>yes</expanded>
+                <field id="field_1">
+                    <comment><![CDATA[comment_test]]></comment>
+                    <tooltip>tooltip_test</tooltip>
+                    <frontend_class>frontend_class_test</frontend_class>
+                    <validate>validate_test</validate>
+                    <can_be_empty>can_be_empty_test</can_be_empty>
+                    <if_module_enabled>if_module_enabled_test</if_module_enabled>
+                    <frontend_model>frontend_model_test</frontend_model>
+                    <backend_model>backend_model_test</backend_model>
+                    <source_model>source_model_test</source_model>
+                    <config_path>config_path_test</config_path>
+                    <base_url>base_url_test</base_url>
+                    <upload_dir>upload_dir_test</upload_dir>
+                    <button_url>button_url_test</button_url>
+                    <button_label>button_label_test</button_label>
+                    <depends>
+                        <field id="module1">yes</field>
+                    </depends>
+                    <more_url>more_url_test</more_url>
+                    <demo_url>demo_url_test</demo_url>
+                    <attribute type="undefined" some="attribute">undefined_test</attribute>
+                    <attribute type="node">
+                        <label>
+                            <nodeLabel>nodeValue</nodeLabel>
+                        </label>
+                    </attribute>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

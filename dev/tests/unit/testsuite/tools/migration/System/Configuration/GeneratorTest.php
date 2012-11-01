@@ -15,15 +15,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../')
 require_once realpath(dirname(__FILE__) . '/../../../../../../../')
     . '/tools/migration/System/Configuration/LoggerAbstract.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../')
-    . '/tools/migration/System/Configuration/Logger/Console.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../')
     . '/tools/migration/System/Configuration/Formatter.php';
 
 
 class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Reader
+     * @var Tools_Migration_System_Configuration_Generator
      */
     protected $_model;
 
@@ -45,7 +43,7 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
-        $this->_loggerMock = $this->getMock('Tools_Migration_System_Configuration_Logger_Console', array(), array(),
+        $this->_loggerMock = $this->getMock('Tools_Migration_System_Configuration_LoggerAbstract', array(), array(),
             '', false
         );
         $this->_formatterMock = $this->getMock('Tools_Migration_System_Configuration_Formatter', array(), array(),
@@ -53,25 +51,37 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
         );
 
         $this->_model = new Tools_Migration_System_Configuration_Generator(
-            $this->_fileManagerMock, $this->_formatterMock, $this->_loggerMock
+            $this->_formatterMock, $this->_fileManagerMock, $this->_loggerMock
         );
     }
 
-    public function testGetConfiguration()
+    public function testCreateConfigurationGeneratesConfiguration()
     {
-        $this->_fileManagerMock->expects($this->once())->method('getFileList')
-            ->will($this->returnValue(array('testFile')));
-        $this->_fileManagerMock->expects($this->once())->method('getContents')->with('testFile')
-            ->will($this->returnValue('<config><system><tabs></tabs></system></config>'));
-        $parsedArray = array('config' => array('system' => array('tabs')));
-        $this->_parserMock->expects($this->once())->method('parse')->with($this->isInstanceOf('DOMDocument'))
-            ->will($this->returnValue($parsedArray));
+        $this->_loggerMock->expects($this->once())->method('add')->with(
+            'someFile',
+            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_INVALID
+        );
 
-        $transformedArray = array('value' => 'expected');
-        $this->_mapperMock->expects($this->once())->method('transform')->with($parsedArray)
-            ->will($this->returnValue($transformedArray));
+        $dom = new DOMDocument();
+        $dom->loadXML(
+            preg_replace('/\n|\s{4}/', '' , file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
+        );
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+        $expectedXml = $dom->saveXML();
 
+        $this->_fileManagerMock->expects($this->once())->method('write')
+        ->with($this->stringContains('system.xml'), $expectedXml);
 
-        $this->assertEquals(array('testFile' => $transformedArray), $this->_model->getConfiguration());
+        $this->_formatterMock->expects($this->once())->method('parseString')
+            ->will($this->returnCallback(function($xml) {
+                $dom = new DOMDocument();
+                $dom->loadXML($xml);
+                $dom->preserveWhiteSpace = false;
+                $dom->formatOutput = true;
+                return $dom->saveXML();
+            }));
+
+        $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');
     }
 }
