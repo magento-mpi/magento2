@@ -232,10 +232,13 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $apiUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
 
         $details = array();
-        foreach ($this->getResourceConfig()->getAllResources() as $resourceName => $versions) {
-            foreach ($versions as $version) {
-                $details['availableResources'][$resourceName][$version] = sprintf('%s?wsdl&resources[%s]=%s', $apiUrl,
-                    $resourceName, $version);
+        $resourceConfig = $this->getResourceConfig();
+        if (!is_null($resourceConfig)) {
+            foreach ($resourceConfig->getAllResources() as $resourceName => $versions) {
+                foreach ($versions as $version) {
+                    $details['availableResources'][$resourceName][$version] = sprintf('%s?wsdl&resources[%s]=%s',
+                        $apiUrl, $resourceName, $version);
+                }
             }
         }
         $this->_setResponseBody($this->_getSoapFaultMessage($message, self::FAULT_CODE_SENDER, 'en', $details));
