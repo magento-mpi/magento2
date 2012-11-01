@@ -17,6 +17,7 @@ grid:
         dropdown:
             show_by:
             filter_show_report_for:
+            export_to:
         link:
             id:
             name:
@@ -71,6 +72,25 @@ grid:
             filter_to:
         pageelement:
             customer_by_orders_total_table:
+    report_invitations_general:
+        button:
+            refresh:
+            export:
+        dropdown:
+            show_by:
+            filter_show_report_for:
+            export_to:
+        link:
+            invitations_sent:
+            invitation_accepted:
+            invitation_discarded:
+            invitation_accepted_rate:
+            invitation_date:
+        field:
+            filter_from:
+            filter_to:
+            
+
 #dataset for  countGridRows Test
 count_rows_by_day:
     filter_from: 10/28/2012

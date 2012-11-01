@@ -61,7 +61,8 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     {
         return array(array('report_invitations_customers'),
                      array('report_product_sold'),
-                     array('report_customer_totals'));
+                     array('report_customer_totals'),
+                     array('report_invitations_general'));
     }
 
     /**
@@ -92,7 +93,11 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
                      array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_day'),
                      array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_month'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_year'));
+                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_year'),
+                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
+                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_day'),
+                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_month'),
+                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_year'));
     }
 
     /**
