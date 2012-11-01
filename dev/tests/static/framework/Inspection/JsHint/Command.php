@@ -36,6 +36,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Method return instant variable fileName
      * @return string
      */
     public function getFileName()
@@ -44,7 +45,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
-     * Unable to get JsHint version frm command line
+     * Unable to get JsHint version from command line
      * @return string
      */
     protected function _buildVersionShellCmd()
@@ -53,6 +54,8 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Method return HostScript cscript for windows and rhino for linux
+     * $isRunCmd specify if method is called by runCmd in linux or by canRun method
      * @return string
      */
     protected function _getHostScript($isRunCmd = false)
@@ -65,6 +68,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Overwirte parent method, $whiteList and $blackList are not used in this implementation
      * @param array $whiteList
      * @param array $blackList
      * @return string
@@ -78,6 +82,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Check if OS is windows
      * @return boolean
      */
     protected function _isOsWin()
@@ -86,6 +91,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Return default JsHintOptions and format it based on OS
      * @return string
      */
     protected function _getJsHintOptions()
@@ -128,6 +134,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Return JsHintPath
      * @return string
      */
     protected function _getJsHintPath()
@@ -136,6 +143,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Check is file exists
      * @param string $fileName
      * @return string
      */
@@ -145,6 +153,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Execute command and return command output and system status
      * @param string $cmd
      * @return array
      */
@@ -155,6 +164,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     }
 
     /**
+     * Check if JsHint is runnable
      * @throws Exception
      * @return boolean
      */
