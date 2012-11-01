@@ -18,53 +18,9 @@ class Magento_Di_Generator_Factory extends Magento_Di_Generator_EntityAbstract
     /**
      * @return array
      */
-    protected function _getClassProperties()
-    {
-        // const CLASS_NAME = '<source_class_name>';
-        $className = array(
-            'name'         => 'CLASS_NAME',
-            'const'        => true,
-            'defaultValue' => $this->_getSourceClassName(),
-            'docblock'     => array('shortDescription' => 'Entity class name'),
-        );
-
-        // protected $_objectManager = null;
-        $objectManager = array(
-            'name'       => '_objectManager',
-            'visibility' => 'protected',
-            'docblock'   => array(
-                'shortDescription' => 'Object Manager instance',
-                'tags'             => array(
-                    array('name' => 'var', 'description' => 'Magento_ObjectManager')
-                )
-            ),
-        );
-
-        return array($className, $objectManager);
-    }
-
-    /**
-     * @return array
-     */
     protected function _getClassMethods()
     {
-        // public function __construct(Magento_ObjectManager $objectManager)
-        $construct = array(
-            'name'       => '__construct',
-            'parameters' => array(
-                array('name' => 'objectManager', 'type' => 'Magento_ObjectManager'),
-            ),
-            'body' => '$this->_objectManager = $objectManager;',
-            'docblock' => array(
-                'shortDescription' => 'Factory constructor',
-                'tags'             => array(
-                    array(
-                        'name'        => 'param',
-                        'description' => 'Magento_ObjectManager $objectManager'
-                    ),
-                ),
-            ),
-        );
+        $construct = $this->_getDefaultConstructorDefinition();
 
         // public function createFromArray(array $data = array())
         $createFromArray = array(

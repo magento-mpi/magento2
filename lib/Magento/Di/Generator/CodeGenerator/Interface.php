@@ -40,4 +40,10 @@ interface Magento_Di_Generator_CodeGenerator_Interface
      * @return Magento_Di_Generator_CodeGenerator_Interface
      */
     public function setMethods(array $methods);
+
+    /**
+     * @param string $extendedClass
+     * @return Magento_Di_Generator_CodeGenerator_Interface
+     */
+    public function setExtendedClass($extendedClass);
 }

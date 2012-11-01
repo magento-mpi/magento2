@@ -43,7 +43,7 @@ class Magento_Di_Generator_Io
      */
     public function __construct($generationDirectory = null, Varien_Io_Interface $ioObject = null)
     {
-        $this->_ioObject = $ioObject ?: new Varien_Io_File();
+        $this->_ioObject           = $ioObject ? : new Varien_Io_File();
         $this->_directorySeparator = $this->_ioObject->dirsep();
 
         if ($generationDirectory) {
@@ -62,10 +62,12 @@ class Magento_Di_Generator_Io
      */
     public function getResultFileDirectory($className)
     {
-        $classParts = explode('_', $className);
-        unset($classParts[count($classParts) - 1]);
+        $fileName = Magento_Autoload::getInstance()->getClassFile($className);
+        $pathParts = explode($this->_directorySeparator, $fileName);
+        unset($pathParts[count($pathParts) - 1]);
+
         return $this->_generationDirectory
-            . implode($this->_directorySeparator, $classParts) . $this->_directorySeparator;
+            . implode($this->_directorySeparator, $pathParts) . $this->_directorySeparator;
     }
 
     /**
@@ -74,8 +76,8 @@ class Magento_Di_Generator_Io
      */
     public function getResultFileName($className)
     {
-        $resultFileName = str_replace('_', $this->_directorySeparator, $className);
-        return $this->_generationDirectory . $resultFileName . '.php';
+        $resultFileName = Magento_Autoload::getInstance()->getClassFile($className);
+        return $this->_generationDirectory . $this->_directorySeparator . $resultFileName;
     }
 
     /**

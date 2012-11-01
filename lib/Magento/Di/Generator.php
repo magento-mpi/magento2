@@ -24,7 +24,8 @@ class Magento_Di_Generator
      * @var array
      */
     protected $_generatedEntities = array(
-        Magento_Di_Generator_Factory::ENTITY_TYPE
+        Magento_Di_Generator_Factory::ENTITY_TYPE,
+        Magento_Di_Generator_Proxy::ENTITY_TYPE
     );
 
     /**
@@ -76,17 +77,7 @@ class Magento_Di_Generator
         }
 
         // generate class file
-        if (!$this->_generator) {
-            switch ($entity) {
-                case Magento_Di_Generator_Factory::ENTITY_TYPE:
-                    $this->_generator = new Magento_Di_Generator_Factory();
-                    break;
-
-                default:
-                    throw new Magento_Exception('Unknown generation entity.');
-                    break;
-            }
-        }
+        $this->_initGenerator($entity);
         $this->_generator->setSourceClassName($entityName);
         $this->_generator->setResultClassName($className);
         if (!$this->_generator->generate()) {
@@ -95,5 +86,31 @@ class Magento_Di_Generator
         }
 
         return true;
+    }
+
+    /**
+     * Get generator by entity type
+     *
+     * @param string $entity
+     * @return Magento_Di_Generator_EntityAbstract|Magento_Di_Generator_Factory|Magento_Di_Generator_Proxy
+     * @throws InvalidArgumentException
+     */
+    protected function _initGenerator($entity)
+    {
+        if (!$this->_generator) {
+            switch ($entity) {
+                case Magento_Di_Generator_Factory::ENTITY_TYPE:
+                    $this->_generator = new Magento_Di_Generator_Factory();
+                    break;
+                case Magento_Di_Generator_Proxy::ENTITY_TYPE:
+                    $this->_generator = new Magento_Di_Generator_Proxy();
+                    break;
+                default:
+                    throw new InvalidArgumentException('Unknown generation entity.');
+                    break;
+            }
+        }
+
+        return $this->_generator;
     }
 }
