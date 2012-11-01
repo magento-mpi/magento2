@@ -246,27 +246,8 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _getClassDocBlock()
     {
-        $tags = array();
-
-        $classNameParts = explode('_', $this->_getResultClassName());
-        unset($classNameParts[count($classNameParts) - 1]);
-        if (isset($classNameParts[0])) {
-            $tags[] = array(
-                'name'        => 'category',
-                'description' => ' ' . $classNameParts[0]
-            );
-            if (isset($classNameParts[1])) {
-                $tags[] = array(
-                    'name'        => 'package',
-                    'description' => '  ' . $classNameParts[0] . '_' . $classNameParts[1]
-                );
-            }
-        }
-
-        $tags[] = array('name' => 'copyright', 'description' => '{copyright}');
-        $tags[] = array('name' => 'license', 'description' => '  {license_link}');
-
-        return array('shortDescription' => '{license_notice}', 'tags' => $tags);
+        $description = ucfirst(static::ENTITY_TYPE) . ' class for ' . $this->_getSourceClassName();
+        return array('shortDescription' => $description);
     }
 
     /**
