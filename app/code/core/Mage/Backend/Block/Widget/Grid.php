@@ -103,7 +103,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->setRowClickCallback('openGridRow');
         }
 
-        if (isset($data['id'])) {
+        if ($this->hasData('id')) {
             $this->setId($this->getData('id'));
         }
 

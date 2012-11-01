@@ -62,18 +62,16 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
         if (!$templateId) {
             return array();
         }
-        $paths = array();
 
         $templatePaths = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
             ->getConfiguration()
-            ->getSections()
             ->getFieldsByAttribute('source_model', 'Mage_Backend_Model_Config_Source_Email_Template');
 
         if (!count($templatePaths)) {
             return array();
         }
 
-        $configData = $this->_getResource()->getSystemConfigByPathsAndTemplateId($paths, $templateId);
+        $configData = $this->_getResource()->getSystemConfigByPathsAndTemplateId($templatePaths, $templateId);
         if (!$configData) {
             return array();
         }
