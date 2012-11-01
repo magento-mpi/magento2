@@ -70,7 +70,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
      *
      * @dataProvider countGridRowsTestDataProvider
      */
-    public function countGridRows($page, $gridTableElement, $dataSet)
+    public function countGridRowsTest($page, $gridTableElement, $dataSet)
     {
         $this->navigate($page);
         $data = $this->loadDataSet('Report', $dataSet);
@@ -78,7 +78,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->clickButton('refresh');
         $gridXpath = $this->_getControlXpath('pageelement', $gridTableElement);
         $this->assertCount(3, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
-            'Wrong records number in grid $gridTableElement ');
+            "Wrong records number in grid $gridTableElement");
     }
 
     public function countGridRowsTestDataProvider()
@@ -90,5 +90,56 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
                      array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_month'),
                      array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_year'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'));
+    }
+
+    /**
+     *<p>PreConditions</p>
+     *<p>1.Go to Report - Product Ordered page</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>2.Get Total product quantity ordered value</p>
+     *<p>3.Create new Product</p>
+     *<p>4.Create Order with created Product</p>
+     *<p>Steps:</p>
+     *<p>1.Go to Report - Product Ordered page</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>Actual Results:</p>
+     *<p>1.Quantity Ordered value = Value from PreConditions +1 </p>
+     *
+     *
+     * @test
+     */
+    public function checkQuantityOrderedProductSoldGridTest()
+    {
+        // Check current quantity ordered value
+        $this->navigate('report_product_sold');
+        $currentDate = date('m/d/y');
+        $this->fillField('filter_from', $currentDate);
+        $this->fillField('filter_to', $currentDate);
+        $this->clickButton('refresh');
+        $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalBefore = $this->getText($setXpath . "[$count]/*[3]");
+        // Create Product
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Create Order
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple['general_name']));
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        // Steps
+        $this->navigate('report_product_sold');
+        $currentDate = date('m/d/y');
+        $this->fillField('filter_from', $currentDate);
+        $this->fillField('filter_to', $currentDate);
+        $this->clickButton('refresh');
+        //Check Quantity Ordered after  new order created
+        $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
+        $this->assertEquals($totalBefore + 1, $totalAfter);
     }
 }
