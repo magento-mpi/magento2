@@ -77,7 +77,14 @@ class Magento_Autoload
             return true;
         }
 
-        return (bool) stream_resolve_include_path($this->getClassFile($class));
+        $classFile = $this->_getClassFile($class);
+        foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
+            $fileName = $path . DIRECTORY_SEPARATOR . $classFile;
+            if (file_exists($fileName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -90,7 +97,7 @@ class Magento_Autoload
         if (isset($this->_filesMap[$class])) {
             $classFile = $this->_baseDir . $this->_filesMap[$class];
         } else {
-            $classFile = $this->getClassFile($class);
+            $classFile = $this->_getClassFile($class);
         }
         require $classFile;
     }
@@ -101,7 +108,7 @@ class Magento_Autoload
      * @param $class
      * @return string
      */
-    public function getClassFile($class)
+    protected function _getClassFile($class)
     {
         if (strpos($class, self::NS_SEPARATOR) !== false) {
             $class = str_replace(self::NS_SEPARATOR, '_', ltrim($class, self::NS_SEPARATOR));
