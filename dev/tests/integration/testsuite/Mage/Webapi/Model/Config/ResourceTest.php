@@ -5,6 +5,16 @@
  * @copyright {}
  */
 
+/**#@+
+ * Data structure should be available to auto loader. However, the file name cannot be identified from class name.
+ */
+include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructure.php';
+include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructureB.php';
+/**#@-*/
+
+/**
+ * Class for {@see Mage_Webapi_Model_Config_Resource} model testing.
+ */
 class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Model_Config_Resource */

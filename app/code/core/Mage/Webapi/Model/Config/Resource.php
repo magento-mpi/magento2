@@ -273,9 +273,14 @@ class Mage_Webapi_Model_Config_Resource
                     $data['controller'] = $className;
                     /** @var ReflectionMethod $methodReflection */
                     foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
-                        $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+                        try {
+                            $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+                        } catch (InvalidArgumentException $e) {
+                            /** Resources can contain methods that should not be exposed through API. */
+                            continue;
+                        }
                         $version = $this->_getMethodVersion($methodReflection);
-                        if ($method && $version) {
+                        if ($version) {
                             $methodMetaData = $this->_extractMethodData($methodReflection);
                             $data['versions'][$version]['methods'][$method] = $methodMetaData;
                             $restRoutes = $this->generateRestRoutes($methodReflection);
@@ -710,7 +715,8 @@ class Mage_Webapi_Model_Config_Resource
             }
             /** @var \Zend\Code\Scanner\ClassScanner $class */
             $class = reset($classes);
-            $relativePath = str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $filename);
+            $baseDir = $this->_applicationConfig->getOptions()->getBaseDir() . DS;
+            $relativePath = str_replace($baseDir, '', $filename);
             $classMap[$class->getName()] = $relativePath;
         }
 
