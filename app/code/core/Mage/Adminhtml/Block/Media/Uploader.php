@@ -107,14 +107,4 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     {
         return Mage::getDesign()->getSkinUrl($url);
     }
-
-    /**
-     * Get file storage helper
-     *
-     * @return Mage_Core_Helper_File_Storage
-     */
-    public function getFileStorageHelper()
-    {
-        return Mage::helper('Mage_Core_Helper_File_Storage');
-    }
 }

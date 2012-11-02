@@ -54,8 +54,6 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
     /**
      * Index action
-     *
-     * @return null
      */
     public function indexAction()
     {
@@ -100,8 +98,6 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
     /**
      * Validate uploaded files action
-     *
-     * @return void
      */
     public function validateAction()
     {
