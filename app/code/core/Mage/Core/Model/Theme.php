@@ -432,7 +432,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function themeRegistration($pathPattern)
     {
-        $this->getCollectionFromFilesystem()->addTargetPattern($pathPattern)->themeRegistration();
+        if ($pathPattern) {
+            $this->getCollectionFromFilesystem()->addTargetPattern($pathPattern);
+        } else {
+            $this->getCollectionFromFilesystem()->addDefaultPattern();
+        }
+        $this->getCollectionFromFilesystem()->themeRegistration();
         $this->getCollection()->checkParentInThemes();
 
         return $this;
