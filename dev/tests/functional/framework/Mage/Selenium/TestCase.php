@@ -71,6 +71,8 @@
  * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper                             xmlSitemapHelper()
  * @method Community2_Mage_BatchUpdates_Orders_Helper ordersHelper() //@TODO need to remove
  * @method Community2_Mage_BatchUpdates_Products_Helper productsHelper() //@TODO need to remove
+ * @method Enterprise2_Mage_Grid_Helper                                                                     gridHelper()
+ * @method Enterprise2_Mage_Invitation_Helper                                                               invitationHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

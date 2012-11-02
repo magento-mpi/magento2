@@ -75,9 +75,9 @@ invitations_order_conversion_rate:
                 -
                     invitations_order_conversion_rate:
                         xpath: //div[@id='page:main-container']
-                        fields: &reportInvitationsFields
-                        dropdowns: &reportInvitationsDropdowns
-                        buttons: &reportInvitationsButtons
+                        fields: *reportInvitationsFields
+                        dropdowns: *reportInvitationsDropdowns
+                        buttons: *reportInvitationsButtons
                         pageelements:
                                 product_sold_grid: //table[@class='data']
 
@@ -234,6 +234,23 @@ report_customer_orders:
     mca: report_customer/orders/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
     title: Customers by Number of Orders / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_customer_orders:
+                        xpath: //div[@id='gridOrdersCustomer']
+                        fields:
+                            filter_from: //input[@id='gridOrdersCustomer_period_date_from']
+                            filter_to: //input[@id='gridOrdersCustomer_period_date_to']
+                        dropdowns:
+                            show_by: //select[@id='gridOrdersCustomer_report_period']
+                            export_to: //select[@id='gridOrdersCustomer_export']
+                        buttons:
+                             export: //button[span='Export']
+                             refresh: //button[span='Refresh']
+                        pageelements:
+                             customer_orders_grid: //table[@id='gridOrdersCustomer_table']
 
 # Tags: Customers Tags page
 report_tag_customer:

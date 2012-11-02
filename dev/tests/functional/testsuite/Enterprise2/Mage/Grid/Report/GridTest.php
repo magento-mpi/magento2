@@ -30,7 +30,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
      */
-    protected function tearDownAfterTest()
+    protected function tearDownAfterTestClass()
     {
         $this->logoutAdminUser();
     }
@@ -43,11 +43,10 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
      */
     public function uiElementsTest($pageName)
     {
-        $this->loginAdminUser();
         $this->navigate($pageName);
         $page = $this->loadDataSet('Report', 'grid');
-        foreach ($page[$pageName] as $control=> $type) {
-            foreach ($type as $typeName=> $name) {
+        foreach ($page[$pageName] as $control => $type) {
+            foreach ($type as $typeName => $name) {
                 if (!$this->controlIsPresent($control, $typeName)) {
                     $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
                 }
@@ -90,11 +89,12 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
                      array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_day'),
                      array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_month'),
                      array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_year'),
+                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
+                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
                      array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_day'),
                      array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_month'),
                      array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_year'),
-                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_day'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_month'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_year'));
@@ -120,9 +120,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     {
         // Check current quantity ordered value
         $this->navigate('report_product_sold');
-        $currentDate = date('m/d/y');
-        $this->fillField('filter_from', $currentDate);
-        $this->fillField('filter_to', $currentDate);
+        $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
         $count = $this->getXpathCount($setXpath);
@@ -140,12 +138,56 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_order');
         // Steps
         $this->navigate('report_product_sold');
-        $currentDate = date('m/d/y');
-        $this->fillField('filter_from', $currentDate);
-        $this->fillField('filter_to', $currentDate);
+        $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
         $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
+        $this->assertEquals($totalBefore + 1, $totalAfter);
+    }
+
+    /**
+     *<p>PreConditions</p>
+     *<p>1.Go to Report - Customers - Customers by Number of Orders</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>2.Get Total Number of Orders</p>
+     *<p>3.Create new Product</p>
+     *<p>4.Create Order with created Product</p>
+     *<p>Steps:</p>
+     *<p>1.Go to Report - Product Ordered page</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>Actual Results:</p>
+     *<p>1.Total Number of Orders value = Value from PreConditions +1 </p>
+     *
+     * @test
+     */
+    public function checkTotalNumberOfOrdersGridTest()
+    {
+        // Get Total Number of Orders
+        $this->navigate('report_customer_orders');
+        $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalBefore = $this->getText($setXpath . "[$count]/*[3]");
+        // Create Product
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Create Order
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple['general_name']));
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        // Steps
+        $this->navigate('report_customer_orders');
+        $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        //Check Quantity Ordered after  new order created
+        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
         $count = $this->getXpathCount($setXpath);
         $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
         $this->assertEquals($totalBefore + 1, $totalAfter);
