@@ -69,7 +69,7 @@
          * @protected
          */
         _bind: function() {
-            this.element.on(this._getHandlers.join(' '), $.proxy(this._submit, this));
+            this.element.on(this._getHandlers().join(' '), $.proxy(this._submit, this));
         },
 
         /**
