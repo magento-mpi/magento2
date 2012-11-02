@@ -73,6 +73,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);
         $this->_xpath = new DOMXPath($this->_dom);
+        $this->_xpath->registerNamespace('wsdl', \Zend\Soap\Wsdl::WSDL_NS_URI);
     }
 
     /**
@@ -113,16 +114,18 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 $operationName));
             $messageName = $this->_autoDiscover->getInputMessageName($operationName);
             $operationRequest = $this->_assertMessage($operationInput, $messageName, $methodData['documentation']);
-            foreach ($methodData['interface']['in']['parameters'] as $parameterName => $parameterData) {
-                $expectedAppinfo = array(
-                    'callInfo' => array(
-                        $operationName => array(
-                            'requiredInput' => $parameterData['required'] ? 'Yes' : 'No'
-                        )
-                    ),
-                );
-                $this->_assertParameter($parameterName, $parameterData['type'], $parameterData['required'],
-                    $parameterData['documentation'], $expectedAppinfo, $operationRequest);
+            if (isset($methodData['interface']['in'])) {
+                foreach ($methodData['interface']['in']['parameters'] as $parameterName => $parameterData) {
+                    $expectedAppinfo = array(
+                        'callInfo' => array(
+                            $operationName => array(
+                                'requiredInput' => $parameterData['required'] ? 'Yes' : 'No'
+                            )
+                        ),
+                    );
+                    $this->_assertParameter($parameterName, $parameterData['type'], $parameterData['required'],
+                        $parameterData['documentation'], $expectedAppinfo, $operationRequest);
+                }
             }
             // Assert portType operation output
             if (isset($methodData['interface']['out'])) {
@@ -130,7 +133,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 $operationOutput = $portOperation->getElementsByTagName('output')->item(0);
                 $this->assertNotNull($operationOutput, sprintf('"output" node was not found in "%s" port operation.',
                     $operationName));
-                $messageName = $this->_autoDiscover->getInputMessageName($operationOutput);
+                $messageName = $this->_autoDiscover->getInputMessageName($operationName);
                 $expectedDoc = sprintf('Response container for the %s call.', $operationName);
                 $operationResponse = $this->_assertMessage($operationOutput, $messageName, $expectedDoc);
                 foreach ($methodData['interface']['out']['parameters'] as $parameterName => $parameterData) {
@@ -219,6 +222,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function _assertAppinfo($expectedAppinfo, DOMElement $element)
     {
         $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+        $infNs = Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
         /** @var DOMElement $appInfoNode */
         $appInfoNode = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:appinfo", $element)->item(0);
         $elementName = $element->getAttribute('name');
@@ -236,7 +240,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                     $this->_assertDocInstructions($appInfoNode, $appInfoData);
                     break;
                 default:
-                    $tagNode = $this->_xpath->query($appInfoKey, $appInfoNode)->item(0);
+                    $tagNode = $this->_xpath->query($infNs . ':' . $appInfoKey, $appInfoNode)->item(0);
                     $this->assertNotNull($tagNode, sprintf('Appinfo node "%s" was not found in element "%s"',
                         $appInfoKey, $elementName));
                     $this->assertEquals($appInfoData, $tagNode->nodeValue, sprintf('Appinfo node "%s" is not correct.',
@@ -254,14 +258,15 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertDocInstructions(DOMElement $appInfoNode, array $appInfoData)
     {
+        $infNs = Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         /** @var DOMElement $docInstructionsNode */
-        $docInstructionsNode = $this->_xpath->query('docInstructions', $appInfoNode)->item(0);
+        $docInstructionsNode = $this->_xpath->query("{$infNs}:docInstructions", $appInfoNode)->item(0);
         $this->assertNotNull($docInstructionsNode,
             sprintf('"docInstructions" node was not found in "%s" element appinfo.', $elementName));
         foreach ($appInfoData as $direction => $value) {
             /** @var DOMElement $subNode */
-            $subNode = $this->_xpath->query("{$direction}/{$value}", $docInstructionsNode)->item(0);
+            $subNode = $this->_xpath->query("{$infNs}:{$direction}/{$infNs}:{$value}", $docInstructionsNode)->item(0);
             $this->assertNotNull($subNode,
                 sprintf('"%s/%s" node  was not found in "%s" element appinfo "docInstructions".',
                     $direction, $value, $elementName));
@@ -276,16 +281,17 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertSeeLink(DOMElement $appInfoNode, array $appInfoData)
     {
+        $infNs = Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         /** @var DOMElement $seeLinkNode */
-        $seeLinkNode = $this->_xpath->query('seeLink', $appInfoNode)->item(0);
+        $seeLinkNode = $this->_xpath->query("{$infNs}:seeLink", $appInfoNode)->item(0);
         $this->assertNotNull($seeLinkNode, sprintf('"seeLink" node was not found in "%s" element appinfo.',
             $elementName));
         foreach (array('url', 'title', 'for') as $subNodeName) {
             if (isset($appInfoData[$subNodeName])) {
                 /** @var DOMElement $subNode */
                 $subNodeValue = $appInfoData[$subNodeName];
-                $subNode = $this->_xpath->query("{$subNodeName}[text()='{$subNodeValue}']", $seeLinkNode)->item(0);
+                $subNode = $this->_xpath->query("{$infNs}:{$subNodeName}[text()='{$subNodeValue}']", $seeLinkNode)->item(0);
                 $this->assertNotNull($subNode,
                     sprintf('"%s" node with value "%s" was not found in "%s" element appinfo "seeLink".',
                         $subNodeName, $subNodeValue, $elementName));
@@ -301,18 +307,21 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertCallInfo(DOMElement $appInfoNode, array $appInfoData)
     {
+        $infNs = Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         foreach ($appInfoData as $callName => $callData) {
             if ($callName == 'allCallsExcept') {
                 /** @var DOMElement $callNode */
-                $callNode = $this->_xpath->query("callInfo/allCallsExcept[text()='{$callData['calls']}']",
-                    $appInfoNode)->item(0);
+                $callNode = $this->_xpath
+                    ->query("{$infNs}:callInfo/{$infNs}:allCallsExcept[text()='{$callData['calls']}']", $appInfoNode)
+                    ->item(0);
                 $this->assertNotNull($callNode,
                     sprintf('allCallsExcept node for call "%s" was not found in element "%s" appinfo.',
                         $callData['calls'], $elementName));
             } else {
                 /** @var DOMElement $callNameNode */
-                $callNode = $this->_xpath->query("callInfo/callName[text()='{$callName}']", $appInfoNode)->item(0);
+                $callNode = $this->_xpath->query("{$infNs}:callInfo/{$infNs}:callName[text()='{$callName}']",
+                    $appInfoNode)->item(0);
                 $this->assertNotNull($callNode,
                     sprintf('callName node for call "%s" was not found in element "%s" appinfo.', $callName,
                         $elementName));
@@ -324,7 +333,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 $direction = 'returned';
                 $condition = $callData['returned'];
             }
-            $conditionNode = $this->_xpath->query("{$direction}[text()='{$condition}']", $callNode->parentNode)
+            $conditionNode = $this->_xpath->query("{$infNs}:{$direction}[text()='{$condition}']", $callNode->parentNode)
                 ->item(0);
             $this->assertNotNull($conditionNode,
                 sprintf('"%s" node with value "%s" not found for callName "%s" in element "%s"', $direction,
@@ -438,7 +447,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $portTypeName,
             $binding->getAttribute('type'));
         /** @var DOMElement $soapBinding */
-        $soapBinding = $binding->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::SOAP_NS_URI, 'binding')->item(0);
+        $soapBinding = $binding->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::SOAP_12_NS_URI, 'binding')
+            ->item(0);
         $this->assertNotNull($soapBinding, sprintf('Missing soap binding in "%s"', $bindingName));
         $this->assertTrue($soapBinding->hasAttribute('style'));
         $this->assertEquals('document', $soapBinding->getAttribute('style'));
@@ -491,7 +501,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $service = $this->_dom->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::WSDL_NS_URI, 'service')->item(0);
         $this->assertNotNull($service, 'service node not found in WSDL.');
         $this->assertTrue($service->hasAttribute('name'));
-        $this->assertEquals(Mage_Webapi_Model_Soap_AutoDiscover::SERVICE_NAME, $service->getAttribute('name'));
+        $this->assertEquals($this->_autoDiscover->getServiceName($this->_resourceName), $service->getAttribute('name'));
 
         $this->_assertPortNode($service, $this->_resourceName);
     }

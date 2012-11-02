@@ -39,8 +39,9 @@ return array(
             'vendorModuleBGet' => array('returned' => 'Conditionally'),
         ),
     ),
-    'optionalComplexType' => array(
+    'optionalComplexTypeArray' => array(
         'tagStatus' => 'some status',
+        'natureOfType' => 'array',
         'callInfo' => array(
             'vendorModuleBCreate' => array('requiredInput' => 'No'),
             'vendorModuleBUpdate' => array('requiredInput' => 'No'),

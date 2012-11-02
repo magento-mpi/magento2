@@ -20,8 +20,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
         $wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
             ->disableOriginalConstructor()
-            ->setMethods(array('addService', 'addPortType', 'addBinding', 'addSoapBinding', 'addServicePort',
-                'addElement', 'addComplexTypeWithParameters', 'addMessage', 'addPortOperation', 'addBindingOperation',
+            ->setMethods(array('addSchemaTypeSection', 'addService', 'addPortType', 'addBinding', 'addSoapBinding',
+                'addElement', 'addComplexType', 'addMessage', 'addPortOperation', 'addBindingOperation',
                 'addSoapOperation', 'toXML'))
             ->getMock();
         $endpointUrl = 'http://magento.host/api/soap/';
@@ -51,24 +51,21 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $wsdlMock->expects($this->once())
             ->method('addSoapBinding')
             ->with($bindingDomMock);
-        $portName = $autoDiscover->getPortName($resourceName);
-        $wsdlMock->expects($this->once())
-            ->method('addServicePort')
-            ->with($serviceDomMock, $portName, $bindingName, $endpointUrl);
         $operationName = $autoDiscover->getOperationName($resourceName, $methodName);
         $inputMessageName = $autoDiscover->getInputMessageName($operationName);
         $outputMessageName = $autoDiscover->getOutputMessageName($operationName);
         $wsdlMock->expects($this->once())
             ->method('addPortOperation')
-            ->with($portTypeDomMock, $operationName, $inputMessageName, $outputMessageName);
+            ->with($portTypeDomMock, $operationName, 'tns:'.$inputMessageName, 'tns:'.$outputMessageName);
         $operationDomMock = $this->_getDomElementMock();
         $wsdlMock->expects($this->once())
             ->method('addBindingOperation')
-            ->with($bindingDomMock, $operationName, array('use' => 'literal'), array('use' => 'literal'))
+            ->with($bindingDomMock, $operationName, array('use' => 'literal'), array('use' => 'literal'), false,
+                SOAP_1_2)
             ->will($this->returnValue($operationDomMock));
         $wsdlMock->expects($this->once())
             ->method('addSoapOperation')
-            ->with($operationDomMock, $operationName);
+            ->with($operationDomMock, $operationName, SOAP_1_2);
         $wsdlMock->expects($this->once())
             ->method('toXML');
 
@@ -85,6 +82,11 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $autoDiscover->generate($requestedResources);
     }
 
+    /**
+     * Data provider for generate() test
+     *
+     * @return array
+     */
     public static function generateDataProvider()
     {
         $simpleInterface = array(
@@ -152,7 +154,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 'parameters' => array(
                     'complex_param' => array(
                         'type' => 'ComplexTypeA',
-                        'required' => false,
+                        'required' => true,
                         'documentation' => 'Optional complex type param.'
                     ),
                 ),
@@ -176,6 +178,11 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Create mock for DOMElement
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
     protected function _getDomElementMock()
     {
         return $this->getMockBuilder('DOMElement')

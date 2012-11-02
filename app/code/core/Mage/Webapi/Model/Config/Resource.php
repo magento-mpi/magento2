@@ -115,6 +115,21 @@ class Mage_Webapi_Model_Config_Resource
     }
 
     /**
+     * Add or update type data in config.
+     *
+     * @param string $typeName
+     * @param array $data
+     */
+    public function setTypeData($typeName, $data) {
+
+        if (!isset($this->_data['types'][$typeName])) {
+            $this->_data['types'][$typeName] = $data;
+        } else {
+            $this->_data['types'][$typeName] = array_merge_recursive($this->_data['types'][$typeName], $data);
+        }
+    }
+
+    /**
      * Retrieve specific resource version interface data.
      *
      * @param string $resourceName

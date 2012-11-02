@@ -37,22 +37,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_endpointUrl;
 
     /**
-     * List of already processed complex types.
-     * Used to avoid cyclic recursion.
-     *
-     * @var array
-     */
-    protected $_processedTypes = array();
-
-    /**
-     * List of operations directions (requiredInput/returned) and conditions (yes/no/conditionally)
-     * in which each type is called.
-     *
-     * @var array
-     */
-    protected $_typeCallInfo;
-
-    /**
      * Construct auto discover with resource config and list of requested resources.
      *
      * @param array $options
@@ -77,10 +61,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $this->_wsdl = $options['wsdl'];
         } else {
             // TODO: Refactor according to DI
-            $this->_wsdl = Mage::getModel('Mage_Webapi_Model_Soap_Wsdl', array(
-                'name' => self::WSDL_NAME,
-                'uri' => $options['endpoint_url'],
-            ));
+            $strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
+            $this->_wsdl = new Mage_Webapi_Model_Soap_Wsdl(self::WSDL_NAME, $options['endpoint_url'], $strategy);
         }
     }
 
@@ -93,16 +75,17 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     public function generate($requestedResources)
     {
         $this->_collectCallInfo($requestedResources);
-        $service = $this->_wsdl->addService(self::SERVICE_NAME);
+        $this->_wsdl->addSchemaTypeSection();
 
         foreach ($requestedResources as $resourceName => $resourceData) {
             $portTypeName = $this->getPortTypeName($resourceName);
             $bindingName = $this->getBindingName($resourceName);
             $portType = $this->_wsdl->addPortType($portTypeName);
             $binding = $this->_wsdl->addBinding($bindingName, $portTypeName);
-            $this->_wsdl->addSoapBinding($binding);
+            $this->_wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($resourceName);
-            $this->_wsdl->addServicePort($service, $portName, $bindingName, $this->_endpointUrl);
+            $serviceName = $this->getServiceName($resourceName);
+            $this->_wsdl->addService($serviceName, $portName, 'tns:'.$bindingName, $this->_endpointUrl, SOAP_1_2);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($resourceName, $methodName);
@@ -118,8 +101,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
                 $this->_wsdl->addPortOperation($portType, $operationName, $inputMessageName, $outputMessageName);
                 $bindingOperation = $this->_wsdl->addBindingOperation($binding, $operationName, $inputBinding,
-                    $outputBinding);
-                $this->_wsdl->addSoapOperation($bindingOperation, $operationName);
+                    $outputBinding, false, SOAP_1_2);
+                $this->_wsdl->addSoapOperation($bindingOperation, $operationName, SOAP_1_2);
                 // @TODO: implement faults binding
             }
         }
@@ -149,17 +132,22 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $elementData['nillable'] = 'true';
         }
         $this->_wsdl->addElement($elementData);
-
         $callInfo = array();
         $callInfo['requiredInput']['yes']['calls'] = array($operationName);
-        $this->_processComplexType($complexTypeName, $inputParameters, $methodData['documentation'], $callInfo);
+        $typeData = array(
+            'documentation' => $methodData['documentation'],
+            'parameters' => $inputParameters,
+            'callInfo' => $callInfo,
+        );
+        $this->_resourceConfig->setTypeData($complexTypeName, $typeData);
+        $this->_wsdl->addComplexType($complexTypeName);
         $this->_wsdl->addMessage($inputMessageName, array(
             'messageParameters' => array(
                 'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputMessageName
             )
         ));
 
-        return $inputMessageName;
+        return Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
     /**
@@ -177,18 +165,22 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'name' => $outputMessageName,
             'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeName
         ));
-        $outputParameters = $methodData['interface']['out']['parameters'];
-        $documentation = sprintf('Response container for the %s call.', $operationName);
         $callInfo = array();
         $callInfo['returned']['always']['calls'] = array($operationName);
-        $this->_processComplexType($complexTypeName, $outputParameters, $documentation, $callInfo);
+        $typeData = array(
+            'documentation' => sprintf('Response container for the %s call.', $operationName),
+            'parameters' => $methodData['interface']['out']['parameters'],
+            'callInfo' => $callInfo,
+        );
+        $this->_resourceConfig->setTypeData($complexTypeName, $typeData);
+        $this->_wsdl->addComplexType($complexTypeName);
         $this->_wsdl->addMessage($outputMessageName, array(
             'messageParameters' => array(
                 'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         ));
 
-        return $outputMessageName;
+        return Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
@@ -236,6 +228,17 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
+     * Get name for resource service
+     *
+     * @param string $resourceName
+     * @return string
+     */
+    public function getServiceName($resourceName)
+    {
+        return $resourceName . 'Service';
+    }
+
+    /**
      * Get name of operation based on resource and method names.
      *
      * @param string $resourceName
@@ -270,115 +273,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Process complex type and add it to WSDL.
-     *
-     * @param string $name
-     * @param array $parameters
-     * @param string $documentation
-     * @param array $callInfo
-     */
-    protected function _processComplexType($name, array $parameters, $documentation = null, $callInfo = array())
-    {
-        $wsdlParameters = array();
-        foreach ($parameters as $parameterName => $paramData) {
-            $data = array();
-            $type = $paramData['type'];
-            $isRequired = isset($paramData['required']) && $paramData['required'];
-            $paramCallInfo = $callInfo;
-            if (!$isRequired) {
-                if (isset($callInfo['requiredInput']['yes'])) {
-                    $paramCallInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
-                    unset($paramCallInfo['requiredInput']['yes']);
-                }
-                if (isset($callInfo['returned']['always'])) {
-                    $paramCallInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
-                    unset($paramCallInfo['returned']['always']);
-                }
-            }
-
-            $default = isset($paramData['default']) ? $paramData['default'] : null;
-            $data['annotation'] = $this->_getAnnotation($paramData['documentation'], $type, $paramCallInfo, $default);
-            if ($this->_resourceConfig->isArrayType($type)) {
-                $this->_processArrayParameter($type, $callInfo);
-                $typeNs = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
-                $wsdlParameterType = $this->_resourceConfig->translateArrayTypeName($type);
-            } else {
-                $data['minOccurs'] = $isRequired ? 1 : 0;
-                $data['maxOccurs'] = 1;
-                $typeNs = $this->_processComplexTypeParameter($type, $callInfo);
-                $wsdlParameterType = $type;
-            }
-
-            $data['type'] = $typeNs . ':' . $wsdlParameterType;
-            $wsdlParameters[$parameterName] = $data;
-        }
-
-        $annotation = $this->_getAnnotation($documentation, $name);
-        $this->_wsdl->addComplexTypeWithParameters($name, $wsdlParameters, $annotation);
-    }
-
-    /**
-     * Process complex type array.
-     *
-     * @param string $type
-     * @param array $callInfo
-     */
-    protected function _processArrayParameter($type, $callInfo)
-    {
-        $arrayItemType = $this->_resourceConfig->getArrayItemType($type);
-        $arrayTypeName = $this->_resourceConfig->translateArrayTypeName($type);
-        $arrayItemDocumentation = sprintf('An item of %s.', $arrayTypeName);
-        $arrayItemAnnotation = $this->_getAnnotation($arrayItemDocumentation, $arrayItemType, $callInfo);
-        $typeNs = $this->_processComplexTypeParameter($arrayItemType, $callInfo);
-        $arrayTypeParameters = array(
-            self::ARRAY_ITEM_KEY_NAME => array(
-                'type' => $typeNs . ':' . $arrayItemType,
-                'minOccurs' => 0,
-                'maxOccurs' => 'unbounded',
-                'annotation' => $arrayItemAnnotation
-            )
-        );
-        $documentation = sprintf('An array of %s items.', $arrayItemType);
-        $annotation = $this->_getAnnotation($documentation, $arrayItemType);
-        $this->_wsdl->addComplexTypeWithParameters($arrayTypeName, $arrayTypeParameters, $annotation);
-    }
-
-    /**
-     * Process complex type parameter type and return it's namespace.
-     * If parameter type is a complex type and has not been processed yet - recursively process it.
-     *
-     * @param string $type
-     * @param array $parentCallInfo
-     * @return string - xsd or tns
-     */
-    protected function _processComplexTypeParameter($type, $parentCallInfo = array())
-    {
-        if (!$this->_resourceConfig->isTypeSimple($type) && !in_array($type, $this->_processedTypes)) {
-            $this->_processedTypes[] = $type;
-            $data = $this->_resourceConfig->getDataType($type);
-            $parameters = isset($data['parameters']) ? $data['parameters'] : array();
-            $documentation = isset($data['documentation']) ? $data['documentation'] : null;
-            $callInfo = array_replace_recursive($parentCallInfo, $this->_getComplexTypeCallInfo($type));
-            $this->_processComplexType($type, $parameters, $documentation, $callInfo);
-        }
-
-        return $this->_resourceConfig->isTypeSimple($type)
-            ? Mage_Webapi_Model_Soap_Wsdl::XSD_NS
-            : Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
-    }
-
-    /**
-     * Find in which operations given type used.
-     *
-     * @param string $type
-     * @return array
-     */
-    protected function _getComplexTypeCallInfo($type)
-    {
-        return isset($this->_typeCallInfo[$type]) ?  $this->_typeCallInfo[$type] : array();
-    }
-
-    /**
      * Collect data about complex types call info.
      * Walks through all requested resources and checks all methods 'in' and 'out' parameters.
      *
@@ -386,22 +280,22 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _collectCallInfo($requestedResources)
     {
-        if (is_null($this->_typeCallInfo)) {
-            foreach ($requestedResources as $resourceName => $resourceData) {
-                foreach ($resourceData['methods'] as $methodName => $methodData) {
-                    foreach ($methodData['interface'] as $direction => $interface) {
-                        $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
-                        foreach ($interface['parameters'] as $parameterData) {
-                            $parameterType = $parameterData['type'];
-                            if (!$this->_resourceConfig->isTypeSimple($parameterType)) {
-                                $operation = $this->getOperationName($resourceName, $methodName);
-                                if ($parameterData['required']) {
-                                    $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
-                                } else {
-                                    $condition = $direction == 'requiredInput' ? 'no' : 'conditionally';
-                                }
-                                $this->_typeCallInfo[$parameterType][$direction][$condition]['calls'][] = $operation;
+        foreach ($requestedResources as $resourceName => $resourceData) {
+            foreach ($resourceData['methods'] as $methodName => $methodData) {
+                foreach ($methodData['interface'] as $direction => $interface) {
+                    $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
+                    foreach ($interface['parameters'] as $parameterData) {
+                        $parameterType = $parameterData['type'];
+                        if (!$this->_resourceConfig->isTypeSimple($parameterType)) {
+                            $operation = $this->getOperationName($resourceName, $methodName);
+                            if ($parameterData['required']) {
+                                $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
+                            } else {
+                                $condition = $direction == 'requiredInput' ? 'no' : 'conditionally';
                             }
+                            $callInfo = array();
+                            $callInfo[$direction][$condition]['calls'][] = $operation;
+                            $this->_resourceConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
                         }
                     }
                 }
@@ -409,101 +303,4 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
     }
 
-    /**
-     * Generate annotation data for WSDL.
-     * Convert all {key:value} from documentation into appinfo nodes.
-     * Override default callInfo values if defined in parameter documentation.
-     *
-     * @param string $documentation parameter documentation string
-     * @param string $type
-     * @param array $callInfo callInfo list for given parameter
-     * @param null $default
-     * @return array
-     */
-    protected function _getAnnotation($documentation, $type, $callInfo = array(), $default = null)
-    {
-        $appInfo = array();
-        if ($type == 'boolean') {
-            $default = (bool)$default ? 'true' : 'false';
-        }
-        if ($default) {
-            $appInfo['default'] = $default;
-        }
-        if ($this->_resourceConfig->isArrayType($type)) {
-            $appInfo['natureOfType'] = 'array';
-        }
-        if (preg_match_all('/{([a-z]+):(.+)}/Ui', $documentation, $matches)) {
-            for ($i = 0; $i < count($matches[0]); $i++) {
-                $appinfoTag = $matches[0][$i];
-                $tagName = $matches[1][$i];
-                $tagValue  = $matches[2][$i];
-                switch ($tagName) {
-                    case 'callInfo':
-                        $callInfoRegExp = '/([a-z].+):(returned|requiredInput):(yes|no|always|conditionally)/i';
-                        if (preg_match($callInfoRegExp, $tagValue)) {
-                            list($callName, $direction, $condition) = explode(':', $tagValue);
-                            $condition = strtolower($condition);
-                            if (preg_match('/allCallsExcept\(([a-z].+)\)/', $callName, $calls)) {
-                                $callInfo[$direction][$condition] = array(
-                                    'allCallsExcept' => $calls[1],
-                                );
-                            } else if (!isset($callInfo[$direction][$condition]['allCallsExcept'])) {
-                                $this->_overrideCallInfoName($callInfo, $callName);
-                                $callInfo[$direction][$condition]['calls'][] = $callName;
-                            }
-                        }
-                        break;
-                    case 'seeLink':{
-                        if (preg_match('|([http://]?.+):(.+):(.+)|i', $tagValue, $linkMatches)) {
-                            $appInfo['seeLink'] = array(
-                                'url' => $linkMatches[1],
-                                'title' => $linkMatches[2],
-                                'for' => $linkMatches[3],
-                            );
-                        }
-                        break;
-                    }
-                    case 'docInstructions':
-                        if (preg_match('/(input|output):(.+)/', $tagValue, $docMatches)) {
-                            $appInfo['docInstructions'][$docMatches[1]] = $docMatches[2];
-                        }
-                        break;
-                    default:
-                        $appInfo[$tagName] = $tagValue;
-                        break;
-                }
-                $documentation = str_replace($appinfoTag, '', $documentation);
-            }
-        }
-        $appInfo['callInfo'] = $callInfo;
-
-        return array(
-            'documentation' => $documentation,
-            'appinfo' => $appInfo,
-        );
-    }
-
-    /**
-     * Delete callName if it's already defined in some direction group.
-     *
-     * @param $callInfo
-     * @param $callName
-     */
-    protected function _overrideCallInfoName(&$callInfo, $callName)
-    {
-        foreach ($callInfo as $direction => &$callInfoData) {
-            foreach ($callInfoData as $condition => &$data) {
-                if (isset($data['calls'])) {
-                    $foundCallNameIndex = array_search($callName, $data['calls']);
-                    if ($foundCallNameIndex !== false) {
-                        unset($data['calls'][$foundCallNameIndex]);
-                        if (empty($data['calls'])) {
-                            unset($callInfo[$direction][$condition]);
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }
