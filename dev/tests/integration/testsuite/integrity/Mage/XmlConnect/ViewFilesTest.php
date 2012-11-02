@@ -22,14 +22,10 @@ class Integrity_Mage_XmlConnect_ViewFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testSharedViewFiles($file)
     {
-        $params = array(
-            'area'    => 'adminhtml',
-            'package' => 'default',
-            'theme'   => 'basic',
-        );
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
-        $params['area'] = 'frontend';
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
+        Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
+        Mage::getDesign()->setDesignTheme('default/demo', 'frontend');
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
     }
 
     /**
