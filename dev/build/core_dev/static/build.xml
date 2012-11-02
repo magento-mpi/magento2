@@ -33,7 +33,7 @@
     <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.legacy.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
-        <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
+        <exec dir="${product_root_dir}/dev/tests/static/testsuite/Legacy" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/code_legacy_tests.xml"/>
         </exec>
     </target>
