@@ -84,13 +84,13 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
     </ol>
     <script type="text/javascript">
         //<![CDATA[
-        (function($) {
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>",function(){
+        (function ($) {
+            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>", function () {
                 $('#products-list').grid({
-                    listId : '#products-list'
+                    listId: '#products-list'
                 });
             });
-            $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
         })(jQuery);
         //]]>
     </script>
@@ -150,14 +150,14 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         <?php endforeach ?>
     <script type="text/javascript">
         //<![CDATA[
-        (function($) {
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>",function(){
+        (function ($) {
+            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>", function () {
                 $('ul.products-grid').grid({
-                    genericSelector : 'ul.products-grid > li',
-                    decoratorParam : ['odd', 'even', 'first', 'last']
+                    genericSelector: 'ul.products-grid > li',
+                    decoratorParam: ['odd', 'even', 'first', 'last']
                 });
             });
-            $.mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
         })(jQuery);
         //]]>
     </script>
