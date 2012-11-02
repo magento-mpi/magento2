@@ -75,9 +75,9 @@ invitations_order_conversion_rate:
                 -
                     invitations_order_conversion_rate:
                         xpath: //div[@id='page:main-container']
-                        fields: &reportInvitationsFields
-                        dropdowns: &reportInvitationsDropdowns
-                        buttons: &reportInvitationsButtons
+                        fields: *reportInvitationsFields
+                        dropdowns: *reportInvitationsDropdowns
+                        buttons: *reportInvitationsButtons
                         pageelements:
                                 product_sold_grid: //table[@class='data']
 
