@@ -49,11 +49,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected $_customerService;
 
     /**
-     * @var Mage_Customer_Service_Address
-     */
-    protected $_addressService;
-
-    /**
      * @var Mage_Customer_Helper_Data
      */
     protected $_customerHelper;
@@ -103,12 +98,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_customerService = $invokeArgs['customerService'];
         } else {
             $this->_customerService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Customer');
-        }
-
-        if (isset($invokeArgs['addressService'])) {
-            $this->_addressService = $invokeArgs['addressService'];
-        } else {
-            $this->_addressService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Address');
         }
 
         if (isset($invokeArgs['customerHelper'])) {
@@ -276,6 +265,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     /**
      * Save customer action
+     *
+     * @throws Mage_Core_Exception
      */
     public function saveAction()
     {
@@ -297,16 +288,43 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                 $actualAddressesIds = array();
                 foreach ($customerData['addresses'] as  $addressId => $addressData) {
+                    /** @var Mage_Customer_Model_Address $addressModel */
+                    $addressModel = Mage::getModel('Mage_Customer_Model_Address');
+
                     if (is_numeric($addressId)) {
-                        $address = $this->_addressService->update($addressId, $addressData);
+                        $addressModel->load($addressId);
+                        if (!$addressModel->getId()) {
+                            throw new Mage_Core_Exception($this->_getHelper()->
+                                __("The address with the specified ID not found."));
+                        }
                     } else {
-                        $address = $this->_addressService->create($addressData, $customer->getId());
+                        $addressModel->setCustomerId($customer->getId());
                     }
-                    $actualAddressesIds[] = $address->getId();
+
+                    // load data
+                    foreach ($addressData as $addressProperty => $addressValue) {
+                        $addressModel->setDataUsingMethod($addressProperty, $addressValue);
+                    }
+
+                    // Set default billing and shipping flags to address
+                    $isDefaultBilling = isset($customerData['account']['default_billing'])
+                        && $customerData['account']['default_billing'] == $addressId;
+                    $addressModel->setIsDefaultBilling($isDefaultBilling);
+                    $isDefaultShipping = isset($customerData['account']['default_shipping'])
+                        && $customerData['account']['default_shipping'] == $addressId;
+                    $addressModel->setIsDefaultShipping($isDefaultShipping);
+
+                    // Set post_index for detect default billing and shipping addresses
+                    $addressModel->setPostIndex($addressId);
+
+                    $addressModel->save();
+
+                    $actualAddressesIds[] = $addressModel->getId();
                 }
 
                 // @todo Deleting customer addresses should be implemented in service layer
                 $hasDeletedAddresses = false;
+                /** @var Mage_Customer_Model_Address $address */
                 foreach ($customer->getAddressesCollection() as $address) {
                     if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
                         $address->setData('_deleted', true);
