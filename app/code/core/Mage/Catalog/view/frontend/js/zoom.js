@@ -12,6 +12,75 @@
         options: {
             sliderSpeed: 10
         },
+
+        _create: function() {
+            this.sliderMax = $(this.options.sliderSelector).width();
+            this.image = this.element;
+            this.imageWidth = this.image.width();
+            this.imageHeight = this.image.height();
+            this.imageParent = this.image.parent();
+            this.imageParentWidth = this.imageParent.width();
+            this.imageParentHeight = this.imageParent.height();
+            this.showFullImage = false;
+
+            if (!this._isZoomable()) {
+                return;
+            }
+            this._initialResize();
+
+            // Slide slider to zoom in or out the picture
+            this.slider = $(this.options.sliderSelector).slider({
+                value: 0,
+                min: 0,
+                max: this.sliderMax,
+                slide: $.proxy(function(event, ui) {
+                    this._zoom(ui.value, this.sliderMax);
+                }, this),
+                change: $.proxy(function(event, ui) {
+                    this._zoom(ui.value, this.sliderMax);
+                }, this)
+            });
+
+            // Mousedown on zoom in icon to zoom in picture
+            $(this.options.zoomInSelector).on('mousedown', $.proxy(function() {
+                this.intervalId = setInterval($.proxy(function() {
+                    this.slider.slider('value', this.slider.slider('value') + 1);
+                }, this), this.options.sliderSpeed);
+            }, this)).on('mouseup mouseleave', $.proxy(function() {
+                clearInterval(this.intervalId);
+            }, this));
+
+            // Mousedown on zoom out icon to zoom out picture
+            $(this.options.zoomOutSelector).on('mousedown', $.proxy(function() {
+                this.intervalId = setInterval($.proxy(function() {
+                    this.slider.slider('value', this.slider.slider('value') - 1);
+                }, this), this.options.sliderSpeed);
+            }, this)).on('mouseup mouseleave', $.proxy(function() {
+                clearInterval(this.intervalId);
+            }, this));
+
+            // Double-click image to see full picture
+            this.element.on('dblclick', $.proxy(function() {
+                this.showFullImage = !this.showFullImage;
+                var ratio = this.showFullImage ? this.sliderMax : this.slider.slider('value');
+                this._zoom(ratio, this.sliderMax);
+                if (this.showFullImage) {
+                    $(this.options.sliderSelector).hide();
+                    $(this.options.zoomInSelector).hide();
+                    $(this.options.zoomOutSelector).hide();
+                    this.imageParent.css({'overflow': 'visible', 'zIndex': '1000'});
+                } else {
+                    $(this.options.sliderSelector).show();
+                    $(this.options.zoomInSelector).show();
+                    $(this.options.zoomOutSelector).show();
+                    this.imageParent.css({'overflow': 'hidden', 'zIndex': '9'});
+                }
+            }, this));
+
+            // Window resize will change offset for draggable
+            $(window).resize(this._draggableImage());
+        },
+
         /**
          * If image dimension is smaller than parent container, disable zoom
          * @private
@@ -26,7 +95,7 @@
         },
 
         /**
-         * Resize image to fix parent container and set initial image dimension
+         * Resize image to fit parent container and set initial image dimension
          * @private
          */
         _initialResize: function() {
@@ -78,8 +147,8 @@
 
         /**
          * Resize image based on slider position
-         * @param sliderPosition
-         * @param sliderLength
+         * @param sliderPosition - current slider position (0 to slider track max length)
+         * @param sliderLength - slider track max length
          * @private
          */
         _zoom: function(sliderPosition, sliderLength) {
@@ -121,74 +190,6 @@
             this.image.css({'left': imageNewLeft + 'px', 'top': imageNewTop + 'px'});
             // Because image size and position changed, we need to recalculate draggable image containment
             this._draggableImage();
-        },
-
-        _create: function() {
-            this.sliderMax = $(this.options.sliderSelector).width();
-            this.image = this.element;
-            this.imageWidth = this.image.width();
-            this.imageHeight = this.image.height();
-            this.imageParent = this.image.parent();
-            this.imageParentWidth = this.imageParent.width();
-            this.imageParentHeight = this.imageParent.height();
-            this.showFullImage = false;
-
-            if (!this._isZoomable()) {
-                return;
-            }
-            this._initialResize();
-
-            // Slide slider to zoom in or out the picture
-            this.slider = $(this.options.sliderSelector).slider({
-                value: 0,
-                min: 0,
-                max: this.sliderMax,
-                slide: $.proxy(function (event, ui) {
-                    this._zoom(ui.value, this.sliderMax);
-                }, this),
-                change: $.proxy(function (event, ui) {
-                    this._zoom(ui.value, this.sliderMax);
-                }, this)
-            });
-
-            // Mousedown on zoom in icon to zoom in picture
-            $(this.options.zoomInSelector).on('mousedown', $.proxy(function() {
-                this.intervalId = setInterval($.proxy(function() {
-                    this.slider.slider('value', this.slider.slider('value') + 1);
-                }, this), this.options.sliderSpeed);
-            }, this)).on('mouseup mouseleave', $.proxy(function() {
-                    clearInterval(this.intervalId);
-                }, this));
-
-            // Mousedown on zoom out icon to zoom out picture
-            $(this.options.zoomOutSelector).on('mousedown', $.proxy(function() {
-                this.intervalId = setInterval($.proxy(function() {
-                    this.slider.slider('value', this.slider.slider('value') - 1);
-                }, this), this.options.sliderSpeed);
-            }, this)).on('mouseup mouseleave', $.proxy(function() {
-                clearInterval(this.intervalId);
-            }, this));
-
-            // Double-click image to see full picture
-            this.element.on('dblclick', $.proxy(function() {
-                this.showFullImage = !this.showFullImage;
-                var ratio = this.showFullImage ? this.sliderMax : this.slider.slider('value');
-                this._zoom(ratio, this.sliderMax);
-                if (this.showFullImage) {
-                    $(this.options.sliderSelector).hide();
-                    $(this.options.zoomInSelector).hide();
-                    $(this.options.zoomOutSelector).hide();
-                    this.imageParent.css({'overflow': 'visible', 'zIndex': '1000'});
-                } else {
-                    $(this.options.sliderSelector).show();
-                    $(this.options.zoomInSelector).show();
-                    $(this.options.zoomOutSelector).show();
-                    this.imageParent.css({'overflow': 'hidden', 'zIndex': '9'});
-                }
-            }, this));
-
-            // Window resize will change offset for draggable
-            $(window).resize(this._draggableImage());
         }
     });
 }(jQuery));

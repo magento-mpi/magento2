@@ -20,18 +20,12 @@
 <?php $currentCurrencyCode = $this->getCurrentCurrencyCode(); ?>
 <div class="switch switcher-currency">
     <label><?php echo $this->__('Currency') ?>:</label>
-    <div class="switch-wrapper" id="currencySelect">
+    <div class="switch-wrapper" id="currencySelect" tabindex="-1">
         <strong class="current language-<?php echo $this->escapeHtml(Mage::app()->getStore()->getCode()) ?>">
             <?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?>
         </strong>
-        <span class="switcher-holder">(<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)</span>
+        <span class="switcher-holder">(<span class="switcher"><?php echo $this->__('Change')?></span>)</span>
         <ul style="display:none" id="popId-currencySelect">
-            <li class="current currency-<?php echo $this->escapeHtml(Mage::app()->getStore()->getCode()) ?>">
-                <span><?php echo $this->escapeHtml($currentCurrencyCode) ?>
-                <?php if (isset($currencies[$currentCurrencyCode])): ?>
-                    - <?php echo $this->escapeHtml($currencies[$currentCurrencyCode]) ?></span>
-                <?php endif;?>
-            </li>
             <?php foreach ($currencies as $_code => $_name): ?>
                 <?php if($_code != $currentCurrencyCode): ?>
                     <li class="currency-<?php echo $_code ?>">
@@ -42,4 +36,11 @@
         </ul>
     </div>
 </div>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getSkinUrl('Mage_Page::js/popup-menu.js')?>", function() {
+            $('#currencySelect').popUpMenu({ menu: '#popId-currencySelect' });
+        });
+    })(jQuery);
+</script>
 <?php endif; ?>
