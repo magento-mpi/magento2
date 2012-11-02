@@ -38,7 +38,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         //Steps
         $this->productHelper()->selectTypeProduct($simpleProduct, 'simple');
-        $this->fillCheckbox('weight_type_switcher', 'yes');
+        $this->fillCheckbox('weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
@@ -81,10 +81,10 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         //Steps
         $this->productHelper()->selectTypeProduct($initialProductData, $initialProduct);
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'), 'Weight field is editable');
-        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'weight_type_switcher')),
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'weight_and_type_switcher')),
             'Weight checkbox is not selected');
         if ($changedProduct == 'simple') {
-            $this->fillCheckbox('weight_type_switcher', 'no');
+            $this->fillCheckbox('weight_and_type_switcher', 'no');
         }
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
@@ -136,7 +136,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('type' => 'Simple Product', 'sku' => $simpleProduct['general_sku']));
-        $this->fillCheckbox('weight_type_switcher', 'yes');
+        $this->fillCheckbox('weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
@@ -169,7 +169,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('type' => $initialType, 'sku' => $initialProductData['general_sku']));
         if ($changedProduct == 'simple') {
-            $this->fillCheckbox('weight_type_switcher', 'no');
+            $this->fillCheckbox('weight_and_type_switcher', 'no');
         }
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
