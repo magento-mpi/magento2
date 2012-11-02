@@ -62,7 +62,7 @@ class Tools_Migration_System_Configuration_Generator
     public function createConfiguration($fileName, array $configuration)
     {
         $domDocument = $this->_createDOMDocument($configuration);
-        if (!$domDocument->schemaValidate($this->_fileSchemaPath)) {
+        if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
                 Tools_Migration_System_Configuration_LoggerAbstract::FILE_KEY_INVALID

@@ -9,14 +9,7 @@
  */
 
 return array(
-    'comment' => '/**'
-        . ' * {license_notice}'
-        . ' *'
-        . ' * @category  Dummy'
-        . ' * @package   Module_Dummy'
-        . ' * @copyright {copyright}'
-        . ' * @license   {license_link}'
-        . ' */',
+    'comment' => 'comment',
     'nodes' => array(
         array(
             'nodeName' => 'tab',
@@ -75,7 +68,7 @@ return array(
                         array('name' => 'fieldset_css', '#text' => 'some css class'),
                         array('name' => 'clone_fields', '#text' => '1'),
                         array('name' => 'clone_model', '#text' => 'Mage_Some_Model_Name'),
-                        array('name' => 'help_url', '#text' => 'some url'),
+                        array('name' => 'help_url', '#text' => 'some_url'),
                         array('name' => 'hide_in_single_store_mode', '#text' => '1'),
                         array('name' => 'expanded', '#text' => '1'),
                     ),

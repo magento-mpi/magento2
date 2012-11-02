@@ -26,7 +26,7 @@
                 <fieldset_css>some css class</fieldset_css>
                 <clone_fields>1</clone_fields>
                 <clone_model>Mage_Some_Model_Name</clone_model>
-                <help_url>some url</help_url>
+                <help_url>some_url</help_url>
                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 <expanded>1</expanded>
                 <field id="field_1">
