@@ -213,14 +213,11 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Read-only entity_type_id' => array(array(
                 'entity_type_id' => 555
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
-            'Read-only entity_id' => array(array(
-                'entity_id' => 1
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
             'Read-only created_in' => array(array(
                 'created_in' => 1
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
             'Read-only store_id' => array(array(
-                'store_id' => 1
+                'store_id' => 15
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
             'Read-only created_at' => array(array(
                 'created_at' => 1
