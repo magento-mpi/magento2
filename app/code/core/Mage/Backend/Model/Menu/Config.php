@@ -44,7 +44,7 @@ class Mage_Backend_Model_Menu_Config
     protected $_menu;
 
     /**
-     * @var Mage_Backend_Model_Menu_Logger
+     * @var Mage_Core_Model_Logger
      */
     protected $_logger;
 
@@ -53,7 +53,7 @@ class Mage_Backend_Model_Menu_Config
      * @param Magento_ObjectManager $factory
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Backend_Model_Menu_Logger $menuLogger
+     * @param Mage_Core_Model_Logger $menuLogger
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Mage_Backend_Model_Menu_Config
         Magento_ObjectManager $factory,
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Backend_Model_Menu_Logger $menuLogger,
+        Mage_Core_Model_Logger $menuLogger,
         Mage_Backend_Model_Menu_Factory $menuFactory
     ) {
         $this->_cache = $cache;
@@ -80,6 +80,8 @@ class Mage_Backend_Model_Menu_Config
      */
     public function getMenu()
     {
+        $store = $this->_factory->get('Mage_Core_Model_App')->getStore();
+        $this->_logger->addStoreLog(Mage_Backend_Model_Menu::LOGGER_KEY, $store);
         try {
             $this->_initMenu();
             return $this->_menu;
