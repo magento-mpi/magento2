@@ -71,7 +71,7 @@ grid:
             filter_from:
             filter_to:
         pageelement:
-            customer_by_orders_total_table:
+            invitations_order_conversion_rate:
     report_invitations_general:
         button:
             refresh:
