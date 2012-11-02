@@ -1707,15 +1707,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
 
             $translateAdapter = Mage::app()->getTranslator();
-            $translator = function () use ($translateAdapter) {
+            $translatorCallback = function () use ($translateAdapter) {
                 /** @var Mage_Core_Model_Translate $translateAdapter */
                 $args = func_get_args();
-                $expr = new Mage_Core_Model_Translate_Expr($args);
+                $expr = new Mage_Core_Model_Translate_Expr($args[0]);
                 array_unshift($args, $expr);
                 return $translateAdapter->translate($args);
             };
             $translator = new Magento_Translate_Adapter(array(
-                'translator' => $translator
+                'translator' => $translatorCallback
             ));
             Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
         }
