@@ -8,23 +8,18 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
-    var gridInit = {
-        listId: undefined,
-        decoratorParams: undefined,
-        genericSelector: undefined
-    };
-
-    $(document).ready(function () {
-        $.mage.event.trigger("mage.grid.initialize", gridInit);
-        if (gridInit.listId) {
-            $(gridInit.listId).decorate('list');
-        }
-        if (gridInit.genericSelector) {
-            if (gridInit.decoratorParams) {
-                $(gridInit.genericSelector).decorate('generic', gridInit.decoratorParams);
+    $.widget('mage.grid', {
+        _create : function() {
+            if (this.options.listId) {
+                $(this.options.listId).decorate('list');
             }
-            else {
-                $(gridInit.genericSelector).decorate('generic');
+            if (this.options.genericSelector) {
+                if (this.options.decoratorParam) {
+                    $(this.options.genericSelector).decorate('generic', this.options.decoratorParam);
+                }
+                else {
+                    $(this.options.genericSelector).decorate('generic');
+                }
             }
         }
     });
