@@ -25,7 +25,7 @@ class Community2_Mage_Grid_Helper extends Mage_Selenium_TestCase
      *
      * By default fill fields with current date in default Magento format MM/DD/YY
      */
-    public function refreshReport($dateFrom = null, $dateTo = null)
+    public function fillDateFromTo($dateFrom = null, $dateTo = null)
     {
         if ($dateFrom === null) {
             $dateFrom = date('m/d/y');
