@@ -91,7 +91,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
         if (!$this->getRequest()->isPost()) {
             $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-            return $this->_redirectError(Mage::getUrl('*/*/edit'));
+            $this->_redirectError(Mage::getUrl('*/*/edit'));
+            return;
         }
 
         try {
@@ -149,7 +150,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             }
         }
         /* @var Mage_Customer_Model_Form $addressForm */
-        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+        $addressForm = Mage::getModel('Mage_Customer_Model_Address_Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntity($address);
         $addressData = $addressForm->extractData($this->getRequest());
