@@ -29,6 +29,9 @@ new_product:
                                         general_min_price: //input[@id='price' and not(@disabled)]
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         categories: //*[@data-ui-id='category-selector-input']
+                                        general_weight_disabled: //input[@id='weight' and (@disabled)]
+                                    checkboxes:
+                                        weight_type_switcher: //*[@id='weight_and_type_switcher']
                                 category_search:
                                     xpath: //*[@id='html-body']/ul
                                     links:
