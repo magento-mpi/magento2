@@ -17,7 +17,13 @@
  */
 class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_RouteAbstract
 {
-    const VERSION_PARAM_NAME = 'resourceVersion';
+    /**#@+
+     * Names of special parameters in routes
+     */
+    const PARAM_VERSION = 'resourceVersion';
+    const PARAM_ID = 'id';
+    const PARAM_PARENT_ID = 'parentId';
+    /**#@-*/
 
     /** @var string */
     protected $_resourceName;

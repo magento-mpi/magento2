@@ -237,7 +237,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public static function dataProviderTestGenerateRestRoutesTopLevelResource()
     {
-        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
+        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         $className = "Vendor_Module_Webapi_ResourceController";
         return array(
             array(
@@ -270,7 +270,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 $className,
                 "updateV2",
                 array(
-                    "/:$versionParam/vendorModuleResources/:resourceId/additionalRequired/:additionalRequired" => array(
+                    "/:$versionParam/vendorModuleResources/:id/additionalRequired/:additionalRequired" => array(
                         "actionType" => "item",
                         "resourceName" => "vendorModuleResource"
                     ),
@@ -280,7 +280,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 $className,
                 "getV2",
                 array(
-                    "/:$versionParam/vendorModuleResources/:resourceId" => array(
+                    "/:$versionParam/vendorModuleResources/:id" => array(
                         "actionType" => "item",
                         "resourceName" => "vendorModuleResource"
                     ),
@@ -304,7 +304,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 $className,
                 "deleteV3",
                 array(
-                    "/:$versionParam/vendorModuleResources/:resourceId" => array(
+                    "/:$versionParam/vendorModuleResources/:id" => array(
                         "actionType" => "item",
                         "resourceName" => "vendorModuleResource"
                     ),
@@ -348,13 +348,13 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public static function dataProviderTestGenerateRestRoutesSubresource()
     {
         $className = 'Vendor_Module_Webapi_Resource_SubresourceController';
-        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
+        $versionParam = Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         return array(
             array(
                 $className,
                 'createV2',
                 array(
-                    "/:$versionParam/vendorModuleResources/:param1/subresources" => array(
+                    "/:$versionParam/vendorModuleResources/:parentId/subresources" => array(
                         'actionType' => 'collection',
                         'resourceName' => 'vendorModuleResourceSubresource'
                     )
@@ -364,7 +364,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 $className,
                 'updateV1',
                 array(
-                    "/:$versionParam/vendorModuleResources/subresources/:param1" => array(
+                    "/:$versionParam/vendorModuleResources/subresources/:id" => array(
                         'actionType' => 'item',
                         'resourceName' => 'vendorModuleResourceSubresource'
                     )
@@ -533,8 +533,19 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRoutes()
     {
-        $actualRoutes = $this->_getModel()->getRestRoutes();
+        $actualRoutes = $this->_getModel()->getAllRestRoutes();
         $expectedRoutesCount = 16;
+
+        /**
+         * Vendor_Module_Webapi_ResourceController fixture contains two methods getV2 and deleteV3 that have
+         * different names of ID param.
+         * If there will be two different routes generated for these methods with different ID param names,
+         * it will be impossible to identify which route should be used as they both will match the same requests.
+         * E.g. DELETE /resource/:deleteId and GET /resource/:getId will match same requests.
+         */
+        $this->assertNotCount($expectedRoutesCount + 1, $actualRoutes,
+            "Some resource methods seem to have different routes, in case when should have the same ones.");
+
         $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity does not equal to expected one.");
         /** @var $actualRoute Mage_Webapi_Controller_Router_Route_Rest */
         foreach ($actualRoutes as $actualRoute) {
@@ -544,7 +555,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRouteToItem()
     {
-        $expectedRoute = '/:resourceVersion/vendorModuleResources/subresources/:param1';
+        $expectedRoute = '/:resourceVersion/vendorModuleResources/subresources/:id';
         $this->assertEquals($expectedRoute, $this->_getModel()->getRestRouteToItem('vendorModuleResourceSubresource'));
     }
 
@@ -665,6 +676,24 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException', 'Property type must be defined with @var tag.');
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_var_tags');
+    }
+
+    public function testGetMethodRestRoutes()
+    {
+        $actualRoutes = $this->_getModel()->getMethodRestRoutes('vendorModuleResourceSubresource', 'create', 'v1');
+        $this->assertCount(5, $actualRoutes, "Routes quantity does not match expected one.");
+        foreach ($actualRoutes as $actualRoute) {
+            $this->assertInstanceOf('Mage_Webapi_Controller_Router_Route_Rest', $actualRoute);
+        }
+    }
+
+    public function testGetMethodRestRoutesException()
+    {
+        $resourceName = 'vendorModuleResourceSubresource';
+        $methodName = 'multiUpdate';
+        $this->setExpectedException('InvalidArgumentException',
+            sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
+        $this->_getModel()->getMethodRestRoutes($resourceName, $methodName, 'v1');
     }
 
     /**

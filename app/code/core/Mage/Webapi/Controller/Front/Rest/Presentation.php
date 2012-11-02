@@ -37,12 +37,24 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         $config = $this->_frontController->getResourceConfig();
         $apiHelper = $this->_frontController->getHelper();
         $methodReflection = $apiHelper->createMethodReflection($controllerInstance, $action);
-        $bodyParamName = $config->getBodyParamName($methodReflection);
         $methodName = $config->getMethodNameWithoutVersionSuffix($methodReflection);
+        $bodyParamName = $config->getBodyParamName($methodReflection);
         $requestParams = array_merge(
             $this->getRequest()->getParams(),
             array($bodyParamName => $this->_getRequestBody($methodName))
         );
+        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
+        $idParamName = $config->getIdParamName($methodReflection);
+        $parentIdParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+        $idParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+        if (isset($requestParams[$parentIdParamNameInRoute])) {
+            $requestParams[$idParamName] = $requestParams[$parentIdParamNameInRoute];
+            unset($requestParams[$parentIdParamNameInRoute]);
+        } elseif (isset($requestParams[$idParamNameInRoute])) {
+            $requestParams[$idParamName] = $requestParams[$idParamNameInRoute];
+            unset($requestParams[$idParamNameInRoute]);
+        }
+
         return $apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $config);
     }
 
@@ -111,7 +123,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
             'api_type' => $this->getRequest()->getApiType(),
             // TODO: ID param can be named differently
             'id' => $createdItem->getId(),
-            Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME => $this->getRequest()->getResourceVersion()
+            Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->getRequest()->getResourceVersion()
         );
         $uri = $chain->assemble($params);
 

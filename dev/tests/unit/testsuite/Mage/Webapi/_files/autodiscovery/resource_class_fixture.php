@@ -50,9 +50,9 @@ class Vendor_Module_Webapi_ResourceController
     }
 
     /**
-     * @param int $resourceId
+     * @param int $deleteId The name of this parameter MUST be different from name used in get method.
      */
-    public function deleteV3($resourceId)
+    public function deleteV3($deleteId)
     {
         // Body is intentionally omitted
     }

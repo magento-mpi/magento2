@@ -88,17 +88,17 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Retrieve information about customer. Add last logged in datetime.
      *
-     * @param int $id
+     * @param int $customerId
      * @return Mage_Customer_Webapi_Customer_DataStructure
      * @throws Mage_Webapi_Exception
      */
-    public function getV1($id)
+    public function getV1($customerId)
     {
         try {
             /** @var $log Mage_Log_Model_Customer */
             $log = Mage::getModel('Mage_Log_Model_Customer');
-            $log->loadByCustomer($id);
-            $data = $this->_get($id);
+            $log->loadByCustomer($customerId);
+            $data = $this->_get($customerId);
             $lastLoginAt = $log->getLoginAt();
             if (null !== $lastLoginAt) {
                 $data['last_logged_in'] = $lastLoginAt;

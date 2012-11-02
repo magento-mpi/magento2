@@ -118,7 +118,14 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+            $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+            /**
+             * Route check has two stages:
+             * The first is performed against full list of routes that is merged from all resources.
+             * The second stage of route check can be performed only when actual version to be executed is known.
+             */
+            $this->_checkRoute($method, $versionAfterFallback);
+            $action = $method . $versionAfterFallback;
 
             $this->_checkResourceAcl($role, $route->getResourceName(), $method);
 
@@ -148,6 +155,26 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
+     * Check whether current request match any route of specified method or not. Method version is taken into account.
+     *
+     * @param string $methodName
+     * @param string $version
+     * @throws Mage_Webapi_Exception In case when request does not match any route of specified method.
+     */
+    protected function _checkRoute($methodName, $version)
+    {
+        $resourceName = $this->getRequest()->getResourceName();
+        $routes = $this->getResourceConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
+        foreach ($routes as $route) {
+            if ($route->match($this->getRequest())) {
+                return;
+            }
+        }
+        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+                    Mage_Webapi_Exception::HTTP_NOT_FOUND);
+    }
+
+    /**
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
@@ -157,7 +184,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getResourceConfig()->getRestRoutes());
+        $router->setRoutes($this->getResourceConfig()->getAllRestRoutes());
         $route = $router->match($request);
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());

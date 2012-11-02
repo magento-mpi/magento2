@@ -128,7 +128,7 @@ class Mage_Webapi_Model_Config_Resource
             throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
         }
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
+        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : lcfirst($resourceVersion);
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
             throw new RuntimeException($this->_helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
                 $resourceName));
@@ -312,6 +312,7 @@ class Mage_Webapi_Model_Config_Resource
                             $methodMetaData = $this->_extractMethodData($methodReflection);
                             $data['versions'][$version]['methods'][$method] = $methodMetaData;
                             $restRoutes = $this->generateRestRoutes($methodReflection);
+                            $data['versions'][$version]['methods'][$method]['rest_routes'] = array_keys($restRoutes);
                             $allRestRoutes = array_merge($allRestRoutes, $restRoutes);
                         }
                     }
@@ -385,7 +386,7 @@ class Mage_Webapi_Model_Config_Resource
     {
         // TODO: Implement @restRoute annotations processing for adding custom routes
         $routes = array();
-        $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::VERSION_PARAM_NAME;
+        $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         $routeParts = $this->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
         $partsCount = count($routeParts);
         for ($i = 0; $i < $partsCount; $i++) {
@@ -396,12 +397,12 @@ class Mage_Webapi_Model_Config_Resource
                  */
                 && ($i == ($partsCount - 1))
             ) {
-                $routePath .= "/:" . $this->getIdParamName($methodReflection);;
+                $routePath .= "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
             }
             $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($routeParts[$i]));
         }
         if ($this->_isResourceIdExpected($methodReflection)) {
-            $routePath .= "/:" . $this->getIdParamName($methodReflection);
+            $routePath .= "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
         }
 
         foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequiredParam) {
@@ -712,18 +713,31 @@ class Mage_Webapi_Model_Config_Resource
      * @return Mage_Webapi_Controller_Router_Route_Rest[]
      * @throws LogicException When config data has invalid structure.
      */
-    public function getRestRoutes()
+    public function getAllRestRoutes()
     {
         $routes = array();
-        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
         foreach ($this->_data['rest_routes'] as $routePath => $routeData) {
-            $fullRoutePath = $apiTypeRoutePath . $routePath;
-            $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
-            $route->setResourceName($routeData['resourceName'])->setResourceType($routeData['actionType']);
-            $routes[] = $route;
+            $routes[] = $this->_createRoute($routePath, $routeData['resourceName'], $routeData['actionType']);
         }
-
         return $routes;
+    }
+
+    /**
+     * Create route object.
+     *
+     * @param string $routePath
+     * @param string $resourceName
+     * @param string $actionType
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    protected function _createRoute($routePath, $resourceName, $actionType)
+    {
+        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
+        $fullRoutePath = $apiTypeRoutePath . $routePath;
+        // TODO: Change to dependency injection
+        $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
+        $route->setResourceName($resourceName)->setResourceType($actionType);
+        return $route;
     }
 
     /**
@@ -1087,5 +1101,28 @@ class Mage_Webapi_Model_Config_Resource
         }
 
         return $resources;
+    }
+
+    /**
+     * Retrieve a list of all route objects associated with specified method.
+     *
+     * @param string $resourceName
+     * @param string $methodName
+     * @param string $version
+     * @return Mage_Webapi_Controller_Router_Route_Rest[]
+     * @throws InvalidArgumentException
+     */
+    public function getMethodRestRoutes($resourceName, $methodName, $version)
+    {
+        $resourceData = $this->getResource($resourceName, $version);
+        if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
+            throw new InvalidArgumentException(
+                sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
+        }
+        $routes = array();
+        foreach ($resourceData['methods'][$methodName]['rest_routes'] as $routePath) {
+            $routes[] = $this->_createRoute($routePath, $resourceName, $this->getActionTypeByMethod($methodName));
+        }
+        return $routes;
     }
 }
