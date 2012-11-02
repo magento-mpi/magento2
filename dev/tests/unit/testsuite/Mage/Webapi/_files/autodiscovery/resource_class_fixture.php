@@ -40,11 +40,35 @@ class Vendor_Module_Webapi_ResourceController
     }
 
     /**
+     * @apiDeprecated vendorModuleResource::listV2
      * @param float $additionalRequired
      * @param bool $optional
      * @return Vendor_Module_Webapi_Customer_DataStructure[]
      */
     public function listV2($additionalRequired, $optional = false)
+    {
+        // Body is intentionally omitted
+    }
+
+    public function listV3()
+    {
+        // Body is intentionally omitted
+    }
+
+    /**
+     * @param int $deleteId The name of this parameter MUST be different from name used in get method.
+     * @apiRemoved deleteV3
+     */
+    public function deleteV1($deleteId)
+    {
+        // Body is intentionally omitted
+    }
+
+    /**
+     * @param int $deleteId The name of this parameter MUST be different from name used in get method.
+     * @apiDeprecated Vendor_Module_Webapi_Resource_SubresourceController::deleteV3
+     */
+    public function deleteV2($deleteId)
     {
         // Body is intentionally omitted
     }

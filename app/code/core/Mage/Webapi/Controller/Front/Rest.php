@@ -113,7 +113,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $route = $this->_matchRoute($this->getRequest());
 
             $operation = $this->_getOperationName();
-            $this->_checkOperationDeprecation($operation);
             $resourceVersion = $this->_getResourceVersion($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
@@ -125,6 +124,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
              * The second stage of route check can be performed only when actual version to be executed is known.
              */
             $this->_checkRoute($method, $versionAfterFallback);
+            $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
             $this->_checkResourceAcl($role, $route->getResourceName(), $method);

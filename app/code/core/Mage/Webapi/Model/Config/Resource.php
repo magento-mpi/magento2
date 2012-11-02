@@ -280,20 +280,34 @@ class Mage_Webapi_Model_Config_Resource
      *
      * Return result in the following format:<pre>
      * array(
-     *     'deprecated' => true,              // either 'deprecated' or 'removed' item must be specified
-     *     'removed' => true,
-     *     'use_version' => N,                // version of operation to be used instead
-     *     'use_operation' => 'operationName' // operation to be used instead
+     *     'removed'      => true,            // either 'deprecated' or 'removed' item must be specified
+     *     'deprecated'   => true,
+     *     'use_resource' => 'operationName'  // resource to be used instead
+     *     'use_method'   => 'operationName'  // method to be used instead
+     *     'use_version'  => N,               // version of method to be used instead
      * )
      * </pre>
      *
-     * @param string $operationName
-     * @return array|bool
+     * @param string $resourceName
+     * @param string $method
+     * @param string $resourceVersion
+     * @return array|bool On success array with policy details; false otherwise.
+     * @throws InvalidArgumentException
      */
-    // TODO: Reimplement according to AutoDiscovery code generation
-    public function getOperationDeprecationPolicy($operationName)
+    public function getOperationDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
-        return false;
+        $deprecationPolicy = false;
+        $resourceData = $this->getResource($resourceName, $resourceVersion);
+        if (!isset($resourceData['methods'][$method])) {
+            throw new InvalidArgumentException(sprintf(
+                'Method "%s" does not exist in "%s" version of resource "%s".',
+                $method, $resourceVersion, $resourceName));
+        }
+        $methodData = $resourceData['methods'][$method];
+        if (isset($methodData['deprecation_policy']) && is_array($methodData['deprecation_policy'])) {
+            $deprecationPolicy = $methodData['deprecation_policy'];
+        }
+        return $deprecationPolicy;
     }
 
     /**
@@ -366,13 +380,17 @@ class Mage_Webapi_Model_Config_Resource
     /**
      * Identify API method name without version suffix by its reflection.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
      * @throws InvalidArgumentException When method name is invalid API resource method.
      */
-    public function getMethodNameWithoutVersionSuffix(ReflectionMethod $methodReflection)
+    public function getMethodNameWithoutVersionSuffix($method)
     {
-        $methodNameWithSuffix = $methodReflection->getName();
+        if ($method instanceof ReflectionMethod) {
+            $methodNameWithSuffix = $method->getName();
+        } else {
+            $methodNameWithSuffix = $method;
+        }
         $regularExpression = $this->_getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
             $methodName = $methodMatches[1];
@@ -716,7 +734,8 @@ class Mage_Webapi_Model_Config_Resource
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
 
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
-            throw new InvalidArgumentException(sprintf('"%s" method of "%s" resource in version "%s" is not registered.',
+            throw new InvalidArgumentException(sprintf(
+                '"%s" method of "%s" resource in version "%s" is not registered.',
                 $methodName, $resourceName, $resourceVersion));
         }
         return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
@@ -814,7 +833,87 @@ class Mage_Webapi_Model_Config_Resource
                 'required' => true,
             );
         }
+        $deprecationPolicy = $this->_extractDeprecationPolicy($method);
+        if ($deprecationPolicy) {
+            $methodData['deprecation_policy'] = $deprecationPolicy;
+        }
         return $methodData;
+    }
+
+    /**
+     * Extract method deprecation policy.
+     *
+     * Return result in the following format:<pre>
+     * array(
+     *     'removed'      => true,            // either 'deprecated' or 'removed' item must be specified
+     *     'deprecated'   => true,
+     *     'use_resource' => 'operationName'  // resource to be used instead
+     *     'use_method'   => 'operationName'  // method to be used instead
+     *     'use_version'  => N,               // version of method to be used instead
+     * )
+     * </pre>
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return array|bool On success array with policy details; false otherwise.
+     * @throws LogicException If deprecation tag format is incorrect.
+     */
+    protected function _extractDeprecationPolicy(ReflectionMethod $methodReflection)
+    {
+        $deprecationPolicy = false;
+        $methodDocumentation = $methodReflection->getDocComment();
+        if ($methodDocumentation) {
+            /** Zend server reflection is not able to work with annotation tags of the method. */
+            $docBlock = new Zend_Reflection_Docblock($methodDocumentation);
+            $removedTag = $docBlock->getTag('apiRemoved');
+            $deprecatedTag = $docBlock->getTag('apiDeprecated');
+            if ($removedTag) {
+                $deprecationPolicy = array('removed' => true);
+                $useMethod = $removedTag->getDescription();
+            } elseif ($deprecatedTag) {
+                $deprecationPolicy = array('deprecated' => true);
+                $useMethod = $deprecatedTag->getDescription();
+            }
+
+            if (isset($useMethod) && is_string($useMethod) && !empty($useMethod)) {
+                /** Add information about what method should be used instead of deprecated/removed one. */
+                /**
+                 * Description is expected in one of the following formats:
+                 * - Mage_Catalog_Webapi_ProductController::createV1
+                 * - catalogProduct::createV1
+                 * - createV1
+                 */
+                $useMethodParts = explode('::', $useMethod);
+                switch(count($useMethodParts)) {
+                    case 2:
+                        try {
+                            /** Support of: Mage_Catalog_Webapi_ProductController::createV1 */
+                            $resourceName = $this->translateResourceName($useMethodParts[0]);
+                        } catch (InvalidArgumentException $e) {
+                            /** Support of: catalogProduct::createV1 */
+                            $resourceName = $useMethodParts[0];
+                        }
+                        $deprecationPolicy['use_resource'] = $resourceName;
+                        $methodName = $useMethodParts[1];
+                        break;
+                    case 1:
+                        $methodName = $useMethodParts[0];
+                        /** If resource was not specified, current one should be used. */
+                        $deprecationPolicy['use_resource'] = $this->translateResourceName(
+                            $methodReflection->getDeclaringClass()->getName());
+                        break;
+                    default:
+                        throw new LogicException('"%s" method has invalid format of Deprecation policy. '
+                            . 'Accepted formats are catalogProduct::createV1 OR createV1.',
+                             $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName());
+                        break;
+                }
+                $methodNameWithoutVersionSuffix = $this->getMethodNameWithoutVersionSuffix($methodName);
+                $deprecationPolicy['use_method'] = $methodNameWithoutVersionSuffix;
+                $methodVersion = str_replace($methodNameWithoutVersionSuffix, '', $methodName);
+                $deprecationPolicy['use_version'] = lcfirst($methodVersion);
+            }
+        }
+        return $deprecationPolicy;
     }
 
     /**

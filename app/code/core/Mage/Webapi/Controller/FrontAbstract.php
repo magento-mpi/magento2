@@ -232,33 +232,46 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     }
 
     /**
-     * Check if operation is deprecated or removed. Throw exception when necessary.
+     * Check if specified method is deprecated or removed.
      *
-     * @param string $operationName
+     * Throw exception in two cases:<br/>
+     * - method is removed<br/>
+     * - method is deprecated and developer mode is enabled
+     *
+     * @param string $resourceName
+     * @param string $method
+     * @param string $resourceVersion
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    protected function _checkOperationDeprecation($operationName)
+    protected function _checkDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
-        if ($deprecationPolicy = $this->getResourceConfig()->getOperationDeprecationPolicy($operationName)) {
-            $operationToBeUsed = isset($deprecationPolicy['use_operation'])
-                ? $deprecationPolicy['use_operation']
-                : $operationName;
-            if (!isset($deprecationPolicy['use_version']) || empty($deprecationPolicy['use_version'])) {
-                throw new LogicException($this->getHelper()
-                    ->__('The "%s" operation was marked as deprecated but "use_version" attribute was not specified.',
-                    $operationName));
+        $deprecationPolicy = $this->getResourceConfig()
+            ->getOperationDeprecationPolicy($resourceName, $method, $resourceVersion);
+        if ($deprecationPolicy) {
+            /** Initialize message with information about what method should be used instead of requested one. */
+            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])
+                && isset($deprecationPolicy['use_version'])
+            ) {
+                $messageUseMethod = $this->getHelper()
+                    ->__('Please, use version %s of "%s" method in "%s" resource instead.',
+                    $deprecationPolicy['use_resource'], $deprecationPolicy['use_method'],
+                    $deprecationPolicy['use_version']);
             } else {
-                $versionToBeUsed = $deprecationPolicy['use_version'];
+                $messageUseMethod = '';
             }
+
+            $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
-                throw new Mage_Webapi_Exception($this->getHelper()
-                    ->__('The requested version of "%s" operation was removed. Please, use version %s of "%s" operation instead.',
-                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-            } else if (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
-                throw new Mage_Webapi_Exception($this->getHelper()
-                    ->__('The requested version of "%s" operation is deprecated. Please, use version %s of "%s" operation instead.',
-                    $operationName, $versionToBeUsed, $operationToBeUsed), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+                $messageMethodRemoved = $this->getHelper()
+                    ->__('Version "%s" of "%s" method in "%s" resource was removed.', $resourceName, $method,
+                    $resourceVersion);
+                throw new Mage_Webapi_Exception($messageMethodRemoved . ' ' . $messageUseMethod, $badRequestCode);
+            } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
+                $messageMethodDeprecated = $this->getHelper()
+                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.', $resourceName, $method,
+                    $resourceVersion);
+                throw new Mage_Webapi_Exception($messageMethodDeprecated . ' ' . $messageUseMethod, $badRequestCode);
             }
         }
     }

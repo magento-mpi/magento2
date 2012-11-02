@@ -53,7 +53,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $this->_processSoapHeader($operation, $arguments);
         } else {
             $role = $this->_authenticate();
-            $this->_checkOperationDeprecation($operation);
             $resourceVersion = $this->_getOperationVersion($operation);
             $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
@@ -68,7 +67,10 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
-                $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+                $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion,
+                    $controllerInstance);
+                $this->_checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
+                $action = $method . $versionAfterFallback;
                 $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments,
                     $this->getResourceConfig());
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
