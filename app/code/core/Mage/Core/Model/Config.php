@@ -1650,4 +1650,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->_currentAreaCode = $areaCode;
         return $this;
     }
+
+    /**
+     * Cleanup circular references
+     *
+     * Destructor should be called explicitly in order to work around the PHP bug
+     * https://bugs.php.net/bug.php?id=62468
+     */
+    public function __destruct()
+    {
+        $this->_cacheLoadedSections = array();
+
+        parent::__destruct();
+    }
 }

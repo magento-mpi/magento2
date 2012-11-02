@@ -38,7 +38,7 @@
             <group id="classes">
                 <field id="wrapping_tax_class" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Tax Class for Gift Options</label>
-                    <source_model>Mage_Shipping_Model_Config_Source_Taxclass</source_model>
+                    <source_model>Mage_Tax_Model_Config_Source_Class_Product</source_model>
                 </field>
             </group>
             <group id="cart_display">
@@ -63,4 +63,4 @@
             </group>
         </section>
     </system>
-</config>
+</config>
