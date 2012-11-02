@@ -126,7 +126,7 @@ report_customer_totals:
         form:
             fieldsets:
                 -
-                    customers_by_orders_total_grid:
+                    report_customer_totals:
                         xpath: //div[@id='gridTotalsCustomer']
                         buttons:
                             refresh: //button[span='Refresh']
