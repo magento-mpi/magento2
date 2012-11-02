@@ -80,67 +80,84 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    /**
+     * Process address form save
+     */
     public function formPostAction()
     {
         if (!$this->_validateFormKey()) {
             return $this->_redirect('*/*/');
         }
-        // Save data
-        if ($this->getRequest()->isPost()) {
-            $customer = $this->_getSession()->getCustomer();
-            /* @var Mage_Customer_Model_Address $address */
-            $address  = Mage::getModel('Mage_Customer_Model_Address');
-            $addressId = $this->getRequest()->getParam('id');
-            if ($addressId) {
-                $existsAddress = $customer->getAddressById($addressId);
-                if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
-                    $address->load($existsAddress->getId());
+
+        if (!$this->getRequest()->isPost()) {
+            $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
+            return $this->_redirectError(Mage::getUrl('*/*/edit'));
+        }
+
+        try {
+            $address = $this->_extractAddress();
+            $this->_validateAddress($address);
+            $address->save();
+            $this->_getSession()->addSuccess($this->__('The address has been saved.'));
+            $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            return;
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
+        } catch (Magento_Validator_Exception $e) {
+            foreach ($e->getMessages() as $messages) {
+                foreach ($messages as $message) {
+                    $this->_getSession()->addError($message);
                 }
             }
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('Cannot save address.'));
+        }
 
-            $errors = array();
+        $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
+        $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
+    }
 
-            /* @var Mage_Customer_Model_Form $addressForm */
-            $addressForm = Mage::getModel('Mage_Customer_Model_Form');
-            $addressForm->setFormCode('customer_address_edit')
-                ->setEntity($address);
-            $addressData    = $addressForm->extractData($this->getRequest());
+    /**
+     * Do address validation using validate methods in models
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @throws Magento_Validator_Exception
+     */
+    protected function _validateAddress($address)
+    {
+        $addressErrors = $address->validate();
+        if (is_array($addressErrors) && count($addressErrors) > 0) {
+            throw new Magento_Validator_Exception(array($addressErrors));
+        }
+    }
 
-            try {
-                $addressForm->compactData($addressData);
-                $address->setCustomerId($customer->getId())
-                    ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-
-                $addressErrors = $address->validate();
-                if ($addressErrors !== true) {
-                    $errors = array_merge($errors, $addressErrors);
-                }
-
-                if (count($errors) === 0) {
-                    $address->save();
-                    $this->_getSession()->addSuccess($this->__('The address has been saved.'));
-                    $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
-                    return;
-                } else {
-                    foreach ($errors as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
-                    }
-                }
-            } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addException($e, $e->getMessage());
-            } catch (Magento_Validator_Exception $e) {
-                foreach ($e->getMessages() as $messages) {
-                    foreach ($messages as $message) {
-                        $this->_getSession()->addError($message);
-                    }
-                }
-            } catch (Exception $e) {
-                $this->_getSession()->addException($e, $this->__('Cannot save address.'));
+    /**
+     * Extract address from request
+     *
+     * @return Mage_Customer_Model_Address
+     */
+    protected function _extractAddress()
+    {
+        $customer = $this->_getSession()->getCustomer();
+        /* @var Mage_Customer_Model_Address $address */
+        $address  = Mage::getModel('Mage_Customer_Model_Address');
+        $addressId = $this->getRequest()->getParam('id');
+        if ($addressId) {
+            $existsAddress = $customer->getAddressById($addressId);
+            if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
+                $address->load($existsAddress->getId());
             }
         }
-        $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        return $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
+        /* @var Mage_Customer_Model_Form $addressForm */
+        $addressForm = Mage::getModel('Mage_Customer_Model_Form');
+        $addressForm->setFormCode('customer_address_edit')
+            ->setEntity($address);
+        $addressData = $addressForm->extractData($this->getRequest());
+        $addressForm->compactData($addressData);
+        $address->setCustomerId($customer->getId())
+            ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+            ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+        return $address;
     }
 
     public function deleteAction()
