@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="general">
+            <group id="content_staging" translate="label" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Staging Websites</label>
+                <field id="create_entry_point" translate="label comment" sortOrder="0" type="select" showInDefault="1">
+                    <label>Automatically Create Entry Points for Staging Websites</label>
+                    <comment>Entry point will be built using the staging website code.</comment>
+                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
+                <field id="entry_points_folder_name" translate="label comment" sortOrder="5" showInDefault="1">
+                    <label>Folder Name for Entry Points</label>
+                    <comment>All automatically created entry points will reside in this folder. The folder should be writeable.</comment>
+                </field>
+                <field id="block_frontend" translate="label" sortOrder="10" type="select" showInDefault="1">
+                    <label>Close Website During Merge or Rollback</label>
+                    <source_model>Enterprise_Staging_Model_System_Config_Source_Down</source_model>
+                    <backend_model>Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active</backend_model>
+                </field>
+                <field id="block_frontend_stub" translate="label" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Landing Page</label>
+                    <source_model>Mage_Cms_Model_Config_Source_Page</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

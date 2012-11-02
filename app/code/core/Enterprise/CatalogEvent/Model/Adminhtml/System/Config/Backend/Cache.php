@@ -15,7 +15,7 @@
  * @package    Enterprise_CatalogEvent
  */
 class Enterprise_CatalogEvent_Model_Adminhtml_System_Config_Backend_Cache
-    extends Mage_Adminhtml_Model_System_Config_Backend_Cache
+    extends Mage_Backend_Model_Config_Backend_Cache
 {
     /**
      * Cache tags to clean

@@ -84,7 +84,8 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends Magento_T
 
         $arguments = array(
             'coreHelper'  => $coreHelper,
-            'importModel' => $importModel
+            'importModel' => $importModel,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
         $this->_model = $this->getBlock('Mage_ImportExport_Block_Adminhtml_Import_Edit_Before', $arguments);
     }

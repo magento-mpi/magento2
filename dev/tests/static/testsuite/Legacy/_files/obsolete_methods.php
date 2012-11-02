@@ -367,7 +367,7 @@ return array(
     $this->_getRule('getFileLayoutUpdatesXml', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     $this->_getRule('getContainers', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     $this->_getRule('parse', 'Mage_Catalog_Model_Convert_Parser_Product', null,
-        'app\code\core\Mage\Catalog\Model\Convert\Parser'),
+            'app\code\core\Mage\Catalog\Model\Convert\Parser'),
     $this->_getRule('parse', 'Mage_Customer_Model_Convert_Parser_Customer', null,
         'app\code\core\Mage\Customer\Model\Convert\Parser'),
     $this->_getRule('prepareRedirect', 'Mage_Core_Controller_Varien_Exception'),

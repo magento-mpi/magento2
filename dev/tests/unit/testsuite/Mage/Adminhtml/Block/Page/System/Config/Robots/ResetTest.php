@@ -26,7 +26,12 @@ class Mage_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends Magento_T
 
     protected function setUp()
     {
-        $this->_resetRobotsBlock = $this->getBlock('Mage_Adminhtml_Block_Page_System_Config_Robots_Reset');
+        $this->_resetRobotsBlock = $this->getBlock('Mage_Adminhtml_Block_Page_System_Config_Robots_Reset',
+            array(
+                'application' => $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
+                'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+            )
+        );
         $this->_mockRobotsHelper = $this->getMockBuilder('Mage_Page_Helper_Robots')
             ->setMethods(array('getRobotsDefaultCustomInstructions'))
             ->getMock();
