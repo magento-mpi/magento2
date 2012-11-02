@@ -163,17 +163,6 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
                 'entity_id' => 1
             ), 'Magento_Validator_Exception', 'Read-only property cannot be changed'),
-            'Read-only entity_type_id' => array(array('website_id' => 0,
-                'group_id' => 1,
-                'disable_auto_group_change' => 0,
-                'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
-                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
-                'gender' => 1,
-                'password' => '123123q',
-                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
-                'entity_type_id' => 1
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed'),
         );
     }
 

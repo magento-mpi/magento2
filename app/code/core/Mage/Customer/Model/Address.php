@@ -17,12 +17,44 @@
  *
  * @method int getParentId() getParentId()
  * @method Mage_Customer_Model_Address setParentId() setParentId(int $parentId)
- * @method boolean getIgnoreValidation()
- * @method Mage_Customer_Model_Address setIgnoreValidation(boolean $flagValue)
  */
 class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 {
+    /**
+     * Customer entity
+     *
+     * @var Mage_Customer_Model_Customer
+     */
     protected $_customer;
+
+    /**
+     * Ignore validation of model before save
+     *
+     * @var bool
+     */
+    protected $_ignoreValidation = false;
+
+    /**
+     * Set ignoreValidation flag
+     *
+     * @param bool $ignoreValidation
+     * @return Mage_Customer_Model_Address
+     */
+    public function setIgnoreValidation($ignoreValidation = true)
+    {
+        $this->_ignoreValidation = $ignoreValidation;
+        return $this;
+    }
+
+    /**
+     * Get ignoreValidation flag
+     *
+     * @return bool
+     */
+    public function getIgnoreValidation()
+    {
+        return $this->_ignoreValidation;
+    }
 
     protected function _construct()
     {
