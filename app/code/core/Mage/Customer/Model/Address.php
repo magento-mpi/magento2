@@ -30,6 +30,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
     /**
      * Ignore validation of model before save
      *
+     * If this flag is false - then model validation will be processed in resource model, in before save trigger
      * @var bool
      */
     protected $_ignoreValidation = false;

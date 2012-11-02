@@ -88,7 +88,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         // Save data
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
-            /* @var $address Mage_Customer_Model_Address */
+            /* @var Mage_Customer_Model_Address $address */
             $address  = Mage::getModel('Mage_Customer_Model_Address');
             $addressId = $this->getRequest()->getParam('id');
             if ($addressId) {
@@ -100,7 +100,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
 
             $errors = array();
 
-            /* @var $addressForm Mage_Customer_Model_Form */
+            /* @var Mage_Customer_Model_Form $addressForm */
             $addressForm = Mage::getModel('Mage_Customer_Model_Form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address);
@@ -123,20 +123,23 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                     return;
                 } else {
-                    $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
                     foreach ($errors as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);
                     }
                 }
             } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->setAddressFormData($this->getRequest()->getPost())
-                    ->addException($e, $e->getMessage());
+                $this->_getSession()->addException($e, $e->getMessage());
+            } catch (Magento_Validator_Exception $e) {
+                foreach ($e->getMessages() as $messages) {
+                    foreach ($messages as $message) {
+                        $this->_getSession()->addError($message);
+                    }
+                }
             } catch (Exception $e) {
-                $this->_getSession()->setAddressFormData($this->getRequest()->getPost())
-                    ->addException($e, $this->__('Cannot save address.'));
+                $this->_getSession()->addException($e, $this->__('Cannot save address.'));
             }
         }
-
+        $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
         return $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
     }
 
