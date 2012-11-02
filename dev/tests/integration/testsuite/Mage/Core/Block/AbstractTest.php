@@ -41,12 +41,14 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             'request'         => Mage::getObjectManager()->create('Mage_Core_Controller_Request_Http', array(), false),
             'layout'          => Mage::getObjectManager()->create('Mage_Core_Model_Layout'),
             'eventManager'    => Mage::getObjectManager()->create('Mage_Core_Model_Event_Manager', array(), false),
+            'urlBuilder'      => Mage::getObjectManager()->create('Mage_Core_Model_Url', array(), false),
             'translator'      => Mage::getObjectManager()->create('Mage_Core_Model_Translate', array(), false),
             'cache'           => Mage::getObjectManager()->create('Mage_Core_Model_Cache', array(), false),
             'designPackage'   => Mage::getObjectManager()->get('Mage_Core_Model_Design_Package'),
             'session'         => Mage::getObjectManager()->create('Mage_Core_Model_Session', array(), false),
             'storeConfig'     => Mage::getObjectManager()->create('Mage_Core_Model_Store_Config', array(), false),
             'frontController' => Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Front', array(), false),
+            'helperFactory'   => Mage::getObjectManager()->create('Mage_Core_Model_Factory_Helper', array(), false),
             'data'            => array('module_name' => 'Mage_Core')
         );
     }

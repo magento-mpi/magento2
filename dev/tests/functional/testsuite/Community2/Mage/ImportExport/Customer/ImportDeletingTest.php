@@ -46,6 +46,7 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
      * Expected: Verify that both customers are absent in the system
      *
      * @test
+     * @author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5675
      */
@@ -119,6 +120,7 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
      * Expected: Verify that both customers are present in the system
      *
      * @test
+     * @author irina.glazunova
      * @dataProvider importCustomerData
      * @TestlinkId TL-MAGE-5678
      */

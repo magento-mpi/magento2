@@ -49,6 +49,16 @@ abstract class Magento_Config_XmlAbstract
     abstract public function getSchemaFile();
 
     /**
+     * Get absolute path to per-file XML-schema file
+     *
+     * @return string
+     */
+    public function getPerFileSchemaFile()
+    {
+        return null;
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom
@@ -74,6 +84,9 @@ abstract class Magento_Config_XmlAbstract
                 $this->_performValidate($file);
             }
         }
+        if ($this->_isRuntimeValidated()) {
+            $this->_performValidate();
+        }
         return $this->_getDomConfigModel()->getDom();
     }
 
@@ -85,7 +98,11 @@ abstract class Magento_Config_XmlAbstract
      */
     protected function _performValidate($file = null)
     {
-        if (!$this->_getDomConfigModel()->validate($this->getSchemaFile(), $errors)) {
+        $schemaFile = $this->getSchemaFile();
+        if ($file) {
+            $schemaFile = $this->getPerFileSchemaFile() ? $this->getPerFileSchemaFile() : $schemaFile;
+        }
+        if (!$this->_getDomConfigModel()->validate($schemaFile, $errors)) {
             $message = is_null($file) ?  "Invalid Document \n" : "Invalid XML-file: {$file}\n";
             /** @var libXMLError $error */
             foreach ($errors as $error) {
@@ -130,4 +147,14 @@ abstract class Magento_Config_XmlAbstract
      * @return array
      */
     abstract protected function _getIdAttributes();
+
+    /**
+     * Serialize configuration data
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array('_data');
+    }
 }

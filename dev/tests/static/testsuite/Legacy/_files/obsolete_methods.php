@@ -381,4 +381,5 @@ return array(
     $this->_getRule('_getUploadMaxFilesize', 'Mage_Catalog_Model_Product_Option_Type_File'),
     $this->_getRule('_bytesToMbytes', 'Mage_Catalog_Model_Product_Option_Type_File'),
     $this->_getRule('getMaxUploadSize', 'Mage_ImportExport_Helper_Data', 'getMaxUploadSizeMessage'),
+    $this->_getRule('prepareRedirect', 'Mage_Core_Controller_Varien_Exception'),
 );

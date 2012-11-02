@@ -28,7 +28,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
     {
         if ($this->_isCreateRmaButtonRequired()) {
             $parentBlock = $this->getParentBlock();
-            $buttonUrl = $this->_getUrlModel()->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
+            $buttonUrl = $this->_urlBuilder->getUrl('*/rma/new', array('order_id' => $parentBlock->getOrderId()));
             $parentBlock->addButton('create_rma', array(
                 'label' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Create RMA'),
                 'onclick' => 'setLocation(\'' . $buttonUrl . '\')',

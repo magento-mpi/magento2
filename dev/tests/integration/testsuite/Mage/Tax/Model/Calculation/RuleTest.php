@@ -53,13 +53,13 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule(
             Mage::getModel('Mage_Core_Model_Event_Manager'),
             Mage::getModel('Mage_Core_Model_Cache'),
-            null,
-            null,
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
                 Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
             ),
+            null,
+            null,
             array()
         );
         $this->assertEquals(1, $model->getCustomerTaxClassWithDefault());
@@ -75,13 +75,13 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule(
             Mage::getModel('Mage_Core_Model_Event_Manager'),
             Mage::getModel('Mage_Core_Model_Cache'),
-            null,
-            null,
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
                 Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
             ),
+            null,
+            null,
             array()
         );
         $this->assertEquals(2, $model->getCustomerTaxClassWithDefault());
@@ -97,13 +97,13 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule(
             Mage::getModel('Mage_Core_Model_Event_Manager'),
             Mage::getModel('Mage_Core_Model_Cache'),
-            null,
-            null,
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
                  Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
             ),
+            null,
+            null,
             array()
         );
         $this->assertEquals(1, $model->getProductTaxClassWithDefault());
@@ -119,13 +119,13 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule(
             Mage::getModel('Mage_Core_Model_Event_Manager'),
             Mage::getModel('Mage_Core_Model_Cache'),
-            null,
-            null,
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
                  Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
             ),
+            null,
+            null,
             array()
         );
         $this->assertEquals(2, $model->getProductTaxClassWithDefault());
@@ -141,10 +141,10 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Tax_Model_Calculation_Rule(
             Mage::getModel('Mage_Core_Model_Event_Manager'),
             Mage::getModel('Mage_Core_Model_Cache'),
-            null,
-            null,
             Mage::helper('Mage_Tax_Helper_Data'),
             Mage::getModel('Mage_Tax_Model_Class'),
+            null,
+            null,
             array()
         );
         $classes = $model->getAllOptionsForClass($classFilter);
