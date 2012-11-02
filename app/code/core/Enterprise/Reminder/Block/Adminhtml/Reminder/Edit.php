@@ -43,7 +43,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
             'label'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Save and Continue Edit'),
-            'onclick' => 'editForm.submit($(\'edit_form\').action + \'back/edit/\')'
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            )
         ), 3);
     }
 
