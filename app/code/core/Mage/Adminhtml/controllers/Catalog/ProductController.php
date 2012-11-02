@@ -698,9 +698,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data) {
             $this->_filterStockData($data['product']['stock_data']);
 
-            $product = $this->_initProductSave($this->_initProduct());
+            $product = $this->_initProduct();
 
             $this->_transitionProductType($product);
+            $product = $this->_initProductSave($product);
 
             try {
                 $originalSku = $product->getSku();
