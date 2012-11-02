@@ -45,13 +45,9 @@ class Community2_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
         //Steps
         $this->fillDropdown('actions', 'Delete');
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not
-        match');
+        $this->assertSame('Please select items.', $this->alertText(),
+            'actual and expected confirmation message does not match');
     }
 
     /**
@@ -73,18 +69,17 @@ class Community2_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
     public function deleteCouponCodes()
     {
         //Steps
-        $xpathTR = $this->search(array('No'), 'manage_coupons_grid');
-        $this->assertNotEquals(null, $xpathTR, 'No records found.');
+        $trLocator = $this->search(array('No'), 'manage_coupons_grid');
+        $this->assertNotNull($trLocator, 'No records found.');
         $columnId = $this->getColumnIdByName('Coupon Code');
-        $couponCode = $this->getText($xpathTR . '//td[' . $columnId . ']');
-        $xpathCouponCode = $this->search(array($couponCode), 'manage_coupons_grid');
-        $this->searchAndChoose(array($couponCode), 'manage_coupons_grid');
+        $couponCode = trim($this->getChildElement($this->getElement($trLocator), '//td[' . $columnId . ']')->text());
+        $xpathCouponCode = $this->formSearchXpath(array('filter_coupon_code' => $couponCode));
+        $this->searchAndChoose(array('filter_coupon_code' => $couponCode), 'manage_coupons_grid');
         $this->fillDropdown('actions', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete', false);
         $this->pleaseWait();
         //Verification
-        if($this->isElementPresent($xpathCouponCode))
-        {
+        if ($this->elementIsPresent($xpathCouponCode)) {
             $this->fail('Coupon code ' . $couponCode . ' is not deleted!');
         }
     }

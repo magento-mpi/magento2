@@ -165,6 +165,11 @@ developer_test_account_us:
     title: PayPal Sandbox - Sandbox
     uimap: *developerForm
 
+developer_created_test_account:
+    mca: cgi-bin/devscr?cmd=_sandbox-acct-session&account_created=1
+    title: PayPal Sandbox - Sandbox
+    uimap: *developerForm
+
 developer_created_test_account_us:
     mca: us/cgi-bin/devscr?cmd=_sandbox-acct-session&account_created=1
     title: PayPal Sandbox - Sandbox

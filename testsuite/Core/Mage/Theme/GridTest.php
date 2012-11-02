@@ -31,7 +31,7 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('theme_list');
-        $this->isElementPresent('theme_grid');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
     }
 
     /**
@@ -47,6 +47,6 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     public function openNewThemePage()
     {
         $this->clickButton('add_new_theme');
-        $this->isElementPresent('theme_form');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'theme_form'), 'Theme form fieldset is not present');
     }
 }
