@@ -82,7 +82,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $helper = Mage::helper('Mage_Core_Helper_Data');
 
         $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)', str_replace(
-            '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addPattern()))
+            '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
         ));
 
         /** @var $parentTheme Mage_Core_Model_Theme */

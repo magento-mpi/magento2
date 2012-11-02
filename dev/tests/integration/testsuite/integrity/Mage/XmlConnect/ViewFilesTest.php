@@ -25,7 +25,7 @@ class Integrity_Mage_XmlConnect_ViewFilesTest extends PHPUnit_Framework_TestCase
         $params = array(
             'area'    => 'adminhtml',
             'package' => 'default',
-            'theme'   => 'default',
+            'theme'   => 'basic',
         );
         $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
         $params['area'] = 'frontend';

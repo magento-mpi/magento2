@@ -1073,16 +1073,15 @@ class Mage_Core_Model_Design_Package
      * )
      *
      * @param string $area
-     * @param bool $addInheritedSkins
      * @return array
      */
-    public function getDesignEntitiesStructure($area, $addInheritedSkins = true)
+    public function getDesignEntitiesStructure($area)
     {
         $areaStructure = array();
 
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
-        $themeCollection->addPattern();
+        $themeCollection->addDefaultPattern($area);
 
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {

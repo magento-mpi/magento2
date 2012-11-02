@@ -21,12 +21,8 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testViewFilesFromModulesView($application, $file)
     {
-        $params = array(
-            'area'    => $application,
-            'package' => 'default',
-            'theme'   => 'default'
-        );
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
+        Mage::getDesign()->setArea($application);
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
     }
 
     /**
@@ -115,13 +111,8 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testViewFilesFromModulesCode($application, $file)
     {
-        $params = array('area' => $application,
-            // other legacy params, caused by cramped Mage_Core_Model_Design_Package
-            // expected defaults: default/default/default
-            'package' => 'default',
-            'theme' => 'default',
-        );
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
+        Mage::getDesign()->setArea($application);
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
     }
 
     /**

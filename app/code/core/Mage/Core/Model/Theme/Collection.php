@@ -45,30 +45,14 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     }
 
     /**
-     * Add pattern to themes configuration. Adds directory to be scanned
-     *
-     * @param string|null $pattern
-     * @return Mage_Core_Model_Theme_Collection
-     */
-    public function addPattern($pattern = null)
-    {
-        if ($pattern) {
-            $this->_addTargetPattern($pattern);
-        } else {
-            $this->_addDefaultPattern();
-        }
-        return $this;
-    }
-
-    /**
      * Add default pattern to themes configuration
      *
      * @param string $area
      * @return Mage_Core_Model_Theme_Collection
      */
-    protected function _addDefaultPattern($area = 'frontend')
+    public function addDefaultPattern($area = 'frontend')
     {
-        $this->_addTargetPattern(implode(DS, array(Mage::getBaseDir('design'), $area, '*', '*', 'theme.xml')));
+        $this->addTargetPattern(implode(DS, array(Mage::getBaseDir('design'), $area, '*', '*', 'theme.xml')));
         return $this;
     }
 
@@ -79,7 +63,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      * @param string $value
      * @return Mage_Core_Model_Theme_Collection
      */
-    protected function _addTargetPattern($value)
+    public function addTargetPattern($value)
     {
         $this->_targetDirs[] = $value;
         return $this;

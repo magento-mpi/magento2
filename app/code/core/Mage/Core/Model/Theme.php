@@ -159,7 +159,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isVirtual()
     {
-        $collection = $this->getCollectionFromFilesystem()->addPattern()->getItems();
+        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
         return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
     }
 
@@ -432,7 +432,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function themeRegistration($pathPattern)
     {
-        $this->getCollectionFromFilesystem()->addPattern($pathPattern)->themeRegistration();
+        $this->getCollectionFromFilesystem()->addTargetPattern($pathPattern)->themeRegistration();
         $this->getCollection()->checkParentInThemes();
 
         return $this;

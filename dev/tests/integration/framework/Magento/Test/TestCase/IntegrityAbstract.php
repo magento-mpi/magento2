@@ -64,7 +64,7 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
     {
         $result = array();
         foreach (array('adminhtml', 'frontend', 'install') as $area) {
-            $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
+            $entities = Mage::getDesign()->getDesignEntitiesStructure($area);
             foreach ($entities as $package => $themes) {
                 foreach ($themes as $theme) {
                     $result[] = "{$area}/{$package}/{$theme}";

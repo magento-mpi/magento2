@@ -23,7 +23,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
 
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');
-        $collection->addPattern($pathPattern);
+        $collection->addTargetPattern($pathPattern);
 
         $this->assertEquals($collection->getItemsArray(), $this->_expectedThemeList());
     }
