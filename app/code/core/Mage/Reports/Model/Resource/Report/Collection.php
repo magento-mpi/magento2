@@ -279,66 +279,34 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
      */
     public function getReport($from, $to)
     {
-        $reportResource = new Mage_Reports_Model_Resource_Customer_Orders_Collection();
+        $collectionClass = $this->getReportCollection();
+        $reportResource = new $collectionClass();
         $reportResource
             ->setDateRange($this->timeShift($from), $this->timeShift($to))
             ->setPageSize($this->getPageSize())
             ->setStoreIds($this->getStoreIds());
         return $reportResource;
 
-//        $this->_reportResource
-//            ->setDateRange($from, $to)
-//            ->setPageSize($this->getPageSize())
-//            ->setStoreIds($this->getStoreIds());
-//
-//        $totalObj = Mage::getModel('Mage_Reports_Model_Totals');
-//        $this->setTotals($totalObj->countTotals($this, $from, $to));
-//        $this->addGrandTotals($this->getTotals());
-//        return $this->_model->getReport($this->timeShift($from), $this->timeShift($to));
     }
 
+    /**
+     * Get Reports for interval
+     *
+     * @return array
+     */
     public function getReports()
     {
         $reports = array();
         foreach ($this->_getIntervals() as $interval) {
-            $reports[] = $interval->setChildren(
+            $interval->setChildren(
                 $this->getReport($interval->getStart(), $interval->getEnd())
             );
+            if (count($interval->getChildren()) == 0) {
+                $interval->setIsEmpty(true);
+            }
+            $reports[] = $interval;
         }
         return $reports;
-    }
-
-    public function addGrandTotals($total)
-    {
-        $totalData = $total->getData();
-        foreach ($totalData as $key=>$value) {
-            $_column = $this->getColumn($key);
-            if ($_column->getTotal() != '') {
-                $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
-            }
-        }
-        /*
-         * recalc totals if we have average
-         */
-        foreach ($this->getColumns() as $key=>$_column) {
-            if (strpos($_column->getTotal(), '/') !== FALSE) {
-                list($t1, $t2) = explode('/', $_column->getTotal());
-                if ($this->getGrandTotals()->getData($t2) != 0) {
-                    $this->getGrandTotals()->setData(
-                        $key,
-                        (float)$this->getGrandTotals()->getData($t1)/$this->getGrandTotals()->getData($t2)
-                    );
-                }
-            }
-        }
-    }
-
-    public function getGrandTotals()
-    {
-        if (!$this->_grandTotals) {
-            $this->_grandTotals = new Varien_Object();
-        }
-        return $this->_grandTotals;
     }
 
     /**
@@ -372,5 +340,27 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
     public function count()
     {
         return count($this->getReports());
+    }
+
+    /**
+     * Set Report resource collection class name
+     *
+     * @param string $reportCollectionClass
+     * @return Mage_Reports_Model_Resource_Report_Collection
+     */
+    public function setReportCollection($reportCollectionClass)
+    {
+        $this->_reportCollectionClass = $reportCollectionClass;
+        return $this;
+    }
+
+    /**
+     * Get Report resource collection class name
+     *
+     * @return string
+     */
+    public function getReportCollection()
+    {
+        return $this->_reportCollectionClass;
     }
 }

@@ -11,7 +11,7 @@
 
 -->
 <layout version="0.1.0">
-    <adminhtml_report_customer_orders_grid>
+    <adminhtml_report_customer_orders_grid_blank>
         <reference name="adminhtml.report.customer.orders.grid.container">
             <block type="Mage_Reports_Block_Adminhtml_Grid" name="adminhtml.report.customer.orders.grid" as="grid">
                 <arguments>
@@ -20,7 +20,6 @@
                     <pager_visibility>0</pager_visibility>
                     <id>gridOrdersCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
-                    <!--<source_collection>Mage_Reports_Model_Resource_Customer_Orders_Collection</source_collection>-->
                 </arguments>
                 <block type="Mage_Adminhtml_Block_Store_Switcher" name="adminhtml.report.customer.orders.grid.store_switcher" as="store_switcher">
                     <arguments>
@@ -121,6 +120,17 @@
                     </block>
                 </block>
             </block>
+        </reference>
+    </adminhtml_report_customer_orders_grid_blank>
+
+    <adminhtml_report_customer_orders_grid>
+        <update handle="adminhtml_report_customer_orders_grid_blank" />
+        <reference name='adminhtml.report.customer.orders.grid'>
+            <arguments>
+                <dataSource>
+                    <updater>Mage_Reports_Model_Customer_OrderUpdater</updater>
+                </dataSource>
+            </arguments>
         </reference>
     </adminhtml_report_customer_orders_grid>
 
