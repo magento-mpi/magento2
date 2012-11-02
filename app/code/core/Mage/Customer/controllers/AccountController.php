@@ -251,12 +251,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
         try {
             $customer = $this->_extractCustomer();
-            if ($this->getRequest()->getPost('create_address')) {
-                $address = $this->_extractAddress($customer);
-                $this->_validateCustomer($customer, $address);
-            } else {
-                $this->_validateCustomer($customer);
-            }
+            $address = $this->_extractAddress($customer);
+            $this->_validateCustomer($customer, $address);
 
             $customer->save()->setOrigData();
             Mage::dispatchEvent('customer_register_success',
@@ -270,7 +266,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     Mage::app()->getStore()->getId()
                 );
                 $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail())));
-                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure' => true)));
             } else {
                 $session->setCustomerAsLoggedIn($customer);
                 $url = $this->_welcomeCustomer($customer);
@@ -300,8 +296,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
     }
 
-    protected function _validateCustomer(Mage_Customer_Model_Customer $customer,
-        Mage_Customer_Model_Address $address = null)
+    /**
+     * Do validation of customer and its address using validate methods in models
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param Mage_Customer_Model_Address|null $address
+     * @throws Magento_Validator_Exception
+     */
+    protected function _validateCustomer($customer, $address = null)
     {
         $errors = array();
         if ($address) {
@@ -323,10 +325,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      * Add address to customer during create account
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @return Mage_Customer_Model_Address
+     * @return Mage_Customer_Model_Address|null
      */
     protected function _extractAddress($customer)
     {
+        if (!$this->getRequest()->getPost('create_address')) {
+            return null;
+        }
         /* @var Mage_Customer_Model_Address $address */
         $address = Mage::getModel('Mage_Customer_Model_Address');
         /* @var Mage_Customer_Model_Form $addressForm */
