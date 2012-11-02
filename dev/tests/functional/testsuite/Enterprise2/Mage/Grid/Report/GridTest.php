@@ -150,4 +150,50 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
         $this->assertEquals($totalBefore + 1, $totalAfter);
     }
+
+    /**
+     *<p>PreConditions</p>
+     *<p>1.Go to Report - Customers - Customers by Number of Orders</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>2.Get Total Number of Orders</p>
+     *<p>3.Create new Product</p>
+     *<p>4.Create Order with created Product</p>
+     *<p>Steps:</p>
+     *<p>1.Go to Report - Product Ordered page</p>
+     *<p>2.Filter data with filled "From", "To" used current Day value</p>
+     *<p>Actual Results:</p>
+     *<p>1.Total Number of Orders value = Value from PreConditions +1 </p>
+     *
+     * @test
+     */
+    public function checkTotalNumberOfOrdersGridTest()
+    {
+        // Get Total Number of Orders
+        $this->navigate('report_customer_orders');
+        $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalBefore = $this->getText($setXpath . "[$count]/*[3]");
+        // Create Product
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Create Order
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple['general_name']));
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        // Steps
+        $this->navigate('report_customer_orders');
+        $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        //Check Quantity Ordered after  new order created
+        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
+        $count = $this->getXpathCount($setXpath);
+        $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
+        $this->assertEquals($totalBefore + 1, $totalAfter);
+    }
 }
