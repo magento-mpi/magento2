@@ -29,8 +29,9 @@ class Mage_Downloadable_Model_Observer
     {
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
+        $downloadable = $request->getPost('downloadable');
 
-        if ($downloadable = $request->getPost('downloadable')) {
+        if ($downloadable && $product->hasIsVirtual()) {
             $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
             $product->setDownloadableData($downloadable);
         }
