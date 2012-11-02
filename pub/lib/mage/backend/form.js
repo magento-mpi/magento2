@@ -39,20 +39,21 @@
         },
 
         /**
-         * Join all handlers names in string
+         * Get array with handler names
          * @protected
+         * @return {Array} Array of handler names
          */
-        _getHandlersString: function() {
+        _getHandlers: function() {
             var handlers = [];
             $.each(this.options.handlersData, function(key) {
                 handlers.push(key);
             });
-            return handlers.join(' ');
+            return handlers;
         },
 
         /**
          * Store initial value of form attribute
-         * @param {string} Name of attribute
+         * @param {string} attrName name of attribute
          * @protected
          */
         _storeAttribute: function(attrName) {
@@ -64,18 +65,17 @@
         },
 
         /**
-         * Bind hendlers
+         * Bind handlers
          * @protected
          */
         _bind: function() {
-            this.element.on(this._getHandlersString(), $.proxy(this._submit, this));
+            this.element.on(this._getHandlers.join(' '), $.proxy(this._submit, this));
         },
 
         /**
          * Get action url for form
-         * @param {string} name of action
-         * @param {Object} object with parameters for action url
-         * @return {string|boolean}
+         * @param {Object|string} data object with parameters for action url or url string
+         * @return {string} action url
          */
         _getActionUrl: function(data) {
             if ($.type(data) === 'object') {
@@ -90,8 +90,9 @@
 
         /**
          * Prepare data for form attributes
-         * @param {Object}
          * @protected
+         * @param {Object}
+         * @return {Object}
          */
         _processData: function(data) {
             $.each(data, $.proxy(function(attrName, attrValue) {
@@ -105,9 +106,9 @@
 
         /**
          * Get additional data before form submit
+         * @protected
          * @param {string}
          * @param {Object}
-         * @protected
          */
         _beforeSubmit: function(handlerName, data) {
             var submitData = {};
@@ -124,9 +125,8 @@
 
         /**
          * Submit the form
-         * @param {Object} event object
-         * @param {Object} event data object
-         * @return {string|boolean}
+         * @param {Object} e event object
+         * @param {Object} data event data object
          */
         _submit: function(e, data) {
             this._rollback();
@@ -151,7 +151,7 @@
          * @protected
          */
         _processDataAttr: function() {
-            data = this.element.data().widgetButton;
+            var data = this.element.data().widgetButton;
             $.extend(true, this.options, $.type(data) === 'object' ? data : {});
         },
 
