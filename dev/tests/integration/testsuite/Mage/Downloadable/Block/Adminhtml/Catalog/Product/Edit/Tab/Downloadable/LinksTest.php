@@ -46,11 +46,11 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     }
 
     /**
-     * Get Links Title for simple and virtual products
+     * Get Links Title for simple/virtual/downloadable product
      *
      * @magentoConfigFixture current_store catalog/downloadable/links_title Links Title Test
      * @magentoAppIsolation enabled
-     * @dataProvider productTypesDataProvider
+     * @dataProvider productLinksTitleDataProvider
      *
      * @param string $productType
      * @param string $linksTitle
@@ -73,7 +73,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      *
      * @return array
      */
-    public function productTypesDataProvider()
+    public function productLinksTitleDataProvider()
     {
         return array (
             array('simple', null, 'Links Title Test'),

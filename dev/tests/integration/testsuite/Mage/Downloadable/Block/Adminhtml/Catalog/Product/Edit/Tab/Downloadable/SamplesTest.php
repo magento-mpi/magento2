@@ -31,11 +31,11 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     }
 
     /**
-     * Get Samples Title for simple and virtual products
+     * Get Samples Title for simple/virtual/downloadable product
      *
      * @magentoConfigFixture current_store catalog/downloadable/samples_title Samples Title Test
      * @magentoAppIsolation enabled
-     * @dataProvider productTypesDataProvider
+     * @dataProvider productSamplesTitleDataProvider
      *
      * @param string $productType
      * @param string $samplesTitle
@@ -58,7 +58,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      *
      * @return array
      */
-    public function productTypesDataProvider()
+    public function productSamplesTitleDataProvider()
     {
         return array (
             array('simple', null, 'Samples Title Test'),
