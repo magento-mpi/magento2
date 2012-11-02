@@ -55,6 +55,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionExistingOptions
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5828
      */
     public function importExistingOptions(array $productData)
@@ -134,6 +135,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionWithDifferentStoreViews
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5829
      */
     public function importWithDifferentStoreViews(array $productData)
@@ -196,6 +198,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionDifferentDropdownOptions
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5831
      */
     public function importDifferentDropdownOptions(array $productData)
@@ -261,6 +264,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionWithPartOptions
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5832
      */
     public function importWithPartOptions(array $productData)
@@ -319,6 +323,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionWithEmptyPrice
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5833
      */
     public function importWithEmptyPrice(array $productData)
@@ -375,6 +380,7 @@ class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage
      *
      * @depends preconditionAddOptions
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5837
      */
     public function importAddOptions(array $productData)

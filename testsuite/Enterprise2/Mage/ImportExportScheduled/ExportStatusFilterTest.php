@@ -71,6 +71,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      *  Result: Status is changed to "Enabled" for both exports
      *
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5816
      */
     public function scheduledExportStatuses()
@@ -535,6 +536,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      * Result: Only Exports which have the key 'test' in the name are displayed in the grid
      *
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5817
      */
     public function scheduledExportSearchByFilter()

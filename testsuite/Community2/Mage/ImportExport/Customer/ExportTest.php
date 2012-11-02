@@ -41,6 +41,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: Entity Attributes grid is visible, buttons Reset Filter, Search and Continue appeared
      *
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5479, 1181
      */
     public function exportSettingsGeneralView()
@@ -106,7 +107,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5487
      */
     public function simpleExportMasterFile()
@@ -140,7 +141,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5488
      */
     public function exportMasterFileWithFilters()
@@ -211,6 +212,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * 7. Verify that attribute is found
      * 8. Click 'Reset filter' button
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
     public function searchByAttributeLabelCode()
@@ -246,6 +248,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * 2. The column "Skip" is available only for "Customer Main File"
      *
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5492, TL-MAGE-5493, TL-MAGE-5494
      */
     public function entityAttributesBlockAllFileTypes()
@@ -308,7 +311,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: Check that among all customers addresses your customer address with attribute is present
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5490
      */
     public function simpleExportAddressFile()

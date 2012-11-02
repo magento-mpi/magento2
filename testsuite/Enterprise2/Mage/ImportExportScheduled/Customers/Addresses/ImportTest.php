@@ -84,7 +84,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
      * @dataProvider addressImportData
      * @depends preconditionImport
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @testLinkId TL-MAGE-5789, TL-MAGE-5792, TL-MAGE-5795
      */
     public function importValidData($originalAddressData, $addressCsv, $behavior, $newAddressData, $customerData)
@@ -184,7 +184,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
      * @dataProvider addressInvalidImportData
      * @depends preconditionImport
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @testLinkId TL-MAGE-5800
      */
     public function importInvalidData($addressCsv, $customerData)

@@ -49,6 +49,7 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
      * Expected: Customer1 has values as in precondition. Customer2 has "0" for Reward Points and Store Credit
      *
      * @test
+     * @ author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5644
      */

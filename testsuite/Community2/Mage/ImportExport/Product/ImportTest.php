@@ -169,6 +169,7 @@ class Community2_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_Test
      *
      * @depends preconditionReplaceImport
      * @test
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1141
      *
      * @param array $productData
@@ -239,7 +240,7 @@ class Community2_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_Test
      *
      * @depends preconditionReplaceImport
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1142, TL-MAGE-1161
      */
     public function replaceWithOptions(array $productData)
