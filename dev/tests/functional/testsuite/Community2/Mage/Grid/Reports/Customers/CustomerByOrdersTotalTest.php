@@ -1,139 +1,96 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_AdminUser
+ * @package     Mage_Grid_Reports
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
-class testNAME extends Mage_Selenium_TestCase
+/**
+ * Verify of Reports Customer Customer by Orders Total grid
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
-    /*
-     *  1. create order
-     *  2. work with calendar
-     *  2.1 get current data PHP (+)
-     *  2.2 convert it in format MM/DD/YYYY (+)
-     *  3. find records in grid
-     *  4. get count of rows in grid in different conditions
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-
-
-
-
-
-    public function test()
+    protected function tearDownAfterTest()
     {
-        $date = getdate();
-        $data2= date('m/d/y');
-        $validDate = $date['mon'] . '/' . $date['mday']. '/' . $date['year'] ;
+        $this->logoutAdminUser();
+    }
 
+    /**
+     * <p>Preconditions: create customer and order</p>
+     * @test
+     */
+    public function createTestEntityInReportGrid()
+    {
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account', array('first_name'=> $this->generate('string', 10, ':alnum:') ));
+        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_customer');
+       $orderData = array('sku'   => $simple['general_name'], 'email' => $userData['email']);
+        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
+            array('filter_sku' => $orderData['sku'], 'email'      => $orderData['email']));
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderCreationData);
+        $this->assertMessagePresent('success', 'success_created_order');
+    }
+
+    /**
+     * <p>Verifying that number of elements is increased after create new order</p>
+     * <p>Preconditions:</p>
+     * <p>1. At least one simple product is created</p>
+     * <p>2. Two customers for test order are created</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to admin</p>
+     * <p>2. Create new order for first customer<p>
+     * <p>2. Navigate to Reports>Customers>Customer by orders total</p>
+     * <p>3. Enter current date in to the "From" and "To" field</p>
+     * <p>4. Click Refresh button</p>
+     * <p>5. Count qty of rows</p>
+     * <p>6. Create new order for second customer</p>
+     * <p>8. Navigate to Customers>Customer by orders total</p>
+     * <p>9. Enter current date in to the "From" and "To" field</p>
+     * <p>10. Click Refresh button</p>
+     * <p>11. Count qty of rows</p>
+     * <p>Expected result:</p>
+     * <p>The count of rows is increased on 1 item</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6442
+     */
+    public function verifyCountOfEntityInGrid()
+    {
         $this->navigate('report_customer_totals');
-        $this->fillField('filter_from',$validDate);
-        $this->fillField('filter_to',$validDate);
+        $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-
-        $gridXpath = "//table[@id='gridTotalsCustomer_table']";
-
-
-
-        echo $validDate;
-
-
-
-
-        //echo sd;
-
+        $this->pleaseWait();
+        $gridXpath = $this->_getControlXpath('pageelement', 'customer_by_orders_total_table');
+        $count = $this->getElementsByXpath($gridXpath . '/tbody/tr');
+        $newCount = count($count) + 1;
+        $this->createTestEntityInReportGrid();
+        $this->navigate('report_customer_totals');
+        $this->gridHelper()->fillDateFromTo();
+        $this->assertCount($newCount, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
+            'Wrong records number in grid customer_by_orders_total_table:');
     }
-
-    /**
-     * @param $gridXpath
-     * @param $numbTestColumn
-     * @param $linkForSortColumnType
-     *
-     * @return array
-     */
-    public function getAllColumnValues($gridXpath, $numbTestColumn, $linkForSortColumnType=null)
-    {
-        $xpathOfAllRecordsPerPage = $gridXpath . '/tbody/tr';
-
-        $resultArray = array();
-        if($this->isElementPresent($xpathOfAllRecordsPerPage . '[1]/td[' . $numbTestColumn .']'))
-        {
-            $count = $this->pagesCount();
-            $currentPage = 0;
-            do {
-                $currentPage++;
-                $this->_paginate($currentPage);
-                $resultArray = array_merge($this->collectArray($gridXpath, $numbTestColumn),$resultArray);
-            } while ($count != $currentPage);
-        }
-
-        return $resultArray;
-    }
-
-    /**
-     * Go to specified page
-     *
-     * @param $currentPage
-     */
-    protected function _paginate($currentPage)
-    {
-        $this->fillField('page', $currentPage);
-        $this->keyPress($this->_getControlXpath('field', 'page'), "\\13");
-        $this->waitForAjax();
-    }
-
-    /**
-     * @param $gridXpath
-     * @param $numbTestColumn
-     *
-     * @return array
-     */
-    public function collectArray($gridXpath, $numbTestColumn)
-    {
-        $allColumnArrayFromPage = array();
-        $count = count($this->getElementsByXpath($gridXpath . '/tbody/tr'));
-        for ($i=1; $i <= $count; $i++)
-        {
-            $allColumnArrayFromPage[] =
-                $this->getElementByXpath($gridXpath . '/tbody/tr[' . $i. ']/td[' . $numbTestColumn . ']');
-        }
-
-        return $allColumnArrayFromPage;
-
-    }
-
-
-    public function pagesCount()
-    {
-        $page = $actualPage = 0;
-        do {
-            $page++;
-            $this->_paginate($page);
-            $actualPage = $this->getValue($this->_getControlXpath('field', 'page'));
-        } while ($page == $actualPage);
-
-        return $actualPage;
-    }
-
-
-
 }
