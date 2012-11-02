@@ -19,6 +19,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             ::performUploadButtonTest($block);
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetSampleData()
     {
         Mage::register('current_product', new Varien_Object(array('type_id' => 'simple')));
@@ -27,26 +30,27 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $this->assertEmpty($block->getSampleData());
     }
 
-
-    protected function tearDown()
-    {
-        Mage::unregister('current_product');
-    }
-
     /**
      * Get Samples Title for simple and virtual products
      *
+     * @magentoConfigFixture current_store catalog/downloadable/samples_title Samples Title Test
      * @magentoAppIsolation enabled
      * @dataProvider productTypesDataProvider
      *
      * @param string $productType
+     * @param string $samplesTitle
+     * @param string $expectedResult
      */
-    public function testGetSamplesTitle($productType)
+    public function testGetSamplesTitle($productType, $samplesTitle, $expectedResult)
     {
-        Mage::register('current_product', new Varien_Object(array('type_id' => $productType, 'id' => '1')));
+        Mage::register('current_product', new Varien_Object(array(
+            'type_id' => $productType,
+            'id' => '1',
+            'samples_title' => $samplesTitle
+        )));
         $block = Mage::app()->getLayout()
             ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
-        $this->assertEquals('Samples', $block->getSamplesTitle());
+        $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }
 
     /**
@@ -57,38 +61,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     public function productTypesDataProvider()
     {
         return array (
-            array('simple'),
-            array('virtual'),
-        );
-    }
-
-    /**
-     * Get Samples Title for downloadable product with existed Samples Title value
-     *
-     * @magentoAppIsolation enabled
-     * @dataProvider samplesTitleDataProvider
-     *
-     * @param string $samplesTitle
-     */
-    public function testGetSamplesTitleExist($samplesTitle)
-    {
-        Mage::register('current_product',
-            new Varien_Object(array('type_id' => 'downloadable', 'id' => '1', 'samples_title' => $samplesTitle)));
-        $block = Mage::app()->getLayout()
-            ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
-        $this->assertEquals($samplesTitle, $block->getSamplesTitle());
-    }
-
-    /**
-     * Data Provider with Samples Title values
-     *
-     * @return array
-     */
-    public function samplesTitleDataProvider()
-    {
-        return array (
-            array(null),
-            array('Samples Test')
+            array('simple', null, 'Samples Title Test'),
+            array('simple', 'Samples Title', 'Samples Title Test'),
+            array('virtual', null, 'Samples Title Test'),
+            array('virtual', 'Samples Title', 'Samples Title Test'),
+            array('downloadable', null, null),
+            array('downloadable', 'Samples Title', 'Samples Title')
         );
     }
 }

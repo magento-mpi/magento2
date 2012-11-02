@@ -134,14 +134,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getSamplesTitle()
     {
-        if ($this->getProduct()->getId()
-            && (($this->getProduct()->getSamplesTitle() !== null)
-                || ($this->getProduct()->getTypeId() == 'downloadable'))
-        ) {
-            return $this->getProduct()->getSamplesTitle();
-        } else {
-            return Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
-        }
+        return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
+            ? $this->getProduct()->getSamplesTitle()
+            : Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**

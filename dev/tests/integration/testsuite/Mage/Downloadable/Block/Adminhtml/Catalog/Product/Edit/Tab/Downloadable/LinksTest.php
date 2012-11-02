@@ -34,6 +34,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         self::assertEquals($expected, $block->getUploadButtonHtml());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetLinkData()
     {
         Mage::register('product', new Varien_Object(array('type_id' => 'simple')));
@@ -42,25 +45,27 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $this->assertEmpty($block->getLinkData());
     }
 
-    protected function tearDown()
-    {
-        Mage::unregister('product');
-    }
-
     /**
      * Get Links Title for simple and virtual products
      *
+     * @magentoConfigFixture current_store catalog/downloadable/links_title Links Title Test
      * @magentoAppIsolation enabled
      * @dataProvider productTypesDataProvider
      *
      * @param string $productType
+     * @param string $linksTitle
+     * @param string $expectedResult
      */
-    public function testGetLinksTitle($productType)
+    public function testGetLinksTitle($productType, $linksTitle, $expectedResult)
     {
-        Mage::register('product', new Varien_Object(array('type_id' => $productType, 'id' => '1')));
+        Mage::register('product', new Varien_Object(array(
+            'type_id' => $productType,
+            'id' => '1',
+            'links_title' => $linksTitle
+        )));
         $block = Mage::app()->getLayout()
             ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
-        $this->assertEquals('Links', $block->getLinksTitle());
+        $this->assertEquals($expectedResult, $block->getLinksTitle());
     }
 
     /**
@@ -71,38 +76,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     public function productTypesDataProvider()
     {
         return array (
-            array('simple'),
-            array('virtual'),
-        );
-    }
-
-    /**
-     * Get Links Title for downloadable product with existed Links Title value
-     *
-     * @magentoAppIsolation enabled
-     * @dataProvider linksTitleDataProvider
-     *
-     * @param string $linksTitle
-     */
-    public function testGetLinksTitleExist($linksTitle)
-    {
-        Mage::register('product',
-            new Varien_Object(array('type_id' => 'downloadable', 'id' => '1', 'links_title' => $linksTitle)));
-        $block = Mage::app()->getLayout()
-            ->createBlock('Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
-        $this->assertEquals($linksTitle, $block->getLinksTitle());
-    }
-
-    /**
-     * Data Provider with Links Title values
-     *
-     * @return array
-     */
-    public function linksTitleDataProvider()
-    {
-        return array (
-            array(null),
-            array('Links Test')
+            array('simple', null, 'Links Title Test'),
+            array('simple', 'Links Title', 'Links Title Test'),
+            array('virtual', null, 'Links Title Test'),
+            array('virtual', 'Links Title', 'Links Title Test'),
+            array('downloadable', null, null),
+            array('downloadable', 'Links Title', 'Links Title')
         );
     }
 }

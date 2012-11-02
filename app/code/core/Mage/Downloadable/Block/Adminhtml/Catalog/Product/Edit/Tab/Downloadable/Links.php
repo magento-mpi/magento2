@@ -110,13 +110,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getLinksTitle()
     {
-        if ($this->getProduct()->getId()
-            && (($this->getProduct()->getLinksTitle() !== null) || ($this->getProduct()->getTypeId() == 'downloadable'))
-        ) {
-            return $this->getProduct()->getLinksTitle();
-        } else {
-            return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
-        }
+        return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
+            ? $this->getProduct()->getLinksTitle()
+            : Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
