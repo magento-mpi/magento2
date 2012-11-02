@@ -120,9 +120,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     {
         // Check current quantity ordered value
         $this->navigate('report_product_sold');
-        $currentDate = date('m/d/y');
-        $this->fillField('filter_from', $currentDate);
-        $this->fillField('filter_to', $currentDate);
+        $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
         $count = $this->getXpathCount($setXpath);
@@ -140,9 +138,7 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_order');
         // Steps
         $this->navigate('report_product_sold');
-        $currentDate = date('m/d/y');
-        $this->fillField('filter_from', $currentDate);
-        $this->fillField('filter_to', $currentDate);
+        $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
         $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
