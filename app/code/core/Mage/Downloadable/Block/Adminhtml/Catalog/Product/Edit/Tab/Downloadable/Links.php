@@ -110,7 +110,13 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getLinksTitle()
     {
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        if ($this->getProduct()->getId()
+            && (($this->getProduct()->getLinksTitle() !== null) || ($this->getProduct()->getTypeId() == 'downloadable'))
+        ) {
+            return $this->getProduct()->getLinksTitle();
+        } else {
+            return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        }
     }
 
     /**
