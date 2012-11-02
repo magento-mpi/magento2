@@ -101,7 +101,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                 ->will($this->returnSelf());
         }
 
-        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'quoteInto', 'quote', 'getCheckSql'),
+        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'quoteInto', 'getCheckSql', 'quote'),
             array(), '', false
         );
         $adapter->expects($this->once())
@@ -110,9 +110,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
         $adapter->expects($this->exactly(5))
             ->method('quoteInto')
             ->will($this->returnCallback(array($this, 'quoteIntoCallback')));
-        $adapter->expects($this->exactly(3))
-            ->method('quote')
-            ->will($this->returnArgument(0));
         $adapter->expects($this->exactly(1))
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
