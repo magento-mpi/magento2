@@ -700,7 +700,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $product = $this->_initProduct();
 
-            $this->_transitionProductType($product);
+            $this->_transitionProductType($product, $data);
             $product = $this->_initProductSave($product);
 
             try {
@@ -760,10 +760,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      * Change product type on the fly depending on selected options
      *
      * @param Mage_Catalog_Model_Product $product
+     * @param $data
      */
-    protected function _transitionProductType($product)
+    protected function _transitionProductType($product, $data)
     {
-        $product->setTypeId($product->hasIsVirtual()
+        $product->setTypeId(isset($data['product']['is_virtual'])
             ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
             : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
     }
