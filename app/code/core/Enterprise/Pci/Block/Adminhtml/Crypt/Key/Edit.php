@@ -26,7 +26,9 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
         Varien_Object::__construct();
         $this->_addButton('save', array(
             'label'     => Mage::helper('Enterprise_Pci_Helper_Data')->__('Change Encryption Key'),
-            'onclick'   => 'editForm.submit();',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
+            ),
             'class'     => 'save',
         ), 1);
     }
