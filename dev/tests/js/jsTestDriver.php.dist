@@ -31,7 +31,7 @@ return array(
         '/pub/lib/mage/loader.js',
         '/pub/lib/mage/edit-trigger.js',
         '/pub/lib/mage/translate-inline.js',
-        '/pub/lib/mage/validation'
+        '/pub/lib/mage/validation/validation.js'
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'JsTestDriver' => '{{path_to_jstestdriver_jar}}'

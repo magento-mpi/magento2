@@ -37,7 +37,7 @@
              * @param {string} useSecureOptions Selector for the secure (SSL) options content
              */
             configureForm: function(form, useSecure, useSecureOptions) {
-                $(form).mage().validate();
+                $(form).validation();
                 $(useSecure).on('click', function(e) {
                     return e.target.checked ?
                         $(useSecureOptions).show() : $(useSecureOptions).hide();
@@ -62,7 +62,7 @@
              * @param {string} form Selector for the administrator form
              */
             createAdmin: function(form) {
-                $(form).mage().validate({errorClass: 'mage-error', errorElement: 'div'});
+                $(form).validation({errorClass: 'mage-error', errorElement: 'div'});
             },
 
             /**
