@@ -66,9 +66,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
     {
         parent::_beforeSave($address);
 
-        if (!$address->getIgnoreValidation()) {
-            $this->_validate($address);
-        }
+        $this->_validate($address);
 
         return $this;
     }

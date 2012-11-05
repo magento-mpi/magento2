@@ -59,7 +59,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            throw Mage::exception('Mage_Customer', Mage::helper('Mage_Customer_Helper_Data')->__('Customer email is required'));
+            throw Mage::exception('Mage_Customer',
+                Mage::helper('Mage_Customer_Helper_Data')->__('Customer email is required'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -96,9 +97,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
             $customer->setConfirmation(null);
         }
 
-        if (!$customer->getIgnoreValidation()) {
-            $this->_validate($customer);
-        }
+        $this->_validate($customer);
 
         return $this;
     }
@@ -218,9 +217,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(
-                    Mage::helper('Mage_Customer_Helper_Data')->__('Customer website ID must be specified when using the website scope')
-                );
+                Mage::throwException(Mage::helper('Mage_Customer_Helper_Data')
+                        ->__('Customer website ID must be specified when using the website scope'));
             }
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');
@@ -332,7 +330,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      * @param string $newResetPasswordLinkToken
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken) {
+    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken)
+    {
         if (is_string($newResetPasswordLinkToken) && !empty($newResetPasswordLinkToken)) {
             $customer->setRpToken($newResetPasswordLinkToken);
             $currentDate = Varien_Date::now();

@@ -105,41 +105,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     private static $_isConfirmationRequired;
 
     /**
-     * Ignore validation of model before save
-     *
-     * If this flag is false - then model validation will be processed in resource model, in before save trigger
-     * @var bool
-     */
-    protected $_ignoreValidation = false;
-
-    /**
      * Initialize customer model
      */
     public function _construct()
     {
         $this->_init('Mage_Customer_Model_Resource_Customer');
-    }
-
-    /**
-     * Set ignoreValidation flag
-     *
-     * @param bool $ignoreValidation
-     * @return Mage_Customer_Model_Customer
-     */
-    public function setIgnoreValidation($ignoreValidation = true)
-    {
-        $this->_ignoreValidation = $ignoreValidation;
-        return $this;
-    }
-
-    /**
-     * Get ignoreValidation flag
-     *
-     * @return bool
-     */
-    public function getIgnoreValidation()
-    {
-        return $this->_ignoreValidation;
     }
 
     /**
