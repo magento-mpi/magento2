@@ -50,4 +50,14 @@ class Magento_Di_Definition_CompilerDefinition_Zend extends Zend\Di\Definition\C
     {
         return $this->toArrayDefinition()->toArray();
     }
+
+    /**
+     * @return Magento_Di_Definition_ArrayDefinition
+     */
+    public function toArrayDefinition()
+    {
+        return new Magento_Di_Definition_ArrayDefinition_Zend(
+            $this->classes
+        );
+    }
 }
