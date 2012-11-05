@@ -8,17 +8,18 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
-    $(document).ready(function () {
-        var _data = {
-            cookieName: undefined,
-            cookieLifetime: undefined,
-            cookieExpireAt: null
-        };
-        $.mage.event.trigger('mage.nocachecookie.initialize', _data);
-        if (_data.cookieLifetime > 0) {
-            _data.cookieExpireAt = new Date();
-            _data.cookieExpireAt.setTime(_data.cookieExpireAt.getTime() + _data.cookieLifetime * 1000);
+    $.widget('mage.noCacheCookie', {
+        /**
+         * Set cookie by name with calculated expiration based on cookie lifetime.
+         * @private
+         */
+        _create: function() {
+            if (this.options.lifetime > 0) {
+                this.options.expires = new Date();
+                this.options.expires.setTime(
+                    this.options.expires.getTime() + this.options.lifetime * 1000);
+            }
+            $.mage.cookies.set(this.options.name, 1, this.options.expires);
         }
-        $.mage.cookies.set(_data.cookieName, 1, _data.cookieExpireAt);
     });
 })(jQuery);

@@ -12,15 +12,14 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        $.mage.event.observe('mage.nocachecookie.initialize', function(e, o) {
-            o.cookieName = '<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE ?>'
-            o.cookieLifetime = <?php echo Mage::helper('Mage_PageCache_Helper_Data')->getNoCacheCookieLifetime() ?>;
-            o.cookieExpireAt = $.cookie.defaults.expires;
-        });
-        $.mage.load.jsSync(
-            "<?php echo $this->getSkinUrl('Mage_Page::js/cookies.js')?>",
-            "<?php echo $this->getSkinUrl('Mage_PageCache::js/cookie.js')?>"
-        );
+        head.js("<?php echo $this->getSkinUrl('Mage_Page::js/cookies.js')?>",
+            "<?php echo $this->getSkinUrl('Mage_PageCache::js/cookie.js')?>", function() {
+                $.mage.noCacheCookie({
+                    name: '<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE ?>',
+                    lifetime: <?php echo Mage::helper('Mage_PageCache_Helper_Data')->getNoCacheCookieLifetime() ?>,
+                    expires: $.cookie.defaults.expires
+                });
+            });
     })(jQuery);
     //]]>
 </script>

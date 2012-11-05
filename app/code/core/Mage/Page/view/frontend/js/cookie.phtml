@@ -19,14 +19,13 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        $.mage.event.observe('mage.cookie.initialize', function (e, o) {
-            o.path = '<?php echo $this->getPath()?>',
-            o.domain = '<?php echo $this->getDomain()?>'
-        });
-        $.mage.load.jsSync(
-            "<?php echo $this->getSkinUrl('jquery/jquery.cookie.js') ?>",
-            "<?php echo $this->getSkinUrl('Mage_Page::js/cookie.js') ?>"
-        );
+        head.js("<?php echo $this->getSkinUrl('jquery/jquery.cookie.js') ?>",
+            "<?php echo $this->getSkinUrl('Mage_Page::js/cookie.js') ?>", function() {
+                $.mage.cookieInit({
+                    path: '<?php echo $this->getPath()?>',
+                    domain: '<?php echo $this->getDomain()?>'
+                });
+            });
     })(jQuery);
     //]]>
 </script>

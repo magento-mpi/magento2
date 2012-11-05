@@ -8,14 +8,20 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
-    $(document).ready(function () {
-        var cookieInit = {
+    $.widget('mage.cookieInit', {
+        options: {
             expires: null,
             path: '/',
-            domain: document.domain,
+            domain: 'document.domain',
             secure: false
-        };
-        $.mage.event.trigger('mage.cookie.init', cookieInit);
-        $.extend($.cookie.defaults, cookieInit);
+        },
+
+        /**
+         * Extend jQuery cookie plugin default options with widget options.
+         * @private
+         */
+        _create: function() {
+            $.extend($.cookie.defaults, this.options);
+        }
     });
 })(jQuery);
