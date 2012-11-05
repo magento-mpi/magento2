@@ -171,15 +171,18 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
      * Validate Web API Role data
      *
      * @param Mage_Webapi_Model_Acl_Role $role
-     * @return bool
-     * @throws Mage_Core_Exception
+     * @return boolean
+     * @throws Magento_Validator_Exception
      */
     protected function _validateRole($role)
     {
-        if (!$role->getRoleName()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Role name is required.'));
+        $group = $role->isObjectNew() ? 'create' : 'update';
+        $validator = Mage::getConfig()->getValidatorConfig()
+            ->getValidatorBuilder('api_role', $group)
+            ->createValidator();
+        if (!$validator->isValid($role)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
         }
-        return true;
     }
 
     /**

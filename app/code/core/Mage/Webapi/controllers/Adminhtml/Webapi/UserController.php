@@ -219,28 +219,17 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      *
      * @param Mage_Webapi_Model_Acl_User $user
      * @return boolean
-     * @throws Mage_Core_Exception
+     * @throws Magento_Validator_Exception
      */
     protected function _validateUserData($user)
     {
-        if (!$user->getContactEmail()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is required.'));
+        $group = $user->isObjectNew() ? 'create' : 'update';
+        $validator = Mage::getConfig()->getValidatorConfig()
+            ->getValidatorBuilder('api_user', $group)
+            ->createValidator();
+        if (!$validator->isValid($user)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
         }
-
-        $emailValidator = new Magento_Validator_EmailAddress();
-        if(!$emailValidator->isValid($user->getContactEmail())) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email is not valid.'));
-        }
-
-        if (!$user->getApiKey()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Key is required.'));
-        }
-
-        if (!$user->getApiSecret()) {
-            Mage::throwException(Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret is required.'));
-        }
-
-        return true;
     }
 
     /**
