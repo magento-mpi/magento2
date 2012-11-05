@@ -576,7 +576,7 @@
         },
         _create: function(){
             this.element.validate(this.options);
-            $(this).mageEventFormValidate();
+            this.element.mageEventFormValidate(this);
         }
     });
 })(jQuery);
