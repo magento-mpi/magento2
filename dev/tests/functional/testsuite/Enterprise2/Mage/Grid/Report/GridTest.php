@@ -92,9 +92,9 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_day'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_month'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate', 'count_rows_by_year'),
+                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_day'),
+                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_month'),
+                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_year'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_day'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_month'),
                      array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_year'));
@@ -228,13 +228,14 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $this->validatePage('customer_account');
         $this->invitationHelper()->sendInvitationFrontend(1, $messageType = 'success','success_send');
         // Steps
+        $this->loginAdminUser();
         $this->navigate('invitations_order_conversion_rate');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Check Invitation sent value
         $setXpath = $this->_getControlXpath('pageelement', 'invitations_order_conversion_rate_grid') . '/tbody' . '/tr';
         $count = $this->getXpathCount($setXpath);
-        $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
+        $totalAfter = $this->getText($setXpath . "[$count]/*[2]");
         $this->assertEquals($totalBefore + 1, $totalAfter);
     }
 }
