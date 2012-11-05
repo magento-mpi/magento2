@@ -49,10 +49,10 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     /**
      * Constructor
      *
+     * @param Mage_Core_Model_Resource $resource
      */
-    public function __construct()
+    public function __construct(Mage_Core_Model_Resource $resource)
     {
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_read         = $resource->getConnection('core_read');
         $this->_write        = $resource->getConnection('core_write');
@@ -131,46 +131,47 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     /**
      * Fetch session data
      *
-     * @param string $sessId
+     * @param string $sessionId
      * @return string
      */
-    public function read($sessId)
+    public function read($sessionId)
     {
         $select = $this->_read->select()
-                ->from($this->_sessionTable, array('session_data'))
-                ->where('session_id = :session_id');
+            ->from($this->_sessionTable, array('session_data'))
+            ->where('session_id = :session_id');
         $bind = array(
-            'session_id'      => $sessId,
+            'session_id' => $sessionId,
         );
 
         $data = $this->_read->fetchOne($select, $bind);
-        return $data;
+        return base64_decode($data);
     }
 
     /**
      * Update session
      *
-     * @param string $sessId
-     * @param string $sessData
+     * @param string $sessionId
+     * @param string $sessionData
      * @return boolean
      */
-    public function write($sessId, $sessData)
+    public function write($sessionId, $sessionData)
     {
-        $bindValues = array('session_id' => $sessId);
-        $select = $this->_write->select()
-                ->from($this->_sessionTable)
-                ->where('session_id = :session_id');
+        $bindValues = array('session_id' => $sessionId);
+        $select = $this->_read->select()
+            ->from($this->_sessionTable)
+            ->where('session_id = :session_id');
         $exists = $this->_read->fetchOne($select, $bindValues);
 
+        // encode session serialized data to prevent insertion of incorrect symbols
         $bind = array(
             'session_expires' => time(),
-            'session_data' => $sessData
+            'session_data'    => base64_encode($sessionData),
         );
 
         if ($exists) {
-            $this->_write->update($this->_sessionTable, $bind, array('session_id=?' => $sessId));
+            $this->_write->update($this->_sessionTable, $bind, array('session_id=?' => $sessionId));
         } else {
-            $bind['session_id'] = $sessId;
+            $bind['session_id'] = $sessionId;
             $this->_write->insert($this->_sessionTable, $bind);
         }
         return true;
