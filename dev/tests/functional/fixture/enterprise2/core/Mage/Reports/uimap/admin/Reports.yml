@@ -79,7 +79,7 @@ invitations_order_conversion_rate:
                         dropdowns: *reportInvitationsDropdowns
                         buttons: *reportInvitationsButtons
                         pageelements:
-                                product_sold_grid: //table[@class='data']
+                            invitations_order_conversion_rate_grid: //table[@class='data']
 
 # Customer Segment Report page
 customer_segment_report:
