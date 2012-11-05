@@ -19,7 +19,7 @@
             }, this));
             // Form validation
             this.element.addClass('required');
-            $(this.options.formId).mage().validate();
+            $(this.options.formId).validation();
             $(this.options.formId + ' button').on('click', $.proxy(function() {
                 $(this.options.formId).submit();
             }, this));
