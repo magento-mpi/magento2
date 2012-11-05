@@ -265,11 +265,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     /**
      * Save customer action
-     *
-     * @throws Mage_Core_Exception
      */
     public function saveAction()
     {
+        /** @var Mage_Customer_Model_Customer $customer */
         $customer = null;
         $returnToEdit = false;
         if ($originalRequestData = $this->getRequest()->getPost()) {
@@ -286,56 +285,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer = $this->_customerService->create($customerData['account']);
                 }
 
-                $actualAddressesIds = array();
-                foreach ($customerData['addresses'] as  $addressId => $addressData) {
-                    /** @var Mage_Customer_Model_Address $addressModel */
-                    $addressModel = Mage::getModel('Mage_Customer_Model_Address');
-
-                    if (is_numeric($addressId)) {
-                        $addressModel->load($addressId);
-                        if (!$addressModel->getId()) {
-                            throw new Mage_Core_Exception($this->_getHelper()->
-                                __("The address with the specified ID not found."));
-                        }
-                    } else {
-                        $addressModel->setCustomerId($customer->getId());
-                    }
-
-                    // load data
-                    foreach ($addressData as $addressProperty => $addressValue) {
-                        $addressModel->setDataUsingMethod($addressProperty, $addressValue);
-                    }
-
-                    // Set default billing and shipping flags to address
-                    $isDefaultBilling = isset($customerData['account']['default_billing'])
-                        && $customerData['account']['default_billing'] == $addressId;
-                    $addressModel->setIsDefaultBilling($isDefaultBilling);
-                    $isDefaultShipping = isset($customerData['account']['default_shipping'])
-                        && $customerData['account']['default_shipping'] == $addressId;
-                    $addressModel->setIsDefaultShipping($isDefaultShipping);
-
-                    // Set post_index for detect default billing and shipping addresses
-                    $addressModel->setPostIndex($addressId);
-
-                    $addressModel->save();
-
-                    $actualAddressesIds[] = $addressModel->getId();
-                }
-
-                // @todo Deleting customer addresses should be implemented in service layer
-                $hasDeletedAddresses = false;
-                /** @var Mage_Customer_Model_Address $address */
-                foreach ($customer->getAddressesCollection() as $address) {
-                    if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
-                        $address->setData('_deleted', true);
-                        $hasDeletedAddresses = true;
-                    }
-                }
-                if ($hasDeletedAddresses) {
-                    // Deleting of addresses triggered in Mage_Customer_Model_Resource_Customer::_beforeSave
-                    $customer->setDataChanges(true);
-                    $customer->save();
-                }
+                $this->_saveCustomerAddresses($customer, $customerData);
 
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
@@ -362,16 +312,82 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         if ($returnToEdit) {
+            $returnParams = array('_current' => true);
             if ($customer) {
-                $this->_redirect('*/*/edit', array('id' => $customer->getId(), '_current' => true));
-            } else {
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $returnParams['id'] = $customer->getId();
             }
+            $this->_redirect('*/*/edit', $returnParams);
         } else {
             $this->_redirect('*/customer');
         }
     }
 
+    /**
+     * Save customer addresses.
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $customerData
+     * @throws Mage_Core_Exception
+     */
+    protected function _saveCustomerAddresses($customer, array $customerData)
+    {
+        $actualAddressesIds = array();
+        foreach ($customerData['addresses'] as  $addressId => $addressData) {
+            /** @var Mage_Customer_Model_Address $address */
+            $address = Mage::getModel('Mage_Customer_Model_Address');
+
+            if (is_numeric($addressId)) {
+                $address->load($addressId);
+                if (!$address->getId()) {
+                    throw new Mage_Core_Exception(
+                        $this->_getHelper()->__('The address with the specified ID not found.'));
+                }
+            } else {
+                $address->setCustomerId($customer->getId());
+            }
+            $address->setData($addressData);
+
+            // Set default billing and shipping flags to address
+            $isDefaultBilling = isset($customerData['account']['default_billing'])
+                && $customerData['account']['default_billing'] == $addressId;
+            $address->setIsDefaultBilling($isDefaultBilling);
+            $isDefaultShipping = isset($customerData['account']['default_shipping'])
+                && $customerData['account']['default_shipping'] == $addressId;
+            $address->setIsDefaultShipping($isDefaultShipping);
+
+            // Set post_index for detect default billing and shipping addresses
+            $address->setPostIndex($addressId);
+
+            $address->save();
+
+            $actualAddressesIds[] = $address->getId();
+        }
+
+        $this->_deleteCustomerAddresses($customer, $actualAddressesIds);
+    }
+
+    /**
+     * Delete customer addresses.
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $actualAddressesIds
+     */
+    protected function _deleteCustomerAddresses($customer, array $actualAddressesIds)
+    {
+        $hasDeletedAddresses = false;
+        /** @var Mage_Customer_Model_Address $address */
+        foreach ($customer->getAddressesCollection() as $address) {
+            if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
+                $address->setData('_deleted', true);
+                $hasDeletedAddresses = true;
+            }
+        }
+        if ($hasDeletedAddresses) {
+            // Deleting of addresses triggered in Mage_Customer_Model_Resource_Customer::_beforeSave
+            $customer->setDataChanges(true);
+            $customer->save();
+        }
+    }
 
     /**
      * Add errors messages to session.
@@ -383,15 +399,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $messages = (array)$messages;
         $session = $this->_getSession();
 
-        array_walk_recursive(
-            $messages,
-            function ($error) use ($session) {
-                if (!($error instanceof Mage_Core_Model_Message_Error)) {
-                    $error = new Mage_Core_Model_Message_Error($error);
-                }
-                $session->addMessage($error);
+        $callback = function ($error) use ($session) {
+            if (!($error instanceof Mage_Core_Model_Message_Error)) {
+                $error = new Mage_Core_Model_Message_Error($error);
             }
-        );
+            $session->addMessage($error);
+        };
+        array_walk_recursive($messages, $callback);
     }
 
     /**
@@ -473,9 +487,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customerData['confirmation'] = $customerData['password'];
 
         if (empty($customerData['autogenerate_password'])) {
-            /** @var $validatorFactory Magento_Validator_Config */
-            $validatorFactory = Mage::getSingleton('Magento_Validator_Config',
-                Mage::getConfig()->getModuleConfigurationFiles('validation.xml'));
+            /** @var Magento_Validator_Config $validatorFactory */
+            $validatorFactory = Mage::getConfig()->getValidatorConfig();
             $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
             if (!$passwordValidator->isValid($customerData)) {
                 $exception = new Mage_Core_Exception();
