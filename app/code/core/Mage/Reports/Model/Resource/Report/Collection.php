@@ -275,7 +275,7 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
      *
      * @param int $from
      * @param int $to
-     * @return Varien_Object
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getReport($from, $to)
     {
