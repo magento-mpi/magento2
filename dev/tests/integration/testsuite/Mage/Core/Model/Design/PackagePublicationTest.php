@@ -225,6 +225,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Catalog'),
                 'layout.xml'
             ),
+            array(
+                array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Core'),
+                'test.phtml'
+            ),
         );
     }
 

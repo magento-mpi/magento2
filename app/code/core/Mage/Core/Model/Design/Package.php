@@ -23,9 +23,13 @@ class Mage_Core_Model_Design_Package
     const CONTENT_TYPE_CSS = 'css';
     const CONTENT_TYPE_JS  = 'js';
 
+    /**#@+
+     * Protected extensions group for publication mechanism
+     */
     const CONTENT_TYPE_PHP   = 'php';
     const CONTENT_TYPE_PHTML = 'phtml';
     const CONTENT_TYPE_XML   = 'xml';
+    /**#@-*/
 
     /**
      * The name of the default theme in the context of a package
