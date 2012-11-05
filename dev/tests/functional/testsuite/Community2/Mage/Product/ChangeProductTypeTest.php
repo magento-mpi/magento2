@@ -22,7 +22,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Simple to Virtual product type switching on product creation</p>
+     * <p>Simple to Virtual/Downloadable product type switching on product creation</p>
      *
      * @param string $changedProduct
      * @param string $changedType
@@ -31,7 +31,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
      * @dataProvider fromSimpleToVirtualDataProvider
      * @TestLinkId TL-MAGE-6426, TL-MAGE-6427
      */
-    public function simpleToVirtualCreation($changedProduct, $changedType)
+    public function fromSimpleToVirtualDuringCreation($changedProduct, $changedType)
     {
         //Data
         $simpleProduct = array('product_attribute_set' => 'Default');
@@ -63,17 +63,17 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Virtual to Simple/Downloadable product type switching on product creation</p>
+     * <p>Virtual/Downloadable to Simple/Downloadable/Virtual product type switching on product creation</p>
      *
      * @param string $initialProduct
      * @param string $changedProduct
      * @param string $changedType
      *
      * @test
-     * @dataProvider fromVirtualDataProvider
+     * @dataProvider fromVirtualDownloadableDataProvider
      * @TestLinkId TL-MAGE-6428, TL-MAGE-6429, TL-MAGE-6430, TL-MAGE-6431
      */
-    public function virtualToSimpleCreation($initialProduct, $changedProduct, $changedType)
+    public function fromVirtualDownloadableDuringCreation($initialProduct, $changedProduct, $changedType)
     {
         //Data
         $initialProductData = array('product_attribute_set' => 'Default');
@@ -107,7 +107,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
      *
      * @return array
      */
-    public function fromVirtualDataProvider()
+    public function fromVirtualDownloadableDataProvider()
     {
         return array(
             array('virtual', 'simple', 'Simple Product', 'Virtual Product'),
@@ -118,7 +118,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Simple to Virtual product type switching while product editing</p>
+     * <p>Simple to Virtual/Downloadable product type switching while product editing</p>
      *
      * @param string $changedProduct
      * @param string $changedType
@@ -127,7 +127,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
      * @dataProvider fromSimpleToVirtualDataProvider
      * @TestLinkId TL-MAGE-6432, TL-MAGE-6433
      */
-    public function simpleToVirtualEditing($changedProduct, $changedType)
+    public function fromSimpleToVirtualDuringEditing($changedProduct, $changedType)
     {
         //Data
         $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible');
@@ -148,7 +148,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Virtual to Simple/Downloadable product type switching while product editing</p>
+     * <p>Virtual/Downloadable to Simple/Downloadable/Virtual product type switching while product editing</p>
      *
      * @param string $initialProduct
      * @param string $changedProduct
@@ -156,10 +156,10 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
      * @param string $initialType
      *
      * @test
-     * @dataProvider fromVirtualDataProvider
+     * @dataProvider fromVirtualDownloadableDataProvider
      * @TestLinkId TL-MAGE-6434, TL-MAGE-6435, TL-MAGE-6436, TL-MAGE-6437
      */
-    public function virtualToSimpleEditing($initialProduct, $changedProduct, $changedType, $initialType)
+    public function fromVirtualDownloadableDuringEditing($initialProduct, $changedProduct, $changedType, $initialType)
     {
         //Data
         $initialProductData = $this->loadDataSet('Product', $initialProduct . '_product_visible');
