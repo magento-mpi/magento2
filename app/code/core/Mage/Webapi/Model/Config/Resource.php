@@ -1,6 +1,7 @@
 <?php
 use Zend\Code\Scanner\DirectoryScanner,
     Zend\Code\Reflection\ClassReflection,
+    Zend\Code\Reflection\DocBlockReflection,
     Zend\Server\Reflection,
     Zend\Server\Reflection\ReflectionMethod;
 
@@ -896,15 +897,15 @@ class Mage_Webapi_Model_Config_Resource
         $methodDocumentation = $methodReflection->getDocComment();
         if ($methodDocumentation) {
             /** Zend server reflection is not able to work with annotation tags of the method. */
-            $docBlock = new Zend_Reflection_Docblock($methodDocumentation);
+            $docBlock = new DocBlockReflection($methodDocumentation);
             $removedTag = $docBlock->getTag('apiRemoved');
             $deprecatedTag = $docBlock->getTag('apiDeprecated');
             if ($removedTag) {
                 $deprecationPolicy = array('removed' => true);
-                $useMethod = $removedTag->getDescription();
+                $useMethod = $removedTag->getContent();
             } elseif ($deprecatedTag) {
                 $deprecationPolicy = array('deprecated' => true);
-                $useMethod = $deprecatedTag->getDescription();
+                $useMethod = $deprecatedTag->getContent();
             }
 
             if (isset($useMethod) && is_string($useMethod) && !empty($useMethod)) {
@@ -1201,7 +1202,7 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function isArrayType($type)
     {
-        return (bool)preg_match('/\[\]$/', $type);
+        return (bool)preg_match('/(\[\]$|^ArrayOf)/', $type);
     }
 
     /**

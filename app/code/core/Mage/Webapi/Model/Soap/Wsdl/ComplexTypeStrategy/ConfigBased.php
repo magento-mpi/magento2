@@ -3,7 +3,7 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
     Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
     Zend\Soap\Wsdl;
 /**
- * Short description
+ * Complex type strategy for WSDL auto discovery using resource config.
  *
  * @copyright {}
  */
@@ -50,10 +50,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      */
     public function addComplexType($type, $parentCallInfo = array())
     {
-        if (!$this->_config->getDataType($type)) {
-            throw new InvalidArgumentException(sprintf('Could not find type "%s" data in config.', $type));
-        }
-
         if (($soapType = $this->scanRegisteredTypes($type)) !== null) {
             return $soapType;
         }
@@ -179,7 +175,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
             $defaultNode->appendChild($this->_dom->createTextNode($default));
             $appInfoNode->appendChild($defaultNode);
         }
-        if (preg_match('/Array/', $elementType)) {
+        if ($this->_config->isArrayType($elementType)) {
             $natureOfTypeNode = $this->_dom->createElement(self::APP_INF_NS . ':natureOfType');
             $natureOfTypeNode->appendChild($this->_dom->createTextNode('array'));
             $appInfoNode->appendChild($natureOfTypeNode);
@@ -196,7 +192,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
                         if (preg_match($callInfoRegExp, $tagValue)) {
                             list($callName, $direction, $condition) = explode(':', $tagValue);
                             $condition = strtolower($condition);
-                            if (preg_match('/allCallsExcept\(([a-z].+)\)/', $callName, $calls)) {
+                            if (preg_match('/allCallsExcept\(([a-zA-Z].+)\)/', $callName, $calls)) {
                                 $callInfo[$direction][$condition] = array(
                                     'allCallsExcept' => $calls[1],
                                 );

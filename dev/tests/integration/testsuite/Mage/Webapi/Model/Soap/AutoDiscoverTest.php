@@ -1,4 +1,5 @@
 <?php
+use Zend\Soap\Wsdl;
 /**
  * SOAP AutoDiscover integration tests.
  *
@@ -73,7 +74,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);
         $this->_xpath = new DOMXPath($this->_dom);
-        $this->_xpath->registerNamespace('wsdl', \Zend\Soap\Wsdl::WSDL_NS_URI);
+        $this->_xpath->registerNamespace(Wsdl::WSDL_NS, Wsdl::WSDL_NS_URI);
     }
 
     /**
@@ -157,8 +158,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateDataStructureComplexTypes()
     {
-        $wsdlNs = Mage_Webapi_Model_Soap_Wsdl::WSDL_NS;
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+        $wsdlNs = Wsdl::WSDL_NS;
+        $xsdNs = Wsdl::XSD_NS;
 
         // Generated from Vendor_ModuleB_Webapi_ModuleB_DataStructure class.
         $dataStructureName = 'VendorModuleBDataStructure';
@@ -193,8 +194,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function _assertParameter($expectedName, $expectedType, $expectedIsRequired, $expectedDoc,
         $expectedAppinfo, DOMElement $complexType
     ) {
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
-        $tns = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
+        $xsdNs = Wsdl::XSD_NS;
+        $tns = Wsdl::TYPES_NS;
         /** @var DOMElement $parameterElement */
         $parameterElement = $this->_xpath->query("{$xsdNs}:sequence/{$xsdNs}:element[@name='{$expectedName}']",
             $complexType)->item(0);
@@ -221,7 +222,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertAppinfo($expectedAppinfo, DOMElement $element)
     {
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+        $xsdNs = Wsdl::XSD_NS;
         $infNs = Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
         /** @var DOMElement $appInfoNode */
         $appInfoNode = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:appinfo", $element)->item(0);
@@ -350,7 +351,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function _assertDocumentation($expectedDoc, DOMElement $element)
     {
         $elementName = $element->getAttribute('name');
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+        $xsdNs = Wsdl::XSD_NS;
         /** @var DOMElement $documentation */
         $documentation = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:documentation", $element)->item(0);
         $this->assertNotNull($documentation,
@@ -369,13 +370,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertMessage(DOMElement $operationMessage, $methodName, $expectedDoc)
     {
-        $wsdlNs = Mage_Webapi_Model_Soap_Wsdl::WSDL_NS;
-        $tns = Mage_Webapi_Model_Soap_Wsdl::TYPES_NS;
-        $xsdNs = Mage_Webapi_Model_Soap_Wsdl::XSD_NS;
+        $wsdlNs = Wsdl::WSDL_NS;
+        $tns = Wsdl::TYPES_NS;
+        $xsdNs = Wsdl::XSD_NS;
 
         $this->assertTrue($operationMessage->hasAttribute('message'));
         $messageName = str_replace("{$tns}:", '', $operationMessage->getAttribute('message'));
-        $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' .$messageName,
+        $this->assertEquals(Wsdl::TYPES_NS . ':' .$messageName,
             $operationMessage->getAttribute('message'));
         $messageTypeName = $this->_autoDiscover->getElementComplexTypeName($messageName);
         $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
@@ -405,7 +406,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertPortTypeOperation($operationName, DOMElement $portType)
     {
-        $operationXpath = sprintf('%s:operation[@name="%s"]', Mage_Webapi_Model_Soap_Wsdl::WSDL_NS, $operationName);
+        $operationXpath = sprintf('%s:operation[@name="%s"]', Wsdl::WSDL_NS, $operationName);
         /** @var DOMElement $portOperation */
         $portOperation = $this->_xpath->query($operationXpath, $portType)->item(0);
         $this->assertNotNull($portOperation, sprintf('Operation "%s" was not found in portType "%s".',
@@ -421,7 +422,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertBindingOperation($operationName, DOMElement $binding)
     {
-        $operationXpath = sprintf('%s:operation[@name="%s"]', Mage_Webapi_Model_Soap_Wsdl::WSDL_NS, $operationName);
+        $operationXpath = sprintf('%s:operation[@name="%s"]', Wsdl::WSDL_NS, $operationName);
         /** @var DOMElement $bindingOperation */
         $bindingOperation = $this->_xpath->query($operationXpath, $binding)->item(0);
         $this->assertNotNull($bindingOperation, sprintf('Operation "%s" was not found in binding "%s".',
@@ -435,7 +436,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertBinding()
     {
-        $bindings = $this->_dom->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::WSDL_NS_URI, 'binding');
+        $bindings = $this->_dom->getElementsByTagNameNS(Wsdl::WSDL_NS_URI, 'binding');
         $this->assertEquals(1, $bindings->length, 'There should be only one binding in this test case.');
         /** @var DOMElement $binding */
         $binding = $bindings->item(0);
@@ -444,10 +445,10 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($bindingName, $binding->getAttribute('name'));
         $this->assertTrue($binding->hasAttribute('type'));
         $portTypeName = $this->_autoDiscover->getPortTypeName($this->_resourceName);
-        $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $portTypeName,
+        $this->assertEquals(Wsdl::TYPES_NS . ':' . $portTypeName,
             $binding->getAttribute('type'));
         /** @var DOMElement $soapBinding */
-        $soapBinding = $binding->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::SOAP_12_NS_URI, 'binding')
+        $soapBinding = $binding->getElementsByTagNameNS(Wsdl::SOAP_12_NS_URI, 'binding')
             ->item(0);
         $this->assertNotNull($soapBinding, sprintf('Missing soap binding in "%s"', $bindingName));
         $this->assertTrue($soapBinding->hasAttribute('style'));
@@ -463,7 +464,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertPortType()
     {
-        $portTypes = $this->_dom->getElementsByTagNameNs(Mage_Webapi_Model_Soap_Wsdl::WSDL_NS_URI, 'portType');
+        $portTypes = $this->_dom->getElementsByTagNameNs(Wsdl::WSDL_NS_URI, 'portType');
         $this->assertEquals(1, $portTypes->length, 'There should be only one portType in this test case.');
         /** @var DOMElement $portType */
         $portType = $portTypes->item(0);
@@ -487,7 +488,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($port->hasAttribute('name'));
         $this->assertEquals($this->_autoDiscover->getPortName($this->_resourceName), $port->getAttribute('name'));
         $bindingName = $this->_autoDiscover->getBindingName($this->_resourceName);
-        $this->assertEquals(Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $bindingName, $port->getAttribute('binding'));
+        $this->assertEquals(Wsdl::TYPES_NS . ':' . $bindingName, $port->getAttribute('binding'));
     }
 
     /**
@@ -498,7 +499,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function _assertServiceNode()
     {
         /** @var DOMElement $service */
-        $service = $this->_dom->getElementsByTagNameNS(Mage_Webapi_Model_Soap_Wsdl::WSDL_NS_URI, 'service')->item(0);
+        $service = $this->_dom->getElementsByTagNameNS(Wsdl::WSDL_NS_URI, 'service')->item(0);
         $this->assertNotNull($service, 'service node not found in WSDL.');
         $this->assertTrue($service->hasAttribute('name'));
         $this->assertEquals($this->_autoDiscover->getServiceName($this->_resourceName), $service->getAttribute('name'));

@@ -1,11 +1,12 @@
 <?php
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Zend\Soap\Wsdl,
+    Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
 /**
  * WSDL Generation class.
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Soap_Wsdl extends \Zend\Soap\Wsdl
+class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
 {
     /**
      * @var string|Zend\Uri\Uri

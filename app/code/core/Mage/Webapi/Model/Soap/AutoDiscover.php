@@ -10,7 +10,6 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * WSDL name and Service name attributes value
      */
     const WSDL_NAME = 'MagentoWSDL';
-    const SERVICE_NAME = 'MagentoAPI';
     const ARRAY_ITEM_KEY_NAME = 'item';
     /**#@-*/
 

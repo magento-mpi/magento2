@@ -96,29 +96,15 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                         'type' => 'int',
                         'required' => true,
                         'documentation' => 'Resource ID.{annotation:value}'
-                            . '{callInfo:resource_aMethodB:returned:conditionally}'
                     ),
                     'optional' => array(
                         'type' => 'boolean',
                         'required' => false,
                         'default' => true,
                         'documentation' => 'Optional parameter.'
-                            . '{callInfo:allCallsExcept(resource_aMethodB):requiredInput:no}'
-                            . '{seeLink:http://google.com/:google link:for example}'
                     ),
                 ),
             ),
-            'out' => array(
-                'parameters' => array(
-                    'result' => array(
-                        'type' => 'string',
-                        'required' => true,
-                        'documentation' => 'Operation result.{docInstructions:output:noDoc}'
-                    )
-                ),
-            ),
-        );
-        $oneWayInterface = array(
             'out' => array(
                 'parameters' => array(
                     'result' => array(
@@ -129,16 +115,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 ),
             ),
         );
-        $arrayInterface = array(
-            'in' => array(
-                'parameters' => array(
-                    'array_param' => array(
-                        'type' => 'string[]',
-                        'required' => true,
-                        'documentation' => 'Array of strings.{docInstructions:input:noDoc}'
-                    ),
-                ),
-            ),
+        $oneWayInterface = array(
             'out' => array(
                 'parameters' => array(
                     'result' => array(
@@ -173,7 +150,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         return array(
             'Method with simple parameters' => array('resource_a', 'methodB', $simpleInterface),
             'One-way method' => array('resource_a', 'methodC', $oneWayInterface),
-            'Method with array in parameters' => array('resource_a', 'methodD', $arrayInterface),
             'Method with complex type in parameters' => array('resource_a', 'methodE', $complexTypeInterface),
         );
     }

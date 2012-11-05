@@ -1,4 +1,6 @@
 <?php
+use Zend\Soap\Wsdl;
+
 /**
  * Complex type strategy tests.
  *
@@ -6,38 +8,251 @@
  */
 class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PHPUnit_Framework_TestCase
 {
-    public function testAddComplexType()
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_resourceConfig;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_wsdl;
+
+    /** @var Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased */
+    protected $_strategy;
+
+    /**
+     * Set up strategy for test.
+     */
+    public function setUp()
     {
-        $this->markTestIncomplete('Incomplete test.');
-        // TODO: finish test.
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
+        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
             ->setMethods(array('getDataType'))
             ->disableOriginalConstructor()
             ->getMock();
-        $wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
-            ->setMethods(array('toDomDocument'))
+        $this->_wsdl = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
+            ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
-        $domMock = $this->getMockBuilder('DOMDocument')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $wsdlMock->expects($this->once())
-            ->method('toDomDocument')
-            ->will($this->returnValue($domMock));
 
-        $strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($resourceConfigMock);
-        $strategy->setContext($wsdlMock);
+        $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
+        $this->_strategy->setContext($this->_wsdl);
+    }
 
-        $complexType = 'VendorModuleADataStructure';
-        $complexTypeData = array(
-            'documentation' => '',
-            'parameters' => array(),
+    /**
+     * Clean up.
+     */
+    protected function tearDown()
+    {
+        unset($this->_resourceConfig);
+        unset($this->_strategy);
+        unset($this->_wsdl);
+    }
+
+    /**
+     * Test that addComplexType returns type wsdl name if it has already been processed (registered at includedTypes in WSDL)
+     */
+    public function testCheckTypeName()
+    {
+        $testType = 'testComplexTypeName';
+        $testTypeWsdlName = 'tns:' . $testType;
+        $includedTypes = array(
+            $testType => $testTypeWsdlName,
         );
-        $resourceConfigMock->expects($this->any())
-            ->method('getDataType')
-            ->with($complexType)
-            ->will($this->returnValue($complexTypeData));
+        $this->_wsdl->expects($this->exactly(2))
+            ->method('getTypes')
+            ->will($this->returnValue($includedTypes));
 
-        $strategy->addComplexType($complexType);
+        $this->assertEquals($testTypeWsdlName, $this->_strategy->addComplexType($testType));
+    }
+
+    /**
+     * Test adding complex type with simple parameters.
+     *
+     * @param string $type
+     * @param array $data
+     * @dataProvider addComplexTypeDataProvider
+     */
+    public function testAddComplexTypeSimpleParameters($type, $data)
+    {
+        $this->_wsdl->expects($this->once())
+            ->method('getTypes')
+            ->will($this->returnValue(array()));
+
+        $this->_wsdl->expects($this->once())
+            ->method('toDomDocument')
+            ->will($this->returnValue(new DOMDocument()));
+
+        $schemaMock = $this->_getDomElementMock();
+        $schemaMock->expects($this->once())
+            ->method('appendChild');
+        $this->_wsdl->expects($this->once())
+            ->method('getSchema')
+            ->will($this->returnValue($schemaMock));
+
+        $this->_resourceConfig->expects($this->once())
+            ->method('getDataType')
+            ->with($type)
+            ->will($this->returnValue($data));
+
+        $this->assertEquals(Wsdl::TYPES_NS . ':' . $type, $this->_strategy->addComplexType($type));
+    }
+
+    /**
+     * Data provider for testAddComplexTypeSimpleParameters()
+     *
+     * @return array
+     */
+    public static function addComplexTypeDataProvider()
+    {
+        return array(
+            'simple parameters' => array(
+                'VendorModuleADataStructure',
+                array(
+                    'documentation' => 'test',
+                    'parameters' => array(
+                        'string_param' => array(
+                            'type' => 'string',
+                            'required' => true,
+                            'documentation' => 'Optional complex type param.'
+                        ),
+                        'bool_param' => array(
+                            'type' => 'boolean',
+                            'required' => false,
+                            'documentation' => 'Optional complex type param.{annotation:test}'
+                        ),
+                    ),
+                ),
+            ),
+            'type with call info' => array(
+                'VendorModuleADataStructure',
+                array(
+                    'documentation' => 'test',
+                    'parameters' => array(
+                        'string_param' => array(
+                            'type' => 'string',
+                            'required' => false,
+                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}',
+                        ),
+                    ),
+                    'callInfo' => array(
+                        'requiredInput' => array(
+                            'yes' => array(
+                                'calls' => array('VendorModuleACreate')
+                            )
+                        ),
+                        'returned' => array(
+                            'always' => array(
+                                'calls' => array('VendorModuleAGet')
+                            )
+                        )
+                    ),
+                ),
+            ),
+            'parameter with call info' => array(
+                'VendorModuleADataStructure',
+                array(
+                    'documentation' => 'test',
+                    'parameters' => array(
+                        'string_param' => array(
+                            'type' => 'string',
+                            'required' => false,
+                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}'
+                                . '{callInfo:allCallsExcept(VendorModuleAGet):returned:always}',
+                        ),
+                    ),
+                ),
+            ),
+            'parameter with see link' => array(
+                'VendorModuleADataStructure',
+                array(
+                    'documentation' => 'test',
+                    'parameters' => array(
+                        'string_param' => array(
+                            'type' => 'string',
+                            'required' => false,
+                            'documentation' => '{seeLink:http://google.com/:title:for}',
+                        ),
+                    ),
+                ),
+            ),
+            'parameter with doc instructions' => array(
+                'VendorModuleADataStructure',
+                array(
+                    'documentation' => 'test',
+                    'parameters' => array(
+                        'string_param' => array(
+                            'type' => 'string',
+                            'required' => false,
+                            'documentation' => '{docInstructions:output:noDoc}',
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Test adding complex type with complex parameters and arrays.
+     */
+    public function testAddComplexTypeComplexParameters()
+    {
+        $type = 'VendorModuleADataStructure';
+        $parameterType = 'ComplexType';
+        $typeData = array(
+            'documentation' => 'test',
+            'parameters' => array(
+                'complex_param' => array(
+                    'type' => $parameterType,
+                    'required' => true,
+                    'documentation' => 'complex type param.'
+                ),
+            ),
+        );
+        $parameterData = array(
+            'documentation' => 'test',
+            'parameters' => array(
+                'string_param' => array(
+                    'type' => 'ComplexTypeB[]',
+                    'required' => true,
+                    'documentation' => 'string param.'
+                ),
+            ),
+        );
+
+        $this->_wsdl->expects($this->at(0))
+            ->method('getTypes')
+            ->will($this->returnValue(array()));
+        $this->_wsdl->expects($this->any())
+            ->method('getTypes')
+            ->will($this->returnValue(array($type => Wsdl::TYPES_NS . ':' . $type)));
+
+        $this->_wsdl->expects($this->any())
+            ->method('toDomDocument')
+            ->will($this->returnValue(new DOMDocument()));
+        $schemaMock = $this->_getDomElementMock();
+        $schemaMock->expects($this->any())
+            ->method('appendChild');
+        $this->_wsdl->expects($this->any())
+            ->method('getSchema')
+            ->will($this->returnValue($schemaMock));
+        $this->_resourceConfig->expects($this->at(0))
+            ->method('getDataType')
+            ->with($type)
+            ->will($this->returnValue($typeData));
+        $this->_resourceConfig->expects($this->at(1))
+            ->method('getDataType')
+            ->with($parameterType)
+            ->will($this->returnValue($parameterData));
+
+        $this->assertEquals(Wsdl::TYPES_NS . ':' . $type, $this->_strategy->addComplexType($type));
+    }
+
+    /**
+     * Create mock for DOMElement
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getDomElementMock()
+    {
+        return $this->getMockBuilder('DOMElement')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 }
