@@ -52,14 +52,13 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_
     /**
      * Prepare inventory data from custom atribute
      *
-     * @param Varien_Object $object
+     * @param Mage_Catalog_Model_Product $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract|void
      */
     public function beforeSave($object)
     {
-        /** @var $object Mage_Catalog_Model_Product  */
         $stockData = $object->getData($this->getAttribute()->getAttributeCode());
-        $stockData['qty'] = $stockData['qty'] === '' ? null : $stockData['qty'];
+        $stockData['qty'] = !isset($stockData['qty']) || $stockData['qty'] === '' ? null : $stockData['qty'];
 
         $object->setStockData(array_replace((array)$object->getStockData(), (array)$stockData));
         $object->unsetData($this->getAttribute()->getAttributeCode());
