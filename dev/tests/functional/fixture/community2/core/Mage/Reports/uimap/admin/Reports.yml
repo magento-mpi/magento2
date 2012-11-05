@@ -78,15 +78,15 @@ report_product_sold:
         form:
             fieldsets:
                 -
-                    report_product_sold_grid:
+                    report_product_sold:
                         xpath: //div[@id='gridProductsSold']
                         fields:
-                            filter_from: //input[@id='period_date_from']
-                            filter_to: //input[@id='period_date_to']
+                            filter_from: //input[@id='gridProductsSold_period_date_from']
+                            filter_to: //input[@id='gridProductsSold_period_date_to']
                         dropdowns:
                             show_report_for: //select[@name='limit']
-                            show_by: //select[@id='report_period]
-                            export_to: //select[@id='grid_ProductSold_export']
+                            show_by: //select[@id='gridProductsSold_report_period']
+                            export_to: //select[@id='gridProductsSold_export']
                         buttons:
                             export: //button[span='Export']
                             refresh: //button[span='Refresh']
@@ -133,7 +133,7 @@ report_customer_totals:
                             export: //button[span='Export']
                         dropdowns:
                             filter_show_report_for: //select[@id='store_switcher']
-                            filter_show_by: //select[@id='gridTotalsCustomer_report_period']
+                            show_by: //select[@id='gridTotalsCustomer_report_period']
                             export_to: //select[@id='gridTotalsCustomer_export']
                         fields:
                             filter_from: //input[@id='gridTotalsCustomer_period_date_from']
@@ -152,6 +152,23 @@ report_customer_orders:
     mca: report_customer/orders/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
     title: Customers by Number of Orders / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_customer_orders:
+                        xpath: //div[@id='gridOrdersCustomer']
+                        fields:
+                            filter_from: //input[@id='gridOrdersCustomer_period_date_from']
+                            filter_to: //input[@id='gridOrdersCustomer_period_date_to']
+                        dropdowns:
+                            show_by: //select[@id='gridOrdersCustomer_report_period']
+                            export_to: //select[@id='gridOrdersCustomer_export']
+                        buttons:
+                             export: //button[span='Export']
+                             refresh: //button[span='Refresh']
+                        pageelements:
+                             customer_orders_grid: //table[@id='gridOrdersCustomer_table']
 
 # Tags: Customers Tags page
 report_tag_customer:
