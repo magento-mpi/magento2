@@ -332,7 +332,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _saveCustomerAddresses($customer, array $customerData)
     {
         $actualAddressesIds = array();
-        foreach ($customerData['addresses'] as  $addressId => $addressData) {
+        foreach ($customerData['addresses'] as $addressId => $addressData) {
             /** @var Mage_Customer_Model_Address $address */
             $address = Mage::getModel('Mage_Customer_Model_Address');
 
@@ -345,7 +345,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             } else {
                 $address->setCustomerId($customer->getId());
             }
-            $address->setData($addressData);
+            $address->addData($addressData);
 
             // Set default billing and shipping flags to address
             $isDefaultBilling = isset($customerData['account']['default_billing'])
