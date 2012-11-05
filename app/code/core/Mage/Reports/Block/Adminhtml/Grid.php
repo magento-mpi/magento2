@@ -33,10 +33,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected $_subReportSize = 5;
 
-    protected $_grandTotals;
-
-    protected $_totals;
-
     protected $_errors = array();
 
     protected $_template = 'Mage_Reports::grid.phtml';
@@ -214,23 +210,13 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     }
 
     /**
-     * Set visibility of subtotals
+     * Return date filter html
      *
-     * @param boolean $visible
+     * @return string
      */
-    public function setSubtotalVisibility($visible=true)
+    public function getDateFilterHtml()
     {
-        $this->_subtotalVisibility = $visible;
-    }
-
-    /**
-     * Return visibility of subtotals
-     *
-     * @return boolean
-     */
-    public function getSubtotalVisibility()
-    {
-        return $this->_subtotalVisibility;
+        return $this->getChildHtml('date_filter');
     }
 
     public function getPeriods()
@@ -289,58 +275,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             $this->_locale = Mage::app()->getLocale();
         }
         return $this->_locale;
-    }
-
-    public function getReport($from, $to)
-    {
-        if ($from == '') {
-            $from = $this->getFilter('report_from');
-        }
-        if ($to == '') {
-            $to = $this->getFilter('report_to');
-        }
-        $totalObj = Mage::getModel('Mage_Reports_Model_Totals');
-        $this->setTotals($totalObj->countTotals($this, $from, $to));
-        $this->addGrandTotals($this->getTotals());
-        return $this->getCollection()->getReport($from, $to);
-    }
-
-    public function addGrandTotals($total)
-    {
-        $totalData = $total->getData();
-        foreach ($totalData as $key=>$value) {
-            $_column = $this->getColumn($key);
-            if ($_column->getTotal() != '') {
-                $this->getGrandTotals()->setData($key, $this->getGrandTotals()->getData($key)+$value);
-            }
-        }
-        /*
-         * recalc totals if we have average
-         */
-        foreach ($this->getColumns() as $key=>$_column) {
-            if (strpos($_column->getTotal(), '/') !== FALSE) {
-                list($t1, $t2) = explode('/', $_column->getTotal());
-                if ($this->getGrandTotals()->getData($t2) != 0) {
-                    $this->getGrandTotals()->setData(
-                        $key,
-                        (float)$this->getGrandTotals()->getData($t1)/$this->getGrandTotals()->getData($t2)
-                    );
-                }
-            }
-        }
-    }
-
-    public function getGrandTotals()
-    {
-        if (!$this->_grandTotals) {
-            $this->_grandTotals = new Varien_Object();
-        }
-        return $this->_grandTotals;
-    }
-
-    public function getPeriodText()
-    {
-        return $this->__('Period');
     }
 
 //    /**
@@ -463,41 +397,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 //        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
 //        return $convert->convert('single_sheet');
 //    }
-
-    public function getSubtotalText()
-    {
-        return $this->__('Subtotal');
-    }
-
-    public function getTotalText()
-    {
-        return $this->__('Total');
-    }
-
-    public function getEmptyText()
-    {
-        return $this->__('No records found for this period.');
-    }
-
-    public function getCountTotals()
-    {
-        $totals = $this->getGrandTotals()->getData();
-        if (parent::getCountTotals() && count($totals)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * onlick event for refresh button to show alert if fields are empty
-     *
-     * @return string
-     */
-    public function getRefreshButtonCallback()
-    {
-        return "{$this->getJsObjectName()}.doFilter();";
-    }
 
     /**
      * Retrieve errors

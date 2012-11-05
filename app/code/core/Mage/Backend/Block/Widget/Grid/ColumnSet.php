@@ -69,6 +69,13 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected $_countSubTotals = false;
 
     /**
+     * Count totals
+     *
+     * @var boolean
+     */
+    protected $_countTotals = false;
+
+    /**
      * SubTotals
      *
      * @var array
@@ -93,6 +100,16 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @var string
      */
     protected $_template = 'Mage_Backend::widget/grid/column_set.phtml';
+
+    /**
+     * @var Mage_Backend_Model_Widget_Grid_SubTotals
+     */
+    protected $_subTotalObj = null;
+
+    /**
+     * @var Mage_Backend_Model_Widget_Grid_Totals
+     */
+    protected $_totalObj = null;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -154,6 +171,16 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         $this->setEmptyCellLabel($this->_helper->__(
             isset($data['empty_cell_label'])? $data['empty_cell_label'] : 'No records found.'
         ));
+
+        $this->setCountSubTotals(isset($data['count_sub_totals'])? (bool) $data['count_sub_totals'] : false);
+        if ($this->getCountSubTotals()) {
+            $this->_subTotalObj = new Mage_Backend_Model_Widget_Grid_SubTotals();
+        }
+
+        $this->setCountTotals(isset($data['count_totals'])? (bool) $data['count_totals'] : false);
+        if ($this->getCountTotals()) {
+            $this->_totalObj = new Mage_Backend_Model_Widget_Grid_Totals();
+        }
     }
 
     /**
@@ -308,7 +335,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function shouldRenderSubTotal($item)
     {
         return ($this->getCountSubTotals() &&
-            count($this->getSubTotals()) > 0 &&
+//            count($this->getSubTotals()) > 0 &&
             count($this->getMultipleRows($item)) > 0
         );
     }
@@ -323,7 +350,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getRowspan($item, $column)
     {
         if ($this->isColumnGrouped($column)) {
-            return count($this->getMultipleRows($item)) + count($this->_groupedColumn)-1;
+            return count($this->getMultipleRows($item)) + count($this->_groupedColumn) - 1
+                + (int)$this->shouldRenderSubTotal($item);
         }
         return false;
     }
@@ -370,31 +398,13 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve subtotal item
-     *        $this->getUrl()
-     * @param Varien_Object $item
-     * @return Varien_Object
-     */
-    public function getSubTotalItem($item)
-    {
-        foreach ($this->getSubTotals() as $subtotalItem) {
-            foreach ($this->_groupedColumn as $groupedColumn) {
-                if ($subtotalItem->getData($groupedColumn) == $item->getData($groupedColumn)) {
-                    return $subtotalItem;
-                }
-            }
-        }
-        return '';
-    }
-
-    /**
      * Retrieve columns to render
      *
      * @return array
      */
     public function getSubTotalColumns()
     {
-        return $this->getColumns();
+        return $this->getMultipleRowColumns();
     }
 
     /**
@@ -560,15 +570,37 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     }
 
     /**
-     * Set subtotal items
+     * Set totals
      *
-     * @param array $items
+     * @param boolean $flag
      * @return Mage_Backend_Block_Widget_Grid
      */
-    public function setSubTotals(array $items)
+    public function setCountTotals($flag = true)
     {
-        $this->_subtotals = $items;
+        $this->_countTotals = $flag;
         return $this;
+    }
+
+    /**
+     * Return count totals
+     *
+     * @return mixed
+     */
+    public function getCountTotals()
+    {
+        return $this->_countTotals;
+    }
+
+    /**
+     * Retrieve subtotal for item
+     *
+     * @param $item Varien_Object
+     * @return array
+     */
+    public function getSubTotals($item)
+    {
+        $this->_prepareSubTotals();
+        return $this->_subTotalObj->countTotals($item->getChildren());
     }
 
     /**
@@ -576,9 +608,10 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      *
      * @return array
      */
-    public function getSubTotals()
+    public function getTotals()
     {
-        return $this->_subtotals;
+        $this->_prepareTotals();
+        return $this->_totalObj->countTotals($this->getCollection());
     }
 
     /**
@@ -600,4 +633,39 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
         return $item;
     }
+
+    /**
+     * Prepare sub-total object for counting sub-totals
+     *
+     * @return null
+     */
+    public function _prepareSubTotals()
+    {
+        $columns = $this->_subTotalObj->getColumns();
+        if (empty($columns)) {
+            foreach ($this->getMultipleRowColumns() as $column) {
+                if ($column->getTotal()) {
+                    $this->_subTotalObj->setColumn($column->getIndex(), $column->getTotal());
+                }
+            }
+        }
+    }
+
+    /**
+     * Prepare total object for counting totals
+     *
+     * @return null
+     */
+    public function _prepareTotals()
+    {
+        $columns = $this->_totalObj->getColumns();
+        if (empty($columns)) {
+            foreach ($this->getColumns() as $column) {
+                if ($column->getTotal()) {
+                    $this->_totalObj->setColumn($column->getIndex(), $column->getTotal());
+                }
+            }
+        }
+    }
+
 }
