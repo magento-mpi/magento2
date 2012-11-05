@@ -746,4 +746,4 @@ ProductConfigure.prototype = {
 
 jQuery(document).ready(function(){
     productConfigure = new ProductConfigure();
-})
+});
