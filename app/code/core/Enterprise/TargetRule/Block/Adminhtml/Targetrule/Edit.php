@@ -30,8 +30,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminht
             'class'   => 'save',
             'label'   => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Save and Continue Edit'),
             'data_attr'  => array(
-                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
-            )
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), 3);
     }
 
