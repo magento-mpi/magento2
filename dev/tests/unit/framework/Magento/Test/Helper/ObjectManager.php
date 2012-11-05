@@ -102,13 +102,13 @@ class Magento_Test_Helper_ObjectManager
      * @param string $entityName
      * @param string $className
      * @param array $arguments
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @return array
      */
     public function getConstructArguments($entityName, $className = '', array $arguments = array())
     {
         if (!array_key_exists($entityName, $this->_supportedEntities)) {
-            throw new Exception('Unsupported entity type');
+            throw new InvalidArgumentException('Unsupported entity type');
         }
 
         $constructArguments = array();
@@ -137,7 +137,6 @@ class Magento_Test_Helper_ObjectManager
      */
     protected function _getResourceModelMock()
     {
-        /** @var $resourceMock Mage_Core_Model_Resource_Resource */
         $resourceMock = $this->_testObject->getMock('Mage_Core_Model_Resource_Resource', array('getIdFieldName'),
             array(), '', false
         );
