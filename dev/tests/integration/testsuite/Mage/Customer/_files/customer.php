@@ -11,7 +11,6 @@
 
 $customer = new Mage_Customer_Model_Customer();
 $customer
-    ->setIgnoreValidation(true)
     ->setWebsiteId(1)
     ->setEntityId(1)
     ->setEntityTypeId(1)

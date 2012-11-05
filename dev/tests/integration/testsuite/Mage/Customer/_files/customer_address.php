@@ -22,5 +22,4 @@ $customerAddress->setCustomerId(1)
         'firstname' => 'John',
         'parent_id' => 1
     ));
-$customerAddress->setIgnoreValidation(true);
 $customerAddress->save();

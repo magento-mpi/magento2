@@ -9,28 +9,7 @@
             </rule>
             <rule name="check_eav">
                 <entity_constraints>
-                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data">
-                        <!--
-                            @todo Remove store_id from black list when conflict of responsibilities between
-                            backend models and validation mechanism will be resolved
-                        -->
-                        <method name="setAttributesBlackList">
-                            <argument>
-                                <option>store_id</option>
-                            </argument>
-                        </method>
-                    </constraint>
-                </entity_constraints>
-            </rule>
-            <rule name="read_only_properties_for_create">
-                <entity_constraints>
-                    <constraint class="Magento_Validator_Entity_Properties">
-                        <method name="setReadOnlyProperties">
-                            <argument>
-                                <option>entity_id</option>
-                            </argument>
-                        </method>
-                    </constraint>
+                    <constraint alias="eav_validator" class="Mage_Eav_Model_Validator_Attribute_Data"/>
                 </entity_constraints>
             </rule>
             <rule name="read_only_properties_for_update">
@@ -59,7 +38,6 @@
             <group name="create">
                 <uses>
                     <use rule="check_eav"/>
-                    <use rule="read_only_properties_for_create"/>
                 </uses>
             </group>
             <group name="update">
@@ -77,19 +55,6 @@
                 <entity_constraints>
                     <constraint alias="eav_data_validator" class="Mage_Eav_Model_Validator_Attribute_Data" />
                     <constraint alias="eav_backend_validator" class="Mage_Eav_Model_Validator_Attribute_Backend" />
-                </entity_constraints>
-            </rule>
-            <rule name="read_only_properties_for_create">
-                <entity_constraints>
-                    <constraint class="Magento_Validator_Entity_Properties">
-                        <method name="setReadOnlyProperties">
-                            <argument>
-                                <option>attribute_set_id</option>
-                                <option>increment_id</option>
-                                <option>entity_id</option>
-                            </argument>
-                        </method>
-                    </constraint>
                 </entity_constraints>
             </rule>
             <rule name="read_only_properties_for_update">
@@ -112,7 +77,6 @@
         <groups>
             <group name="create">
                 <uses>
-                    <use rule="read_only_properties_for_create"/>
                     <use rule="check_eav"/>
                 </uses>
             </group>
