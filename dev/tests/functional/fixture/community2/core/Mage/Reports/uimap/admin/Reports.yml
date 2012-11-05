@@ -116,7 +116,28 @@ report_customer_accounts:
     mca: report_customer/accounts/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/accounts/')]
     title: New Accounts / Customers / Reports / Magento Admin
-
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_customer_accounts:
+                        xpath: //div[@id='gridAccounts']
+                        buttons:
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns:
+                            show_by: //select[@name='report_period']
+                            export_to: //td[@class="a-right"]/select
+                            filter_show_report_for: //select[@id='store_switcher']
+                        fields:
+                            filter_from: //input[@name='report_from']
+                            filter_to: //input[@name='report_to']
+                        links:
+                            period: //table[@id='gridAccounts_table']//span[contains(.,'Period')]
+                            number_of_new_accounts: //table[@id='gridAccounts_table']//span[contains(.,'Number of New Accounts')]
+                        pageelements:
+                            report_customer_accounts_table: //table[@id='gridAccounts_table']
+                            
 # Customers: Customers by Orders Total page
 report_customer_totals:
     mca: report_customer/totals/
