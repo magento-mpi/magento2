@@ -68,7 +68,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         ));
 
         $this->_resourceName = 'vendorModuleB';
-        $this->_resourceData = $this->_config->getResource($this->_resourceName, 'v1');
+        $this->_resourceData = $this->_config->getResourceDataMerged($this->_resourceName, 'v1');
         $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData));
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);

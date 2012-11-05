@@ -132,23 +132,18 @@ class Mage_Webapi_Model_Config_Resource
     /**
      * Retrieve specific resource version interface data.
      *
+     * Perform metadata merge from previous method versions.
+     *
      * @param string $resourceName
      * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
      * @throws RuntimeException
      */
-    public function getResource($resourceName, $resourceVersion)
+    public function getResourceDataMerged($resourceName, $resourceVersion)
     {
-        if (!isset($this->_data['resources'][$resourceName])) {
-            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
-        }
         /** Allow to take resource version in two formats: with 'v' prefix and without it */
         $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : lcfirst($resourceVersion);
-        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException($this->_helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
-                $resourceName));
-        }
-
+        $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
         $resource = array();
         foreach ($this->_data['resources'][$resourceName]['versions'] as $version => $data) {
             $resource = array_replace_recursive($resource, $data);
@@ -158,6 +153,44 @@ class Mage_Webapi_Model_Config_Resource
         }
 
         return $resource;
+    }
+
+    /**
+     * Retrieve resource description for specified version.
+     *
+     * @param string $resourceName
+     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
+     * @return array
+     * @throws InvalidArgumentException When the specified resource version does not exist.
+     */
+    protected function _getResourceData($resourceName, $resourceVersion)
+    {
+        /** Allow to take resource version in two formats: with 'v' prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : lcfirst($resourceVersion);
+        try {
+            $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
+        } catch (RuntimeException $e) {
+            throw new InvalidArgumentException($e->getMessage());
+        }
+        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion];
+    }
+
+    /**
+     * Check if specified version of resource exist. If not - exception is thrown.
+     *
+     * @param string $resourceName
+     * @param string $resourceVersion
+     * @throws RuntimeException When resource does not exist.
+     */
+    protected function _checkIfResourceVersionExists($resourceName, $resourceVersion)
+    {
+        if (!isset($this->_data['resources'][$resourceName])) {
+            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
+        }
+        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
+            throw new RuntimeException($this->_helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
+                $resourceName));
+        }
     }
 
     /**
@@ -294,10 +327,10 @@ class Mage_Webapi_Model_Config_Resource
      * @return array|bool On success array with policy details; false otherwise.
      * @throws InvalidArgumentException
      */
-    public function getOperationDeprecationPolicy($resourceName, $method, $resourceVersion)
+    public function getDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
         $deprecationPolicy = false;
-        $resourceData = $this->getResource($resourceName, $resourceVersion);
+        $resourceData = $this->_getResourceData($resourceName, $resourceVersion);
         if (!isset($resourceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
                 'Method "%s" does not exist in "%s" version of resource "%s".',
@@ -875,6 +908,10 @@ class Mage_Webapi_Model_Config_Resource
             }
 
             if (isset($useMethod) && is_string($useMethod) && !empty($useMethod)) {
+                $invalidFormatMessage = sprintf('"%s" method has invalid format of Deprecation policy. '
+                        . 'Accepted formats are createV1, catalogProduct::createV1 '
+                        . 'and Mage_Catalog_Webapi_ProductController::createV1.',
+                    $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName());
                 /** Add information about what method should be used instead of deprecated/removed one. */
                 /**
                  * Description is expected in one of the following formats:
@@ -902,12 +939,14 @@ class Mage_Webapi_Model_Config_Resource
                             $methodReflection->getDeclaringClass()->getName());
                         break;
                     default:
-                        throw new LogicException('"%s" method has invalid format of Deprecation policy. '
-                            . 'Accepted formats are catalogProduct::createV1 OR createV1.',
-                             $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName());
+                        throw new LogicException($invalidFormatMessage);
                         break;
                 }
-                $methodNameWithoutVersionSuffix = $this->getMethodNameWithoutVersionSuffix($methodName);
+                try {
+                    $methodNameWithoutVersionSuffix = $this->getMethodNameWithoutVersionSuffix($methodName);
+                } catch (Exception $e) {
+                    throw new LogicException($invalidFormatMessage);
+                }
                 $deprecationPolicy['use_method'] = $methodNameWithoutVersionSuffix;
                 $methodVersion = str_replace($methodNameWithoutVersionSuffix, '', $methodName);
                 $deprecationPolicy['use_version'] = lcfirst($methodVersion);
@@ -1248,7 +1287,7 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function getMethodRestRoutes($resourceName, $methodName, $version)
     {
-        $resourceData = $this->getResource($resourceName, $version);
+        $resourceData = $this->_getResourceData($resourceName, $version);
         if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
             throw new InvalidArgumentException(
                 sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));

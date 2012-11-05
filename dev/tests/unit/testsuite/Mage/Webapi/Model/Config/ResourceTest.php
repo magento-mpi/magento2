@@ -210,7 +210,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function dataProviderForTestGetResourceMaxVersion()
     {
         return array(
-            array('vendorModuleResource', 3),
+            array('vendorModuleResource', 5),
             array('vendorModuleResourceSubresource', 4),
         );
     }
@@ -406,7 +406,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetResource()
     {
-        $resourceData = $this->_getModel()->getResource('vendorModuleResource', 'v1');
+        $resourceData = $this->_getModel()->getResourceDataMerged('vendorModuleResource', 'v1');
         $this->assertTrue(isset($resourceData['methods']['create']), "Information about methods is not available.");
         $this->assertTrue(isset($resourceData['methods']['create']['interface']['in']['parameters']['requiredField']),
             "Data structure seems to be missing method input parameters.");
@@ -417,13 +417,13 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetResourceInvalidResourceName()
     {
         $this->setExpectedException('RuntimeException', 'Unknown resource "%s".');
-        $this->_getModel()->getResource('invalidResource', 'v1');
+        $this->_getModel()->getResourceDataMerged('invalidResource', 'v1');
     }
 
     public function testGetResourceInvalidVersion()
     {
         $this->setExpectedException('RuntimeException', 'Unknown version "%s" for resource "%s".');
-        $this->_getModel()->getResource('vendorModuleResource', 'v100');
+        $this->_getModel()->getResourceDataMerged('vendorModuleResource', 'v100');
     }
 
     public function testGetDataType()
@@ -516,7 +516,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetAllResourcesVersions()
     {
         $expectedResult = array(
-            'vendorModuleResource' =>array('v1', 'v2', 'v3'),
+            'vendorModuleResource' =>array('v1', 'v2', 'v3', 'v4', 'v5'),
             'vendorModuleResourceSubresource' => array('v1', 'v2', 'v4')
         );
         $allResourcesVersions = $this->_getModel()->getAllResourcesVersions();
@@ -678,6 +678,14 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_var_tags');
     }
 
+    public function testExtractDataInvalidDeprecationPolicy()
+    {
+        $this->setExpectedException('LogicException', '"Invalid_Deprecation_Webapi_PolicyController::getV1" '
+            . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
+            . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.');
+        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/invalid_deprecation_policy');
+    }
+
     public function testGetMethodRestRoutes()
     {
         $actualRoutes = $this->_getModel()->getMethodRestRoutes('vendorModuleResourceSubresource', 'create', 'v1');
@@ -694,6 +702,93 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException',
             sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
         $this->_getModel()->getMethodRestRoutes($resourceName, $methodName, 'v1');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetDeprecationPolicy
+     * @param string $resource
+     * @param string $method
+     * @param string $version
+     * @param string $deprecationFormat
+     * @param array $expectedResult
+     */
+    public function testGetDeprecationPolicy($resource, $method, $version, $expectedResult, $deprecationFormat)
+    {
+        $actualResult = $this->_getModel()->getDeprecationPolicy($resource, $method, $version);
+        $this->assertEquals($expectedResult, $actualResult,
+            "Deprecation policy was defined incorrectly. The following definition was used: '$deprecationFormat'");
+    }
+
+    public static function dataProviderForTestGetDeprecationPolicy()
+    {
+        return array(
+            array('vendorModuleResource', 'list', 2,
+                array(
+                    'deprecated' => true,
+                    'use_resource' => 'vendorModuleResource',
+                    'use_method' => 'list',
+                    'use_version' => 'v3'
+                ),
+                '@apiDeprecated vendorModuleResource::listV3'
+            ),
+            array('vendorModuleResource', 'list', 3, false, 'No policy defined.'),
+            array('vendorModuleResource', 'delete', 'v1',
+                array(
+                    'removed' => true,
+                    'use_resource' => 'vendorModuleResource',
+                    'use_method' => 'delete',
+                    'use_version' => 'v3'
+                ),
+                '@apiRemoved deleteV3'
+            ),
+            array(
+                'vendorModuleResource', 'delete', 2,
+                array(
+                    'deprecated' => true,
+                    'use_resource' => 'vendorModuleResourceSubresource',
+                    'use_method' => 'delete',
+                    'use_version' => 'v3'
+                ),
+                '@apiDeprecated Vendor_Module_Webapi_Resource_SubresourceController::deleteV3'
+            ),
+            array(
+                'vendorModuleResource', 'delete', 'v3',
+                array(
+                    'removed' => true,
+                ),
+                '@apiDeprecated \n @apiRemoved'
+            ),
+            array(
+                'vendorModuleResource', 'delete', 'v4',
+                array(
+                    'deprecated' => true,
+                ),
+                '@apiDeprecated'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetDeprecationPolicyException
+     * @param string $resource
+     * @param string $method
+     * @param string $version
+     * @param string $expectedMessage
+     */
+    public function testGetDeprecationPolicyException($resource, $method, $version, $expectedMessage)
+    {
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+        $this->_getModel()->getDeprecationPolicy($resource, $method, $version);
+    }
+
+    public static function dataProviderForTestGetDeprecationPolicyException()
+    {
+        return array(
+            array('invalidResource', 'delete', 1, 'Unknown resource "%s".'),
+            array('vendorModuleResource', 'update', 10, 'Unknown version "%s" for resource "%s".'),
+            array('vendorModuleResource', 'update', 1,
+                'Method "update" does not exist in "1" version of resource "vendorModuleResource".'),
+        );
     }
 
     /**

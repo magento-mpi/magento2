@@ -246,8 +246,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      */
     protected function _checkDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
-        $deprecationPolicy = $this->getResourceConfig()
-            ->getOperationDeprecationPolicy($resourceName, $method, $resourceVersion);
+        $deprecationPolicy = $this->getResourceConfig()->getDeprecationPolicy($resourceName, $method, $resourceVersion);
         if ($deprecationPolicy) {
             /** Initialize message with information about what method should be used instead of requested one. */
             if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])

@@ -34,21 +34,21 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getResource() functionality.
+     * Test getResourceDataMerged() functionality.
      * Expected result of method is placed in file fixture.
      */
     public function testGetResource()
     {
         $expectedResourceA = include __DIR__ . '/../../_files/config/resource_a_fixture.php';
-        $this->assertEquals($expectedResourceA, $this->_config->getResource('namespaceAModuleA', 'v1'),
+        $this->assertEquals($expectedResourceA, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v1'),
             'Version 1 resource_a data does not match');
 
         $expectedResourceAV2 = include __DIR__ . '/../../_files/config/resource_a_fixture_v2.php';
-        $this->assertEquals($expectedResourceAV2, $this->_config->getResource('namespaceAModuleA', 'v2'),
+        $this->assertEquals($expectedResourceAV2, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v2'),
             'Version 2 resource_a data does not match.');
 
         $expectedSubresourceB = include __DIR__ . '/../../_files/config/resource_a_subresource_b_fixture.php';
-        $this->assertEquals($expectedSubresourceB, $this->_config->getResource('namespaceAModuleASubresourceB', 'v1'),
+        $this->assertEquals($expectedSubresourceB, $this->_config->getResourceDataMerged('namespaceAModuleASubresourceB', 'v1'),
             'Version 1 resource_a_subresource_b data does no match.');
     }
 
