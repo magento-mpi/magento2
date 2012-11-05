@@ -253,9 +253,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
                 && isset($deprecationPolicy['use_version'])
             ) {
                 $messageUseMethod = $this->getHelper()
-                    ->__('Please, use version %s of "%s" method in "%s" resource instead.',
-                    $deprecationPolicy['use_resource'], $deprecationPolicy['use_method'],
-                    $deprecationPolicy['use_version']);
+                    ->__('Please, use version "%s" of "%s" method in "%s" resource instead.',
+                    $deprecationPolicy['use_version'], $deprecationPolicy['use_method'],
+                    $deprecationPolicy['use_resource']);
             } else {
                 $messageUseMethod = '';
             }
@@ -263,13 +263,13 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
                 $messageMethodRemoved = $this->getHelper()
-                    ->__('Version "%s" of "%s" method in "%s" resource was removed.', $resourceName, $method,
-                    $resourceVersion);
+                    ->__('Version "%s" of "%s" method in "%s" resource was removed.', $resourceVersion, $method,
+                    $resourceName);
                 throw new Mage_Webapi_Exception($messageMethodRemoved . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
                 $messageMethodDeprecated = $this->getHelper()
-                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.', $resourceName, $method,
-                    $resourceVersion);
+                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.', $resourceVersion, $method,
+                    $resourceName);
                 throw new Mage_Webapi_Exception($messageMethodDeprecated . ' ' . $messageUseMethod, $badRequestCode);
             }
         }
