@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_Form_FieldsetTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Block_System_Config_Form_Fieldset
@@ -56,7 +56,8 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends Magento_Test_Te
                 'group' => array('fieldset_css' => 'test_fieldset_css')
             )
         );
-        $this->_object = $this->getBlock('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $helper->getBlock('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',
