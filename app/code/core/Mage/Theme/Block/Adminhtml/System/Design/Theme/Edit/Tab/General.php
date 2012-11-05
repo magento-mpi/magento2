@@ -114,11 +114,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'required' => true
         ));
 
-        $maxImageSize = $this->getImageMaxSize();
+        $maxImageSize = Mage::helper('Mage_Core_Helper_File_Storage')->getMaxFileSizeInMb();
         if ($maxImageSize) {
-            $previewImageNote = $this->__('Max image size: %s', $maxImageSize);
+            $previewImageNote = $this->__('Max image size %sM', $maxImageSize);
         } else {
-            $previewImageNote = $this->__("System doesn't allow to get file upload settings");
+            $previewImageNote = $this->__('System doesn\'t allow to get file upload settings');
         }
         $themeFieldset->addField('preview_image', 'image', array(
             'label'    => $this->__('Theme Preview Image'),
@@ -215,16 +215,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     }
 
     /**
-     * Get max file size
-     *
-     * @return string|bool
-     */
-    public function getImageMaxSize()
-    {
-        return min(ini_get('post_max_size'), ini_get('upload_max_filesize'));
-    }
-
-    /**
      * Get theme default values
      *
      * @return array
@@ -248,9 +238,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _getDefaultsInherited($themesCollections)
     {
-        $data = array(
-            '' => $this->_getDefaults()
-        );
+        $data = array('' => $this->_getDefaults());
+
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themesCollections as $theme) {
             $data[$theme->getId()] = array(
                 'theme_title'          => $this->__('Copy of %s', $theme->getThemeTitle()),

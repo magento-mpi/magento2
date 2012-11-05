@@ -79,7 +79,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
-                'Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+                'Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
             );
             $field->setRenderer($renderer);
         }

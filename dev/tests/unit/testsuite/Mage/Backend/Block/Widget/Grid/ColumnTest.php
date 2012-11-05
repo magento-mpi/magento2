@@ -38,6 +38,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
 
         $arguments = array(
             'layout' => $this->_layoutMock,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Column', $arguments);

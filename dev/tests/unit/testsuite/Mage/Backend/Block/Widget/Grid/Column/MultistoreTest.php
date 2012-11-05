@@ -26,7 +26,8 @@ class Mage_Backend_Block_Widget_Grid_Column_MultistoreTest extends PHPUnit_Frame
         $this->_appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
 
         $arguments = array(
-            'app' => $this->_appMock,
+            'application' => $this->_appMock,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);

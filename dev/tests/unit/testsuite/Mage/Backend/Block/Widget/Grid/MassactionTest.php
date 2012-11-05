@@ -56,9 +56,14 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             ->method('getId')
             ->will($this->returnValue('test_grid'));
 
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array('getParentName', 'getBlock'), array(), '',
-            false, false
+        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array('getParentName', 'getBlock', 'helper'),
+            array(), '', false, false
         );
+
+        $this->_backendHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $this->_layoutMock->expects($this->any())
+            ->method('helper')
+            ->will($this->returnValue($this->_backendHelperMock));
         $this->_layoutMock->expects($this->any())
             ->method('getParentName')
             ->with('test_grid_massaction')
@@ -71,14 +76,11 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'), array(), '',
             false
         );
-        $this->_backendHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '',
-            false
-        );
 
         $arguments = array(
             'layout'       => $this->_layoutMock,
-            'backendHelper'       => $this->_backendHelperMock,
             'request'      => $this->_requestMock,
+            'urlBuilder'   => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'data'         => array(
                 'massaction_id_field'  => 'test_id',
                 'massaction_id_filter' => 'test_id'

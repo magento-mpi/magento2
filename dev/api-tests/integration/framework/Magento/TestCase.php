@@ -330,7 +330,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
                 $path));
         }
 
-        /** @var $config Mage_Adminhtml_Model_Config_Data */
+        /** @var $config Mage_Backend_Model_Config */
         $config = Mage::getModel('adminhtml/config_data');
         $data[$group]['fields'][$node]['value'] = $value;
         $config->setSection($section)

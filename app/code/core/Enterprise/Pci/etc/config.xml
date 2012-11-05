@@ -17,7 +17,6 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Adminhtml/>
-                <Mage_Admin/>
                 <Mage_Customer/>
                 <Mage_Api/>
             </depends>

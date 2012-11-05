@@ -55,12 +55,14 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             '_request'         => 'Mage_Core_Controller_Request_Http',
             '_layout'          => 'Mage_Core_Model_Layout',
             '_eventManager'    => 'Mage_Core_Model_Event_Manager',
+            '_urlBuilder'      => 'Mage_Core_Model_Url',
             '_translator'      => 'Mage_Core_Model_Translate',
             '_cache'           => 'Mage_Core_Model_Cache',
             '_designPackage'   => 'Mage_Core_Model_Design_Package',
             '_session'         => 'Mage_Core_Model_Session',
             '_storeConfig'     => 'Mage_Core_Model_Store_Config',
             '_frontController' => 'Mage_Core_Controller_Varien_Front',
+            '_helperFactory'   => 'Mage_Core_Model_Factory_Helper',
         ),
     );
 
@@ -76,6 +78,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
         ),
         self::TEST_CLASS_BLOCK => array(
             'eventManager'    => 'Mage_Core_Model_Event_Manager',
+            'urlBuilder'      => 'Mage_Core_Model_Url',
             'cache'           => 'Mage_Core_Model_Cache',
             'request'         => 'Mage_Core_Controller_Request_Http',
             'layout'          => 'Mage_Core_Model_Layout',
@@ -84,6 +87,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             'session'         => 'Mage_Core_Model_Session',
             'storeConfig'     => 'Mage_Core_Model_Store_Config',
             'frontController' => 'Mage_Core_Controller_Varien_Front',
+            'helperFactory'   => 'Mage_Core_Model_Factory_Helper',
         ),
     );
 
