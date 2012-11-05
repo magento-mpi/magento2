@@ -17,7 +17,7 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     const SESSION_TABLE = 'session_table_name';
 
     /**#@+
-     * TAble column names
+     * Table column names
      */
     const COLUMN_SESSION_ID      = 'session_id';
     const COLUMN_SESSION_DATA    = 'session_data';
