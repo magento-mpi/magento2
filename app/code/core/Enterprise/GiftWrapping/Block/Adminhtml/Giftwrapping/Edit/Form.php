@@ -32,11 +32,8 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
     {
         parent::_prepareLayout();
 
-        Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock(
-                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
-                $this->getNameInLayout() . '_element'
-            )
+        $this->getLayout()->createBlock(
+                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element'
         );
     }
 
@@ -74,14 +71,16 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $field = $fieldset->addField('website_ids','multiselect',array(
+            $field = $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Websites'),
                 'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock(
+                'Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+            );
             $field->setRenderer($renderer);
         }
 
