@@ -91,7 +91,7 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
 
         $result = array();
         $content = file_get_contents($fileInfo->getRealPath());
-        if (preg_match_all('/\$this->getViewUrl\(\'([^\']+?)\'\)/', $content, $matches)) {
+        if (preg_match_all('/\$this->getViewFileUrl\(\'([^\']+?)\'\)/', $content, $matches)) {
             foreach ($matches[1] as $value) {
                 if ($this->_isFileForDisabledModule($value)) {
                     continue;
