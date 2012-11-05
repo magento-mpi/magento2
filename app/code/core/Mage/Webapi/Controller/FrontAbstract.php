@@ -110,16 +110,17 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Check permissions on specific resource in ACL.
      *
-     * @param string $role
      * @param string $resource
      * @param string $method
      * @throws Mage_Webapi_Exception
      */
-    protected function _checkResourceAcl($role, $resource, $method)
+    protected function _checkResourceAcl($resource, $method)
     {
         try {
-            $isAllowed = Mage::getModel('Mage_Webapi_Model_Authorization')->isAllowed($role, $resource, $method);
-            if (!$isAllowed) {
+            /** @var Mage_Core_Model_Authorization $authorization */
+            $authorization = Mage::getSingleton('Mage_Core_Model_Authorization');
+            if (!$authorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
+                && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)) {
                 throw new Mage_Webapi_Exception(
                     $this->_helper->__('Access to resource forbidden.'),
                     Mage_Webapi_Exception::HTTP_FORBIDDEN
