@@ -66,7 +66,6 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
                 ),
             ),
         );
-        //print_r($this->_model->getAllOptions(false));die;
         $this->assertSame($fixture, $this->_model->getAllOptions(false));
     }
 
