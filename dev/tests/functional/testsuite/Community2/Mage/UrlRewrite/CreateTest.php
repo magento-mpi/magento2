@@ -112,7 +112,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     {
         //Create Simple Product
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required');
+        $productData = $this->loadDataSet('UrlRewrite', 'url_simple_product_required');
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
@@ -173,7 +173,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsNotEditableForCategory()
     {
-        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required');
+        $productData = $this->loadDataSet('UrlRewrite', 'url_simple_product_required');
 
         //Open Manage URL rewrite page
         $this->admin('url_rewrite_management');
@@ -571,7 +571,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Create Simple Product
         $this->navigate('manage_products');
         $productData =
-            $this->loadDataSet('UrlRewrite', 'simple_product_required');
+            $this->loadDataSet('UrlRewrite', 'url_simple_product_required');
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
@@ -773,7 +773,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Create product and assign to Website2
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required',
+        $productData = $this->loadDataSet('UrlRewrite', 'url_simple_product_required',
                            array('websites' => $websiteDataOne['website_name'], 'categories' => $category['name']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -874,7 +874,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Create Simple Product
         $this->navigate('manage_products');
         $productData =
-            $this->loadDataSet('UrlRewrite', 'simple_product_required');
+            $this->loadDataSet('UrlRewrite', 'url_simple_product_required');
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
@@ -997,7 +997,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Create product and assign to Website2
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required',
+        $productData = $this->loadDataSet('UrlRewrite', 'url_simple_product_required',
             array('categories' => $category['name']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));

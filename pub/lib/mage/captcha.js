@@ -34,3 +34,5 @@ Captcha.prototype = {
         });
     }
 };
+
+

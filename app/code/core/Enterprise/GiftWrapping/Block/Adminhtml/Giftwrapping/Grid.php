@@ -20,9 +20,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
     /**
      * Initialize grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('giftwrappingGrid');
         $this->setDefaultSort('wrapping_id');

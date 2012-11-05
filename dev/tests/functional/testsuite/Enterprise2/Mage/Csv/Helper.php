@@ -39,7 +39,7 @@ class Enterprise2_Mage_Csv_Helper extends Mage_Selenium_TestCase
                 try {
                     $data[] = array_combine($header, $line);
                 } catch (Exception $e) {
-                    print_r($e);
+                    print_r($e->getMessage());
                     return null;
                 }
             }

@@ -18,7 +18,7 @@ class Enterprise_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_Pci_Model_Encryption();
+        $this->_model = Mage::getModel('Enterprise_Pci_Model_Encryption');
     }
 
     protected function tearDown()

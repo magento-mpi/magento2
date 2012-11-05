@@ -30,7 +30,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-        $this->_model = new Mage_Core_Model_Translate();
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate');
         $this->_model->init('frontend');
     }
 
@@ -54,6 +54,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             '<Mage_Core>
                 <files>
                     <default>Mage_Core.csv</default>
+                    <fixture>../../../../../../../dev/tests/integration/testsuite/Mage/Core/_files/fixture.csv</fixture>
                 </files>
             </Mage_Core>',
             $modulesConfig->$checkedNode->asXML()
@@ -115,21 +116,21 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 'Text with different translation on different modules'
             ),
             array(
-                new Mage_Core_Model_Translate_Expr(
-                    'Text with different translation on different modules',
-                    'Mage_Core'
-                ),
+                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
+                    'text'   => 'Text with different translation on different modules',
+                    'module' => 'Mage_Core'
+                )),
                 'Text translation by Mage_Core module'
             ),
             array(
-                new Mage_Core_Model_Translate_Expr(
-                    'Text with different translation on different modules',
-                    'Mage_Catalog'
-                ),
+                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
+                    'text'   => 'Text with different translation on different modules',
+                    'module' => 'Mage_Catalog'
+                )),
                 'Text translation by Mage_Catalog module'
             ),
             array(
-                new Mage_Core_Model_Translate_Expr('text_with_no_translation'),
+                Mage::getModel('Mage_Core_Model_Translate_Expr', array('text' => 'text_with_no_translation')),
                 'text_with_no_translation'
             )
         );
@@ -142,7 +143,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {
-        $model = new Mage_Core_Model_Translate();
+        $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
         $model->init('frontend');
         $this->assertEquals($expectedTranslation, $model->translate(array($inputText)));
@@ -152,17 +153,17 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                new Mage_Core_Model_Translate_Expr(
-                    'Text with different translation on different modules',
-                    'Mage_Core'
-                ),
+                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
+                    'text'   => 'Text with different translation on different modules',
+                    'module' => 'Mage_Core'
+                )),
                 'Text translation by Mage_Core module in en_UK'
             ),
             array(
-                new Mage_Core_Model_Translate_Expr(
-                    'Original value for Mage_Core module',
-                    'Mage_Core'
-                ),
+                Mage::getModel('Mage_Core_Model_Translate_Expr', array(
+                    'text'   => 'Original value for Mage_Core module',
+                    'module' => 'Mage_Core'
+                )),
                 'Translated value for Mage_Core module in en_AU'
             ),
         );

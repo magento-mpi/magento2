@@ -11,11 +11,8 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Country
     extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('edit/type/country.phtml');
-    }
+
+    protected $_template = 'edit/type/country.phtml';
 
     /**
      * Select element for choosing show region option
@@ -30,7 +27,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_C
                 'class' => 'select global-scope'
             ))
             ->setName('attributes[{{prefix}}][{{id}}][show_region]')
-            ->setOptions(Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

@@ -18,7 +18,7 @@ class Enterprise_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= new Enterprise_Rma_Model_Item_Form();
+        $this->_model= Mage::getModel('Enterprise_Rma_Model_Item_Form');
         $this->_model->setFormCode('default');
     }
 

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_Framework_TestCase
+class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @var Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard
@@ -72,15 +72,22 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $this->_productResource = $this->getMock('Mage_Catalog_Model_Resource_Product', array(), array(), '', false);
         $this->_optionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
-        $this->_product = $this->getMock('Mage_Catalog_Model_Product',
+
+        $productCollection = $this->_getMockWithoutConstructorCall('Mage_Catalog_Model_Resource_Product_Collection');
+        $arguments = $this->_getConstructArguments(
+            self::MODEL_ENTITY, 'Mage_Catalog_Model_Product',
+            array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
+        );
+        $this->_product = $this->getMock(
+            'Mage_Catalog_Model_Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
-            array(array('resource' => $this->_productResource))
+            $arguments
         );
 
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = new Mage_Catalog_Model_Product_Option(array('resource' => $this->_optionResource));
+            $option = $this->getModel('Mage_Catalog_Model_Product_Option', array('resource' => $this->_optionResource));
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);

@@ -18,13 +18,13 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
      * Set block group and controller
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $action = Mage::app()->getRequest()->getActionName();
         $this->_blockGroup = 'Enterprise_Logging';
         $this->_controller = 'adminhtml_' . $action;
 
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('add');
     }
 

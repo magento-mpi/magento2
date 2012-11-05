@@ -17,7 +17,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends 
     protected function setUp()
     {
         parent::setUp();
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
     }
 

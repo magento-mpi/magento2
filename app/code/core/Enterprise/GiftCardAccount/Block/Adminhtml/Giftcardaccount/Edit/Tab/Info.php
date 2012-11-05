@@ -11,11 +11,8 @@
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info extends Mage_Adminhtml_Block_Widget_Form
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('edit/tab/info.phtml');
-    }
+    protected $_template = 'edit/tab/info.phtml';
+
     /**
      * Init form fields
      *
@@ -87,7 +84,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
                 'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 

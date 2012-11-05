@@ -12,21 +12,22 @@
  * Sales archive order view replacer for archive
  *
  */
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
+    extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'order_shipments',
+                'enterprise_order_shipments',
                 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'order_invoices',
+                'enterprise_order_invoices',
                 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'order_creditmemos',
+                'enterprise_order_creditmemos',
                 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos'
             );
 
@@ -35,7 +36,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends 
                 array('order_id' => $this->getOrder()->getId())
             );
             if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_SalesArchive::remove')) {
-                $this->getLayout()->getBlock('sales_order_edit')->addButton('restore',  array(
+                $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
                     'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Order Managment'),
                     'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
                     'class' => 'cancel'
@@ -49,7 +50,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends 
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_SalesArchive::add')) {
-                    $this->getLayout()->getBlock('sales_order_edit')->addButton('restore',  array(
+                    $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
                         'label' => Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Move to Archive'),
                         'onclick' => 'setLocation(\'' . $archiveUrl . '\')',
                     ));

@@ -18,6 +18,9 @@
 class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
+
+    protected $_template = 'role/edit.phtml';
+
     /**
      * Get tab label
      *
@@ -58,21 +61,23 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         return false;
     }
 
+
     /**
      * Class constructor
-     * @param array $data
+     *
      */
-    public function __construct(array $data = array())
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $acl = isset($data['acl']) ? $data['acl'] : Mage::getSingleton(
-            'Mage_Core_Model_Acl_Builder',
-            array(
-                'areaConfig' => Mage::getConfig()->getAreaConfig(),
-                'objectFactory' => Mage::getConfig()
+        $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder',
+            array('data' =>
+                array(
+                    'areaConfig' => Mage::getConfig()->getAreaConfig(),
+                    'objectFactory' => Mage::getConfig()
+                )
             )
         )->getAcl();
         $rulesSet = Mage::getResourceModel('Mage_User_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
@@ -88,7 +93,7 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
 
         $this->setSelectedResources($selectedResourceIds);
 
-        $this->setTemplate('role/edit.phtml');
+
     }
 
     /**

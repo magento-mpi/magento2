@@ -21,9 +21,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
      * Initialize grid
      * Set sort settings
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customersegmentGrid');
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');

@@ -23,9 +23,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
      * Initialize grid, set grid Id
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customerAttributeGrid');
         $this->setDefaultSort('sort_order');
     }

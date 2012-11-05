@@ -28,9 +28,9 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
      * Constructor
      * Set main configuration of grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('settlementGrid');
         $this->setUseAjax(true);
     }

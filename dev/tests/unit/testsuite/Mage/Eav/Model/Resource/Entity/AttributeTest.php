@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
+class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase_ObjectManagerAbstract
 {
     /**
      * @covers Mage_Eav_Model_Resource_Entity_Attribute::_saveOption
@@ -36,7 +36,9 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         );
 
         /** @var $model Mage_Core_Model_Abstract */
-        $model = $this->getMock('Mage_Core_Model_Abstract', null, array($attributeData));
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+        $arguments['data'] = $attributeData;
+        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setDefault(array('2'));
         $model->setOption(array('delete' => array(1 => '', 2 => '')));
 
@@ -87,7 +89,9 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         );
 
         /** @var $model Mage_Core_Model_Abstract */
-        $model = $this->getMock('Mage_Core_Model_Abstract', null, array($attributeData));
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+        $arguments['data'] = $attributeData;
+        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
 
         $adapter->expects($this->any())
@@ -145,7 +149,8 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
         /** @var $model Mage_Core_Model_Abstract */
-        $model = $this->getMock('Mage_Core_Model_Abstract', null);
+        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption('not-an-array');
 
         $adapter->expects($this->once())->method('insert')->with('eav_attribute');
@@ -162,9 +167,9 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
      */
     protected function _prepareResourceModel()
     {
-        $adapter = $this->_getAdapterMock('Varien_Db_Adapter_Pdo_Mysql', array(
+        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(
             '_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update',
-        ));
+        ), array(), '', false);
         $adapter->expects($this->any())
             ->method('describeTable')
             ->with('eav_attribute')
@@ -178,7 +183,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
                 array('status', '"status"'),
             )));
 
-        $application = $this->getMock('Mage_Core_Model_App', array('getStores'));
+        $application = $this->getMock('Mage_Core_Model_App', array('getStores'), array(), '', false);
         $application->expects($this->any())
             ->method('getStores')
             ->with(true)
@@ -197,14 +202,17 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
             ->with()
             ->will($this->returnValue($adapter));
 
+        $arguments = array(
+            'resource'  => $resource,
+            'arguments' => array(
+                'application' => $application,
+                'helper'      => $this->getMock('Mage_Eav_Helper_Data'),
+            )
+        );
         $resourceModel = $this->getMock(
             'Mage_Eav_Model_Resource_Entity_Attribute',
             array('getAdditionalAttributeTable'), // Mage::getResourceSingleton dependency
-            array(array(
-                'application' => $application,
-                'helper' => $this->getMock('Mage_Eav_Helper_Data'),
-                'resource' => $resource,
-            ))
+            $arguments
         );
 
         return array($adapter, $resourceModel);

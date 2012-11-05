@@ -19,9 +19,9 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
     /**
      * Set defaults
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('invitationGrid');
         $this->setDefaultSort('date');
         $this->setDefaultDir('DESC');

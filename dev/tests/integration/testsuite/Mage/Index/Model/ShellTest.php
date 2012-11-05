@@ -19,7 +19,7 @@ class Mage_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return new Mage_Index_Model_Shell($entryPoint);
+        return Mage::getModel('Mage_Index_Model_Shell', array('entryPoint' => $entryPoint));
     }
 
     /**
@@ -60,5 +60,31 @@ class Mage_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains('testme.php', $result);
         $this->assertNotContains('Usage:', $result);
         $this->assertNotEmpty($result);
+    }
+
+    /**
+     * @param string $indexCode
+     * @param bool $expectedHasErrors
+     *
+     * @dataProvider hasErrorsDataProvider
+     */
+    public function testHasErrors($param, $expectedHasErrors)
+    {
+        $model = $this->_getModel('testme.php');
+        $model->setRawArgs(array('testme.php', '--', $param));
+        $this->_run($model);
+
+        $this->assertEquals($expectedHasErrors, $model->hasErrors());
+    }
+
+    /**
+     * @return array
+     */
+    public function hasErrorsDataProvider()
+    {
+        return array(
+            'execution without issues' => array('info', false),
+            'issue with wrong index' => array('--reindex=wrong_index_code', true),
+        );
     }
 }

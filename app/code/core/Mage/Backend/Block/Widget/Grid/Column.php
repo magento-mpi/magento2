@@ -47,7 +47,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
 
     /**
      * Renderer types
-     * 
+     *
      * @var array
      */
     protected $_rendererTypes;
@@ -59,12 +59,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
      */
     protected $_filterTypes;
 
-    /**
-     * Block constructor
-     * 
-     * @param array $data
-     */
-    public function __construct($data = array())
+    public function _construct()
     {
         $this->_rendererTypes = array(
             'date' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Date',
@@ -104,7 +99,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
             'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
         );
 
-        parent::__construct($data);
+        parent::_construct();
     }
 
     /**

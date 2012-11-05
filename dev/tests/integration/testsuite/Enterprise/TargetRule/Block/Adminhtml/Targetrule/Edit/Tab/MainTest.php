@@ -19,10 +19,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends
      */
     public function testPrepareForm()
     {
-        Mage::register('current_target_rule', new Enterprise_TargetRule_Model_Rule);
+        Mage::register('current_target_rule', Mage::getModel('Enterprise_TargetRule_Model_Rule'));
 
-        $layout = new Mage_Core_Model_Layout;
-        $block = $layout->addBlock('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main');
+        $block = Mage::app()->getLayout()->createBlock(
+            'Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main'
+        );
         $prepareFormMethod = new ReflectionMethod(
             'Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

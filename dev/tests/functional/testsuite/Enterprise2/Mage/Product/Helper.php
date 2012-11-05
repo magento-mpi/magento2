@@ -334,4 +334,18 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
         }
         return $xpathArray;
     }
+
+    /**
+     * Verify product info on frontend
+     *
+     * @param array $productData
+     */
+    public function frontVerifyProductInfo(array $productData)
+    {
+        if (isset($productData['general_short_description'])) {
+            unset($productData['general_short_description']);
+        }
+
+        parent::frontVerifyProductInfo($productData);
+    }
 }

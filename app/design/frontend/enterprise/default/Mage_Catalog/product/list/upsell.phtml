@@ -29,6 +29,6 @@
         <?php endfor; ?>
     <?php endfor; ?>
     </ul>
-    <script type="text/javascript">decorateList('upsell-product-list', 'none-recursive')</script>
+    <script type="text/javascript">(function($) {$('#upsell-product-list').decorate('list', false)})(jQuery)</script>
 </div>
 <?php endif ?>
