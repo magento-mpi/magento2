@@ -1,3 +1,22 @@
+2.0.0.0-dev30
+=============
+* Implemented the dependency injection framework capability
+  * Added Zend Framework 2 Zend_DI component to the library
+* Performance tests
+  * Implemented the indexing PHP scenario for performance tests utilizing `dev/shell/indexer.php` script
+  * Improved indexers running script `dev/shell/indexer.php` to return appropriate exit code upon success/failure
+  * Implemented running the same performance scenario file with different parameters
+  * Improved testsuite optimizer to make used terminology more general and straightforward
+* Implemented the editable multiselect JavaScript component
+* Fixed displaying long names in the Tax Class multiselect
+* Fixed scrolling of a page to the beginning when selecting an item in a multiselect
+* Moved the Import/Export functionality to Tax Rate page
+* Fixed exception on the "Import/Export Tax Rate" page after upgrade from CE 1.7
+* Fixed missing control buttons on the New/Edit Tax Rule page
+* GitHub requests:
+  * [#59](https://github.com/magento/magento2/pull/59) -- fixed Dashboard graphs exception handling
+  * [#88](https://github.com/magento/magento2/issues/88) -- provided comments for values that can be configured in `app/etc/local.xml` file
+
 2.0.0.0-dev29
 =============
 * Added scripts that allow upgrading database from CE 1.7 (EE 1.12) to 2.x
