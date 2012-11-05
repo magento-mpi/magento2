@@ -47,10 +47,10 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         $idParamName = $config->getIdParamName($methodReflection);
         $parentIdParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
         $idParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
-        if (isset($requestParams[$parentIdParamNameInRoute])) {
+        if (isset($requestParams[$parentIdParamNameInRoute]) && ($idParamName != $parentIdParamNameInRoute)) {
             $requestParams[$idParamName] = $requestParams[$parentIdParamNameInRoute];
             unset($requestParams[$parentIdParamNameInRoute]);
-        } elseif (isset($requestParams[$idParamNameInRoute])) {
+        } elseif (isset($requestParams[$idParamNameInRoute]) && ($idParamName != $idParamNameInRoute)) {
             $requestParams[$idParamName] = $requestParams[$idParamNameInRoute];
             unset($requestParams[$idParamNameInRoute]);
         }
