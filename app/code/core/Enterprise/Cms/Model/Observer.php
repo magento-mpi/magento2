@@ -65,7 +65,7 @@ class Enterprise_Cms_Model_Observer
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray()
+                'values'    => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
@@ -85,9 +85,10 @@ class Enterprise_Cms_Model_Observer
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                             'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Currently Published Revision'),
-                            'href' => Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl('*/cms_page_revision/edit', array(
-                                'page_id' => $page->getId(),
-                                'revision_id' => $page->getPublishedRevisionId()
+                            'href' => Mage::getSingleton('Mage_Backend_Model_Url')
+                                ->getUrl('*/cms_page_revision/edit', array(
+                                    'page_id' => $page->getId(),
+                                    'revision_id' => $page->getPublishedRevisionId()
                                 )),
                         ));
 

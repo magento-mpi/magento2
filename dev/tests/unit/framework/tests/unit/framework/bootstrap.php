@@ -18,11 +18,7 @@ $codeDirs = array(
 );
 
 set_include_path(implode(PATH_SEPARATOR, $codeDirs) . PATH_SEPARATOR . get_include_path());
-
-function magentoAutoloadForUnitTests($class)
-{
+spl_autoload_register(function ($class) {
     $file = str_replace('_', '/', $class) . '.php';
     require_once $file;
-}
-
-spl_autoload_register('magentoAutoloadForUnitTests');
+});

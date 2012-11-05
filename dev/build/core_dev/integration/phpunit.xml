@@ -23,7 +23,7 @@
         <const name="TESTS_LOCAL_CONFIG_FILE" value="{{local_config_file}}"/>
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml;etc/modules/*.xml"/>
-        <const name="TESTS_CLEANUP_ACTION" value="uninstall"/>
+        <const name="TESTS_CLEANUP" value="enabled"/>
         <const name="TESTS_MAGENTO_DEVELOPER_MODE" value="{{developer_mode}}"/>
     </php>
     <listeners>

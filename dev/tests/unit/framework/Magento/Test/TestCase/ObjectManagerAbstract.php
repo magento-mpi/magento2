@@ -38,12 +38,14 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
             'request'            => 'Mage_Core_Controller_Request_Http',
             'layout'             => 'Mage_Core_Model_Layout',
             'eventManager'       => 'Mage_Core_Model_Event_Manager',
+            'urlBuilder'         => 'Mage_Core_Model_Url',
             'translator'         => 'Mage_Core_Model_Translate',
             'cache'              => 'Mage_Core_Model_Cache',
             'designPackage'      => 'Mage_Core_Model_Design_Package',
             'session'            => 'Mage_Core_Model_Session',
             'storeConfig'        => 'Mage_Core_Model_Store_Config',
-            'frontController'    => 'Mage_Core_Controller_Varien_Front'
+            'frontController'    => 'Mage_Core_Controller_Varien_Front',
+            'helperFactory'      => 'Mage_Core_Model_Factory_Helper'
         ),
         self::MODEL_ENTITY => array(
             'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',

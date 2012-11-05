@@ -44,7 +44,7 @@
     <?php endforeach; ?>
     </tbody>
 </table>
-<script type="text/javascript">decorateTable('giftregistry-search-results')</script>
+<script type="text/javascript">(function($) {$('#giftregistry-search-results').decorate('table')})(jQuery)</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php else: ?>
     <p class="error-msg"><?php echo $this->__('Your search returned no results.') ?></p>

@@ -228,5 +228,13 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     {
         $this->_model->validateParam('toolTip', '/:');
     }
+
+    /**
+     * Resources belonging to a module within a compound namespace must pass the validation
+     */
+    public function testValidateParamResourceCompoundModuleNamespace()
+    {
+        $this->_model->validateParam('resource', 'TheCompoundNamespace_TheCompoundModule::resource');
+    }
 }
 

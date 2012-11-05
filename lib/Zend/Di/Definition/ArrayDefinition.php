@@ -9,10 +9,10 @@ class ArrayDefinition implements DefinitionInterface
     
     public function __construct(Array $dataArray)
     {
-        //foreach ($dataArray as $class => $value) {
+        foreach ($dataArray as $class => $value) {
             // force lower names
-            //$dataArray[$class] = array_change_key_case($dataArray[$class], CASE_LOWER);
-        //}
+            $dataArray[$class] = array_change_key_case($dataArray[$class], CASE_LOWER);
+        }
         $this->dataArray = $dataArray;
     }
     
@@ -23,11 +23,7 @@ class ArrayDefinition implements DefinitionInterface
     
     public function hasClass($class)
     {
-        $result = array_key_exists($class, $this->dataArray);
-        if ($result && !is_array($this->dataArray[$class])) {
-            $this->dataArray[$class] = json_decode($this->dataArray[$class], true);
-        }
-        return $result;
+        return array_key_exists($class, $this->dataArray);
     }
     
     public function getClassSupertypes($class)

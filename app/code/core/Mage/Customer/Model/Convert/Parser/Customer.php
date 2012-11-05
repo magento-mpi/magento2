@@ -696,7 +696,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
                     $shippingAddress = $model->getPrimaryShippingAddress();
                     if (!$shippingAddress instanceof Mage_Customer_Model_Address) {
-                        $shippingAddress = Mage::getModel('customer/address');
+                        $shippingAddress = Mage::getModel('Mage_Customer_Model_Address');
                         if ($customer->getId() && $customer->getDefaultShipping()) {
                             $shippingAddress->setId($customer->getDefaultShipping());
                         }

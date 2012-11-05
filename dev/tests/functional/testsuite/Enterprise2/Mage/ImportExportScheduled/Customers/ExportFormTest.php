@@ -40,6 +40,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * Result2: After step 8 the grid "Scheduled Import/Export" is opened, new export isn't created
      * Result3: After step 10 the grid "Scheduled Import/Export" is opened, new export is created
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5769
      */
     public function addingNewScheduledExport()
@@ -109,6 +110,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * 6. Press "Save" button
      * Result: The changes should be applied
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5770
      */
     public function editingNewScheduledExport()
@@ -186,6 +188,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * 2. In column "Action"  select "Edit"
      *  Result: The  edit page of export from precondition is opened
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5771
      */
     public function editingNewScheduledExportThroughAction()
@@ -219,6 +222,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * 3. Press "OK" in appearing dialog box
      *  Result: The grid Scheduled Import/Export is appeared with message about deleting.
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5773
      */
     public function deletingScheduledExport()

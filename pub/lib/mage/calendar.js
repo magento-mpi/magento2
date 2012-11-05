@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint browser:true jquery:true */
 (function($) {
 
     /**
@@ -28,6 +28,14 @@
                 this.options
             );
             this._initPicker(this.element);
+        },
+
+        /**
+         * Get picker name
+         * @protected
+         */
+        _picker: function(){
+            return this.options.showsTime ? 'datetimepicker' : 'datepicker';
         },
 
         /**
@@ -60,9 +68,8 @@
          */
         _setCurrentDate: function(element) {
             if (!element.val()) {
-                element
-                    .datetimepicker('setDate', this.getTimezoneDate())
-                    .val('')
+                element[this._picker()]('setDate', this.getTimezoneDate())
+                    .val('');
             }
         },
 
@@ -72,8 +79,7 @@
          * @param {Element}
          */
         _initPicker: function(element) {
-            element
-                .datetimepicker(this.options)
+            element[this._picker()](this.options)
                 .next('.ui-datepicker-trigger')
                 .addClass('v-middle');
             this._setCurrentDate(element);
@@ -82,8 +88,8 @@
         /**
          * destroy instance of datetimepicker
          */
-        destroy: function(){
-            this.element.datetimepicker('destroy');
+        _destroy: function(){
+            this.element[this._picker()]('destroy');
             $.Widget.prototype.destroy.call(this);
         }
     });
@@ -145,7 +151,7 @@
                 var symbols = format.match(/([a-z]+)/ig),
                     separators = format.match(/([^a-z]+)/ig),
                     self = this;
-                convertedFormat = '';
+                var convertedFormat = '';
                 if (symbols) {
                     $.each(symbols, function(key, val) {
                         convertedFormat +=
@@ -170,13 +176,13 @@
             if (this.options.from && this.options.to) {
                 var from = this.element.find('#' + this.options.from.id),
                     to = this.element.find('#' + this.options.to.id);
-                this.options.onSelect = function(selectedDate) {
-                    to.datetimepicker('option', 'minDate', selectedDate);
-                }
+                this.options.onSelect = $.proxy(function(selectedDate) {
+                    to[this._picker()]('option', 'minDate', selectedDate);
+                }, this);
                 $.mage.calendar.prototype._initPicker.call(this, from);
-                this.options.onSelect = function(selectedDate) {
-                    from.datetimepicker('option', 'maxDate', selectedDate);
-                }
+                this.options.onSelect = $.proxy(function(selectedDate) {
+                    from[this._picker()]('option', 'maxDate', selectedDate);
+                }, this);
                 $.mage.calendar.prototype._initPicker.call(this, to);
             }
         },
@@ -186,12 +192,12 @@
          */
         destroy: function(){
             if(this.options.from) {
-                this.element.find('#' + this.options.from.id).datetimepicker('destroy');
+                this.element.find('#' + this.options.from.id)[this._picker()]('destroy');
             }
             if(this.options.to) {
-                this.element.find('#' + this.options.to.id).datetimepicker('destroy');
+                this.element.find('#' + this.options.to.id)[this._picker()]('destroy');
             }
             $.Widget.prototype.destroy.call(this);
         }
-    })
+    });
 })(jQuery);
