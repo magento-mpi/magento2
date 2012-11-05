@@ -1,4 +1,6 @@
 <?php
+use Zend\Soap\Wsdl;
+
 /**
  * SOAP AutoDiscover tests.
  *
@@ -46,7 +48,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $bindingName = $autoDiscover->getBindingName($resourceName);
         $wsdlMock->expects($this->once())
             ->method('addBinding')
-            ->with($bindingName, $portTypeName)
+            ->with($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName)
             ->will($this->returnValue($bindingDomMock));
         $wsdlMock->expects($this->once())
             ->method('addSoapBinding')
@@ -56,7 +58,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $outputMessageName = $autoDiscover->getOutputMessageName($operationName);
         $wsdlMock->expects($this->once())
             ->method('addPortOperation')
-            ->with($portTypeDomMock, $operationName, 'tns:'.$inputMessageName, 'tns:'.$outputMessageName);
+            ->with($portTypeDomMock, $operationName, Wsdl::TYPES_NS . ':' . $inputMessageName,
+                Wsdl::TYPES_NS . ':'.$outputMessageName);
         $operationDomMock = $this->_getDomElementMock();
         $wsdlMock->expects($this->once())
             ->method('addBindingOperation')

@@ -1,4 +1,6 @@
 <?php
+use Zend\Soap\Wsdl;
+
 /**
  * Auto discovery class for WSDL generation.
  *
@@ -80,7 +82,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $portTypeName = $this->getPortTypeName($resourceName);
             $bindingName = $this->getBindingName($resourceName);
             $portType = $this->_wsdl->addPortType($portTypeName);
-            $binding = $this->_wsdl->addBinding($bindingName, $portTypeName);
+            $binding = $this->_wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $this->_wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($resourceName);
             $serviceName = $this->getServiceName($resourceName);
@@ -123,7 +125,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $inputParameters = array();
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeName
+            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
         );
         if (isset($methodData['interface']['in']['parameters'])) {
             $inputParameters = $methodData['interface']['in']['parameters'];
@@ -142,11 +144,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $this->_wsdl->addComplexType($complexTypeName);
         $this->_wsdl->addMessage($inputMessageName, array(
             'messageParameters' => array(
-                'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputMessageName
+                'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
             )
         ));
 
-        return Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $inputMessageName;
+        return Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
     /**
@@ -162,7 +164,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
         $this->_wsdl->addElement(array(
             'name' => $outputMessageName,
-            'type' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $complexTypeName
+            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
         ));
         $callInfo = array();
         $callInfo['returned']['always']['calls'] = array($operationName);
@@ -175,11 +177,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $this->_wsdl->addComplexType($complexTypeName);
         $this->_wsdl->addMessage($outputMessageName, array(
             'messageParameters' => array(
-                'element' => Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName
+                'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         ));
 
-        return Mage_Webapi_Model_Soap_Wsdl::TYPES_NS . ':' . $outputMessageName;
+        return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**

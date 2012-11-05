@@ -286,7 +286,7 @@ class Wsdl
     {
         $binding = $this->dom->createElement('binding');
         $binding->setAttribute('name', $name);
-        $binding->setAttribute('type', self::TYPES_NS . ':' . $portType);
+        $binding->setAttribute('type', $portType);
 
         $this->wsdl->appendChild($binding);
 
