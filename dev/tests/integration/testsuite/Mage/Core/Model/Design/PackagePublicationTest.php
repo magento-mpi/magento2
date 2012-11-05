@@ -193,6 +193,47 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * Test on vulnerability for protected files
+     *
+     * @expectedException Magento_Exception
+     * @dataProvider getProtectedFiles
+     * @param array $designParams
+     * @param string $filePath
+     */
+    public function testTemplatePublicationVulnerability($designParams, $filePath)
+    {
+        $this->_model->getViewFileUrl($filePath, $designParams);
+    }
+
+    /**
+     * Return files, which are not published
+     *
+     * @return array
+     */
+    public function getProtectedFiles()
+    {
+        return array(
+            array(
+                array('area' => 'frontend', 'package' => 'package', 'theme' => 'default'),
+                'access_violation.php'
+            ),
+            array(
+                array('area' => 'frontend', 'package' => 'package', 'theme' => 'default'),
+                'theme.xml'
+            ),
+            array(
+                array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Catalog'),
+                'layout.xml'
+            ),
+            array(
+                array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Core'),
+                'test.phtml'
+            ),
+        );
+    }
+
+
+    /**
      * Publication of view files in development mode
      *
      * @param string $file
