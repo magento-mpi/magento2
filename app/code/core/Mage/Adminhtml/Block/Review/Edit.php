@@ -42,8 +42,15 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
                 'class'   => 'save',
                 'data_attr'  => array(
-                    'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
-                    'next-id' => intval($prevId),
+                    'widget-button' => array(
+                        'event' => 'save',
+                        'related' => '#edit_form',
+                        'eventData' => array(
+                            'action' => array(
+                                'args' => array('next_item' => $prevId),
+                            ),
+                        ),
+                    ),
                 ),
             ), 3, 11);
         }
@@ -52,8 +59,15 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
                 'class'   => 'save',
                 'data_attr'  => array(
-                    'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
-                    'next-id' => intval($nextId),
+                    'widget-button' => array(
+                        'event' => 'save',
+                        'related' => '#edit_form',
+                        'eventData' => array(
+                            'action' => array(
+                                'args' => array('next_item' => $nextId),
+                            ),
+                        ),
+                    ),
                 ),
             ), 3, 100);
 
@@ -139,15 +153,6 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
            Event.observe(window, \'load\', function(){
                  Event.observe($("select_stores"), \'change\', review.updateRating);
            });
-        ';
-        $this->_formScripts[] = '
-            jQuery("#save_and_previous, #save_and_next").on("click", function(e) {
-                var targetData = jQuery(e.target).data();
-                jQuery(\'[name="next_item"]\').length ?
-                    jQuery(\'[name="next_item"]\').val(id) :
-                    jQuery(\'<input name="next_item" type="text" value="\' + targetData.nextId + \'" />\')
-                        .appendTo(\'#edit_form\');
-            })
         ';
     }
 
