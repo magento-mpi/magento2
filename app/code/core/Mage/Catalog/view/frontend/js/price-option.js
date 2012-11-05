@@ -17,39 +17,34 @@
         _create: function () {
             $(this.options.productCustomSelector).each(
                 $.proxy(function (key, value) {
-                    var element = $(value);
-                    if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
-                        element.on('click', $.proxy(this.reloadPrice, this));
-                    }
-                    else if (element.prop('tagName') === 'SELECT' ||
-                        element.prop('tagName') === 'TEXTAREA' ||
-                        element.attr('type') === 'text' || element.attr('type') === 'file') {
-                        element.on('change', $.proxy(this.reloadPrice, this));
-                    }
+                    var element = $(value),
+                        inputs = element.filter(":input"),
+                        isNotCheckboxRadio = inputs.is(':not(":checkbox, :radio")');
+                    element.on((isNotCheckboxRadio ? 'change' : 'click'), $.proxy(this.reloadPrice, this));
                 }, this)
             );
         },
         _formatCurrency: function (price, format, showPlus) {
-            var precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision;
-            var integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired;
-            var decimalSymbol = format.decimalSymbol === undefined ? "," : format.decimalSymbol;
-            var groupSymbol = format.groupSymbol === undefined ? "." : format.groupSymbol;
-            var groupLength = format.groupLength === undefined ? 3 : format.groupLength;
-            var s = '';
+            var precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision,
+                integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired,
+                decimalSymbol = format.decimalSymbol === undefined ? "," : format.decimalSymbol,
+                groupSymbol = format.groupSymbol === undefined ? "." : format.groupSymbol,
+                groupLength = format.groupLength === undefined ? 3 : format.groupLength,
+                s = '';
 
             if (showPlus === undefined || showPlus === true) {
                 s = price < 0 ? "-" : ( showPlus ? "+" : "");
             } else if (showPlus === false) {
                 s = '';
             }
-            var i = parseInt(price = Math.abs(+price || 0).toFixed(precision), 10) + '';
-            var pad = (i.length < integerRequired) ? (integerRequired - i.length) : 0;
+            var i = parseInt(price = Math.abs(+price || 0).toFixed(precision), 10) + '',
+                pad = (i.length < integerRequired) ? (integerRequired - i.length) : 0;
             while (pad) {
                 i = '0' + i;
                 pad--;
             }
-            var j = i.length > groupLength ? i.length % groupLength : 0;
-            var re = new RegExp("(\\d{" + groupLength + "})(?=\\d)", "g");
+            var j = i.length > groupLength ? i.length % groupLength : 0,
+                re = new RegExp("(\\d{" + groupLength + "})(?=\\d)", "g");
 
             /**
              * replace(/-/, 0) is only for fixing Safari bug which appears
@@ -57,18 +52,16 @@
              * Result is "0.-0" :(
              */
             var r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) +
-                (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : "");
-            var pattern = '';
-            pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
+                    (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : ""),
+                pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
             return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-
         },
         changePrice: function (key, price) {
             this.options.prices[key] = price;
         },
         _getOptionPrices: function () {
-            var price = 0;
-            var oldPrice = 0;
+            var price = 0,
+                oldPrice = 0;
             $.each(this.options.prices, function (key, pair) {
                 price += parseFloat(pair.price);
                 oldPrice += parseFloat(pair.oldPrice);
@@ -79,29 +72,29 @@
         reloadPrice: function () {
             if (this.options.priceConfig) {
                 var priceSelectors = [
-                    '#product-price-' + this.options.priceConfig.productId,
-                    '#bundle-price-' + this.options.priceConfig.productId,
-                    '#price-including-tax-' + this.options.priceConfig.productId,
-                    '#price-excluding-tax-' + this.options.priceConfig.productId,
-                    '#old-price-' + this.options.priceConfig.productId
-                ];
-                var getOptionPrices = this._getOptionPrices();
-                var optionPrice = {
-                    excludeTax: 0,
-                    includeTax: 0,
-                    oldPrice: 0,
-                    price: 0,
-                    update: function (price, excludeTax, includeTax, oldPrice) {
-                        this.price += price;
-                        this.excludeTax += excludeTax;
-                        this.includeTax += includeTax;
-                        this.oldPrice += oldPrice;
-                    }
-                };
+                        '#product-price-' + this.options.priceConfig.productId,
+                        '#bundle-price-' + this.options.priceConfig.productId,
+                        '#price-including-tax-' + this.options.priceConfig.productId,
+                        '#price-excluding-tax-' + this.options.priceConfig.productId,
+                        '#old-price-' + this.options.priceConfig.productId
+                    ],
+                    getOptionPrices = this._getOptionPrices(),
+                    optionPrice = {
+                        excludeTax: 0,
+                        includeTax: 0,
+                        oldPrice: 0,
+                        price: 0,
+                        update: function (price, excludeTax, includeTax, oldPrice) {
+                            this.price += price;
+                            this.excludeTax += excludeTax;
+                            this.includeTax += includeTax;
+                            this.oldPrice += oldPrice;
+                        }
+                    };
                 $(this.options.productCustomSelector).each($.proxy(function (key, elements) {
                     var element = $(elements);
                     var optionIdStartIndex, optionIdEndIndex;
-                    if (element.attr('type') === 'file') {
+                    if (element.is(":file")) {
                         optionIdStartIndex = element.attr('name').indexOf('_') + 1;
                         optionIdEndIndex = element.attr('name').lastIndexOf('_');
                     } else {
@@ -111,8 +104,8 @@
                     var optionId = parseInt(element.attr('name').substring(optionIdStartIndex, optionIdEndIndex), 10);
                     if (this.options.optionConfig[optionId]) {
                         var configOptions = this.options.optionConfig[optionId];
-                        if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
-                            if (element.prop('checked')) {
+                        if (element.is(":checkbox, :radio")) {
+                            if (element.is(":checked")) {
                                 if (configOptions[element.val()]) {
                                     optionPrice.update(configOptions[element.val()].price,
                                         configOptions[element.val()].excludeTax,
@@ -120,8 +113,8 @@
                                         configOptions[element.val()].oldPrice);
                                 }
                             }
-                        } else if (element.prop('tagName') === 'SELECT') {
-                            element.find('option:selected').each(function () {
+                        } else if (element.is('select')) {
+                            element.find('selected').each(function () {
                                 if (configOptions[$(this).val()]) {
                                     optionPrice.update(configOptions[$(this).val()].price,
                                         configOptions[$(this).val()].excludeTax,
@@ -129,12 +122,12 @@
                                         configOptions[$(this).val()].oldPrice);
                                 }
                             });
-                        } else if (element.prop('tagName') === 'TEXTAREA' || element.attr('type') === 'text') {
+                        } else if (element.is('textarea,:text')) {
                             if (element.val()) {
                                 optionPrice.update(configOptions.price, configOptions.excludeTax,
                                     configOptions.includeTax, configOptions.oldPrice);
                             }
-                        } else if (element.attr('type') === 'file') {
+                        } else if (element.is(":file")) {
                             if (element.val() || element.parent('div').siblings().length > 0) {
                                 optionPrice.update(configOptions.price, configOptions.excludeTax,
                                     configOptions.includeTax, configOptions.oldPrice);
@@ -150,8 +143,8 @@
                 };
                 // Loop through each priceSelector and update price
                 $.each(priceSelectors, $.proxy(function (index, value) {
-                    var priceElement = $(value);
-                    var clone = $(value + this.options.priceConfig.idSuffix);
+                    var priceElement = $(value),
+                        clone = $(value + this.options.priceConfig.idSuffix);
                     var isClone = false;
                     if (priceElement.length === 0) {
                         priceElement = clone;
