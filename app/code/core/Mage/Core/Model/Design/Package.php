@@ -23,6 +23,10 @@ class Mage_Core_Model_Design_Package
     const CONTENT_TYPE_CSS = 'css';
     const CONTENT_TYPE_JS  = 'js';
 
+    const CONTENT_TYPE_PHP   = 'php';
+    const CONTENT_TYPE_PHTML = 'phtml';
+    const CONTENT_TYPE_XML   = 'xml';
+
     /**
      * The name of the default theme in the context of a package
      */
@@ -34,6 +38,7 @@ class Mage_Core_Model_Design_Package
     const PUBLIC_CACHE_TAG = 'design_public';
 
     const XML_PATH_THEME = 'design/theme/full_name';
+    const XML_PATH_ALLOW_DUPLICATION = 'default/design/theme/allow_view_files_duplication';
 
     /**
      * PCRE that matches non-absolute URLs in CSS content
@@ -582,17 +587,11 @@ class Mage_Core_Model_Design_Package
     protected function _publishViewFile($themeFile, $params)
     {
         $themeFile = $this->_extractScope($themeFile, $params);
-
         $file = $this->getViewFile($themeFile, $params);
 
-        $dotPosition = strrpos($themeFile, '.');
-        $extension = strtolower(substr($themeFile, $dotPosition + 1));
-        $staticContentTypes = array(
-            Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
-            Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
-        );
-        if (!Mage::getIsDeveloperMode() && !empty($extension) &&
-            in_array($extension, $staticContentTypes)
+        $extension = $this->_getExtension($themeFile);
+        if (!Mage::getIsDeveloperMode() && !empty($extension)
+            && in_array($extension, array(self::CONTENT_TYPE_JS, self::CONTENT_TYPE_CSS))
         ) {
             $minifiedPath = str_replace('.' . $extension, '.min.' . $extension, $file);
             if (file_exists($minifiedPath)) {
@@ -609,8 +608,8 @@ class Mage_Core_Model_Design_Package
             return $file;
         }
 
-        $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_view_files_duplication');
-        $isCssFile = ($extension === Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
+        $isCssFile = $this->_isCssFile($themeFile);
+        $isDuplicationAllowed = (string)Mage::getConfig()->getNode(self::XML_PATH_ALLOW_DUPLICATION);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicViewRedundantFilename($themeFile, $params);
         } else {
@@ -618,9 +617,8 @@ class Mage_Core_Model_Design_Package
             $this->_setPublicFileIntoCache($themeFile, $params, $publicFile);
         }
 
-        $fileMTime = filemtime($file);
-
         /* Validate whether file needs to be published */
+        $fileMTime = filemtime($file);
         if (!file_exists($publicFile) || $fileMTime != filemtime($publicFile)) {
             $publicDir = dirname($publicFile);
             if (!is_dir($publicDir)) {
@@ -641,7 +639,7 @@ class Mage_Core_Model_Design_Package
             if (is_file($publicFile)) {
                 touch($publicFile, $fileMTime);
             }
-        } else if ($isCssFile) {
+        } elseif ($isCssFile) {
             // Trigger related theme files publication, if CSS file itself has not been changed
             $this->_getPublicCssContent($file, dirname($publicFile), $themeFile, $params);
         }
@@ -665,6 +663,11 @@ class Mage_Core_Model_Design_Package
             return false;
         }
 
+        $protectedExtensions = array(self::CONTENT_TYPE_PHP, self::CONTENT_TYPE_PHTML, self::CONTENT_TYPE_XML);
+        if (in_array($this->_getExtension($filePath), $protectedExtensions)) {
+            return false;
+        }
+
         $themePath = $this->getPublicDir() . DIRECTORY_SEPARATOR;
         if (strncmp($filePath, $themePath, strlen($themePath)) !== 0) {
             return true;
@@ -676,12 +679,24 @@ class Mage_Core_Model_Design_Package
     /**
      * Check whether $file is a CSS-file
      *
-     * @param string $file
+     * @param string $filePath
      * @return bool
      */
-    protected function _isCssFile($file)
+    protected function _isCssFile($filePath)
     {
-        return (bool) preg_match('/\.css$/', $file);
+        return $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
+    }
+
+    /**
+     * Get file extension by file path
+     *
+     * @param string $filePath
+     * @return string
+     */
+    protected function _getExtension($filePath)
+    {
+        $dotPosition = strrpos($filePath, '.');
+        return strtolower(substr($filePath, $dotPosition + 1));
     }
 
     /**
