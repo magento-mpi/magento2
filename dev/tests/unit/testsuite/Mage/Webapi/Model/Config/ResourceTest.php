@@ -807,7 +807,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources),
             'applicationConfig' => $applicationConfig,
             // clone is required to prevent mock object removal after test execution
-            'helper' => clone $helper
+            'helper' => clone $helper,
+            'cache' => $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock()
         ));
         return $apiConfig;
     }

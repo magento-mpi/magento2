@@ -27,9 +27,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         $fixtureDir = __DIR__ . '/../../_files/controllers/Webapi/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
+        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
 
         $this->_config = new Mage_Webapi_Model_Config_Resource(array(
-            'directoryScanner' => $directoryScanner
+            'directoryScanner' => $directoryScanner,
+            'cache' => $cache,
         ));
     }
 

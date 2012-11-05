@@ -55,13 +55,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /**
      * Set up config with fixture controllers directory scanner
      */
-    public function setUp()
+    protected function setUp()
     {
         $fixtureDir = __DIR__ . '/../../_files/controllers/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
-
+        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         $this->_config = new Mage_Webapi_Model_Config_Resource(array(
-            'directoryScanner' => $directoryScanner
+            'directoryScanner' => $directoryScanner,
+            'cache' => $cache,
         ));
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(array(
             'resource_config' => $this->_config,
@@ -75,6 +76,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_dom->loadXML($xml);
         $this->_xpath = new DOMXPath($this->_dom);
         $this->_xpath->registerNamespace(Wsdl::WSDL_NS, Wsdl::WSDL_NS_URI);
+
+        parent::setUp();
     }
 
     /**
@@ -88,6 +91,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         unset($this->_xpath);
         unset($this->_resourceData);
         unset($this->_resourceName);
+
+        parent::tearDown();
     }
 
     /**

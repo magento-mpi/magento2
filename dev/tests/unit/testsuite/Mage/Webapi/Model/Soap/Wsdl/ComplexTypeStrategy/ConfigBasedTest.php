@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
     /**
      * Set up strategy for test.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
             ->setMethods(array('getDataType'))
@@ -33,6 +33,8 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
 
         $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
         $this->_strategy->setContext($this->_wsdl);
+
+        parent::setUp();
     }
 
     /**
@@ -43,6 +45,8 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
         unset($this->_resourceConfig);
         unset($this->_strategy);
         unset($this->_wsdl);
+
+        parent::tearDown();
     }
 
     /**

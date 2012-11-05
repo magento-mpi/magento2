@@ -13,6 +13,11 @@ use Zend\Code\Scanner\DirectoryScanner,
 class Mage_Webapi_Model_Config_Resource
 {
     /**
+     * Cache ID for resource config.
+     */
+    const CONFIG_CACHE_ID = 'API-RESOURCE-CACHE';
+
+    /**
      * @var DirectoryScanner
      */
     protected $_directoryScanner;
@@ -26,6 +31,11 @@ class Mage_Webapi_Model_Config_Resource
      * @var Mage_Core_Model_Config
      */
     protected $_applicationConfig;
+
+    /**
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cache;
 
     /**
      * @var Reflection
@@ -90,6 +100,12 @@ class Mage_Webapi_Model_Config_Resource
             $this->_applicationConfig = $options['applicationConfig'];
         } else {
             $this->_applicationConfig = Mage::getConfig();
+        }
+
+        if (isset($options['cache']) && $options['cache'] instanceof Mage_Core_Model_Cache) {
+            $this->_cache = $options['cache'];
+        } else {
+            $this->_cache = Mage::app()->getCacheInstance();
         }
 
         if (isset($options['serverReflection']) && $options['serverReflection'] instanceof Reflection) {
@@ -356,6 +372,14 @@ class Mage_Webapi_Model_Config_Resource
         if (is_null($this->_data)) {
             $this->_populateClassMap();
 
+            if ($this->_cache->canUse(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_NAME)) {
+                $cachedData = $this->_cache->load(self::CONFIG_CACHE_ID);
+                if ($cachedData !== false) {
+                    $this->_data = unserialize($cachedData);
+                    return;
+                }
+            }
+
             $allRestRoutes = array();
             foreach ($this->_autoLoaderClassMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
@@ -389,8 +413,12 @@ class Mage_Webapi_Model_Config_Resource
             if (!isset($this->_data['resources'])) {
                 throw new LogicException('Can not populate config - no action controllers were found.');
             }
+
+            if ($this->_cache->canUse(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_NAME)) {
+                $this->_cache->save(serialize($this->_data), self::CONFIG_CACHE_ID,
+                    array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG));
+            }
         }
-        return $this->_data;
     }
 
     /**

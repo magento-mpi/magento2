@@ -37,17 +37,16 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    public static function setUpBeforeClass()
+    /**
+     * @return Mage_Webapi_Model_Config_Resource
+     */
+    protected function _getModel()
     {
-        $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
-        $appConfig = new Mage_Core_Model_Config();
-        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
-        self::$_apiConfig = new Mage_Webapi_Model_Config_Resource(array(
-            'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
-            'applicationConfig' => $appConfig,
-            'helper' => new Mage_Webapi_Helper_Data()
-        ));
-        parent::setUpBeforeClass();
+        if (!self::$_apiConfig) {
+            $pathToResourceFixtures = __DIR__ . '/../../_files/autodiscovery';
+            self::$_apiConfig = $this->_createResourceConfig($pathToResourceFixtures);
+        }
+        return self::$_apiConfig;
     }
 
     public static function tearDownAfterClass()
@@ -103,7 +102,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsPositive($class, $methodName, $requestData,
         $expectedResult = array()
     ) {
-        $actualResult = self::$_helper->prepareMethodParams($class, $methodName, $requestData, self::$_apiConfig);
+        $actualResult = self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
         $this->assertEquals($expectedResult, $actualResult, "The array of arguments was prepared incorrectly.");
     }
 
@@ -191,7 +190,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsNegative($class, $methodName, $requestData, $exceptionClass,
         $exceptionMessage) {
         $this->setExpectedException($exceptionClass, $exceptionMessage);
-        self::$_helper->prepareMethodParams($class, $methodName, $requestData, self::$_apiConfig);
+        self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
     }
 
     public static function dataProviderForTestPrepareMethodParamsNegative()
@@ -239,6 +238,25 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             array('tax', 'taxes'),
             array('', '')
         );
+    }
+
+    /**
+     * Create resource config initialized with classes found in the specified directory.
+     *
+     * @return Mage_Webapi_Model_Config_Resource
+     */
+    protected function _createResourceConfig()
+    {
+        $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
+        $appConfig = new Mage_Core_Model_Config();
+        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
+        $apiConfig = new Mage_Webapi_Model_Config_Resource(array(
+            'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
+            'applicationConfig' => $appConfig,
+            'helper' => new Mage_Webapi_Helper_Data(),
+            'cache' => $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock()
+        ));
+        return $apiConfig;
     }
 }
 
