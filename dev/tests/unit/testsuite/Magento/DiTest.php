@@ -12,7 +12,7 @@
 /**
  * Test case for Magento_Di
  */
-class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Magento_DiTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Parent classes for test classes
@@ -125,14 +125,19 @@ class Magento_DiTest extends Magento_Test_TestCase_ObjectManagerAbstract
 
     protected function setUp()
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         if (!self::$_isClassMocks) {
             $this->getMockForAbstractClass(
                 self::PARENT_CLASS_MODEL,
-                $this->_getConstructArguments(self::MODEL_ENTITY, self::PARENT_CLASS_MODEL),
+                $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+                    self::PARENT_CLASS_MODEL
+                ),
                 self::TEST_CLASS_MODEL, false
             );
             $this->getMockForAbstractClass(self::PARENT_CLASS_BLOCK,
-                $this->_getConstructArguments(self::BLOCK_ENTITY, self::PARENT_CLASS_BLOCK),
+                $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
+                    self::PARENT_CLASS_BLOCK
+                ),
                 self::TEST_CLASS_BLOCK, false
             );
             self::$_isClassMocks = true;

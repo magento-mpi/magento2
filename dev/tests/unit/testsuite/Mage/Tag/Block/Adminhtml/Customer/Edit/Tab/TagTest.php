@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag
  */
-class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test model
@@ -56,7 +56,8 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_Te
                 'helpers' => $this->_helpers,
             )
         );
-        $this->_model = $this->getBlock('Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag', $arguments);
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getBlock('Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag', $arguments);
     }
 
     public function tearDown()
@@ -92,7 +93,8 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_Te
                 'helpers' => $this->_helpers,
             )
         );
-        $this->_model = $this->getBlock('Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag', $arguments);
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getBlock('Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag', $arguments);
         if ($customer) {
             $this->_model->setCustomer($customer);
         }
