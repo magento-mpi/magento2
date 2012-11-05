@@ -62,7 +62,7 @@
              * @param {string} form Selector for the administrator form
              */
             createAdmin: function(form) {
-                $(form).validation({errorClass: 'mage-error', errorElement: 'div'});
+                $(form).validation();
             },
 
             /**
