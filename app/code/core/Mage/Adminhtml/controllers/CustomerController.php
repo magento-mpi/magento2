@@ -252,7 +252,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customer = Mage::registry('current_customer');
         if ($customer->getId()) {
             try {
-                $this->_customerService->delete($customer->getId());
+                $customer->delete();
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been deleted.'));
             }
