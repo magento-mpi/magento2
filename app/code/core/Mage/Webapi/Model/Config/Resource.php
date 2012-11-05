@@ -959,7 +959,7 @@ class Mage_Webapi_Model_Config_Resource
             }
             $reflection = new ClassReflection($class);
             $docBlock = $reflection->getDocBlock();
-            $this->_data['types'][$typeName]['documentation'] = $docBlock ? $docBlock->getLongDescription() : '';
+            $this->_data['types'][$typeName]['documentation'] = $docBlock ? $this->_getDescription($docBlock) : '';
             $defaultProperties = $reflection->getDefaultProperties();
             /** @var \Zend\Code\Reflection\PropertyReflection $property */
             foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
@@ -989,12 +989,32 @@ class Mage_Webapi_Model_Config_Resource
                     'type' => $this->_processType($varType),
                     'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
                     'default' => $defaultProperties[$propertyName],
-                    'documentation' => $varInlineDoc . $propertyDocBlock->getLongDescription()
+                    'documentation' => $varInlineDoc . $this->_getDescription($propertyDocBlock)
                 );
             }
         }
 
         return $this->_data['types'][$typeName];
+    }
+
+    /**
+     * Get short and long description from docblock and concatenate.
+     *
+     * @param Zend\Code\Reflection\DocBlockReflection $doc
+     * @return string
+     */
+    protected function _getDescription(\Zend\Code\Reflection\DocBlockReflection $doc)
+    {
+        $shortDescription = $doc->getShortDescription();
+        $longDescription = $doc->getLongDescription();
+
+        $description = $shortDescription;
+        if ($longDescription && !empty($description)) {
+            $description .= "\r\n";
+        }
+        $description .= $longDescription;
+
+        return $description;
     }
 
     /**
