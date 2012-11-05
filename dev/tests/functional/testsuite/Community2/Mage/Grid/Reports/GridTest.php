@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
+class Community2_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
 {
     /**
      *
@@ -59,7 +59,8 @@ class Community2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
     public function uiElementsTestDataProvider()
     {
         return array(array('report_customer_totals'),
-                     array('report_product_sold')
+                     array('report_product_sold'),
+                     array('report_customer_accounts')
 
         );
     }
@@ -89,6 +90,9 @@ class Community2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_day'),
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_month'),
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_year')
         );
     }
 

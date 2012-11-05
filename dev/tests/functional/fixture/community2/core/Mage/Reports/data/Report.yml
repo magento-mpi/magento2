@@ -41,6 +41,20 @@ grid:
             number_of_orders:
             average_order_amount:
             total_order_amount:
+    report_customer_accounts:
+        button:
+            refresh:
+            export:
+        dropdown:
+            show_by:
+            filter_show_report_for:
+            export_to:
+        link:
+            period:
+            number_of_new_accounts:
+        field:
+            filter_from:
+            filter_to:
 
 #dataset for  countGridRows Test
 count_rows_by_day:
