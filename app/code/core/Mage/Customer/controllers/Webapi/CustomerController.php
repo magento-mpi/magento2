@@ -61,6 +61,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customersData = $this->_getCollectionForRetrieve()->load()->toArray();
         $customersData = isset($customersData['items']) ? $customersData['items'] : $customersData;
         foreach ($customersData as $customerData) {
+            $customerData['balance'] = rand(0,100);
             $result[] = $this->_createCustomerDataObject($customerData);
         }
         return $result;
@@ -158,6 +159,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customer = $this->_loadCustomerById($id);
         $data = $customer->getData();
         $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
+        $data['balance'] = rand(0,100);
         return $data;
     }
 
