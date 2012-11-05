@@ -68,12 +68,14 @@ class Magento_Di extends Zend\Di\Di
                     $this->_getCachedDependency('Mage_Core_Controller_Request_Http'),
                     $this->_getCachedDependency('Mage_Core_Model_Layout'),
                     $this->_getCachedDependency('Mage_Core_Model_Event_Manager'),
+                    $this->_getCachedDependency('Mage_Core_Model_Url'),
                     $this->_getCachedDependency('Mage_Core_Model_Translate'),
                     $this->_getCachedDependency('Mage_Core_Model_Cache'),
                     $this->_getCachedDependency('Mage_Core_Model_Design_Package'),
                     $this->_getCachedDependency('Mage_Core_Model_Session'),
                     $this->_getCachedDependency('Mage_Core_Model_Store_Config'),
                     $this->_getCachedDependency('Mage_Core_Controller_Varien_Front'),
+                    $this->_getCachedDependency('Mage_Core_Model_Factory_Helper'),
                     $parameters
                 );
             } else {

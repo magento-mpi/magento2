@@ -52,6 +52,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_Te
 
         $arguments = array(
             'authSession' => $authSession,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'data' => array(
                 'helpers' => $this->_helpers,
             )
@@ -88,6 +89,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends Magento_Test_Te
 
         $arguments = array(
             'authSession' => $authSession,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'data' => array(
                 'helpers' => $this->_helpers,
             )

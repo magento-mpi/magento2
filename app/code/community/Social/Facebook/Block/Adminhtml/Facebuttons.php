@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
 {
     /**
      * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup

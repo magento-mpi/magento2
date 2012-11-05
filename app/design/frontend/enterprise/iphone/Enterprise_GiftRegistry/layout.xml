@@ -137,17 +137,6 @@
         </reference>
     </catalog_product_view_type_bundle>
 
-    <calendar>
-        <reference name="head">
-            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/></action>
-            <action method="addJs"><file>calendar/calendar.js</file></action>
-            <action method="addJs"><file>calendar/calendar-setup.js</file></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
-        </reference>
-    </calendar>
-
     <checkout_onepage_index>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
@@ -188,7 +177,7 @@
     <enterprise_giftregistry_index_edit translate="label" module="Enterprise_GiftRegistry" type="page" parent="enterprise_giftregistry_view_index">
         <label>Customer My Account GiftRegistry Edit</label>
         <update handle="customer_account"/>
-        <update handle="calendar"/>
+        <update handle="page_calendar"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
