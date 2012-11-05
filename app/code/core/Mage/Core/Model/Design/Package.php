@@ -20,8 +20,12 @@ class Mage_Core_Model_Design_Package
     const PUBLIC_MERGE_DIR  = '_merged';
     const PUBLIC_MODULE_DIR = '_module';
 
+    /**#@+
+     * Extensions group for static files
+     */
     const CONTENT_TYPE_CSS = 'css';
     const CONTENT_TYPE_JS  = 'js';
+    /**#@-*/
 
     /**#@+
      * Protected extensions group for publication mechanism
@@ -41,7 +45,14 @@ class Mage_Core_Model_Design_Package
      */
     const PUBLIC_CACHE_TAG = 'design_public';
 
+    /**
+     * Common node path to theme design configuration
+     */
     const XML_PATH_THEME = 'design/theme/full_name';
+
+    /**
+     * Path to configuration node for file duplication
+     */
     const XML_PATH_ALLOW_DUPLICATION = 'default/design/theme/allow_view_files_duplication';
 
     /**
