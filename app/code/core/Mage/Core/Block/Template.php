@@ -157,7 +157,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if (strpos($scriptPath, realpath(Mage::getBaseDir('design'))) === 0 || $this->_getAllowSymlinks()) {
             $this->_viewDir = $dir;
         } else {
-            Mage::log('Not valid script path:' . $dir, Zend_Log::CRIT, null, null, true);
+            Mage::log('Not valid script path:' . $dir, Zend_Log::CRIT, null, true);
         }
         return $this;
     }
@@ -229,7 +229,7 @@ HTML;
             ) {
                 include $templateFile;
             } else {
-                Mage::log("Invalid template file: '{$fileName}'", Zend_Log::CRIT, null, null, true);
+                Mage::log("Invalid template file: '{$fileName}'", Zend_Log::CRIT, null, true);
             }
 
         } catch (Exception $e) {

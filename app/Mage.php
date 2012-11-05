@@ -825,7 +825,7 @@ final class Mage
      * @param string $file
      * @param bool $forceLog
      */
-    public static function log($message, $level = null, $file = '', $forceLog = false)
+    public static function log($message, $level = null, $file = 'system.log', $forceLog = false)
     {
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
         if (empty($file) || $file == 'system.log') {
