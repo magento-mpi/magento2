@@ -34,12 +34,14 @@ class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestC
             );
         }
         if ($this->isElementPresent($this->_findUimapElement('pageelement', 'cache_enabled') . $pageCacheXpath) ||
-            $this->isElementPresent($this->_findUimapElement('pageelement', 'cache_invalided') . $pageCacheXpath)) {
+            $this->isElementPresent($this->_findUimapElement('pageelement', 'cache_invalided') . $pageCacheXpath)
+        ) {
             return true;
         } else {
             return false;
         }
     }
+
     /**
      * Enables Full page caching
      *
@@ -58,6 +60,7 @@ class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestC
             return false;
         }
     }
+
     /**
      * Disables Full page caching
      *
@@ -74,6 +77,23 @@ class Enterprise2_Mage_CacheStorageManagement_Helper extends Mage_Selenium_TestC
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Refresh full page cache
+     *
+     * @return bool
+     */
+    public function refreshFullPageCache()
+    {
+        if ($this->isFullPageCacheEnabled()) {
+            $this->clickControl('checkbox', 'select_cache', false);
+            $this->fillDropdown('cache_action', 'Refresh');
+            $this->clickButton('submit');
+
+            $this->addParameter('qtySelected', 1);
+            $this->assertMessagePresent('success', 'success_refreshed_cache');
         }
     }
 }
