@@ -11,16 +11,23 @@
 
 class MageTest extends PHPUnit_Framework_TestCase
 {
-    public function testIsInstalled()
+    /**
+     * @magentoConfigFixture current_store dev/log/active 1
+     * @magentoConfigFixture current_store dev/log/file php://output
+     * @link http://us3.php.net/manual/en/wrappers.php
+     */
+    public function testLogWrapper()
     {
-        $this->assertTrue(Mage::isInstalled());
+        // @magentoConfigFixture is applied after initialization, so we need to do this again
+        Magento_Test_Bootstrap::getInstance()->initialize();
+        $this->expectOutputRegex('/test/');
+        Mage::log('test');
     }
 
     /**
-     * @magentoConfigFixture current_store dev/log/active 1
-     * @link http://us3.php.net/manual/en/wrappers.php
+     * @magentoAppIsolation enabled
      */
-    public function testLogIntoWrapper()
+    public function testLogWrapperDirectly()
     {
         $this->expectOutputRegex('/test/');
         Mage::log('test', null, 'php://output');
@@ -32,6 +39,8 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testLogUnsuppotedWrapper()
     {
+        // initialize again, because config fixture is applied after initialization
+        Magento_Test_Bootstrap::getInstance()->initialize();
         $logEntry = microtime();
         Mage::log($logEntry);
         $logFile = Mage::getBaseDir('log') . '/system.log';

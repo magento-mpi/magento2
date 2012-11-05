@@ -267,6 +267,7 @@ class Mage_Core_Model_App
         $this->_config = Mage::getConfig();
         $this->_config->setOptions($options);
         $this->_initBaseConfig();
+        $logger = $this->_initLogger();
         $this->_initCache();
         $this->_config->init($options);
         $this->_objectManager->loadAreaConfiguration();
@@ -274,6 +275,7 @@ class Mage_Core_Model_App
 
         if (Mage::isInstalled($options)) {
             $this->_initCurrentStore($code, $type);
+            $logger->initForStore($this->_store);
             $this->_initRequest();
         }
         return $this;

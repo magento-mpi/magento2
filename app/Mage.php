@@ -834,6 +834,7 @@ final class Mage
         } elseif ($file == 'exception.log') {
             $key = Mage_Core_Model_Logger::LOGGER_EXCEPTION;
         } else {
+            $forceLog = true;
             $key = $file;
         }
         /** @var $logger Mage_Core_Model_Logger */
