@@ -89,7 +89,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
                 'label'        => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Start Date'),
                 'name'         => 'date_start',
                 'required'     => true,
-                'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format'  => $dateFormat,
                 'time_format'  => $timeFormat
             ));
@@ -97,7 +97,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         $fieldset->addField('date_end', 'date', array(
                 'label'        => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('End Date'),
                 'name'         => 'date_end', 'required' => true,
-                'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format'  => $dateFormat,
                 'time_format'  => $timeFormat
             ));

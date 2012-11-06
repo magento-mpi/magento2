@@ -16,7 +16,7 @@
         <script type="text/javascript">
         //<![CDATA[
         (function($) {
-            head.js("<?php echo $this->getSkinUrl('Mage_CatalogSearch::form-mini.js')?>", function() {
+            head.js("<?php echo $this->getViewFileUrl('Mage_CatalogSearch::form-mini.js')?>", function() {
                 $('#search').catalogSearch({
                     formSelector: '#search_mini_form',
                     placeholder: '<?php echo $this->__('Search entire store here...') ?>',
