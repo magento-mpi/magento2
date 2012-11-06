@@ -38,7 +38,10 @@
     $.widget("mage.validation", $.mage.validation, {
         options: {
             messagesId: 'messages',
-            ignore: '',
+            ignore: ':disabled, .ignore-validate, .no-display.template, ' +
+                ':disabled input, .ignore-validate input, .no-display.template input, ' +
+                ':disabled select, .ignore-validate select, .no-display.template select, ' +
+                ':disabled textarea, .ignore-validate textarea, .no-display.template textarea',
             errorElement: 'label',
             errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null
         },
