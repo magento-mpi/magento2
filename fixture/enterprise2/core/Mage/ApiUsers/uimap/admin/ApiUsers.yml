@@ -48,7 +48,7 @@ api_users:
                         pageelements:
                             page_grid_head: //div/table[@id='permissionsUserGrid_table']//thead//tr[@class='headings']
         buttons:
-            add_new_api_user: //button[@title='Add New API User']
+            add_new_api_user: //button[span='Add New API User']
         links:
             check_user: //td[normalize-space(text())='%email%']/ancestor::tr/td[normalize-space(text())='%role%']
         messages: &pageMessages
@@ -90,11 +90,11 @@ add_new_api_user:
                                     fields:
                                         role_name: //input[@name='role_name']
         buttons:
-            back: //button[@title='Back']
-            reset: //button[@title='Reset']
-            delete: //button[@title='Delete API User']
-            save: //button[@title='Save API User']
-            save_and_continue_edit: //button[@title='Save and Continue Edit']
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete: //button[span='Delete API User']
+            save: //button[span='Save API User']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *pageMessages
 
 edit_api_user:
@@ -103,9 +103,9 @@ edit_api_user:
     uimap:
         form: *edit_api_user
         buttons:
-            back: //button[@title='Back']
-            reset: //button[@title='Reset']
-            delete: //button[@title='Delete API User']
-            save: //button[@title='Save API User']
-            save_and_continue_edit: //button[@title='Save and Continue Edit']
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete: //button[span='Delete API User']
+            save: //button[span='Save API User']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *pageMessages

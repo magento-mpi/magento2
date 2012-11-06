@@ -192,7 +192,7 @@ class Community2_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $userSearch =array('filter_role_name' => $fieldData['role_name']);
         $this->searchAndOpen($userSearch);
         //Click Delete API Role button
-        $this->clickButton('delete');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
         //Verify that message "The role has been deleted." is displayed
         $this->assertMessagePresent('success', 'success_deleted_role');
     }

@@ -47,6 +47,7 @@ admin_action_log_report:
                         fields:
                             page: //input[@name='page']
                             short_details: //input[@id='loggingLogGrid_filter_info']
+                            action_name: //input[@id='loggingLogGrid_filter_fullaction']
                         pageelements:
                             page_grid_head: //*[@id='loggingLogGrid_table']//thead/tr[@class='headings']
 
