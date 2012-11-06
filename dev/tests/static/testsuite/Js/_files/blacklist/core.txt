@@ -8,8 +8,3 @@ app/code/core/Mage/Checkout/view/frontend/multishipping/payment.js
 app/code/core/Mage/Checkout/view/frontend/onepage/accordion.js
 app/code/core/Mage/Checkout/view/frontend/opcheckout.js
 app/code/core/Mage/Captcha/view/frontend/onepage.js
-app/design/frontend/default/iphone/js/dnd.js
-app/design/frontend/default/iphone/js/modernizr.js
-app/design/frontend/enterprise/fixed/js/jqzoom/js/jquery.jqzoom-core-pack.js
-app/design/frontend/enterprise/iphone_html5/js/dnd.js
-app/design/frontend/enterprise/iphone_html5/js/modernizr.js
