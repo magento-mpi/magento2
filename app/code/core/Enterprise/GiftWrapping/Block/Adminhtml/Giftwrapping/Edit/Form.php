@@ -32,9 +32,11 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock(
-                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element'
-        );
+        Varien_Data_Form::setFieldsetElementRenderer(
+            $this->getLayout()->createBlock(
+                'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
+                $this->getNameInLayout() . '_element_gift_wrapping'
+            ));
     }
 
     /**
