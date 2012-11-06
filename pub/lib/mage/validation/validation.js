@@ -575,16 +575,27 @@
             errorElement: 'div',
             rules: {}
         },
-        _create: function () {
+        
+        _create: function(){
+            this._trigger('setupForm', 0, this.element);
             this._addRules();
             this.element.validate(this.options);
             this.element.mageEventFormValidate(this);
         },
+        
         _addRules: function () {
             $.each(this.options.rules, function (i, rule) {
                 rule.unshift(i);
                 $.validator.addMethod.apply($.validator, rule);
             });
+        },
+        
+        /**
+         * Check if form pass validation rules without submit
+         * @return boolean
+         */
+        isValid:function(){
+            return this.element.valid();
         }
     });
 })(jQuery);
