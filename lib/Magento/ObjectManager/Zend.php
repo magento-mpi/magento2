@@ -44,7 +44,9 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         Magento_Profiler::start('di');
 
         if (is_file($definitionsFile) && is_readable($definitionsFile)) {
-            $definition = new Definition\ArrayDefinition(unserialize(file_get_contents($definitionsFile)));
+            $definition = new Magento_Di_Definition_ArrayDefinition_Zend(
+                unserialize(file_get_contents($definitionsFile))
+            );
         } else {
             $definition = new Definition\RuntimeDefinition();
         }
