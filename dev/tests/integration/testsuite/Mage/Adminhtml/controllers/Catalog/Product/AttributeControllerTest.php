@@ -41,6 +41,27 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
     }
 
+    /**
+     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system_apply_to.php
+     * @dataProvider saveActionDataProviderSystemApplyTo
+     * @param array $postData
+     * @return void
+     */
+    public function testSaveActionApplyToData($postData)
+    {
+        unset($postData['apply_to']);
+        $this->getRequest()->setPost($postData);
+        $this->dispatch('backend/admin/catalog_product_attribute/save');
+        $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
+        $model->load($postData['attribute_id']);
+        $this->assertNotEmpty($model->getApplyTo());
+    }
+
+    public function saveActionDataProviderSystemApplyTo()
+    {
+        return array(array(array_merge(array('attribute_id' => '3'), $this->_getAttributeData())));
+    }
+
     public function saveActionDataProviderSystem()
     {
         return array(array(array_merge(array('attribute_id' => '2'), $this->_getAttributeData())));
