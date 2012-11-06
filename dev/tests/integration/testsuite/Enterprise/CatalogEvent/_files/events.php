@@ -17,8 +17,10 @@ $eventClosed
     ->setDateEnd(date('Y-m-d H:i:s', strtotime('-1 month')))
     ->setDisplayState(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE)
     ->setSortOrder(30)
-    ->setStoreId(0)
     ->setImage('default_website.jpg')
+    ->save()
+;
+$eventClosed
     ->setStoreId(1)
     ->setImage('default_store_view.jpg')
     ->save()
