@@ -9,6 +9,10 @@
 /*jshint browser:true jquery:true*/
 (function ($) {
     $.widget('mage.noCacheCookie', {
+        options: {
+            expires: $.cookie.defaults.expires
+        },
+
         /**
          * Set cookie by name with calculated expiration based on cookie lifetime.
          * @private

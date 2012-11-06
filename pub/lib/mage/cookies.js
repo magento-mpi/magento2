@@ -41,7 +41,7 @@
                     return null;
                 };
                 this.clear = function(name) {
-                    if($.mage.cookies.get(name)) {
+                    if ($.mage.cookies.get(name)) {
                         $.mage.cookies.set(name, "", new Date("Jan 01 1970 00:00:01 GMT"));
                     }
                 };
