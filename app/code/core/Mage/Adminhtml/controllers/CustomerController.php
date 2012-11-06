@@ -271,14 +271,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = null;
         $returnToEdit = false;
-        if ($originalRequestData = $this->getRequest()->getPost()) {
+        $customerId = (int)$this->getRequest()->getPost('customer_id');
+        $originalRequestData = $this->getRequest()->getPost();
+        if ($originalRequestData) {
             try {
                 // optional fields might be set in request for future processing by observers in other modules
                 $customerData = $originalRequestData;
                 $customerData['account'] = $this->_extractCustomerData();
                 $customerData['addresses'] = $this->_extractCustomerAddressData();
 
-                $customerId = (int)$this->getRequest()->getPost('customer_id');
                 if ($customerId) {
                     $customer = $this->_customerService->update($customerId, $customerData['account'], true);
                 } else {
@@ -291,6 +292,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
+                $customerId = $customer->getId();
             } catch (Magento_Validator_Exception $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
@@ -312,11 +314,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         if ($returnToEdit) {
-            $returnParams = array('_current' => true);
-            if ($customer) {
-                $returnParams['id'] = $customer->getId();
+            if ($customerId) {
+                $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
+            } else {
+                $this->_redirect('*/*/new', array('_current' => true));
             }
-            $this->_redirect('*/*/edit', $returnParams);
         } else {
             $this->_redirect('*/customer');
         }
