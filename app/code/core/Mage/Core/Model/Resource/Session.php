@@ -74,10 +74,10 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function hasConnection()
     {
-        if (!$this->_read) {
+        if (!$this->_write) {
             return false;
         }
-        if (!$this->_read->isTableExists($this->_sessionTable)) {
+        if (!$this->_write->isTableExists($this->_sessionTable)) {
             return false;
         }
 
