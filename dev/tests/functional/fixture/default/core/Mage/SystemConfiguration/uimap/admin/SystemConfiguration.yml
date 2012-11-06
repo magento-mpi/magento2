@@ -4139,7 +4139,6 @@ system_configuration:
                                         mage_weee: //select[@name='groups[modules_disable_output][fields][Mage_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
-                                        mage_xmlconnect: //select[@name='groups[modules_disable_output][fields][Mage_XmlConnect][value]']
                                         phoenix_moneybookers: //select[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][value]']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
@@ -4248,7 +4247,6 @@ system_configuration:
                                         mage_weee_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
                                         mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
-                                        mage_xmlconnect_use_default: //input[@name='groups[modules_disable_output][fields][Mage_XmlConnect][inherit]']
                                         phoenix_moneybookers_use_default: //input[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][inherit]']
                 -
                     advanced_developer:

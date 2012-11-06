@@ -12,6 +12,11 @@
 -->
 <config>
     <words>
-        <word>temp_dummy</word>
+        <word>xmlconnect</word>
     </words>
+    <whitelist>
+        <item>
+            <path>dev/tests/static/testsuite/Legacy/_files/sanity_ce.xml</path>
+        </item>
+    </whitelist>
 </config>

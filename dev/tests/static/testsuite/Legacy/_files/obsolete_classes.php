@@ -199,7 +199,6 @@ return array(
     $this->_getClassRule('Mage_User_Model_Resource_Roles_Collection'),
     $this->_getClassRule('Mage_User_Model_Resource_Roles_User_Collection'),
     $this->_getClassRule('Mage_Wishlist_Model_Resource_Product_Collection'),
-    $this->_getClassRule('Mage_XmlConnect_Helper_Payment'),
     $this->_getClassRule('Varien_Convert_Action'),
     $this->_getClassRule('Varien_Convert_Action_Abstract'),
     $this->_getClassRule('Varien_Convert_Action_Interface'),

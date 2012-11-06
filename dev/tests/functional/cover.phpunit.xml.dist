@@ -59,7 +59,6 @@
                 <directory>../app/code/core/Mage/Reports</directory>
                 <directory>../app/code/core/Mage/Api/Model/Acl/Assert</directory>
                 <directory>../app/code/core/Mage/Index</directory>
-                <directory>../app/code/core/Mage/XmlConnect</directory>
                 <directory>../app/code/core/Mage/Dataflow</directory>
                 <directory>../app/code/core/Mage/Cybersource</directory>
                 <file>../app/code/core/Mage/Captcha/Model/Captcha.php</file>

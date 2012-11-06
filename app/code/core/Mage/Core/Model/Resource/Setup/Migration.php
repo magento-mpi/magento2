@@ -738,7 +738,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             'paypaluk'          => 'Mage_PaypalUk',
             'productalert'      => 'Mage_ProductAlert',
             'salesrule'         => 'Mage_SalesRule',
-            'xmlconnect'        => 'Mage_XmlConnect',
         );
     }
 }

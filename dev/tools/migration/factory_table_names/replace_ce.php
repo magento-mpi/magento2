@@ -405,10 +405,4 @@ return array(
     'wishlist/item' => 'wishlist_item',
     'wishlist/item_option' => 'wishlist_item_option',
     'wishlist/wishlist' => 'wishlist',
-    'xmlconnect/application' => 'xmlconnect_application',
-    'xmlconnect/application_design' => 'xmlconnect_application',
-    'xmlconnect/configData' => 'xmlconnect_config_data',
-    'xmlconnect/history' => 'xmlconnect_history',
-    'xmlconnect/queue' => 'xmlconnect_queue',
-    'xmlconnect/template' => 'xmlconnect_notification_template',
 );
