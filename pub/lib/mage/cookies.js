@@ -11,11 +11,12 @@
     $.extend(true, $, {
         mage: {
             cookies: (function() {
-                this.set = function(name, value) {
-                    var expires = arguments[2] || $.cookie.defaults.expires;
-                    var path = arguments[3] || $.cookie.defaults.path;
-                    var domain = arguments[4] || $.cookie.defaults.domain;
-                    var secure = arguments[5] || $.cookie.defaults.secure;
+                this.set = function(name, value, options) {
+                    options = $.extend({}, $.cookie.defaults, options);
+                    var expires = options.expires;
+                    var path = options.path;
+                    var domain = options.domain;
+                    var secure = options.secure;
                     document.cookie = name + "=" + encodeURIComponent(value) +
                         ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
                         ((path == null) ? "" : ("; path=" + path)) +
@@ -42,7 +43,7 @@
                 };
                 this.clear = function(name) {
                     if ($.mage.cookies.get(name)) {
-                        $.mage.cookies.set(name, "", new Date("Jan 01 1970 00:00:01 GMT"));
+                        $.mage.cookies.set(name, "", {expires: new Date("Jan 01 1970 00:00:01 GMT")});
                     }
                 };
                 this.getCookieVal = function(offset) {
