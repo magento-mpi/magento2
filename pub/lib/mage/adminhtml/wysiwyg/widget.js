@@ -195,7 +195,8 @@ WysiwygWidget.Widget.prototype = {
 
     insertWidget: function() {
         var validationResult = jQuery('#' + this.formEl).validate({
-            ignore: ".skip-submit"
+            ignore: ".skip-submit",
+            errorClass: 'mage-error'
         }).valid();
 
         if (validationResult) {

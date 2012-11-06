@@ -98,10 +98,11 @@ ul,ol         { list-style:none; }
 .notification-global a:hover {
     text-decoration: none;
 }
-.error, a.error span, .required, .validation-advice {
+.error, a.error span, .required, .validation-advice, label.mage-error {
     color: #D40707 !important;
     font-weight: bold !important;
 }
+label.mage-error {width: auto !important;}
 .notice {
     color: #EA7601;
 }

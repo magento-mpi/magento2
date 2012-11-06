@@ -304,7 +304,9 @@ ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff;
 .error,
 a.error span,
 .required,
-.validation-advice { color:#D40707 !important; font-weight:bold !important; }
+.validation-advice,
+label.mage-error { color:#D40707 !important; font-weight:bold !important; }
+label.mage-error {width: auto !important;}
 .notice { color:#ea7601}
 .messages ul { border:0 !important; }
 .messages li { min-height:23px !important; margin-bottom:11px !important; padding:8px 8px 2px 32px !important; font-size:.95em !important; font-weight:bold !important; }
@@ -313,8 +315,10 @@ a.error span,
 .success-msg { border:1px solid #95a486 !important; color:#3d6611 !important; background:#eff5ea url(Mage_Adminhtml::images/success_msg_icon.gif) no-repeat 10px 10px !important; }
 .notice-msg { border:1px solid #ffd967 !important; background:#fffbf0 url(Mage_Adminhtml::images/note_msg_icon.gif) no-repeat 10px 10px !important; color:#3d6611 !important; }
 .warning-msg { border:1px solid #666e73 !important; background:#e6e6e6 url(Mage_Adminhtml::images/warning_msg_icon.gif) no-repeat 10px 10px !important; color:#000000 !important; }
-.validation-advice { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
-.staging-datetime-advice .validation-advice { background-position:right center; padding:0 16px 0 0; }
+.validation-advice,
+label.mage-error { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
+.staging-datetime-advice .validation-advice,
+.staging-datetime-advice label.mage-error { background-position:right center; padding:0 16px 0 0; }
 input.validation-failed, textarea.validation-failed { background:#fef0ed; border:1px dashed #d6340e; }
 
 /* Noscript Notice */
@@ -936,7 +940,8 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 .login-form .form-buttons               { margin:12px 0 0 0; clear:both; text-align:right; }
 .login-box .bottom                      { width:581px; height:5px; background:url(images/login_box_bottom.jpg) no-repeat; overflow:hidden; }
 .login-container .legal                 { margin:0; background:url(images/login_box_legal_bg.gif) no-repeat; padding:8px 8px 5px 8px; font-size:.95em; }
-.login-form .validation-advice          { margin:3px 0 0 0; }
+.login-form .validation-advice,
+.login-form label.mage-error            { margin:3px 0 0 0; }
 .login-form .forgot-link                { margin:0 17px 0 0; text-align:right; }
 .login-form .captcha                    { padding:10px 0 0; }
 .login-form .captcha-image              { border:1px solid #aaa; margin:1.5em 0 0; position:relative; }
@@ -1038,7 +1043,8 @@ ul.item-options li { padding-left:.7em; }
 .add-by-sku .grid table td .qty { width:8em!important; }
 .add-by-sku table .col-qty { width:100px; }
 .add-by-sku table .last { white-space:nowrap; }
-.add-by-sku table .last .validation-advice { white-space:normal; width:80px; margin-right:-100px; margin-left:-5px; }
+.add-by-sku table .last .validation-advice,
+.add-by-sku table .last label.mage-error { white-space:normal; width:80px; margin-right:-100px; margin-left:-5px; }
 .add-by-sku table .input-box { display:inline-block; vertical-align:top; padding-right:5px; }
 
 .add-sku-csv { background:#efefef; width:478px; padding:10px; border:1px solid #CBD3D4; border-top:0; }
@@ -1059,7 +1065,8 @@ tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #d
 #popup-window-mask,
 .popup-window-mask { background:url(images/bg_window_mask.png) repeat 0 0; background:rgba(239, 239, 239, 0.5); position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:399; }
 .product-configure-popup { background:#fafafa; border:1px solid #d6d6d6; left:50%; margin:0 0 0 -271px; position:fixed; top:50%; width:540px; z-index:400; }
-.product-configure-popup .validation-advice { margin-left:0; }
+.product-configure-popup .validation-advice,
+.product-configure-popup label.mage-error { margin-left:0; }
 #product_composite_configure_messages { margin-left:0 !important; padding:10px 15px; }
 .product-configure-popup .content { max-height:400px; overflow:auto; }
 .product-configure-popup .content .grid { padding:0; }
@@ -1131,7 +1138,8 @@ tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #d
 .cms-popup { width:311px; margin:0 0 0 -156px; }
 .rma-popup .entry-edit, .cms-popup .entry-edit { border:1px solid #6f8992; }
 .rma-popup .entry-edit .fieldset, .cms-popup .entry-edit .fieldset { border:none; }
-.rma-popup .validation-advice { margin-left:0; }
+.rma-popup .validation-advice,
+.rma-popup label.mage-error { margin-left:0; }
 .rma-popup .content, .cms-popup .content { background:#fff; border-bottom:1px solid #ccc; max-height:400px; overflow:auto; }
 .rma-popup .content .grid { padding:0; }
 .rma-popup .content .grid table { border-bottom:1px solid #CBD3D4; }
@@ -1169,7 +1177,8 @@ tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #d
 .order-totals table td.label            { white-space:normal; padding:3px 10px 3px 20px; }
 .order-totals table td.last             { padding:2px 6px; }
 .order-totals-bottom                    { padding:0 20px; }
-.order-totals table .validation-advice  { text-align:right; white-space:nowrap; background-position:100% 1px; padding-right:14px; padding-left:0; }
+.order-totals table .validation-advice,
+.order-totals table label.mage-error    { text-align:right; white-space:nowrap; background-position:100% 1px; padding-right:14px; padding-left:0; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important; }
 
 /* Shopping cart total summary row expandable to details */
@@ -1184,7 +1193,8 @@ tr.qty-not-available td input[name="qty"] { background-color: #faebe7; color: #d
 /* Order Constants */
 .payment-methods dt                     { margin-bottom:3px; }
 .payment-methods dd                     { margin-left:20px; }
-.payment-methods .validation-advice     { margin-left:2px; }
+.payment-methods .validation-advice,
+.payment-methods label.mage-error       { margin-left:2px; }
 
 /* Cards List */
 .cards-list .offset { margin-left:10px; }
@@ -1326,11 +1336,13 @@ ul.tabs a.paypal-section:hover { background:url(images/tabs_span_bg.gif) repeat-
 .tier-price-input .tier-container       { position:relative; clear:both; }
 .tier-price-input .tier-container div   { float:left; }
 .tier-price-input .tier-container label { width:30px; margin:0; padding:0; }
-.tier-price-input .validation-advice    { margin:0; height:25px; }
+.tier-price-input .validation-advice,
+.tier-price-input label.mage-error      { margin:0; height:25px; }
 .tier-price-input .custgroup-div select { width:auto; padding:0; }
 .tier-price-input .qty-div              { padding-left:20px; }
 .tier-price-input .price-div            { padding-left:20px; }
-.tier-price-input .price-div .validation-advice { margin:0; }
+.tier-price-input .price-div .validation-advice,
+.tier-price-input .price-div label.mage-error { margin:0; }
 .btn-remove-tier-group                  { float:right; right:24px; top:5px; }
 
 /* Product - Gallery */
@@ -1472,7 +1484,8 @@ ul.tabs a.paypal-section:hover { background:url(images/tabs_span_bg.gif) repeat-
 .upload-failure { background-color: #FF7E77; }
 
 td.input-price { white-space:nowrap; }
-td.input-price .validation-advice { white-space:normal; }
+td.input-price .validation-advice,
+td.input-price label.mage-error { white-space:normal; }
 td.input-price input.input-text { width:4em !important; }
 
 input.sort { width:4em !important; }
@@ -1625,7 +1638,8 @@ ul.super-product-attributes { padding-left:15px; }
 .super-attributes li.attribute ul.attribute-values { margin:0; padding:0; }
 .super-attributes li.attribute div.values-container { width:80%; margin-top:2px; margin-bottom:2px; }
 .super-attributes li.attribute-value  { display:block; margin:1px 0; }
-.super-attributes li.attribute-value .validation-advice { margin:0; white-space:normal; }
+.super-attributes li.attribute-value .validation-advice,
+.super-attributes li.attribute-value label.mage-error { margin:0; white-space:normal; }
 .super-attributes li.attribute-value .attribute-value-label-container { width:200px; }
 
 .super-attributes div.attribute-name-container,

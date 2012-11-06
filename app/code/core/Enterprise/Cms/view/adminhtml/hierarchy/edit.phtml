@@ -274,7 +274,7 @@
             // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
             jQuery('#node_id').addClass('is-empty');
             var nodeValue = $('node_id').value,
-                isNodeSaved = jQuery('#edit_form').validate().element('#node_id')
+                isNodeSaved = jQuery('#edit_form').validate({errorClass: '.mage-error'}).element('#node_id')
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
                 isStoreViewLevel = $('store') && $('store').value;
             jQuery('#node_id').removeClass('is-empty');
@@ -436,7 +436,7 @@
             var isValid = true;
             $('node_properties_fieldset').select('input').each(function(el){
                 // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
-                isValid = jQuery('#edit_form').validate().element('#' + el.id) && isValid;
+                isValid = jQuery('#edit_form').validate({errorClass: 'mage'}).element('#' + el.id) && isValid;
             });
 
             $('node_label').removeClassName('required-entry');
