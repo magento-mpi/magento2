@@ -130,9 +130,9 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
             ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
-            ->_addContent(
-                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order')
-            )
+//            ->_addContent(
+//                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order')
+//            )
             ->renderLayout();
     }
 

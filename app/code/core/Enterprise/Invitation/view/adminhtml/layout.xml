@@ -36,4 +36,14 @@
             <block name="invitation_add_page" type="Enterprise_Invitation_Block_Adminhtml_Invitation_Add" />
         </reference>
     </adminhtml_invitation_new>
+    <adminhtml_report_invitation_order>
+        <reference name="content">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="adminhthtml.report.invitation.order.grid" as="grid">
+                <arguments>
+                    <id>gridInvitationOrder</id>
+                    <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection</dataSource>
+                </arguments>
+            </block>
+        </reference>
+    </adminhtml_report_invitation_order>
 </layout>

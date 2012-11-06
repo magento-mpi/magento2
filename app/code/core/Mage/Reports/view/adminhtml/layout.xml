@@ -137,4 +137,23 @@
             <block type="Mage_Adminhtml_Block_Report_Customer_Orders" name="adminhtml.report.customer.orders.grid.container" />
         </reference>
     </adminhtml_report_customer_orders>
+
+    <adminhtml_report_product_sold>
+        <reference name="content">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="adminhthtml.report.product.sold.grid" as="grid">
+                <arguments>
+                    <id>gridProductsSold</id>
+                    <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="product.sold.grid.columnSet">
+                    <arguments>
+                        <id>report_product_sold</id>
+                        <!--<rowUrl>-->
+                            <!--<generatorClass>Mage_Reports_Model_Product_Grid_Row_UrlGenerator</generatorClass>-->
+                        <!--</rowUrl>-->
+                    </arguments>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_product_sold>
 </layout>
