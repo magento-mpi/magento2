@@ -47,7 +47,8 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                 'theme_path'           => 'default/default',
                 'preview_image'        => '',
                 'theme_directory'      => implode(
-                    DIRECTORY_SEPARATOR, array(__DIR__, '..', '_files', 'design', 'frontend', 'default', 'default')
+                    DIRECTORY_SEPARATOR,
+                    array(__DIR__, '..', '_files', 'design', 'frontend', 'default', 'default')
                 )
             ),
             'default_iphone' => array(
@@ -61,7 +62,8 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
                 'theme_path'           => 'default/default_iphone',
                 'preview_image'        => 'images/preview.png',
                 'theme_directory'      => implode(
-                    DIRECTORY_SEPARATOR, array(__DIR__, '..', '_files', 'design', 'frontend', 'default', 'default_iphone')
+                    DIRECTORY_SEPARATOR,
+                    array(__DIR__, '..', '_files', 'design', 'frontend', 'default', 'default_iphone')
                 )
             ),
         );
