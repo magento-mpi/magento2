@@ -1,5 +1,6 @@
 <?php
 use Zend\Soap\Wsdl;
+
 /**
  * SOAP AutoDiscover integration tests.
  *
@@ -297,7 +298,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             if (isset($appInfoData[$subNodeName])) {
                 /** @var DOMElement $subNode */
                 $subNodeValue = $appInfoData[$subNodeName];
-                $subNode = $this->_xpath->query("{$infNs}:{$subNodeName}[text()='{$subNodeValue}']", $seeLinkNode)->item(0);
+                $subNode = $this->_xpath->query("{$infNs}:{$subNodeName}[text()='{$subNodeValue}']", $seeLinkNode)
+                    ->item(0);
                 $this->assertNotNull($subNode,
                     sprintf('"%s" node with value "%s" was not found in "%s" element appinfo "seeLink".',
                         $subNodeName, $subNodeValue, $elementName));
@@ -335,7 +337,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             if (isset($callData['requiredInput'])) {
                 $direction = 'requiredInput';
                 $condition = $callData['requiredInput'];
-            } else if (isset($callData['returned'])) {
+            } else {
                 $direction = 'returned';
                 $condition = $callData['returned'];
             }
@@ -381,7 +383,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($operationMessage->hasAttribute('message'));
         $messageName = str_replace("{$tns}:", '', $operationMessage->getAttribute('message'));
-        $this->assertEquals(Wsdl::TYPES_NS . ':' .$messageName,
+        $this->assertEquals(Wsdl::TYPES_NS . ':' . $messageName,
             $operationMessage->getAttribute('message'));
         $messageTypeName = $this->_autoDiscover->getElementComplexTypeName($messageName);
         $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";

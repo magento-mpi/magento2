@@ -8,12 +8,7 @@ use Zend\Soap\Wsdl;
  */
 class Mage_Webapi_Model_Soap_AutoDiscover
 {
-    /**#@+
-     * WSDL name and Service name attributes value
-     */
     const WSDL_NAME = 'MagentoWSDL';
-    const ARRAY_ITEM_KEY_NAME = 'item';
-    /**#@-*/
 
     /**
      * API Resource config instance.
@@ -86,7 +81,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             $this->_wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($resourceName);
             $serviceName = $this->getServiceName($resourceName);
-            $this->_wsdl->addService($serviceName, $portName, 'tns:'.$bindingName, $this->_endpointUrl, SOAP_1_2);
+            $this->_wsdl->addService($serviceName, $portName, 'tns:' . $bindingName, $this->_endpointUrl, SOAP_1_2);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($resourceName, $methodName);
@@ -292,7 +287,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                             if ($parameterData['required']) {
                                 $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
                             } else {
-                                $condition = $direction == 'requiredInput' ? 'no' : 'conditionally';
+                                $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
                             }
                             $callInfo = array();
                             $callInfo[$direction][$condition]['calls'][] = $operation;

@@ -2,6 +2,7 @@
 use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
     Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
     Zend\Soap\Wsdl;
+
 /**
  * Complex type strategy for WSDL auto discovery using resource config.
  *
@@ -91,7 +92,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
 
                 if ($this->_config->isArrayType($parameterType)) {
                     $this->_processArrayParameter($parameterType, $callInfo);
-                    $element->setAttribute('type', Wsdl::TYPES_NS .':'. $this->_config
+                    $element->setAttribute('type', Wsdl::TYPES_NS . ':' . $this->_config
                         ->translateArrayTypeName($parameterType));
                 } else {
                     $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
@@ -103,7 +104,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
                         $typeNs = Wsdl::TYPES_NS;
                         $this->addComplexType($parameterType, $callInfo);
                     }
-                    $element->setAttribute('type', $typeNs .':' . $parameterType);
+                    $element->setAttribute('type', $typeNs . ':' . $parameterType);
                 }
 
                 $this->addAnnotation($element, $parameterData['documentation'], $default, $callInfo);
@@ -152,7 +153,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      *
      * @param DOMElement $element
      * @param string $documentation parameter documentation string
-     * @param null $default
+     * @param string|null $default
      * @param array $callInfo
      */
     public function addAnnotation(DOMElement $element, $documentation, $default = null, $callInfo = array())
@@ -192,7 +193,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
             for ($i = 0; $i < count($matches[0]); $i++) {
                 $appinfoTag = $matches[0][$i];
                 $tagName = $matches[1][$i];
-                $tagValue  = $matches[2][$i];
+                $tagValue = $matches[2][$i];
                 switch ($tagName) {
                     case 'callInfo':
                         $callInfoRegExp = '/([a-z].+):(returned|requiredInput):(yes|no|always|conditionally)/i';
@@ -217,7 +218,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
                         break;
                     default:
                         $nodeValue = trim($tagValue);
-                        $simpleTextNode = $this->_dom->createElement(self::APP_INF_NS . ':' .$tagName);
+                        $simpleTextNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $tagName);
                         $simpleTextNode->appendChild($this->_dom->createTextNode($nodeValue));
                         $appInfoNode->appendChild($simpleTextNode);
                         break;
