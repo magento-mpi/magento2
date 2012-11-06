@@ -8,7 +8,16 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/SanityRoutine.php';
+$includePath = array(
+    __DIR__,
+    realpath(__DIR__ . '/../../../tests/static/framework')
+);
+set_include_path(implode(PATH_SEPARATOR, $includePath));
+
+spl_autoload_register(function ($class) {
+    $file = str_replace('_', '/', $class) . '.php';
+    require_once $file;
+});
 
 define('USAGE', <<<USAGE
 php -f sanity.php -c <config_file> [-w <dir>]
@@ -25,39 +34,22 @@ if (!isset($options['c'])) {
     print USAGE;
     exit(1);
 }
-
 $configFile = $options['c'];
-if (!file_exists($configFile)) {
-    print 'File "' . $configFile . '" does not exist (current dir is "' . getcwd() . '").' . "\n";
-    exit(1);
-}
 
-$config = SanityRoutine::loadConfig($configFile);
-if (!$config) {
-    print "Problem with config file\n";
-    exit(1);
-}
-if (!$config['words']) {
-    print "No words to check\n";
-    exit(1);
-}
-
-$workingDir = dirname(__FILE__);
+$workingDir = __DIR__;
 if (isset($options['w'])) {
     $workingDir = $options['w'];
 }
-$workingDir = rtrim($workingDir, '/\\');
-if (!is_dir($workingDir)) {
-    print 'Working dir "' . $workingDir . '" does not exist' . "\n";
-    exit(1);
-}
+
+$sanityChecker = new SanityRoutine($configFile, $workingDir);
 
 $verbose = isset($options['v']) ? true : false;
-SanityRoutine::$verbose = $verbose;
+if ($verbose) {
+    $words = $sanityChecker->getWords();
+    printf('Searching for banned words: "%s"...', implode('", "', $words));
+}
 
-SanityRoutine::printVerbose(sprintf('Searching for banned words: "%s"...', implode('", "', $config['words'])));
-
-$found = SanityRoutine::findWords(realpath($workingDir), realpath($workingDir), $config);
+$found = $sanityChecker->findWords();
 if ($found) {
     echo "Found banned words in the following files:\n";
     foreach ($found as $info) {
@@ -65,5 +57,8 @@ if ($found) {
     }
     exit(1);
 }
-SanityRoutine::printVerbose('No banned words found in the source code.' . "\n");
+
+if ($verbose) {
+    "No banned words found in the source code.\n";
+}
 exit(0);

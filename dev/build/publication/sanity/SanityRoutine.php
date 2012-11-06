@@ -16,157 +16,75 @@
 class SanityRoutine
 {
     /**
-     * Whether verbose mode is on
+     * Tool class, used to load config and check files
      *
-     * @var bool
+     * @var Inspection_Sanity
      */
-    static $verbose = false;
+    protected $_sanityChecker;
 
     /**
-     * Loads configuration from file
+     * Base directory, used to start searching from
      *
-     * @param string $fileName
-     * @return array|null
+     * @var string
      */
-    public static function loadConfig($fileName)
+    protected $_baseDir;
+
+    /**
+     * @param string $configFile
+     * @param string $baseDir
+     */
+    public function __construct($configFile, $baseDir)
     {
-        if (!file_exists($fileName)) {
-            return null;
-        }
+        $this->_sanityChecker = new Inspection_Sanity($configFile, $baseDir);
+        $this->_baseDir = realpath($baseDir);
+    }
 
-        $result = array(
-            'words' => array(),
-            'whitelist' => array()
-        );
+    /**
+     * Get list of words, configured to be searched
+     *
+     * @return array
+     */
+    public function getWords()
+    {
+        return $this->_sanityChecker->getWords();
+    }
 
-        $xml = new SimpleXMLElement(file_get_contents($fileName));
-
-        // Load words
-        $words = array();
-        $nodes = $xml->xpath('//config/words/word');
-        foreach ($nodes as $node) {
-            $words[] = (string) $node;
-        }
-        $result['words'] = array_filter($words);
-
-        // Load whitelisted entries
-        $nodes = $xml->xpath('//config/whitelist/item');
-        foreach ($nodes as $node) {
-            $entry = array();
-
-            $path = $node->xpath('path');
-            if (!$path) {
-                return null; // Wrong configuration
-            }
-            $entry['path'] = (string) $path[0];
-
-
-            // Words
-            $wordNodes = $node->xpath('word');
-            if ($wordNodes) {
-                $entry['words'] = array();
-                foreach ($wordNodes as $wordNode) {
-                    $word = (string) $wordNode;
-                    $entry['words'][] = $word;
-                }
-            }
-
-            $result['whitelist'][] = $entry;
-        }
-
-        // Result
-        return $result;
+    /**
+     * Searches words in files content within base directory tree
+     *
+     * @return array
+     */
+    public function findWords()
+    {
+        return $this->_findWords($this->_baseDir);
     }
 
     /**
      * Searches words in files content within directory tree
      *
-     * @param  string $initialDir The root dir of search start, just to output found file names as relative path
-     * @param  string $dir Current dir to look in
-     * @param  array $config
+     * @param  string $currentDir Current dir to look in
      * @return array
      */
-    public static function findWords($initialDir, $dir, $config)
+    protected function _findWords($currentDir)
     {
         $result = array();
 
-        $entries = glob($dir . DIRECTORY_SEPARATOR . '*');
-        $initialLength = strlen($initialDir);
+        $entries = glob($currentDir . DIRECTORY_SEPARATOR . '*');
+        $initialLength = strlen($this->_baseDir);
         foreach ($entries as $entry) {
             if (is_file($entry)) {
-                $foundWords = self::_findWords($entry, $config['words']);
+                $foundWords = $this->_sanityChecker->findWords($entry);
                 if (!$foundWords) {
                     continue;
                 }
                 $relPath = substr($entry, $initialLength + 1);
-                $foundWords = self::_removeWhitelistedWords($relPath, $foundWords, $config);
-                if (!$foundWords) {
-                    continue;
-                }
                 $result[] = array('words' => $foundWords, 'file' => $relPath);
             } else if (is_dir($entry)) {
-                $more = self::findWords($initialDir, $entry, $config);
+                $more = $this->_findWords($entry);
                 $result = array_merge($result, $more);
             }
         }
 
         return $result;
-    }
-
-    /**
-     * Tries to find specific words in a file
-     *
-     * @param  string $fileName
-     * @param  array $words
-     * @return array
-     */
-    protected static function _findWords($fileName, $words)
-    {
-        $contents = file_get_contents($fileName);
-
-        $found = array();
-        foreach ($words as $word) {
-            if (stripos($contents, $word) !== false) {
-                $found[] = $word;
-            }
-        }
-        return $found;
-    }
-
-    /**
-     * Removes whitelisted words from array of found words
-     *
-     * @param  array $foundWords
-     * @param  string $path
-     * @param  array $config
-     * @return array
-     */
-    protected static function _removeWhitelistedWords($path, $foundWords, $config)
-    {
-        $path = str_replace('\\', '/', $path);
-        foreach ($config['whitelist'] as $item) {
-            if (strncmp($item['path'], $path, strlen($item['path'])) != 0) {
-                continue;
-            }
-
-            if (!isset($item['words'])) { // All words are permitted there
-                return array();
-            }
-            $foundWords = array_diff($foundWords, $item['words']);
-        }
-        return $foundWords;
-    }
-
-    /**
-     * Prints to console, if verbose mode is on
-     *
-     * @param string $message
-     * @return null
-     */
-    public static function printVerbose($message)
-    {
-        if (self::$verbose) {
-            print $message . "\n";
-        }
     }
 }

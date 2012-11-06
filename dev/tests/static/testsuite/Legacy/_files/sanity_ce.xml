@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @subpackage  Legacy
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <words>
+        <word>temp_dummy</word>
+    </words>
+</config>
