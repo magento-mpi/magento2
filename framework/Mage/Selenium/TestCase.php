@@ -1789,7 +1789,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             //(when not using ajax to reload the page)
             $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete secret key from url
-            $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?([?]ajax[=]true[&]isAjax[=]true)?|', '/', $mca);
+            $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+            // Delete ajax and isAjax parameters from url
+            $mca = preg_replace(array('|(&?ajax=\w+)?(&?isAjax=\w+)?|', '|\?&|', '|\?$|'), array('', '?', ''), $mca);
             //Delete store view part of mca
             $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete action part of mca if it's index
