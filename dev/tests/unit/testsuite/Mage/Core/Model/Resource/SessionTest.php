@@ -84,7 +84,7 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getTableName')
             ->will($this->returnValue(self::SESSION_TABLE));
-        $resource->expects($this->exactly(2))
+        $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
 
