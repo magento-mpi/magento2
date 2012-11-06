@@ -20,11 +20,11 @@
             validator.form = function() {
                 oldForm.status = false;
                 oldForm.currentForm = this.currentForm;
-                widget._trigger('beforeValidation', 0, oldForm);
+                widget && widget._trigger('beforeValidation', 0, oldForm);
                 if (!oldForm.status) {
                     oldForm.status = oldForm.apply(this, arguments);
                 }
-                widget._trigger('afterValidation', 0, oldForm);
+                widget && widget._trigger('afterValidation', 0, oldForm);
                 return oldForm.status;
             };
         });
