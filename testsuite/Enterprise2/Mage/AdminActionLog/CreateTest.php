@@ -255,7 +255,7 @@ class Enterprise2_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         $this->refresh();
         $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
-        $this->addParameter('contactEmail', $userData['api_user_contact_email']);
+        $this->addParameter('apiKey', $userData['api_user_api_key']);
         $this->validatePage();
         $userId = $this->defineParameterFromUrl('user_id');
         //Open Admin Action Log Page
@@ -293,7 +293,7 @@ class Enterprise2_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
 
         $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
-        $this->addParameter('contactEmail', $userData['api_user_contact_email']);
+        $this->addParameter('apiKey', $userData['api_user_api_key']);
         $this->validatePage('edit_api_user');
         $userId = $this->defineParameterFromUrl('user_id');
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
