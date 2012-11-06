@@ -12,7 +12,7 @@
         mage: {
             cookies: (function() {
                 this.set = function(name, value, options) {
-                    options = $.extend({}, $.cookie.defaults, options);
+                    options = $.extend({}, $.cookie.defaults, options || {});
                     var expires = options.expires;
                     var path = options.path;
                     var domain = options.domain;
