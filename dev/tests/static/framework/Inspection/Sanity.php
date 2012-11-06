@@ -132,11 +132,12 @@ class Inspection_Sanity
      * Checks the file content against the list of words
      *
      * @param  string $file
+     * @param  bool $checkContents
      * @return array Words, found
      */
-    public function findWords($file)
+    public function findWords($file, $checkContents = true)
     {
-        $foundWords = $this->_findWords($file);
+        $foundWords = $this->_findWords($file, $checkContents);
         if (!$foundWords) {
             return array();
         }
@@ -154,15 +155,17 @@ class Inspection_Sanity
      * Tries to find specific words in the file
      *
      * @param  string $file
+     * @param  bool $checkContents
      * @return array
      */
-    protected function _findWords($file)
+    protected function _findWords($file, $checkContents = true)
     {
-        $contents = file_get_contents($file);
+        $relPath = $this->_getRelPath($file);
+        $contents = $checkContents ? file_get_contents($file) : '';
 
         $foundWords = array();
         foreach ($this->_words as $word) {
-            if (stripos($contents, $word) !== false) {
+            if ((stripos($contents, $word) !== false) || (stripos($relPath, $word) !== false)) {
                 $foundWords[] = $word;
             }
         }
@@ -190,5 +193,16 @@ class Inspection_Sanity
             $foundWords = array_diff($foundWords, $item['words']);
         }
         return $foundWords;
+    }
+
+    /**
+     * Return file path relative to base dir
+     *
+     * @param string $file
+     * @return string
+     */
+    protected function _getRelPath($file)
+    {
+        return substr($file, strlen($this->_baseDir) + 1);
     }
 }

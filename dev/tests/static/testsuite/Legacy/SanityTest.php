@@ -33,7 +33,8 @@ class Legacy_SanityTest extends PHPUnit_Framework_TestCase
      */
     public function testSanity($file)
     {
-        $words = self::$_sanityChecker->findWords($file);
+        $isBinaryFile = preg_match('/\.(jpg|png|gif|swf|avi|mov|flv)$/', $file);
+        $words = self::$_sanityChecker->findWords($file, !$isBinaryFile);
         if ($words) {
             $this->fail('Found words: ' . implode(', ', $words));
         }
@@ -44,6 +45,6 @@ class Legacy_SanityTest extends PHPUnit_Framework_TestCase
      */
     public function sanityDataProvider()
     {
-        return Utility_Files::init()->getAllSourceFiles();
+        return Utility_Files::init()->getAllFiles();
     }
 }

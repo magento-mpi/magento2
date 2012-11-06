@@ -280,12 +280,12 @@ class Utility_Files
     }
 
     /**
-     * Return list of all source files. The list excludes tool-specific files
+     * Return list of all files. The list excludes tool-specific files
      * (e.g. Git, IDE) or temp files (e.g. in "var/").
      *
      * @return array
      */
-    public function getAllSourceFiles()
+    public function getAllFiles()
     {
         $key = __METHOD__ . $this->_path;
         if (isset(self::$_cache[$key])) {
@@ -312,7 +312,6 @@ class Utility_Files
         );
 
         $result = array_merge($rootFiles, $subFiles);
-        $result = self::_filterNonSourceFiles($result);
         $result = self::composeDataSets($result);
 
         self::$_cache[$key] = $result;
@@ -338,22 +337,6 @@ class Utility_Files
             $result = array_merge($result, $filesInDir, $filesInSubDir);
         }
         return $result;
-    }
-
-    /**
-     * Filter out all non-source binary files like images, executables, etc.
-     *
-     * @param array $files
-     * @return array
-     */
-    protected static function _filterNonSourceFiles(array $files)
-    {
-        return array_filter(
-            $files,
-            function ($file) {
-                return !preg_match('/\.(jpg|png|gif|swf)$/', $file);
-            }
-        );
     }
 
     /**

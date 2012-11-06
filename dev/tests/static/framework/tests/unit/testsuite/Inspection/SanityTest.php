@@ -73,12 +73,13 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
+     * @param bool $checkContents
      * @param array $expected
      * @dataProvider findWordsDataProvider
      */
-    public function testFindWords($file, $expected)
+    public function testFindWords($file, $checkContents, $expected)
     {
-        $actual = $this->_sanityChecker->findWords($file);
+        $actual = $this->_sanityChecker->findWords($file, $checkContents);
         $this->assertEquals($expected, $actual);
     }
 
@@ -91,15 +92,28 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
         return array(
             'usual file' => array(
                 $basePath . 'buffy.php',
-                array('demon', 'vampire')
+                true,
+                array('demon', 'vampire'),
+            ),
+            'usual file no contents checked' => array(
+                $basePath . 'buffy.php',
+                false,
+                array(),
             ),
             'whitelisted file' => array(
                 $basePath . 'twilight/eclipse.php',
-                array()
+                true,
+                array(),
             ),
             'partially whitelisted file' => array(
                 $basePath . 'twilight/newmoon.php',
+                true,
                 array('demon')
+            ),
+            'filename with bad word' => array(
+                $basePath . 'interview_with_the_vampire.php',
+                true,
+                array('vampire')
             ),
         );
     }
