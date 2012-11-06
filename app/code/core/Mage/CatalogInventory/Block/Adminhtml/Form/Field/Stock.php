@@ -145,16 +145,20 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
             <script>
             //<![CDATA[
                 jQuery(function($) {
-                    var qty = $('#$quantityFieldId');
-                    var isInStock = $('#$inStockFieldId');
-                    var disabler = function(){
+                    var qty = $('#$quantityFieldId'),
+                        isInStock = $('#$inStockFieldId'),
+                        manageStock = $('#inventory_manage_stock').removeClass('disabled').removeAttr('disabled'),
+                        useConfigManageStock = $('#inventory_use_config_manage_stock');
+
+                    var disabler = function() {
                         if ('' === qty.val()) {
                             isInStock.attr('disabled', 'disabled');
+                            manageStock.val(0);
                         } else {
                             isInStock.removeAttr('disabled');
+                            manageStock.val(1);
                         }
                     };
-                    qty.bind('keyup change blur', disabler);
 
                     //Associated fields
                     var fieldsAssociations = {
@@ -170,7 +174,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                             $('#' + getKeyByValue(fieldsAssociations, id)).val($(this).val());
                         }
                     };
-                    //Get key by value form object
+                    //Get key by value from object
                     var getKeyByValue = function(object, value) {
                         var returnVal = false;
                         $.each(object, function(objKey, objValue){
@@ -182,10 +186,12 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                     };
                     $.each(fieldsAssociations, function(generalTabField, advancedTabField) {
                         $('#' + generalTabField + ', #' + advancedTabField)
-                            .bind('focus blur change keyup click', filler);
+                            .bind('focus blur change keyup click', filler)
+                            .bind('keyup change blur', disabler);
                         filler.call($('#' + generalTabField));
                         filler.call($('#' + advancedTabField));
                     });
+                    disabler();
                 });
             //]]>
             </script>
