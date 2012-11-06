@@ -572,11 +572,19 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div'
+            errorElement: 'div',
+            rules: {}
         },
-        _create: function(){
+        _create: function () {
+            this._addRules();
             this.element.validate(this.options);
             this.element.mageEventFormValidate(this);
+        },
+        _addRules: function () {
+            $.each(this.options.rules, function (i, rule) {
+                rule.unshift(i);
+                $.validator.addMethod.apply($.validator, rule);
+            });
         }
     });
 })(jQuery);
