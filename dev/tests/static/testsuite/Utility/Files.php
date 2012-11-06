@@ -304,7 +304,12 @@ class Utility_Files
         );
 
         $rootFiles = glob($this->_path . '/*', GLOB_NOSORT);
-        $rootFiles = array_filter($rootFiles, function ($file) {return is_file($file);});
+        $rootFiles = array_filter(
+            $rootFiles,
+            function ($file) {
+                return is_file($file);
+            }
+        );
 
         $result = array_merge($rootFiles, $subFiles);
         $result = self::_filterNonSourceFiles($result);
@@ -343,9 +348,12 @@ class Utility_Files
      */
     protected static function _filterNonSourceFiles(array $files)
     {
-        return array_filter($files, function ($file) {
-            return !preg_match('/\.(jpg|png|gif|swf)$/', $file);
-        });
+        return array_filter(
+            $files,
+            function ($file) {
+                return !preg_match('/\.(jpg|png|gif|swf)$/', $file);
+            }
+        );
     }
 
     /**

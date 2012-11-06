@@ -15,11 +15,22 @@
 class Inspection_Sanity
 {
     /**
+     * Words to search for
+     *
      * @var array
      */
-    protected $_config;
+    protected $_words;
 
     /**
+     * Whitelist with paths and words
+     *
+     * @var array
+     */
+    protected $_whitelist;
+
+    /**
+     * Path to base dir, used to calculate relative paths
+     *
      * @var string
      */
     protected $_baseDir;
@@ -37,11 +48,7 @@ class Inspection_Sanity
         if (!is_dir($baseDir)) {
             throw new Inspection_Exception("Base directory {$baseDir} does not exist");
         }
-
-        $config = array(
-            'words' => array(),
-            'whitelist' => array()
-        );
+        $this->_baseDir = realpath($baseDir);
 
         try {
             $xml = new SimpleXMLElement(file_get_contents($configFile));
@@ -49,9 +56,21 @@ class Inspection_Sanity
             throw new Inspection_Exception($e->getMessage(), $e->getCode(), $e);
         }
 
-        // Load words
+        $this->_extractWords($xml)
+            ->_extractWhitelist($xml);
+    }
+
+    /**
+     * Extract words from configuration xml
+     *
+     * @param SimpleXMLElement $configXml
+     * @return Inspection_Sanity
+     * @throws Inspection_Exception
+     */
+    protected function _extractWords(SimpleXMLElement $configXml)
+    {
         $words = array();
-        $nodes = $xml->xpath('//config/words/word');
+        $nodes = $configXml->xpath('//config/words/word');
         foreach ($nodes as $node) {
             $words[] = (string) $node;
         }
@@ -60,8 +79,20 @@ class Inspection_Sanity
             throw new Inspection_Exception('No words to check');
         }
 
-        // Load whitelisted entries
-        $nodes = $xml->xpath('//config/whitelist/item');
+        $this->_words = $words;
+        return $this;
+    }
+
+    /**
+     * Extract whitelisted entries and words from configuration xml
+     *
+     * @param SimpleXMLElement $configXml
+     * @return Inspection_Sanity
+     * @throws Inspection_Exception
+     */
+    protected function _extractWhitelist(SimpleXMLElement $configXml)
+    {
+        $nodes = $configXml->xpath('//config/whitelist/item');
         foreach ($nodes as $node) {
             $entry = array();
 
@@ -81,12 +112,11 @@ class Inspection_Sanity
                 }
             }
 
-            $config['whitelist'][] = $entry;
+            $this->_whitelist[] = $entry;
         }
-
-        $this->_config = $config;
-        $this->_baseDir = realpath($baseDir);
+        return $this;
     }
+
 
     /**
      * Get list of words, configured to be searched
@@ -95,7 +125,7 @@ class Inspection_Sanity
      */
     public function getWords()
     {
-        return $this->_config['words'];
+        return $this->_words;
     }
 
     /**
@@ -131,7 +161,7 @@ class Inspection_Sanity
         $contents = file_get_contents($file);
 
         $foundWords = array();
-        foreach ($this->_config['words'] as $word) {
+        foreach ($this->_words as $word) {
             if (stripos($contents, $word) !== false) {
                 $foundWords[] = $word;
             }
@@ -149,7 +179,7 @@ class Inspection_Sanity
     protected function _removeWhitelistedWords($path, $foundWords)
     {
         $path = str_replace('\\', '/', $path);
-        foreach ($this->_config['whitelist'] as $item) {
+        foreach ($this->_whitelist as $item) {
             if (strncmp($item['path'], $path, strlen($item['path'])) != 0) {
                 continue;
             }
