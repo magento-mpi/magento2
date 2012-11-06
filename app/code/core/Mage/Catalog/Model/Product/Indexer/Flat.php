@@ -35,9 +35,6 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
-        ),
         Mage_Catalog_Model_Product_Flat_Indexer::ENTITY => array(
             Mage_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD,
         ),
@@ -223,9 +220,6 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         switch ($event->getEntity()) {
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
-                break;
-            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
-                $event->addNewData('catalog_product_flat_reindex_all', true);
                 break;
             case Mage_Core_Model_Store::ENTITY:
                 if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {

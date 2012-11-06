@@ -151,8 +151,6 @@ menu:
                import:
                export:
                import_export_scheduled:
-               system_convert_gui:
-               system_convert_profile:
            manage_currency:
                system_currency:
                system_currencysymbol:

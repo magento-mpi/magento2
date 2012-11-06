@@ -23,7 +23,6 @@ return array(
     $this->_getRule('_combineHistory'),
     $this->_getRule('_searchTextFields'),
     $this->_getRule('_skipFieldsByModel'),
-    $this->_getRule('_imageFields', 'Mage_Catalog_Model_Convert_Adapter_Product'),
     $this->_getRule('_parent', 'Mage_Core_Block_Abstract'),
     $this->_getRule('_parentBlock', 'Mage_Core_Block_Abstract'),
     $this->_getRule('_setAttributes', 'Mage_Catalog_Model_Product_Type_Abstract'),

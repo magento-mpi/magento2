@@ -75,18 +75,6 @@ system_design_editor:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
     title: Editor / Design / System / Magento Admin
 
-# Import/Export: Profiles page
-system_convert_gui:
-    mca: system_convert_gui/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
-    title: Profiles / Import and Export / System / Magento Admin
-
-# Import/Export: Advanced Profiles page
-system_convert_profile:
-    mca: system_convert_profile/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_profile/')]
-    title: Advanced Profiles / Import and Export / System / Magento Admin
-
 # Manage Currency:
 system_currency:
     mca: system_currency/

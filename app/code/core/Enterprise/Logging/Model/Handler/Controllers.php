@@ -522,27 +522,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Custom handler for run Import/Export Profile
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchSystemImportExportRun($config, $eventModel)
-    {
-        $profile = Mage::registry('current_convert_profile');
-        if (!$profile) {
-            return false;
-        }
-        $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
-        if ($messages) {
-            $success = 'error' != $messages->getType();
-        }
-        return $eventModel->setIsSuccess($success)->setInfo($profile->getName() .  ': #' . $profile->getId());
-    }
-
-    /**
      * Custom handler for System Currency save
      *
      * @param Varien_Simplexml_Element $config

@@ -282,6 +282,7 @@ return array(
     $this->_getRule('orderedAction', 'Mage_Adminhtml_Report_ProductController'),
     $this->_getRule('parseDateTime', 'Mage_Core_Model_Date'),
     $this->_getRule('postDispatchMyAccountSave'),
+    $this->_getRule('postDispatchSystemImportExportRun'),
     $this->_getRule('prepareCacheId', 'Mage_Core_Model_App'),
     $this->_getRule('prepareGoogleOptimizerScripts'),
     $this->_getRule('preprocess', 'Mage_Newsletter_Model_Template'),
@@ -364,8 +365,4 @@ return array(
     $this->_getRule('asSimplexml', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     $this->_getRule('getFileLayoutUpdatesXml', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
     $this->_getRule('getContainers', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
-    $this->_getRule('parse', 'Mage_Catalog_Model_Convert_Parser_Product', null,
-            'app\code\core\Mage\Catalog\Model\Convert\Parser'),
-    $this->_getRule('parse', 'Mage_Customer_Model_Convert_Parser_Customer', null,
-        'app\code\core\Mage\Customer\Model\Convert\Parser'),
 );
