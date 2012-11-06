@@ -93,8 +93,8 @@ long_values_address:
     last_name: %longValue255%
     suffix: %longValue255%
     company: %longValue255%
-    street_address_line_1: %longValue255%
-    street_address_line_2: %longValue255%
+    street_address_line_1: %longValue127%
+    street_address_line_2: %longValue127%
     city: %longValue255%
     country: Ukraine
     region: %longValue255%
