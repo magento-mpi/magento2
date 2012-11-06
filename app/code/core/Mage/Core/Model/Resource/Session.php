@@ -33,13 +33,6 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     protected $_sessionTable;
 
     /**
-     * Database read connection
-     *
-     * @var Varien_Db_Adapter_Interface
-     */
-    protected $_read;
-
-    /**
      * Database write connection
      *
      * @var Varien_Db_Adapter_Interface
@@ -54,13 +47,11 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     public function __construct(Mage_Core_Model_Resource $resource)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
-        $this->_read         = $resource->getConnection('core_read');
         $this->_write        = $resource->getConnection('core_write');
     }
 
     /**
-     * Destrucor
-     *
+     * Destructor
      */
     public function __destruct()
     {
