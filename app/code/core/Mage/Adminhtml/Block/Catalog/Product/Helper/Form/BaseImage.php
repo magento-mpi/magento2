@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage extends Varien_Data_Form_Element_Hidden
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_Data_Form_Element_Hidden
 {
     /**
      * Maximum file size to upload in bytes.

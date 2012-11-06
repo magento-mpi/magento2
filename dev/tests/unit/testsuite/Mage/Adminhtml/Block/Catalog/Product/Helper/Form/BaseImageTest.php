@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage
+     * @var Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage
      */
     protected $_model;
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHP
         );
 
         $mediaUploader->expects($this->once())->method('getDataMaxSizeInBytes')->will($this->returnValue('999'));
-        $this->_model = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage($attributes);
+        $this->_model = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage($attributes);
         $this->_model->setForm($form);
         $this->_model->setHtmlId('image');
         $this->_url->expects($this->once())->method('getUrl')
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHP
         $this->_mediaConfig->expects($this->once())->method($methodName)->will($this->returnValue($urlPath));
         $html = $this->_createHtmlCode($imageValue, $urlPath);
         $this->assertXmlStringEqualsXmlString("<test>{$html}</test>", "<test>{$this->_model->getElementHtml()}</test>",
-            'Another baseimage html code is expected');
+            'Another BaseImage html code is expected');
     }
 
     public function validateImageUrlDataProvider()
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHP
         $this->_helperData->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $html = $this->_createHtmlCode('', $urlPath);
         $this->assertXmlStringEqualsXmlString("<test>{$html}</test>", "<test>{$this->_model->getElementHtml()}</test>",
-            'Another baseimage html code is expected');
+            'Another BaseImage html code is expected');
     }
 
     /**
@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseimageTest extends PHP
      */
     protected function _createHtmlCode($imageValue, $urlPath)
     {
-        $html = file_get_contents(__DIR__ . '/_files/BaseimageHtml.txt');
+        $html = file_get_contents(__DIR__ . '/_files/BaseImageHtml.txt');
         $html = str_replace('%htmlId%', $this->_model->getHtmlId(), $html);
         $html = str_replace('%imageValue%', $imageValue, $html);
         $html = str_replace('%uploadImage%', 'http://example.com/pub/images/catalog_product_gallery/upload/', $html);
