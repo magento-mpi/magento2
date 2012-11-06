@@ -91,6 +91,9 @@ class Enterprise2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
         // Set role
         $this->openTab('user_role');
+        $this->fillField('role_name', $userData['role_name']);
+        $this->clickButton('search', false);
+        $this->waitForAjax();
         $this->addParameter('roleName', $userData['role_name']);
         $this->click($this->_getControlXpath('radiobutton', 'select_role'));
 

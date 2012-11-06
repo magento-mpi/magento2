@@ -170,5 +170,142 @@ class Enterprise2_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->assertEquals($this->getTitle(),
             'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
     }
+
+    /**
+     * <p>Admin action log for API User (Save action)</p>
+     * <p>Steps</p>
+     * <p>1. Create API User</p>
+     * <p>2. Open Admin Actions Logs page</p>
+     * <p>3. Check that Save action log is created
+     * <p>Expected result:</p>
+     * <p>Save action log is created</p>
+     *
+     * @test
+     * @author Michael Banin
+     * @TestlinkId TL-MAGE-6449
+     */
+    public function saveUserActionLog ()
+    {
+        //Create new Role
+        $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
+
+        $this->navigate('api_roles_management');
+        $this->clickButton('add_new_role', true);
+        $this->fillField('role_name', $userData['role_name']);
+        $this->openTab('resources');
+        $this->fillDropdown('role_access', 'All');
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_role');
+
+        //Create Data and open APi Users page
+        $this->navigate('api_users');
+        $this->clickButton('add_new_api_user', true);
+        $this->fillField('api_user_contact_email', $userData['api_user_contact_email']);
+        $this->fillField('api_user_api_key', $userData['api_user_api_key']);
+        $this->fillField('api_user_api_secret', $userData['api_user_api_secret']);
+
+        // Set role
+        $this->openTab('user_role');
+        $this->fillField('role_name', $userData['role_name']);
+        $this->clickButton('search', false);
+        $this->waitForAjax();
+        $this->addParameter('roleName', $userData['role_name']);
+        $this->click($this->_getControlXpath('radiobutton', 'select_role'));
+
+        //Save data
+        $this->clickButton('save', true);
+        $this->assertMessagePresent('success', 'success_user_saved');
+        $userId = $this->defineParameterFromUrl('user_id');
+
+        //Open Admin Action Log Page
+        $this->navigate('admin_action_log_report');
+        $this->validatePage();
+        $userSearch = array('filter_user_id' => $userId, 'action_name' => 'adminhtml_webapi_user_save');
+        $this->searchAndOpen($userSearch);
+        $this->validatePage();
+
+        //Check page title
+        $this->assertSame($this->getTitle(),
+            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+
+        return ($userData);
+    }
+
+    /**
+     * <p>Admin action log for API User (Edit action)</p>
+     * <p>Steps</p>
+     * <p>1. Create API User and open it for edit</p>
+     * <p>2. Open Admin Actions Logs page</p>
+     * <p>3. Check that Edit action log is created
+     * <p>Expected result:</p>
+     * <p>Edit action log is created</p>
+     *
+     * @param array $userData
+     *
+     * @test
+     * @depends saveUserActionLog
+     * @author Michael Banin
+     * @TestlinkId TL-MAGE-6451
+     */
+    public function editUserActionLog ($userData)
+    {
+        $this->navigate('api_users');
+        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
+        $this->searchAndOpen($userSearch, false);
+        $this->waitForPageToLoad();
+        $this->refresh();
+        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('contactEmail', $userData['api_user_contact_email']);
+        $this->validatePage();
+        $userId = $this->defineParameterFromUrl('user_id');
+        //Open Admin Action Log Page
+        $this->navigate('admin_action_log_report');
+        $userSearch = array('filter_user_id' => $userId, 'action' => 'Edit');
+        $this->searchAndOpen($userSearch);
+        $this->validatePage();
+
+        //Check page title
+        $this->assertSame($this->getTitle(),
+            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+    }
+
+    /**
+     * <p>Admin action log for API User (Delete action)</p>
+     * <p>Steps</p>
+     * <p>1. Create API User and delete it</p>
+     * <p>2. Open Admin Actions Logs page</p>
+     * <p>3. Check that Delete action log is created
+     * <p>Expected result:</p>
+     * <p>Delete action log is created</p>
+     *
+     * @param array $userData
+     *
+     * @test
+     * @depends saveUserActionLog
+     * @author Michael Banin
+     * @TestlinkId TL-MAGE-6450
+     */
+    public function deleteUserActionLog ($userData)
+    {
+        $this->navigate('api_users');
+        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
+        $this->searchAndOpen($userSearch, false);
+        $this->waitForPageToLoad();
+
+        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('contactEmail', $userData['api_user_contact_email']);
+        $this->validatePage('edit_api_user');
+        $userId = $this->defineParameterFromUrl('user_id');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
+        //Open Admin Action Log Page
+        $this->navigate('admin_action_log_report');
+        $userSearch = array('filter_user_id' => $userId, 'action' => 'Delete');
+        $this->searchAndOpen($userSearch);
+        $this->validatePage();
+
+        //Check page title
+        $this->assertSame($this->getTitle(),
+            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+    }
 }
 
