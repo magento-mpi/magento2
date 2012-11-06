@@ -9,7 +9,6 @@
  */
 
 use Zend\Di\Di,
-    Zend\Di\DefinitionList,
     Zend\Di\Configuration,
     Zend\Di\Definition;
 
@@ -48,11 +47,11 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
                 unserialize(file_get_contents($definitionsFile))
             );
         } else {
-            $definition = new Definition\RuntimeDefinition();
+            $definition = new Magento_Di_Definition_RuntimeDefinition_Zend();
         }
 
         $this->_di = $diInstance ? $diInstance : new Magento_Di();
-        $this->_di->setDefinitionList(new DefinitionList($definition));
+        $this->_di->setDefinitionList(new Magento_Di_DefinitionList_Zend($definition));
         $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
 
         Magento_Profiler::stop('di');
