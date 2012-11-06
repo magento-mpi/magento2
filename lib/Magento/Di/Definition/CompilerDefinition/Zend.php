@@ -52,6 +52,8 @@ class Magento_Di_Definition_CompilerDefinition_Zend extends Zend\Di\Definition\C
     }
 
     /**
+     * Convert to array definition
+     *
      * @return Magento_Di_Definition_ArrayDefinition
      */
     public function toArrayDefinition()
