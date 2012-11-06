@@ -136,15 +136,18 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function read($sessionId)
     {
-        $select = $this->_read->select()
+        // need to use write connection to get the most fresh DB sessions
+        $select = $this->_write->select()
             ->from($this->_sessionTable, array('session_data'))
             ->where('session_id = :session_id');
-        $bind = array(
-            'session_id' => $sessionId,
-        );
+        $bind = array('session_id' => $sessionId);
+        $data = $this->_write->fetchOne($select, $bind);
 
-        $data = $this->_read->fetchOne($select, $bind);
-        return base64_decode($data);
+        // if session data is a base64 encoded string
+        if (base64_decode($data, true) !== false) {
+            $data = base64_decode($data);
+        }
+        return $data;
     }
 
     /**
@@ -156,11 +159,12 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function write($sessionId, $sessionData)
     {
+        // need to use write connection to get the most fresh DB sessions
         $bindValues = array('session_id' => $sessionId);
-        $select = $this->_read->select()
+        $select = $this->_write->select()
             ->from($this->_sessionTable)
             ->where('session_id = :session_id');
-        $exists = $this->_read->fetchOne($select, $bindValues);
+        $exists = $this->_write->fetchOne($select, $bindValues);
 
         // encode session serialized data to prevent insertion of incorrect symbols
         $bind = array(

@@ -48,9 +48,27 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
         unset($this->_model);
     }
 
-    public function testRead()
+    /**
+     * Data provider for testRead
+     *
+     * @return array
+     */
+    public function readDataProvider()
     {
-        $this->_prepareMockForRead();
+        return array(
+            'session_encoded'     => array('$dataEncoded' => true),
+            'session_not_encoded' => array('$dataEncoded' => false),
+        );
+    }
+
+    /**
+     * @param bool $isDataEncoded
+     *
+     * @dataProvider readDataProvider
+     */
+    public function testRead($isDataEncoded)
+    {
+        $this->_prepareMockForRead($isDataEncoded);
         $result = $this->_model->read(self::SESSION_ID);
         $this->assertEquals(self::SESSION_DATA, $result);
     }
@@ -58,48 +76,53 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares mock for test model with specified connections
      *
-     * @param PHPUnit_Framework_MockObject_MockObject $readConnection
-     * @param PHPUnit_Framework_MockObject_MockObject $writeConnection
+     * @param PHPUnit_Framework_MockObject_MockObject $connection
      */
-    protected function _prepareResourceMock($readConnection = null, $writeConnection = null)
+    protected function _prepareResourceMock($connection)
     {
         $resource = $this->getMock('Mage_Core_Model_Resource', array('getTableName', 'getConnection'));
         $resource->expects($this->once())
             ->method('getTableName')
             ->will($this->returnValue(self::SESSION_TABLE));
-        $resource->expects($this->at(1))
+        $resource->expects($this->exactly(2))
             ->method('getConnection')
-            ->will($this->returnValue($readConnection));
-        $resource->expects($this->at(2))
-            ->method('getConnection')
-            ->will($this->returnValue($writeConnection));
+            ->will($this->returnValue($connection));
 
         $this->_model = new Mage_Core_Model_Resource_Session($resource);
     }
 
     /**
      * Prepare mocks for testRead
+     *
+     * @param bool $isDataEncoded
      */
-    protected function _prepareMockForRead()
+    protected function _prepareMockForRead($isDataEncoded)
     {
-        $readConnection = $this->getMock('stdClass', array('select', 'from', 'where', 'fetchOne'));
-        $readConnection->expects($this->once())
+        $connection = $this->getMock('Varien_Db_Adapter_Pdo_Mysql',
+            array('select', 'from', 'where', 'fetchOne'), array(), '', false
+        );
+        $connection->expects($this->once())
             ->method('select')
             ->will($this->returnSelf());
-        $readConnection->expects($this->once())
+        $connection->expects($this->once())
             ->method('from')
             ->with(self::SESSION_TABLE, array(self::COLUMN_SESSION_DATA))
             ->will($this->returnSelf());
-        $readConnection->expects($this->once())
+        $connection->expects($this->once())
             ->method('where')
             ->with(self::COLUMN_SESSION_ID . ' = :' . self::COLUMN_SESSION_ID)
             ->will($this->returnValue(self::SELECT_OBJECT));
-        $readConnection->expects($this->once())
+
+        $sessionData = self::SESSION_DATA;
+        if ($isDataEncoded) {
+            $sessionData = base64_encode($sessionData);
+        }
+        $connection->expects($this->once())
             ->method('fetchOne')
             ->with(self::SELECT_OBJECT, array(self::COLUMN_SESSION_ID => self::SESSION_ID))
-            ->will($this->returnValue(base64_encode(self::SESSION_DATA)));
+            ->will($this->returnValue($sessionData));
 
-        $this->_prepareResourceMock($readConnection);
+        $this->_prepareResourceMock($connection);
     }
 
     /**
@@ -133,39 +156,40 @@ class Mage_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareMockForWrite($sessionExists)
     {
-        $readConnection = $this->getMock('stdClass', array('select', 'from', 'where', 'fetchOne'));
-        $readConnection->expects($this->once())
+        $connection = $this->getMock('Varien_Db_Adapter_Pdo_Mysql',
+            array('select', 'from', 'where', 'fetchOne', 'update', 'insert'), array(), '', false
+        );
+        $connection->expects($this->once())
             ->method('select')
             ->will($this->returnSelf());
-        $readConnection->expects($this->once())
+        $connection->expects($this->once())
             ->method('from')
             ->with(self::SESSION_TABLE)
             ->will($this->returnSelf());
-        $readConnection->expects($this->once())
+        $connection->expects($this->once())
             ->method('where')
             ->with(self::COLUMN_SESSION_ID . ' = :' . self::COLUMN_SESSION_ID)
             ->will($this->returnValue(self::SELECT_OBJECT));
-        $readConnection->expects($this->once())
+        $connection->expects($this->once())
             ->method('fetchOne')
             ->with(self::SELECT_OBJECT, array(self::COLUMN_SESSION_ID => self::SESSION_ID))
             ->will($this->returnValue($sessionExists));
 
-        $writeConnection = $this->getMock('stdClass', array('update', 'insert'));
         if ($sessionExists) {
-            $writeConnection->expects($this->never())
+            $connection->expects($this->never())
                 ->method('insert');
-            $writeConnection->expects($this->once())
+            $connection->expects($this->once())
                 ->method('update')
                 ->will($this->returnCallback(array($this, 'verifyUpdate')));
         } else {
-            $writeConnection->expects($this->once())
+            $connection->expects($this->once())
                 ->method('insert')
                 ->will($this->returnCallback(array($this, 'verifyInsert')));
-            $writeConnection->expects($this->never())
+            $connection->expects($this->never())
                 ->method('update');
         }
 
-        $this->_prepareResourceMock($readConnection, $writeConnection);
+        $this->_prepareResourceMock($connection);
     }
 
     /**
