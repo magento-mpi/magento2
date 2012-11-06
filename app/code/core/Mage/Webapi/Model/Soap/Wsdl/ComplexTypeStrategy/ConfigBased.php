@@ -170,6 +170,13 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
         if ($elementType == 'boolean') {
             $default = (bool)$default ? 'true' : 'false';
         }
+        if ($elementType == 'int') {
+            $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
+            $this->_processRequiredAnnotation('max', $documentation, $appInfoNode);
+        }
+        if ($elementType == 'string') {
+            $this->_processRequiredAnnotation('maxLength', $documentation, $appInfoNode);
+        }
         if ($default) {
             $defaultNode = $this->_dom->createElement(self::APP_INF_NS . ':default');
             $defaultNode->appendChild($this->_dom->createTextNode($default));
@@ -225,6 +232,21 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
         $annotationNode->appendChild($documentationNode);
         $annotationNode->appendChild($appInfoNode);
         $element->appendChild($annotationNode);
+    }
+
+    /**
+     * Check if there is given annotation in documentation, and if not - create and empty one.
+     *
+     * @param $annotation
+     * @param $documentation
+     * @param DOMElement $appInfoNode
+     */
+    protected function _processRequiredAnnotation($annotation, $documentation, DOMElement $appInfoNode)
+    {
+        if (!preg_match("/{{$annotation}:.+}/Ui", $documentation)) {
+            $annotationNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $annotation);
+            $appInfoNode->appendChild($annotationNode);
+        }
     }
 
     /**

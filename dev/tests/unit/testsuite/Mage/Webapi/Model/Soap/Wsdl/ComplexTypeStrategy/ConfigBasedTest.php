@@ -75,22 +75,22 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     public function testAddComplexTypeSimpleParameters($type, $data)
     {
-        $this->_wsdl->expects($this->once())
+        $this->_wsdl->expects($this->any())
             ->method('getTypes')
             ->will($this->returnValue(array()));
 
-        $this->_wsdl->expects($this->once())
+        $this->_wsdl->expects($this->any())
             ->method('toDomDocument')
             ->will($this->returnValue(new DOMDocument()));
 
         $schemaMock = $this->_getDomElementMock();
-        $schemaMock->expects($this->once())
+        $schemaMock->expects($this->any())
             ->method('appendChild');
-        $this->_wsdl->expects($this->once())
+        $this->_wsdl->expects($this->any())
             ->method('getSchema')
             ->will($this->returnValue($schemaMock));
 
-        $this->_resourceConfig->expects($this->once())
+        $this->_resourceConfig->expects($this->at(0))
             ->method('getDataType')
             ->with($type)
             ->will($this->returnValue($data));
@@ -114,7 +114,12 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
                         'string_param' => array(
                             'type' => 'string',
                             'required' => true,
-                            'documentation' => 'Optional complex type param.'
+                            'documentation' => 'Required string param.'
+                        ),
+                        'int_param' => array(
+                            'type' => 'int',
+                            'required' => true,
+                            'documentation' => 'Required int param.'
                         ),
                         'bool_param' => array(
                             'type' => 'boolean',
