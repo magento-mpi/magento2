@@ -61,6 +61,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                     'display_state' => 1/*Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE*/,
                     'sort_order'    => 30,
                     'status'        => 'closed'/*Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED*/,
+                    'image'         => 'default_store_view.jpg'
                 ),
             ),
             'open event' => array(
@@ -70,6 +71,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                     'display_state' => 2/*Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE*/,
                     'sort_order'    => 20,
                     'status'        => 'open'/*Enterprise_CatalogEvent_Model_Event::STATUS_OPEN*/,
+                    'image'         => 'default_website.jpg'
                 ),
             ),
             'upcoming event' => array(
@@ -81,6 +83,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                         Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE*/
                     'sort_order'    => 10,
                     'status'        => 'upcoming'/*Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING*/,
+                    'image'         => 'default_store_view.jpg'
                 ),
             ),
         );

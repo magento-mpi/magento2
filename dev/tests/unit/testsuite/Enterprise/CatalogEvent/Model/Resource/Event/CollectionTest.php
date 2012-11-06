@@ -109,7 +109,11 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->will($this->returnValue($select));
         $adapter->expects($this->exactly(5))
             ->method('quoteInto')
-            ->will($this->returnCallback(array($this, 'quoteIntoCallback')));
+            ->will($this->returnCallback(
+                function ($text, $value) {
+                    return str_replace('?', $value, $text);
+                }
+            ));
         $adapter->expects($this->exactly(1))
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
@@ -138,18 +142,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
     protected function tearDown()
     {
         $this->_collection = null;
-    }
-
-    /**
-     * Callback to use instead of quoteInto
-     *
-     * @param string $text
-     * @param mixed $value
-     * @return string
-     */
-    public function quoteIntoCallback($text, $value)
-    {
-        return str_replace('?', $value, $text);
     }
 
     /**
