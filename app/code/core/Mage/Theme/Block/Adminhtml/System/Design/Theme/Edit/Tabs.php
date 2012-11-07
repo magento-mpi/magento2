@@ -16,9 +16,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs extends Mage_Back
     /**
      * Initialize tabs and define tabs block settings
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('theme_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle($this->__('Theme'));

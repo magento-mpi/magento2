@@ -9,7 +9,4 @@
  * @license     {license_link}
  */
 
-// Application test is exposed in global space
-/** @var $applicationTestForFixtures Magento_ApplicationTest */
-$applicationTestForFixtures = $GLOBALS['applicationTestForFixtures'];
-$applicationTestForFixtures->addFixtureEvent('fixture2');
+$this->applied[] = 'fixture2';

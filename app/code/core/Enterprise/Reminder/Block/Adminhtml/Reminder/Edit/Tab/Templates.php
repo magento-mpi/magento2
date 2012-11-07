@@ -124,7 +124,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template');
+        $template = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template');
         $template->setPath(Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();

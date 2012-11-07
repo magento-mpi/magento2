@@ -70,6 +70,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
      * 7. Change status to "Enabled" with a help "Actions for both imports"
      *  Result: Status is changed to "Enabled" for both imports
      * @test
+     * @author irina.glazunova
      * @TestlinkId TL-MAGE-5802
      */
     public function scheduledImportStatuses()
@@ -452,6 +453,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
      * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
      * Result: Only imports which have the key 'test' in the name are displayed in the grid
      * @test
+     * @author irina.glazunova
      *
      * @TestlinkId TL-MAGE-5803
      */

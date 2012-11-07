@@ -30,6 +30,8 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
         } else {
             $sessionInfo = array();
         }
+
+        /** @var $session Mage_Core_Model_Session */
         $session = Mage::getSingleton('Mage_Core_Model_Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(

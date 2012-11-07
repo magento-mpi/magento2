@@ -21,7 +21,7 @@
                     <id>gridOrdersCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
                 </arguments>
-                <block type="Mage_Adminhtml_Block_Store_Switcher" name="adminhtml.report.customer.orders.grid.store_switcher" as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" name="adminhtml.report.customer.orders.grid.store_switcher" as="store_switcher">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type='url'>
