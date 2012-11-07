@@ -57,8 +57,6 @@
  * @method Enterprise_Mage_Rollback_Helper                                                                  rollbackHelper()
  * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper                                 rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Community2_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper|Enterprise2_Mage_ShoppingCart_Helper shoppingCartHelper()
- * @method Enterprise_Mage_StagingLog_Helper                                                                stagingLogHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper                                                            stagingWebsiteHelper()
  * @method Core_Mage_Store_Helper|Community2_Mage_Store_Helper|Enterprise2_Mage_Store_Helper                storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper|Community1701_Mage_SystemConfiguration_Helper               systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                            tagsHelper()

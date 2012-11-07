@@ -19,14 +19,14 @@ class Inspection_Sanity
      *
      * @var array
      */
-    protected $_words;
+    protected $_words = array();
 
     /**
-     * Whitelist with paths and words
+     * Map of whitelisted paths to whitelisted words
      *
      * @var array
      */
-    protected $_whitelist;
+    protected $_whitelist = array();
 
     /**
      * Path to base dir, used to calculate relative paths
@@ -36,20 +36,36 @@ class Inspection_Sanity
     protected $_baseDir;
 
     /**
-     * @param string $configFile
+     * @param string|array $configFiles
      * @param string $baseDir
      * @throws Inspection_Exception
      */
-    public function __construct($configFile, $baseDir)
+    public function __construct($configFiles, $baseDir)
     {
-        if (!file_exists($configFile)) {
-            throw new Inspection_Exception("Configuration file {$configFile} does not exist");
-        }
         if (!is_dir($baseDir)) {
             throw new Inspection_Exception("Base directory {$baseDir} does not exist");
         }
         $this->_baseDir = realpath($baseDir);
 
+        if (!is_array($configFiles)) {
+            $configFiles = array($configFiles);
+        }
+        foreach ($configFiles as $configFile) {
+            $this->_loadConfig($configFile);
+        }
+    }
+
+    /**
+     * Load configuration from file, adding words and whitelisted entries to main config
+     *
+     * @param $configFile
+     * @throws Inspection_Exception
+     */
+    protected function _loadConfig($configFile)
+    {
+        if (!file_exists($configFile)) {
+            throw new Inspection_Exception("Configuration file {$configFile} does not exist");
+        }
         try {
             $xml = new SimpleXMLElement(file_get_contents($configFile));
         } catch (Exception $e) {
@@ -74,12 +90,10 @@ class Inspection_Sanity
         foreach ($nodes as $node) {
             $words[] = (string) $node;
         }
-        $config['words'] = array_filter($words);
-        if (!$config['words']) {
-            throw new Inspection_Exception('No words to check');
-        }
+        $words = array_filter($words);
 
-        $this->_words = $words;
+        $words = array_merge($this->_words, $words);
+        $this->_words = array_unique($words);
         return $this;
     }
 
@@ -92,28 +106,36 @@ class Inspection_Sanity
      */
     protected function _extractWhitelist(SimpleXMLElement $configXml)
     {
+        // Load whitelist entries
+        $whitelist = array();
         $nodes = $configXml->xpath('//config/whitelist/item');
         foreach ($nodes as $node) {
-            $entry = array();
-
             $path = $node->xpath('path');
             if (!$path) {
                 throw new Inspection_Exception('Wrong whitelisted path configuration');
             }
-            $entry['path'] = (string) $path[0];
+            $path = (string) $path[0];
 
             // Words
+            $words = array();
             $wordNodes = $node->xpath('word');
             if ($wordNodes) {
-                $entry['words'] = array();
                 foreach ($wordNodes as $wordNode) {
-                    $word = (string) $wordNode;
-                    $entry['words'][] = $word;
+                    $words[] = (string) $wordNode;
                 }
             }
 
-            $this->_whitelist[] = $entry;
+            $whitelist[$path] = $words;
         }
+
+        // Merge with already present whitelist
+        foreach ($whitelist as $newPath => $newWords) {
+            if (isset($this->_whitelist[$newPath])) {
+                $newWords = array_merge($this->_whitelist[$newPath], $newWords);
+            }
+            $this->_whitelist[$newPath] = array_unique($newWords);
+        }
+
         return $this;
     }
 
@@ -182,15 +204,15 @@ class Inspection_Sanity
     protected function _removeWhitelistedWords($path, $foundWords)
     {
         $path = str_replace('\\', '/', $path);
-        foreach ($this->_whitelist as $item) {
-            if (strncmp($item['path'], $path, strlen($item['path'])) != 0) {
+        foreach ($this->_whitelist as $whitelistPath => $whitelistWords) {
+            if (strncmp($whitelistPath, $path, strlen($whitelistPath)) != 0) {
                 continue;
             }
 
-            if (!isset($item['words'])) { // All words are permitted there
+            if (!$whitelistWords) { // All words are permitted there
                 return array();
             }
-            $foundWords = array_diff($foundWords, $item['words']);
+            $foundWords = array_diff($foundWords, $whitelistWords);
         }
         return $foundWords;
     }

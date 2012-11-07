@@ -8,7 +8,6 @@ atlassian*
 /index.php
 /nbproject
 /sitemap
-/staging
 /.htaccess.orig
 /.idea
 /app/config_sandbox

@@ -508,11 +508,6 @@ $CONFIG['translates'] = array(
     'Enterprise_Search' => array(
         'app/code/core/Enterprise/Search/'
     ),
-    'Enterprise_Staging' => array(
-        'app/code/core/Enterprise/Staging/',
-        'app/design/adminhtml/default/default/layout/enterprise/staging.xml',
-        'app/design/adminhtml/default/default/template/enterprise/staging/',
-    ),
     'Enterprise_TargetRule' => array(
         'app/code/core/Enterprise/TargetRule/',
         'app/design/adminhtml/default/default/layout/enterprise/targetrule.xml',
@@ -671,7 +666,6 @@ $CONFIG['helpers']  = array(
     'enterprise_rma'                => 'Enterprise_Rma',
     'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
     'enterprise_search'             => 'Enterprise_Search',
-    'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
     'enterprise_wishlist'           => 'Enterprise_Wishlist',

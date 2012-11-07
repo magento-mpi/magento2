@@ -22,7 +22,7 @@ class Legacy_SanityTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_sanityChecker = new Inspection_Sanity(
-            __DIR__ . '/_files/sanity_ce.xml',
+            glob(__DIR__ . '/_files/sanity_*.xml'),
             Utility_Files::init()->getPathToSource()
         );
     }
