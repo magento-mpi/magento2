@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImageTest extends PHP
             ->getMock();
         $this->_design = $this->getMockBuilder('Mage_Core_Model_Design_Package')
             ->disableOriginalConstructor()
-            ->setMethods(array('getSkinUrl'))
+            ->setMethods(array('getViewFileUrl'))
             ->getMock();
         $this->_helperData = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->disableOriginalConstructor()
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImageTest extends PHP
     {
         $urlPath = 'http://example.com/pub/images/image-placeholder.png';
         $this->_model->setValue(null);
-        $this->_design->expects($this->once())->method('getSkinUrl')->will($this->returnValue($urlPath));
+        $this->_design->expects($this->once())->method('getViewFileUrl')->will($this->returnValue($urlPath));
         $this->_helperData->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $html = $this->_createHtmlCode('', $urlPath);
         $this->assertXmlStringEqualsXmlString("<test>{$html}</test>", "<test>{$this->_model->getElementHtml()}</test>",

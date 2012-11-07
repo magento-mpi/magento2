@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
                 $imageUrl = $this->_mediaConfig->getMediaUrl($imagePath);
             }
         } else {
-            $imageUrl = $this->_design->getSkinUrl('Mage_Adminhtml::images/image-placeholder.png');
+            $imageUrl = $this->_design->getViewFileUrl('Mage_Adminhtml::images/image-placeholder.png');
         }
 
         return $imageUrl;
