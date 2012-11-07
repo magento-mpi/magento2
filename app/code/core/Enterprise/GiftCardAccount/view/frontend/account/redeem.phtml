@@ -41,13 +41,13 @@
         </div>
     </form>
     <script type="text/javascript">
-        (function ($) {
+        (function($) {
             head.js("<?php echo $this->getSkinUrl('jquery/jquery.validate.js')?>",
                 "<?php echo $this->getSkinUrl('jquery/additional-methods.js')?>",
                 "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
                 "<?php echo $this->getSkinUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getSkinUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function () {
+                "<?php echo $this->getSkinUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function() {
                     $('#giftcard-form').giftCard({
                         giftCardCodeSelector: '#giftcard_code',
                         checkStatus: 'button.check-gc-status',
