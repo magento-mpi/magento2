@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint regexdash:true eqnull:true browser:true jquery:true*/
-(function ($) {
+(function($) {
     $.extend(true, $, {
         mage: {
             /**
@@ -577,13 +577,12 @@
         },
         
         _create: function(){
-            this._trigger('setupForm', 0, this.element);
             this._addRules();
             this.element.validate(this.options);
             this.element.mageEventFormValidate(this);
         },
         
-        _addRules: function () {
+        _addRules: function() {
             $.each(this.options.rules, function (i, rule) {
                 rule.unshift(i);
                 $.validator.addMethod.apply($.validator, rule);
@@ -594,8 +593,23 @@
          * Check if form pass validation rules without submit
          * @return boolean
          */
-        isValid:function(){
+        isValid: function() {
             return this.element.valid();
+        },
+
+        /**
+         * Remove validation error messages
+         */
+        clearError: function() {
+            if (arguments.length > 0) {
+                $.each(arguments, $.proxy(function(index, item) {
+                    this.element.find(item).removeClass(this.options.errorClass);
+                    this.element.find(item).siblings(this.options.errorElement + '.' + this.options.errorClass).remove();
+                }, this));
+            } else {
+                this.element.find(this.options.errorElement + '.' + this.options.errorClass).remove();
+                this.element.find('.' + this.options.errorClass).removeClass(this.options.errorClass);
+            }
         }
     });
 })(jQuery);

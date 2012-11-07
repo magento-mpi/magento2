@@ -48,11 +48,11 @@
                 </li>
             </ul>
             <div class="buttons-set">
-                <button type="button" title="<?php echo $this->__('Get a Quote') ?>" class="button"><span><span><?php echo $this->__('Get a Quote') ?></span></span></button>
+                <button type="submit" title="<?php echo $this->__('Get a Quote') ?>" class="button"><span><span><?php echo $this->__('Get a Quote') ?></span></span></button>
             </div>
         </form>
         <script type="text/javascript">
-            (function ($) {
+            (function($) {
                 head.js(
                     "<?php echo $this->getSkinUrl('jquery/jquery.validate.js') ?>",
                     "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js') ?>",
@@ -60,11 +60,12 @@
                     "<?php echo $this->getSkinUrl('mage/validation/validation.js') ?>",
                     "<?php echo $this->getSkinUrl('Mage_Checkout::js/region-updater.js') ?>",
                     function() {
+                        var form = $('#shipping-zip-form').validation();
                         $('#country').regionUpdater({
                             regionListId: '#region_id',
                             regionInputId: '#region',
                             postcodeId: '#postcode',
-                            formId: '#shipping-zip-form',
+                            form: form,
                             regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
                             defaultRegion: "<?php echo $this->getEstimateRegionId() ?>",
                             countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
