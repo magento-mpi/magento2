@@ -234,4 +234,6 @@ return array(
     'Varien_Convert_Validator_Interface',
     'Varien_File_Uploader_Image',
     'Varien_Profiler' => array('suggestion' => 'Magento_Profiler'),
+    'Mage_Adminhtml_Block_Report_Customer_Totals_Grid',
+    'Mage_Adminhtml_Block_Report_Customer_Accounts_Grid',
 );
