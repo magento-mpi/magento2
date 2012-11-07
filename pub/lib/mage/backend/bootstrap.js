@@ -76,9 +76,7 @@ jQuery(function ($) {
          */
         $('body').on('ajaxSend', function(e) {
             $(e.target).loader({
-                icon: $('#loading_mask_loader img').length ?
-                    $('#loading_mask_loader img').attr('src'):
-                    ''
+                icon: $('#loading_mask_loader img').attr('src')
             }).loader('show');
         });
 
