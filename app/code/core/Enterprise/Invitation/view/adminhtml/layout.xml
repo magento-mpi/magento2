@@ -36,4 +36,122 @@
             <block name="invitation_add_page" type="Enterprise_Invitation_Block_Adminhtml_Invitation_Add" />
         </reference>
     </adminhtml_invitation_new>
+
+    <adminhtml_report_invitation_customer_block>
+        <reference name="adminhtml.report.invitation.customer.container">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.invitation.customer" as="grid">
+                <arguments>
+                    <use_ajax>0</use_ajax>
+                    <id>report_invitation_customer</id>
+                    <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Initial</dataSource>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="report.invitation.customer.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                        <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
+                        <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Period</header>
+                            <width>100px</width>
+                            <sortable>0</sortable>
+                            <type>text</type>
+                            <index>period</index>
+                            <id>period</id>
+                            <grouped>1</grouped>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">ID</header>
+                            <type>number</type>
+                            <index>entity_id</index>
+                            <id>id</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Name</header>
+                            <type>text</type>
+                            <index>name</index>
+                            <id>name</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="email">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Email</header>
+                            <index>email</index>
+                            <id>email</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="group">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Group</header>
+                            <index>group_name</index>
+                            <id>group</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_report_invitation_customer_sent">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Invitations Sent</header>
+                            <index>sent</index>
+                            <type>number</type>
+                            <id>sent</id>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
+                        <arguments>
+                            <header translate="true" module="Enterprise_Invitation">Invitations Accepted</header>
+                            <index>accepted</index>
+                            <type>number</type>
+                            <id>accepted</id>
+                        </arguments>
+                    </block>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.invitation.customer.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportCustomerCsv</urlPath>
+                                <label translate="true" module="Enterprise_Invitation">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportCustomerExcel</urlPath>
+                                <label translate="true" module="Enterprise_Invitation">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
+                    <arguments>
+                        <use_confirm>0</use_confirm>
+                        <switch_url type='url'>
+                            <path>*/*/*</path>
+                            <params>
+                                <store>null</store>
+                            </params>
+                        </switch_url>
+                    </arguments>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_invitation_customer_block>
+
+    <adminhtml_report_invitation_customer>
+        <update handle="adminhtml_report_invitation_customer_block" />
+        <reference name="content">
+            <block name="adminhtml.report.invitation.customer.container" type="Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer" />
+        </reference>
+    </adminhtml_report_invitation_customer>
+
+    <adminhtml_report_invitation_exportcustomerexcel>
+        <update handle="adminhtml_report_invitation_customer_block" />
+        <container name="adminhtml.report.invitation.customer.container" label='Report Invitations Customer Container'/>
+    </adminhtml_report_invitation_exportcustomerexcel>
+
+    <adminhtml_report_invitation_exportcustomercsv>
+        <update handle="adminhtml_report_invitation_customer_block" />
+        <container name="adminhtml.report.invitation.customer.container" label='Report Invitations Customer Container'/>
+    </adminhtml_report_invitation_exportcustomercsv>
 </layout>
