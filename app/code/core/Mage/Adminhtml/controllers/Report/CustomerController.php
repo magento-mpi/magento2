@@ -39,7 +39,6 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_customers_accounts')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts'))
             ->renderLayout();
     }
 
