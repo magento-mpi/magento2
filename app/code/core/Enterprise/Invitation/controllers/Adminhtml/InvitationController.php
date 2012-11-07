@@ -25,7 +25,6 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     public function indexAction()
     {
         $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
-
         $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
         $this->renderLayout();
     }

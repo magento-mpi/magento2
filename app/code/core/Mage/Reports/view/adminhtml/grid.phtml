@@ -94,7 +94,7 @@ $numColumns = sizeof($this->getColumns());
 <?php if($this->canDisplayContainer()): ?>
 <script type="text/javascript">
 //<![CDATA[
-    <?php echo $this->getJsObjectName() ?> = new varienGrid('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>');
+    <?php echo $this->getJsObjectName() ?>= new varienGrid('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>');
     <?php echo $this->getJsObjectName() ?>.useAjax = '';
     <?php if($this->getDateFilterVisibility()):?>
         <?php echo $this->getJsObjectName() ?>.doFilterCallback = validateFilterDate;

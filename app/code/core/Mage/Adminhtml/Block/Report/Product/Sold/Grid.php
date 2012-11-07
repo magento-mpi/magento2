@@ -29,11 +29,11 @@ class Mage_Adminhtml_Block_Report_Product_Sold_Grid extends Mage_Reports_Block_A
      * Initialize Grid settings
      *
      */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setId('gridProductsSold');
-    }
+//    protected function _construct()
+//    {
+//        parent::_construct();
+//        $this->setId('gridProductsSold');
+//    }
 
     /**
      * Prepare collection object for grid
@@ -43,8 +43,7 @@ class Mage_Adminhtml_Block_Report_Product_Sold_Grid extends Mage_Reports_Block_A
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()
-            ->initReport('Mage_Reports_Model_Resource_Product_Sold_Collection');
+//        $this->getCollection()->initReport('Mage_Reports_Model_Resource_Product_Sold_Collection');
         return $this;
     }
 
