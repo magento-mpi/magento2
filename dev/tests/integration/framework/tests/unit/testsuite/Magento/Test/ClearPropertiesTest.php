@@ -44,7 +44,9 @@ class Magento_Test_ClearPropertiesTest extends PHPUnit_Framework_TestCase
     {
         $clearProperties = new Magento_Test_ClearProperties();
         $phpUnitTestSuite = new PHPUnit_Framework_TestSuite();
-        $phpUnitTestSuite->addTestFile( __DIR__ . '\_files\DummyTestCase.php');
+        $phpUnitTestSuite->addTestFile(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR
+            . 'DummyTestCase.php'
+        );
         // Because addTestFile() adds classes from file to tests array, use first testsuite
         /** @var $testSuite PHPUnit_Framework_TestSuite */
         $testSuite = $phpUnitTestSuite->testAt(0);
