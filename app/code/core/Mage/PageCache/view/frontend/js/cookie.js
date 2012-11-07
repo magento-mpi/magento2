@@ -23,7 +23,7 @@
                 this.options.expires.setTime(
                     this.options.expires.getTime() + this.options.lifetime * 1000);
             }
-            $.mage.cookies.set(this.options.name, 1, this.options.expires);
+            $.mage.cookies.set(this.options.name, 1, {expires: this.options.expires});
         }
     });
 })(jQuery);
