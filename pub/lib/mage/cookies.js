@@ -11,9 +11,40 @@
     $.extend(true, $, {
         mage: {
             cookies: (function() {
+                /**
+                 * Cookie default values.
+                 * @type {Object}
+                 */
+                this.defaults = {
+                    expires: null,
+                    path: '/',
+                    domain: null,
+                    secure: false
+                };
+
+                /**
+                 * Calculate cookie expiration date based on its lifetime.
+                 * @param {Object} options Cookie option values
+                 * @return {*} Calculated cookie expiration date or null if no lifetime provided.
+                 * @private
+                 */
+                this._lifetimeToExpires = function(options) {
+                    if (options.lifetime && (options.lifetime > 0)) {
+                        var expires = options.expires || new Date();
+                        return new Date(expires.getTime() + options.lifetime * 1000);
+                    }
+                    return null;
+                };
+
+                /**
+                 * Set a cookie's value by cookie name based on optional cookie options.
+                 * @param {string} name The name of the cookie.
+                 * @param {string} value The cookie's value.
+                 * @param {Object} options Optional options (e.g. lifetime, expires, path, etc.)
+                 */
                 this.set = function(name, value, options) {
-                    options = $.extend({}, $.cookie.defaults, options || {});
-                    var expires = options.expires;
+                    options = $.extend({}, $.mage.cookies.defaults, options || {});
+                    var expires = this._lifetimeToExpires(options) || options.expires;
                     var path = options.path;
                     var domain = options.domain;
                     var secure = options.secure;
@@ -23,6 +54,12 @@
                         ((domain == null) ? "" : ("; domain=" + domain)) +
                         ((secure === true) ? "; secure" : "");
                 };
+
+                /**
+                 * Get a cookie's value by cookie name.
+                 * @param {string} name The name of the cookie.
+                 * @return {*}
+                 */
                 this.get = function(name) {
                     var arg = name + "=";
                     var alen = arg.length;
@@ -41,11 +78,23 @@
                     }
                     return null;
                 };
+
+                /**
+                 * Clear a cookie's value by name.
+                 * @param {string} name The name of the cookie being cleared.
+                 */
                 this.clear = function(name) {
                     if ($.mage.cookies.get(name)) {
                         $.mage.cookies.set(name, "", {expires: new Date("Jan 01 1970 00:00:01 GMT")});
                     }
                 };
+
+                /**
+                 * Return URI decoded cookie component value (e.g. expires, path, etc.) based on a
+                 * numeric offset in the document's cookie value.
+                 * @param {Integer} offset Offset into the document's cookie value.
+                 * @return {String}
+                 */
                 this.getCookieVal = function(offset) {
                     var endstr = document.cookie.indexOf(";", offset);
                     if(endstr === -1){
