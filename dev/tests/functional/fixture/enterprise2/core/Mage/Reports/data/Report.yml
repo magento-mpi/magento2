@@ -89,6 +89,20 @@ grid:
         field:
             filter_from:
             filter_to:
+    report_customer_accounts:
+        button:
+            refresh:
+            export:
+        dropdown:
+            show_by:
+            filter_show_report_for:
+            export_to:
+        link:
+            period:
+            number_of_new_accounts:
+        field:
+            filter_from:
+            filter_to:
             
 
 #dataset for  countGridRows Test
