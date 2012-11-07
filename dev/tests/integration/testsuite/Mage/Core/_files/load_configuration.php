@@ -8,5 +8,8 @@
  * @license    {license_link}
  */
 
-$areaConfig = new Mage_Core_Model_Config_Base(dirname(__FILE__).'/etc/config.xml');
+$areaConfig = Mage::getModel(
+    'Mage_Core_Model_Config_Base',
+    array('sourceData' => dirname(__FILE__).'/etc/config.xml')
+);
 Mage::app()->getConfig()->extend($areaConfig);

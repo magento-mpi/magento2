@@ -1,0 +1,19 @@
+/**
+ * {license_notice}
+ *
+ * @category    validator style
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+input.mage-error, textarea.mage-error, ul.mage-error, select.mage-error {
+    background: none repeat scroll 0 0 #FFF7F5 !important;
+    border: 1px solid #F47D4E !important;
+}
+
+div.mage-error {
+    clear: both;
+    color: #D91A00 !important;
+    font-size: 11px !important;
+    padding: 3px 0 0 !important;
+}

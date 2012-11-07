@@ -14,9 +14,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
      * Initialize grid, set defaults
      *
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('related_salesrule_grid');
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');

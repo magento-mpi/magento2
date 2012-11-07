@@ -1,11 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Zend Framework
  *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Code
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_Code_Generator
+ * @subpackage PHP
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 namespace Zend\Code\Generator;
@@ -15,6 +26,8 @@ use Zend\Code\Reflection\ClassReflection;
 /**
  * @category   Zend
  * @package    Zend_Code_Generator
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class ClassGenerator extends AbstractGenerator
 {
@@ -93,8 +106,7 @@ class ClassGenerator extends AbstractGenerator
         }
 
         /* @var \Zend\Code\Reflection\ClassReflection $parentClass */
-        $parentClass = $classReflection->getParentClass();
-        if ($parentClass) {
+        if ($parentClass = $classReflection->getParentClass()) {
             $cg->setExtendedClass($parentClass->getName());
             $interfaces = array_diff($classReflection->getInterfaces(), $parentClass->getInterfaces());
         } else {
@@ -431,7 +443,7 @@ class ClassGenerator extends AbstractGenerator
             } else {
                 if (is_string($property)) {
                     $this->addProperty($property);
-                } elseif (is_array($property)) {
+                } else if (is_array($property)) {
                     call_user_func_array(array($this, 'addProperty'), $property);
                 }
             }
@@ -530,7 +542,7 @@ class ClassGenerator extends AbstractGenerator
             } else {
                 if (is_string($method)) {
                     $this->addMethod($method);
-                } elseif (is_array($method)) {
+                } else if (is_array($method)) {
                     call_user_func_array(array($this, 'addMethod'), $method);
                 }
             }

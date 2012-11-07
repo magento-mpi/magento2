@@ -64,7 +64,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * Expected after step 9: Result will be reset and the whole list of attributes will be displayed
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1308, 1309
      */
     public function searchByAttributeLabelAndResetFilter()
@@ -156,7 +156,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @return array
      * @TestlinkId TL-MAGE-1192
      */
@@ -204,7 +204,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * attribute is present
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1193
      */
@@ -241,7 +241,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * Expected: file doesn't contain first name attribute
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1194
      * @param array $userData

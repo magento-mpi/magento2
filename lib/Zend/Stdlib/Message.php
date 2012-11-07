@@ -1,12 +1,4 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Stdlib
- */
 
 namespace Zend\Stdlib;
 
@@ -25,14 +17,13 @@ class Message implements MessageInterface
     protected $content = '';
 
     /**
-     * Set message metadata
+     * Set message metadata 
      *
-     * Non-destructive setting of message metadata; always adds to the metadata, never overwrites
+     * Non-destructive setting of message metadata; always adds to the metadata, never overwrites 
      * the entire metadata container.
-     *
-     * @param  string|int|array|Traversable $spec
-     * @param  mixed $value
-     * @throws Exception\InvalidArgumentException
+     * 
+     * @param  string|int|array|Traversable $spec 
+     * @param  mixed $value 
      * @return Message
      */
     public function setMetadata($spec, $value = null)
@@ -55,10 +46,9 @@ class Message implements MessageInterface
 
     /**
      * Retrieve all metadata or a single metadatum as specified by key
-     *
-     * @param  null|string|int $key
+     * 
+     * @param  null|string|int $key 
      * @param  null|mixed $default
-     * @throws Exception\InvalidArgumentException
      * @return mixed
      */
     public function getMetadata($key = null, $default = null)
@@ -80,8 +70,8 @@ class Message implements MessageInterface
 
     /**
      * Set message content
-     *
-     * @param  mixed $value
+     * 
+     * @param  mixed $value 
      * @return Message
      */
     public function setContent($value)
@@ -92,7 +82,7 @@ class Message implements MessageInterface
 
     /**
      * Get message content
-     *
+     * 
      * @return mixed
      */
     public function getContent()

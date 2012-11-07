@@ -19,9 +19,9 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('enterpriseStagingManageGrid');
         $this->setDefaultSort('name');

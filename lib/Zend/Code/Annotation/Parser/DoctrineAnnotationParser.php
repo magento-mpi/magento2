@@ -1,11 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Zend Framework
  *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Code
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_Code
+ * @subpackage Annotation
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 namespace Zend\Code\Annotation\Parser;
@@ -17,16 +28,18 @@ use Zend\Code\Exception;
 use Zend\EventManager\EventInterface;
 
 /**
- * A parser for docblock annotations that utilizes the annotation parser from
+ * A parser for docblock annotations that utilizes the annotation parser from 
  * Doctrine\Common.
  *
- * Consumes Doctrine\Common\Annotations\DocParser, and responds to events from
+ * Consumes Doctrine\Common\Annotations\DocParser, and responds to events from 
  * AnnotationManager. If the annotation examined is in the list of classes we
  * are interested in, the raw annotation is passed to the DocParser in order to
  * retrieve the annotation object instance. Otherwise, it is skipped.
  *
  * @package    Zend_Code
  * @subpackage Annotation
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class DoctrineAnnotationParser implements ParserInterface
 {
@@ -64,7 +77,7 @@ class DoctrineAnnotationParser implements ParserInterface
      * Retrieve the DocParser instance
      *
      * If none is registered, lazy-loads a new instance.
-     *
+     * 
      * @return DocParser
      */
     public function getDocParser()
@@ -77,8 +90,8 @@ class DoctrineAnnotationParser implements ParserInterface
 
     /**
      * Handle annotation creation
-     *
-     * @param  EventInterface $e
+     * 
+     * @param  EventInterface $e 
      * @return false|\stdClass
      */
     public function onCreateAnnotation(EventInterface $e)
@@ -119,8 +132,8 @@ class DoctrineAnnotationParser implements ParserInterface
 
     /**
      * Specify an allowed annotation class
-     *
-     * @param  string $annotation
+     * 
+     * @param  string $annotation 
      * @return DoctrineAnnotationParser
      */
     public function registerAnnotation($annotation)
@@ -131,10 +144,9 @@ class DoctrineAnnotationParser implements ParserInterface
 
     /**
      * Set many allowed annotations at once
-     *
-     * @param  array|Traversable $annotations Array or traversable object of
+     * 
+     * @param  array|Traversable $annotations Array or traversable object of 
      *         annotation class names
-     * @throws Exception\InvalidArgumentException
      * @return DoctrineAnnotationParser
      */
     public function registerAnnotations($annotations)

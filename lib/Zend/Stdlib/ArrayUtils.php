@@ -1,11 +1,21 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Zend Framework
  *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Stdlib
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_Stdlib
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 namespace Zend\Stdlib;
@@ -19,6 +29,8 @@ use Traversable;
  *
  * @category   Zend
  * @package    Zend_Stdlib
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class ArrayUtils
 {
@@ -33,7 +45,7 @@ abstract class ArrayUtils
     {
         if (!is_array($value)) {
             return false;
-        }
+        } 
 
         if (!$value) {
             return $allowEmpty;
@@ -53,7 +65,7 @@ abstract class ArrayUtils
     {
         if (!is_array($value)) {
             return false;
-        }
+        } 
 
         if (!$value) {
             return $allowEmpty;
@@ -80,8 +92,8 @@ abstract class ArrayUtils
     {
         if (!is_array($value)) {
             return false;
-        }
-
+        } 
+        
         if (!$value) {
             return $allowEmpty;
         }
@@ -113,8 +125,8 @@ abstract class ArrayUtils
     {
         if (!is_array($value)) {
             return false;
-        }
-
+        } 
+        
         if (!$value) {
             return $allowEmpty;
         }
@@ -155,8 +167,8 @@ abstract class ArrayUtils
     {
         if (!is_array($value)) {
             return false;
-        }
-
+        } 
+        
         if (!$value) {
             return $allowEmpty;
         }
@@ -172,7 +184,6 @@ abstract class ArrayUtils
      *
      * @param  array|Traversable  $iterator     The array or Traversable object to convert
      * @param  bool               $recursive    Recursively check all nested structures
-     * @throws Exception\InvalidArgumentException if $iterator is not an array or a Traversable object
      * @return array
      */
     public static function iteratorToArray($iterator, $recursive = true)

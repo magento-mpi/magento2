@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Toolbar_Theme */ ?>
+<div id="theme_selector" class="vde_toolbar_cell">
+    <div class="vde_toolbar_cell_title">
+        <?php echo $this->__('Theme:'); ?>
+        <span class="vde_toolbar_cell_value"><?php echo $this->escapeHtml($this->getTheme()->getThemeTitle()) ?></span>
+    </div>
+    <div class="vde_toolbar_cell_content">
+        <dl id="<?php echo $this->getSelectHtmlId(); ?>">
+            <?php foreach ($this->getTheme()->getCollection() as $theme): ?>
+                <?php $checked = $this->isThemeSelected($theme->getThemePath()) ? ' checked' : '' ?>
+                <dd class="vde_cell_list_item<?php echo $checked ?>">
+                    <?php $url = $this->getUrl('design/editor/theme', array('_query' => array(
+                        'theme_id' => $theme->getId()
+                    ))) ?>
+                    <a href="<?php echo $url?>"><?php echo $this->escapeHtml($theme->getThemeTitle()) ?></a>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+    </div>
+</div>

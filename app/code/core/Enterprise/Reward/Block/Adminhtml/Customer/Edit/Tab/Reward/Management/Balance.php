@@ -19,14 +19,7 @@
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Internal constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('customer/edit/management/balance.phtml');
-    }
+    protected $_template = 'customer/edit/management/balance.phtml';
 
     /**
      * Prepare layout.
@@ -40,7 +33,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
             ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE)
         ) {
             // unset template to get empty output
-            $this->setTemplate(null);
+
         } else {
             $grid = $this->getLayout()
                 ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid');

@@ -25,7 +25,7 @@ $bunches = array(
                 'default_billing'             => '1',
                 'default_shipping'            => '1',
                 'disable_auto_group_change'   => '0',
-                'dob'                         => '13-06-84',
+                'dob'                         => '13-06-1984',
                 'firstname'                   => 'Anthony',
                 'gender'                      => 'Male',
                 'group_id'                    => '1',
@@ -113,7 +113,7 @@ $bunches = array(
     )
 );
 
-$importDataResource = new Mage_ImportExport_Model_Resource_Import_Data();
+$importDataResource = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_Data');
 
 foreach ($bunches as $bunch) {
     $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data']);

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
+class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -121,10 +121,10 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
+        $this->addParameter('productName', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
-        $this->addParameter('productSku',  $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
@@ -160,6 +160,8 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
             $overrideData = array($emptyField => '-- Please Select --');
         } elseif ($emptyField == 'inventory_qty') {
             $overrideData = array($emptyField => '');
+        } elseif ($emptyField == 'general_sku') {
+            $overrideData = array($emptyField => ' ');
         } else {
             $overrideData = array($emptyField => '%noValue%');
         }

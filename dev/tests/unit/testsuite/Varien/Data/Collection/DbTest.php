@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
+class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Varien_Data_Collection_Db
@@ -31,7 +31,9 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testSetAddOrder()
     {
-        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('fetchAll'), null);
+        $adapter = $this->getMockForAbstractClass(
+            'Zend_Db_Adapter_Abstract', array(), '', false, true, true, array('fetchAll')
+        );
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect();
@@ -75,7 +77,7 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testAddFieldToFilter()
     {
-        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), null);
+        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), array(), '', false);
         $adapter->expects($this->any())
             ->method('prepareSqlCondition')
             ->with($this->stringContains('is_imported'), $this->anything())
@@ -93,7 +95,7 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testAddFieldToFilterWithMultipleParams()
     {
-        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), null);
+        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), array(), '', false);
         $adapter->expects($this->at(0))
             ->method('prepareSqlCondition')
             ->with('`weight`', array('in' => array(1, 3)))
@@ -135,10 +137,8 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testAddFieldToFilterValueContainsQuestionMark()
     {
-        $adapter = $this->_getAdapterMock(
-            'Zend_Db_Adapter_Pdo_Mysql',
-            array('select', 'prepareSqlCondition', 'supportStraightJoin'),
-            null
+        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
+            array('select', 'prepareSqlCondition', 'supportStraightJoin'), array(), '', false
         );
         $adapter->expects($this->once())
             ->method('prepareSqlCondition')
@@ -162,7 +162,7 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
      */
     public function testClone()
     {
-        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', null, null);
+        $adapter = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
         $this->_collection->setConnection($adapter);
         $this->assertInstanceOf('Zend_Db_Select', $this->_collection->getSelect());
 

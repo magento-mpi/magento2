@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Varien_Db_SelectTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
+class Varien_Db_SelectTest extends PHPUnit_Framework_TestCase
 {
     public function testWhere()
     {
@@ -43,7 +43,9 @@ class Varien_Db_SelectTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
      */
     protected function _getAdapterMockWithMockedQuote($callCount, $returnValue = null)
     {
-        $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('supportStraightJoin', 'quote'), null);
+        $adapter = $this->getMock(
+            'Zend_Db_Adapter_Pdo_Mysql', array('supportStraightJoin', 'quote'), array(), '', false
+        );
         $method = $adapter->expects($this->exactly($callCount))->method('quote');
         if ($callCount > 0) {
             $method->will($this->returnValue($returnValue));

@@ -1,12 +1,4 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Code
- */
 
 namespace Zend\Code\Generator;
 
@@ -15,9 +7,9 @@ use Zend\Code\Generator\Exception\RuntimeException;
 class FileGeneratorRegistry
 {
     /**
-     * @var array[string]\Zend\Code\Generator\FileGenerator $fileCodeGenerators registry for Zend\Code\Generator\FileGenerator
+     * @var array[string]\Zend\Code\Generator\FileGenerator $_fileCodeGenerators registry for Zend\Code\Generator\FileGenerator
      */
-    private static $fileCodeGenerators = array();
+    static private $_fileCodeGenerators = array();
 
     /**
      * Registry for the Zend_Code package. Zend_Tool uses this
@@ -40,7 +32,7 @@ class FileGeneratorRegistry
         // in the same DIRECTORY_SEPARATOR that realpath would use:
         $fileName = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $fileName);
 
-        self::$fileCodeGenerators[$fileName] = $fileCodeGenerator;
+        self::$_fileCodeGenerators[$fileName] = $fileCodeGenerator;
 
     }
 }

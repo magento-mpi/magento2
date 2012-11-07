@@ -108,7 +108,9 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
     protected function _reEncryptSystemConfigurationValues()
     {
         // look for encrypted node entries in all system.xml files
-        $paths = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getEncryptedNodeEntriesPaths();
+        $paths = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
+            ->getConfiguration()
+            ->getEncryptedNodeEntriesPaths();
 
         // walk through found data and re-encrypt it
         if ($paths) {

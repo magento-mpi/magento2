@@ -21,5 +21,16 @@
             </backend_options>
         </full_page_cache>
         <skip_process_modules_updates>0</skip_process_modules_updates>
+        <di>
+            <Mage_Core_Model_Cache>
+                <parameters>
+                    <cacheOptions>
+                        <request_processors>
+                            <ee>Enterprise_PageCache_Model_Processor</ee>
+                        </request_processors>
+                    </cacheOptions>
+                </parameters>
+            </Mage_Core_Model_Cache>
+        </di>
     </global>
 </config>

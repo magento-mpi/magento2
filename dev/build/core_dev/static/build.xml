@@ -30,6 +30,14 @@
         </exec>
     </target>
 
+    <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.legacy.xml"
+              tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
+        <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/code_legacy_tests.xml"/>
+        </exec>
+    </target>
+
     <target name="_sanity_check" depends="_product_location" description="Static sanity check">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
@@ -69,6 +77,12 @@
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_js.xml"/>
         </exec>
+    </target>
+
+    <target name="code_legacy_tests" description="Code Legacy Tests">
+        <antcall>
+            <target name="_code_legacy_tests"/>
+        </antcall>
     </target>
 
 </project>

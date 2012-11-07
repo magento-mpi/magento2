@@ -1,3 +1,2 @@
 app/code/core/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/core/Enterprise/SalesArchive/Model/Order
-dev/tests/functional/testsuite/Enterprise2

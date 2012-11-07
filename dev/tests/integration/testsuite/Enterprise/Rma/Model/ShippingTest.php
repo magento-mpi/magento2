@@ -18,7 +18,7 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= new Enterprise_Rma_Model_Shipping();
+        $this->_model= Mage::getModel('Enterprise_Rma_Model_Shipping');
     }
 
     protected function tearDown()

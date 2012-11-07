@@ -13,7 +13,7 @@ $installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-$category = new Mage_Catalog_Model_Category();
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 
 $category->setId(3)
     ->setName('Category 1')
@@ -26,7 +26,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$product = new Mage_Catalog_Model_Product();
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
@@ -43,7 +43,7 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setTaxClassId(0)
     ->save();
 
-$stockItem = new Mage_CatalogInventory_Model_Stock_Item();
+$stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
 $stockItem->setProductId($product->getId())
     ->setTypeId($product->getTypeId())
     ->setStockId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)

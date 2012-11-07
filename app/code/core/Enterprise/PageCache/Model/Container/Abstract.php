@@ -84,7 +84,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         }
 
         if (Mage::getStoreConfig(Enterprise_PageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
-            $debugBlock = new Enterprise_PageCache_Block_Debug();
+            $debugBlock = Mage::app()->getLayout()->createBlock('Enterprise_PageCache_Block_Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());
         } else {
@@ -94,9 +94,9 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         $subprocessor = $this->_processor->getSubprocessor();
         if ($subprocessor) {
             $contentWithOutNestedBlocks = $subprocessor->replaceContentToPlaceholderReplacer($blockContent);
+            $this->saveCache($contentWithOutNestedBlocks);
         }
 
-        $this->saveCache($contentWithOutNestedBlocks);
         return true;
     }
 
@@ -181,7 +181,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      * @param mixed $defaultValue
      * @return string
      */
-    protected function _getCookieValue($cookieName, $defaultValue = null)
+    protected static function _getCookieValue($cookieName, $defaultValue = null)
     {
         return (array_key_exists($cookieName, $_COOKIE) ? $_COOKIE[$cookieName] : $defaultValue);
     }
@@ -218,7 +218,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
             return null;
         }
 
-        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, null);
+        return self::_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, null);
     }
 
     /**
@@ -258,7 +258,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected function _getPlaceHolderBlock()
     {
         $blockName = $this->_placeholder->getAttribute('block');
-        $block = new $blockName;
+        $block = Mage::app()->getLayout()->createBlock($blockName);
         $block->setTemplate($this->_placeholder->getAttribute('template'));
         $block->setLayout(Mage::app()->getLayout());
         $block->setSkipRenderTag(true);

@@ -181,7 +181,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
+                    $element->setImage(Mage::getDesign()->getViewFileUrl('images/grid-cal.gif'));
                     break;
             }
         }

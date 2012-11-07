@@ -181,7 +181,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      *
      * @test
      * @author roman.grebenchuk
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5488
      */
     public function exportMasterFileWithFilters()

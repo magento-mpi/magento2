@@ -1,11 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Zend Framework
  *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Code
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_Code
+ * @subpackage Annotation
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 namespace Zend\Code\Annotation\Parser;
@@ -24,6 +35,8 @@ use Zend\EventManager\EventInterface;
  *
  * @package    Zend_Code
  * @subpackage Annotation
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class GenericAnnotationParser implements ParserInterface
 {
@@ -43,15 +56,15 @@ class GenericAnnotationParser implements ParserInterface
     protected $annotations = array();
 
     /**
-     * Listen to onCreateAnnotation, and attempt to return an annotation object
+     * Listen to onCreateAnnotation, and attempt to return an annotation object 
      * instance.
      *
-     * If the annotation class or alias is not registered, immediately returns
+     * If the annotation class or alias is not registered, immediately returns 
      * false. Otherwise, resolves the class, clones it, and, if any content is
-     * present, calls {@link AnnotationInterface::initialize()} with the
+     * present, calls {@link AnnotationInterface::initialize()} with the 
      * content.
-     *
-     * @param  EventInterface $e
+     * 
+     * @param  EventInterface $e 
      * @return false|AnnotationInterface
      */
     public function onCreateAnnotation(EventInterface $e)
@@ -81,7 +94,7 @@ class GenericAnnotationParser implements ParserInterface
     /**
      * Register annotations
      *
-     * @param  string|AnnotationInterface $annotation String class name of an
+     * @param  string|AnnotationInterface $annotation String class name of an 
      *         AnnotationInterface implementation, or actual instance
      * @return GenericAnnotationParser
      * @throws Exception\InvalidArgumentException
@@ -115,9 +128,8 @@ class GenericAnnotationParser implements ParserInterface
 
     /**
      * Register many annotations at once
-     *
-     * @param  array|Traversable $annotations
-     * @throws Exception\InvalidArgumentException
+     * 
+     * @param  array|Traversable $annotations 
      * @return GenericAnnotationParser
      */
     public function registerAnnotations($annotations)
@@ -157,10 +169,9 @@ class GenericAnnotationParser implements ParserInterface
 
     /**
      * Alias an annotation name
-     *
-     * @param  string $alias
+     * 
+     * @param  string $alias 
      * @param  string $class May be either a registered annotation name or another alias
-     * @throws Exception\InvalidArgumentException
      * @return GenericAnnotationParser
      */
     public function setAlias($alias, $class)
@@ -182,8 +193,8 @@ class GenericAnnotationParser implements ParserInterface
 
     /**
      * Normalize an alias name
-     *
-     * @param  string $alias
+     * 
+     * @param  string $alias 
      * @return string
      */
     protected function normalizeAlias($alias)
@@ -193,8 +204,8 @@ class GenericAnnotationParser implements ParserInterface
 
     /**
      * Do we have an alias by the provided name?
-     *
-     * @param  string $alias
+     * 
+     * @param  string $alias 
      * @return bool
      */
     protected function hasAlias($alias)
@@ -205,8 +216,8 @@ class GenericAnnotationParser implements ParserInterface
 
     /**
      * Resolve an alias to a class name
-     *
-     * @param  string $alias
+     * 
+     * @param  string $alias 
      * @return string
      */
     protected function resolveAlias($alias)

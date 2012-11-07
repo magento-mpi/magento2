@@ -16,7 +16,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Admi
      */
     public function testPreviewAction()
     {
-        $page = new Mage_Cms_Model_Page;
+        /** @var $page Mage_Cms_Model_Page */
+        $page = Mage::getModel('Mage_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
         $this->dispatch('backend/admin/cms_page_revision/preview/');
@@ -34,12 +35,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Admi
         $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
-        $page = new Mage_Cms_Model_Page;
+        $page = Mage::getModel('Mage_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('admin/cms_page_revision/drop/');
         $this->markTestIncomplete('MAGETWO-770');
-        $this->assertContains('skin/frontend/default/modern/default', $this->getResponse()->getBody());
+        $this->assertContains('theme/frontend/default/modern', $this->getResponse()->getBody());
     }
 }

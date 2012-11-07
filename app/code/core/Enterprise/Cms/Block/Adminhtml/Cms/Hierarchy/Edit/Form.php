@@ -40,19 +40,44 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_app;
 
     /**
-     * Define custom form template for block
-     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $application
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
-        $this->setTemplate('hierarchy/edit.phtml');
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $application,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
 
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
-        if (!($this->_app instanceof Mage_Core_Model_App)) {
-            throw new InvalidArgumentException('Required app object is invalid');
-        }
+        $this->setTemplate('hierarchy/edit.phtml');
+        $this->_app = $application;
 
         $this->_currentStore = $this->getRequest()->getParam('store');
         $this->_nodePreviewStoreId = $this->_app->isSingleStoreMode() ? $this->_app->getAnyStoreView()->getId()
@@ -145,7 +170,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes

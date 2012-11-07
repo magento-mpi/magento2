@@ -48,7 +48,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">decorateTable('my-returns-table');</script>
+    <script type="text/javascript">(function($) {$('#my-returns-table').decorate('table')})(jQuery)</script>
     <?php echo $this->getPagerHtml(); ?>
 <?php else: ?>
     <p><?php echo $this->__('You have placed no returns.'); ?></p>
