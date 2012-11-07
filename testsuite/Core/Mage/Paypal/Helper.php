@@ -144,7 +144,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             return $this->createPreconfiguredAccount($parameters);
         }
         $this->assertMessagePresent('success', 'success_created_account');
-        $this->validatePage('developer_created_test_account_us');
+        $this->validatePage();
 
         return $this->getPaypalSandboxAccountInfo($parameters);
     }
