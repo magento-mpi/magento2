@@ -286,13 +286,13 @@ class Magento_Di extends Zend\Di\Di
         $aliases = $this->instanceManager->getAliases();
 
         // for the alias in the dependency tree
-        if ($alias && $this->instanceManager->hasConfiguration($alias)) {
-            $iConfig['thisAlias'] = $this->instanceManager->getConfiguration($alias);
+        if ($alias && $this->instanceManager->hasConfig($alias)) {
+            $iConfig['thisAlias'] = $this->instanceManager->getConfig($alias);
         }
 
         // for the current class in the dependency tree
-        if ($this->instanceManager->hasConfiguration($class)) {
-            $iConfig['thisClass'] = $this->instanceManager->getConfiguration($class);
+        if ($this->instanceManager->hasConfig($class)) {
+            $iConfig['thisClass'] = $this->instanceManager->getConfig($class);
         }
 
         // for the parent class, provided we are deeper than one node
@@ -304,10 +304,10 @@ class Magento_Di extends Zend\Di\Di
             $requestedClass = $requestedAlias = null;
         }
 
-        if ($requestedClass != $class && $this->instanceManager->hasConfiguration($requestedClass)) {
-            $iConfig['requestedClass'] = $this->instanceManager->getConfiguration($requestedClass);
+        if ($requestedClass != $class && $this->instanceManager->hasConfig($requestedClass)) {
+            $iConfig['requestedClass'] = $this->instanceManager->getConfig($requestedClass);
             if ($requestedAlias) {
-                $iConfig['requestedAlias'] = $this->instanceManager->getConfiguration($requestedAlias);
+                $iConfig['requestedAlias'] = $this->instanceManager->getConfig($requestedAlias);
             }
         }
 
@@ -468,7 +468,7 @@ class Magento_Di extends Zend\Di\Di
                     );
                 }
                 array_push($this->currentDependencies, $class);
-                $dConfig = $this->instanceManager->getConfiguration($computedParams['required'][$fqParamPos][0]);
+                $dConfig = $this->instanceManager->getConfig($computedParams['required'][$fqParamPos][0]);
                 if ($dConfig['shared'] === false) {
                     $resolvedParams[$index]
                         = $this->newInstance($computedParams['required'][$fqParamPos][0], $callTimeUserParams, false);
