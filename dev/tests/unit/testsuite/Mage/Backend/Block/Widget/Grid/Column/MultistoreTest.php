@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_Column_MultistoreTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Backend_Block_Widget_Grid_Column_MultistoreTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_Column_Multistore
@@ -29,12 +29,9 @@ class Mage_Backend_Block_Widget_Grid_Column_MultistoreTest extends Magento_Test_
             'application' => $this->_appMock,
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
-        $arguments = $this->_getConstructArguments(self::BLOCK_ENTITY,
-            'Mage_Backend_Block_Widget_Grid_Column_Multistore', $arguments
-        );
-        $this->_model = $this->_getInstanceViaConstructor('Mage_Backend_Block_Widget_Grid_Column_Multistore',
-            $arguments
-        );
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Column_Multistore', $arguments);
     }
 
     protected function tearDown()
