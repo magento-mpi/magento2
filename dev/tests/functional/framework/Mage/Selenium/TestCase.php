@@ -175,40 +175,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_error = false;
 
     /**
-     * Type of uimap elements
-     * @var string
+     * Types of uimap elements
      */
+    const FIELD_TYPE_CHECKBOX    = 'checkbox';
+    const FIELD_TYPE_DROPDOWN    = 'dropdown';
+    const FIELD_TYPE_INPUT       = 'field';
+    const FIELD_TYPE_FIELDSET    = 'fieldset';
+    const FIELD_TYPE_LINK        = 'link';
+    const FIELD_TYPE_MESSAGE     = 'message';
     const FIELD_TYPE_MULTISELECT = 'multiselect';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_DROPDOWN = 'dropdown';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_CHECKBOX = 'checkbox';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
+    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
 
     /**
-     * Type of uimap elements
-     * @var string
+     * Message types
      */
-    const FIELD_TYPE_INPUT = 'field';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+    const MESSAGE_TYPE_ERROR      = 'error';
+    const MESSAGE_TYPE_SUCCESS    = 'success';
+    const MESSAGE_TYPE_VALIDATION = 'validation';
 
     ################################################################################
     #                      Selenium variables(do not rename)                       #
@@ -235,7 +219,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loading holder XPath
      * @staticvar string
      */
-    protected static $xpathLoadingHolder = "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]";
+    protected static $xpathLoadingHolder
+        = "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]";
 
     /**
      * Constructs a test case with the given name and browser to test execution
@@ -3501,7 +3486,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
-                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != trim($value, chr(0xC2) . chr(0xA0))) {
+                $trimmedCharacters = chr(0xC2) . chr(0xA0);
+                if (trim($this->getSelectedValue($xpath), $trimmedCharacters) != trim($value, $trimmedCharacters)) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
                     } else {

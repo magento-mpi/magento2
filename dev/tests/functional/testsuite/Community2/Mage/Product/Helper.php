@@ -130,7 +130,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
         $this->selectTypeProduct($productData, $productType);
-        if ($productData['product_attribute_set'] != 'Default') {
+        if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
         $this->fillProductInfo($productData, $productType);
@@ -459,7 +459,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             $categoryName = end(explode('/', $value));
             $this->addParameter('categoryName', $categoryName);
             if (!$this->controlIsVisible('pageelement', 'category_name')) {
-                $this->fail('Category with name ' . $this->_getControlXpath('pageelement', 'category_name') . ' was not found');
+                $this->fail(
+                    'Category with name ' . $this->_getControlXpath('pageelement', 'category_name') . ' was not found'
+                );
             }
         }
     }
