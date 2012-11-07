@@ -17,18 +17,27 @@
             this.element.on('change', $.proxy(function(e) {
                 this._updateRegion($(e.target).val());
             }, this));
-            // Form validation
             this.element.addClass('required');
-            $(this.options.formId).validation();
-            $(this.options.formId + ' button').on('click', $.proxy(function() {
-                $(this.options.formId).submit();
-            }, this));
         },
+
+        /**
+         * Remove options from dropdown list
+         * @param selectElement
+         * @private
+         */
         _removeSelectOptions: function(selectElement) {
             selectElement.find('option').each(function (index){
                 index && $(this).remove();
             });
         },
+
+        /**
+         * Render dropdown list
+         * @param selectElement
+         * @param key
+         * @param value
+         * @private
+         */
         _renderSelectOption: function(selectElement, key, value) {
             selectElement.append($.proxy(function() {
                 $.template('regionTemplate', this.options.regionTemplate);
@@ -39,14 +48,19 @@
                 }
             }, this));
         },
+
+        /**
+         * Update dropdown list based on the country selected
+         * @param country
+         * @private
+         */
         _updateRegion: function(country) {
             // Clear validation error messages
-            var form = $(this.options.formId),
-                regionList = $(this.options.regionListId),
+            var regionList = $(this.options.regionListId),
                 regionInput = $(this.options.regionInputId),
                 postcode = $(this.options.postcodeId);
-            form.find('div.mage-error').remove();
-            form.find('.mage-error').removeClass('mage-error');
+            this.options.form && this.options.form.validation('clearError',
+                this.options.regionListId, this.options.regionInputId, this.options.postcodeId);
             // Populate state/province dropdown list if available or use input box
             if (this.options.regionJson[country]) {
                 this._removeSelectOptions(regionList);
@@ -54,17 +68,19 @@
                     this._renderSelectOption(regionList, key, value);
                 }, this));
                 regionList.addClass('required').show();
-                regionInput.removeClass('required').hide();
+                regionInput.hide();
+                regionList.parent().siblings('label').children('em').show();
             } else {
                 regionList.removeClass('required').hide();
-                regionInput.addClass('required').show();
+                regionInput.show();
+                regionList.parent().siblings('label').children('em').hide();
             }
             // If country is in optionalzip list, make postcode input not required
             $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
-                regionList.add(regionInput).add(postcode).removeClass('required') :
-                regionList.add(regionInput).add(postcode).addClass('required');
+                postcode.removeClass('required').parent().siblings('label').children('em').hide() :
+                postcode.addClass('required').parent().siblings('label').children('em').show();
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
         }
     });
-}(jQuery));
+})(jQuery);
