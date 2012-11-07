@@ -54,7 +54,7 @@ border:1px}
 .popup-theme-save .input-text { display:block; margin:0 0 10px; width:200px; }
 .popup-theme-save .validation-advice,
 .popup-theme-save label.mage-error { margin:-7px 0 10px; }
-label.mage-error {width: auto !important;}
+label.mage-error {width: auto !important; display: block;}
 
 .istore-buttons-set { float:right; margin:0 0 10px; }
 

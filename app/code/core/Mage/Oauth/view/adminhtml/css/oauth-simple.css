@@ -102,7 +102,7 @@ ul,ol         { list-style:none; }
     color: #D40707 !important;
     font-weight: bold !important;
 }
-label.mage-error {width: auto !important;}
+label.mage-error {width: auto !important; display: block;}
 .notice {
     color: #EA7601;
 }

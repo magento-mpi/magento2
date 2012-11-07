@@ -306,7 +306,7 @@ a.error span,
 .required,
 .validation-advice,
 label.mage-error { color:#D40707 !important; font-weight:bold !important; }
-label.mage-error {width: auto !important;}
+label.mage-error {width: auto !important; display: block;}
 .notice { color:#ea7601}
 .messages ul { border:0 !important; }
 .messages li { min-height:23px !important; margin-bottom:11px !important; padding:8px 8px 2px 32px !important; font-size:.95em !important; font-weight:bold !important; }
