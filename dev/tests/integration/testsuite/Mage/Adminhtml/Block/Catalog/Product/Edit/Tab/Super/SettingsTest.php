@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extends P
             ->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
-        $urlModel = $this->getMockBuilder('Mage_Core_Model_Url')
+        $urlModel = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
@@ -32,12 +32,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extends P
 
         Mage::register('current_product', $product);
 
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock(
             'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings',
             'block',
             array(
-               'urlModel' => $urlModel
+               'urlBuilder' => $urlModel
             )
         );
         $this->assertEquals('url', $block->getContinueUrl());

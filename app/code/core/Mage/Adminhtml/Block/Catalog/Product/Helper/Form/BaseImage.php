@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $this->_mediaUploader = isset($attributes['mediaUploader']) ? $attributes['mediaUploader']
             : Mage::getSingleton('Mage_Adminhtml_Block_Media_Uploader');
         $this->_url = isset($attributes['url']) ? $attributes['url']
-            : Mage::getModel('Mage_Adminhtml_Model_Url');
+            : Mage::getModel('Mage_Backend_Model_Url');
         $this->_mediaConfig = isset($attributes['mediaConfig']) ? $attributes['mediaConfig']
             : Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
         $this->_design = isset($attributes['design']) ? $attributes['design']
