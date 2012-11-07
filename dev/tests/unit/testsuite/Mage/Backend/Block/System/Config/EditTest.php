@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_EditTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Block_System_Config_Edit
@@ -75,7 +75,8 @@ class Mage_Backend_Block_System_Config_EditTest extends Magento_Test_TestCase_Ob
             'urlBuilder' => $this->_urlModelMock
         );
 
-        $this->_object = $this->getBlock('Mage_Backend_Block_System_Config_Edit', $data);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $helper->getBlock('Mage_Backend_Block_System_Config_Edit', $data);
     }
 
     public function testGetSaveButtonHtml()

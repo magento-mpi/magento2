@@ -46,7 +46,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Schedule extends Mage
             'name'      => 'schedule_merge_later',
             'date_format' => $dateFormat,
             'time_format' => $timeFormat,
-            'image'     => $this->getSkinUrl('images/grid-cal.gif')
+            'image'     => $this->getViewFileUrl('images/grid-cal.gif')
         ));
 
         return $element->getHtml();

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Backend_Block_Widget_Grid_Massaction
  */
-class Mage_Backend_Block_Widget_Grid_MassactionTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_Massaction
@@ -86,13 +86,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends Magento_Test_TestCas
                 'massaction_id_filter' => 'test_id'
             )
         );
-        $arguments = $this->_getConstructArguments(self::BLOCK_ENTITY,
-            'Mage_Backend_Block_Widget_Grid_Massaction', $arguments
-        );
-        $this->_block = $this->_getInstanceViaConstructor('Mage_Backend_Block_Widget_Grid_Massaction',
-            $arguments
-        );
 
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_block = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Massaction', $arguments);
         $this->_block->setNameInLayout('test_grid_massaction');
     }
 

@@ -105,6 +105,6 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
      */
     public function getUploaderUrl($url)
     {
-        return Mage::getDesign()->getSkinUrl($url);
+        return Mage::getDesign()->getViewFileUrl($url);
     }
 }

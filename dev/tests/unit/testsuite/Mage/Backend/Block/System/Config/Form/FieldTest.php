@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_Form_FieldTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Backend_Block_System_Config_Form_Field
@@ -46,7 +46,8 @@ class Mage_Backend_Block_System_Config_Form_FieldTest extends Magento_Test_TestC
             'application' => $this->_appModelMock,
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
-        $this->_object = $this->getBlock('Mage_Backend_Block_System_Config_Form_Field', $data);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_object = $helper->getBlock('Mage_Backend_Block_System_Config_Form_Field', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',

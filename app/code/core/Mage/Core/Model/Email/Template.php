@@ -86,7 +86,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
     /**
      * Return logo URL for emails
-     * Take logo from skin if custom logo is undefined
+     * Take logo from theme if custom logo is undefined
      *
      * @param  Mage_Core_Model_Store|int|string $store
      * @return string
@@ -102,7 +102,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
                 return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
         }
-        return Mage::getDesign()->getSkinUrl('Mage_Core::logo_email.gif');
+        return Mage::getDesign()->getViewFileUrl('Mage_Core::logo_email.gif');
     }
 
     /**
