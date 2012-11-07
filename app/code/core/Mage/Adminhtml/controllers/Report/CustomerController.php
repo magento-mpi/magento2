@@ -114,7 +114,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             ->_setActiveMenu('Mage_Reports::report_customers_totals')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'),
                 Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals'))
+      //      ->_addCon($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals'))
             ->renderLayout();
     }
 
@@ -123,11 +123,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
      */
     public function exportTotalsCsvAction()
     {
-        $fileName   = 'cuatomer_totals.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals_Grid')
-            ->getCsv();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'customer_totals.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        $exportBlock = $this->getLayout()->getChildBlock('report.customer.totals.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -135,11 +135,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
      */
     public function exportTotalsExcelAction()
     {
-        $fileName   = 'customer_totals.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals_Grid')
-            ->getExcel($fileName);
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'customer_totals.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        $exportBlock = $this->getLayout()->getChildBlock('report.customer.totals.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     protected function _isAllowed()
