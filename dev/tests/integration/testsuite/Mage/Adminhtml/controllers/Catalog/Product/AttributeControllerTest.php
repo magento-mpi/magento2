@@ -16,7 +16,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
      */
     public function testSaveActionApplyToDataSystemAttribute()
     {
-        $postData = $this->_getSystemAttribute();
+        $postData = $this->_getAttributeData() + array('attribute_id' => '2');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
@@ -29,7 +29,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
      */
     public function testSaveActionApplyToDataUserDefinedAttribute()
     {
-        $postData = $this->_getUserDefinedAttribute();
+        $postData = $this->_getAttributeData() + array('attribute_id' => '1');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
      */
     public function testSaveActionApplyToData()
     {
-        $postData = $this->_getAttributeWithApplyToData();
+        $postData = $this->_getAttributeData() + array('attribute_id' => '3');
         unset($postData['apply_to']);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
@@ -51,21 +51,11 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
     }
 
-    protected function _getAttributeWithApplyToData()
-    {
-        return array_merge(array('attribute_id' => '3'), $this->_getAttributeData());
-    }
-
-    protected function _getSystemAttribute()
-    {
-        return array_merge(array('attribute_id' => '2'), $this->_getAttributeData());
-    }
-
-    protected function _getUserDefinedAttribute()
-    {
-        return array_merge(array('attribute_id' => '1'), $this->_getAttributeData());
-    }
-
+    /**
+     * Get attribute data for post
+     *
+     * @return array
+     */
     protected function _getAttributeData()
     {
         return array(
