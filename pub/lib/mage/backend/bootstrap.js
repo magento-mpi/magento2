@@ -33,7 +33,7 @@ jQuery(function ($) {
                 });
             } else {
                 if (!settings.data) {
-                    this.options.data = {
+                    settings.data = {
                         form_key: FORM_KEY
                     };
                 }
@@ -75,7 +75,11 @@ jQuery(function ($) {
          * Show loader on ajax send
          */
         $('body').on('ajaxSend', function(e) {
-            $(e.target).loader().loader('show');
+            $(e.target).loader({
+                icon: $('#loading_mask_loader img').length ?
+                    $('#loading_mask_loader img').attr('src'):
+                    ''
+            }).loader('show');
         });
 
         /*
