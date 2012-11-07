@@ -93,4 +93,48 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         $this->assertCount($newCount, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
             'Wrong records number in grid customer_by_orders_total_table:');
     }
+
+    /**
+     * <p>Verifying that number of elements is increased after create new customer on New Customer Account grid</p>
+     * <p>Steps:</p>
+     * <p>1. Log in to admin</p>
+     * <p>2. Navigate to Reports>Customers>New Account</p>
+     * <p>3. Enter current date in to the "From" and "To" field</p>
+     * <p>4. Click Refresh button</p>
+     * <p>5. See qty in Number of New Accounts column</p>
+     * <p>6. Create new customer</p>
+     * <p>7. Navigate to Reports>Customers>New Account</p>
+     * <p>8. Enter current date in to the "From" and "To" field</p>
+     * <p>9. Click Refresh button</p>
+     * <p>10. See qty in Sent column</p>
+     * <p>Expected result:</p>
+     * <p>The qty in Number of New Accounts column is increased on 1 item</p>
+     * <p>Expected result:</p>
+     * <p>The count of rows is increased on 1 item</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6444
+     */
+    public function verifyCountOfEntityInNewAccountGrid()
+    {
+        $this->navigate('report_customer_accounts');
+        $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        $this->pleaseWait();
+        $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table').'/tbody/tr/td[2]';
+        $count = $this->getText($gridXpath);
+        //Steps
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
+            array('first_name'=> $this->generate('string', 10, ':alnum:')));
+        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->navigate('report_customer_accounts');
+        $this->gridHelper()->fillDateFromTo();
+        //Verifying
+        $this->assertEquals($count, $this->getText($gridXpath),
+            'Wrong records number in grid report_customer_accounts_table');
+    }
 }

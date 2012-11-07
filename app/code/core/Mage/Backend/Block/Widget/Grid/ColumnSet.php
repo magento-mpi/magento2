@@ -274,6 +274,17 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     }
 
     /**
+     * Has children of specified item
+     *
+     * @param Varien_Object $item
+     * @return bool
+     */
+    public function hasMultipleRows($item)
+    {
+        return $item->hasChildren() && count($item->getChildren()) > 0;
+    }
+
+    /**
      * Retrieve columns for multiple rows
      * @return array
      */
@@ -310,7 +321,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getRowspan($item, $column)
     {
         if ($this->isColumnGrouped($column)) {
-            return count($this->getMultipleRows($item)) + count($this->_groupedColumn);
+            return count($this->getMultipleRows($item)) + count($this->_groupedColumn)-1;
         }
         return false;
     }
@@ -566,5 +577,25 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getSubTotals()
     {
         return $this->_subtotals;
+    }
+
+    /**
+     * Update item with first sub-item data
+     *
+     * @param $item Varien_Object
+     * @return Varien_Object
+     */
+    public function updateItemByFirstMultiRow(Varien_Object $item)
+    {
+        $multiRows = $this->getMultipleRows($item);
+        if (is_object($multiRows) && $multiRows instanceof Varien_Data_Collection) {
+            /** @var $multiRows Varien_Data_Collection */
+            $item->addData($multiRows->getFirstItem()->getData());
+        } elseif (is_array($multiRows)) {
+            $firstItem = $multiRows[0];
+            $item->addData($firstItem);
+        }
+
+        return $item;
     }
 }

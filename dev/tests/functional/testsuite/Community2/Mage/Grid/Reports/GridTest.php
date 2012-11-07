@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
+class Community2_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
 {
     /**
      *
@@ -58,10 +58,11 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
 
     public function uiElementsTestDataProvider()
     {
-        return array(array('report_invitations_customers'),
+        return array(array('report_customer_totals'),
                      array('report_product_sold'),
-                     array('report_customer_totals'),
-                     array('report_invitations_general'));
+                     array('report_customer_accounts')
+
+        );
     }
 
     /**
@@ -86,18 +87,13 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         return array(array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
                      array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
                      array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'),
-                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_day'),
-                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_month'),
-                     array('report_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_year'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
                      array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_day'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_month'),
-                     array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_year'),
-                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_day'),
-                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_month'),
-                     array('report_invitations_general', 'report_invitations_general_grid', 'count_rows_by_year'));
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_day'),
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_month'),
+                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_year')
+        );
     }
 
     /**
@@ -190,52 +186,6 @@ class Enterprise2_Mage_Grid_Report_GridTest extends Mage_Selenium_TestCase
         $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
         $count = $this->getXpathCount($setXpath);
         $totalAfter = $this->getText($setXpath . "[$count]/*[3]");
-        $this->assertEquals($totalBefore + 1, $totalAfter);
-    }
-
-    /**
-     *<p>PreConditions</p>
-     *<p>1.Go to Report - Invitations - Order Conversion rate</p>
-     *<p>2.Filter data with filled "From", "To" used current Day value</p>
-     *<p>2.Get Invitation Sent Number </p>
-     *<p>3.Send Invitation from customer account on frontend with newly created customer on backend</p>
-     *<p>Steps:</p>
-     *<p>1.Go to Report - Product Ordered page</p>
-     *<p>2.Filter data with filled "From", "To" used current Day value</p>
-     *<p>Actual Results:</p>
-     *<p>1.Invitation Sent value = Value from PreConditions +1 </p>
-     *
-     * @test
-     */
-    public function checkInvitationSentCustomerOrderGridTestTest()
-    {
-        //Go to Report - Invitations - Order Conversion rate
-        $this->navigate('invitations_order_conversion_rate');
-        //  Get Invitation Sent Number
-        $this->gridHelper()->fillDateFromTo();
-        $this->clickButton('refresh');
-        $setXpath = $this->_getControlXpath('pageelement', 'invitations_order_conversion_rate_grid') . '/tbody' . '/tr';
-        $count = $this->getXpathCount($setXpath);
-        $totalBefore = $this->getText($setXpath . "[$count]/*[2]");
-       //Send Invitation from customer account on frontend with newly created customer on backend
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
-        $this->customerHelper()->frontLoginCustomer($loginData);
-        $this->validatePage('customer_account');
-        $this->invitationHelper()->sendInvitationFrontend(1, $messageType = 'success','success_send');
-        // Steps
-        $this->loginAdminUser();
-        $this->navigate('invitations_order_conversion_rate');
-        $this->gridHelper()->fillDateFromTo();
-        $this->clickButton('refresh');
-        //Check Invitation sent value
-        $setXpath = $this->_getControlXpath('pageelement', 'invitations_order_conversion_rate_grid') . '/tbody' . '/tr';
-        $count = $this->getXpathCount($setXpath);
-        $totalAfter = $this->getText($setXpath . "[$count]/*[2]");
         $this->assertEquals($totalBefore + 1, $totalAfter);
     }
 }
