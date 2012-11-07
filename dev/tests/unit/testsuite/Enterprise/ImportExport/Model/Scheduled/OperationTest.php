@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Default date value
@@ -65,6 +65,8 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test
      */
     protected function _getScheduledOperationModel(array $fileInfo)
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
@@ -72,7 +74,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends Magento_Test
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
-        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY,
+        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
             'Enterprise_ImportExport_Model_Scheduled_Operation'
         );
         $arguments['dateModel'] = $dateModelMock;

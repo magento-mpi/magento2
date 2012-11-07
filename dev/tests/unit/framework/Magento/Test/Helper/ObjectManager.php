@@ -9,11 +9,9 @@
  */
 
 /**
- * Abstract class for basic object tests, such as blocks, models etc...
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * Helper class for basic object retrieving, such as blocks, models etc...
  */
-abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Framework_TestCase
+class Magento_Test_Helper_ObjectManager
 {
     /**#@+
      * Supported entities keys.
@@ -56,6 +54,23 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
     );
 
     /**
+     * Test object
+     *
+     * @var PHPUnit_Framework_TestCase
+     */
+    protected $_testObject;
+
+    /**
+     * Class constructor
+     *
+     * @param PHPUnit_Framework_TestCase $testObject
+     */
+    public function __construct(PHPUnit_Framework_TestCase $testObject)
+    {
+        $this->_testObject = $testObject;
+    }
+
+    /**
      * Get block instance
      *
      * @param string $className
@@ -64,7 +79,7 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      */
     public function getBlock($className, array $arguments = array())
     {
-        $arguments = $this->_getConstructArguments(self::BLOCK_ENTITY, $className, $arguments);
+        $arguments = $this->getConstructArguments(self::BLOCK_ENTITY, $className, $arguments);
         return $this->_getInstanceViaConstructor($className, $arguments);
     }
 
@@ -77,7 +92,7 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      */
     public function getModel($className, array $arguments = array())
     {
-        $arguments = $this->_getConstructArguments(self::MODEL_ENTITY, $className, $arguments);
+        $arguments = $this->getConstructArguments(self::MODEL_ENTITY, $className, $arguments);
         return $this->_getInstanceViaConstructor($className, $arguments);
     }
 
@@ -87,13 +102,13 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      * @param string $entityName
      * @param string $className
      * @param array $arguments
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @return array
      */
-    protected function _getConstructArguments($entityName, $className = '', array $arguments = array())
+    public function getConstructArguments($entityName, $className = '', array $arguments = array())
     {
         if (!array_key_exists($entityName, $this->_supportedEntities)) {
-            throw new Exception('Unsupported entity type');
+            throw new InvalidArgumentException('Unsupported entity type');
         }
 
         $constructArguments = array();
@@ -122,13 +137,12 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      */
     protected function _getResourceModelMock()
     {
-        /** @var $resourceMock Mage_Core_Model_Resource_Resource */
-        $resourceMock = $this->getMock('Mage_Core_Model_Resource_Resource', array('getIdFieldName'),
+        $resourceMock = $this->_testObject->getMock('Mage_Core_Model_Resource_Resource', array('getIdFieldName'),
             array(), '', false
         );
-        $resourceMock->expects($this->any())
+        $resourceMock->expects($this->_testObject->any())
             ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
+            ->will($this->_testObject->returnValue('id'));
 
         return $resourceMock;
     }
@@ -168,7 +182,7 @@ abstract class Magento_Test_TestCase_ObjectManagerAbstract extends PHPUnit_Frame
      */
     protected function _getMockWithoutConstructorCall($className)
     {
-        return $this->getMock($className, array(), array(), '', false);
+        return $this->_testObject->getMock($className, array(), array(), '', false);
     }
 
     /**

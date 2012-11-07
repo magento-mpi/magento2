@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Block_AbstractTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $expectedResult

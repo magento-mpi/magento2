@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Sales_Model_Order_Invoice_Total_ShippingTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Mage_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve new invoice collection from an array of invoices' data
@@ -21,9 +21,10 @@ class Mage_Sales_Model_Order_Invoice_Total_ShippingTest extends Magento_Test_Tes
     {
         $className = 'Mage_Sales_Model_Order_Invoice';
         $result = new Varien_Data_Collection();
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
-            $arguments = $this->_getConstructArguments(
-                self::MODEL_ENTITY, $className, array('data' => $oneInvoiceData)
+            $arguments = $objectManagerHelper->getConstructArguments(
+                Magento_Test_Helper_ObjectManager::MODEL_ENTITY, $className, array('data' => $oneInvoiceData)
             );
             /** @var $prevInvoice Mage_Sales_Model_Order_Invoice */
             $prevInvoice = $this->getMock($className, array('_init'), $arguments);

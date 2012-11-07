@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard
@@ -43,6 +43,8 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends Magent
 
     protected function setUp()
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         $store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
         $store->expects($this->once())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
 
@@ -73,9 +75,11 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends Magent
         $this->_optionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
 
-        $productCollection = $this->_getMockWithoutConstructorCall('Mage_Catalog_Model_Resource_Product_Collection');
-        $arguments = $this->_getConstructArguments(
-            self::MODEL_ENTITY, 'Mage_Catalog_Model_Product',
+        $productCollection = $this->getMock('Mage_Catalog_Model_Resource_Product_Collection', array(), array(), '',
+            false
+        );
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY, 'Mage_Catalog_Model_Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
         );
         $this->_product = $this->getMock(
@@ -87,7 +91,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends Magent
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $this->getModel('Mage_Catalog_Model_Product_Option', array('resource' => $this->_optionResource));
+            $option = $objectManagerHelper->getModel('Mage_Catalog_Model_Product_Option',
+                array('resource' => $this->_optionResource)
+            );
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
