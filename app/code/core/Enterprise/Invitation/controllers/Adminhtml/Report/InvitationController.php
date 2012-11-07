@@ -123,12 +123,9 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
              ->_title($this->__('Invitations'))
              ->_title($this->__('Order Conversion Rate'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
-            ->_addContent(
-                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order')
-            )
+        $this->_initAction()->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'),
+            Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
             ->renderLayout();
     }
 
@@ -137,12 +134,10 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function exportOrderCsvAction()
     {
-        $fileName   = 'invitation_order.csv';
-        $content    = $this->getLayout()
-            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid')
-            ->getCsv();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'invitation_order.csv';
+        $exportBlock = $this->getLayout()->getChildBlock('adminhthtml.report.invitation.order.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -150,12 +145,10 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function exportOrderExcelAction()
     {
-        $fileName   = 'invitation_order.xml';
-        $content    = $this->getLayout()
-            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid')
-            ->getExcel($fileName);
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'invitation_order.xml';
+        $exportBlock = $this->getLayout()->getChildBlock('adminhthtml.report.invitation.order.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**

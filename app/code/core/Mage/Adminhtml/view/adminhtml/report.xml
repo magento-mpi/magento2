@@ -43,7 +43,6 @@
                     <id>gridTotalsCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Customer_Totals_Initial</dataSource>
                 </arguments>
-
                 <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.totals.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
@@ -151,5 +150,84 @@
     <adminhtml_report_customer_exporttotalsexcel>
         <update handle="adminhtml_report_customer_totals_grid"/>
         <container name="report.customer.totals.grid.container" label="Report Customer Totals Grid Container"/>
+    </adminhtml_report_customer_exporttotalsexcel>
+
+    <adminhtml_report_customer_accounts_grid>
+        <reference name="report.customer.accounts.grid.container">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.customer.account.grid" as="grid">
+            <arguments>
+                <id>gridAccounts</id>
+                <dataSource type="object">Mage_Reports_Model_Resource_Accounts_Initial</dataSource>
+            </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.account.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportTotalsCsv</urlPath>
+                                <label translate="true" module="Mage_Reports">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportTotalsExcel</urlPath>
+                                <label translate="true" module="Mage_Reports">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
+                    <arguments>
+                        <use_confirm>0</use_confirm>
+                        <switch_url type='url'>
+                            <path>*/*/*</path>
+                            <params>
+                                <store>null</store>
+                            </params>
+                        </switch_url>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="report.customer.accounts.grid.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                        <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
+                        <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
+                        <id>accounts</id>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Period</header>
+                            <index>period</index>
+                            <filter>0</filter>
+                            <id>period</id>
+                            <grouped>1</grouped>
+                            <sortable>0</sortable>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="accounts">
+                        <arguments>
+                            <header translate="true" module="Mage_Reports">Number of New Accounts</header>
+                            <index>accounts</index>
+                            <total>sum</total>
+                            <type>number</type>
+                            <id>accounts</id>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_customer_accounts_grid>
+
+    <adminhtml_report_customer_accounts>
+        <update handle="adminhtml_report_customer_accounts_grid" />
+        <reference name="content">
+            <block name='report.customer.accounts.grid.container' type="Mage_Adminhtml_Block_Report_Customer_Accounts" />
+        </reference>
+    </adminhtml_report_customer_accounts>
+    <adminhtml_report_customer_exporttotalscsv>
+        <update handle="adminhtml_report_customer_accounts_grid"/>
+        <container name="report.customer.accounts.grid.container" label="Report Customer Accounts Grid Container"/>
+    </adminhtml_report_customer_exporttotalscsv>
+
+    <adminhtml_report_customer_exporttotalsexcel>
+        <update handle="adminhtml_report_customer_accounts_grid"/>
+        <container name="report.customer.accounts.grid.container" label="Report Customer Accounts Grid Container"/>
     </adminhtml_report_customer_exporttotalsexcel>
 </layout>
