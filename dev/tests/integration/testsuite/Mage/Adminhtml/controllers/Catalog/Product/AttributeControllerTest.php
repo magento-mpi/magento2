@@ -13,12 +13,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
 {
     /**
      * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system.php
-     * @dataProvider saveActionDataProviderSystem
-     * @param array $postData
-     * @return void
      */
-    public function testSaveActionApplyToDataSystemAttribute($postData)
+    public function testSaveActionApplyToDataSystemAttribute()
     {
+        $postData = $this->_getSystemAttribute();
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
@@ -28,12 +26,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
 
     /**
      * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_user_defined.php
-     * @dataProvider saveActionDataProviderUserDefined
-     * @param array $postData
-     * @return void
      */
-    public function testSaveActionApplyToDataUserDefinedAttribute($postData)
+    public function testSaveActionApplyToDataUserDefinedAttribute()
     {
+        $postData = $this->_getUserDefinedAttribute();
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
@@ -42,34 +38,32 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system_apply_to.php
-     * @dataProvider saveActionDataProviderSystemApplyTo
-     * @param array $postData
-     * @return void
+     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system_with_applyto_data.php
      */
-    public function testSaveActionApplyToData($postData)
+    public function testSaveActionApplyToData()
     {
+        $postData = $this->_getAttributeWithApplyToData();
         unset($postData['apply_to']);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute();
         $model->load($postData['attribute_id']);
-        $this->assertNotEmpty($model->getApplyTo());
+        $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
     }
 
-    public function saveActionDataProviderSystemApplyTo()
+    protected function _getAttributeWithApplyToData()
     {
-        return array(array(array_merge(array('attribute_id' => '3'), $this->_getAttributeData())));
+        return array_merge(array('attribute_id' => '3'), $this->_getAttributeData());
     }
 
-    public function saveActionDataProviderSystem()
+    protected function _getSystemAttribute()
     {
-        return array(array(array_merge(array('attribute_id' => '2'), $this->_getAttributeData())));
+        return array_merge(array('attribute_id' => '2'), $this->_getAttributeData());
     }
 
-    public function saveActionDataProviderUserDefined()
+    protected function _getUserDefinedAttribute()
     {
-        return array(array(array_merge(array('attribute_id' => '1'), $this->_getAttributeData())));
+        return array_merge(array('attribute_id' => '1'), $this->_getAttributeData());
     }
 
     protected function _getAttributeData()
