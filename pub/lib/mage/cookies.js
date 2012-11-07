@@ -25,7 +25,7 @@
                 /**
                  * Calculate cookie expiration date based on its lifetime.
                  * @param {Object} options Cookie option values
-                 * @return {*} Calculated cookie expiration date or null if no lifetime provided.
+                 * @return {null|Date} Calculated cookie expiration date or null if no lifetime provided.
                  * @private
                  */
                 this._lifetimeToExpires = function(options) {
@@ -43,7 +43,7 @@
                  * @param {Object} options Optional options (e.g. lifetime, expires, path, etc.)
                  */
                 this.set = function(name, value, options) {
-                    options = $.extend({}, $.mage.cookies.defaults, options || {});
+                    options = $.extend({}, this.defaults, options || {});
                     var expires = this._lifetimeToExpires(options) || options.expires;
                     var path = options.path;
                     var domain = options.domain;
@@ -58,7 +58,7 @@
                 /**
                  * Get a cookie's value by cookie name.
                  * @param {string} name The name of the cookie.
-                 * @return {*}
+                 * @return {null|string}
                  */
                 this.get = function(name) {
                     var arg = name + "=";
@@ -69,7 +69,7 @@
                     while (i < clen) {
                         j = i + alen;
                         if (document.cookie.substring(i, j) === arg) {
-                            return $.mage.cookies.getCookieVal(j);
+                            return this.getCookieVal(j);
                         }
                         i = document.cookie.indexOf(" ", i) + 1;
                         if (i === 0) {
@@ -84,16 +84,16 @@
                  * @param {string} name The name of the cookie being cleared.
                  */
                 this.clear = function(name) {
-                    if ($.mage.cookies.get(name)) {
-                        $.mage.cookies.set(name, "", {expires: new Date("Jan 01 1970 00:00:01 GMT")});
+                    if (this.get(name)) {
+                        this.set(name, "", {expires: new Date("Jan 01 1970 00:00:01 GMT")});
                     }
                 };
 
                 /**
                  * Return URI decoded cookie component value (e.g. expires, path, etc.) based on a
                  * numeric offset in the document's cookie value.
-                 * @param {Integer} offset Offset into the document's cookie value.
-                 * @return {String}
+                 * @param {number} offset Offset into the document's cookie value.
+                 * @return {string}
                  */
                 this.getCookieVal = function(offset) {
                     var endstr = document.cookie.indexOf(";", offset);
