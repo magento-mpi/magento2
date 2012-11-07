@@ -93,7 +93,7 @@ TranslateInlineTest.prototype.testTranslateFormSubmit = function() {
         dialogHiddenAfterAjaxComplete = false;
     jQuery(document)
         .on('ajaxSend', function(e, jqXHR, settings){
-            jqXHR.abort();
+            jqXHR && jqXHR.abort();
             dialogVisibleOnAjaxSend = dialog.is(':visible');
             ajaxParametersCorrect = settings.data.indexOf(parameters) >= 0;
             jQuery(this).trigger('ajaxComplete');
