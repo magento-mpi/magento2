@@ -42,76 +42,46 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create and check customer
-     *
      * @param array $customerData
+     * @dataProvider createDataProvider
      */
-    protected function _createAndCheckCustomer($customerData)
+    public function testCreate($customerData)
     {
         $this->_createdCustomer = $this->_model->create($customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
-        $this->assertFalse($this->_createdCustomer->isObjectNew());
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
-        $createdData = $this->_createdCustomer->toArray(array_keys($customerData));
-        $this->assertEquals($createdData, $customerData);
-    }
-
-    /**
-     * Update and check customer
-     *
-     * @param int $customerId
-     * @param array $customerData
-     * @param string $assertFunction
-     * @param array $forbiddenFields
-     * @return Mage_Customer_Model_Customer
-     */
-    protected function _updateAndCheckCustomer($customerId, $customerData, $assertFunction, $forbiddenFields = array())
-    {
-        $updatedCustomer = $this->_model->update($customerId, $customerData);
-        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
-        $this->assertGreaterThan(0, $updatedCustomer->getId());
-
-        foreach ($customerData as $key => $val) {
-            if (!in_array($key, $forbiddenFields)) {
-                $this->$assertFunction($val, $updatedCustomer->getData($key));
-            }
+        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+        if (array_key_exists('sendemail', $customerData)) {
+            unset($customerData['sendemail']);
         }
-
-        return $updatedCustomer;
-    }
-
-    /**
-     * @param array $customerData
-     * @param string $exceptionName
-     * @param string $exceptionText
-     * @dataProvider initCreateCustomerDataProvider
-     */
-    public function testCreate($customerData, $exceptionName = '', $exceptionText = '')
-    {
-        if (!empty($exceptionName)) {
-            $this->setExpectedException($exceptionName, $exceptionText);
+        $expectedData = $customerData;
+        $actualData = $loadedCustomer->toArray(array_keys($customerData));
+        if (isset($expectedData['password'])) {
+            // TODO Add assertions for password if needed
+            unset($expectedData['password'], $actualData['password']);
         }
-
-        $this->_createAndCheckCustomer($customerData);
+        $this->assertEquals($expectedData, $actualData);
     }
 
     /**
      * @return array
      */
-    public function initCreateCustomerDataProvider()
+    public function createDataProvider()
     {
         return array(
-            'Valid data' => array(array('website_id' => 0,
+            'Valid data' => array(array(
+                'website_id' => 1,
+                'sendemail' => true,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
-                'prefix' => null,
+                'prefix' => 'Prefix',
                 'firstname' => 'SomeName',
-                'middlename' => null,
+                'middlename' => 'Middlename',
                 'lastname' => 'SomeSurname',
-                'suffix' => null,
+                'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
-                'dob' => null,
+                'dob' => date('Y-m-d H:i:s'),
                 'taxvat' => null,
                 'gender' => 1,
                 'password' => '123123q',
@@ -119,7 +89,34 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'default_shipping' => null,
                 'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
             )),
-            'First name is required field' => array(array('website_id' => 0,
+            'Mandatory data' => array(array(
+                'firstname' => 'SomeName',
+                'lastname' => 'SomeSurname',
+                'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+            )),
+        );
+    }
+
+    /**
+     * @param array $customerData
+     * @param string $exceptionName
+     * @param string $exceptionText
+     * @dataProvider createExceptionsDataProvider
+     */
+    public function testCreateExceptions($customerData, $exceptionName, $exceptionText = '')
+    {
+        $this->setExpectedException($exceptionName, $exceptionText);
+        $this->_createdCustomer = $this->_model->create($customerData);
+    }
+
+    /**
+     * @return array
+     */
+    public function createExceptionsDataProvider()
+    {
+        return array(
+            'First name is required field' => array(array(
+                'website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -130,7 +127,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
             ), 'Magento_Validator_Exception'),
-            'Invalid email' => array(array('website_id' => 0,
+            'Invalid email' => array(array(
+                'website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -141,7 +139,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
             ), 'Magento_Validator_Exception'),
-            'Invalid password' => array(array('website_id' => 0,
+            'Invalid password' => array(array(
+                'website_id' => 0,
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
@@ -151,18 +150,180 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
                 'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
-            ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.'),
-            'Read-only entity_id' => array(array('website_id' => 0,
-                'group_id' => 1,
+            ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.')
+        );
+    }
+
+    /**
+     * @param array $addressesData
+     * @dataProvider createWithAddressesDataProvider
+     */
+    public function testCreateWithAddresses($addressesData)
+    {
+        $customerData = array(
+            'firstname' => 'SomeName',
+            'lastname' => 'SomeSurname',
+            'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+        );
+
+        $this->_createdCustomer = $this->_model->create($customerData, $addressesData);
+        $this->assertCount(count($addressesData), $this->_createdCustomer->getAddresses());
+
+        /** @var Mage_Customer_Model_Customer $loadedCustomer */
+        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+
+        $createdData = array();
+        /** @var Mage_Customer_Model_Address $address */
+        foreach ($loadedCustomer->getAddresses() as $address) {
+            $addressData = current($addressesData);
+            $createdData[] = $address->toArray(array_keys($addressData));
+            next($addressesData);
+        }
+
+        $this->assertEquals(
+            $this->_getSortedByKey($createdData, 'firstname'),
+            $this->_getSortedByKey($addressesData, 'firstname')
+        );
+    }
+
+    /**
+     * @param array $data
+     * @param string $sortKey
+     * @return array
+     */
+    protected function _getSortedByKey($data, $sortKey)
+    {
+        $callback = function ($elementOne, $elementTwo) use ($sortKey) {
+            return strcmp($elementOne[$sortKey], $elementTwo[$sortKey]);
+        };
+        usort($data, $callback);
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function createWithAddressesDataProvider()
+    {
+        return array(
+            'Two addresses' => array(
+                array(
+                    array(
+                        'prefix' => 'Mrs.',
+                        'firstname' => 'Linda',
+                        'middlename' => 'G.',
+                        'lastname' => 'Jones',
+                        'suffix' => 'Suffix',
+                        'company' => 'Vitagee',
+                        'street' => "3083 Eagles Nest Drive\nHoopa",
+                        'country_id' => 'US',
+                        'region_id' => '12', // California
+                        'city' => 'Los Angeles',
+                        'postcode' => '95546',
+                        'fax' => '55512450056',
+                        'telephone' => '55512450000',
+                        'vat_id' => '556-70-1739',
+                    ),
+                    array(
+                        'firstname' => 'John',
+                        'lastname' => 'Smith',
+                        'street' => 'Green str, 67',
+                        'country_id' => 'AL',
+                        'city' => 'CityM',
+                        'postcode' => '75477',
+                        'telephone' => '3468676',
+                    )
+                )
+            ),
+            'One address' => array(
+                array(
+                    array(
+                        'firstname' => 'John',
+                        'lastname' => 'Smith',
+                        'street' => 'Green str, 67',
+                        'country_id' => 'AL',
+                        'city' => 'CityM',
+                        'postcode' => '75477',
+                        'telephone' => '3468676',
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage The address with the specified ID not found.
+     */
+    public function testCreateWithInvalidAddressId()
+    {
+        $customerData = array(
+            'firstname' => 'SomeName',
+            'lastname' => 'SomeSurname',
+            'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+        );
+
+        $addressData = array(
+            'entity_id' => 'fake',
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'street' => 'Green str, 67',
+            'country_id' => 'AL',
+            'city' => 'CityM',
+            'postcode' => '75477',
+            'telephone' => '3468676',
+        );
+
+        $this->_createdCustomer = $this->_model->create($customerData, array($addressData));
+    }
+
+    /**
+     * @param array $customerData
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @dataProvider updateDataProvider
+     */
+    public function testUpdate($customerData)
+    {
+        $expected = new Mage_Customer_Model_Customer();
+        $expected->load(1);
+
+        $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
+        $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
+        $this->assertFalse($updatedCustomer->isObjectNew());
+
+        $actualData = Mage::getModel('Mage_Customer_Model_Customer')->load($expected->getId())->getData();
+        $expectedData = array_merge($updatedCustomer->toArray(array_keys($actualData)), $customerData);
+        if (isset($expectedData['password'])) {
+            // TODO Add assertions for password if needed
+            unset($expectedData['password'], $actualData['password']);
+        }
+        $this->assertEquals($expectedData, $actualData);
+    }
+
+    /**
+     * @return array
+     */
+    public function updateDataProvider()
+    {
+        return array(
+            'Change name' => array(array(
+                'firstname' => 'SomeName2',
+            )),
+            'Change password' => array(array(
+                'password' => '111111'
+            )),
+            'Multiple properties' => array(array(
                 'disable_auto_group_change' => 0,
+                'prefix' => 'Prefix',
                 'firstname' => 'SomeName',
+                'middlename' => 'Middlename',
                 'lastname' => 'SomeSurname',
+                'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+                'dob' => date('Y-m-d H:i:s'),
                 'gender' => 1,
-                'password' => '123123q',
-                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
-                'entity_id' => 1
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed'),
+                'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID
+            ))
         );
     }
 
@@ -171,33 +332,20 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      * @param string $exceptionName
      * @param string $exceptionMessage
      * @magentoDataFixture Mage/Customer/_files/customer.php
-     * @dataProvider initUpdateCustomerDataProvider
+     * @dataProvider updateExceptionsDataProvider
      */
-    public function testUpdate($customerData, $exceptionName = '', $exceptionMessage = '')
+    public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
-
-        if (!empty($exceptionName)) {
-            $this->setExpectedException($exceptionName, $exceptionMessage);
-        }
-
-        $this->_updateAndCheckCustomer($expected->getId(),
-            $customerData, 'assertEquals');
+        $this->setExpectedException($exceptionName, $exceptionMessage);
+        $this->_model->update(1, $customerData);
     }
 
     /**
      * @return array
      */
-    public function initUpdateCustomerDataProvider()
+    public function updateExceptionsDataProvider()
     {
         return array(
-            'Change name' => array(array(
-                'firstname' => 'SomeName2',
-            )),
-            'Change password' => array(array(
-                'password' => '111111',
-            )),
             'Invalid password' => array(array(
                 'password' => '111'
             ), 'Mage_Eav_Model_Entity_Attribute_Exception'),
@@ -206,22 +354,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ), 'Magento_Validator_Exception'),
             'Invalid email' => array(array(
                 'email' => '3434@23434'
-            ), 'Magento_Validator_Exception'),
-            'Read-only website_id' => array(array(
-                'website_id' => 111
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
-            'Read-only entity_type_id' => array(array(
-                'entity_type_id' => 555
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
-            'Read-only created_in' => array(array(
-                'created_in' => 1
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
-            'Read-only store_id' => array(array(
-                'store_id' => 15
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.'),
-            'Read-only created_at' => array(array(
-                'created_at' => 1
-            ), 'Magento_Validator_Exception', 'Read-only property cannot be changed.')
+            ), 'Magento_Validator_Exception')
         );
     }
 
@@ -235,33 +368,130 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $customerData
      * @magentoDataFixture Mage/Customer/_files/customer.php
-     * @dataProvider initAutoGeneratePasswordDataProvider
      */
-    public function testAutoGeneratePassword($customerData)
+    public function testAutoGeneratePassword()
     {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
+        $oldPasswordHash = Mage::getModel('Mage_Customer_Model_Customer')->load(1)->getPasswordHash();
+        $updatedCustomer = $this->_model->update(1, array(
+            'autogenerate_password' => true,
+        ));
+        $this->assertNotEquals($oldPasswordHash, $updatedCustomer->getPasswordHash());
+    }
 
-        $this->_updateAndCheckCustomer($expected->getId(),
-            $customerData, 'assertEquals', array('autogenerate_password'));
+    /**
+     * @param array $addressesData
+     * @dataProvider customerAddressDataProvider
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Mage/Customer/_files/customer_two_addresses.php
+     */
+    public function testCustomerAddressManipulation($addressesData)
+    {
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
+        $updatedCustomer = $this->_model->update(1, array(), $addressesData);
+        $this->assertCount(count($addressesData), $updatedCustomer->getAddresses(),
+            'Customer address was not deleted.');
 
-        $actual = new Mage_Customer_Model_Customer();
-        $actual->load(1);
+        /** @var Mage_Customer_Model_Customer $actualCustomer */
+        $actualCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $actualAddresses = $actualCustomer->getAddressesCollection();
+        $this->assertCount(count($addressesData), $actualAddresses, 'Customer address was not actually deleted.');
 
-        $this->assertNotEquals($expected->getPasswordHash(), $actual->getPasswordHash());
+        $expectedAddresses = array();
+        /** @var Mage_Customer_Model_Address $actualAddresses */
+        foreach ($addressesData as $addressData) {
+            if (array_key_exists('entity_id', $addressData)) {
+                $addressId = $addressData['entity_id'];
+                unset($addressData['entity_id']);
+                $address = $actualAddresses->getItemById($addressId);
+                $address->addData($addressData);
+                $expectedAddresses[$address->getId()] = $address->toArray();
+            }
+        }
+
+        $this->assertEquals($expectedAddresses, $actualAddresses->toArray(), 'Address was not updated.');
     }
 
     /**
      * @return array
      */
-    public function initAutoGeneratePasswordDataProvider()
+    public function customerAddressDataProvider()
     {
         return array(
-            'Auto generate password' => array(array(
-                'autogenerate_password' => true,
-            )),
+            'Addresses update' => array(
+                array(
+                    array('entity_id' => 1, 'postcode' => '8901234'),
+                    array('entity_id' => 2, 'city' => 'Updated city')
+                )
+            ),
+            'First address delete' => array(
+                array(
+                    array('entity_id' => 2)
+                )
+            ),
+            'First address update, second delete' => array(
+                array(
+                    array('entity_id' => 1, 'city' => 'Updated city')
+                )
+            ),
+            'All addresses delete' => array(
+                array()
+            )
         );
+    }
+
+    /**
+     * Test beforeSave and afterSave callback
+     *
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testCallback()
+    {
+        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $customerData = array('firstname' => 'Updated name');
+        $customer->addData($customerData);
+        $addressData = array(array(
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'street' => 'Green str, 67',
+            'country_id' => 'AL',
+            'city' => 'CityM',
+            'postcode' => '75477',
+            'telephone' => '3468676',
+        ));
+
+        $callback = function($actualCustomer, $actualData, $actualAddresses)
+            use ($customer, $customerData, $addressData)
+        {
+            // Remove updated_at as in afterSave updated_at may be changed
+            $expectedCustomerData = $customer->getData();
+            unset($expectedCustomerData['updated_at']);
+            PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
+                $actualCustomer->toArray(array_keys($expectedCustomerData)));
+            PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
+            PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
+        };
+
+        $this->_model->setBeforeSaveCallback($callback);
+        $this->_model->setAfterSaveCallback($callback);
+        $this->_model->update(1, $customerData, $addressData);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testCustomerSetForceConfirmed()
+    {
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $customerData = array(
+            'firstname' => 'SomeName',
+            'lastname' => 'SomeSurname',
+            'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
+            'password' => '123123q'
+        );
+        $customer = $this->_model->create($customerData);
+        $this->assertTrue($customer->getForceConfirmed());
     }
 }

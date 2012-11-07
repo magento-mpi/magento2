@@ -271,26 +271,41 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = null;
         $returnToEdit = false;
-        if ($originalRequestData = $this->getRequest()->getPost()) {
+        $customerId = (int)$this->getRequest()->getPost('customer_id');
+        $originalRequestData = $this->getRequest()->getPost();
+        if ($originalRequestData) {
             try {
                 // optional fields might be set in request for future processing by observers in other modules
-                $customerData = $originalRequestData;
-                $customerData['account'] = $this->_extractCustomerData();
-                $customerData['addresses'] = $this->_extractCustomerAddressData();
+                $accountData = $this->_extractCustomerData();
+                $addressesData = $this->_extractCustomerAddressData();
 
-                $customerId = (int)$this->getRequest()->getPost('customer_id');
+                $request = $this->getRequest();
+                $beforeSaveCallback = function ($customer) use ($request) {
+                    Mage::dispatchEvent('adminhtml_customer_prepare_save', array(
+                        'customer'  => $customer,
+                        'request'   => $request
+                    ));
+                };
+                $afterSaveCallback = function ($customer) use ($request) {
+                    Mage::dispatchEvent('adminhtml_customer_save_after', array(
+                        'customer' => $customer,
+                        'request'  => $request
+                    ));
+                };
+
+                $this->_customerService->setBeforeSaveCallback($beforeSaveCallback);
+                $this->_customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
-                    $customer = $this->_customerService->update($customerId, $customerData['account'], true);
+                    $customer = $this->_customerService->update($customerId, $accountData, $addressesData);
                 } else {
-                    $customer = $this->_customerService->create($customerData['account']);
+                    $customer = $this->_customerService->create($accountData, $addressesData);
                 }
-
-                $this->_saveCustomerAddresses($customer, $customerData);
 
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
+                $customerId = $customer->getId();
             } catch (Magento_Validator_Exception $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
@@ -312,80 +327,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         if ($returnToEdit) {
-            $returnParams = array('_current' => true);
-            if ($customer) {
-                $returnParams['id'] = $customer->getId();
+            if ($customerId) {
+                $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
+            } else {
+                $this->_redirect('*/*/new', array('_current' => true));
             }
-            $this->_redirect('*/*/edit', $returnParams);
         } else {
             $this->_redirect('*/customer');
-        }
-    }
-
-    /**
-     * Save customer addresses.
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerData
-     * @throws Mage_Core_Exception
-     */
-    protected function _saveCustomerAddresses($customer, array $customerData)
-    {
-        $actualAddressesIds = array();
-        foreach ($customerData['addresses'] as $addressId => $addressData) {
-            /** @var Mage_Customer_Model_Address $address */
-            $address = Mage::getModel('Mage_Customer_Model_Address');
-
-            if (is_numeric($addressId)) {
-                $address->load($addressId);
-                if (!$address->getId()) {
-                    throw new Mage_Core_Exception(
-                        $this->_getHelper()->__('The address with the specified ID not found.'));
-                }
-            } else {
-                $address->setCustomerId($customer->getId());
-            }
-            $address->addData($addressData);
-
-            // Set default billing and shipping flags to address
-            $isDefaultBilling = isset($customerData['account']['default_billing'])
-                && $customerData['account']['default_billing'] == $addressId;
-            $address->setIsDefaultBilling($isDefaultBilling);
-            $isDefaultShipping = isset($customerData['account']['default_shipping'])
-                && $customerData['account']['default_shipping'] == $addressId;
-            $address->setIsDefaultShipping($isDefaultShipping);
-
-            // Set post_index for detect default billing and shipping addresses
-            $address->setPostIndex($addressId);
-
-            $address->save();
-
-            $actualAddressesIds[] = $address->getId();
-        }
-
-        $this->_deleteCustomerAddresses($customer, $actualAddressesIds);
-    }
-
-    /**
-     * Delete customer addresses.
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @param array $actualAddressesIds
-     */
-    protected function _deleteCustomerAddresses($customer, array $actualAddressesIds)
-    {
-        $hasDeletedAddresses = false;
-        /** @var Mage_Customer_Model_Address $address */
-        foreach ($customer->getAddressesCollection() as $address) {
-            if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
-                $address->setData('_deleted', true);
-                $hasDeletedAddresses = true;
-            }
-        }
-        if ($hasDeletedAddresses) {
-            // Deleting of addresses triggered in Mage_Customer_Model_Resource_Customer::_beforeSave
-            $customer->setDataChanges(true);
-            $customer->save();
         }
     }
 
@@ -447,6 +395,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _extractCustomerAddressData()
     {
         $addresses = $this->getRequest()->getPost('address');
+        $customerData = $this->getRequest()->getPost('account');
+        $result = array();
         if ($addresses) {
             if (isset($addresses['_template_'])) {
                 unset($addresses['_template_']);
@@ -459,13 +409,30 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $addressIdList = array_keys($addresses);
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
-                $addresses[$addressId] = $this->_customerHelper
-                    ->extractCustomerData($this->getRequest(), 'adminhtml_customer_address', $addressEntity, array(),
-                        $scope, $eavForm);
+                $addressData = $this->_customerHelper->extractCustomerData(
+                    $this->getRequest(),
+                    'adminhtml_customer_address',
+                    $addressEntity,
+                    array(),
+                    $scope,
+                    $eavForm
+                );
+                if (is_numeric($addressId)) {
+                    $addressData['entity_id'] = $addressId;
+                }
+                // Set default billing and shipping flags to address
+                $addressData['is_default_billing'] = isset($customerData['default_billing'])
+                    && $customerData['default_billing']
+                    && $customerData['default_billing'] == $addressId;
+                $addressData['is_default_shipping'] = isset($customerData['default_shipping'])
+                    && $customerData['default_shipping']
+                    && $customerData['default_shipping'] == $addressId;
+
+                $result[] = $addressData;
             }
         }
 
-        return $addresses;
+        return $result;
     }
 
     /**

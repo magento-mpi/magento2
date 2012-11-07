@@ -110,11 +110,9 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     protected function _validate($customer)
     {
-        $validatorGroup = $customer->isObjectNew() ? 'create' : 'update';
-
         $validatorFactory = Mage::getConfig()->getValidatorConfig();
         $validator = $validatorFactory
-            ->getValidatorBuilder('customer', $validatorGroup)
+            ->getValidatorBuilder('customer', 'save')
             ->createValidator();
 
         if (!$validator->isValid($customer)) {
@@ -144,6 +142,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     {
         $defaultBillingId   = $customer->getData('default_billing');
         $defaultShippingId  = $customer->getData('default_shipping');
+        /** @var Mage_Customer_Model_Address $address */
         foreach ($customer->getAddresses() as $address) {
             if ($address->getData('_deleted')) {
                 if ($address->getId() == $defaultBillingId) {
@@ -152,7 +151,10 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
                 if ($address->getId() == $defaultShippingId) {
                     $customer->setData('default_shipping', null);
                 }
+                $removedAddressId = $address->getId();
                 $address->delete();
+                // Remove deleted address from customer address collection
+                $customer->getAddressesCollection()->removeItemByKey($removedAddressId);
             } else {
                 $address->setParentId($customer->getId())
                     ->setStoreId($customer->getStoreId())
