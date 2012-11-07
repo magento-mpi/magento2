@@ -369,9 +369,10 @@ class Community2_Mage_Product_Create_CategoriesSelectorTest extends Mage_Seleniu
     /**
      * @param string $newCategoryName
      * @param array $categories
+     *
+     * @test
      * @depends preconditionsForTests
      * @dataProvider categoryNameDataProvider
-     * @test
      * @TestlinkId TL-MAGE-6447
      */
     public function createNewCategorySuccessfully($newCategoryName, $categories)
