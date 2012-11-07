@@ -67,4 +67,17 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }
+
+    /**
+     * Open Segment and delete
+     *
+     * @param array $segmentSearch
+     */
+    public function deleteSegment(array $segmentSearch)
+    {
+        $this->openSegment($segmentSearch);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+    }
  }
+
+
