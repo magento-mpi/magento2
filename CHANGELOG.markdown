@@ -9,16 +9,14 @@
     * Implemented storing themes registry in database, basic CRUD of themes, automatic registration of themes in database from file system out of the box
     * Renamed `Mage_Core_Model_Layout_Update` into `Mage_Core_Model_Layout_Merge`, the former becomes an entity domain model. Similar changes with `Mage_Core_Model_Resource_Layout` -> `Mage_Core_Model_Resource_Layout_Update`, `Mage_Core_Model_Layout_Data` -> `Mage_Core_Model_Layout_Update`
 * Performance tests
-  * Added indexing scenarios to performance test suite (100k products, 80k products + 200 categories)
   * Improved indexers running script `dev/shell/indexer.php` to return appropriate exit code upon success/failure
   * Implemented running the same performance scenario file with different parameters
-  * Improved testsuite optimizer to make used terminology more general and straightforward
-  * Added ability to run PHP-scenarios using performance testing framework
+  * Slightly refactored framework class `Magento_Performance_Testsuite_Optimizer` for better visibility of algorithm
 * Visual design editor
   * Added ability to remove elements in editor UI
   * Revised history of changes VDE toolbar and algorithm of "compacting" operations (moving, removing elements) as a layout update XML
   * Added selection of themes to VDE launcher page
-* Refactored JavaScript of UI some elements to jQuery:
+* Refactored JavaScript of some UI elements to jQuery:
   * "Simple" and "configurable" product view pages
   * "Create Account" page
   * "Shopping Cart" page
