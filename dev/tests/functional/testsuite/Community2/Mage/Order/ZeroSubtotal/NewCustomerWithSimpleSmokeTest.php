@@ -270,13 +270,9 @@ class Community2_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends 
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $data = $orderData['payment_data']['payment_info'];
-        $this->orderHelper()->verifyIfCreditCardFieldsAreEmpty($data);
-        $this->fillFieldSet($data, 'order_payment_method');
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
-        $this->assertEmptyVerificationErrors();
     }
 
     /**

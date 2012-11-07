@@ -58,7 +58,6 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->customerHelper()->fillForm(array('middle_name' => 'Test Middle Name'), 'account_information');
         $this->saveForm('save_customer');
@@ -79,7 +78,6 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
         //Step 6
         $this->navigate('manage_customers');
         //Step 7
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         //Verify customer account
         $this->assertTrue($this->verifyForm(array('middle_name' => 'Test Middle Name'), 'account_information'),

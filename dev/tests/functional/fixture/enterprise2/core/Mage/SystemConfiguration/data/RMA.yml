@@ -16,13 +16,15 @@ enable_rma_on_frontend:
     tab_1:
         tab_name: sales_sales
         configuration:
-            enable_rma_on_frontend: Yes
-            enable_rma_on_product_level: Yes
-            use_store_address: Yes
+            rma_settings:
+                enable_rma_on_frontend: Yes
+                enable_rma_on_product_level: Yes
+                use_store_address: Yes
 
 disable_rma_on_frontend:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            enable_rma_on_frontend: No
+            rma_settings:
+                enable_rma_on_frontend: No

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
+class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Provides partial or fill shipment
@@ -40,13 +40,12 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             }
         }
         if (!$verify) {
-            $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_ship'));
+            $productCount = $this->getControlCount('fieldset', 'product_line_to_ship');
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
-                $skuXpath = $this->_getControlXpath('field', 'product_sku');
-                $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $this->getText($skuXpath)));
-                $prodQty = $this->getAttribute($qtyXpath . '/@value');
+                $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $prodQty = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
                 $verify[$prodSku] = $prodQty;
             }
         }
@@ -58,9 +57,20 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             }
             $this->addParameter('sku', $productSku);
             $this->addParameter('shippedQty', $qty);
-            $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
-            $this->assertTrue($this->isElementPresent($xpathShipped),
+            $this->assertTrue($this->controlIsPresent('field', 'qty_shipped'),
                 'Qty of shipped products is incorrect at the orders form');
         }
+    }
+
+    /**
+     * Create Shipment for existing order
+     *
+     * @param array $orderData
+     * @param array $shipmentData
+     */
+    public function openOrderAndCreateShipment(array $orderData, array $shipmentData = array())
+    {
+        $this->orderHelper()->openOrder($orderData);
+        $this->createShipmentAndVerifyProductQty($shipmentData);
     }
 }

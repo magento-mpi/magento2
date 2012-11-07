@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -80,8 +79,8 @@ create_cms_page:
                                 wysiwyg_editor_buttons:
                                     xpath: //*[@id='page_content_tbl']
                                     links:
-                                        wysiwyg_insert_widget: //a[@id='page_content_magentowidget']/img
-                                        wysiwyg_insert_variable: //a[@id='page_content_magentovariable']/img
+                                        wysiwyg_insert_widget: //a[@id='page_content_magentowidget']
+                                        wysiwyg_insert_variable: //a[@id='page_content_magentovariable']
                             -
                                 content_fieldset:
                                     xpath: //div[@id='page_tabs_content_section_content']
@@ -152,9 +151,13 @@ create_cms_page:
                                 select_category:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
                                     links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        select_category_category_text: %categoryXpath%/div/a/span
+                                        select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        select_category_category_index_link: %categoryXpath%[%index%]/div/a
                                     buttons:
                                         close_category_insertion: //div[@id='widget-chooser_close']
                             -
@@ -172,10 +175,13 @@ create_cms_page:
                                         search: //button[span='Search']
                                         close_product_insertion: //div[@id='widget-chooser_close']
                                     links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        select_product_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        select_product_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        select_product_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     pageelements:
+                                        select_product_category_text: %categoryXpath%/div/a/span
+                                        select_product_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        select_product_category_index_link: %categoryXpath%[%index%]/div/a
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 file_insertion:
@@ -249,7 +255,7 @@ create_cms_page_with_sharp:
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
-    title: %pageName% / Manage Content / Pages / CMS / Magento Admin
+    title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
         buttons:

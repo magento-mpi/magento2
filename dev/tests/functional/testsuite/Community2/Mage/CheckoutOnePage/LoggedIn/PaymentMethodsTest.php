@@ -85,10 +85,9 @@ class Community2_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_S
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/' . $payment);
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);

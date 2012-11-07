@@ -105,7 +105,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $exportData[0]['name'],
             'operation' => 'Export',
-        ));
+        ), 'grid_and_filter');
         $exportRecordsCount = 1;
         // Step 4
         $this->fillForm(
@@ -143,12 +143,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
                 'name' => $exportData[0]['name'],
                 'operation' => 'Export',
                 'status' => 'Disabled',
-            )
+            ), 'grid_and_filter'
         );
         $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $exportData[1]['name'],
             'operation' => 'Export',
-        ));
+        ), 'grid_and_filter');
         // Step7
         $this->fillForm(
             array(

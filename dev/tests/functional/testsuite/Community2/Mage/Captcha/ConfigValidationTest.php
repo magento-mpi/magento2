@@ -29,7 +29,7 @@ class Community2_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCas
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
     }
 
     /**
@@ -39,7 +39,7 @@ class Community2_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCas
      * <p>2.Input wrong value in "Number of Symbols" field </p>
      * <p>3.Try Save config</p>
      * <p>Expected result</p>
-     * <p>"The value is not within the specified range." message is show below fied</p>
+     * <p>"The value is not within the specified range." message is show below field</p>
      *
      * @param string $value
      * @dataProvider wrongNumberOfSymbolsDataProvider

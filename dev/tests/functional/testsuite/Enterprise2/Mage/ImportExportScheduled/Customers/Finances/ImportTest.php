@@ -74,9 +74,6 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
             ), 'Error is occurred');
         //verify changes
         $this->navigate('manage_customers');
-        $this->addParameter(
-            'customer_first_last_name',
-            $customerData['first_name'] . ' ' . $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
         if ((isset($financesCsv['_action']) && strtolower($financesCsv['_action']) == 'delete')
             || $behavior == 'Delete Entities') {

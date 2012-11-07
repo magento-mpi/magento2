@@ -9,18 +9,22 @@
 # @license     {license_link}
 #
 ---
-
 enable_tag_rss:
     configuration_scope: Default Config
     tab_1:
         tab_name: catalog_rss_feeds
         configuration:
-            general_enable_rss: Enable
-            tags_products: Enable
+            rss_config:
+                general_enable_rss: Enable
+            catalog:
+                tags_products: Enable
+
 disable_tag_rss:
     configuration_scope: Default Config
     tab_1:
         tab_name: catalog_rss_feeds
         configuration:
-            general_enable_rss: Enable
-            tags_products: Disable
+            rss_config:
+                general_enable_rss: Disable
+            catalog:
+                tags_products: Disable

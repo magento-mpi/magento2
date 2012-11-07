@@ -67,8 +67,6 @@ class Community2_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCa
         //Data
         $this->addParameter('websiteId', '1');
         $this->addParameter('productName', $testData['product']['name']);
-        $param = $testData['user']['first_name'] . ' ' . $testData['user']['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         $loginData = array('email' => $testData['user']['email'], 'password' => $testData['user']['password']);
         //Steps
         $this->customerHelper()->frontLoginCustomer($loginData);

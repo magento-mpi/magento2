@@ -71,10 +71,6 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
     {
         //Add address for customer if not present
         $this->navigate('manage_customers');
-        $this->addParameter(
-            'customer_first_last_name',
-            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']
-        );
         $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
         if ($this->customerHelper()->isAddressPresent($addressData) == 0) {

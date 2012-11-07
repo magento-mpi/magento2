@@ -15,27 +15,31 @@ add_by_sku_all:
     tab_1: 
         tab_name: sales_sales          
         configuration:
-            sku_my_account_enable: Yes, for Everyone     
+            order_by_sku:
+                sku_my_account_enable: Yes, for Everyone
             
 add_by_sku_general_group:
     configuration_scope: Default Config
     tab_1: 
         tab_name: sales_sales          
         configuration:
-            sku_my_account_enable: Yes, for Specified Customer Groups
-            sku_allowed_groups: General
+            order_by_sku:
+                sku_my_account_enable: Yes, for Specified Customer Groups
+                sku_allowed_groups: General
             
 add_by_sku_retailer_group:
     configuration_scope: Default Config
     tab_1: 
         tab_name: sales_sales          
         configuration:
-            sku_my_account_enable: Yes, for Specified Customer Groups
-            sku_allowed_groups: Retailer
+            order_by_sku:
+                sku_my_account_enable: Yes, for Specified Customer Groups
+                sku_allowed_groups: Retailer
             
 add_by_sku_disabled:
     configuration_scope: Default Config
     tab_1: 
         tab_name: sales_sales          
         configuration:
-            sku_my_account_enable: No
+            order_by_sku:
+                sku_my_account_enable: No

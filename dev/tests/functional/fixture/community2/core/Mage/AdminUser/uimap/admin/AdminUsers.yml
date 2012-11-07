@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -14,7 +13,7 @@
 # 'Users' page
 manage_admin_users:
     mca: user/
-    click_xpath: //ul[@id='nav']//a[span='Users']
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/user/')]
 
 # 'New User' page
 new_admin_user:
@@ -50,11 +49,15 @@ new_role:
                                 role_resources:
                                     dropdowns:
                                         resource_access: //select[@id='all']
-                                    links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-    
+                                    links: &role_resources_links
+                                        role_resources_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        role_resources_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        role_resources_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements: &role_resources_pageelements
+                                        role_resources_category_text: %categoryXpath%/div/a/span
+                                        role_resources_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        role_resources_category_index_link: %categoryXpath%[%index%]/div/a
+
 # 'Edit Role' page
 edit_role:
     mca: user_role/editrole/rid/%id%/
@@ -66,9 +69,7 @@ edit_role:
                         fieldsets:
                             -
                                 role_resources:
-                                    links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    links: *role_resources_links
+                                    pageelements: *role_resources_pageelements
         messages:
             delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]

@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selenium_TestCase
 {
     /**
      * Set preconditions to run tests
@@ -28,11 +28,13 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-3858');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('General/disable_httponly');
+        $this->systemConfigurationHelper()->configure('General/disable_http_only');
         $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
+
     /**
      * Preconditions:
      * Log in to Backend.
@@ -40,10 +42,15 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('export');
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -69,76 +76,41 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function searchByAttributeLabelAndResetFilter()
     {
-        $this->markTestIncomplete('MAGETWO-3858');
         //Steps 2-5
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
-        $this->importExportHelper()->customerFilterAttributes(
-            array(
-                'attribute_label' => 'Created At'
-            )
-        );
+        $this->importExportHelper()->customerFilterAttributes(array('attribute_label' => 'Created At'));
         //Verifying that required attribute is present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => 'Created At'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_label' => 'Created At'), 'grid_and_filter');
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Verifying that another attribute is not present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => 'Is Confirmed'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_label' => 'Is Confirmed'), 'grid_and_filter');
         $this->assertNull($isFound, 'Attribute was found after filtering');
         //Step 6
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
         //Steps 7-8
-        $this->importExportHelper()->customerFilterAttributes(
-            array(
-                'attribute_code'  => 'created_at'
-            )
-        );
+        $this->importExportHelper()->customerFilterAttributes(array('attribute_code'  => 'created_at'));
         //Verifying that required attribute is present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_code'  => 'created_at'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_code'  => 'created_at'), 'grid_and_filter');
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Verifying that another attribute is not present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_code'  => 'confirmation'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_code'  => 'confirmation'), 'grid_and_filter');
         $this->assertNull($isFound, 'Attribute was found after filtering');
         //Step 9
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
         //Verifying that two attributes are present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => 'Created At',
-                'attribute_code'  => 'created_at'
-            ),
-            'grid_and_filter'
-        );
-        $this->assertNotNull(
-            $isFound, 'Attribute was not found after resetting filter'
-        );
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => 'Is Confirmed',
-                'attribute_code'  => 'confirmation'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_label' => 'Created At',
+                                                                               'attribute_code'  => 'created_at'),
+            'grid_and_filter');
+        $this->assertNotNull($isFound, 'Attribute was not found after resetting filter');
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_label' => 'Is Confirmed',
+                                                                               'attribute_code'  => 'confirmation'),
+            'grid_and_filter');
         $this->assertNotNull($isFound, 'Attribute was not found after resetting filter');
     }
 
@@ -162,14 +134,10 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function simpleExportMasterFile()
     {
-        $this->markTestIncomplete('MAGETWO-3858');
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet(
-            'Customers', 'generic_customer_account', array(
-                'first_name' => $this->generate('string', 5)
-            )
-        );
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
+            array('first_name' => $this->generate('string', 5)));
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
@@ -180,10 +148,8 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         //Steps 4-6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertNotNull(
-            $this->importExportHelper()->lookForEntity('master', $userData, $report),
-            "Customer not found in csv file"
-        );
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Customer not found in csv file");
 
         return $userData;
     }
@@ -210,7 +176,6 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      */
     public function exportWithFilters($userData)
     {
-        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
@@ -220,10 +185,8 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         //Steps 5-6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertNotNull(
-            $this->importExportHelper()->lookForEntity('master', $userData, $report),
-            "Customer not found in csv file"
-        );
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Customer not found in csv file");
         $this->assertEquals(1, count($report), "Other customers are present in csv file");
     }
 
@@ -244,30 +207,25 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * @author iuliia.babenko
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1194
+     *
      * @param array $userData
      */
     public function exportWithSkippedAttribute($userData)
     {
-        $this->markTestIncomplete('MAGETWO-3858');
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Step 4
-        $isFound = $this->importExportHelper()->customerSkipAttribute(
-            array(
-                'attribute_label' => 'First Name'),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSkipAttribute(array('attribute_label' => 'First Name'), 'grid_and_filter');
         $this->assertTrue($isFound, 'First Name attribute was not found');
         //Step 5
         $this->importExportHelper()->setFilter(array('firstname' => $userData['first_name']));
         //Step 6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertFalse(
-            array_key_exists('firstname', $report[0]),
-            'Skipped attribute was found in export file. Attribute Code: firstname'
-        );
+        $this->assertFalse(array_key_exists('firstname', $report[0]),
+            'Skipped attribute was found in export file. Attribute Code: firstname');
     }
 }

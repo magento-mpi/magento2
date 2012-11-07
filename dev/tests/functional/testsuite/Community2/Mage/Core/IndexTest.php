@@ -28,10 +28,10 @@ class Community2_Mage_Core_IndexTest extends Mage_Selenium_TestCase
     public function testIndexEmpty()
     {
         //Steps
+        $this->frontend();
         $this->navigate('core_index_page');
         //Verifying
-        $xpath = $this->_getControlXpath('pageelement', 'any_body_element');
-        $numElements = $this->getXpathCount($xpath);
-        $this->assertEquals(0, $numElements, 'The body of Core index page must be empty');
+        $this->assertEquals(0, $this->getControlCount('pageelement', 'any_body_element'),
+            'The body of Core index page must be empty');
     }
 }

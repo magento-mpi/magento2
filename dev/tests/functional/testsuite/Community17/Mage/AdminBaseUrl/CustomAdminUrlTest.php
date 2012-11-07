@@ -18,14 +18,11 @@
  */
 class Community17_Mage_AdminBaseUrl_CustomAdminUrlTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Configuration</p>
-     */
-    protected function assertPreConditions() // Preconditions
+    protected function assertPreConditions()
     {
-        $this->loginAdminUser(); // Log-in
-        $this->navigate('system_configuration'); // Navigate to System -> Configuration
+        $this->markTestIncomplete('Incomplete test with wrong logic');
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
     }
 
     /**
@@ -41,13 +38,11 @@ class Community17_Mage_AdminBaseUrl_CustomAdminUrlTest extends Mage_Selenium_Tes
      * <p> Configuration is saved without errors. Admin is reloaded using specified Custom Admin URL. All internal
      * Admin links are using Custom Admin URL. Actually in this case no visual changes should be introduced.;</p>
      *
-     *
      * @test
-     * @TestlinkId    TL-MAGE-4667
+     * @TestlinkId TL-MAGE-4667
      */
     public function customAdminUrlIsEqual()
     {
-        $this->markTestIncomplete('Incomplete test with wrong logic');
         //Data
         $CustomUrlData = $this->loadDataSet('AdminBaseUrl', 'admin_custom_url_is_equal');
         $this->addParameter('customUrl', '1');
@@ -58,4 +53,3 @@ class Community17_Mage_AdminBaseUrl_CustomAdminUrlTest extends Mage_Selenium_Tes
             'Unexpected value in field');
     }
 }
-?>

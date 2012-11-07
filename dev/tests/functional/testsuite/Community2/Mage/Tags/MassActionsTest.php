@@ -50,10 +50,8 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         $tagData = array();
         //Precondition
         for ($i = 0; $i < 4; $i++) {
-            $tagData[$i] = array(
-                'tag_name' => 'tag_' . $this->generate('string', 5, ':lower:'),
-                'tag_status' => 'Pending',
-            );
+            $tagData[$i] = array('tag_name' => 'tag_' . $this->generate('string', 5, ':lower:'),
+                                 'tag_status' => 'Pending');
             $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
             $this->assertMessagePresent('success', 'success_saved_tag');
@@ -61,7 +59,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 2
         $this->navigate($tagArea);
         //Step 3
-        $this->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
+        $this->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid');
         //Step 4
         $this->fillDropdown('tags_massaction', 'Delete');
         //Steps 5-6
@@ -69,10 +67,12 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Verifying
         $this->addParameter('qtyDeletedTags', '1');
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
-        $this->assertNull($this->search(array('tag_name' => $tagData[0]['tag_name'])), 'Tag has been found');
+        $this->assertNull($this->search(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid'),
+            'Tag has been found');
+        unset($tagData[0]);
         //Step 7
-        for ($i=1; $i<4; $i++) {
-            $this->searchAndChoose(array('tag_name' => $tagData[$i]['tag_name']));
+        foreach ($tagData as $tag) {
+            $this->searchAndChoose(array('tag_name' => $tag['tag_name']), 'tags_grid');
         }
         //Step 8
         $this->fillDropdown('tags_massaction', 'Delete');
@@ -81,8 +81,8 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Verifying
         $this->addParameter('qtyDeletedTags', '3');
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
-        for ($i = 1; $i < 4; $i++) {
-            $this->assertNull($this->search(array('tag_name' => $tagData[$i]['tag_name'])), 'Tag has been found');
+        foreach ($tagData as $tag) {
+            $this->assertNull($this->search(array('tag_name' => $tag['tag_name']), 'tags_grid'), 'Tag has been found');
         }
         //Step 11
         $this->navigate($tagArea);
@@ -90,8 +90,11 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 12
         $this->clickButton('submit', false);
         //Verifying
-        $this->assertEquals('Please select items.', $this->getAlert(), "Message 'Please select items.' is not present");
+        $this->assertEquals('Please select items.', $this->alertText(),
+            "Message 'Please select items.' is not present");
+        $this->acceptAlert();
     }
+
     /**
      * Changing the status of tags to Disabled using mass action
      * Preconditions:
@@ -131,7 +134,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 1
         $this->navigate($tagArea);
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid');
         $tagsUpdatedCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -146,14 +149,13 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 6
         $this->navigate('all_tags');
         //Verify
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-            'tag_name' => $tagData[0]['tag_name'],
-            'tags_status' => 'Disabled')));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[0]['tag_name'], 'tags_status' => 'Disabled'),
+            'tags_grid'));
         //Step 7
         $this->navigate($tagArea);
         //Step 8
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']), 'tags_grid');
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']), 'tags_grid');
         $tagsCount = 2;
         //Step 9
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -168,26 +170,24 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-            'tag_name' => $tagData[1]['tag_name'],
-            'tags_status' => 'Disabled')));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[1]['tag_name'], 'tags_status' => 'Disabled'),
+            'tags_grid'));
         // Verifying third tag
-        $this->navigate('all_tags');
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-            'tag_name' => $tagData[2]['tag_name'],
-            'tags_status' => 'Disabled')));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[2]['tag_name'], 'tags_status' => 'Disabled'),
+            'tags_grid'));
     }
+
     /**
      * Changing the status of tags to Pending using mass action
      * Preconditions:
-     * Three tags are created with the status "Pendidng"
+     * Three tags are created with the status "Pending"
      * Steps:
      * 1. Go to the Catalog -> Tags -> Pending Tags
      * 2. Select checkbox near first tag name
      * 3. Choose "Change statuses" in mass action section
      * 4. Choose "Pending" status
      * 5. Press "Submit" button
-     * Expected Result: Tag should receive "Pendidng" status
+     * Expected Result: Tag should receive "Pending" status
      * 6. In Catalog -> Tags -> Pending Tags select several tags
      * 7. Choose "Change statuses" in mass action section
      * 8. Choose "Pending" status
@@ -211,7 +211,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 1
         $this->navigate($tagArea);
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
+        $this->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid');
         $tagsCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -223,12 +223,11 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-            'tag_name' => $tagData[0]['tag_name'])));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid'));
         //Step 6
         $this->navigate($tagArea);
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $this->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']), 'tags_grid');
+        $this->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']), 'tags_grid');
         $tagsCount = 2;
         //Step 7
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -241,21 +240,15 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Verify status of second tag
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-                'tag_name' => $tagData[1]['tag_name']
-            )
-        ));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[1]['tag_name']), 'tags_grid'));
         //Verify status of third tag
-        $this->navigate($tagArea);
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-                'tag_name' => $tagData[2]['tag_name']
-            )
-        ));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[2]['tag_name']), 'tags_grid'));
     }
+
     /**
      * Changing the status of tags to Approved using mass action
      * Preconditions:
-     * Three tags are created with the status "Pendidng"
+     * Three tags are created with the status "Pending"
      * Steps:
      * 1. Go to the Catalog -> Tags -> Pending Tags
      * 2. Select checkbox near first tag name
@@ -291,7 +284,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 1
         $this->navigate($tagArea);
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
+        $this->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']), 'tags_grid');
         $tagsCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -306,15 +299,13 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 6
         $this->navigate('all_tags');
         //Verify
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-                'tag_name' => $tagData[0]['tag_name'],
-                'tags_status' => 'Approved')
-        ));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[0]['tag_name'], 'tags_status' => 'Approved'),
+            'tags_grid'));
         //Step 7
         $this->navigate($tagArea);
         //Step 8
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $this->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']), 'tags_grid');
+        $this->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']), 'tags_grid');
         $tagsCount = 2;
         //Step 9
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -329,17 +320,13 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-                'tag_name' => $tagData[1]['tag_name'],
-                'tags_status' => 'Approved')
-        ));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[1]['tag_name'], 'tags_status' => 'Approved'),
+            'tags_grid'));
         // Verifying third tag
-        $this->navigate('all_tags');
-        $this->assertTrue((bool) $this->tagsHelper()->search(array(
-                'tag_name' => $tagData[2]['tag_name'],
-                'tags_status' => 'Approved')
-        ));
+        $this->assertNotNull($this->search(array('tag_name' => $tagData[2]['tag_name'], 'tags_status' => 'Approved'),
+            'tags_grid'));
     }
+
     /**
      * Changing the status of tags to Disabled/Pending/Approved using mass action
      * Steps:
@@ -358,11 +345,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
     {
         //Step 1
         $this->navigate($tagArea);
-        $tagStatuses = array(
-            'Disabled',
-            'Pending',
-            'Approved',
-        );
+        $tagStatuses = array('Disabled', 'Pending', 'Approved');
         foreach ($tagStatuses as $value) {
             //Step 2
             $this->fillDropdown('tags_massaction', 'Change status');
@@ -371,10 +354,13 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
             //Step 4
             $this->clickButton('submit', false);
             //Verifying
-            $this->assertEquals('Please select items.', $this->getAlert(),
-                "Message 'Please select items.' is not present");
+            //Verifying
+            $this->assertSame('Please select items.', $this->alertText(),
+                'actual and expected confirmation message does not match');
+            $this->acceptAlert();
         }
     }
+
     /**
      * @return array
      * @test
@@ -384,6 +370,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
     {
         return parent::_preconditionsForMassActionsTests();
     }
+
     /**
      * Selecting tags options
      * Precondition: two pages of tags with "Pending" status.
@@ -445,6 +432,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
                 'Tag ' . $value['tag_name'] . ' is selected');
         }
     }
+
     public function tagDataProvider()
     {
         return array(

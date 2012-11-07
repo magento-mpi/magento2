@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_GiftWrapping
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -23,6 +23,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     public function assertPreconditions()
@@ -32,13 +33,14 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     protected function tearDownAfterTest()
     {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
-        $this->_configHelper->getConfigAreas(true);
     }
 
     /**
@@ -51,7 +53,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $websiteName = $website['general_information']['staging_website_name'];
-        $websiteSettings = $this->loadDataSet('StagingWebsite', 'staging_website_enable_auto_entries');
         $productDefault = $this->loadDataSet('Product', 'simple_product_visible');
         $product = $this->loadDataSet('Product', 'simple_product_visible', array('websites' => $websiteName));
         $userDefault = $this->loadDataSet('Customers', 'generic_customer_account');
@@ -62,7 +63,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('gift_wrapping_websites' => $websiteName));
         //Steps and Verification
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($websiteSettings);
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
 
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -606,7 +607,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure($wrappingWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesWebsite);
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($testData['code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');

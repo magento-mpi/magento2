@@ -18,16 +18,24 @@
  */
 class Community2_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->logoutCustomer();
-    }
-
-    protected function tearDownAfterTestClass()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
+    }
+
+    public function assertPreConditions()
+    {
+        $this->logoutCustomer();
+        $this->loginAdminUser();
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
     }
 
     /**
@@ -41,7 +49,6 @@ class Community2_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -75,12 +82,9 @@ class Community2_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
      */
     public function enableCaptcha($testData)
     {
-        //Data
-        $config = $this->loadDataSet('Captcha', 'enable_front_login_captcha');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('Captcha/enable_front_login_captcha');
         $this->frontend();
         $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
@@ -122,11 +126,10 @@ class Community2_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
         $this->clickButton('proceed_to_checkout');
-        $xpath = $this->_getControlXpath('pageelement', 'captcha_user_login') . '@src';
-        $captchaUrl1 = $this->getAttribute($xpath);
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha_user_login', 'src');
         $this->clickControl('button', 'captcha_reload_user_login', false);
         $this->waitForAjax();
-        $captchaUrl2 = $this->getAttribute($xpath);
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha_user_login', 'src');
         //Verification
         $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
     }

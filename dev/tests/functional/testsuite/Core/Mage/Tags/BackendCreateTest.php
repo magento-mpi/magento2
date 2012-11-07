@@ -56,9 +56,8 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Verify
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_saved_tag');
-        $this->assertTrue((bool) $this->search(array(
-            'tag_name' => $setData['tag_name'],
-            'tag_status' => $setData['tag_status'])));
+        $this->assertNotNull($this->search(array('tag_name'   => $setData['tag_name'],
+                                                 'tag_status' => $setData['tag_status']), 'tags_grid'));
     }
 
     /**

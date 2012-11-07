@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_StagingWebsite
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -22,8 +22,7 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('StagingWebsite',
-            'staging_website_enable_auto_entries'));
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
     }
 
     protected function assertPreconditions()
@@ -121,13 +120,10 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         //TL-MAGE-2013 verification
         $alert = $this->getCurrentUimapPage()->findMessage('confirmation_select_website_to_map');
         $this->clickButton('merge_now', false);
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            if ($text != $alert) {
-                $this->fail('Alert text should be: ' . $alert . ', but actually is: ' . $text);
-            }
-        } else {
-            $this->fail('Alert "' . $alert . '" is not present');
+        $textAlert = $this->alertText();
+        $this->acceptAlert();
+        if ($textAlert != $alert) {
+            $this->fail('Alert text should be: ' . $alert . ', but actually is: ' . $textAlert);
         }
         //Steps
         $this->navigate('manage_staging_websites');
@@ -137,19 +133,19 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_merged_website');
         $this->addParameter('websiteName', $mergeWebsiteData['search_website']['filter_website_name']);
         $this->addParameter('latestEvent', 'Instant Merger');
-        $this->search(array('filter_website_name' => $websiteName));
+        $this->search(array('filter_website_name' => $websiteName), 'staging_websites_grid');
         //Search is needed here for getting to the page with the needed row
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification of TL-MAGE-2025
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($backupStarted);
+        $this->searchAndOpen($backupStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($backupCompleted);
+        $this->searchAndOpen($backupCompleted, 'staging_operations_log_grid');
         //Verification of TL-MAGE-2026
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($mergeStarted);
+        $this->searchAndOpen($mergeStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($mergeCompleted);
+        $this->searchAndOpen($mergeCompleted, 'staging_operations_log_grid');
     }
 
     /**
@@ -203,11 +199,11 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_scheduled_merge');
         $this->addParameter('websiteName', $mergeWebsiteData['search_website']['filter_website_name']);
         $this->addParameter('latestEvent', 'Merger Scheduling');
-        $this->search(array('filter_website_name' => $websiteName));
+        $this->search(array('filter_website_name' => $websiteName), 'staging_websites_grid');
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification of TL-MAGE-2027
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($scheduleCompleted);
+        $this->searchAndOpen($scheduleCompleted, 'staging_operations_log_grid');
 
         return $websiteName;
     }
@@ -248,11 +244,11 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_unscheduled_merge');
         $this->addParameter('websiteName', $mergeWebsiteData['search_website']['filter_website_name']);
         $this->addParameter('latestEvent', 'Merger Unscheduling');
-        $this->search(array('filter_website_name' => $websiteName));
+        $this->search(array('filter_website_name' => $websiteName), 'staging_websites_grid');
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification of TL-MAGE-2028
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($unscheduleCompleted);
+        $this->searchAndOpen($unscheduleCompleted, 'staging_operations_log_grid');
     }
 
     /**

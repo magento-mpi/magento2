@@ -59,7 +59,7 @@ add_new_attribute_set:
 
 edit_attribute_set:
     mca: catalog_product_set/edit/id/%id%/
-    title: %attributeName% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
+    title: %elementTitle% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
     uimap:
         form: &editAttributeSet
             fieldsets:
@@ -80,6 +80,7 @@ edit_attribute_set:
                         links:
                             group_folder: //div[contains(@class,'x-tree-node-el folder')]//span[text()='%folderName%']
                             group_attribute: //ul[contains(@class,'x-tree-node-ct')]//span[text()='%attributeName%']
+                            attribute_in_group: //li[.//span='%folderName%']//li[.//span='%attributeName%']//span[@id]
                 -
                     unassigned_attributes:
                         xpath:  //div[@id='tree-div2']
@@ -96,7 +97,7 @@ edit_attribute_set:
 
 edit_attribute_set_with_sharp:
     mca: catalog_product_set/edit/id/%id%/#
-    title: %attributeName% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
+    title: %elementTitle% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
     uimap:
         form: *editAttributeSet
         buttons: *editAttributeButtons

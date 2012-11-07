@@ -49,7 +49,7 @@ new_gift_registry:
             tabs:
                 -
                     general_information:
-                        xpath: //a[@id='enterprise_gift_registry_tabs_general_section' ]/span
+                        xpath: //a[@id='enterprise_gift_registry_tabs_general_section' ]
                         fieldsets:
                             -
                                 general_info: &generalInformationTab
@@ -63,7 +63,7 @@ new_gift_registry:
                                     required: [code, label]
                 -
                     attributes: &attributesTab
-                        xpath: //a[@id='enterprise_giftregistry_tabs_registry_attributes']/span
+                        xpath: //a[@id='enterprise_giftregistry_tabs_registry_attributes']
                         fieldsets:
                             -
                                 attributes:
@@ -107,7 +107,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: Edit '%elementTitle%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:

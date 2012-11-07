@@ -18,16 +18,24 @@
  */
 class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->logoutCustomer();
-    }
-
-    protected function tearDownAfterTestClass()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
+    }
+
+    public function assertPreConditions()
+    {
+        $this->logoutCustomer();
+        $this->loginAdminUser();
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
     }
 
     /**
@@ -40,7 +48,6 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -71,13 +78,10 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
      */
     public function enableCaptcha($productName)
     {
-        //Data
-        $config = $this->loadDataSet('Captcha', 'enable_register_during_checkout_captcha');
         $checkout = array('checkout_method' => 'register');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('Captcha/enable_register_during_checkout_captcha');
         $this->frontend();
         $this->productHelper()->frontOpenProduct($productName);
         $this->productHelper()->frontAddProductToCart();
@@ -103,7 +107,7 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
      * <p>2.Add any product to shopping cart</p>
      * <p>3.Proceed to checkout</p>
      * <p>4.Select "Register" and click "Continue" button</p>
-     * <p>5.Click "Refresh" capcha image</p>
+     * <p>5.Click "Refresh" captcha image</p>
      * <p>Expected result</p>
      * <p>CAPTCHA image is refreshed</p>
      *
@@ -124,11 +128,10 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
         $this->productHelper()->frontAddProductToCart();
         $this->clickButton('proceed_to_checkout');
         $this->checkoutOnePageHelper()->frontSelectCheckoutMethod($checkout);
-        $xpath = $this->_getControlXpath('pageelement', 'captcha_register_during_checkout') . '@src';
-        $captchaUrl1 = $this->getAttribute($xpath);
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha_register_during_checkout', 'src');
         $this->clickControl('button', 'captcha_reload_register_during_checkout', false);
         $this->waitForAjax();
-        $captchaUrl2 = $this->getAttribute($xpath);
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha_register_during_checkout', 'src');
         //Verification
         $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
     }
@@ -229,7 +232,7 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
         $this->fillFieldset($userInfo, 'billing_information');
         $this->clickButton('billing_information_continue', false);
         $this->waitForAjax();
-        //Verifing
+        //Verifying
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('shipping_method');
     }
 }

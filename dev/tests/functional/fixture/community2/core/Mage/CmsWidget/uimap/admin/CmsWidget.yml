@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -11,17 +10,3 @@
 ---
 add_widget_options:
     mca: widget_instance/edit/type/%type%/package_theme/%package_theme%/
-
-create_cms_widget:
-    mca: widget_instance/new/
-    uimap:
-        form:
-            tabs:
-                -
-                    settings:
-                        fieldsets:
-                            -
-                                settings_fieldset:
-                                    dropdowns:
-                                        design_package_theme: //select[@name='package_theme']
-

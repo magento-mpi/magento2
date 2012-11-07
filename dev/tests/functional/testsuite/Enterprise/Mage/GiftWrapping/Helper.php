@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_GiftWrapping
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
+class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create Gift Wrapping
@@ -31,10 +31,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $inputData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-
         $this->clickButton('add_gift_wrapping');
         $this->fillGiftWrappingForm($inputData, $save);
-
     }
 
     /**
@@ -45,6 +43,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
      */
     public function fillGiftWrappingForm($inputData, $save = true)
     {
+        $title = (isset($inputData['gift_wrapping_design'])) ? $inputData['gift_wrapping_design'] : '';
+        $this->addParameter('elementTitle', $title);
         if (isset($inputData['gift_wrapping_websites'])
             && !$this->controlIsPresent('multiselect', 'gift_wrapping_websites')
         ) {
@@ -87,11 +87,12 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($wrappingSearch, 'gift_wrapping_grid');
         $this->assertNotNull($xpathTR, 'Gift Wrapping is not found');
         $cellId = $this->getColumnIdByName('Gift Wrapping Design');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . "//a[text()='Edit']");
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage('edit_gift_wrapping');
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -106,9 +107,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         if ($cancelDelete == false) {
             $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         } else {
-            $this->chooseCancelOnNextConfirmation();
             $this->clickButton('delete', false);
-            $this->getConfirmation();
+            $this->dismissAlert();
         }
     }
 
@@ -133,11 +133,10 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
             if (!$this->controlIsPresent('checkbox', 'delete_image')) {
                 $this->addVerificationMessage('Checkbox  \'Delete Image\' is not on page.');
             }
-            $imageXpath = $this->_getControlXpath('pageelement', 'gift_wrapping_image');
-            if (!$this->isElementPresent($imageXpath)) {
+            if (!$this->controlIsPresent('pageelement', 'gift_wrapping_image')) {
                 $this->addVerificationMessage('Image is not uploaded.');
             } else {
-                $actualImageTitle = $this->getAttribute($imageXpath . '@title');
+                $actualImageTitle = $this->getControlAttribute('pageelement', 'gift_wrapping_image', 'title');
                 $expectedImageTitle = implode('(_(\d)+)?\.', explode('.', $image));
                 if (!preg_match("/$expectedImageTitle/", $actualImageTitle)) {
                     $this->addVerificationMessage(
@@ -152,14 +151,15 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
 
     public function disableAllGiftWrapping()
     {
-        $xpathTR = $this->search(array('filter_status' => 'Enabled'));
+        $xpathTR = $this->search(array('filter_status' => 'Enabled'), 'gift_wrapping_grid');
         $id = $this->getColumnIdByName('Gift Wrapping Design');
-        while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('elementTitle', $this->getText($xpathTR . "//td[$id]"));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $id);
+        while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-            $this->click($xpathTR . "//a[text()='Edit']");
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage('edit_gift_wrapping');
+            $this->clickControl('pageelement', 'table_line_cell_index');
             $this->fillDropdown('gift_wrapping_status', 'Disabled');
             $this->saveForm('save');
         }

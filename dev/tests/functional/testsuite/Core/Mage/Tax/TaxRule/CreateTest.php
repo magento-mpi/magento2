@@ -50,7 +50,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @group preConditions
      */
     public function preconditionsForTests()
     {

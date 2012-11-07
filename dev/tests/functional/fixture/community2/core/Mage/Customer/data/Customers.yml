@@ -8,48 +8,6 @@
 # @license     {license_link}
 #
 ---
-#Test data for Customer Addresses
-generic_address:
-    prefix: %noValue%
-    first_name: First Name
-    middle_name: %noValue%
-    last_name: Last Name
-    suffix: %noValue%
-    company: %noValue%
-    street_address_line_1: 10441 Jefferson Blvd
-    street_address_line_2: Suite 200
-    city: Culver City
-    country: United States
-    state: California
-    region: %noValue%
-    zip_code: 90232
-    telephone: 530-918-3581
-    fax: %noValue%
-    billing_vat_number: %noValue%
-    default_billing_address: %noValue%
-    default_shipping_address: %noValue%
-
-#*******************************************************
-#*       Test data for customer creation(Backend)      *
-#*******************************************************
-generic_customer_account:
-    associate_to_website: Main Website
-    group: General
-    disable_automatic_group_change: %noValue%
-    prefix: %noValue%
-    first_name: First Name
-    middle_name: %noValue%
-    last_name: Last Name
-    suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: %noValue%
-    tax_vat_number: %noValue%
-    gender: %noValue%
-    send_welcome_email: %noValue%
-    send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
-
 #*******************************************************
 #*       Address With different VAT Numbers             *
 #*******************************************************

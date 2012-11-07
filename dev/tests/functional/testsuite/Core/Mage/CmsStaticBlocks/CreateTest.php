@@ -116,8 +116,12 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     public function createNewWithAllWidgets()
     {
         //Data
-        $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets');
+        $productData = $this->productHelper()->createSimpleProduct(true);
+        $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets',
+            array('category_path' => $productData['category']['path'],
+                  'filter_sku'    => $productData['simple']['product_sku']));
         //Steps
+        $this->navigate('manage_cms_static_blocks');
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');

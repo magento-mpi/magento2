@@ -66,7 +66,7 @@ class Community2_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCas
      * <p>Valid email address</p>
      * <p>Steps:</p>
      * <p>1.Go to admin Login page. Click on the "Forgot your password?" link.</p>
-     * <p>2.Enter email registered for any of admin users and click on the "Retreive Password" button.</p>
+     * <p>2.Enter email registered for any of admin users and click on the "Retrieve Password" button.</p>
      * <p>Expected result:</p>
      * <p>"If there is an account associated with <email_address> you will receive an email with a link to reset your password" message is appeared on the form.</p>
      *
@@ -97,7 +97,7 @@ class Community2_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCas
      * <p>Admin can login with old password till he clicks on the reset link password</p>
      * <p>Steps:</p>
      * <p>1.Go to backend and click on the «Forgot Your Password» link.</p>
-     * <p>2.Enter email registered for any of admin users and click on the "Retreive Password" button.</p>
+     * <p>2.Enter email registered for any of admin users and click on the "Retrieve Password" button.</p>
      * <p>3.Try to login with old credentials</p>
      * <p>Expected result:</p>
      * <p>Admin successfully login to backend.</p>

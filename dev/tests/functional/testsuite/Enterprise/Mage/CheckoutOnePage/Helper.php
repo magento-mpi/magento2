@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_CheckoutOnePage
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -26,6 +26,8 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
      */
     public function frontAddGiftMessage(array $giftOptions)
     {
+        $this->assertTrue($this->controlIsPresent('checkbox', 'add_gift_options'),
+            'You can not add gift option for this order');
         $this->fillCheckbox('add_gift_options', 'Yes');
         $forItems = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
         $forOrder = (isset($giftOptions['entire_order'])) ? $giftOptions['entire_order'] : array();

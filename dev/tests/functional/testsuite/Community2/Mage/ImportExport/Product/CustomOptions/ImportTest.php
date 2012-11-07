@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:
@@ -67,8 +67,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Import csv file with custom options
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Append Complex Data');
@@ -80,8 +79,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData);
@@ -99,9 +97,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] =
-            array (
-                'custom_options_field' => $this->loadDataSet('Product', 'custom_options_field')
-            );
+            array('custom_options_field' => $this->loadDataSet('Product', 'custom_options_field'));
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -118,12 +114,9 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->storeHelper()->selectStoreView(
-            'choose_store_view',
-            'Main Website',
-            'Main Website Store',
-            $storeViewData['store_view_name']
-        );
+        $this->selectStoreScope('dropdown', 'choose_store_view',
+            'Main Website/Main Website Store/' . $storeViewData['store_view_name'], true);
+        $this->waitForPageToLoad();
         $this->openTab('custom_options');
         //Need to update custom option, get optionId by Title
         $optionId = $this->productHelper()->getCustomOptionId('Custom Option Field');
@@ -132,7 +125,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->fillField('custom_options_general_title', 'Custom Option Field ' . $storeViewData['store_view_name']);
         $this->productHelper()->saveForm('save');
         //switch to all views
-        $this->storeHelper()->defaultStoreView('choose_store_view');
+        $this->selectStoreScope('dropdown', 'choose_store_view');
+        $this->waitForPageToLoad();
         return $productData;
     }
 
@@ -153,8 +147,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Modify csv for Test Case condition
         $csv[0]['_custom_option_title'] = $csv[1]['_custom_option_title'];
         //Import csv file with custom options
@@ -168,13 +161,12 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $productData['custom_options_data']['custom_options_field1'] = $this->loadDataSet('Product',
-            'custom_options_field', array('custom_options_general_title' => $csv[0]['_custom_option_title'])
-        );
+        $productData['custom_options_data']['custom_options_field1'] =
+            $this->loadDataSet('Product', 'custom_options_field',
+                array('custom_options_general_title' => $csv[0]['_custom_option_title']));
         $this->productHelper()->verifyProductInfo($productData);
     }
 
@@ -190,9 +182,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] =
-            array (
-                'custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown')
-            );
+            array('custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown'));
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -202,6 +192,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->productHelper()->verifyProductInfo($productData);
         return $productData;
     }
+
     /**
      * Import custom option with different dropdown options
      *
@@ -219,8 +210,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Modify csv for Test Case condition
         $csv[1] = $csv[0];
         foreach ($csv[1] as &$value) {
@@ -238,8 +228,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_2'] =
             $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1'];
@@ -263,9 +252,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] =
-            array (
-                'custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown')
-            );
+            array('custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown'));
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -289,8 +276,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Modify csv for Test Case condition
 
         $csv[0]['_custom_option_row_title'] = 'red';
@@ -305,8 +291,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         $productData['custom_options_data']['custom_options_dropdown']['custom_option_row_1']['custom_options_title'] =
             $csv[0]['_custom_option_row_title'];
@@ -326,9 +311,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] =
-            array (
-                'custom_options_field' => $this->loadDataSet('Product', 'custom_options_field')
-            );
+            array('custom_options_field' => $this->loadDataSet('Product', 'custom_options_field'));
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -352,8 +335,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Modify csv for Test Case condition
         $csv[0]['_custom_option_price'] = '0.00';
         $csv = array_slice($csv, 0, 1);
@@ -367,8 +349,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         $productData['custom_options_data']['custom_options_field']['custom_options_price'] =
             $csv[0]['_custom_option_price'];
@@ -387,9 +368,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] =
-            array (
-                'custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown')
-            );
+            array('custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown'));
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -413,8 +392,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
-        $this->assertNotNull($csv,
-            'Export has not been finished successfully');
+        $this->assertNotNull($csv, 'Export has not been finished successfully');
         //Modify csv for Test Case condition: add new custom option
         $csv[0]['_custom_option_type'] = 'field';
         $csv[0]['_custom_option_title'] = 'Custom Option Field';
@@ -434,17 +412,13 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
             "Import has not been finished successfully" . print_r($importResult, true));
         //Open Product and verify custom options
         $this->navigate('manage_products');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
-        $productData['custom_options_data']['custom_options_field'] = $this->loadDataSet(
-            'Product', 'custom_options_field', array(
-            'custom_options_general_is_required' => 'No',
-            'custom_options_price' => '0.00',
-            'custom_options_general_sort_order' => '0',
-            'custom_options_sku' => '',
-            'custom_options_max_characters' => '0',
-        ));
+        $productData['custom_options_data']['custom_options_field'] =
+            $this->loadDataSet('Product', 'custom_options_field',
+                array('custom_options_general_is_required' => 'No', 'custom_options_price' => '0.00',
+                      'custom_options_general_sort_order'  => '0', 'custom_options_sku' => '',
+                      'custom_options_max_characters'      => '0',));
         $productData['custom_options_data'] = array_reverse($productData['custom_options_data']);
         $this->productHelper()->verifyCustomOption($productData['custom_options_data']);
     }

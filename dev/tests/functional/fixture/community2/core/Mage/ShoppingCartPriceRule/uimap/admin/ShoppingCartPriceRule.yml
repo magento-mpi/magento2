@@ -45,7 +45,7 @@ edit_shopping_cart_price_rule:
                                         use_auto_generation: //input[@id='rule_use_auto_generation']
                 -
                     manage_coupon_codes:
-                        xpath: //a[@title='Manage Coupon Codes']/span
+                        xpath: //a[@title='Manage Coupon Codes']
                         fieldsets:
                             -
                                 coupons_information:
@@ -83,7 +83,7 @@ edit_shopping_cart_price_rule:
                                         grid_head: //div[@id='couponCodesGrid_massaction']
         messages:
             success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% Coupon(s) have been generated')]
-            confirmation_for_delete: Are you sure you want to delete the selected coupon(s)?
+            confirmation_for_delete_coupons: Are you sure you want to delete the selected coupon(s)?
             select_coupons_for_delete: Please select items.
             validation_for_field_coupon_qty: //div[@id='advice-required-entry-coupons_qty']
             validation_for_field_coupon_qty_negative: //div[@id='advice-validate-digits-coupons_qty']

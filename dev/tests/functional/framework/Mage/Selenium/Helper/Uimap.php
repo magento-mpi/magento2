@@ -97,11 +97,13 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     public function loadAndMergeUimaps(array $uimapFiles, $includeElements)
     {
         //Uimaps loading for first project
+        if (empty($uimapFiles)) {
+            return;
+        }
         $codePoolNames = array_keys($uimapFiles);
         $baseCodePoolName = array_shift($codePoolNames);
         $baseUimapFiles = array_shift($uimapFiles);
-
-        foreach ((array)$baseUimapFiles as $area => $files) {
+        foreach ($baseUimapFiles as $area => $files) {
             foreach ($files as $file) {
                 $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
                 foreach ($codePoolNames as $codePoolName) {

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_TransactionalEmails_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Inserts variable
@@ -82,7 +82,7 @@ class Community2_Mage_TransactionalEmails_Helper extends Mage_Selenium_TestCase
         //Data
         $this->addParameter('template_name', $searchData['filter_template_name']);
         //Steps
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'system_email_template_grid');
         //Verifying
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
@@ -103,7 +103,7 @@ class Community2_Mage_TransactionalEmails_Helper extends Mage_Selenium_TestCase
         }
         $this->addParameter('template_name', $searchData['filter_template_name']);
         //Steps
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'system_email_template_grid');
         $this->fillTemplateForm($newTemplateData, 'template_information');
         $this->clickButton('save_template');
     }

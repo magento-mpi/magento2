@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_Attributes_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Action_helper method for Create Customer Attribute
@@ -44,8 +44,8 @@ class Enterprise2_Mage_Attributes_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $attrData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $propertiesTab = (isset($attrData['properties']))? $attrData['properties']: array();
-        $optionsTab = (isset($attrData['manage_labels_options']))? $attrData['manage_labels_options']: array();
+        $propertiesTab = (isset($attrData['properties'])) ? $attrData['properties'] : array();
+        $optionsTab = (isset($attrData['manage_labels_options'])) ? $attrData['manage_labels_options'] : array();
 
         $this->fillTab($propertiesTab, 'properties');
         $this->openTab('manage_labels_options');
@@ -65,10 +65,10 @@ class Enterprise2_Mage_Attributes_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
         $cellId = $this->getColumnIdByName('Attribute Label');
-        $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('attribute_code', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 }

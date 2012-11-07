@@ -16,9 +16,10 @@ enable_persistent_shopping_cart:
     tab_1:
         tab_name: customers_persistent_shopping_cart
         configuration:
-            enable_persistence: Yes
-            persistence_lifetime_seconds: 3153600
-            enable_remember_me: Yes
-            remember_me_default_value: Yes
-            clear_persistence_on_log_out: Yes
-            persist_shopping_cart: Yes
+            general_options:
+                enable_persistence: Yes
+                persistence_lifetime_seconds: 3153600
+                enable_remember_me: Yes
+                remember_me_default_value: Yes
+                clear_persistence_on_log_out: Yes
+                persist_shopping_cart: Yes

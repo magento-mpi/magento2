@@ -85,9 +85,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInBillingAddress($field, $message, $data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'      => $data['sku'],
-                                                'billing_' . $field  => ''));
+        $override = array('general_name' => $data['sku'], 'billing_' . $field  => '');
+        if ($field == 'country') {
+            $override['billing_state'] = '%noValue%';
+        }
+        $checkoutData =
+            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -121,9 +124,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address',
-                                           array('general_name'       => $data['sku'],
-                                                'shipping_' . $field  => ''));
+        $override = array('general_name' => $data['sku'], 'shipping_' . $field  => '');
+        if ($field == 'country') {
+            $override['shipping_state'] = '%noValue%';
+        }
+        $checkoutData =
+            $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_different_address', $override);
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -142,79 +148,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
             array('country', '"Country": Please select an option.'),
             array('telephone', '"Telephone": This is a required field.')
         );
-    }
-
-    /**
-     * @param string $dataName
-     * @param array $data
-     *
-     * @test
-     * @dataProvider specialDataDataProvider
-     * @depends preconditionsForTests
-     */
-    public function specialValuesForAddressFields($dataName, $data)
-    {
-        //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', $dataName, array('general_name' => $data['sku']));
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        //Steps
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_checkout');
-    }
-
-    public function specialDataDataProvider()
-    {
-        return array(
-            array('signedin_flatrate_checkmoney_long_address'),
-            array('signedin_flatrate_checkmoney_special_address')
-        );
-    }
-
-    /**
-     * <p>Verifying "Use Billing Address" checkbox functionality</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to different address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Check "Use Billing Address" checkbox</p>
-     * <p>7. Verify data used for filling form</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Data must be the same as billing address</p>
-     * <p>Customer successfully redirected to the next page, no error massages appears</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3198
-     */
-    public function frontShippingAddressUseBillingAddress($data)
-    {
-        //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_use_billing_in_shipping',
-                                           array('general_name' => $data['sku']));
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        //Steps
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     /**
@@ -286,5 +219,68 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+    }
+
+    /**
+     * <p>Verifying "Use Billing Address" checkbox functionality</p>
+     * <p>Preconditions</p>
+     * <p>1. Add product to Shopping Cart</p>
+     * <p>2. Click "Proceed to Checkout"</p>
+     * <p>Steps</p>
+     * <p>1. Fill in Checkout Method tab</p>
+     * <p>2. Click 'Continue' button.</p>
+     * <p>3. Fill in Billing Information tab</p>
+     * <p>4. Select "Ship to different address" option</p>
+     * <p>5. Click 'Continue' button.</p>
+     * <p>6. Check "Use Billing Address" checkbox</p>
+     * <p>7. Verify data used for filling form</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>Expected result:</p>
+     * <p>Data must be the same as billing address</p>
+     * <p>Customer successfully redirected to the next page, no error massages appears</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3198
+     */
+    public function frontShippingAddressUseBillingAddress($data)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_use_billing_in_shipping',
+            array('general_name' => $data['sku']));
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    /**
+     * @param string $dataName
+     * @param array $data
+     *
+     * @test
+     * @dataProvider specialDataDataProvider
+     * @depends preconditionsForTests
+     */
+    public function specialValuesForAddressFields($dataName, $data)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('OnePageCheckout', $dataName, array('general_name' => $data['sku']));
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
+    }
+
+    public function specialDataDataProvider()
+    {
+        return array(
+            array('signedin_flatrate_checkmoney_long_address'),
+            array('signedin_flatrate_checkmoney_special_address')
+        );
     }
 }

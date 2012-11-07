@@ -18,8 +18,7 @@ product_page:
                     add_tag:
                         buttons:
                             add_tags: //*[@data-ui-id='product-tag-list-add-button']
-                        fields:
-                            input_new_tags: //*[@data-ui-id='product-tag-list-add-input']
+                -
                     product_info:
                         links:
                             what_is_this: //a[contains(., concat("What", "'s this?"))]

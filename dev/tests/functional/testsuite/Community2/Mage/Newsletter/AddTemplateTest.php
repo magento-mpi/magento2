@@ -78,7 +78,7 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
         //Steps
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
         //Verifying
-        $this->assertMessagePresent('success', 'success_saved_template');
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
     }
 
     /**

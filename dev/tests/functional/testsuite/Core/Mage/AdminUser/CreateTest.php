@@ -207,7 +207,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'permissionsUserGrid');
         $this->assertTrue($this->verifyForm($userData, 'user_info', array('password', 'password_confirmation')),
             $this->getParsedMessages());
     }
@@ -248,7 +248,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'permissionsUserGrid');
         $this->assertTrue($this->verifyForm($userData, 'user_info', array('password', 'password_confirmation')),
             $this->getParsedMessages());
     }

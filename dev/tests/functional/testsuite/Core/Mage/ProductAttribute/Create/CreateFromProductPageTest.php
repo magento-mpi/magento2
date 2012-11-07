@@ -30,12 +30,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
+        $this->closeLastWindow();
     }
 
     /**
@@ -65,13 +60,16 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $attrData = $this->loadDataSet('ProductAttribute', $attributeType, null);
+        $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
+        $this->productHelper()->selectTypeProduct($productData, 'simple');
+        $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
-        $this->selectWindow(null);
-        $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
+        $code = ($attributeType != 'product_attribute_fpt')
+            ? $attrData['attribute_code']
+            : $attrData['attribute_code'] . '_table';
+        $this->addParameter('elementId', $code);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'element_by_id'));
     }
 
     public function onProductPageWithRequiredFieldsOnlyDataProvider()

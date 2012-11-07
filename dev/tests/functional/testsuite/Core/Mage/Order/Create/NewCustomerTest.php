@@ -76,13 +76,11 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
-                                        array('filter_sku'     => $simpleSku,
-                                              'customer_email' => $this->generate('email', 32, 'valid')));
-        $param = $orderData['billing_addr_data']['billing_first_name']
-            . ' ' . $orderData['billing_addr_data']['billing_last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+            array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
         $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
-                                             array('email' => $orderData['account_data']['customer_email']));
+            array('email' => $orderData['account_data']['customer_email']));
+        $customerTitle = $orderData['billing_addr_data']['billing_first_name'] . ' '
+                         . $orderData['billing_addr_data']['billing_last_name'];
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -90,10 +88,10 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->navigate('manage_customers');
+        $this->addParameter('elementTitle', $customerTitle);
         $this->customerHelper()->openCustomer($searchCustomer);
         $this->openTab('addresses');
-        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
-        $addressCount = $this->getXpathCount($xpath);
+        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         $this->assertEquals(0, $addressCount, 'Customer should not have address, but have ' . $addressCount);
     }
 
@@ -119,22 +117,19 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3260
+     * @TestlinkId TL-MAGE-3260
      */
     public function newCustomerWithAddress($simpleSku)
     {
-        $this->markTestIncomplete('Helper method isAddressPresent() incorrectly verifies default billing address');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
-                                     array('filter_sku'     => $simpleSku,
-                                           'customer_email' => $this->generate('email', 32, 'valid')));
+            array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_all');
         $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_all');
-        $param = $orderData['billing_addr_data']['billing_first_name']
-            . ' ' . $orderData['billing_addr_data']['billing_last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        $customerTitle = $orderData['billing_addr_data']['billing_first_name'] . ' '
+                         . $orderData['billing_addr_data']['billing_last_name'];
         $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
-                                          array('email' => $orderData['account_data']['customer_email']));
+            array('email' => $orderData['account_data']['customer_email']));
         $addressVerify[] = $this->loadDataSet('SalesOrder', 'billing');
         $addressVerify[] = $this->loadDataSet('SalesOrder', 'shipping');
         //Steps
@@ -144,11 +139,13 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->navigate('manage_customers');
+        $this->addParameter('elementTitle', $customerTitle);
         $this->customerHelper()->openCustomer($searchCustomer);
         $this->openTab('addresses');
         foreach ($addressVerify as $value) {
             $addressNumber = $this->customerHelper()->isAddressPresent($value);
             $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
+            $this->clearMessages('verification');
         }
     }
 
@@ -174,15 +171,14 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3261
+     * @TestlinkId TL-MAGE-3261
      */
     public function newCustomerWithExistEmail($simpleSku)
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                     array('filter_sku'     => $simpleSku,
-                                           'customer_email' => $userData['email']));
+            array('filter_sku' => $simpleSku, 'customer_email' => $userData['email']));
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
@@ -217,15 +213,14 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3262
+     * @TestlinkId TL-MAGE-3262
      */
     public function newCustomerWithLongEmail($simpleSku)
     {
         //Data
         $email = $this->generate('string', 129, ':alnum:') . '@unknown-domain.com';
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                     array('filter_sku'     => $simpleSku,
-                                           'customer_email' => $email));
+            array('filter_sku' => $simpleSku, 'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -260,11 +255,9 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     public function newCustomerWithNotCorrectEmail($simpleSku)
     {
         //Data
-        $email = $this->generate('string', 23, ':alnum:') . '@'
-            . $this->generate('string', 65, ':alnum:') . '.org';
+        $email = $this->generate('string', 23, ':alnum:') . '@' . $this->generate('string', 65, ':alnum:') . '.org';
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                     array('filter_sku'     => $simpleSku,
-                                           'customer_email' => $email));
+            array('filter_sku' => $simpleSku, 'customer_email' => $email));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -296,14 +289,13 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3264
+     * @TestlinkId TL-MAGE-3264
      */
     public function newCustomerWithNotValidEmail($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'     => $simpleSku,
-                                              'customer_email' => $this->generate('email', 20, 'invalid')));
+            array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 20, 'invalid')));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -334,13 +326,13 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3266
+     * @TestlinkId TL-MAGE-3266
      */
     public function orderCompleteReqFields($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                     array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         $orderData['billing_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'billing', 255);
         $orderData['shipping_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'shipping', 255);
         //Steps

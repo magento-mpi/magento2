@@ -299,7 +299,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         foreach ($data as $value) {
             $this->importExportScheduledHelper()->searchAndChoose(array(
                 'name' => $value['name'],
-            ));
+            ), 'grid_and_filter');
         }
         //Step 2
         $this->fillDropdown('grid_massaction_select', 'Delete');

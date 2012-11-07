@@ -18,12 +18,9 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     {
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
-        if ($foundItems == 1) {
-            $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
-            $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
+        if ($this->getControlCount('pageelement', 'table_line') == 1) {
+            $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
         }
     }
 
@@ -43,7 +40,8 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     function verificationScopeSelector()
     {
         $this->admin('system_configuration');
-        $this->assertElementPresent($this->_getControlXpath('fieldset', 'current_configuration_scope'), "There is no Scope Selector");
+        $this->assertTrue($this->controlIsPresent('fieldset', 'current_configuration_scope'),
+            "There is no Scope Selector");
     }
 
     /**
@@ -69,7 +67,7 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     function verificationTableRatesExport($diffScope)
     {
         $this->admin('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('sales_shipping_methods');
         $button = 'table_rates_export_csv';
         if ($diffScope == 'Main Website') {
@@ -116,7 +114,7 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     function verificationAccountSharingOptions($diffScope)
     {
         $this->admin('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
         $fieldset = 'account_sharing_options';
         if ($diffScope == 'Default Config') {
@@ -155,7 +153,7 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     function verificationCatalogPrice($diffScope)
     {
         $this->admin('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
         $fieldset = 'price';
         if ($diffScope == 'Default Config') {
@@ -196,7 +194,7 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
     function verificationDebugOptions($diffScope)
     {
         $this->admin('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('advanced_developer');
         $fieldset = 'debug';
         if (($diffScope == 'Main Website') || ($diffScope == 'Default Store View')) {
@@ -227,22 +225,29 @@ class Community2_Mage_Store_MultiStoreModeSystemConfigurationTest extends Mage_S
      */
     function verificationHints()
     {
-        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
-        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
-        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
         $this->admin('system_configuration');
+        $locatorParts = array($this->_getControlXpath('pageelement', 'store_view_hint'),
+                              $this->_getControlXpath('pageelement', 'global_view_hint'),
+                              $this->_getControlXpath('pageelement', 'website_view_hint'));
+        $needTypes = array(self::FIELD_TYPE_MULTISELECT, self::FIELD_TYPE_DROPDOWN, self::FIELD_TYPE_INPUT);
+
         $tabs = $this->getCurrentUimapPage()->getMainForm()->getAllTabs();
-        foreach ($tabs as $tab => $value) {
-            $uimapFields = array();
-            $this->openTab($tab);
-            $uimapFields[self::FIELD_TYPE_MULTISELECT] = $value->getAllMultiselects();
-            $uimapFields[self::FIELD_TYPE_DROPDOWN] = $value->getAllDropdowns();
-            $uimapFields[self::FIELD_TYPE_INPUT] = $value->getAllFields();
-            foreach ($uimapFields as $element) {
-                foreach ($element as $name => $xpath) {
-                    if ((!$this->isElementPresent($xpath . $storeView)) && (!$this->isElementPresent($xpath . $globalView)) &&
-                        (!$this->isElementPresent($xpath . $websiteView))) {
-                            $this->addVerificationMessage("Element $name is not on the page");
+        /**
+         * @var Mage_Selenium_Uimap_Tab $tabUimap
+         */
+        foreach ($tabs as $tabName => $tabUimap) {
+            $this->openTab($tabName);
+            $uimapFields = $tabUimap->getTabElements($this->getParamsHelper());
+            foreach ($needTypes as $fieldType) {
+                if (!isset($uimapFields[$fieldType])) {
+                    continue;
+                }
+                foreach ($uimapFields[$fieldType] as $fieldName => $fieldLocator) {
+                    foreach ($locatorParts as $part) {
+                        if (!$this->elementIsPresent($fieldLocator . $part)) {
+                            $this->addVerificationMessage(
+                                "Element '" . $fieldName . "' is not on the page. Locator: " . $fieldLocator . $part);
+                        }
                     }
                 }
             }

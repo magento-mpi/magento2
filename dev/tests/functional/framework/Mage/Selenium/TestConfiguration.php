@@ -93,12 +93,6 @@ class Mage_Selenium_TestConfiguration
     protected $_testHelperClassNames = array();
 
     /**
-     * Handle to log file
-     * @var null|resource
-     */
-    protected $_logFile = null;
-
-    /**
      * Uimap include folder name
      * @var string
      */
@@ -173,7 +167,6 @@ class Mage_Selenium_TestConfiguration
     {
         $this->setInitialPath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR);
         $this->_initConfig();
-        $this->_initLogFile($this->getHelper('config')->getLogDir());
         $this->_initFixturesPaths();
         $this->_initTestHelperClassNames();
         $this->_initFixtures();
@@ -186,22 +179,6 @@ class Mage_Selenium_TestConfiguration
     protected function _initConfig()
     {
         $this->getHelper('config');
-        return $this;
-    }
-
-    /**
-     * Initialize log file
-     *
-     * @param string $dirPath
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _initLogFile($dirPath)
-    {
-        if (is_null($this->_logFile)) {
-            $this->_logFile = fopen($dirPath . DIRECTORY_SEPARATOR
-                                        . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
-        }
         return $this;
     }
 
@@ -234,18 +211,6 @@ class Mage_Selenium_TestConfiguration
         $this->getHelper('uimap');
         $this->getHelper('data');
         return $this;
-    }
-
-    /**
-     * Get log file
-     * @return null|resource
-     */
-    public function getLogFile()
-    {
-        if (empty($this->_logFile)) {
-            $this->_initLogFile($this->getHelper('config')->getLogDir());
-        }
-        return $this->_logFile;
     }
 
     /**

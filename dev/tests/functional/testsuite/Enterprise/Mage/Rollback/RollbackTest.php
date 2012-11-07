@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_Rollback
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -49,7 +49,7 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
@@ -154,13 +154,13 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
         $this->navigate('manage_staging_websites');
         $this->addParameter('websiteName', $websiteName);
         $this->addParameter('latestEvent', 'Rollback');
-        $this->search(array('filter_website_name' => $websiteName));
+        $this->search(array('filter_website_name' => $websiteName), 'staging_websites_grid');
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification of TL-MAGE-2029
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($rollbackStarted);
+        $this->searchAndOpen($rollbackStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($rollbackCompleted);
+        $this->searchAndOpen($rollbackCompleted, 'staging_operations_log_grid');
     }
 
     /**

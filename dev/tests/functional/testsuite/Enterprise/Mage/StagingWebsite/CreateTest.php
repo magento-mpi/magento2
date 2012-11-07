@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_StagingWebsite
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -22,8 +22,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('StagingWebsite',
-            'staging_website_enable_auto_entries'));
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
     }
 
     protected function assertPreconditions()
@@ -34,7 +33,7 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         //load default application settings
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     /**
@@ -81,17 +80,17 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_website');
         $this->addParameter('websiteName', $website['general_information']['staging_website_name']);
         $this->addParameter('latestEvent', 'Staging Website Creation');
-        $this->search(array('filter_website_name' => $website['general_information']['staging_website_name']));
+        $this->search(array('filter_website_name' => $website['general_information']['staging_website_name']),
+            'staging_websites_grid');
         //search is used for getting on the page with the matched row
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification on log page
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($creationStarted);
+        $this->searchAndOpen($creationStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($creationCompleted);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->searchAndOpen($creationCompleted, 'staging_operations_log_grid');
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->frontend();
-        $this->assertEquals($newFrontendUrl, $this->getLocation(), 'Unexpected frontend URL.');
         return $website['general_information']['staging_website_code'];
     }
 

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_TestCase
+class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Creates CMS Banners with required fields only
@@ -27,7 +27,7 @@ class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_TestCase
     {
         if (is_string($pageData)) {
             $elements = explode('/', $pageData);
-            $fileName = (count($elements) > 1) ? array_shift($elements): '';
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $pageData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $bannerProperties = (isset($pageData['banner_properties'])) ? $pageData['banner_properties'] : array();
@@ -57,12 +57,12 @@ class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_TestCase
 
         $this->fillTab($content, 'content');
         foreach ($widgetsData as $widget) {
-            $buttonName = array_key_exists('no_default_content', $content) ? 'insert_widget_content' : 'insert_widget';
-            $this->cmsPagesHelper()->insertWidget($widget, $buttonName);
+            $button = array_key_exists('no_default_content', $content) ? 'insert_widget_content' : 'insert_widget';
+            $this->cmsPagesHelper()->insertWidget($widget, $button);
         }
         foreach ($variableData as $variable) {
-            $buttonName = array_key_exists('no_default_content', $content) ? 'insert_variable_content' : 'insert_variable';
-            $this->cmsPagesHelper()->insertVariable($variable, $buttonName);
+            $button = array_key_exists('no_default_content', $content) ? 'insert_variable_content' : 'insert_variable';
+            $this->cmsPagesHelper()->insertVariable($variable, $button);
         }
     }
 
@@ -90,10 +90,10 @@ class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchPage, 'cms_banners_grid');
         $this->assertNotEquals(null, $xpathTR, 'CMS Banner is not found');
         $cellId = $this->getColumnIdByName('Banner Name');
-        $this->addParameter('bannerName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('bannerName', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 
@@ -107,5 +107,4 @@ class Enterprise2_Mage_CmsBanners_Helper extends Mage_Selenium_TestCase
         $this->openCmsBanner($searchPage);
         $this->clickButtonAndConfirm('delete_banner', 'confirmation_for_delete');
     }
-
 }

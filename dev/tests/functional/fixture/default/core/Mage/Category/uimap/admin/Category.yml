@@ -12,7 +12,7 @@
 
 manage_categories:
     mca: catalog_category/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: &categoryUimap
         form:
@@ -24,17 +24,28 @@ manage_categories:
                             add_root_category: //button[@id='add_root_category_button']
                             add_sub_category: //button[@id='add_subcategory_button']
                         links:
+                            category_by_name: //span[contains(text(),'%categoryName%')]
                             collapse_all: //a[text()='Collapse All']
                             expand_all: //a[text()='Expand All']
-                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                            expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                            select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                        pageelements:
+                            select_category_category_text: %categoryXpath%/div/a/span
+                            select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
+                            select_category_category_index_link: %categoryXpath%[%index%]/div/a
                         dropdowns:
                             choose_store_view: //select[@id='store_switcher']
+                -
+                    category_container:
+                        xpath: //*[@id='category-edit-container']
+                        pageelements:
+                            category_name_header: //h3
+                            created_category_name_header: //h3[not(contains(text(),'New'))]
             tabs:
                 -
                     general_information:
-                        xpath: //a[@title='General Information']/span
+                        xpath: //a[@title='General Information']
                         fieldsets:
                             -
                                 general_info:
@@ -58,7 +69,7 @@ manage_categories:
                                         meta_description: //textarea[@name='general[meta_description]']
                 -
                     display_settings:
-                        xpath: //a[@title='Display Settings']/span
+                        xpath: //a[@title='Display Settings']
                         fieldsets:
                             -
                                 display_settings:
@@ -78,7 +89,7 @@ manage_categories:
                                         available_product_listing: //select[@name='general[available_sort_by][]']
                 -
                     custom_design:
-                        xpath: //a[@title='Custom Design']/span
+                        xpath: //a[@title='Custom Design']
                         fieldsets:
                             -
                                 custom_design:
@@ -94,7 +105,7 @@ manage_categories:
                                         custom_layout_update: //textarea[@name='general[custom_layout_update]']
                 -
                      category_products:
-                        xpath: //a[@title='Category Products']/span
+                        xpath: //a[@title='Category Products']
                         fieldsets:
                             -
                                 category_products:
@@ -110,7 +121,6 @@ manage_categories:
                                         category_products_search_sku: //input[@id='catalog_category_products_filter_sku']
                                         category_products_search_price_from: //input[@id='catalog_category_products_filter_price_from']
                                         category_products_search_price_to: //input[@id='catalog_category_products_filter_price_to']
-
                                         category_products_search_position_from: //input[@id='catalog_category_products_filter_position_from']
                                         category_products_search_position_to: //input[@id='catalog_category_products_filter_position_to']
                                         category_products_position: %productXpath%//input[@name='position']
@@ -126,12 +136,12 @@ manage_categories:
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap
 
 edit_category:
     mca: catalog_category/edit/store/0/id/%id%/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: %elementTitle% / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap

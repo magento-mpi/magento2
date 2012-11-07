@@ -55,7 +55,7 @@ new_banner:
             tabs:
                 -
                     content:
-                        xpath: //a[@title='Content']/span
+                        xpath: //a[@title='Content']
                         fieldsets:
                             -
                                 store_view_specific_content:

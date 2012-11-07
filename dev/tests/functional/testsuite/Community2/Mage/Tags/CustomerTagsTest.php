@@ -51,36 +51,27 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
-        if ($status != 'Pending') {
-            $this->navigate('all_tags');
-            foreach ($tags as $tag) {
-                $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), $status);
-            }
-        }
+
         //Open customer
         foreach ($tags as $tag) {
+            if ($status != 'Pending') {
+                $this->navigate('all_tags');
+                $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), $status);
+            }
+            $tagSearchData = array('tag_name' => $tag, 'status' => $status, 'product_name' => $testData['simple']);
+            $customerSearchData = array('customer_email' => $testData['user'][1]['email']);
             $this->navigate('manage_customers');
-            $this->addParameter('customer_first_last_name',
-                'First Name Last Name');
-            $this->assertTrue($this->tagsHelper()->verifyTagCustomer(
-                array(
-                    'tag_name' => $tag,
-                    'status' => $status,
-                    'product_name' => $testData['simple']),
-                array('customer_email' => $testData['user'][1]['email'])),
-            'Product tags verification is failure');
-            $this->tagsHelper()->openTag(
-                array(
-                    'product_name' => $testData['simple'],
-                    'status' => $status,
-                    'tag_search_name' => $tag), false
-            );
+            $this->assertTrue($this->tagsHelper()->verifyTagCustomer($tagSearchData, $customerSearchData),
+                'Product tags verification is failure');
+            $searchTag = array('product_name' => $testData['simple'], 'status' => $status, 'tag_search_name' => $tag);
+            $this->tagsHelper()->openTag($searchTag);
             $this->tagsHelper()->saveForm('save_tag');
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
     }
+
     public function tagNameDataProvider()
     {
         return array(
@@ -89,6 +80,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
             array($this->generate('string', 4, ':alpha:'), 'Pending')
         );
     }
+
     /**
      * Backend verification search and order tag from frontend on the Customer Page
      *
@@ -109,12 +101,8 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('customer_email' => $testData['user'][1]['email']));
         $this->openTab('product_tags');
-        $this->tagsHelper()->orderByInTable($columnName, 'asc', $this->_getControlXpath('pageelement', 'tags_grid'));
-        $tableValues = array();
-        $tableValues = $this->tagsHelper()->getInfoInTable(
-            $tableValues,
-            $this->_getControlXpath('pageelement', 'tags_grid')
-        );
+        $this->sortTableOrderByColumn($columnName, 'asc', $this->_getControlXpath('pageelement', 'tags_grid'));
+        $tableValues = $this->getInfoInTable(array(), $this->_getControlXpath('pageelement', 'tags_grid'));
         //Check sort order
         foreach ($tableValues as $key => $row) {
             $volume[$key] = strtolower($row[$columnName]);
@@ -123,6 +111,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
         array_multisort($volume, SORT_ASC, SORT_STRING, $tableValuesNew);
         $this->assertEquals($tableValues, $tableValuesNew);
     }
+
     public function tagSearchNameDataProvider()
     {
         return array(

@@ -23,6 +23,7 @@ class Community2_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('customers_promotions');
+        $this->systemConfigurationHelper()->expandFieldSet('auto_generated_specific_coupon_codes');
     }
 
     /**

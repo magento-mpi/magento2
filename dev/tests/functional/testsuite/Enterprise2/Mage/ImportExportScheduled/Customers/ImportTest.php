@@ -82,9 +82,6 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
                     array('email' => $customersCsv['email'])),
                 'Deleted customer was found');
         } else {
-            $this->addParameter(
-                'customer_first_last_name',
-                $customersCsv['firstname'] . ' ' . $customersCsv['lastname']);
             $this->customerHelper()->openCustomer(array('email' => $customersCsv['email']));
             $this->openTab('account_information');
             //Verifying

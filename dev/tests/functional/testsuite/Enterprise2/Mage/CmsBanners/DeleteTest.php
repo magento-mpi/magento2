@@ -83,11 +83,10 @@ class Enterprise2_Mage_CmsBanners_DeleteTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_cms_banner');
         }
         for ($i = 1; $i <= $bannerQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'cms_banners_grid');
         }
         $this->addParameter('qtyDeletedProducts', $bannerQty);
-        $xpath = $this->_getControlXpath('dropdown', 'banner_massaction');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('banner_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_mass_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_banner_massaction');

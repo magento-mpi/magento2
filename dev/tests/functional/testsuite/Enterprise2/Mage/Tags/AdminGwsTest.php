@@ -307,7 +307,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         // Checking that user has no possibility to delete tags via mass action
         $this->navigate('all_tags');
         $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
-        $this->assertFalse($this->isElementPresent($xpath . "//option[text()='Delete']"),
+        $this->assertFalse($this->elementIsPresent($xpath . "//option[text()='Delete']"),
             'Action "Delete" must be absent'
         );
 
@@ -319,7 +319,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
             }
         }
         $this->navigate('pending_tags');
-        $this->searchAndChoose(array('tag_name' => $pendingTag));
+        $this->searchAndChoose(array('tag_name' => $pendingTag), 'tags_grid');
         $this->fillDropdown('tags_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         $this->assertMessagePresent('error', 'error_deleted_tag_has_no_permissions');
@@ -329,7 +329,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $buttonListForCheck = array('delete_tag', 'save_tag', 'save_and_continue_edit');
         foreach ($buttonListForCheck as $buttonName) {
             $xpath = $this->_getControlXpath('button', $buttonName);
-            $this->assertFalse($this->isElementPresent($xpath));
+            $this->assertFalse($this->elementIsPresent($xpath));
         }
 
         // Checking that edit tag fields are disabled
@@ -340,7 +340,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         );
         foreach ($fieldListForCheck as $fieldName => $fieldType) {
             $xpath = $this->_getControlXpath($fieldType, $fieldName);
-            $this->assertFalse($this->isEditable($xpath));
+            $this->assertFalse($this->getElement($xpath)->enabled());
         }
 
         $this->logoutAdminUser();

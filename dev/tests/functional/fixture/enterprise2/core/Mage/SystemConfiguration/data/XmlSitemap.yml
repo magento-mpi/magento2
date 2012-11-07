@@ -1,0 +1,53 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#*******************************************************
+#*       Data for system configuration(Backend)        *
+#*******************************************************
+admin_xml_sitemap:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_design
+        configuration:
+            unknown:
+                edit_custom_instruction_test: test
+
+admin_enable_push_to_robots:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_google_sitemap
+        configuration:
+            search_engine_submission_settings:
+                enable_submission_to_robots: Yes
+
+admin_disable_push_to_robots:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_google_sitemap
+        configuration:
+            search_engine_submission_settings:
+                enable_submission_to_robots: No
+
+admin_disable_http_only:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_web
+        configuration:
+            session_cookie_management:
+                use_http_only: No
+
+admin_disable_secret_key:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: advanced_admin
+        configuration:
+            security:
+                add_secret_key_to_urls: No

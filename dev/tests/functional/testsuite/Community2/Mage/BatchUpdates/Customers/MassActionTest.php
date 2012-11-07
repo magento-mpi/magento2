@@ -55,14 +55,14 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
             $affectedCustomers[] = $customerData;
         }
         for ($i = 1; $i <= $customerQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'customers_grid');
         }
         //Steps
         $this->addParameter('qtySubscribeCustomers', $customerQty);
         $this->fillDropdown('grid_massaction_select', 'Subscribe to Newsletter');
         $this->clickButton('submit');
         //Verifying
-        $this->assertMessagePresent('success', 'success_suscribe_unsuscribe_customer_massaction');
+        $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
 
         return $affectedCustomers;
     }
@@ -91,7 +91,7 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
         $this->fillDropdown('grid_massaction_select', 'Unsubscribe from Newsletter');
         $this->clickButton('submit');
         //Verifying
-        $this->assertMessagePresent('success', 'success_suscribe_unsuscribe_customer_massaction');
+        $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
     }
 
     /**
@@ -125,7 +125,7 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
         $this->fillDropdown('group', $customerGroupData['group_name']);
         $this->clickButton('submit');
         //Verifying
-        $this->assertMessagePresent('success', 'success_suscribe_unsuscribe_customer_massaction');
+        $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
     }
 
     /**
@@ -145,12 +145,10 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
         //Steps
         $this->fillDropdown('grid_massaction_select', $actionValue);
         $this->clickButton('submit', false);
-        if (!$this->isAlertPresent()) {
-            $this->fail('confirmation message not found on page');
-        }
-        $actualAlertText = $this->getAlert();
         //Verifying
-        $this->assertSame('Please select items.', $actualAlertText, 'actual and expected confirmation message does not match');
+        $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
+        match');
+        $this->acceptAlert();
     }
 
     public function updateAttributesByBatchUpdatesNegativeDataProvider()
@@ -191,7 +189,7 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
         for ($i = 1; $i <= $customerQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'customers_grid');
         }
         //Steps
         $this->addParameter('qtySubscribeCustomers', $customerQty);
@@ -199,7 +197,7 @@ class Community2_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Seleniu
         $this->fillDropdown('group', $groupValue);
         $this->clickButton('submit');
         //Verifying
-        $this->assertMessagePresent('success', 'success_suscribe_unsuscribe_customer_massaction');
+        $this->assertMessagePresent('success', 'success_subscribe_unsubscribe_customer_massaction');
     }
 
     public function assignToDefaultCustomersGroupDataProvider()

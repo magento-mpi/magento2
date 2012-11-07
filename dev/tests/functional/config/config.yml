@@ -15,23 +15,32 @@
 ################################################################################
 browsers:
     googlechrome: &googlechrome
-         name: 'Google Chrome'
-         browser: '*googlechrome'
+         browser: 'Google Chrome'
+         browserName: 'chrome'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     firefox: &firefox
-         name: 'Firefox'
-         browser: '*chrome'
+         browser: 'Firefox'
+         browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     iexplorer: &iexplorer
-         name: 'Internet Explorer'
-         browser: '*iexplore'
+         browser: 'Internet Explorer'
+         browserName: 'iexplore'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -41,11 +50,8 @@ browsers:
 framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
-    #work only if tests are run for single browser
-    shareSession: true
     coverageScriptUrl: ''
-    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
-    captureScreenshotOnFailure: true
+    saveScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
@@ -137,7 +143,7 @@ applications:
         ftp: *ftp
         areas:
             admin:
-                url: 'http://www.localhost.com/magento_enterprise1200/control/'
+                url: 'http://www.localhost.com/magento_enterprise1200/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
@@ -160,7 +166,7 @@ applications:
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento_enterprise1201/'
+                url: 'http://www.localhost.com/magento_enterprise1201/control/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
@@ -188,15 +194,16 @@ applications:
         ftp: *ftp
         areas:
             admin:
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
                 url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento_2enterprise/control/'
+                url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *m2ee
+    default: *m2ce

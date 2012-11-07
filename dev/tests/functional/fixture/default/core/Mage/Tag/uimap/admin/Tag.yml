@@ -11,19 +11,19 @@
 # All Tags page
 all_tags:
     mca: tag/
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: &allTags
         form: &searchTagsGrid
             fieldsets:
                 -
-                    all_tags_grid:
+                    tags_grid:
                         xpath: //div[@id='tag_tag_grid']
                         links:
                             select_all: //a[text()='Select All']
                             unselect_all: //a[text()='Unselect All']
                             select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
+                            unselect_visible: //a[text()='Unselect Visible']                            
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -45,7 +45,6 @@ all_tags:
         buttons:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
-            no_records_found: //tr[td='No records found.']
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
@@ -60,14 +59,14 @@ all_tags:
 
 all_tags_index:
     mca: tag/index/
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: *allTags
 
 # Edit Tag Page
 edit_tag:
-    mca: tag/edit/tag_id/%id%
-    title: %tagName% / Tags / Catalog / Magento Admin
+    mca: tag/edit/store/%storeId%/tag_id/%id%
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: &editTagUimap
         form:
             fieldsets:
@@ -85,9 +84,9 @@ edit_tag:
                             base_popularity: //input[@name='base_popularity']
                 -
                     products_tagged_by_admins:
-                        xpath: //dl[@id='tab_content_tag_assigned_grid']
+                        xpath: //dl[contains(@id, 'tag_assigned_grid')]
                         links:
-                            prod_tag_admin_expand:  //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
+                            prod_tag_admin_expand: //a[normalize-space(text())='Products Tagged by Administrators']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -109,6 +108,8 @@ edit_tag:
                 -
                     customers_submitted_tags:
                         xpath: //dd[@id='dd-tag_customer']
+                        links:
+                            customers_submit_tag_expand: /parent::*//a[normalize-space(text())='Customers Submitted this Tag']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -119,6 +120,8 @@ edit_tag:
                 -
                     products_tagged_by_customers:
                         xpath: //dd[@id='dd-tag_product']
+                        links:
+                            prod_tag_customer_expand: /parent::*//a[normalize-space(text())='Products Tagged by Customers']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -133,27 +136,22 @@ edit_tag:
             delete_tag: //button[span='Delete Tag']
             save_tag: //button[span='Save Tag']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        links:
-            prod_tag_customer_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
-            customers_submit_tag_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
-            prod_tag_admin_expand:  //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
         messages: *tagsMesssages
 
 # Edit tag '%tagName%' page
 edit_tag_more_options:
-    mca: tag/edit/tag_id/%id%/ret/
-    title: %tagName% / Tags / Catalog / Magento Admin
+    mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
-# Edit tag '%tagName%' page
-edit_pnding_tag_more_options:
-    mca: tag/edit/tag_id/%id%/ret/pending
-    title: %tagName% / Tags / Catalog / Magento Admin
+
+edit_tag_more_options_pending:
+    mca: tag/edit/store/%storeId%/tag_id/%id%/ret/pending
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 
 # New Tag page
 new_tag:
-    mca: tag/edit
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    mca: tag/edit/store/%storeId%
     title: New Tag / Tags / Catalog / Magento Admin
     uimap:
         form:
@@ -180,13 +178,13 @@ new_tag:
 # Pending Tags page
 pending_tags:
     mca: tag/pending
-    click_xpath: //div[@class='nav-bar']//a[span='Pending Tags']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Pending Tags']
     title: Pending Tags / Tags / Catalog / Magento Admin
     uimap:
         form:
             fieldsets:
                 -
-                    pending_tags_grid:
+                    tags_grid:
                         xpath: //div[@id='pending_grid']
                         links:
                             select_all: //a[text()='Select All']
@@ -211,12 +209,14 @@ pending_tags:
                             tags_grid_head: //table[@id='pending_grid_table']//thead/tr[@class='headings']
                             tags_grid: //table[@id='pending_grid_table']
             messages: *tagsMesssages
+
 product_tags:
     mca: tag/edit/tag_id/%id%/product_id/%prodId%
-    title: %tagName% / Tags / Catalog / Magento Admin
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
+
 customer_tags:
     mca: tag/edit/tag_id/%id%/customer_id/%custId%
-    title: %tagName% / Tags / Catalog / Magento Admin
+    title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 

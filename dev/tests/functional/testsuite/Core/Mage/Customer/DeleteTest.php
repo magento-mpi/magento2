@@ -51,7 +51,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        $this->addParameter('elementTitle', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
         //Verifying
@@ -85,11 +85,10 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
         for ($i = 1; $i <= $customerQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'customers_grid');
         }
         $this->addParameter('qtyDeletedCustomers', $customerQty);
-        $xpath = $this->_getControlXpath('dropdown', 'grid_massaction_select');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('grid_massaction_select', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_customer_massaction');

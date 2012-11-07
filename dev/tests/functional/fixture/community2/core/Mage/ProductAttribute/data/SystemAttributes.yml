@@ -75,6 +75,8 @@ msrp_enabled:
         admin_option_name: Yes
     option_2:
         admin_option_name: No
+    option_3:
+        admin_option_name: Use config
     default_value: Yes
 
 msrp_display_actual_price_type:

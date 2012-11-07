@@ -39,8 +39,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -69,8 +70,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createProcessingOrderWithInvoice($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -100,8 +102,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createProcessingOrderWithShipment($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -131,8 +134,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createCompleteOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -163,8 +167,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createClosedOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -193,8 +198,9 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createCanceledOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -214,17 +220,18 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
      * @test
      * @TestlinkId TL-MAGE-5937
      */
-    public function cancelHoldedOrders()
+    public function cancelHoldenOrders()
     {
         //Data
         $searchData = $this->createOrders();
         //Steps
-        $this->orderHelper()->createHoldedOrder($searchData['order1']);
+        $this->orderHelper()->createHoldenOrder($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying
@@ -251,10 +258,11 @@ class Community2_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCa
         //Steps
         $this->orderHelper()->createProcessingOrderWithShipment($searchData['order1']);
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createHoldedOrder($searchData['order2']);
+        $this->orderHelper()->createHoldenOrder($searchData['order2']);
         $this->navigate('manage_sales_orders');
-        $this->searchAndChoose($searchData['order1']);
-        $this->searchAndChoose($searchData['order2']);
+        foreach ($searchData as $order) {
+            $this->searchAndChoose($order, 'sales_order_grid');
+        }
         $this->fillDropdown('filter_massaction', 'Cancel');
         $this->clickButton('submit');
         //Verifying

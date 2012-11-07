@@ -28,7 +28,7 @@ edit_customer:
                                         products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
                 -
                     store_credit:
-                        xpath: //a[@id='customer_info_tabs_customerbalance']/span
+                        xpath: //a[@id='customer_info_tabs_customerbalance']
                         fieldsets:
                             -
                                 update_store_balance:
@@ -48,7 +48,7 @@ edit_customer:
                                         current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
                 -
                     reward_points:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']
                         links:
                             reward_points_history_link: //a[contains(.,'Reward Points History')]
                         fieldsets:
@@ -74,7 +74,7 @@ edit_customer:
 
 #edit_customer_save_and_continue:
 #    mca: customer/edit/id/%id%/back/edit/tab/%tab%/
-#    title: %customer_first_last_name% / Manage Customers / Customers / Magento Admin
+#    title: %elementTitle% / Manage Customers / Customers / Magento Admin
 #    uimap: *editCustomerForm
 
 #Customer Segments page
@@ -114,7 +114,7 @@ new_customer_segment:
             tabs:
                 -
                     general_properties: &customerSegmentProperties
-                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']/span
+                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']
                         fieldsets:
                             -
                                 segment_properties:
@@ -138,7 +138,7 @@ new_customer_segment:
 # Edit Customer Segment page
 edit_customer_segment:
     mca: customersegment/edit/id/%id%/
-    title: %segment_title% / Customer Segments / Customers / Magento Admin
+    title: %elementTitle% / Customer Segments / Customers / Magento Admin
     uimap:
         form: &editCustomerSegmentForm
             tabs:
@@ -196,17 +196,15 @@ new_invitations:
     title: Magento Admin
     uimap:
         form: &newInvitationsForm
-            tabs:
+            fieldsets:
                 -
-                    fieldsets:
-                        -
-                            invitations_properties:
-                            xpath: //div[@id='base_fieldset']
-                            dropdowns:
-                                invitee_group: //select[@id='group_id']
-                            fields:
-                                email_on_new_line: //textarea[@id='email']
-                                message: //textarea[@id='message']
+                    invitations_properties:
+                        xpath: //div[@id='base_fieldset']
+                        dropdowns:
+                            invitee_group: //select[@id='group_id']
+                        fields:
+                            email_on_new_line: //textarea[@id='email']
+                            message: //textarea[@id='message']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -222,14 +220,14 @@ edit_invitations:
             tabs:
                 -
                     general:
-                        xpath: //a[@name='general']/span
+                        xpath: //a[@name='general']
                         fieldsets:
-                        -
-                            invitations_informations:
-                                xpath: //div[@class='fieldset']
-                            fields:
-                                email: //input[@name='email']
-                                message: //textarea[@name='message']
+                            -
+                                invitations_informations:
+                                    xpath: //div[@class='fieldset']
+                                fields:
+                                    email: //input[@name='email']
+                                    message: //textarea[@name='message']
         buttons:
             back: //button[span='Back']
             discard_invitation: //button[span='Discard Invitation']
@@ -280,19 +278,17 @@ new_reward_rate:
     title: New Rate / Reward Exchange Rates / Customers / Magento Admin
     uimap: &newRateUimap
         form:
-            tabs:
+            fieldsets:
                 -
-                    fieldsets:
-                        -
-                            reward_rate_properties:
-                            xpath: //div[@id='base_fieldset']
-                            dropdowns:
-                                website: //select[@id='website_id']
-                                customer_groups: //select[@id='customer_group_id']
-                                direction: //select[@id='direction']
-                            fields:
-                                rate_value: //input[@name='rate[value]']
-                                rate_equal_value: //input[@name='rate[equal_value]']
+                    reward_rate_properties:
+                        xpath: //div[@id='base_fieldset']
+                        dropdowns:
+                            website: //select[@id='website_id']
+                            customer_groups: //select[@id='customer_group_id']
+                            direction: //select[@id='direction']
+                        fields:
+                            rate_value: //input[@name='rate[value]']
+                            rate_equal_value: //input[@name='rate[equal_value]']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -306,7 +302,7 @@ new_reward_rate:
 
 edit_reward_rate:
     mca: reward_rate/edit/rate_id/%id%/
-    title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
+    title: '%elementTitle% / Reward Exchange Rates / Customers / Magento Admin'
     uimap: *newRateUimap
 
 # 'Online Customers' Page

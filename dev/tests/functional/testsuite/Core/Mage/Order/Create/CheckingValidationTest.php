@@ -87,11 +87,10 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'billing_country') {
             $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
-                                                                 array($emptyField => ''));
+                array($emptyField => ''));
         } else {
             $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
-                                                                 array($emptyField    => '',
-                                                                      'billing_state' => '%noValue%'));
+                array($emptyField => '', 'billing_state' => '%noValue%'));
         }
         //Steps
         $this->navigate('manage_sales_orders');
@@ -160,11 +159,10 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'shipping_country') {
             $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
-                                                                  array($emptyField => ''));
+                array($emptyField => ''));
         } else {
             $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
-                                                                  array($emptyField     => '',
-                                                                       'shipping_state' => '%noValue%'));
+                array($emptyField => '', 'shipping_state' => '%noValue%'));
         }
         //Steps
         $this->navigate('manage_sales_orders');
@@ -222,7 +220,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         unset($orderData['shipping_data']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -257,7 +255,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         $billingAddress = $orderData['billing_addr_data'];
         $shippingAddress = $orderData['shipping_addr_data'];
         //Steps
@@ -265,8 +263,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
         $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
-        $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'],
-                                               'shipping');
+        $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'], 'shipping');
         $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->pleaseWait();
@@ -325,7 +322,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku));
+            array('filter_sku' => $simpleSku));
         unset($orderData['payment_data']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -348,12 +345,9 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $paymentInfo = $this->loadDataSet('Payment', 'saved_empty_all');
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData));
-        $emptyFields = array('name_on_card'             => 'field',
-                             'card_type'                => 'dropdown',
-                             'expiration_year'          => 'dropdown',
-                             'card_verification_number' => 'field');
+            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData));
+        $emptyFields = array('card_verification_number' => 'field', 'expiration_year' => 'dropdown',
+                             'name_on_card'             => 'field', 'card_type'       => 'dropdown');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -379,9 +373,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData,
-                                             'name_on_card' => ''));
+            array('filter_sku'  => $simpleSku, 'payment_data' => $paymentData, 'name_on_card' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -405,9 +397,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData,
-                                             'card_type'    => ''));
+            array('filter_sku'  => $simpleSku, 'payment_data' => $paymentData, 'card_type'    => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -434,9 +424,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData,
-                                             'card_number'  => ''));
+            array('filter_sku'  => $simpleSku, 'payment_data' => $paymentData, 'card_number'  => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -460,9 +448,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'     => $simpleSku,
-                                             'payment_data'    => $paymentData,
-                                             'expiration_year' => ''));
+            array('filter_sku'     => $simpleSku, 'payment_data'    => $paymentData, 'expiration_year' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -486,9 +472,8 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'              => $simpleSku,
-                                             'payment_data'             => $paymentData,
-                                             'card_verification_number' => ''));
+            array('filter_sku'               => $simpleSku, 'payment_data'             => $paymentData,
+                  'card_verification_number' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -512,9 +497,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'      => $simpleSku,
-                                             'payment_data'     => $paymentData,
-                                             'expiration_month' => ''));
+            array('filter_sku'      => $simpleSku, 'payment_data'     => $paymentData, 'expiration_month' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

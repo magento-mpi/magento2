@@ -34,7 +34,7 @@ class Community2_Mage_TermsAndConditions_EditTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
     }
 
     /**

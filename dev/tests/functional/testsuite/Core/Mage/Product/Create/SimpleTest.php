@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
+class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -30,12 +30,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
+        $this->closeLastWindow();
     }
 
     /**
@@ -121,14 +116,16 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
+        $this->addParameter('elementTitle', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
+        $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
-            $productData['general_sku'])));
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -156,20 +153,12 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_visibility') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } elseif ($emptyField == 'inventory_qty') {
-            $overrideData = array($emptyField => '');
-        } elseif ($emptyField == 'general_sku') {
-            $overrideData = array($emptyField => ' ');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'simple_product_required', $overrideData);
+        $field = key($emptyField);
+        $product = $this->loadDataSet('Product', 'simple_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($product);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -177,16 +166,16 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_weight', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown'),
-            array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown'),
-            array('inventory_qty', 'field')
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_weight' => '%noValue%'), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
+            array(array('prices_price' => '%noValue%'), 'field'),
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
+            array(array('inventory_qty' => ''), 'field')
         );
     }
 
@@ -419,7 +408,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     {
         return array(
             array('prices_tier_price_qty'),
-            array('prices_tier_price_price'),
+            array('prices_tier_price_price')
         );
     }
 
@@ -446,8 +435,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     public function invalidTierPriceInSimple($invalidTierData)
     {
         //Data
-        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
-                          'prices_tier_price_price' => $invalidTierData);
+        $tierData = array('prices_tier_price_qty' => $invalidTierData, 'prices_tier_price_price' => $invalidTierData);
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
@@ -555,8 +543,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_created_product');
 
-        return array('search' => $productSearch,
-                     'attr'   => $attrData);
+        return array('search' => $productSearch, 'attr' => $attrData);
     }
 
     /**
@@ -581,22 +568,16 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
         $this->openTab('associated');
         $this->clickButton('create_empty', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simpleEmpty);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
@@ -615,8 +596,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         //Data
         $searchAttr = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code' => $data['attr']['attribute_code']));
-        $simple = array('general_weight' => '3.21',
-                        'general_sku'    => $this->generate('string', 15, ':alnum:'));
+        $simple = array('general_weight' => '3.21', 'general_sku' => $this->generate('string', 15, ':alnum:'));
         $simple['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
             $data['attr']['option_3']['admin_option_name'];
         //Steps
@@ -625,23 +605,17 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
         $this->addParameter('productId', $this->getParameter('id'));
         $this->openTab('associated');
         $this->clickButton('create_copy_from_configurable', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');

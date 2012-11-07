@@ -36,21 +36,12 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $country = (isset($parameters['merchant_country'])) ? $parameters['merchant_country'] : null;
         $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();
         if ($chooseScope) {
-            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $chooseScope);
         }
         $this->openConfigurationTab('sales_payment_methods');
         $this->disableAllPaypalMethods();
         if ($country) {
-            $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
-            $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
-            $isSelected = $toSelect . '[@selected]';
-            if (!$this->isElementPresent($isSelected)) {
-                $this->saveForm('save_config');
-                $this->addParameter('country', $this->getValue($toSelect));
-                $this->fillDropdown('merchant_country', $country);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
-            }
+            $this->selectPaypalCountry($country, true);
         }
         $forVerify = array();
         foreach ($configuration as $payment) {
@@ -82,9 +73,12 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
             $this->verifyForm($fieldsetData, 'sales_payment_methods');
         }
         if ($this->getParsedMessages('verification')) {
-            foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
-                if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
-                    unset(self::$_messages['verification'][$key]);
+            $messages = $this->getParsedMessages('verification');
+            $this->clearMessages('verification');
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#|(\!\= \'\*\*)#i', $errorMessage)) {
+                    //if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
                 }
             }
             $this->assertEmptyVerificationErrors();
@@ -103,7 +97,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $fullPath = explode('/', $path);
         $fullPath = array_map('trim', $fullPath);
         foreach ($fullPath as $node) {
-            $class = $this->getAttribute($this->_getControlXpath('fieldset', $node) . '@class');
+            $class = $this->getControlAttribute('fieldset', $node, 'class');
             if (!preg_match('/active/', $class)) {
                 $this->clickControl('link', $node . '_section', false);
             }
@@ -116,16 +110,22 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
      * Select country for paypal
      *
      * @param string $country
+     * @param bool $saveBeforeSelect
+     *
+     * @return void
      */
-    public function selectPaypalCountry($country)
+    public function selectPaypalCountry($country, $saveBeforeSelect = false)
     {
-        $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
-        $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
-        $isSelected = $toSelect . '[@selected]';
-        if (!$this->isElementPresent($isSelected)) {
-            $this->addParameter('country', $this->getValue($toSelect));
+        $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merchant_country'));
+        $this->addParameter('optionText', $country);
+        if (!$this->controlIsPresent('pageelement', 'dropdown_option_text_selected')) {
+            if ($saveBeforeSelect) {
+                $this->saveForm('save_config');
+            }
+            $value = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
+            $this->addParameter('country', $value);
             $this->fillDropdown('merchant_country', $country);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
             $this->validatePage();
         }
     }
@@ -137,8 +137,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
      */
     public function disableAllPaypalMethods()
     {
-        $xpath = $this->_getControlXpath('button', 'active_paypal_method');
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->controlIsPresent('button', 'active_paypal_method')) {
             return;
         }
         $closePaypalFieldsetButtons = array();
@@ -148,18 +147,18 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 $closePaypalFieldsetButtons[preg_replace('/_close$/', '', $key)] = $value;
             }
         }
-        while ($this->isElementPresent($xpath)) {
-            $idRegExp = preg_quote('@id=\'' . $this->getAttribute($xpath . '@id'));
+        while ($this->controlIsPresent('button', 'active_paypal_method')) {
+            $id = $this->getControlAttribute('button', 'active_paypal_method', 'id');
+            $idRegExp = preg_quote('@id=\'' . $id);
             foreach ($closePaypalFieldsetButtons as $name => $xpathButton) {
                 if (preg_match('/' . $idRegExp . '/', $xpathButton)) {
                     if (in_array($name, $openedFieldsets)) {
                         break 2;
                     }
-                    $this->click($xpath);
+                    $this->clickButton('active_paypal_method', false);
                     $openedFieldsets[] = $name;
-                    $dropdownXpath = $this->_getControlXpath('dropdown', $name . '_enable');
-                    if ($this->isEditable($dropdownXpath)) {
-                        $this->fillDropdown($name . '_enable', 'No', $dropdownXpath);
+                    if ($this->controlIsEditable('dropdown', $name . '_enable')) {
+                        $this->fillDropdown($name . '_enable', 'No');
                     }
                     break;
                 }

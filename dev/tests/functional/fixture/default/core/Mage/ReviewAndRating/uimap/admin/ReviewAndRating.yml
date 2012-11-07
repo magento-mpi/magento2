@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -48,7 +47,7 @@ new_rating:
             tabs:
                 -
                     rating_information:
-                        xpath: //a[@title='Rating Information']/span
+                        xpath: //a[@title='Rating Information']
                         fieldsets:
                             -
                                 rating_title:
@@ -61,6 +60,8 @@ new_rating:
                                     xpath: //div[@id='visibility_form']
                                     multiselects:
                                         visible_in: //select[@name='stores[]']
+                                    checkboxes:
+                                        is_active: //input[@id='is_active']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

@@ -13,4 +13,5 @@ login_failures:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            maximum_login_failures: 3
+            security:
+                maximum_login_failures: 3

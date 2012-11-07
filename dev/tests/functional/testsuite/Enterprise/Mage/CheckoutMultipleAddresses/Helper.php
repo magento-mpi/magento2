@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_CheckoutMultipleAddresses
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -135,7 +135,7 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         $addressData = array();
         if ($this->getParameter('addressHeader') != 'Other items in your order') {
             //Get order shipping method data
-            $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+            $shipping = $this->getControlAttribute('pageelement', 'shipping_method', 'text');
             list($serviceAndMethod, $price) = explode(')', $shipping);
             list($service, $method) = explode('(', $serviceAndMethod);
             $addressData['shipping']['shipping_service'] = trim($service);

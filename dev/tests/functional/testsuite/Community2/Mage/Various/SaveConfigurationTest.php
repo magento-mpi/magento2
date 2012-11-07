@@ -38,29 +38,23 @@ class Community2_Mage_Various_SaveConfigurationTest extends Mage_Selenium_TestCa
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope',
-            'Main Website');
-        $xpath = $this->_getControlXpath('link','locale_options_link');
-        if (!$this->isElementPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link','locale_options_link', false);
-        }
-        $xpathUseDefault = $this->_getControlXpath('checkbox','weekend_days_use_default');
-        if (!$this->isElementPresent($xpathUseDefault . "[@checked='checked']")) {
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
+        $this->systemConfigurationHelper()->expandFieldSet('locale_options');
+        if (!$this->getControlElement('checkbox','weekend_days_use_default')->selected()) {
             $this->fillMultiselect('weekend_days', 'Sunday');
             $this->clickControl('checkbox', 'weekend_days_use_default', false);
             $this->clickButton('save_config');
             $this->assertMessagePresent('success', 'success_saved_config');
-        }
-        if ($this->isElementPresent($xpathUseDefault . "[@checked='checked']")) {
+        } else {
             $this->clickControl('checkbox', 'weekend_days_use_default', false);
         }
         $this->fillMultiselect('weekend_days', '');
         $this->clickButton('save_config');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_config');
-        $this->assertFalse($this->isElementPresent($xpathUseDefault . "[@checked='checked']"),
+        $this->assertFalse($this->getControlElement('checkbox', 'weekend_days_use_default')->selected(),
             'Use Default checkbox checked');
-        $this->assertFalse($this->isSomethingSelected($this->_getControlXpath('multiselect', 'weekend_days')),
-            'Some day still selected in Weekend Days multiselect');
+        $selectedOptions = $this->select($this->getControlElement('multiselect', 'weekend_days'))->selectedLabels();
+        $this->assertCount(0, $selectedOptions, 'Some day still selected in Weekend Days multiselect');
     }
 }

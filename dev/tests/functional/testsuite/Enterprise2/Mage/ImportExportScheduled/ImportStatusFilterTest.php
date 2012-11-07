@@ -105,14 +105,14 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
         $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $importData['name'],
             'operation' => 'Import',
-        ));
+        ), 'grid_and_filter');
         // Step 4
         $this->fillDropdown('grid_massaction_select', 'Change status');
         $this->fillDropdown('status_visibility', 'Disabled');
         $this->clickButton('submit');
         //Verifying
         $this->checkCurrentPage('scheduled_import_export');
-        $this->addParameter('qtyUpdatedRecords', count($importRecordsCount));
+        $this->addParameter('qtyUpdatedRecords', $importRecordsCount);
         $this->assertMessagePresent('success', 'success_update_status');
         $this->_openAndVerifyScheduledImportExport(
             array(
@@ -141,12 +141,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
                 'name' => $importData['name'],
                 'operation' => 'Import',
                 'status' => 'Disabled',
-            )
+            ), 'grid_and_filter'
         );
         $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $importDataTwo['name'],
             'operation' => 'Import',
-        ));
+        ), 'grid_and_filter');
         // Step 7
         $this->fillDropdown('grid_massaction_select', 'Change status');
         $this->fillDropdown('status_visibility', 'Enabled');

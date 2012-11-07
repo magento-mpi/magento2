@@ -15,6 +15,7 @@
  * @package     Mage_Newsletter
  * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @method Community2_Mage_Newsletter_Helper helper(string $className)
  */
 class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
 {
@@ -26,20 +27,7 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function createNewsletterTemplate($newsletterData)
     {
-        if (empty($newsletterData)) {
-            $this->fail('$newsletterData parameter is empty');
-        }
-
-        if (is_string($newsletterData)) {
-            $elements = explode('/', $newsletterData);
-            $fileName = (count($elements) > 1)
-                ? array_shift($elements)
-                : '';
-            $newsletterData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $this->clickButton('add_new_template');
-        $this->fillNewsletterForm($newsletterData);
-        $this->saveForm('save_template');
+        $this->helper('Community2/Mage/Newsletter/Helper')->createNewsletterTemplate($newsletterData);
     }
 
     /**
@@ -50,14 +38,7 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function fillNewsletterForm(array $newsletterData, $fieldName = 'newsletter_edit_form')
     {
-        if (!empty($newsletterData)) {
-            if (isset($newsletterData['newsletter_content_data'])) {
-                if ($this->buttonIsPresent('convert_to_plain_text')) {
-                    $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
-                }
-            }
-            $this->fillFieldset($newsletterData, $fieldName);
-        }
+        $this->helper('Community2/Mage/Newsletter/Helper')->fillNewsletterForm($newsletterData, $fieldName);
     }
 
     /**
@@ -68,17 +49,7 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function editNewsletter(array $dataForSearch, array $newNewsData)
     {
-        if (empty($dataForSearch)) {
-            $this->fail('$dataForSearch parameter is empty');
-        }
-        if (empty($newNewsData)) {
-            $this->fail('$newNewsData parameter is empty');
-        }
-        $this->addParameter('news_name', $dataForSearch['newsletter_template_name']);
-        $searchData = $this->convertToFilter($dataForSearch);
-        $this->searchAndOpen($searchData);
-        $this->fillNewsletterForm($newNewsData);
-        $this->saveForm('save_template');
+        $this->helper('Community2/Mage/Newsletter/Helper')->editNewsletter($dataForSearch, $newNewsData);
     }
 
     /**
@@ -90,30 +61,7 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function convertToFilter(array $dataForSearch)
     {
-        if (!empty($dataForSearch)) {
-            $searchData = array();
-            foreach ($dataForSearch as $key => $value) {
-                if (preg_match('/^newsletter/', $key)) {
-                    $strArr = explode('_', $key);
-                    if (isset($strArr[0]) && $strArr[0] == 'newsletter') {
-                        $strArr[0] = 'filter';
-                    }
-                    $key = implode('_', $strArr);
-                    $searchData[$key] = $value;
-                }
-            }
-            if (isset($searchData['filter_template_sender_name'])) {
-                unset($searchData['filter_template_sender_name']);
-            }
-            if (isset($searchData['filter_template_sender_email'])) {
-                $searchData['filter_template_sender'] = $searchData['filter_template_sender_email'];
-                unset($searchData['filter_template_sender_email']);
-            }
-            if (isset($searchData['filter_content_data'])) {
-                unset($searchData['filter_content_data']);
-            }
-            return $searchData;
-        }
+        return $this->helper('Community2/Mage/Newsletter/Helper')->convertToFilter($dataForSearch);
     }
 
     /**
@@ -124,17 +72,7 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function putNewsToQueue(array $newsData, array $newData = array())
     {
-        if (empty($newsData)) {
-            $this->fail('$newNewsData parameter is empty');
-        }
-        $newsletterXpath = $this->search($this->convertToFilter($newsData), 'newsletter_templates_grid');
-        $this->addParameter('prexpath', $newsletterXpath);
-        $this->fillDropdown('queue_newsletter', 'Queue Newsletter...');
-        $this->waitForPageToLoad();
-        $this->addParameter('template_id', $this->defineIdFromUrl());
-        $this->validatePage('newsletter_queue_edit');
-        $this->fillNewsletterForm($newData, 'queue_edit_form');
-        $this->saveForm('save_newsletter');
+        $this->helper('Community2/Mage/Newsletter/Helper')->putNewsToQueue($newsData, $newData);
     }
 
     /**
@@ -144,12 +82,6 @@ class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
      */
     public function deleteNewsletter(array $newNewsData)
     {
-        if (empty($newNewsData)) {
-            $this->fail('$newNewsData parameter is empty');
-        }
-        $searchData = $this->convertToFilter($newNewsData);
-        $this->addParameter('news_name', $newNewsData['newsletter_template_name']);
-        $this->searchAndOpen($searchData);
-        $this->clickButtonAndConfirm('delete_template', 'confirmation_for_delete');
+        $this->helper('Community2/Mage/Newsletter/Helper')->deleteNewsletter($newNewsData);
     }
 }

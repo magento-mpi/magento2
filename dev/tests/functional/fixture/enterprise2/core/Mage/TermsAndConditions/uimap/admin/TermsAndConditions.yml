@@ -10,7 +10,7 @@
 #
 ---
 #Sales Terms and Conditions page
-manage_checkout_terms_and_conditions:
+manage_sales_checkout_terms_conditions:
     mca: checkout_agreement/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'checkout_agreement/')]
     title: Terms and Conditions / Sales / Magento Admin

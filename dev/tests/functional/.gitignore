@@ -1,9 +1,8 @@
-config/browsers.yml
-config/install.php
-framework/tests/unit/phpunit.xml
-config/local.yml
-config/config.yml
-phpunit.xml
-var/*
-.idea
-nbproject
+/config/browsers.yml
+/config/install.php
+/config/local.yml
+/framework/tests/unit/phpunit.xml
+/phpunit.xml
+/var/*
+/.idea
+/nbproject

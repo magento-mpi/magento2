@@ -14,11 +14,13 @@ terms_and_conditions_frontend_allow:
     tab_1:
         tab_name: sales_checkout
         configuration:
-            enable_terms_and_conditions: Yes
+            checkout_options:
+                enable_terms_and_conditions: Yes
 
 terms_and_conditions_frontend_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_checkout
         configuration:
-            enable_terms_and_conditions: No
+            checkout_options:
+                enable_terms_and_conditions: No

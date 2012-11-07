@@ -12,7 +12,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Customers']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Manage Customers']
     title: Manage Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid
@@ -40,14 +40,13 @@ manage_customers:
                             state: //input[@name='billing_region']
                         links:
                             open_customer_by_value:
-                            select_all: //*[@data-ui-id='customer-grid-massaction-select-all-link']
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages
             success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
-            success_suscribe_unsuscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
+            success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
@@ -70,18 +69,18 @@ create_customer:
             tabs:
                 -
                     account_information:
-                        xpath: //a[@id='customer_info_tabs_account']/span
+                        xpath: //a[@id='customer_info_tabs_account']
                         fieldsets:
                             -
                                 account_info:
                                     xpath: //div[@id='_accountbase_fieldset']
                                     checkboxes:
-                                        send_welcome_email: //input[@id='_accountsendemail' and not(@disabled)]
+                                        send_welcome_email: //input[@id='_accountsendemail']
                                     dropdowns:
                                         associate_to_website: //select[@id='_accountwebsite_id']
                                         group: //select[@id='_accountgroup_id']
                                         gender: //select[@id='_accountgender']
-                                        send_from: //select[@id='_accountsendemail_store_id' and not(@disabled)]
+                                        send_from: //select[@id='_accountsendemail_store_id']
                                     fields:
                                         prefix: //input[@id='_accountprefix']
                                         first_name: //input[@id='_accountfirstname']
@@ -114,6 +113,9 @@ create_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath: //div[@id='_item%address_number%address_fieldset']
@@ -145,17 +147,17 @@ create_customer:
 # 'Edit Customer' Page
 edit_customer:
     mca: customer/edit/id/%id%/
-    title: %customer_first_last_name% / Manage Customers / Customers / Magento Admin
+    title: %elementTitle% / Manage Customers / Customers / Magento Admin
     uimap:
         form: &editCustomerForm
             tabs:
                 -
                     customer_view:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_view']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_view']
                         # need to edit
                 -
                     account_information:
-                        xpath: //a[@id='customer_info_tabs_account']/span
+                        xpath: //a[@id='customer_info_tabs_account']
                         fieldsets:
                             -
                                 account_info:
@@ -185,7 +187,7 @@ edit_customer:
                                     required: [new_password]
                 -
                     addresses:
-                        xpath: //a[@id='customer_info_tabs_addresses']/span
+                        xpath: //a[@id='customer_info_tabs_addresses']
                         fieldsets:
                             -
                                 list_customer_addresses:
@@ -197,6 +199,9 @@ edit_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath:  //div[@id='_item%address_number%address_fieldset']
@@ -220,35 +225,35 @@ edit_customer:
                                     required: [first_name, last_name, street_address_line_1, city, country, zip_code, telephone]
                 -
                     orders:
-                        xpath: //a[@id='customer_info_tabs_orders']/span
+                        xpath: //a[@id='customer_info_tabs_orders']
                         # need to edit
                 -
                     billing_agremnts:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']
                         # need to edit
                 -
                     recuring_profiles:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']
                         # need to edit
                 -
                     shopping_cart:
-                        xpath: //a[@id='customer_info_tabs_cart']/span
+                        xpath: //a[@id='customer_info_tabs_cart']
                         # need to edit
                 -
                     wishlist:
-                        xpath: //a[@id='customer_info_tabs_wishlist']/span
+                        xpath: //a[@id='customer_info_tabs_wishlist']
                         # need to edit
                 -
                     newsletters:
-                        xpath: //a[@id='customer_info_tabs_newsletter']/span
+                        xpath: //a[@id='customer_info_tabs_newsletter']
                         # need to edit
                 -
                     product_review:
-                        xpath: //a[@id='customer_info_tabs_reviews']/span
+                        xpath: //a[@id='customer_info_tabs_reviews']
                         # need to edit
                 -
                     product_tags:
-                        xpath: //a[@id='customer_info_tabs_tags']/span
+                        xpath: //a[@id='customer_info_tabs_tags']
                         fieldsets:
                             -
                                 product_tags:
@@ -265,4 +270,6 @@ edit_customer:
             delete_customer: //button[span='Delete Customer']
             save_customer: //button[span='Save Customer']
             save_and_continue_edit: //button[span='Save and Continue Edit']
+        pageelements:
+            customer_header: //div[@data-ui-id='customer-edit-content-header']/h3
         messages: *customerMessages

@@ -10,134 +10,11 @@
  */
 
 /**
- * Helper class 
+ * Helper class
+ * @method Community2_Mage_Product_Helper helper(string $className)
  */
-class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
+class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
 {
-    /**
-     * Choose custom options and additional products
-     *
-     * @param array $dataForBuy
-     */
-    public function frontAddProductToCart($dataForBuy = null)
-    {
-        $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-        if ($customize) {
-            $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
-            $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
-            $this->clickButton('customize_and_add_to_cart', false);
-            $this->waitForElementVisible($customizeFieldset);
-            $this->waitForElementPresent($productInfoFieldset . "/parent::*[@style='display: none;']");
-        }
-        parent::frontAddProductToCart($dataForBuy);
-    }
-
-    /**
-     * Select Store View on product page
-     *
-     * @param $storeViewName
-     * @throws PHPUnit_Framework_Exception
-     */
-    public function chooseStoreView($storeViewName)
-    {
-        $fieldXpath = $this->_getControlXpath('dropdown', 'choose_store_view');
-        if (!$this->isElementPresent($fieldXpath) || !$this->isEditable($fieldXpath)) {
-            throw new PHPUnit_Framework_Exception($fieldXpath . ' dropdown is either not present or disabled.');
-        }
-        if ($this->getSelectedValue($fieldXpath) == $storeViewName) {
-            return;
-        }
-        $complexValue = explode('/', $storeViewName);
-        $valueToSelect = array_pop($complexValue);
-        $parentXpath = $fieldXpath; //Xpath of the needed option parent element
-        for ($level = 0; $level < count($complexValue); $level++) {
-            $nextNested = "/*[contains(@label,'" . $complexValue[$level] . "')]";
-            $nextSibling = "/following-sibling::*[contains(@label,'" . $complexValue[$level] . "')][1]";
-            if ($this->isElementPresent($parentXpath . $nextNested)) {
-                $parentXpath .= $nextNested;
-            } elseif ($this->isElementPresent($parentXpath . $nextSibling)) {
-                $parentXpath .= $nextSibling;
-            } else {
-                throw new PHPUnit_Framework_Exception(
-                    'Cannot find nested/sibling optgroup/option ' . $complexValue[$level]);
-            }
-        }
-        if ($this->isElementPresent($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]")) {
-            $optionValue = $this->getValue($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]");
-            //Try to select by value first, since there may be options with equal labels.
-            if (isset($optionValue)) {
-                $this->select($fieldXpath, 'value=' . $optionValue);
-            } else {
-                $this->select($fieldXpath, 'label=' . $valueToSelect);
-            }
-        } else {
-            $this->select($fieldXpath, 'regexp:' . preg_quote($valueToSelect));
-        }
-
-    }
-
-    /**
-     * Delete all Custom Options
-     *
-     * @return void
-     */
-    public function deleteCustomOptions()
-    {
-        $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionsQty = $this->getXpathCount($fieldSetXpath);
-        $optionId = '';
-        While ($optionsQty > 0) {
-            $elementId = $this->getAttribute($fieldSetXpath . "[{$optionsQty}]/@id");
-            $elementId = explode('_', $elementId);
-            foreach ($elementId as $id) {
-                if (is_numeric($id)) {
-                    $optionId = $id;
-                }
-            }            $this->addParameter('optionId', $optionId);
-            $this->clickButton('delete_option', false);
-            $optionsQty--;
-        }
-    }
-    /**
-     * Get Custom Option Id By Title
-     *
-     * @param string
-     * @return integer
-     */
-    public function getCustomOptionId($optionTitle)
-    {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionId = '';
-        if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")) {
-            $elementId = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
-            $elementId = explode('_', $elementId);
-            foreach ($elementId as $id) {
-                if (is_numeric($id)) {
-                    $optionId = $id;
-                }
-            }
-        }
-        return $optionId;
-    }
-    /**
-     * Check if product is present in products grid
-     *
-     * @param array $productData
-     * @return bool
-     */
-    public function isProductPresentInGrid($productData)
-    {
-        $data = array('product_sku' => $productData['product_sku']);
-        $this->_prepareDataForSearch($data);
-        $xpathTR = $this->search($data, 'product_grid');
-        if (!is_null($xpathTR)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * fillProductInfo
      *
@@ -166,9 +43,10 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
      */
     public function addGiftCardAmount(array $GiftCardData)
     {
-        $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'prices_gift_card_amounts'));
+        $rowNumber = count($this->getControlElements('fieldset', 'prices_gift_card_amounts', null, false));
         $this->addParameter('giftCardId', $rowNumber);
         $this->clickButton('add_gift_card_amount', false);
+        $this->waitForAjax();
         $this->fillForm($GiftCardData, 'prices');
     }
 
@@ -183,6 +61,7 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
         parent::verifyProductInfo($productData, $skipElements);
         // Verify gift cards amounts
         if (array_key_exists('prices_gift_card_amounts', $productData)) {
+            $this->openTab('prices');
             $this->verifyGiftCardAmounts($productData['prices_gift_card_amounts']);
         }
     }
@@ -196,14 +75,14 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
      */
     public function verifyGiftCardAmounts(array $giftCardData)
     {
-        $rowQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'prices_gift_card_amounts'));
+        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts', null, false));
         $needCount = count($giftCardData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
-                'Product must contain ' . $needCount . 'gift card amount(s), but contains ' . $rowQty);
+                'Product must contain ' . $needCount . ' gift card amount(s), but contains ' . $rowQty);
             return false;
         }
-        $i = $rowQty-1;
+        $i = $rowQty - 1;
         foreach ($giftCardData as $value) {
             $this->addParameter('giftCardId', $i);
             $this->verifyForm($value, 'prices');
@@ -223,46 +102,46 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
         $xpathArray = $this->getCustomOptionsXpathesGiftCards($productData);
         foreach ($xpathArray as $fieldName => $data) {
             if (is_string($data)) {
-                if (!$this->isElementPresent($data)) {
+                if (!$this->elementIsPresent($data)) {
                     $this->addVerificationMessage('Could not find element ' . $fieldName);
                 }
             } else {
                 foreach ($data as $optionData) {
-                    if (is_string($optionData)){
-                        if (!$this->isElementPresent($optionData)) {
+                    if (is_string($optionData)) {
+                        if (!$this->elementIsPresent($optionData)) {
                             $this->addVerificationMessage(
-                                'Could not find gift card amount ' . $this->getAttribute($optionData . '@value') . '$');
+                                'Could not find gift card amount ' . $this->getElement($optionData)->value() . '$');
                         }
                     } else {
                         foreach ($optionData as $x => $y) {
                             if (!preg_match('/xpath/', $x)) {
                                 continue;
                             }
-                            if (!$this->isElementPresent($y)) {
+                            if (!$this->elementIsPresent($y)) {
                                 $this->addVerificationMessage(
                                     'Could not find element type "' . $optionData['type'] . '" and title "'
-                                        . $optionData['title'] . '"');
+                                    . $optionData['title'] . '"');
                             }
                         }
                     }
                 }
             }
         }
-        if ($productData['inventory_stock_availability']=='In Stock'){
-            if ($productData['prices_gift_card_allow_open_amount']=='Yes'){
+        if ($productData['inventory_stock_availability'] == 'In Stock') {
+            if ($productData['prices_gift_card_allow_open_amount'] == 'Yes') {
                 $this->assertTrue($this->controlIsPresent('field', 'gift_card_open_amount'),
-                    'There is no open amount field on the ' . $productData['general_name'] . 'page' );
+                    'There is no open amount field on the ' . $productData['general_name'] . 'page');
             }
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_sender_name'),
-                'There is no sender name field on the ' . $productData['general_name'] . 'page' );
+                'There is no sender name field on the ' . $productData['general_name'] . 'page');
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_sender_email'),
-                'There is no sender email field on the ' . $productData['general_name'] . 'page' );
+                'There is no sender email field on the ' . $productData['general_name'] . 'page');
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_recipient_name'),
-                'There is no recipient name field on the ' . $productData['general_name'] . 'page' );
+                'There is no recipient name field on the ' . $productData['general_name'] . 'page');
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_recipient_email'),
-                'There is no recipient email field on the ' . $productData['general_name'] . 'page' );
+                'There is no recipient email field on the ' . $productData['general_name'] . 'page');
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_message'),
-                'There is no message field on the ' . $productData['general_name'] . 'page' );
+                'There is no message field on the ' . $productData['general_name'] . 'page');
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -279,22 +158,19 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
         $xpathArray = array();
         $priceToCalc = '0';
 
-        if (array_key_exists('prices_gift_card_amounts', $productData) &&
-            $productData['inventory_stock_availability']=='In Stock'){
-            foreach ($productData['prices_gift_card_amounts'] as $key => $value){
+        if (array_key_exists('prices_gift_card_amounts', $productData)
+            && $productData['inventory_stock_availability'] == 'In Stock'
+        ) {
+            foreach ($productData['prices_gift_card_amounts'] as $key => $value) {
                 $this->addParameter('giftCardAmount', $value['prices_gift_card_amount']);
-                $xpathArray['prices_gift_card_amounts'][$key] =
-                    $this->_getControlXpath('dropdown', 'gift_card_amount');
+                $xpathArray['prices_gift_card_amounts'][$key] = $this->_getControlXpath('dropdown', 'gift_card_amount');
             }
-
         }
 
-        $avail = (isset($productData['inventory_stock_availability']))
-            ? $productData['inventory_stock_availability']
-            : null;
-        $allowedQty = (isset($productData['inventory_min_allowed_qty']))
-            ? $productData['inventory_min_allowed_qty']
-            : null;
+        $avail =
+            (isset($productData['inventory_stock_availability'])) ? $productData['inventory_stock_availability'] : null;
+        $allowedQty =
+            (isset($productData['inventory_min_allowed_qty'])) ? $productData['inventory_min_allowed_qty'] : null;
         $longDescription = (isset($productData['general_description'])) ? $productData['general_description'] : null;
         if ($longDescription) {
             $this->addParameter('longDescription', $longDescription);
@@ -322,7 +198,7 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_select');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons'
-                || $value['custom_options_general_input_type'] == 'Checkbox'
+                      || $value['custom_options_general_input_type'] == 'Checkbox'
             ) {
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_check');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
@@ -336,16 +212,163 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
     }
 
     /**
-     * Verify product info on frontend
+     * Change attribute set
+     *
+     * @param array $newAttributeSet
+     */
+    public function changeAttributeSet($newAttributeSet)
+    {
+        $this->helper('Community2/Mage/Product/Helper')->changeAttributeSet($newAttributeSet);
+    }
+
+    /**
+     * Import custom options from existent product
      *
      * @param array $productData
      */
-    public function frontVerifyProductInfo(array $productData)
+    public function importCustomOptions(array $productData)
     {
-        if (isset($productData['general_short_description'])) {
-            unset($productData['general_short_description']);
-        }
+        $this->helper('Community2/Mage/Product/Helper')->importCustomOptions($productData);
+    }
 
-        parent::frontVerifyProductInfo($productData);
+    /**
+     * Delete all custom options
+     */
+    public function deleteAllCustomOptions()
+    {
+        $this->helper('Community2/Mage/Product/Helper')->deleteAllCustomOptions();
+    }
+
+    /**
+     * Verify Custom Options
+     *
+     * @param array $customOptionData
+     *
+     * @return boolean
+     */
+    public function verifyCustomOption(array $customOptionData)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->verifyCustomOption($customOptionData);
+    }
+
+    /**
+     * Get option id for selected row
+     *
+     * @param int $rowNum
+     *
+     * @return int
+     */
+    public function getOptionId($rowNum)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->getOptionId($rowNum);
+    }
+
+    /**
+     * Create Product method using "Add Product" split button
+     *
+     * @param array $productData
+     * @param string $productType
+     * @param bool $isSave
+     */
+    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
+    {
+        $this->helper('Community2/Mage/Product/Helper')->createProduct($productData, $productType, $isSave);
+    }
+
+    /**
+     * Select product type
+     *
+     * @param array $productData
+     * @param string $productType
+     */
+    public function selectTypeProduct(array $productData, $productType)
+    {
+        $this->helper('Community2/Mage/Product/Helper')->selectTypeProduct($productData, $productType);
+    }
+
+    /**
+     * Get auto-incremented SKU
+     *
+     * @param string $productSku
+     *
+     * @return string
+     */
+    public function getGeneratedSku($productSku)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->getGeneratedSku($productSku);
+    }
+
+    /**
+     * Creating product using fields autogeneration with variables on General tab
+     *
+     * @param array $productData
+     * @param bool $isSave
+     * @param array $skipFieldFillIn
+     * @param string $productType
+     */
+    public function createProductWithAutoGeneration(array $productData, $isSave = false, $skipFieldFillIn = array(), $productType = 'simple')
+    {
+        $this->helper('Community2/Mage/Product/Helper')
+            ->createProductWithAutoGeneration($productData, $isSave, $skipFieldFillIn, $productType);
+    }
+
+    /**
+     * Form mask's value replacing variable in mask with variable field's value on General tab
+     *
+     * @param string $mask
+     * @param array $placeholders
+     *
+     * @return string
+     */
+    public function formFieldValueFromMask($mask, array $placeholders)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->formFieldValueFromMask($mask, $placeholders);
+    }
+
+    /**
+     * Delete all Custom Options
+     *
+     * @return void
+     */
+    public function deleteCustomOptions()
+    {
+        $this->helper('Community2/Mage/Product/Helper')->deleteCustomOptions();
+    }
+
+    /**
+     * Get Custom Option Id By Title
+     *
+     * @param string
+     *
+     * @return integer
+     */
+    public function getCustomOptionId($optionTitle)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->getCustomOptionId($optionTitle);
+    }
+
+    /**
+     * Check if product is present in products grid
+     *
+     * @param array $productData
+     *
+     * @return bool
+     */
+    public function isProductPresentInGrid($productData)
+    {
+        return $this->helper('Community2/Mage/Product/Helper')->isProductPresentInGrid($productData);
+    }
+
+    /**
+     * Fill in Product Settings tab
+     *
+     * @param array $dataForAttributesTab
+     * @param array $dataForInventoryTab
+     * @param array $dataForWebsitesTab
+     */
+    public function updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab)
+    {
+        $this->helper('Community2/Mage/Product/Helper')
+            ->updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab);
     }
 }

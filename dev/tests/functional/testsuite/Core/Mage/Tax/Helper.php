@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Define Store View id in Table by name
@@ -27,10 +27,10 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      */
     public function findTaxTitleByName($storeView)
     {
-        $taxTitleXpath = $this->_getControlXpath('pageelement', 'tax_title_header');
-        $taxTitleQty = $this->getXpathCount($taxTitleXpath);
+        $taxTitleQty = $this->getControlCount('pageelement', 'tax_title_header');
         for ($i = 1; $i <= $taxTitleQty; $i++) {
-            $text = $this->getText($taxTitleXpath . "[$i]");
+            $this->addParameter('index', $i);
+            $text = $this->getControlAttribute('pageelement', 'tax_title_header_index', 'text');
             if ($text == $storeView) {
                 return $i;
             }
@@ -78,7 +78,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
     {
         $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
         $this->assertNotNull($xpathTR, 'Search item is not found');
-        $url = $this->getValue($xpathTR . '/@title');
+        $url = $this->getElement($xpathTR)->attribute('title');
         switch ($type) {
             case 'rate':
                 $cellId = $this->getColumnIdByName('Name');
@@ -97,10 +97,10 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
                 throw new OutOfRangeException('Unsupported value for parameter $type');
                 break;
         }
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $this->addParameter('elementTitle', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -108,13 +108,11 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      *
      * @param array $taxSearchData Data for search
      * @param string $type search type rate|rule|customer_class|product_class
-     *
-     * @return boolean
      */
     public function deleteTaxItem(array $taxSearchData, $type)
     {
         $this->openTaxItem($taxSearchData, $type);
-        return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
     }
 
     /**
@@ -124,14 +122,16 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      */
     public function deleteRulesExceptSpecified(array $excludeList)
     {
-        $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
-        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
-        $columnId = $this->getColumnIdByName('Name') - 1;
         $rules = array();
-        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
-            $rule = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
-            if (!in_array($rule, $excludeList)) {
-                $rules[] = $rule;
+        $columnId = $this->getColumnIdByName('Name');
+        $elements = $this->getControlElements('pageelement', 'rule_line');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $name = trim($this->getChildElement($element, "td[$columnId]")->text());
+            if (!in_array($name, $excludeList)) {
+                $rules[] = $name;
             }
         }
         foreach ($rules as $rule) {

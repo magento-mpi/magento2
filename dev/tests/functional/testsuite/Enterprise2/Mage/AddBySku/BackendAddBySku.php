@@ -39,7 +39,6 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * Create Customer for tests
      * @return array
      * @test
-     * @group preConditions
      * @skipTearDown
      */
     public function createCustomer() {
@@ -50,8 +49,6 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         self::$customer = array('email' => $userData['email']);
         return self::$customer;
         //return array('email' => $userData['email']);
@@ -61,7 +58,6 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * Create Simple Products for tests
      * @return array $product
      * @test
-     * @group preConditions
      * @skipTearDown
      */
     public function createProduct() {
@@ -101,7 +97,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
       $this->navigate('manage_customers');
       $this->customerHelper()->openCustomer($customer);
       $this->clickButton('manage_shopping_cart', false);
-      $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+      $this->waitForPageToLoad();
       $this->addParameter('store', $this->defineParameterFromUrl('store'));
       $this->addParameter('customer', $this->defineParameterFromUrl('customer'));
       $this->validatePage('customer_shopping_cart');

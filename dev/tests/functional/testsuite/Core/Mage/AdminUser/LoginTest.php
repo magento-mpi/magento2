@@ -20,9 +20,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->controlIsPresent('link', 'log_out')) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -30,7 +29,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('pageelement', 'captcha')) {
             $this->loginAdminUser();
             $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+            $this->systemConfigurationHelper()->configure('Captcha/disable_admin_captcha');
             $this->logoutAdminUser();
         }
     }
@@ -41,9 +40,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->controlIsPresent('link', 'log_out')) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -58,8 +56,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginValidUser()
     {
         //Data
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword());
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword());
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying

@@ -27,6 +27,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
     {
         return parent::_preconditionsForAllTagsTests();
     }
+
     /**
      * Pending status for new customer's tag
      *
@@ -50,7 +51,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $tags = $this->tagsHelper()->convertTagsStringToArray($tags);
+        $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
         if ($status != 'Pending') {
             $this->navigate('pending_tags');
@@ -59,6 +60,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
             }
         }
     }
+
     public function tagNameDataProvider()
     {
         return array(
@@ -67,6 +69,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
             array($this->generate('string', 4, ':alpha:'), 'Pending')
         );
     }
+
     /**
      * Edit pending customer's tag
      *
@@ -93,20 +96,22 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
         $this->loginAdminUser();
         $this->navigate('pending_tags');
         $this->tagsHelper()->openTag(array('tag_name' => $tags));
-        $this->tagsHelper()->fillForm(array('tag_status' => $status));
-        $this->tagsHelper()->saveForm('save_tag');
+        $this->fillDropdown('tag_status', $status);
+        $this->saveForm('save_tag');
         $this->assertMessagePresent('success', 'success_saved_tag');
-        $this->assertFalse((bool) $this->search(array('tag_name' => $tags)),
+        $this->assertNull($this->search(array('tag_name' => $tags), 'tags_grid'),
             "Edit tags and change status {$tags} work incorrect");
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
     }
+
     public function tagEditDataProvider()
     {
         return array(
             array($this->generate('string', 4, ':alpha:'), 'Approved')
         );
     }
+
     /**
      * Search customers tags in All Tags and Pending Tags grid
      *
@@ -131,25 +136,22 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
         $this->loginAdminUser();
-        $areas = array(
-            'pending_tags',
-            'all_tags'
-        );
+        $areas = array('pending_tags', 'all_tags');
         foreach ($areas as $area) {
             $this->navigate($area);
-            $this->searchAndChoose(array('tag_name' => $tags));
-            $this->fillForm(array('filter_massaction' => $status));
+            $this->searchAndChoose(array('tag_name' => $tags), 'tags_grid');
+            $this->fillDropdown('filter_massaction', $status);
             $this->clickButton('search', false);
-            $this->waitForAjax();
+            $this->pleaseWait();
+            $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
             if ($status == 'No') {
-                $this->assertFalse((bool) $this->search(array('tag_name' => $tags), null, false),
-                    "Filter {$status} works incorrect");
+                $this->assertFalse($this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
             } else {
-                $this->assertTrue((bool) $this->search(array('tag_name' => $tags), null, false),
-                    "Filter {$status} works incorrect");
+                $this->assertTrue((bool)$this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
             }
         }
     }
+
     public function tagSearchSelectedDataProvider()
     {
         return array(
@@ -158,6 +160,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
             array($this->generate('string', 4, ':alpha:'), 'Yes')
         );
     }
+
     /**
      * Search customers tags in All Tags and Pending Tags grid
      *
@@ -184,21 +187,19 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
             $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
         }
         $this->loginAdminUser();
-        $areas = array(
-            'pending_tags',
-            'all_tags'
-        );
+        $areas = array('pending_tags', 'all_tags');
         foreach ($areas as $area) {
             $this->navigate($area);
             $this->clickButton('reset_filter', false);
-            $this->waitForAjax();
-            $this->fillForm(array('tag_name' => $tags));
+            $this->pleaseWait();
+            $this->fillField('tag_name', $tags);
             $this->clickButton('search', false);
-            $this->waitForAjax();
-            $this->assertTrue($status == (bool) $this->search(array('tag_name' => $tags), null, false),
-                "Filter by Name {$tags} works incorrect");
+            $this->pleaseWait();
+            $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
+            $this->assertTrue((bool)$this->elementIsPresent($trLocator), "Filter by Name {$tags} works incorrect");
         }
     }
+
     public function tagSearchNameDataProvider()
     {
         return array(

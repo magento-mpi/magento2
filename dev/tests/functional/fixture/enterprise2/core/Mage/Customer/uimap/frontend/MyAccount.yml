@@ -49,7 +49,7 @@ order_by_sku:
             sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
 
 view_order:
-    title: 'Order # %orderId%'
+    title: 'Order # %elementTitle%'
     uimap:
         form:
             fieldsets:

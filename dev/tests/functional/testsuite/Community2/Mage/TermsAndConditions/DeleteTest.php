@@ -25,7 +25,7 @@ class Community2_Mage_TermsAndConditions_DeleteTest extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
     }
 
     /**
@@ -48,7 +48,7 @@ class Community2_Mage_TermsAndConditions_DeleteTest extends Mage_Selenium_TestCa
         $searchTerms = $this->loadDataSet('TermsAndConditions', 'search_terms_and_conditions',
             array('filter_condition_name' => $termsData['condition_name']));
         //Steps
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         //Verifying
         $this->assertMessagePresent('success', 'condition_saved');

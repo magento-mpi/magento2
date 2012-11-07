@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
+class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * System Configuration
@@ -32,30 +32,64 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $chooseScope);
         }
         foreach ($parameters as $value) {
             if (!is_array($value)) {
                 continue;
             }
             $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
-            $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
             if ($tab) {
                 $this->openConfigurationTab($tab);
-                $this->fillForm($settings, $tab);
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $this->expandFieldSet($fieldsetName);
+                    $this->fillFieldset($fieldsetData, $fieldsetName);
+                }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
-                $this->verifyForm($settings, $tab);
-                if ($this->getParsedMessages('verification')) {
-                    foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
-                        if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
-                            unset(self::$_messages['verification'][$key]);
-                        }
-                    }
-                    $this->assertEmptyVerificationErrors();
+                $this->verifyConfigurationOptions($settings, $tab);
+            }
+        }
+    }
+
+    /**
+     * @param string $fieldsetName
+     */
+    public function expandFieldSet($fieldsetName)
+    {
+        $formLocator = $this->getControlElement('fieldset', $fieldsetName);
+        if ($formLocator->name() == 'fieldset') {
+            $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
+            if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                $this->focusOnElement($fieldsetLink);
+                $fieldsetLink->click();
+                $this->clearActiveFocus();
+            }
+        }
+    }
+
+    /**
+     * @param array $tabSettings
+     * @param string $tab
+     */
+    public function verifyConfigurationOptions(array $tabSettings, $tab)
+    {
+        foreach ($tabSettings as $fieldsetName => $fieldsetData) {
+            $this->expandFieldSet($fieldsetName);
+            $this->verifyForm($fieldsetData, $tab);
+        }
+        if ($this->getParsedMessages('verification')) {
+            $messages = $this->getParsedMessages('verification');
+            $this->clearMessages('verification');
+            $skipError = preg_quote("' != '**");
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
                 }
             }
         }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -65,36 +99,26 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
      */
     public function openConfigurationTab($tab)
     {
-        $this->defineParameters($this->_getControlXpath('tab', $tab), 'href');
-        $this->clickControl('tab', $tab);
-    }
-
-    /**
-     * @param string $dropDownName
-     * @param string $fieldValue
-     */
-    public function changeConfigurationScope($dropDownName, $fieldValue)
-    {
-        $xpath = $this->_getControlXpath('dropdown', $dropDownName);
-        $toSelect = $xpath . '//option[normalize-space(text())="' . $fieldValue . '"]';
-        $isSelected = $toSelect . '[@selected]';
-        if (!$this->isElementPresent($isSelected)) {
-            $this->defineParameters($toSelect, 'url');
-            $this->fillDropdown($dropDownName, $fieldValue);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+        if (!$this->controlIsPresent('tab', $tab)) {
+            $this->fail($this->locationToString() . "Tab '$tab' is not present on the page");
         }
+        $this->defineParameters('tab', $tab, 'href');
+        $url = $this->getControlElement('tab', $tab)->attribute('href');
+        $this->url($url);
     }
 
     /**
      * Define Url Parameters for System Configuration page
      *
-     * @param string $xpath
+     * @param string $controlType
+     * @param string $controlName
      * @param string $attribute
+     *
+     * @return void
      */
-    public function defineParameters($xpath, $attribute)
+    public function defineParameters($controlType, $controlName, $attribute)
     {
-        $params = $this->getAttribute($xpath . '/@' . $attribute);
+        $params = $this->getControlAttribute($controlType, $controlName, $attribute);
         $params = explode('/', $params);
         foreach ($params as $key => $value) {
             if ($value == 'section' && isset($params[$key + 1])) {
@@ -118,20 +142,16 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     public function useHttps($path = 'admin', $useSecure = 'Yes')
     {
         $this->admin('system_configuration');
-        $xpath = $this->_getControlXpath('tab', 'general_web');
-        $this->addParameter('tabName', 'web');
-        $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
-        $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
-        $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
-        $data = array('secure_base_url' => $url,
-            'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
-        $this->fillForm($data, 'general_web');
-        $this->clickButton('save_config');
-        if ($this->getTitle() == 'Log into Magento Admin Page') {
-            $this->loginAdminUser();
-            $this->admin('system_configuration');
-            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+        $this->openConfigurationTab('general_web');
+        $fieldsetLink = $this->getControlElement('link', 'secure_link');
+        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+            $fieldsetLink->click();
         }
+        $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
+        $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
+                      'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
+        $this->fillFieldset($data, 'secure');
+        $this->clickButton('save_config');
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 

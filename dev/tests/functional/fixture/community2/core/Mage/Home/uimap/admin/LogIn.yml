@@ -1,9 +1,8 @@
-# Magento
 #
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento
+# @package     Mage_Home
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -47,5 +46,3 @@ forgot_password:
                         pageelements:
                             captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages
-          
-        

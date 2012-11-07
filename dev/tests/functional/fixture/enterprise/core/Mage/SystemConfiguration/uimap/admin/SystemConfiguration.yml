@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -121,4 +120,3 @@ system_configuration_store:
 
 system_configuration_website_base:
     uimap: *systemConfiguration
-

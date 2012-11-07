@@ -176,8 +176,6 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying
@@ -216,8 +214,6 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying

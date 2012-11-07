@@ -1,9 +1,8 @@
-# Magento
 #
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento
+# @package     Mage_SystemConfiguration
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -215,11 +214,11 @@ system_configuration:
                                         design_package_link: //parent::div//a[@id='design_package-head']
                                     fields:
                                         current_package_name: //input[@name='groups[package][fields][name][value]']
-                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(., '[%rowId%][value]')]]
+                                        package_matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        package_value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
                                         current_package_add_exception: //tr[@id='row_design_package_ua_regexp']//button[span='Add Exception']
-                                        delete: //tr[@id='%rowId%']//button[span='Delete']
+                                        package_delete: //tr[@id='%rowId%']//button[span='Delete']
                                     checkboxes:
                                         current_package_name_use_default: //input[@name='groups[package][fields][name][inherit]']
                                         current_package_add_exception_use_default: //input[@name='groups[package][fields][ua_regexp][inherit]']
@@ -234,10 +233,10 @@ system_configuration:
                                         skin: //input[@name='groups[theme][fields][skin][value]']
                                         layout: //input[@name='groups[theme][fields][layout][value]']
                                         default: //input[@name='groups[theme][fields][default][value]']
-                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(., '[%rowId%][value]')]]
+                                        themes_matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        themes_value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
-                                        delete: //tr[@id='%rowId%']//button[span='Delete']
+                                        themes_delete: //tr[@id='%rowId%']//button[span='Delete']
                                         templates_add_exception: //tr[@id='row_design_theme_template_ua_regexp']//button[span='Add Exception']
                                         skin_add_exception: //tr[@id='row_design_theme_skin_ua_regexp']//button[span='Add Exception']
                                         layout_add_exception: //tr[@id='row_design_theme_layout_ua_regexp']//button[span='Add Exception']
@@ -1042,10 +1041,10 @@ system_configuration:
                                         pdf_use_default: //input[@name='groups[address_templates][fields][pdf][inherit]']
                                         javascript_template_use_default: //input[@name='groups[address_templates][fields][js_template][inherit]']
                             -
-                                captcha:
+                                customer_captcha:
                                       xpath: //fieldset[@id='customer_captcha']
                                       links:
-                                        captcha_link: //parent::div//a[@id='customer_captcha-head']
+                                          customer_captcha_link: //parent::div//a[@id='customer_captcha-head']
                                       dropdowns:
                                           captcha_enable_frontend: //select[@id='customer_captcha_enable']
                                           captcha_font: //select[@id='customer_captcha_font']
@@ -1760,6 +1759,7 @@ system_configuration:
                                         ups_userid: //input[@name='groups[ups][fields][username][value]']
                                         ups_gateway_xml_url: //input[@name='groups[ups][fields][gateway_xml_url][value]']
                                         ups_shipper_number: //input[@name='groups[ups][fields][shipper_number][value]']
+                                        ups_tracking_xml_url: //input[@id='carriers_ups_tracking_xml_url']
                                     dropdowns:
                                         ups_enabled: //select[@name='groups[ups][fields][active][value]']
                                         ups_ups_type: //select[@name='groups[ups][fields][type][value]']
@@ -2178,7 +2178,7 @@ system_configuration:
                                         api_certificate_use_default: //input[@name='groups[api][fields][api_cert][inherit]']
                                         api_signature_use_default: //input[@name='groups[api][fields][api_signature][inherit]']
                                         api_authentication_methods_use_default: //input[@name='groups[api][fields][api_authentication][inherit]']
-                                        sandbox_mode_use_default: //input[@name='groups[api][fields][sandbox_flag][inherit]']
+                                        api_sandbox_mode_use_default: //input[@name='groups[api][fields][sandbox_flag][inherit]']
                                         api_uses_proxy_use_default: //input[@name='groups[api][fields][use_proxy][inherit]']
                                         proxy_host: //input[@name='groups[api][fields][proxy_host][inherit]']
                                         proxy_port: //input[@name='groups[api][fields][proxy_port][inherit]']
@@ -2516,6 +2516,11 @@ system_configuration:
                     sales_payment_methods:
                         xpath: //a[contains(@href, 'edit/section/payment/')]
                         fieldsets:
+                            -
+                                paypal_solutions:
+                                    xpath: //div[@class='paypal-payment-notice']
+                                    links:
+                                        go_to_paypal_solutions: //a[text()='View PayPal solutions.']
                             -
                                 saved_cc:
                                     xpath: //fieldset[@id='payment_ccsave']
@@ -3924,7 +3929,7 @@ system_configuration:
                                 captcha:
                                     xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        dashboard_link: //parent::div//a[@id='admin_captcha-head']
+                                        captcha_link: //parent::div//a[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']

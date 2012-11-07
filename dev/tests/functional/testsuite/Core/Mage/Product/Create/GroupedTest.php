@@ -106,15 +106,17 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function existSkuInGrouped($productData)
     {
         //Steps
-        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
         $this->productHelper()->createProduct($productData, 'grouped', false);
+        $this->addParameter('elementTitle', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
+        $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
-            $productData['general_sku'])));
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -141,18 +143,12 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_visibility') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } elseif ($emptyField == 'general_sku') {
-            $overrideData = array($emptyField => '');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'grouped_product_required', $overrideData);
+        $field = key($emptyField);
+        $product = $this->loadDataSet('Product', 'grouped_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData, 'grouped');
+        $this->productHelper()->createProduct($product, 'grouped');
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -160,12 +156,12 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown')
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
         );
     }
 

@@ -47,31 +47,24 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function exportSettingsGeneralView()
     {
         //Verifying
-        $entityTypes = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'entity_type') . '/option',
-            'text');
+        $entityTypes = $this->select($this->getControlElement('dropdown', 'entity_type'))->selectOptionLabels();
         $expectedEntityTypes = array_merge(array('-- Please Select --', 'Products'),
             $this->importExportHelper()->getCustomerEntityType());
         $this->assertEquals($expectedEntityTypes, $entityTypes, 'Entity Type dropdown contains incorrect values');
-        $fileFormat = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'file_format') . '/option',
-            'text');
-        $this->assertEquals(array('CSV'), $fileFormat,
-            'Export File Format dropdown contains incorrect values');
+        $fileFormat = $this->select($this->getControlElement('dropdown', 'file_format'))->selectOptionLabels();
+        $this->assertEquals(array('CSV'), $fileFormat, 'Export File Format dropdown contains incorrect values');
         //Step 2
-        $allEntityTypes = $expectedEntityTypes;
-        unset($allEntityTypes[0]);
-        foreach ($allEntityTypes as $value) {
+        foreach ($expectedEntityTypes as $value) {
+            if ($value == '-- Please Select --') {
+                continue;
+            }
             $this->fillDropdown('entity_type', $value);
             //Verifying
-            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
+            $this->assertTrue($this->controlIsPresent('fieldset', 'grid_and_filter'),
                 'Grid and filter are not displayed');
-            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter')),
-                'Reset button is not displayed');
-            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'search')),
-                'Search button is not displayed');
-            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
-                'Continue button is not displayed');
+            $this->assertTrue($this->buttonIsPresent('reset_filter'), 'Reset button is not displayed');
+            $this->assertTrue($this->buttonIsPresent('search'), 'Search button is not displayed');
+            $this->assertTrue($this->buttonIsPresent('continue'), 'Continue button is not displayed');
         }
     }
 
@@ -134,8 +127,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
-            "Customer not found in csv file"
-        );
+            "Customer not found in csv file");
     }
 
     /**
@@ -165,8 +157,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step3
-        $this->importExportHelper()
-            ->setFilter(array('firstname' => $userData['first_name']));
+        $this->importExportHelper()->setFilter(array('firstname' => $userData['first_name']));
         //Step4-5
         $report = $this->importExportHelper()->export();
         //Verifying
@@ -196,29 +187,16 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     {
         //Step 1
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
-        $this->importExportHelper()->customerFilterAttributes(
-            array(
-                'attribute_label' => 'Created At',
-                'attribute_code'  => 'created_at'
-            )
-        );
+        $this->importExportHelper()->customerFilterAttributes(array('attribute_label' => 'Created At',
+                                                                    'attribute_code'  => 'created_at'));
 
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_label' => 'Created At',
-                'attribute_code'  => 'created_at'
-            ),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_label' => 'Created At',
+                                                                               'attribute_code'  => 'created_at'),
+            'grid_and_filter');
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //mark attribute as skipped
-        $this->importExportHelper()->customerSkipAttribute(
-            array(
-                'attribute_label' => 'Created At',
-                'attribute_code'  => 'created_at'
-            ),
-            'grid_and_filter'
-        );
+        $this->importExportHelper()->customerSkipAttribute(array('attribute_label' => 'Created At',
+                                                                 'attribute_code'  => 'created_at'), 'grid_and_filter');
     }
 
     /**
@@ -244,39 +222,26 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         foreach ($arr as $value) {
             $this->importExportHelper()->chooseExportOptions($value);
             //Step 3
-            $this->importExportHelper()->customerFilterAttributes(
-                array(
-                    'attribute_code' => 'email'
-                ));
+            $this->importExportHelper()->customerFilterAttributes(array('attribute_code' => 'email'));
             //Step 4
-            $isFound = $this->importExportHelper()->customerSearchAttributes(
-                array(
-                    'attribute_code' => 'email'
-                ),
-                'grid_and_filter'
-            );
+            $isFound = $this->importExportHelper()
+                ->customerSearchAttributes(array('attribute_code' => 'email'), 'grid_and_filter');
             $this->assertNotNull($isFound, 'Attribute was not found after filtering');
             //Step 5
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();
             //Step 6
-            $this->importExportHelper()->customerFilterAttributes(
-                array(
-                    'attribute_label' => 'Email'
-                ));
+            $this->importExportHelper()->customerFilterAttributes(array('attribute_label' => 'Email'));
             //Step 7
-            $isFound = $this->importExportHelper()->customerSearchAttributes(
-                array(
-                    'attribute_label' => 'Email'
-                ),
-                'grid_and_filter'
-            );
+            $isFound = $this->importExportHelper()
+                ->customerSearchAttributes(array('attribute_label' => 'Email'), 'grid_and_filter');
             $this->assertNotNull($isFound, 'Attribute was not found after filtering');
             //Step 8
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();
         }
     }
+
     /**
      * Preconditions:
      * 1. The grid with attributes should be presented for each file type
@@ -290,11 +255,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     {
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Verify
-        $isFound = $this->importExportHelper()->customerSkipAttribute(
-            array(
-                'attribute_label' => 'Created At'
-            ), 'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSkipAttribute(array('attribute_label' => 'Created At'), 'grid_and_filter');
         $this->assertTrue($isFound, 'Skip checkbox was not found');
         //Steps
         $customerTypes = $this->importExportHelper()->getCustomerEntityType();
@@ -303,15 +265,12 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
             $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
             $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
             //Steps
-            $isFound = $this->importExportHelper()->customerSkipAttribute(
-                array(
-                    'attribute_label' => 'Created At'
-                ),
-                'grid_and_filter'
-            );
+            $isFound = $this->importExportHelper()
+                ->customerSkipAttribute(array('attribute_label' => 'Created At'), 'grid_and_filter');
             $this->assertFalse($isFound, 'Checkbox was found');
         }
     }
+
     /**
      * Export with skipped some attributes
      * Steps
@@ -330,20 +289,17 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1,2
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 3
-        $isFound = $this->importExportHelper()->customerSkipAttribute(
-            array(
-                'attribute_label' => 'Date Of Birth'),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSkipAttribute(array('attribute_label' => 'Date Of Birth'), 'grid_and_filter');
         $this->assertTrue($isFound, 'Date of Birth attribute was not found');
         //Step 4
         $report = $this->importExportHelper()->export();
         //Verifying
         //search in array key = 'dob'
         $this->assertFalse(array_key_exists('dob', $report[0]),
-            'Skipped attribute was found in export file. Attribute Code: dob'
-        );
+            'Skipped attribute was found in export file. Attribute Code: dob');
     }
+
     /**
      * Simple Export Address file
      * Steps
@@ -375,8 +331,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $addressData, $report),
-            "Customer address not found in csv file"
-        );
+            "Customer address not found in csv file");
     }
 
     /**
@@ -413,14 +368,12 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 2
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         //Step 3
-        $this->importExportHelper()
-            ->setFilter(array('gender ' => 'Male'));
+        $this->importExportHelper()->setFilter(array('gender ' => 'Male'));
         //Step 4-5
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $maleUserAddressData, $report),
-            "Male customer address data not found in csv file"
-        );
+            "Male customer address data not found in csv file");
     }
 }

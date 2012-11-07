@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Subscribe to newsletter
@@ -38,7 +38,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
     public function massAction($action, $searchDataSet)
     {
         foreach ($searchDataSet as $searchData) {
-            $this->searchAndChoose($searchData);
+            $this->searchAndChoose($searchData, 'subscribers_grid');
         }
         $this->addParameter('qtyOfRecords', count($searchDataSet));
         $this->fillDropdown('subscribers_massaction', ucfirst(strtolower($action)));
@@ -56,6 +56,6 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
     public function checkStatus($status, $searchData)
     {
         $searchData['filter_status'] = ucfirst(strtolower($status));
-        return !is_null($this->search($searchData));
+        return !is_null($this->search($searchData, 'subscribers_grid'));
     }
 }

@@ -33,7 +33,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return array $attrData
-     * @group preConditions
      */
     public function createConfigurableAttribute()
     {
@@ -65,7 +64,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @return array $productData
      * @test
      * @depends createConfigurableAttribute
-     * @group preConditions
      */
     public function createProducts($attrData)
     {

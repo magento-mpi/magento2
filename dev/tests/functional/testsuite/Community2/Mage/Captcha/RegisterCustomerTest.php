@@ -18,17 +18,24 @@
  */
 class Community2_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 {
-
-    protected function assertPreConditions()
-    {
-        $this->logoutCustomer();
-    }
-
-    protected function tearDownAfterTestClass()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
+    }
+
+    public function assertPreConditions()
+    {
+        $this->logoutCustomer();
+        $this->loginAdminUser();
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
     }
 
     /**
@@ -48,12 +55,9 @@ class Community2_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCas
      */
     public function enableCaptcha()
     {
-        //Data
-        $config = $this->loadDataSet('Captcha', 'enable_front_register_captcha');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('Captcha/enable_front_register_captcha');
         $this->frontend('register_account');
         //Validations
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));
@@ -171,11 +175,10 @@ class Community2_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCas
     {
         //Steps
         $this->frontend('register_account');
-        $xpath = $this->_getControlXpath('pageelement', 'captcha') . '@src';
-        $captchaUrl1 = $this->getAttribute($xpath);
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         $this->clickControl('button', 'captcha_reload', false);
         $this->waitForAjax();
-        $captchaUrl2 = $this->getAttribute($xpath);
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         //Verification
         $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
     }

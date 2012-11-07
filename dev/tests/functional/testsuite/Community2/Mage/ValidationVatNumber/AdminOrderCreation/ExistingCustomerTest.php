@@ -19,26 +19,32 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
 {
     public function setUpBeforeTests()
     {
-        //Data
-        $storeInfo = $this->loadDataSet('VatID', 'store_information_data');
-        //Filling "Store Information" data and Validation VAT Number
+        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options',
+            array('default_value_for_disable_automatic_group' => 'Yes'));
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($storeInfo);
-        $xpath = $this->_getControlXpath('link','store_information_link');
-        if (!$this->isElementPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link','store_information_link', false);
-        }
+        $this->systemConfigurationHelper()->configure('VatID/store_information_data');
+        $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
         $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
         //Steps
         $this->navigate('system_configuration');
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options',
-            array('default_value_for_disable_automatic_group' => 'Yes'));
         //Verification
         $this->systemConfigurationHelper()->configure($accountOptions);
+    }
+
+    public function assertPreconditions()
+    {
+        $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('VatID/create_new_account_options_disable');
     }
 
     /**
@@ -48,44 +54,33 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
     public function preconditionsForTests()
     {
         //Data
-        $names = array(
-            'group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
-            'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
-            'group_invalid_vat'          => 'Invalid VAT_%randomize%',
-            'group_default'              => 'Default Group_%randomize%');
+        $names = array('group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
+                       'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
+                       'group_invalid_vat'          => 'Invalid VAT_%randomize%',
+                       'group_default'              => 'Default Group_%randomize%');
         $processedGroupNames = array();
+        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options', $processedGroupNames);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Creating three Customer Groups
-        $this->loginAdminUser();
         $this->navigate('manage_customer_groups');
-        foreach ($names as $groupKey => $groupName){
-            $customerGroup = $this->loadDataSet('CustomerGroup', 'new_customer_group',
-                array('group_name' => $groupName));
-            $this->customerGroupsHelper()->createCustomerGroup($customerGroup);
-        //Verifying
+        foreach ($names as $groupKey => $groupName) {
+            $group = $this->loadDataSet('CustomerGroup', 'new_customer_group', array('group_name' => $groupName));
+            $this->customerGroupsHelper()->createCustomerGroup($group);
+            //Verifying
             $this->assertMessagePresent('success', 'success_saved_customer_group');
-            $processedGroupNames[$groupKey] = $customerGroup['group_name'];
+            $processedGroupNames[$groupKey] = $group['group_name'];
         }
         //Configuring "Create New Account Options" tab
         $this->navigate('system_configuration');
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options', $processedGroupNames);
         $this->systemConfigurationHelper()->configure($accountOptions);
         //Data for creating product
-        $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('sku'            => $simple['general_name'],
-                     'customerGroups' => $processedGroupNames);
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options_disable');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($accountOptions);
+        return array('sku' => $simple['general_name'], 'customerGroups' => $processedGroupNames);
     }
 
     /**
@@ -110,7 +105,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
      * @depends preconditionsForTests
      * @dataProvider creatingOrderForExistingCustomerDataProvider
      *
-     * @TestlinkId	TL-MAGE-4932, TL-MAGE-4956, TL-MAGE-4958
+     * @TestlinkId TL-MAGE-4932, TL-MAGE-4956, TL-MAGE-4958
      * @author andrey.vergeles
      */
     public function creatingOrderForExistingCustomer($customerAddressData, $messageType, $testData)
@@ -120,8 +115,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
             array('group' => $testData['customerGroups']['group_default']));
         $userAddressData = $this->loadDataSet('Customers', 'generic_address_' . $customerAddressData);
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
-            array('filter_sku'     => $testData['sku'],
-                  'email'          => $userData['email'],
+            array('filter_sku'     => $testData['sku'], 'email' => $userData['email'],
                   'customer_group' => '%noValue%'));
         unset($orderData['billing_addr_data']);
         unset($orderData['shipping_addr_data']);
@@ -131,7 +125,9 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_sales_orders');
         //Verification
-        $this->validationVatNumberHelper()->createOrder($orderData, $testData, $userAddressData, $messageType);
+        $this->orderHelper()->doAdminCheckoutSteps($orderData);
+        $this->validationVatNumberHelper()->validationVatMessages($testData, $userAddressData, $messageType);
+        $this->orderHelper()->submitOrder();
         $this->assertMessagePresent('success', 'success_created_order');
     }
 
@@ -140,7 +136,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTes
         return array(
             array('vat_valid_intraunion', 'validIntraunionMessage'),
             array('vat_valid_domestic', 'validDomesticMessage'),
-            array('vat_invalid', 'invalidMessage'),
+            array('vat_invalid', 'invalidMessage')
         );
     }
 }

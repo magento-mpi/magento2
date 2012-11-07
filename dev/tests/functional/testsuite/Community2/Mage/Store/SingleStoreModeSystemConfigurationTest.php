@@ -18,7 +18,7 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
     {
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
     }
 
     /**
@@ -37,7 +37,8 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
     function verificationScopeSelector()
     {
         $this->admin('system_configuration');
-        $this->assertElementNotPresent('current_configuration_scope', "Scope Selector is present");
+        $this->assertFalse($this->controlIsPresent('dropdown', 'current_configuration_scope'),
+            "Scope Selector is present");
     }
 
     /**
@@ -145,26 +146,28 @@ class Community2_Mage_Store_SingleStoreModeSystemConfigurationTest extends Mage_
     function verificationHints()
     {
         $this->admin('system_configuration');
-        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
-        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
-        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
+        $locatorParts = array($this->_getControlXpath('pageelement', 'store_view_hint'),
+                              $this->_getControlXpath('pageelement', 'global_view_hint'),
+                              $this->_getControlXpath('pageelement', 'website_view_hint'));
+        $needTypes = array(self::FIELD_TYPE_MULTISELECT, self::FIELD_TYPE_DROPDOWN, self::FIELD_TYPE_INPUT);
+
         $tabs = $this->getCurrentUimapPage()->getMainForm()->getAllTabs();
-        foreach ($tabs as $tab => $value) {
-            $uimapFields = array();
-            $this->openTab($tab);
-            $uimapFields[self::FIELD_TYPE_MULTISELECT] = $value->getAllMultiselects();
-            $uimapFields[self::FIELD_TYPE_DROPDOWN] = $value->getAllDropdowns();
-            $uimapFields[self::FIELD_TYPE_INPUT] = $value->getAllFields();
-            foreach ($uimapFields as $element) {
-                foreach ($element as $name => $xpath) {
-                    if ($this->isElementPresent($xpath . $storeView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
-                    }
-                    if ($this->isElementPresent($xpath . $globalView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
-                    }
-                    if ($this->isElementPresent($xpath . $websiteView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
+        /**
+         * @var Mage_Selenium_Uimap_Tab $tabUimap
+         */
+        foreach ($tabs as $tabName => $tabUimap) {
+            $this->openTab($tabName);
+            $uimapFields = $tabUimap->getTabElements($this->getParamsHelper());
+            foreach ($needTypes as $fieldType) {
+                if (!isset($uimapFields[$fieldType])) {
+                    continue;
+                }
+                foreach ($uimapFields[$fieldType] as $fieldName => $fieldLocator) {
+                    foreach ($locatorParts as $part) {
+                        if (!$this->elementIsPresent($fieldLocator . $part)) {
+                            $this->addVerificationMessage(
+                                "Element '" . $fieldName . "' is not on the page. Locator: " . $fieldLocator . $part);
+                        }
                     }
                 }
             }

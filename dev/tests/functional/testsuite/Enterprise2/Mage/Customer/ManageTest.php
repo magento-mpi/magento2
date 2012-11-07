@@ -13,7 +13,7 @@
 /**
  * Verification Manage Shopping Cart Button
  */
-class Enterprise2_Mage_Customer_ManageShoppingCartButtonTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Customer_ManageTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -36,7 +36,6 @@ class Enterprise2_Mage_Customer_ManageShoppingCartButtonTest extends Mage_Seleni
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
@@ -69,7 +68,7 @@ class Enterprise2_Mage_Customer_ManageShoppingCartButtonTest extends Mage_Seleni
         $this->assertTrue($this->buttonIsPresent('manage_shopping_cart'),
             'There is no "Manage Shopping Cart" button on the page');
         $this->clickButton('manage_shopping_cart', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->addParameter('store', $this->defineParameterFromUrl('store'));
         $this->addParameter('customer', $this->defineParameterFromUrl('customer'));
         $this->validatePage('customer_shopping_cart');

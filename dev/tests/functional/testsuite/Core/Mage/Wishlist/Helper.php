@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Adds product to wishlist from a specific catalog page.
@@ -47,7 +47,13 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
-        $this->clickControl('link', 'add_to_wishlist');
+        $waitConditions = array($this->getBasicXpathMessagesExcludeCurrent('success'),
+                                $this->_getControlXpath('fieldset', 'log_in_customer',
+                                    $this->getUimapPage('frontend', 'customer_login')));
+        $this->clickControl('link', 'add_to_wishlist', false);
+        $this->waitForElement($waitConditions);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->validatePage();
     }
 
     /**

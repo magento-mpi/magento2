@@ -19,20 +19,26 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
 {
     public function setUpBeforeTests()
     {
-        //Data
-        $storeInfo = $this->loadDataSet('VatID', 'store_information_data');
-        //Filling "Store Information" data and Validation VAT Number
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($storeInfo);
-        $xpath = $this->_getControlXpath('link','store_information_link');
-        if (!$this->isElementPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link','store_information_link', false);
-        }
+        $this->systemConfigurationHelper()->configure('VatID/store_information_data');
+        $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
         $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
+    }
+
+    public function assertPreconditions()
+    {
+        $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options_disable');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($accountOptions);
     }
 
     /**
@@ -42,22 +48,19 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
     public function preconditionsForTests()
     {
         //Data
-        $names = array(
-            'group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
-            'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
-            'group_invalid_vat'          => 'Invalid VAT_%randomize%',
-            'group_default'              => 'Default Group_%randomize%');
+        $names = array('group_valid_vat_domestic'   => 'Valid VAT Domestic_%randomize%',
+                       'group_valid_vat_intraunion' => 'Valid VAT IntraUnion_%randomize%',
+                       'group_invalid_vat'          => 'Invalid VAT_%randomize%',
+                       'group_default'              => 'Default Group_%randomize%');
         $processedGroupNames = array();
         //Creating three Customer Groups
-        $this->loginAdminUser();
         $this->navigate('manage_customer_groups');
-        foreach ($names as $groupKey => $groupName){
-            $customerGroup = $this->loadDataSet('CustomerGroup', 'new_customer_group',
-                array('group_name' => $groupName));
-            $this->customerGroupsHelper()->createCustomerGroup($customerGroup);
-        //Verifying
+        foreach ($names as $groupKey => $groupName) {
+            $group = $this->loadDataSet('CustomerGroup', 'new_customer_group', array('group_name' => $groupName));
+            $this->customerGroupsHelper()->createCustomerGroup($group);
+            //Verifying
             $this->assertMessagePresent('success', 'success_saved_customer_group');
-            $processedGroupNames[$groupKey] = $customerGroup['group_name'];
+            $processedGroupNames[$groupKey] = $group['group_name'];
         }
         //Configuring "Create New Account Options" tab
         $this->navigate('system_configuration');
@@ -71,15 +74,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('sku'            => $simple['general_name'],
-                     'customerGroups' => $processedGroupNames);
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $accountOptions = $this->loadDataSet('VatID', 'create_new_account_options_disable');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($accountOptions);
+        return array('sku' => $simple['general_name'], 'customerGroups' => $processedGroupNames);
     }
 
     /**
@@ -103,7 +98,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
      * @depends preconditionsForTests
      * @dataProvider creatingOrderForExistingCustomerDataProvider
      *
-     * @TestlinkId	TL-MAGE-4873, TL-MAGE-4903, TL-MAGE-4904
+     * @TestlinkId TL-MAGE-4873, TL-MAGE-4903, TL-MAGE-4904
      * @author andrey.vergeles
      */
     public function creatingOrderForNewCustomer($customerAddressData, $messageType, $testData)
@@ -113,11 +108,13 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
             array('filter_sku'     => $testData['sku'],
                   'customer_group' => $testData['customerGroups']['group_default'],
                   'customer_email' => $this->generate('email', 32, 'valid')));
-        $userAddressData = $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder',
-            'billing_address_' . $customerAddressData);
+        $userAddressData =
+        $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_' . $customerAddressData);
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->validationVatNumberHelper()->createOrder($orderData, $testData, $userAddressData, $messageType);
+        $this->orderHelper()->doAdminCheckoutSteps($orderData);
+        $this->validationVatNumberHelper()->validationVatMessages($testData, $userAddressData, $messageType);
+        $this->orderHelper()->submitOrder();
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');
     }
@@ -127,7 +124,7 @@ class Community2_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest ext
         return array(
             array('vat_valid_intraunion', 'validIntraunionMessage'),
             array('vat_valid_domestic', 'validDomesticMessage'),
-            array('vat_invalid', 'invalidMessage'),
+            array('vat_invalid', 'invalidMessage')
         );
     }
 }

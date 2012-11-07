@@ -11,7 +11,7 @@
 # Poll Manager page
 poll_manager:
     mca: poll/
-    click_xpath: //div[@class='nav-bar']//a[span='Polls']
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/poll/')]
     title: Polls / CMS / Magento Admin
     uimap:
         form: &searchPoll
@@ -56,7 +56,7 @@ new_poll:
             tabs:
                 -
                     poll_information: &pollInformationTab
-                        xpath: //a[@title='Poll Information']/span
+                        xpath: //a[@title='Poll Information']
                         fieldsets:
                             -
                                 information:
@@ -69,13 +69,15 @@ new_poll:
                                         visible_in: //select[@name='store_ids[]']
                 -
                     poll_answers: &pollAnswersTab
-                        xpath: //a[@title='Poll Answers']/span
+                        xpath: //a[@title='Poll Answers']
                         fieldsets:
                             -
                                 assigned_answers:
                                     xpath: //div[contains(div/div/h4,'Assigned Answers')]
                                     buttons:
                                         add_new_answer: //button[span='Add New Answer']
+                                    pageelements:
+                                        assigned_answers_block: //div[@id='poll_answer_fieldset_%answerId%']
                             -
                                 assigned_answers_set:
                                     xpath: //div[@class='fieldset fieldset-wide']
@@ -93,7 +95,7 @@ new_poll:
 # Edit Poll page
 edit_poll:
     mca: poll/edit/id/%id%/
-    title: %pollName% / Polls / CMS / Magento Admin
+    title: %elementTitle% / Polls / CMS / Magento Admin
     uimap:
         form:
             tabs:

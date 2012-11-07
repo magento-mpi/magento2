@@ -10,30 +10,32 @@
 # @license     {license_link}
 #
 ---
-
 enable_map_gesture:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            enable_map: Yes
-            apply_map: Yes
-            display_actual_prise: On Gesture
+            minimum_advertised_price:
+                enable_map: Yes
+                apply_map: Yes
+                display_actual_prise: On Gesture
 
 enable_map_in_cart:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            enable_map: Yes
-            apply_map: Yes
-            display_actual_prise: In Cart
+            minimum_advertised_price:
+                enable_map: Yes
+                apply_map: Yes
+                display_actual_prise: In Cart
 
 enable_map_before_confirmation:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            enable_map: Yes
-            apply_map: Yes
-            display_actual_prise: Before Order Confirmation
+            minimum_advertised_price:
+                enable_map: Yes
+                apply_map: Yes
+                display_actual_prise: Before Order Confirmation

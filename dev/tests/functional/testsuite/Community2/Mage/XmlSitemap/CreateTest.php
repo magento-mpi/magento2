@@ -28,19 +28,21 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('admin_disable_http_only');
-        $this->systemConfigurationHelper()->configure('admin_disable_secret_key');
-        $this->systemConfigurationHelper()->configure('admin_disable_push_to_robots');
+        $this->systemConfigurationHelper()->configure('General/disable_http_only');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
     }
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
+        $this->closeLastWindow();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -55,15 +57,14 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @author denis.poloka
      * @TestlinkId TL-MAGE-5999
      */
-    public function withRequiredFieldsDefaultValue ()
+    public function withRequiredFieldsDefaultValue()
     {
         //Open XML Sitemap tab
         $loadData = $this->loadDataSet('XmlSitemap', 'admin_disable_push_to_robots');
-        $this->systemConfigurationHelper()->openConfigurationTab('catalog_google_sitemap');
-
+        $tab = $loadData['tab_1']['tab_name'];
+        $this->systemConfigurationHelper()->openConfigurationTab($tab);
         //Verify
-        $this->assertTrue($this->verifyForm($loadData['tab_1']['configuration']),
-            'Enable Submission to Robots has not default value = No');
+        $this->systemConfigurationHelper()->verifyConfigurationOptions($loadData['tab_1']['configuration'], $tab);
     }
 
     /**
@@ -81,10 +82,10 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @author denis.poloka
      * @TestlinkId TL-MAGE-5841
      */
-    public function withRequiredFieldsSave ()
+    public function withRequiredFieldsSave()
     {
         //Enable push to robots.txt option
-        $this->systemConfigurationHelper()->configure('admin_enable_push_to_robots');
+        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open XML Sitemap page
         $this->navigate('google_sitemap');
@@ -111,7 +112,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Create url in format [base url]/robots.txt an read the file
         $uri = "robots.txt";
         $robotsUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
-        $actualRobotsFile = $this->xmlSitemapHelper()->getFile($robotsUrl);
+        $actualRobotsFile = $this->getFile($robotsUrl);
 
         //Find sitemap link in the robots.txt
         $this->assertContains($sitemapUrl, $actualRobotsFile, 'Stored Robots.txt don\'t have current sitemap!');
@@ -135,7 +136,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5841
      */
-    public function withRequiredFieldsEmpty ($emptyField, $messageCount)
+    public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Create data
         $fieldData = $this->loadDataSet('XmlSitemap', 'new_xml_sitemap', array($emptyField => '%noValue%'));
@@ -159,9 +160,9 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array (
-            array ('xml_sitemap_create_filename', 1),
-            array ('xml_sitemap_create_path', 1)
+        return array(
+            array('xml_sitemap_create_filename', 1),
+            array('xml_sitemap_create_path', 1)
         );
     }
 
@@ -179,14 +180,14 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @author denis.poloka
      * @TestlinkId TL-MAGE-5876
      */
-    public function withRequiredFieldsPushRobots ()
+    public function withRequiredFieldsPushRobots()
     {
         //Enable push to robots.txt option
-        $this->systemConfigurationHelper()->configure('admin_enable_push_to_robots');
+        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
-
+        $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('save_config');
@@ -196,18 +197,17 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $fieldData = $this->loadDataSet('XmlSitemap', 'admin_xml_sitemap');
 
         //Create url in format [base url]/robots.txt an read the file
-        $uri = 'robots'.'.'.'txt';
+        $uri = 'robots' . '.' . 'txt';
         $robotsUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
-        $order   = array("\r\n", "\n", "\r");
-        $actualRobotsFile = str_replace($order, '', $this->xmlSitemapHelper()->getFile($robotsUrl));
+        $order = array("\r\n", "\n", "\r");
+        $actualRobotsFile = str_replace($order, '', $this->getFile($robotsUrl));
 
         //get Robots.txt file and compare with expected content
         $expectedRobotsFile = $fieldData['tab_1']['configuration']['edit_custom_instruction_test'];
         $expectedRobotsTrim = str_replace($order, '', $expectedRobotsFile);
 
         //Compare file
-        $this->assertContains($expectedRobotsTrim, $actualRobotsFile,
-            'Robots.txt not contained custom instruction!');
+        $this->assertContains($expectedRobotsTrim, $actualRobotsFile, 'Robots.txt not contained custom instruction!');
     }
 
     /**
@@ -226,7 +226,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @author denis.poloka
      * @TestlinkId TL-MAGE-5928
      */
-    public function withRequiredFieldsSaveNotPush ()
+    public function withRequiredFieldsSaveNotPush()
     {
         $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
@@ -236,11 +236,11 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_website');
         $this->navigate('system_configuration');
         //Enable Submission to Robots.txt = "No" and save config
-        $this->systemConfigurationHelper()->configure('admin_disable_push_to_robots');
+        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
 
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
-
+        $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
@@ -274,7 +274,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Create url in format [base url]/robots.txt an read the file
         $uri = "robots.txt";
         $robotsUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
-        $actualRobotsFile = $this->xmlSitemapHelper()->getFile($robotsUrl);
+        $actualRobotsFile = $this->getFile($robotsUrl);
 
         //Find sitemap link in the robots.txt
         $this->assertNotContains($sitemapUrl, $actualRobotsFile, 'Stored Robots.txt have current sitemap!');
@@ -295,14 +295,14 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @author denis.poloka
      * @TestlinkId TL-MAGE-5932
      */
-    public function withRequiredFieldsEmptyReset ()
+    public function withRequiredFieldsEmptyReset()
     {
         //Enable push to robots.txt option
-        //$this->systemConfigurationHelper()->configure('admin_enable_push_to_robots');
+        //$this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
-
+        $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
@@ -311,17 +311,18 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_config');
 
         //Create url in format [base url]/robots.txt an read the file
-        $uri = 'robots'.'.'.'txt';
+        $uri = 'robots' . '.' . 'txt';
         $robotsUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
-        $order   = array("\r\n", "\n", "\r");
-        $actualRobotsFile = str_replace($order, '', $this->xmlSitemapHelper()->getFile($robotsUrl));
+        $order = array("\r\n", "\n", "\r");
+        $actualRobotsFile = str_replace($order, '', $this->getFile($robotsUrl));
 
         //get Robots.txt file and compare with expected content
-        $expectedRobots = "User-agent: *"."Disallow: /index.php/"."Disallow: /*?"."Disallow: /*.js$".
-            "Disallow: /*.css$"."Disallow: /checkout/"."Disallow: /tag/"."Disallow: /app/".
-            "Disallow: /downloader/"."Disallow: /js/"."Disallow: /lib/"."Disallow: /*.php$"."Disallow: /pkginfo/".
-            "Disallow: /report/"."Disallow: /skin/"."Disallow: /var/"."Disallow: /catalog/".
-            "Disallow: /customer/"."Disallow: /sendfriend/"."Disallow: /review/"."Disallow: /*SID=";
+        $expectedRobots =
+            "User-agent: *" . "Disallow: /index.php/" . "Disallow: /*?" . "Disallow: /*.js$" . "Disallow: /*.css$"
+            . "Disallow: /checkout/" . "Disallow: /tag/" . "Disallow: /app/" . "Disallow: /downloader/"
+            . "Disallow: /js/" . "Disallow: /lib/" . "Disallow: /*.php$" . "Disallow: /pkginfo/" . "Disallow: /report/"
+            . "Disallow: /skin/" . "Disallow: /var/" . "Disallow: /catalog/" . "Disallow: /customer/"
+            . "Disallow: /sendfriend/" . "Disallow: /review/" . "Disallow: /*SID=";
         $expectedRobotsTrim = str_replace($order, '', $expectedRobots);
 
         //Compare file

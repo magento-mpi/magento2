@@ -16,27 +16,21 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
+class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Action_helper method for Create Attribute
-     *
      * Preconditions: 'Manage Attributes' page is opened.
+     *
      * @param array $attrData Array which contains DataSet for filling of the current form
      */
     public function createAttribute($attrData)
     {
         $this->clickButton('add_new_attribute');
-        $position = '';
-        if (isset($attrData['position'])) {
-            $position = $attrData['position'];
-            unset($attrData['position']);
+        $this->fillTab($attrData, 'properties', false);
+        if (!$this->fillTab($attrData, 'manage_labels_options', false)) {
+            $this->openTab('manage_labels_options');
         }
-        $this->fillForm($attrData, 'properties');
-        if ($position) {
-            $this->fillField('position', $position);
-        }
-        $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
@@ -44,27 +38,27 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
 
     /**
      * Open Product Attribute.
-     *
      * Preconditions: 'Manage Attributes' page is opened.
+     *
      * @param array $searchData
      */
     public function openAttribute($searchData)
     {
-        $this->_prepareDataForSearch($searchData);
+        $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
-        $cellId = $this->getColumnIdByName('Attribute Code');
-        $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $this->getColumnIdByName('Attribute Code'));
+        $text = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $text);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
      * Verify all data in saved Attribute.
-     *
      * Preconditions: Attribute page is opened.
+     *
      * @param array $attrData
      */
     public function verifyAttribute($attrData)
@@ -77,14 +71,17 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
 
     /**
      * Create Attribute from product page.
-     *
      * Preconditions: Product page is opened.
+     *
      * @param array $attrData
+     * @param string $saveInAttributeSet
      */
-    public function createAttributeOnGeneralTab($attrData)
+    public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
     {
         // Defining and adding %fieldSetId% for Uimap pages.
-        $id = explode('_', $this->getAttribute($this->_getControlXpath('fieldset', 'product_general') . '@id'));
+        $tabUimap = $this->_getActiveTabUimap();
+        list($activeFieldsetName) = $tabUimap->getFieldsetNames();
+        $id = explode('_', $this->getControlAttribute('fieldset', $activeFieldsetName, 'id'));
         foreach ($id as $value) {
             if (is_numeric($value)) {
                 $fieldSetId = $value;
@@ -92,18 +89,37 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                 break;
             }
         }
+        $productId = $this->defineIdFromUrl();
+        $pageName = 'new_product_attribute_from_product_page';
+        if (!is_null($productId)) {
+            $this->addParameter('productId', $productId);
+            $pageName = 'new_product_attribute_from_saved_product_page';
+        }
         //Steps. Click 'Create New Attribute' button, select opened window.
         $this->clickButton('create_new_attribute', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
-        $this->validatePage('new_product_attribute_from_product_page');
+        $this->selectLastWindow();
+        $this->validatePage($pageName);
         $this->fillForm($attrData, 'properties');
         $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
-        $this->addParameter('attributeId', 0);
-        $this->saveForm('save_attribute', false);
+        //$this->addParameter('attributeId', 0);
+        if ($saveInAttributeSet) {
+            $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            $this->clickButton('save_in_new_attribute_set', false);
+            $this->alertText($saveInAttributeSet);
+            $this->acceptAlert();
+            $this->waitForElementVisible($messagesXpath);
+            $this->addParameter('setId', $this->defineParameterFromUrl('new_attribute_set_id'));
+        } else {
+            $this->saveForm('save_attribute', false);
+        }
+        $this->window('');
+        if (isset($attrData['attribute_code'])) {
+            $this->addParameter('elementId', $attrData['attribute_code']);
+            $this->waitForElement("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
+        }
+        $this->validatePage();
     }
 
     /**
@@ -119,32 +135,27 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
         if (isset($attrData['admin_title'])) {
             $attrData[$name]['Admin'] = $attrData['admin_title'];
         }
-        if (array_key_exists($name, $attrData)
-            && is_array($attrData[$name])
-            && $attrData[$name] != '%noValue%'
-        ) {
-            $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
-            $qtyStore = $this->getXpathCount($fieldSetXpath . '//th');
+        if (array_key_exists($name, $attrData) && is_array($attrData[$name])) {
+            $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', $fieldsetName));
+            $qtyStore = $this->getControlCount('pageelement', 'table_column');
             foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
                 $number = -1;
                 for ($i = 1; $i <= $qtyStore; $i++) {
-                    if ($this->getText($fieldSetXpath . '//th[' . $i . ']') == $storeViewName) {
+                    $this->addParameter('index', $i);
+                    if ($this->getControlAttribute('pageelement', 'table_column_index', 'text') == $storeViewName) {
                         $number = $i;
                         break;
                     }
                 }
                 if ($number != -1) {
                     $this->addParameter('storeViewNumber', $number);
-                    $fieldSet = $this->_findUimapElement('fieldset', $fieldsetName);
-                    $fieldXpath = $this->_getControlXpath('field', 'titles_by_store_name', $fieldSet);
+                    $fieldName = preg_replace('/^manage_/', '', $fieldsetName) . '_by_store_name';
                     switch ($action) {
                         case 'fill':
-                            if ($storeViewValue != '%noValue%') {
-                                $this->type($fieldXpath, $storeViewValue);
-                            }
+                            $this->fillField($fieldName, $storeViewValue);
                             break;
                         case 'verify':
-                            $actualText = $this->getValue($fieldXpath);
+                            $actualText = $this->getControlAttribute('field', $fieldName, 'value');
                             $var = array_flip(get_html_translation_table());
                             $actualText = strtr($actualText, $var);
                             $this->assertEquals($storeViewValue, $actualText, 'Stored data not equals to specified');
@@ -165,36 +176,28 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function attributeOptions($attrData, $action = 'fill')
     {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
-
-        if ($action == 'verify') {
-            $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
-            $num = 1;
-        }
-
+        $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
+        $number = 1;
         foreach ($attrData as $fKey => $dValue) {
             if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
-                if ($this->isElementPresent($fieldSetXpath)) {
-                    $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
-
+                if ($this->controlIsPresent('fieldset', 'manage_options')) {
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $this->clickButton('add_option', false);
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
-                            $this->fillForm($attrData[$fKey], 'manage_labels_options');
+                            $this->fillFieldset($attrData[$fKey], 'manage_options');
+                            $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
                             break;
                         case 'verify':
-                            if ($option > 0) {
-                                $fieldOptionNumber = $this->getAttribute($fieldSetXpath
-                                        . "//tr[contains(@class,'option-row')][" . $num
-                                        . "]//input[@class='input-radio']/@value");
-                                $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
+                            if ($optionCount-- > 0) {
+                                $this->addParameter('index', $number++);
+                                $optionNumber = $this->getControlAttribute('pageelement', 'is_default_option_index',
+                                    'selectedValue');
+                                $this->addParameter('fieldOptionNumber', $optionNumber);
                                 $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_labels_options'),
-                                        $this->getParsedMessages());
+                                    $this->getParsedMessages());
                                 $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
-                                $num++;
-                                $option--;
                             }
                             break;
                     }
@@ -207,12 +210,13 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
      * Define Attribute Id
      *
      * @param array $searchData
+     *
      * @return int
      */
     public function defineAttributeId(array $searchData)
     {
         $this->navigate('manage_attributes');
-        $attrXpath = $this->search($searchData);
+        $attrXpath = $this->search($searchData, 'attributes_grid');
         $this->assertNotEquals(null, $attrXpath);
 
         return $this->defineIdFromTitle($attrXpath);

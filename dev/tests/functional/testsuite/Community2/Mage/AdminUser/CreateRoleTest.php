@@ -144,7 +144,7 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Admin User  role with long name(50symb).</p>
+     * <p>Create Admin User  role with long name(50symbols).</p>
      * <p>Steps:</p>
      * <p>1.Go to System-Permissions-Role.</p>
      * <p>2.Press "Add New Role" button.</p>

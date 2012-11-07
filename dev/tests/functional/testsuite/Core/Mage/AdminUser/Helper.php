@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
+class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create Admin User.
@@ -30,7 +30,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
         $first = (isset($userData['first_name'])) ? $userData['first_name'] : '';
         $last = (isset($userData['last_name'])) ? $userData['last_name'] : '';
         $param = $first . ' ' . $last;
-        $this->addParameter('user_first_last_name', $param);
+        $this->addParameter('elementTitle', $param);
         if (array_key_exists('role_name', $userData)) {
             $this->openTab('user_role');
             $this->searchAndChoose(array('role_name' => $userData['role_name']), 'permissions_user_roles');

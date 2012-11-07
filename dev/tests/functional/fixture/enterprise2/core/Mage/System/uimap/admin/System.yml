@@ -18,7 +18,7 @@ manage_encryption_key:
 # Admin Actions Log Report page
 admin_action_log_report:
     mca: logging/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/')]/span[contains(., 'Report')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/') and ./span[contains(.,'Report')]]
     title: Report / Admin Actions Logs / System / Magento Admin
     uimap:
         form: &actionsLogGrid
@@ -249,7 +249,7 @@ new_email_template:
 #Edit transactional email
 edit_email_template:
     mca: system_email_template/edit/id/%id%/
-    title: %template_name% / Transactional Emails / System / Magento Admin
+    title: %elementTitle% / Transactional Emails / System / Magento Admin
     uimap:
         form:
             fieldsets:

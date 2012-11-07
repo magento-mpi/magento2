@@ -13,8 +13,8 @@
 
 # 'System Configuration' page
 system_configuration:
-    uimap: &systemConfigurationUimap
-        form: &systemConfiguration
+    uimap: &system_configuration_uimap
+        form:
             tabs:
                 -
                     catalog_catalog:
@@ -23,6 +23,8 @@ system_configuration:
                             -
                                 product_creation:
                                     xpath: //fieldset[@id='catalog_fields_masks']
+                                    links:
+                                        product_creation_link: /parent::div//a[@id='catalog_fields_masks-head']
                                     fields:
                                         sku_mask: //*[@id='catalog_fields_masks_sku']
                                         meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
@@ -48,19 +50,6 @@ system_configuration:
                                         vat_number_is_invalid: //button[span='VAT Number is Invalid']
                                     link:
                                         store_information_tab: //a[@id='general_store_information-head']
-                -
-                    customers_customer_configuration:
-                        fieldsets:
-                            -
-                                password_options:
-                                    dropdowns:
-                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
-                                    fields:
-                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
-                            -
-                                captcha:
-                                    fields:
-                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
                 -
                     customers_promotions:
                         xpath: //a[contains(@href, 'edit/section/promo/')]
@@ -91,6 +80,9 @@ system_configuration:
                                         display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
                                     buttons:
                                         reset_to_default_robots: //button[span='Reset to Default']
+                            -
+                                transaction_emails:
+                                    xpath: //fieldset[@id='design_email']
                 -
                     catalog_google_sitemap:
                         fieldsets:
@@ -108,7 +100,7 @@ system_configuration:
                                 banktransfer_payment:
                                     xpath: //fieldset[@id='payment_banktransfer']
                                     links:
-                                        bank_transfer_payment_link: //parent::div//a[@id='payment_banktransfer-head']
+                                        banktransfer_payment_link: //parent::div//a[@id='payment_banktransfer-head']
                                     fields:
                                         btp_title: //input[@name='groups[banktransfer][fields][title][value]']
                                         btp_instruction: //textarea[@name='groups[banktransfer][fields][instructions][value]']
@@ -135,7 +127,7 @@ system_configuration:
                                 cash_on_delivery_payment:
                                     xpath: //fieldset[@id='payment_cashondelivery']
                                     links:
-                                        bank_transfer_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
+                                        cash_on_delivery_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
                                     fields:
                                         cod_title: //input[@name='groups[cashondelivery][fields][title][value]']
                                         cod_instruction: //textarea[@name='groups[cashondelivery][fields][instructions][value]']
@@ -158,12 +150,6 @@ system_configuration:
                                         cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
                                         cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
                                         cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
-                -
-                    general_design:
-                        fieldsets:
-                            -
-                                transaction_emails:
-                                    xpath: //fieldset[@id='design_email']
                 -
                     catalog_rss_feeds:
                         fieldsets:
@@ -256,6 +242,16 @@ system_configuration:
                                         show_vat_number_frontend: //select[@name='groups[create_account][fields][vat_frontend_visibility][value]']
                                         tax_calculated_based_on: //select[@name='groups[create_account][fields][tax_calculation_address_type][value]']
                                         default_value_for_disable_automatic_group: //select[@name='groups[create_account][fields][viv_disable_auto_group_assign_default][value]']
+                            -
+                                password_options:
+                                    dropdowns:
+                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
+                            -
+                                customer_captcha:
+                                    fields:
+                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
                 -
                     customers_wishlist:
                         fieldsets:
@@ -304,10 +300,16 @@ system_configuration:
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
-    uimap: *systemConfigurationUimap
+    uimap: *system_configuration_uimap
 
 system_configuration_website:
-    uimap: *systemConfigurationUimap
+    uimap: *system_configuration_uimap
 
 system_configuration_store:
-    uimap: *systemConfigurationUimap
+    uimap: *system_configuration_uimap
+
+system_configuration_country:
+    uimap: *system_configuration_uimap
+
+system_configuration_website_base:
+    uimap: *system_configuration_uimap
