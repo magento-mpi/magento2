@@ -52,8 +52,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
-            $this->_authenticate();
-            $this->_checkOperationDeprecation($operation);
+            $role = $this->_authenticate();
             $resourceVersion = $this->_getOperationVersion($operation);
             $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
@@ -64,12 +63,16 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
                 // TODO: Refactor ACL check to work by operation name, not by resource name + method name
-                $this->_checkResourceAcl($resourceName, $method);
+                $this->_checkResourceAcl($role, $resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
-                $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
-                $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments);
+                $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion,
+                    $controllerInstance);
+                $this->_checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
+                $action = $method . $versionAfterFallback;
+                $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments,
+                    $this->getResourceConfig());
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 // TODO: Implement response preparation according to current presentation
@@ -221,18 +224,17 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $this->getResponse()->setHttpResponseCode(400);
 
         $apiUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
-        // TODO: Collect the following details dynamically after Auto Discovery proposal implementation
-        $details = array(
-            "availableResources" => array(
-                'customers' => array(
-                    'v1' => $apiUrl . '?wsdl&modules[Mage_Customer]=v1',
-                    'v2' => $apiUrl . '?wsdl&modules[Mage_Customer]=v2',
-                ),
-                'catalogProducts' => array(
-                    'v1' => $apiUrl . '?wsdl&modules[Mage_Catalog]=v1',
-                ),
-            )
-        );
+
+        $details = array();
+        $resourceConfig = $this->getResourceConfig();
+        if (!is_null($resourceConfig)) {
+            foreach ($resourceConfig->getAllResourcesVersions() as $resourceName => $versions) {
+                foreach ($versions as $version) {
+                    $details['availableResources'][$resourceName][$version] = sprintf('%s?wsdl&resources[%s]=%s',
+                        $apiUrl, $resourceName, $version);
+                }
+            }
+        }
         $this->_setResponseBody($this->_getSoapFaultMessage($message, self::FAULT_CODE_SENDER, 'en', $details));
     }
 
@@ -256,7 +258,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $resources = array();
         try {
             foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->getResourceConfig()->getResource($resourceName, $resourceVersion);
+                $resources[$resourceName] = $this->getResourceConfig()
+                    ->getResourceDataMerged($resourceName, $resourceVersion);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
@@ -265,10 +268,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         /** @var Mage_Webapi_Model_Soap_AutoDiscover $wsdlAutoDiscover */
         $wsdlAutoDiscover = Mage::getModel('Mage_Webapi_Model_Soap_AutoDiscover', array(
             'resource_config' => $this->getResourceConfig(),
-            'requested_resources' => $resources,
             'endpoint_url' => $this->_getEndpointUrl(),
         ));
-        $wsdlContent = $wsdlAutoDiscover->generate();
+        $wsdlContent = $wsdlAutoDiscover->generate($resources);
 
         if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
             Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
@@ -294,7 +296,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                     $this->_soapServer = new Server($this->_getWsdlUrl(),
                         array(
                             'encoding' => $this->_getApiCharset(),
-                            'classMap' => $this->getResourceConfig()->getSoapServerClassMap(),
+                            'classMap' => $this->getResourceConfig()->getTypeToClassMap(),
                         )
                     );
                 } catch (SoapFault $e) {
@@ -525,7 +527,7 @@ FAULT_MESSAGE;
             );
         }
         $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        $this->_validateVersionNumber($version);
+        $this->_validateVersionNumber($version, $resourceName);
         return $version;
     }
 }

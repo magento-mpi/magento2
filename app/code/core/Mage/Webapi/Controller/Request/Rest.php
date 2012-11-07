@@ -219,6 +219,9 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function getResourceVersion()
     {
+        if (!$this->_resourceVersion) {
+            $this->setResourceVersion($this->getParam(Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION));
+        }
         return $this->_resourceVersion;
     }
 
@@ -231,7 +234,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setResourceVersion($resourceVersion)
     {
-        if (preg_match('/^v?(\d)+$/i', $resourceVersion, $matches)) {
+        if (preg_match('/^v?(\d+)$/i', $resourceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
             throw new Mage_Webapi_Exception(

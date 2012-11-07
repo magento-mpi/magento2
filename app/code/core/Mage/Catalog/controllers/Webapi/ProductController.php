@@ -21,7 +21,7 @@ class Mage_Catalog_Webapi_ProductController extends Mage_Webapi_Controller_Actio
      * Retrieve product data.
      *
      * @param int $productId ID of the product you want to retrieve.
-     * @return Mage_Catalog_Webapi_Product_DataStructure
+     * @return Mage_Catalog_Webapi_Product_DataStructure returns product data.
      */
     public function getV1($productId)
     {

@@ -25,11 +25,13 @@ Multiline <b>with html</b>.",
                     'parameters' => array(
                         'result' => array(
                             'type' => 'int',
-                            'documentation' => 'ID of created resource'
+                            'documentation' => 'ID of created resource',
+                            'required' => true,
                         ),
                     )
                 ),
-            )
+            ),
+            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs'),
         ),
         'get' => array(
             'documentation' => 'Get resource v2.',
@@ -52,11 +54,13 @@ Multiline <b>with html</b>.",
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure',
-                            'documentation' => 'data of resource'
+                            'documentation' => 'data of resource',
+                            'required' => true,
                         )
                     ),
                 ),
-            )
+            ),
+            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/:id/newParameter/:newParameter'),
         ),
     )
 );

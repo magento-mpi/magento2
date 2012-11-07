@@ -12,7 +12,7 @@ return array(
             'type' => 'string',
             'required' => true,
             'default' => null,
-            'documentation' => 'String param.',
+            'documentation' => 'inline doc.String param.',
         ),
         'integerParam' => array(
             'type' => 'int',
@@ -46,7 +46,7 @@ return array(
         ),
         'loopArray' => array(
             'type' => 'NamespaceAModuleADataStructureB[]',
-            'required' => true,
+            'required' => false,
             'default' => null,
             'documentation' => 'Link to array of loops',
         ),

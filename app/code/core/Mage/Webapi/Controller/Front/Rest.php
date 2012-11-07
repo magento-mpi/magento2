@@ -25,8 +25,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**#@+
      * Resource types
      */
-    const RESOURCE_TYPE_ITEM = 'item';
-    const RESOURCE_TYPE_COLLECTION = 'collection';
+    const ACTION_TYPE_ITEM = 'item';
+    const ACTION_TYPE_COLLECTION = 'collection';
     /**#@-*/
 
     /**#@+
@@ -113,17 +113,24 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $route = $this->_matchRoute($this->getRequest());
 
             $operation = $this->_getOperationName();
-            $this->_checkOperationDeprecation($operation);
             $resourceVersion = $this->_getResourceVersion($operation);
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
-            $action = $method . $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+            $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+            /**
+             * Route check has two stages:
+             * The first is performed against full list of routes that is merged from all resources.
+             * The second stage of route check can be performed only when actual version to be executed is known.
+             */
+            $this->_checkRoute($method, $versionAfterFallback);
+            $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
+            $action = $method . $versionAfterFallback;
 
             $this->_checkResourceAcl($route->getResourceName(), $method);
 
             // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $inputData = $this->_presentation->fetchRequestData($method, $controllerInstance, $action);
+            $inputData = $this->_presentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
         } catch (Mage_Webapi_Exception $e) {
@@ -148,6 +155,26 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     }
 
     /**
+     * Check whether current request match any route of specified method or not. Method version is taken into account.
+     *
+     * @param string $methodName
+     * @param string $version
+     * @throws Mage_Webapi_Exception In case when request does not match any route of specified method.
+     */
+    protected function _checkRoute($methodName, $version)
+    {
+        $resourceName = $this->getRequest()->getResourceName();
+        $routes = $this->getResourceConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
+        foreach ($routes as $route) {
+            if ($route->match($this->getRequest())) {
+                return;
+            }
+        }
+        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+                    Mage_Webapi_Exception::HTTP_NOT_FOUND);
+    }
+
+    /**
      * Set all routes of the given api type to Route object
      * Find route that matches current URL, set parameters of the route to Request object
      *
@@ -157,12 +184,11 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getResourceConfig()->getRestRoutes());
+        $router->setRoutes($this->getResourceConfig()->getAllRestRoutes());
         $route = $router->match($request);
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());
         $this->getRequest()->setResourceType($route->getResourceType());
-        $this->getRequest()->setResourceVersion($route->getResourceVersion());
         return $route;
     }
 
@@ -176,13 +202,13 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
-            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
-            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
         $httpMethod = $this->getRequest()->getHttpMethod();
         $resourceType = $this->getRequest()->getResourceType();
@@ -328,7 +354,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             throw new LogicException(
                 "Please be sure to call Mage_Webapi_Controller_Request_Rest::setResourceVersion() first.");
         }
-        $this->_validateVersionNumber($resourceVersion);
+        $this->_validateVersionNumber($resourceVersion, $this->getRequest()->getResourceName());
         return $resourceVersion;
     }
 

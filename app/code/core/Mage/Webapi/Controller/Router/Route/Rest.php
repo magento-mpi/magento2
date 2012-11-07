@@ -17,14 +17,19 @@
  */
 class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_RouteAbstract
 {
+    /**#@+
+     * Names of special parameters in routes
+     */
+    const PARAM_VERSION = 'resourceVersion';
+    const PARAM_ID = 'id';
+    const PARAM_PARENT_ID = 'parentId';
+    /**#@-*/
+
     /** @var string */
     protected $_resourceName;
 
     /** @var string */
     protected $_resourceType;
-
-    /** @var string */
-    protected $_resourceVersion;
 
     /**
      * Set route resource
@@ -68,27 +73,5 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     public function getResourceType()
     {
         return $this->_resourceType;
-    }
-
-    /**
-     * Set route resource version
-     *
-     * @param int $resourceVersion
-     * @return Mage_Webapi_Controller_Router_Route_Rest
-     */
-    public function setResourceVersion($resourceVersion)
-    {
-        $this->_resourceVersion = $resourceVersion;
-        return $this;
-    }
-
-    /**
-     * Get route resource version
-     *
-     * @return int
-     */
-    public function getResourceVersion()
-    {
-        return $this->_resourceVersion;
     }
 }

@@ -28,11 +28,13 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Create customer.
      *
      * @param Mage_Customer_Webapi_Customer_DataStructure $data Customer create data.
-     * @param string $optional may be not passed.
+     * @param string $optional {maxLength:255 chars.}May be not passed.
+     * @param int $int {min:10}{max:100} Optional integer parameter.
+     * @param bool $bool optional boolean
      * @return int ID of created customer
      * @throws Mage_Webapi_Exception
      */
-    public function createV1(Mage_Customer_Webapi_Customer_DataStructure $data, $optional = null)
+    public function createV1(Mage_Customer_Webapi_Customer_DataStructure $data, $optional = 'default', $int = null, $bool = true)
     {
         try {
             /** @var $customer Mage_Customer_Model_Customer */
@@ -45,7 +47,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
             $this->_processException($e);
         }
 
-        return $customer->getId();
+        return $customer;
     }
 
     /**
@@ -59,6 +61,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customersData = $this->_getCollectionForRetrieve()->load()->toArray();
         $customersData = isset($customersData['items']) ? $customersData['items'] : $customersData;
         foreach ($customersData as $customerData) {
+            $customerData['balance'] = rand(0,100);
             $result[] = $this->_createCustomerDataObject($customerData);
         }
         return $result;
@@ -86,17 +89,17 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Retrieve information about customer. Add last logged in datetime.
      *
-     * @param int $id
+     * @param int $customerId
      * @return Mage_Customer_Webapi_Customer_DataStructure
      * @throws Mage_Webapi_Exception
      */
-    public function getV1($id)
+    public function getV1($customerId)
     {
         try {
             /** @var $log Mage_Log_Model_Customer */
             $log = Mage::getModel('Mage_Log_Model_Customer');
-            $log->loadByCustomer($id);
-            $data = $this->_get($id);
+            $log->loadByCustomer($customerId);
+            $data = $this->_get($customerId);
             $lastLoginAt = $log->getLoginAt();
             if (null !== $lastLoginAt) {
                 $data['last_logged_in'] = $lastLoginAt;
@@ -156,6 +159,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customer = $this->_loadCustomerById($id);
         $data = $customer->getData();
         $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
+        $data['balance'] = rand(0,100);
         return $data;
     }
 

@@ -23,11 +23,13 @@ return array(
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure',
-                            'documentation' => 'Data of resource'
+                            'documentation' => 'Data of resource',
+                            'required' => true,
                         )
                     ),
                 ),
-            )
+            ),
+            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/subresourceBs/:id'),
         ),
         'list' => array(
             'documentation' => 'List description.',
@@ -45,11 +47,13 @@ return array(
                     'parameters' => array(
                         'result' => array(
                             'type' => 'NamespaceAModuleADataStructure[]',
-                            'documentation' => 'list of resources'
+                            'documentation' => 'list of resources',
+                            'required' => true,
                         )
                     ),
                 ),
-            )
+            ),
+            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/:parentId/subresourceBs'),
         )
     )
 );

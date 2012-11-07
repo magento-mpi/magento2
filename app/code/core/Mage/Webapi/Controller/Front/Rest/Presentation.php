@@ -28,23 +28,34 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     /**
      * Fetch data from request and prepare it for passing to specified action.
      *
-     * @param string $methodName
      * @param object $controllerInstance
      * @param string $action
      * @return array
      */
-    // TODO: Think about AOP implementation if it is approved by Tech Leads group
-    // TODO: Think about interface refactoring
-    public function fetchRequestData($methodName, $controllerInstance, $action)
+    public function fetchRequestData($controllerInstance, $action)
     {
-        // TODO: Refactor this and take param initialized with post data from anotations
-        $parameters = array_merge(
+        $config = $this->_frontController->getResourceConfig();
+        $apiHelper = $this->_frontController->getHelper();
+        $methodReflection = $apiHelper->createMethodReflection($controllerInstance, $action);
+        $methodName = $config->getMethodNameWithoutVersionSuffix($methodReflection);
+        $bodyParamName = $config->getBodyParamName($methodReflection);
+        $requestParams = array_merge(
             $this->getRequest()->getParams(),
-            array('data' => $this->_getRequestData($methodName))
+            array($bodyParamName => $this->_getRequestBody($methodName))
         );
-        $actionArguments = $this->_frontController->getHelper()
-            ->prepareMethodParams($controllerInstance, $action, $parameters);
-        return $actionArguments;
+        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
+        $idParamName = $config->getIdParamName($methodReflection);
+        $parentIdParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+        $idParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+        if (isset($requestParams[$parentIdParamNameInRoute]) && ($idParamName != $parentIdParamNameInRoute)) {
+            $requestParams[$idParamName] = $requestParams[$parentIdParamNameInRoute];
+            unset($requestParams[$parentIdParamNameInRoute]);
+        } elseif (isset($requestParams[$idParamNameInRoute]) && ($idParamName != $idParamNameInRoute)) {
+            $requestParams[$idParamName] = $requestParams[$idParamNameInRoute];
+            unset($requestParams[$idParamNameInRoute]);
+        }
+
+        return $apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $config);
     }
 
     /**
@@ -61,7 +72,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
                     /** @var $createdItem Mage_Core_Model_Abstract */
                     $createdItem = $outputData;
-//                    $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
+                    $this->getResponse()->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 } else {
                     // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
                     $this->getResponse()->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
@@ -95,29 +106,28 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     }
 
     /**
-     * Get resource location
+     * Generate resource location.
      *
      * @param Mage_Core_Model_Abstract $createdItem
      * @return string URL
      */
     protected function _getCreatedItemLocation($createdItem)
     {
-        // TODO: Re-implement according to Auto-discovery
-//        /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
-//        $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
-//
-//        $router = new Zend_Controller_Router_Route($this->_frontController->getRestConfig()->getRouteByResource(
-//            $this->getRequest()->getResourceName(),
-//            Mage_Webapi_Controller_Front_Rest::RESOURCE_TYPE_ITEM
-//        ));
-//        $chain = $apiTypeRoute->chain($router);
-//        $params = array(
-//            'api_type' => $this->getRequest()->getApiType(),
-//            'id'       => $createdItem->getId()
-//        );
-//        $uri = $chain->assemble($params);
+        /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
+        $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
 
-//        return '/' . $uri;
+        $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteToItem(
+            $this->getRequest()->getResourceName()));
+        $chain = $apiTypeRoute->chain($router);
+        $params = array(
+            'api_type' => $this->getRequest()->getApiType(),
+            // TODO: ID param can be named differently
+            'id' => $createdItem->getId(),
+            Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->getRequest()->getResourceVersion()
+        );
+        $uri = $chain->assemble($params);
+
+        return '/' . $uri;
     }
 
     // TODO: Temporary proxy
@@ -138,7 +148,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      * @param string $method
      * @return array
      */
-    protected function _getRequestData($method)
+    protected function _getRequestBody($method)
     {
         $processedInputData = null;
         switch ($method) {

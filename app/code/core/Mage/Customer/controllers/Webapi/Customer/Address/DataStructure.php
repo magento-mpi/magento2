@@ -23,6 +23,7 @@ class Mage_Customer_Webapi_Customer_Address_DataStructure
     /**
      * State
      *
+     * @optional true
      * @var string
      */
     public $state;
