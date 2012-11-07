@@ -47,11 +47,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
      */
     public function exportAccountsCsvAction()
     {
-        $fileName   = 'new_accounts.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts_Grid')
-            ->getCsv();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'new_accounts.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        $exportBlock = $this->getLayout()->getChildBlock('report.customer.accounts.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -59,11 +59,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
      */
     public function exportAccountsExcelAction()
     {
-        $fileName   = 'accounts.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Accounts_Grid')
-            ->getExcel($fileName);
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout();
+        $fileName = 'accounts.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        $exportBlock = $this->getLayout()->getChildBlock('report.customer.accounts.grid', 'grid.export');
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     public function ordersAction()
