@@ -23,8 +23,8 @@ app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Authorizenet
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Paypal.php
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Paypaluk.php
 app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/Pbridge/Verisign.php
-app/design/adminhtml/default/default/skin/enterprise/
-app/design/adminhtml/default/default/skin/pro/
+app/design/adminhtml/default/enterprise/
+app/design/adminhtml/default/pro/
 app/design/frontend/enterprise/
 app/design/frontend/pro/
 app/design/install/default/enterprise/
@@ -35,7 +35,7 @@ app/etc/modules/XEnterprise_Enabler.xml.dist
 app/locale/*/Enterprise_*.csv
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
-dev/tests/integration/testsuite/integrity/modular/SkinFilesTest.php
+dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 dev/tests/integration/testsuite/Theme/Enterprise
 dev/tests/integration/testsuite/Theme/Pro
