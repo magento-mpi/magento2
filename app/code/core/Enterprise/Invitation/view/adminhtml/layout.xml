@@ -41,6 +41,7 @@
         <reference name="report_invitation_order.grid.container">
             <block type="Mage_Reports_Block_Adminhtml_Grid" name="adminhthtml.report.invitation.order.grid" as="grid">
                 <arguments>
+                    <use_ajax>0</use_ajax>
                     <id>invitation_order_grid</id>
                     <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection</dataSource>
                 </arguments>
