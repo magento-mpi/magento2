@@ -479,7 +479,7 @@ simple_product:
     recurring_profile_trial_billing_amount: Trial Billing Amount
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -550,7 +550,7 @@ duplicate_simple:
     recurring_profile_trial_billing_amount: Trial Billing Amount
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -643,7 +643,7 @@ virtual_product:
     recurring_profile_trial_billing_amount: Trial Billing Amount
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -712,7 +712,7 @@ duplicate_virtual:
     recurring_profile_trial_billing_amount: Trial Billing Amount
     recurring_profile_initial_fee: Initial Fee
     recurring_profile_allow_initial_fee_failure: No
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -826,7 +826,7 @@ dynamic_bundle:
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
     meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -873,7 +873,7 @@ fixed_bundle:
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
     meta_information_meta_description: Meta Description for Bundle(Fixed) Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -921,7 +921,7 @@ duplicate_fixed_bundle:
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
     meta_information_meta_description: Meta Description for Bundle(Fixed) Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -986,7 +986,7 @@ duplicate_dynamic_bundle:
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
     meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1068,7 +1068,7 @@ grouped_product:
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Grouped Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1107,7 +1107,7 @@ duplicate_grouped:
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
     meta_information_meta_description: Meta Description for Grouped Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1195,7 +1195,7 @@ configurable_product:
     meta_information_meta_title: Meta Title for Configurable Product
     meta_information_meta_keywords: Meta Keywords for Configurable Product
     meta_information_meta_description: Meta Description for Configurable Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1244,7 +1244,7 @@ duplicate_configurable:
     meta_information_meta_title: Meta Title for Configurable Product
     meta_information_meta_keywords: Meta Keywords for Configurable Product
     meta_information_meta_description: Meta Description for Configurable Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1314,7 +1314,7 @@ downloadable_product:
     meta_information_meta_title: Meta Title for Downloadable Product
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
     meta_information_meta_description: Meta Description for Downloadable Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
@@ -1369,7 +1369,7 @@ duplicate_downloadable:
     meta_information_meta_title: Meta Title for Downloadable Product
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
     meta_information_meta_description: Meta Description for Downloadable Product
-    design_custom_design: Magento Demo
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update

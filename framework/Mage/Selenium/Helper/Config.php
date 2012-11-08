@@ -536,4 +536,18 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         }
         return $this->_logDir;
     }
+
+    /**
+     * Return current application Design Theme
+     * @return array
+     * @throws OutOfRangeException
+     */
+    public function getApplicationDesignTheme()
+    {
+        $applicationConfig = $this->getApplicationConfig();
+        if (!isset($applicationConfig['design_theme'])) {
+            throw new OutOfRangeException('Design Theme for application is not set');
+        }
+        return $applicationConfig['design_theme'];
+    }
 }

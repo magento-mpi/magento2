@@ -319,7 +319,7 @@ gift_card:
     meta_information_meta_title: Meta Title for Gift Card
     meta_information_meta_keywords: Meta Keywords for Gift Card
     meta_information_meta_description: Meta Description for Gift Card
-    design_custom_design: Magento Fixed Design
+    design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
