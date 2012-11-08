@@ -78,8 +78,6 @@
                 <title>Wishlist Info</title>
             </action>
         </reference>
-        <remove name="right"></remove>
-        <remove name="left"></remove>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>

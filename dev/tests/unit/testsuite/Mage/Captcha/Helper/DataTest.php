@@ -81,11 +81,10 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFonts()
     {
-        $baseDir = Magento_Test_Environment::getInstance()->getTmpDir();
         $option = $this->_getOptionStub();
         $option->expects($this->any())
             ->method('getDir')
-            ->will($this->returnValue($baseDir));
+            ->will($this->returnValue(TESTS_TEMP_DIR));
         $this->_object->setOption($option);
 
         $fonts = $this->_object->getFonts();
@@ -93,7 +92,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($fonts['linlibertine']['label'], 'LinLibertine');
         $this->assertEquals(
             $fonts['linlibertine']['path'],
-            $baseDir . DIRECTORY_SEPARATOR . 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+            TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
         );
     }
 
@@ -103,7 +102,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
-        $captchaTmpDir = Magento_Test_Environment::getInstance()->getTmpDir() . DIRECTORY_SEPARATOR . 'captcha';
+        $captchaTmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'captcha';
         $option = $this->_getOptionStub();
         $option->expects($this->once())
             ->method('getDir')

@@ -26,11 +26,9 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Quote
      */
     public static function getCacheId()
     {
-        $cookieCart = Enterprise_PageCache_Model_Cookie::COOKIE_CART;
-        $cookieCustomer = Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER;
-        return md5(Enterprise_PageCache_Model_Container_Advanced_Quote::CACHE_TAG_PREFIX
-            . (array_key_exists($cookieCart, $_COOKIE) ? $_COOKIE[$cookieCart] : '')
-            . (array_key_exists($cookieCustomer, $_COOKIE) ? $_COOKIE[$cookieCustomer] : ''));
+        return static::CACHE_TAG_PREFIX . md5(self::_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
+            . self::_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER,  '')
+        );
     }
 
     /**
@@ -40,7 +38,7 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Quote
      */
     protected function _getCacheId()
     {
-        return Enterprise_PageCache_Model_Container_Advanced_Quote::getCacheId();
+        return self::getCacheId();
     }
 
     /**

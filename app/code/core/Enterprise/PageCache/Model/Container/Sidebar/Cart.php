@@ -14,21 +14,9 @@
 class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageCache_Model_Container_Advanced_Quote
 {
     /**
-     * @deprecated since 1.12.0.0
+     * Cache tag prefix
      */
     const CACHE_TAG_PREFIX = 'cartsidebar';
-
-    /**
-     * Get identifier from cookies
-     *
-     * @deprecated since 1.12.0.0
-     * @return string
-     */
-    protected function _getIdentifier()
-    {
-        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
-            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
-    }
 
     /**
      * Render block content
