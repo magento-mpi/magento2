@@ -65,10 +65,10 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Create customer entity
+     * Create customer with optional ability of adding addresses.
      *
      * @param array $customerData
-     * @param array|null $addressesData
+     * @param array|null $addressesData array of addresses
      * @return Mage_Customer_Model_Customer
      */
     public function create(array $customerData, array $addressesData = null)
@@ -82,14 +82,19 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Update customer entity
+     * Update customer entity.
+     *
+     * Update customer with optional ability to update customer addresses.
+     * Addresses that are not in $addressesData array but present in customer addresses collection will be removed.
+     * New address is created in case when no entity_id is present, otherwise corresponding address will be updated
+     * with data provided.
      *
      * @param string|int $customerId
-     * @param array|null $customerData
-     * @param array|null $addressesData
+     * @param array $customerData
+     * @param array|null $addressesData array of addresses
      * @return Mage_Customer_Model_Customer
      */
-    public function update($customerId, array $customerData = null, array $addressesData = null)
+    public function update($customerId, array $customerData, array $addressesData = null)
     {
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_loadCustomerById($customerId);
@@ -151,9 +156,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         if (is_callable($this->_afterSaveCallback)) {
             call_user_func_array($this->_afterSaveCallback, array($customer, $customerData, $addressesData));
         }
-        if ($customerData) {
-            $this->_sendWelcomeEmail($customer, $customerData);
-        }
+        $this->_sendWelcomeEmail($customer, $customerData);
     }
 
     /**
@@ -203,10 +206,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _changePassword($customer, array $customerData)
     {
-        $passwordSet = isset($customerData['password']) && !empty($customerData['password']);
-        $autogeneratePassword = $this->_isAutogeneratePassword($customerData);
-
-        if ($passwordSet || $autogeneratePassword) {
+        if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
             $newPassword = $this->_getCustomerPassword($customer, $customerData);
             $customer->changePassword($newPassword)
                 ->sendPasswordReminderEmail();
@@ -290,6 +290,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
+        $hasChanges = false;
         $actualAddressesIds = array();
         foreach ($addressesData as $addressData) {
             $addressId = null;
@@ -312,6 +313,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
                 $customer->addAddress($address);
             }
             $address->addData($addressData);
+            $hasChanges = $address->hasDataChanges();
 
             // Set post_index for detect default billing and shipping addresses
             $address->setPostIndex($addressId);
@@ -323,8 +325,9 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         foreach ($customer->getAddressesCollection() as $address) {
             if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
                 $address->setData('_deleted', true);
-                $customer->setDataChanges(true);
+                $hasChanges = true;
             }
         }
+        $customer->setDataChanges($hasChanges);
     }
 }

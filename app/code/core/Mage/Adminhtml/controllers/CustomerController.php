@@ -450,25 +450,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (isset($customerData['password']) && ($customerData['password'] == 'auto')) {
             unset($customerData['password']);
             $customerData['autogenerate_password'] = true;
-        }
-        $customerData['confirmation'] = $customerData['password'];
-
-        if (empty($customerData['autogenerate_password'])) {
-            /** @var Magento_Validator_Config $validatorFactory */
-            $validatorFactory = Mage::getConfig()->getValidatorConfig();
-            $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
-            if (!$passwordValidator->isValid($customerData)) {
-                $exception = new Mage_Core_Exception();
-                /* @var $messageFactory Mage_Core_Model_Message */
-                $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
-                foreach ($passwordValidator->getMessages() as $error) {
-                    foreach ($error as $errorMessage) {
-                        $exception->addMessage($messageFactory->error($errorMessage));
-                    }
-                }
-
-                throw $exception;
-            }
+        } else {
+            $customerData['confirmation'] = $customerData['password'];
         }
     }
 

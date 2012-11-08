@@ -396,22 +396,19 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
         /** @var Mage_Customer_Model_Customer $actualCustomer */
         $actualCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
-        $actualAddresses = $actualCustomer->getAddressesCollection();
+        $actualAddresses = $actualCustomer->getAddresses();
         $this->assertCount(count($addressesData), $actualAddresses, 'Customer address was not actually deleted.');
 
-        $expectedAddresses = array();
-        /** @var Mage_Customer_Model_Address $actualAddresses */
-        foreach ($addressesData as $addressData) {
-            if (array_key_exists('entity_id', $addressData)) {
-                $addressId = $addressData['entity_id'];
-                unset($addressData['entity_id']);
-                $address = $actualAddresses->getItemById($addressId);
-                $address->addData($addressData);
-                $expectedAddresses[$address->getId()] = $address->toArray();
-            }
+        // Check that all addresses were updated correctly
+        $updatedData = array();
+        /** @var Mage_Customer_Model_Address $address */
+        $addressesData = $this->_getSortedByKey($addressesData, 'postcode');
+        foreach ($this->_getSortedByKey($actualAddresses, 'postcode') as $address) {
+            $addressData = current($addressesData);
+            $updatedData[] = $address->toArray(array_keys($addressData));
+            next($addressesData);
         }
-
-        $this->assertEquals($expectedAddresses, $actualAddresses->toArray(), 'Address was not updated.');
+        $this->assertEquals($addressesData, $updatedData, 'Customer addresses are incorrect.');
     }
 
     /**
@@ -422,8 +419,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         return array(
             'Addresses update' => array(
                 array(
-                    array('entity_id' => 1, 'postcode' => '8901234'),
-                    array('entity_id' => 2, 'city' => 'Updated city')
+                    array('entity_id' => 1, 'postcode' => '1000001'),
+                    array('entity_id' => 2, 'postcode' => '1000002')
                 )
             ),
             'First address delete' => array(
@@ -433,11 +430,31 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ),
             'First address update, second delete' => array(
                 array(
-                    array('entity_id' => 1, 'city' => 'Updated city')
+                    array('entity_id' => 1, 'city' => 'Updated city', 'postcode' => '1000001')
                 )
             ),
             'All addresses delete' => array(
                 array()
+            ),
+            'Addresses updated and one created' => array(
+                array(
+                    array('entity_id' => 1, 'postcode' => '1000001'),
+                    array('entity_id' => 2, 'city' => 'Updated city', 'postcode' => '1000002')
+                )
+            ),
+            'Address updated, deleted and created' => array(
+                array(
+                    array(
+                        'firstname' => 'John',
+                        'lastname' => 'Smith',
+                        'street' => 'Green str, 67',
+                        'country_id' => 'AL',
+                        'city' => 'CityM',
+                        'postcode' => '1000001',
+                        'telephone' => '3468676'
+                    ),
+                    array('entity_id' => 2, 'city' => 'Updated city', 'postcode' => '1000002')
+                )
             )
         );
     }
@@ -462,9 +479,11 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'telephone' => '3468676',
         ));
 
-        $callback = function($actualCustomer, $actualData, $actualAddresses)
-            use ($customer, $customerData, $addressData)
-        {
+        $callbackCount = 0;
+        $callback = function($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
+            $addressData, &$callbackCount
+        ) {
+            $callbackCount++;
             // Remove updated_at as in afterSave updated_at may be changed
             $expectedCustomerData = $customer->getData();
             unset($expectedCustomerData['updated_at']);
@@ -477,14 +496,18 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_model->setBeforeSaveCallback($callback);
         $this->_model->setAfterSaveCallback($callback);
         $this->_model->update(1, $customerData, $addressData);
+        $this->assertEquals(2, $callbackCount, 'Not all expected callbacks were called.');
     }
 
     /**
+     * @param int $storeId
+     * @param boolean $isConfirmed
+     * @dataProvider forceConfirmedDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testCustomerSetForceConfirmed()
+    public function testCustomerSetForceConfirmed($storeId, $isConfirmed)
     {
-        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        Mage::app()->setCurrentStore($storeId);
         $customerData = array(
             'firstname' => 'SomeName',
             'lastname' => 'SomeSurname',
@@ -492,6 +515,17 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'password' => '123123q'
         );
         $customer = $this->_model->create($customerData);
-        $this->assertTrue($customer->getForceConfirmed());
+        $this->assertEquals($isConfirmed, $customer->getForceConfirmed());
+    }
+
+    /**
+     * @return array
+     */
+    public function forceConfirmedDataProvider()
+    {
+        return array(
+            'admin store' => array(Mage_Core_Model_App::ADMIN_STORE_ID, true),
+            'distro store' => array(Mage_Core_Model_App::DISTRO_STORE_ID, false),
+        );
     }
 }

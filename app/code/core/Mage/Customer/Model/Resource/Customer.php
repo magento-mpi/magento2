@@ -221,7 +221,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
                 Mage::throwException(Mage::helper('Mage_Customer_Helper_Data')
-                        ->__('Customer website ID must be specified when using the website scope'));
+                    ->__('Customer website ID must be specified when using the website scope'));
             }
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');

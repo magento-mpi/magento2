@@ -14,11 +14,6 @@
 abstract class Mage_Core_Service_ServiceAbstract
 {
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Mage_Core_Helper_Abstract
      */
     protected $_translateHelper;
@@ -30,12 +25,6 @@ abstract class Mage_Core_Service_ServiceAbstract
      */
     public function __construct(array $args = array())
     {
-        if (isset($args['config'])) {
-            $this->_config = $args['config'];
-        } else {
-            $this->_config = Mage::getConfig();
-        }
-
         if (isset($args['helper'])) {
             $this->_translateHelper =  $args['helper'];
         } else {
