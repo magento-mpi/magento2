@@ -72,8 +72,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         $attributes = $this->getRequest()->getParam('attributes');
-        if ($attributes && $product->isConfigurable() &&
-            (!$productId || !$product->getTypeInstance()->getUsedProductAttributeIds($product))) {
+        if ($attributes) {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
             $product->getTypeInstance()->setUsedProductAttributeIds(
                 explode(",", base64_decode(urldecode($attributes))),
                 $product
@@ -698,7 +698,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data) {
             $this->_filterStockData($data['product']['stock_data']);
 
-            $product = $this->_initProductSave($this->_initProduct());
+            $product = $this->_initProduct();
+
+            $this->_transitionProductType($product, $data);
+            $product = $this->_initProductSave($product);
 
             try {
                 $originalSku = $product->getSku();
@@ -750,6 +753,29 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ));
         } else {
             $this->_redirect('*/*/', array('store'=>$storeId));
+        }
+    }
+
+    /**
+     * Change product type on the fly depending on selected options
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $data
+     */
+    protected function _transitionProductType($product, $data)
+    {
+        if (isset($data['configurable_products_data'])) {
+            $configurableData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['configurable_products_data']);
+            if (!empty($configurableData)) {
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+                return;
+            }
+        }
+
+        if (isset($data['product']['is_virtual'])) {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+        } else {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
     }
 

@@ -48,7 +48,11 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
+                <container name="product-type-tabs" label="Tabs" as="">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+                </container>
+            </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
         </reference>
         <reference name="left">
@@ -81,7 +85,11 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
+                <container name="product-type-tabs" label="Tabs">
+                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+                </container>
+            </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
         </reference>
         <reference name="left">
@@ -203,8 +211,19 @@
 <!--
 Layout handle for simple products
 -->
-
-    <adminhtml_catalog_product_simple />
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+            <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
+        </reference>
+    </adminhtml_catalog_product_simple>
+<!--
+Layout handle for virtual products
+-->
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+            <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
+        </reference>
+    </adminhtml_catalog_product_virtual>
 
 <!--
 Layout handle for grouped products
@@ -245,23 +264,9 @@ Layout handle for configurable products
 -->
 
     <adminhtml_catalog_product_configurable_new>
-        <reference name="product_tabs">
-            <action method="addTab">
-                <name>configurable</name>
-                <block>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config</block>
-            </action>
-            <action method="bindShadowTabs">
-                <first>configurable</first>
-                <second>customer_options</second>
-            </action>
-        </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
-        <reference name="product_tabs">
-            <action method="addTab"><name>configurable</name><block>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config</block></action>
-            <action method="bindShadowTabs"><first>configurable</first><second>customer_options</second></action>
-        </reference>
     </adminhtml_catalog_product_configurable>
 
     <adminhtml_catalog_product_action_attribute_edit>

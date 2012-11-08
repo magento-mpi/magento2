@@ -55,7 +55,7 @@ varienTabs.prototype = {
         this.displayFirst = activeTabId;
         Event.observe(window,'load',this.moveTabContentInDest.bind(this));
     },
-    
+
     setSkipDisplayFirstTab : function(){
         this.displayFirst = null;
     },
@@ -142,7 +142,13 @@ varienTabs.prototype = {
         if (tabContentElement) {
             if (this.activeTab != tab) {
                 if (varienGlobalEvents) {
-                    if (varienGlobalEvents.fireEvent('tabChangeBefore', $(this.getTabContentElementId(this.activeTab))).indexOf('cannotchange') != -1) {
+                    var defaultTab = this.tabs[0];
+                    var eventData = {
+                        from: this.activeTab ? this.activeTab.getAttribute('id') : null,
+                        to: tab ? tab.getAttribute('id') : null,
+                        first: defaultTab && tab && tab.getAttribute('id') == defaultTab.getAttribute('id')
+                    };
+                    if (varienGlobalEvents.fireEvent('tabChangeBefore', eventData) === false) {
                         return;
                     };
                 }

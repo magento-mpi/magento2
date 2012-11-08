@@ -7,35 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
-if (!count($this->getSelectedAttributes())) {
-    echo $this->getChildHtml('super_settings');
-} else {
 ?>
-<?php if (!$this->isReadonly()):?>
-<div class="entry-edit">
-    <div id="assign_product_warrning" style="display: none;">
-        <ul class="messages">
-            <li class="error-msg">
-                <ul>
-                    <li><?php echo $this->__('Links with associated products will retain only after saving current product.') ?></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Create Simple Associated Product') ?></h4>
-    </div>
-    <fieldset class="a-right">
-        <?php echo $this->getChildHtml('create_empty') ?> <?php echo $this->getChildHtml('create_from_configurable') ?>
-    </fieldset>
+<div id="<?php echo $this->getId()?>" class="entry-edit">
+<div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')
+        ->__('Super product attributes configuration') ?></h4>
 </div>
-
-<div id="<?php echo $this->getHtmlId() ?>_simple_form" class="ignore-validate configurable-simple-product">
-<?php echo $this->getChildHtml('simple'); ?>
-</div>
-<?php endif;?>
+<fieldset>
+<?php
+/** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
+echo $this->getChildHtml('super_settings');
+if (count($this->getSelectedAttributes())) {
+?>
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></h4>
@@ -141,3 +124,5 @@ Validation.add(
 
 <div><input type="hidden" name="affect_configurable_product_attributes" value="1" /></div>
 <?php } ?>
+</fieldset>
+</div>

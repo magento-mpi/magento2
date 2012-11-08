@@ -72,37 +72,38 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     public function getSampleData()
     {
         $samplesArr = array();
-        $samples = $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
-        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
-        foreach ($samples as $item) {
-            $tmpSampleItem = array(
-                'sample_id' => $item->getId(),
-                'title' => $this->escapeHtml($item->getTitle()),
-                'sample_url' => $item->getSampleUrl(),
-                'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder(),
-            );
-            $file = $fileHelper->getFilePath(
-                Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
-            );
-            if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+        if ($this->getProduct()->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            $samples = $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
+            $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
+            foreach ($samples as $item) {
+                $tmpSampleItem = array(
+                    'sample_id' => $item->getId(),
+                    'title' => $this->escapeHtml($item->getTitle()),
+                    'sample_url' => $item->getSampleUrl(),
+                    'sample_type' => $item->getSampleType(),
+                    'sort_order' => $item->getSortOrder(),
+                );
+                $file = $fileHelper->getFilePath(
+                    Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
+                );
+                if ($item->getSampleFile() && !is_file($file)) {
+                    Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                }
+                if ($item->getSampleFile() && is_file($file)) {
+                    $tmpSampleItem['file_save'] = array(
+                        array(
+                            'file' => $item->getSampleFile(),
+                            'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
+                            'size' => filesize($file),
+                            'status' => 'old'
+                        ));
+                }
+                if ($this->getProduct() && $item->getStoreTitle()) {
+                    $tmpSampleItem['store_title'] = $item->getStoreTitle();
+                }
+                $samplesArr[] = new Varien_Object($tmpSampleItem);
             }
-            if ($item->getSampleFile() && is_file($file)) {
-                $tmpSampleItem['file_save'] = array(
-                    array(
-                        'file' => $item->getSampleFile(),
-                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
-                        'size' => filesize($file),
-                        'status' => 'old'
-                    ));
-            }
-            if ($this->getProduct() && $item->getStoreTitle()) {
-                $tmpSampleItem['store_title'] = $item->getStoreTitle();
-            }
-            $samplesArr[] = new Varien_Object($tmpSampleItem);
         }
-
         return $samplesArr;
     }
 

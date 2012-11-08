@@ -349,6 +349,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getSelectedAttributes()
     {
+        if (!$this->_getProduct()->isConfigurable()) {
+            return array();
+        }
         return array_filter(
             $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct())
         );

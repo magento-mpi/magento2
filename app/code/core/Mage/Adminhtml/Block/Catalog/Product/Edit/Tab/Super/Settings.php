@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     {
         $onclick = "setSuperSettings('" . $this->getContinueUrl() . "','attribute-checkbox', 'attributes')";
         $this->addChild('continue_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Continue'),
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Apply'),
             'onclick' => $onclick,
             'class' => 'save',
         ));
@@ -66,23 +66,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         $attributes = $product->getTypeInstance()
             ->getSetAttributes($product);
 
-        $fieldset->addField('req_text', 'note', array(
-            'text' => '<ul class="messages"><li class="notice-msg"><ul><li>'
-                .  $this->__('Only attributes with scope "Global", input type "Dropdown" and Use To Create Configurable Product "Yes" are available.')
-                . '</li></ul></li></ul>'
-        ));
-
         $hasAttributes = false;
 
+        if ($product->isConfigurable()) {
+            $usedAttributes = $this->_getProduct()->getTypeInstance()
+             ->getUsedProductAttributeIds($this->_getProduct());
+        } else {
+            $usedAttributes = array();
+        }
+
+        $configurableType = Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
+
         foreach ($attributes as $attribute) {
-            if ($product->getTypeInstance()->canUseAttribute($attribute, $product)) {
+            if ($configurableType->canUseAttribute($attribute, $product)) {
                 $hasAttributes = true;
                 $fieldset->addField('attribute_'.$attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontend()->getLabel(),
                     'title' => $attribute->getFrontend()->getLabel(),
                     'name'  => 'attribute',
                     'class' => 'attribute-checkbox',
-                    'value' => $attribute->getAttributeId()
+                    'value' => $attribute->getAttributeId(),
+                    'checked' => in_array($attribute->getAttributeId(), $usedAttributes)
                 ));
             }
         }

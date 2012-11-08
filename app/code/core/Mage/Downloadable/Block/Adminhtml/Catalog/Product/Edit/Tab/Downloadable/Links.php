@@ -147,67 +147,69 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     public function getLinkData()
     {
         $linkArr = array();
-        $links = $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
-        $priceWebsiteScope = $this->getIsPriceWebsiteScope();
-        $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
-        foreach ($links as $item) {
-            $tmpLinkItem = array(
-                'link_id' => $item->getId(),
-                'title' => $this->escapeHtml($item->getTitle()),
-                'price' => $this->getCanReadPrice() ? $this->getPriceValue($item->getPrice()) : '',
-                'number_of_downloads' => $item->getNumberOfDownloads(),
-                'is_shareable' => $item->getIsShareable(),
-                'link_url' => $item->getLinkUrl(),
-                'link_type' => $item->getLinkType(),
-                'sample_file' => $item->getSampleFile(),
-                'sample_url' => $item->getSampleUrl(),
-                'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder(),
-            );
-            $file = $fileHelper->getFilePath(
-                Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
-            );
+        if ($this->getProduct()->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            $links = $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
+            $priceWebsiteScope = $this->getIsPriceWebsiteScope();
+            $fileHelper = Mage::helper('Mage_Downloadable_Helper_File');
+            foreach ($links as $item) {
+                $tmpLinkItem = array(
+                    'link_id' => $item->getId(),
+                    'title' => $this->escapeHtml($item->getTitle()),
+                    'price' => $this->getCanReadPrice() ? $this->getPriceValue($item->getPrice()) : '',
+                    'number_of_downloads' => $item->getNumberOfDownloads(),
+                    'is_shareable' => $item->getIsShareable(),
+                    'link_url' => $item->getLinkUrl(),
+                    'link_type' => $item->getLinkType(),
+                    'sample_file' => $item->getSampleFile(),
+                    'sample_url' => $item->getSampleUrl(),
+                    'sample_type' => $item->getSampleType(),
+                    'sort_order' => $item->getSortOrder(),
+                );
+                $file = $fileHelper->getFilePath(
+                    Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
+                );
 
-            if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
-            }
+                if ($item->getLinkFile() && !is_file($file)) {
+                    Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                }
 
-            if ($item->getLinkFile() && is_file($file)) {
-                $name = '<a href="'
-                    . $this->getUrl('*/downloadable_product_edit/link', array(
-                        'id' => $item->getId(),
-                        '_secure' => true
-                    )) . '">' . $fileHelper->getFileFromPathFile($item->getLinkFile()) . '</a>';
-                $tmpLinkItem['file_save'] = array(
-                    array(
-                        'file' => $item->getLinkFile(),
-                        'name' => $name,
-                        'size' => filesize($file),
-                        'status' => 'old'
-                    ));
+                if ($item->getLinkFile() && is_file($file)) {
+                    $name = '<a href="'
+                        . $this->getUrl('*/downloadable_product_edit/link', array(
+                            'id' => $item->getId(),
+                            '_secure' => true
+                        )) . '">' . $fileHelper->getFileFromPathFile($item->getLinkFile()) . '</a>';
+                    $tmpLinkItem['file_save'] = array(
+                        array(
+                            'file' => $item->getLinkFile(),
+                            'name' => $name,
+                            'size' => filesize($file),
+                            'status' => 'old'
+                        ));
+                }
+                $sampleFile = $fileHelper->getFilePath(
+                    Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
+                );
+                if ($item->getSampleFile() && is_file($sampleFile)) {
+                    $tmpLinkItem['sample_file_save'] = array(
+                        array(
+                            'file' => $item->getSampleFile(),
+                            'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
+                            'size' => filesize($sampleFile),
+                            'status' => 'old'
+                        ));
+                }
+                if ($item->getNumberOfDownloads() == '0') {
+                    $tmpLinkItem['is_unlimited'] = ' checked="checked"';
+                }
+                if ($this->getProduct()->getStoreId() && $item->getStoreTitle()) {
+                    $tmpLinkItem['store_title'] = $item->getStoreTitle();
+                }
+                if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
+                    $tmpLinkItem['website_price'] = $item->getWebsitePrice();
+                }
+                $linkArr[] = new Varien_Object($tmpLinkItem);
             }
-            $sampleFile = $fileHelper->getFilePath(
-                Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
-            );
-            if ($item->getSampleFile() && is_file($sampleFile)) {
-                $tmpLinkItem['sample_file_save'] = array(
-                    array(
-                        'file' => $item->getSampleFile(),
-                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
-                        'size' => filesize($sampleFile),
-                        'status' => 'old'
-                    ));
-            }
-            if ($item->getNumberOfDownloads() == '0') {
-                $tmpLinkItem['is_unlimited'] = ' checked="checked"';
-            }
-            if ($this->getProduct()->getStoreId() && $item->getStoreTitle()) {
-                $tmpLinkItem['store_title'] = $item->getStoreTitle();
-            }
-            if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
-                $tmpLinkItem['website_price'] = $item->getWebsitePrice();
-            }
-            $linkArr[] = new Varien_Object($tmpLinkItem);
         }
         return $linkArr;
     }
