@@ -28,7 +28,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1823
-     * @author yaroslav.goncharuk
      */
     public function enableCustomerSegments()
     {
@@ -49,7 +48,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1826
-     * @author yaroslav.goncharuk
      */
     public function disableCustomerSegments()
     {
@@ -70,7 +68,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1855
-     * @author yaroslav.goncharuk
      */
     public function enableCustomerSegmentsForCmsBanners()
     {
@@ -92,7 +89,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1856
-     * @author yaroslav.goncharuk
      */
     public function disableCustomerSegmentsForCmsBanners()
     {
@@ -114,7 +110,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-3763
-     * @author yaroslav.goncharuk
      */
     public function enableCustomerSegmentsForProductRelations()
     {
@@ -136,7 +131,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-3763
-     * @author yaroslav.goncharuk
      */
     public function disableCustomerSegmentsForProductRelations()
     {
@@ -158,7 +152,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1860
-     * @author yaroslav.goncharuk
      */
     public function enableCustomerSegmentsForSCPR()
     {
@@ -182,7 +175,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     /**
      * @test
      * @TestlinkId TL-MAGE-1860:
-     * @author yaroslav.goncharuk
      */
     public function disableCustomerSegmentsForSCPR()
     {

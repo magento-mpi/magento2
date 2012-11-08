@@ -16,22 +16,22 @@ manage_customer_segments:
     title: Customer Segments / Customers / Magento Admin
     uimap:
         form: &searchCustomerSegmentGrid
-                    fieldsets:
-                        -
-                            customer_segment_grid:
-                                xpath:  //div[@id='customersegmentGrid']
-                                buttons:
-                                    reset_filter: //button[span='Reset Filter']
-                                    search: //button[span='Search']
-                                fields:
-                                    segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
-                                    segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
-                                dropdowns:
-                                    status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
-                                pageelements:
-                                    customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
+            fieldsets:
+                -
+                    customer_segment_grid:
+                        xpath:  //div[@id='customersegmentGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
+                            segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
+                        dropdowns:
+                            status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
+                        pageelements:
+                            customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
         buttons:
-                    add_new_segment: //button[span='Add Segment']
+            add_new_segment: //button[span='Add Segment']
         messages: &customerSegmentMessages
             success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
             segment_empty_required_field: //div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]

@@ -20,12 +20,16 @@ class Enterprise2_Mage_CustomerSegment_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Login Admin user to backend</p>
+     * <p>Log in to Backend.</p>
      */
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_customer_segments');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
+        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
+        $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
     }
 
     /**
@@ -38,6 +42,7 @@ class Enterprise2_Mage_CustomerSegment_DeleteTest extends Mage_Selenium_TestCase
         $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields');
         $segmentSearch = array('segment_name' =>$segmentData['general_properties']['segment_name']);
         //Steps
+        $this->navigate('manage_customer_segments');
         $this->customerSegmentHelper()->createSegment($segmentData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_segment');
