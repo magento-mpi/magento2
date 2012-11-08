@@ -25,7 +25,7 @@
                 /**
                  * Calculate cookie expiration date based on its lifetime.
                  * @param {Object} options Cookie option values
-                 * @return {null|Date} Calculated cookie expiration date or null if no lifetime provided.
+                 * @return {(null|Date)} Calculated cookie expiration date or null if no lifetime provided.
                  * @private
                  */
                 this._lifetimeToExpires = function(options) {
@@ -58,7 +58,7 @@
                 /**
                  * Get a cookie's value by cookie name.
                  * @param {string} name The name of the cookie.
-                 * @return {null|string}
+                 * @return {(null|string)}
                  */
                 this.get = function(name) {
                     var arg = name + "=";
