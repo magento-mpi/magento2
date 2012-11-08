@@ -10,15 +10,15 @@
 
 
 /**
- * Forward controller
+ * Redirect controller
  *
  * @category   Mage
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Controller_Varien_Action_Forward extends Mage_Core_Controller_Varien_Action_RedirectAbstract
+class Mage_Core_Controller_Varien_Action_Redirect extends Mage_Core_Controller_Varien_Action_RedirectAbstract
 {
-    /**
+     /**
      * Dispatch controller action
      *
      * @param string $action action name
@@ -27,6 +27,5 @@ class Mage_Core_Controller_Varien_Action_Forward extends Mage_Core_Controller_Va
      */
     public function dispatch($action)
     {
-        $this->_request->setDispatched(false);
     }
 }
