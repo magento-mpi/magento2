@@ -41,10 +41,8 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
 
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_general')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'))
-            ->_addContent(
-                $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General')
-            )
+            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'),
+            Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'))
             ->renderLayout();
     }
 
@@ -53,12 +51,11 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function exportCsvAction()
     {
+        $this->loadLayout();
         $fileName   = 'invitation_general.csv';
-        $content    = $this->getLayout()
-            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid')
-            ->getCsv();
+        $exportBlock = $this->getLayout()->getChildBlock('report.general.customer','grid.export');
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -66,12 +63,13 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function exportExcelAction()
     {
+        $this->loadLayout();
         $fileName   = 'invitation_general.xml';
-        $content    = $this->getLayout()
-            ->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid')
-            ->getExcel($fileName);
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        $exportBlock = $this->getLayout()->getChildBlock('report.general.customer','grid.export');
+
+        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
