@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_Launcher>
+            <version>0.0.1</version>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Launcher>
+    </modules>
+    <adminhtml>
+        <layout>
+            <updates>
+                <launcher module="Mage_Launcher">
+                    <file>layout.xml</file>
+                </launcher>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Mage_Launcher>
+                    <files>
+                        <default>Mage_Launcher.csv</default>
+                    </files>
+                </Mage_Launcher>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <launcher>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Launcher</module>
+                    <frontName>launcher</frontName>
+                </args>
+            </launcher>
+        </routers>
+    </admin>
+</config>

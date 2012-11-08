@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Launcher::launcher" title="Launcher" module="Mage_Launcher" sortOrder="10" parent="Mage_Adminhtml::system" action="launcher/index" resource="Mage_Launcher::launcher"/>
+    </menu>
+</config>

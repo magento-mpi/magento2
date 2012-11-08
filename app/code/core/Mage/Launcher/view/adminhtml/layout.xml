@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <adminhtml_launcher_index>
+    </adminhtml_launcher_index>
+</layout>
