@@ -80,14 +80,8 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         <?php endforeach; ?>
     </ol>
     <script type="text/javascript">
-        (function ($) {
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>", function () {
-                $('#products-list').grid({
-                    listId: '#products-list'
-                });
-            });
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
-        })(jQuery);
+        jQuery('#products-list').decorate('list');
+        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php else: ?>
 
@@ -142,15 +136,8 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         <?php endif ?>
         <?php endforeach ?>
     <script type="text/javascript">
-        (function ($) {
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/grid.js') ?>", function () {
-                $('ul.products-grid').grid({
-                    genericSelector: 'ul.products-grid > li',
-                    decoratorParam: ['odd', 'even', 'first', 'last']
-                });
-            });
-            head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
-        })(jQuery);
+        jQuery('ul.products-grid > li').decorate('generic', ['odd', 'even', 'first', 'last']);
+        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php endif; ?>
 
