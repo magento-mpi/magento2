@@ -192,7 +192,7 @@ class Error_Processor
      *
      * @return string
      */
-    public function getSkinUrl()
+    public function getViewFileUrl()
     {
         return $this->getBaseUrl() . self::ERROR_DIR. '/' . $this->_config->skin . '/';
     }

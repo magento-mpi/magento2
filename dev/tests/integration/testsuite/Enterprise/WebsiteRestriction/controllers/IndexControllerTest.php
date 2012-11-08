@@ -34,7 +34,7 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
         $this->dispatch('restriction/index/stub');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<h1>Cms Page Design Modern Title</h1>', $body);
-        $this->assertContains('skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico', $body);
+        $this->assertContains('theme/frontend/default/modern/en_US/Mage_Page/favicon.ico', $body);
         $this->assertHeaderPcre('Http/1.1', '/^503 Service Unavailable$/');
     }
 }

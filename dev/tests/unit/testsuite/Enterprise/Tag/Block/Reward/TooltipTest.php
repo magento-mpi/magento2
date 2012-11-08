@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 
-class Enterprise_Tag_Block_Reward_TooltipTest extends Magento_Test_TestCase_ObjectManagerAbstract
+class Enterprise_Tag_Block_Reward_TooltipTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers Enterprise_Tag_Block_Reward_Tooltip::__construct
      */
     public function testConstruct()
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         $helperMock = $this->getMock('Enterprise_Tag_Helper_Data', array('addActionClassToRewardModel'), array(), '',
             false
         );
@@ -25,6 +27,6 @@ class Enterprise_Tag_Block_Reward_TooltipTest extends Magento_Test_TestCase_Obje
         $data = array(
             'data' => array('helpers' => array('Enterprise_Tag_Helper_Data' => $helperMock))
         );
-        $this->getBlock('Enterprise_Tag_Block_Reward_Tooltip', $data);
+        $objectManagerHelper->getBlock('Enterprise_Tag_Block_Reward_Tooltip', $data);
     }
 }

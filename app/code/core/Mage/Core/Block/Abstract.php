@@ -718,15 +718,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Retrieve url of skins file
+     * Retrieve url of themes file
      *
-     * @param   string $file path to file in skin
-     * @param   array $params
-     * @return  string
+     * @param string $file path to file in theme
+     * @param array $params
+     * @return string
      */
-    public function getSkinUrl($file = null, array $params = array())
+    public function getViewFileUrl($file = null, array $params = array())
     {
-        return $this->_designPackage->getSkinUrl($file, $params);
+        return Mage::getDesign()->getViewFileUrl($file, $params);
     }
 
     /**

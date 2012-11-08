@@ -33,6 +33,6 @@ if ($attribute) {
         $attribute['entity_type_id'],
         $attribute['attribute_id'],
         'frontend_input_renderer',
-        'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Baseimage'
+        'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage'
     );
 }

@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends PHP
             ->will($this->returnValue(array('', 'a')));
 
         Mage::register('current_product', $product);
-        $layout = new Mage_Core_Model_Layout();
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'block');
         $this->assertEquals(array(1 => 'a'), $block->getSelectedAttributes());
     }

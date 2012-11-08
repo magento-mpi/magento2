@@ -12,8 +12,7 @@
 /**
  * Test class for Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
  */
-class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
-    extends Magento_Test_TestCase_ObjectManagerAbstract
+class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Customer financial data export model
@@ -154,6 +153,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function _getModelDependencies($addData = false)
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
         if ($addData) {
             $dataSourceModel->expects($this->exactly(2))
@@ -183,7 +184,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+            $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
             $arguments['data'] = $customerData;
             $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
@@ -206,7 +207,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
-            $arguments = $this->_getConstructArguments(self::MODEL_ENTITY);
+            $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')
