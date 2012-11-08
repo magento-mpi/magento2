@@ -144,6 +144,7 @@
                 <arguments>
                     <id>gridProductsSold</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Product_Sold_Collection_Initial</dataSource>
+                    <use_ajax>0</use_ajax>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.product.sold.grid.export" as="grid.export">
                     <arguments>
@@ -159,7 +160,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher.phtml"  as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Reports::store/switcher.phtml"  as="store_switcher">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type='url'>
