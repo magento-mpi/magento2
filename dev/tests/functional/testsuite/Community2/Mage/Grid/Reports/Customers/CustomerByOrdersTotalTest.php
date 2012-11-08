@@ -76,7 +76,7 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         }
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $priceForTestProduct);
         $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-                                 array('first_name' => $this->generate('string', 10, ':alnum:')));
+            array('first_name' => $this->generate('string', 10, ':alnum:')));
         $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
         //Steps
         $this->navigate('manage_products');
@@ -89,7 +89,7 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
        $orderData = array(
-           'sku' => $simple['general_name'],
+           'sku'   => $simple['general_name'],
            'email' => $userData['email'],
        );
         $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
@@ -100,10 +100,10 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
 
         return array(
             'first_name' => $userData['first_name'],
-            'last_name' => $userData['last_name'],
-            'email' => $userData['email'],
-            'price' => $simple['prices_price'],
-            'sku'   => $simple['general_name'],
+            'last_name'  => $userData['last_name'],
+            'email'      => $userData['email'],
+            'price'      => $simple['prices_price'],
+            'sku'        => $simple['general_name'],
         );
     }
 
@@ -132,8 +132,10 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         $this->assertEquals(1 , $topReportGridData['number_of_orders'], 'Number of orders is wrong');
         $this->assertEquals($testOrderData['price'] , $topReportGridData['order_amount'], 'Order amount is wrong');
         $this->navigate('manage_sales_orders');
-        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $testOrderData['sku'], 'email' => $testOrderData['email']));
+        $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data', array(
+            'filter_sku' => $testOrderData['sku'],
+            'email' => $testOrderData['email'])
+        );
         $this->orderHelper()->createOrder($orderCreationData);
         $this->assertMessagePresent('success', 'success_created_order');
         $topReportGridDataUpdated = $this->_getTopCustomerNameAndTotalAmount();
