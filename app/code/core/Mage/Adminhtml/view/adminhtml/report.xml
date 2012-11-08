@@ -42,6 +42,7 @@
                 <arguments>
                     <id>gridTotalsCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Customer_Totals_Initial</dataSource>
+                    <use_ajax>0</use_ajax>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.totals.grid.export" as="grid.export">
                     <arguments>
@@ -79,6 +80,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Period</header>
+                            <width>100px</width>
                             <index>period</index>
                             <filter>0</filter>
                             <id>period</id>
