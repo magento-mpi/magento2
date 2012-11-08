@@ -26,7 +26,7 @@ report_invitations_general:
                             export: //button[span='Export']
                         dropdowns: &reportInvitationsDropdowns
                             show_by: //select[@name='report_period']
-                            export_to: //td[@class="a-right"]/select
+                            export_to: //td[@class="export a-right"]/select
                             filter_show_report_for: //select[@id='store_switcher']
                         fields: &reportInvitationsFields
                             filter_from: //input[@name='report_from']
