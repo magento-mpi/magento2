@@ -766,7 +766,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * For existing customer password + confirmation will be validated only when password is set
      * (i.e. its change is requested)
      *
-     * @return bool
+     * @return bool|array
      */
     public function validate()
     {
@@ -869,45 +869,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->_errors = array();
         return $this;
-    }
-
-    /**
-     * Validate address
-     *
-     * @param array $data
-     * @param string $type
-     * @return bool
-     */
-    public function validateAddress(array $data, $type = 'billing')
-    {
-        $fields = array('city', 'country', 'postcode', 'telephone', 'street1');
-        $usca   = array('US', 'CA');
-        $prefix = $type ? $type . '_' : '';
-
-        if ($data) {
-            foreach ($fields as $field) {
-                if (!isset($data[$prefix . $field])) {
-                    return false;
-                }
-                if ($field == 'country'
-                    && in_array(strtolower($data[$prefix . $field]), array('US', 'CA'))) {
-
-                    if (!isset($data[$prefix . 'region'])) {
-                        return false;
-                    }
-
-                    $region = Mage::getModel('Mage_Directory_Model_Region')
-                        ->loadByName($data[$prefix . 'region']);
-                    if (!$region->getId()) {
-                        return false;
-                    }
-                    unset($region);
-                }
-            }
-            unset($data);
-            return true;
-        }
-        return false;
     }
 
     /**

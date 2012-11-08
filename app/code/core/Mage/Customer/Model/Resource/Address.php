@@ -55,4 +55,37 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
         }
         return $this;
     }
+
+    /**
+     * Check customer address before saving
+     *
+     * @param Varien_Object $address
+     * @return Mage_Customer_Model_Resource_Address
+     */
+    protected function _beforeSave(Varien_Object $address)
+    {
+        parent::_beforeSave($address);
+
+        $this->_validate($address);
+
+        return $this;
+    }
+
+    /**
+     * Validate customer address entity
+     *
+     * @param Mage_Customer_Model_Customer $address
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate($address)
+    {
+        $validatorFactory = Mage::getConfig()->getValidatorConfig();
+        $validator = $validatorFactory
+            ->getValidatorBuilder('customer_address', 'save')
+            ->createValidator();
+
+        if (!$validator->isValid($address)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
+    }
 }
