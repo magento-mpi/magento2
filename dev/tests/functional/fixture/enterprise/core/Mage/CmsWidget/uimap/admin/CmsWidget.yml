@@ -11,7 +11,6 @@
 ---
 #CMS Widgets page
 add_widget_options:
-    mca: widget_instance/edit/type/%type%/package_theme/%package%-%theme%/
     uimap: &addWidgetOptions
         form: 
             tabs:
@@ -43,19 +42,6 @@ add_widget_options:
                                         filter_banner_name: //input[@name='banner_name']
                                         filter_banner_start_from: //input[@name='banner_id[from]']
                                         filter_banner_start_to: //input[@name='banner_id[to]']
-
-create_cms_widget:
-    mca: widget_instance/new/
-    uimap:
-        form:
-            tabs:
-                -
-                    settings:
-                        fieldsets:
-                            -
-                                settings_fieldset:
-                                    dropdowns:
-                                        design_package_theme: //select[@name='package_theme']
 
 edit_cms_widget:
     uimap: *addWidgetOptions

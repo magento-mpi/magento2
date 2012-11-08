@@ -64,9 +64,8 @@ create_cms_widget:
             back: //button[span='Back']
             reset: //button[span='Reset']
 
-
 add_widget_options:
-    mca: widget_instance/edit/type/%type%/package/%package%/theme/%theme%/
+    mca: widget_instance/edit/type/%type%/package_theme/%package_theme%/
     title: New Instance / Widgets / CMS / Magento Admin
     uimap:
         form: &addWidgetOptions

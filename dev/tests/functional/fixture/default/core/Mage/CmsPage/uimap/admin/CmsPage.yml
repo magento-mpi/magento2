@@ -266,6 +266,19 @@ edit_cms_page:
             delete_page: //button[span='Delete Page']
         messages: *pageMessages
 
+save_and_continue_edit_cms_page:
+    mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin
+    uimap:
+        form: *createPage
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_page: //button[span='Save Page']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+            delete_page: //button[span='Delete Page']
+        messages: *pageMessages
+
 error_cms_page:
     mca: cms_page/edit/
     title: New Page / Manage Content / Pages / CMS / Magento Admin

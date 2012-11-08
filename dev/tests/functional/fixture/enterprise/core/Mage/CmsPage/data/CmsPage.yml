@@ -80,7 +80,7 @@ new_page_all_fields:
         layout_update_xml: %noValue%
         custom_design_from: %currentDate%
         custom_design_to: %currentDate%
-        custom_theme: default
+        custom_theme: %design_theme%
         custom_layout: 3 columns
         custom_layout_update_xml: %noValue%
     meta_data:

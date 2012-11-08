@@ -47,16 +47,16 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $fieldsetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
         $categoryXpath = $this->_getControlXpath('link', $fieldsetName . '_' . $categoryType);
         $this->addParameter('categoryXpath', str_replace($fieldsetXpath, '', $categoryXpath));
-        $elements = $this->getControlElements('pageelement', $fieldsetName . '_category_text');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-         */
-        foreach ($elements as $key => $element) {
-            $actualCatName = preg_replace('/ \([0-9]+\)/', '', $element->text());
-            if ($catName === $actualCatName) {
-                $this->addParameter('index', $key + 1);
-                $isCorrectName[] =
-                    $this->getControlAttribute('pageelement', $fieldsetName . '_category_index_link', 'id');
+        if ($this->controlIsPresent('pageelement', $fieldsetName . '_category_text')) {
+            $elements = $this->getControlElements('pageelement', $fieldsetName . '_category_text');
+            /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            foreach ($elements as $key => $element) {
+                $actualCatName = preg_replace('/ \([0-9]+\)/', '', $element->text());
+                if ($catName === $actualCatName) {
+                    $this->addParameter('index', $key + 1);
+                    $isCorrectName[] =
+                        $this->getControlAttribute('pageelement', $fieldsetName . '_category_index_link', 'id');
+                }
             }
         }
 
@@ -82,10 +82,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
                 $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $v, $fieldsetName));
             }
             $correctRoot = $correctSubCat;
-        }
-
-        if (empty($correctRoot)) {
-            $this->fail("Category with path = '$categoryPath' could not be selected.");
+            if (empty($correctRoot)) {
+                list($path) = explode($value, $categoryPath);
+                $this->fail("'$value' category with path = '$path' could not be selected.");
+            }
         }
 
         if ($nodes) {
@@ -94,8 +94,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
             $pageName = $rootCat;
         }
         $isCategoriesPage = $this->isCategoriesPage();
-        $this->pleaseWait();
-        $this->clickOnElement($correctRoot[0]);
+        list($id) = $correctRoot;
+        $this->focusOnElement($this->getElement('id=' . $id));
+        $this->clickOnElement($id);
         if ($isCategoriesPage) {
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');

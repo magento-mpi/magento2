@@ -20,3 +20,14 @@ edit_cms_page:
 
 error_cms_page:
     title: New Page / Pages / CMS / Magento Admin
+
+save_and_continue_edit_cms_page:
+    title: %elementTitle% / Pages / CMS / Magento Admin
+
+manage_pages_hierarchy:
+    mca: cms_hierarchy/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_hierarchy/')]
+    title: Manage Hierarchy / Pages / CMS / Magento Admin
+    uimap:
+        dropdowns:
+            choose_scope: //select[@id='store_switcher']

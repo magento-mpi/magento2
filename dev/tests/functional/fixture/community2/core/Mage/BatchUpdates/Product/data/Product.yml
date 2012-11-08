@@ -48,7 +48,7 @@ product_update_attributes_tab:
     attributes_change_visibility: Yes
     attributes_visibility: Catalog, Search
     attributes_change_custom_design: Yes
-    attributes_custom_design: default
+    attributes_custom_design: %design_theme%
     attributes_change_active_from: Yes
     attributes_active_from: %currentDate%
     attributes_change_active_to: Yes

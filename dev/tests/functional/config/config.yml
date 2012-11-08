@@ -75,6 +75,7 @@ applications:
     mage: &mage
         fallbackOrderFixture: 'default'
         fallbackOrderHelper: 'Core'
+        design_theme: base/default
         ftp: &ftp
             url: 'localhost'
             base_dir: ''
@@ -106,6 +107,7 @@ applications:
     community17: &ce17
          fallbackOrderFixture: 'community17, default'
          fallbackOrderHelper: 'Community17, Core'
+         design_theme: base/default
          ftp: *ftp
          areas:
             admin:
@@ -123,6 +125,7 @@ applications:
     community1701: &ce1701
         fallbackOrderFixture: 'community1701, community17, default'
         fallbackOrderHelper: 'Community1701, Community17, Core'
+        design_theme: base/default
         ftp: *ftp
         areas:
             admin:
@@ -140,6 +143,7 @@ applications:
     enterprise112: &ee112
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
+        design_theme: enterprise/default
         ftp: *ftp
         areas:
             admin:
@@ -157,6 +161,7 @@ applications:
     enterprise11201: &ee11201
         fallbackOrderFixture: 'enterprise11201, enterprise, default'
         fallbackOrderHelper: 'Enterprise11201, Enterprise, Core'
+        design_theme: enterprise/default
         ftp: *ftp
         areas:
             admin:
@@ -174,6 +179,7 @@ applications:
     magento2community: &m2ce
         fallbackOrderFixture: 'community2, community17, default'
         fallbackOrderHelper: 'Community2, Community17, Core'
+        design_theme: Default/Magento Demo
         ftp: *ftp
         areas:
             admin:
@@ -191,6 +197,7 @@ applications:
     magento2enterprise: &m2ee
         fallbackOrderFixture: 'enterprise2, enterprise, default'
         fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
+        design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
             admin:
