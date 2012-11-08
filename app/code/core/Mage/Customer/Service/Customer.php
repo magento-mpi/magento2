@@ -18,6 +18,16 @@
 class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 {
     /**
+     * @var callable
+     */
+    protected $_beforeSaveCallback = null;
+
+    /**
+     * @var callable
+     */
+    protected $_afterSaveCallback = null;
+
+    /**
      * Constructor
      *
      * @param array $args
@@ -31,37 +41,66 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Create customer entity
+     * Set before save callback.
+     *
+     * @param callable $callback
+     * @return Mage_Customer_Service_Customer
+     */
+    public function setBeforeSaveCallback($callback)
+    {
+        $this->_beforeSaveCallback = $callback;
+        return $this;
+    }
+
+    /**
+     * Set after save callback.
+     *
+     * @param callable $callback
+     * @return Mage_Customer_Service_Customer
+     */
+    public function setAfterSaveCallback($callback)
+    {
+        $this->_afterSaveCallback = $callback;
+        return $this;
+    }
+
+    /**
+     * Create customer with optional ability of adding addresses.
      *
      * @param array $customerData
+     * @param array|null $addressesData array of addresses
      * @return Mage_Customer_Model_Customer
      */
-    public function create($customerData)
+    public function create(array $customerData, array $addressesData = null)
     {
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $this->_setDataUsingMethods($customer, $customerData);
         $this->_preparePasswordForSave($customer, $customerData);
-        $this->_save($customer, $customerData, 'create');
+        $this->_save($customer, $customerData, $addressesData);
 
         return $customer;
     }
 
     /**
-     * Update customer entity
+     * Update customer entity.
+     *
+     * Update customer with optional ability to update customer addresses.
+     * Addresses that are not in $addressesData array but present in customer addresses collection will be removed.
+     * New address is created in case when no entity_id is present, otherwise corresponding address will be updated
+     * with data provided.
      *
      * @param string|int $customerId
      * @param array $customerData
+     * @param array|null $addressesData array of addresses
      * @return Mage_Customer_Model_Customer
      */
-    public function update($customerId, $customerData)
+    public function update($customerId, array $customerData, array $addressesData = null)
     {
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_loadCustomerById($customerId);
 
-        if (!empty($customerData)) {
-            $this->_setDataUsingMethods($customer, $customerData);
-            $this->_save($customer, $customerData, 'update');
+        $this->_save($customer, $customerData, $addressesData);
+        if ($customerData) {
             $this->_changePassword($customer, $customerData);
         }
 
@@ -73,48 +112,62 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param array $customerData
-     * @param string $validatorGroup
+     * @param array|null $addressesData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _save($customer, $customerData, $validatorGroup)
+    protected function _save($customer, array $customerData, array $addressesData = null)
     {
-        $this->_validate($customer, $validatorGroup);
+        if ($customerData) {
+            $this->_setDataUsingMethods($customer, $customerData);
+        }
+        $this->_beforeSave($customer, $customerData, $addressesData);
         $customer->save();
-        $this->_sendWelcomeEmail($customer, $customerData);
+        $this->_afterSave($customer, $customerData, $addressesData);
 
         return $this;
     }
 
     /**
-     * Validate customer entity
+     * Trigger before save logic
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param string $validatorGroup
-     * @return Mage_Customer_Service_Customer
-     * @throws Magento_Validator_Exception when validation failed
+     * @param array $customerData
+     * @param array $addressesData
      */
-    protected function _validate($customer, $validatorGroup)
+    protected function _beforeSave($customer, array $customerData, array $addressesData = null)
     {
-        $validator = $this->_validatorFactory
-            ->getValidatorBuilder('customer', $validatorGroup)
-            ->createValidator();
-
-        if (!$validator->isValid($customer)) {
-            throw new Magento_Validator_Exception($validator->getMessages());
+        if (!is_null($addressesData)) {
+            $this->_prepareCustomerAddressesForSave($customer, $addressesData);
         }
+        if (is_callable($this->_beforeSaveCallback)) {
+            call_user_func_array($this->_beforeSaveCallback, array($customer, $customerData, $addressesData));
+        }
+    }
 
-        return $this;
+    /**
+     * Trigger before save logic
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $customerData
+     * @param array $addressesData
+     */
+    protected function _afterSave($customer, array $customerData, array $addressesData = null)
+    {
+        if (is_callable($this->_afterSaveCallback)) {
+            call_user_func_array($this->_afterSaveCallback, array($customer, $customerData, $addressesData));
+        }
+        $this->_sendWelcomeEmail($customer, $customerData);
     }
 
     /**
      * Set customer password
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerAccountData
+     * @param array $customerData
      */
-    protected function _preparePasswordForSave($customer, $customerAccountData)
+    protected function _preparePasswordForSave($customer, array $customerData)
     {
-        $password = $this->_getCustomerPassword($customer, $customerAccountData);
+        $password = $this->_getCustomerPassword($customer, $customerData);
         if (!is_null($password)) {
             // 'force_confirmed' should be set in admin area only
             if (Mage::app()->getStore()->getId() == Mage_Core_Model_App::ADMIN_STORE_ID) {
@@ -128,17 +181,17 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      * Get customer password
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerAccountData
+     * @param array $customerData
      * @return string|null
      */
-    protected function _getCustomerPassword($customer, $customerAccountData)
+    protected function _getCustomerPassword($customer, array $customerData)
     {
         $password = null;
 
-        if ($this->_isAutogeneratePassword($customerAccountData)) {
+        if ($this->_isAutogeneratePassword($customerData)) {
             $password = $customer->generatePassword();
-        } elseif (isset($customerAccountData['password'])) {
-            $password = $customerAccountData['password'];
+        } elseif (isset($customerData['password'])) {
+            $password = $customerData['password'];
         }
 
         return $password;
@@ -148,16 +201,13 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      * Change customer password
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $customerAccountData
+     * @param array $customerData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _changePassword($customer, $customerAccountData)
+    protected function _changePassword($customer, array $customerData)
     {
-        $passwordSet = isset($customerAccountData['password']) && !empty($customerAccountData['password']);
-        $autogeneratePassword = $this->_isAutogeneratePassword($customerAccountData);
-
-        if ($passwordSet || $autogeneratePassword) {
-            $newPassword = $this->_getCustomerPassword($customer, $customerAccountData);
+        if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
+            $newPassword = $this->_getCustomerPassword($customer, $customerData);
             $customer->changePassword($newPassword)
                 ->sendPasswordReminderEmail();
         }
@@ -168,43 +218,43 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     /**
      * Check if password should be generated automatically
      *
-     * @param array $customerAccountData
+     * @param array $customerData
      * @return bool
      */
-    protected function _isAutogeneratePassword($customerAccountData)
+    protected function _isAutogeneratePassword(array $customerData)
     {
-        return isset($customerAccountData['autogenerate_password']) && $customerAccountData['autogenerate_password'];
+        return isset($customerData['autogenerate_password']) && $customerData['autogenerate_password'];
     }
 
     /**
      * Retrieve send email flag
      *
-     * @param array $customerAccountData
+     * @param array $customerData
      * @return bool
      */
-    protected function _isSendEmail($customerAccountData)
+    protected function _isSendEmail(array $customerData)
     {
-        return isset($customerAccountData['sendemail']) && $customerAccountData['sendemail'];
+        return isset($customerData['sendemail']) && $customerData['sendemail'];
     }
 
     /**
      * Send welcome email to customer
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param array $accountData
+     * @param array $customerData
      * @return Mage_Customer_Service_Customer
      */
-    protected function _sendWelcomeEmail($customer, $accountData)
+    protected function _sendWelcomeEmail($customer, array $customerData)
     {
         if ($customer->getWebsiteId()
-            && ($this->_isSendEmail($accountData) || $this->_isAutogeneratePassword($accountData))) {
-
-            $isNewCustomer = $customer->isObjectNew();
+            && ($this->_isSendEmail($customerData) || $this->_isAutogeneratePassword($customerData))
+        ) {
+            $isNewCustomer = !(bool)$customer->getOrigData($customer->getIdFieldName());
             $storeId = $customer->getSendemailStoreId();
 
             if ($isNewCustomer) {
                 $customer->sendNewAccountEmail('registered', '', $storeId);
-            } elseif ((!$customer->getConfirmation())) {
+            } elseif (!$customer->getConfirmation()) {
                 // Confirm not confirmed customer
                 $customer->sendNewAccountEmail('confirmed', '', $storeId);
             }
@@ -232,22 +282,52 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     }
 
     /**
-     * Get customers list
+     * Save customer addresses.
      *
-     * @param array $data
-     * @param null|string|array $attributes
-     * @return array
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $addressesData
+     * @throws Mage_Core_Exception
      */
-    public function getList(array $data = null, $attributes = null)
+    protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
-        /** @var Mage_Customer_Model_Resource_Customer_Collection $collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        if ($attributes) {
-            $collection->addAttributeToSelect($attributes);
+        $hasChanges = false;
+        $actualAddressesIds = array();
+        foreach ($addressesData as $addressData) {
+            $addressId = null;
+            if (array_key_exists('entity_id', $addressData)) {
+                $addressId = $addressData['entity_id'];
+                unset($addressData['entity_id']);
+            }
+
+            if (null !== $addressId) {
+                $address = $customer->getAddressItemById($addressId);
+                if (!$address || !$address->getId()) {
+                    throw new Mage_Core_Exception(
+                        $this->_translateHelper->__('The address with the specified ID not found.'));
+                }
+            } else {
+                /** @var Mage_Customer_Model_Address $address */
+                $address = Mage::getModel('Mage_Customer_Model_Address');
+                $address->setCustomerId($customer->getId());
+                // Add customer address into addresses collection
+                $customer->addAddress($address);
+            }
+            $address->addData($addressData);
+            $hasChanges = $address->hasDataChanges();
+
+            // Set post_index for detect default billing and shipping addresses
+            $address->setPostIndex($addressId);
+
+            $actualAddressesIds[] = $address->getId();
         }
-        if ($data) {
-            $this->_prepareCollection($collection, $data);
+
+        /** @var Mage_Customer_Model_Address $address */
+        foreach ($customer->getAddressesCollection() as $address) {
+            if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
+                $address->setData('_deleted', true);
+                $hasChanges = true;
+            }
         }
-        return $collection->getItems();
+        $customer->setDataChanges($hasChanges);
     }
 }
