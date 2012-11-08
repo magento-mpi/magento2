@@ -53,7 +53,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $this->loadLayout();
         $fileName   = 'invitation_general.csv';
-        $exportBlock = $this->getLayout()->getChildBlock('report.general.customer','grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('report.invitation.general','grid.export');
 
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -67,7 +67,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
         $fileName   = 'invitation_general.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
 
-        $exportBlock = $this->getLayout()->getChildBlock('report.general.customer','grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('report.invitation.general','grid.export');
 
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
