@@ -11,12 +11,6 @@
 
 class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testPreDispatchSession()
-    {
-        $this->dispatch('design/editor/page');
-        $this->assert404NotFound();
-    }
-
     /**
      * @param string $handle
      * @param string $expectedMessage
@@ -51,7 +45,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      *
      * @param string $handle
      * @param string $requiredModule
-     * @param bool $isVdeToolbarBug
      */
     public function testPageAction($handle, $requiredModule)
     {
@@ -92,11 +85,13 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testSkinAction()
     {
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->getRequest()->setParam('skin', 'default/default/blank');
+        $this->getRequest()->setParam('theme_id', $session->getThemeId());
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
 
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+
         $this->assertEquals('default/default/blank', $session->getSkin());
     }
 
@@ -105,11 +100,12 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testSkinActionWrongValue()
     {
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->getRequest()->setParam('skin', 'wrong/skin/applied');
+        $this->getRequest()->setParam('theme_id', $session->getThemeId());
         $this->dispatch('design/editor/skin');
         $this->assertRedirect();
 
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
         $this->assertNotEquals('wrong/skin/applied', $session->getSkin());
     }
 

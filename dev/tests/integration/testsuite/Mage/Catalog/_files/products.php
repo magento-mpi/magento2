@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$product = new Mage_Catalog_Model_Product();
+/** @var $product Mage_Catalog_Model_Product */
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -30,6 +31,6 @@ $product->setTypeId('simple')
     ))
     ->save();
 
-$customDesignProduct = new Mage_Catalog_Model_Product($product->getData());
+$customDesignProduct = Mage::getModel('Mage_Catalog_Model_Product', array('data' => $product->getData()));
 $customDesignProduct->setId(2)->setCustomDesign('default/default/blue')
     ->save();

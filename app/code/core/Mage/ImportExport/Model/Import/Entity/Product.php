@@ -211,7 +211,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         '_custom_option_is_required', '_custom_option_price', '_custom_option_sku', '_custom_option_max_characters',
         '_custom_option_sort_order', '_custom_option_file_extension', '_custom_option_image_size_x',
         '_custom_option_image_size_y', '_custom_option_row_title', '_custom_option_row_price',
-        '_custom_option_row_sku', '_custom_option_row_sort', '_media_attribute_id', '_media_image', '_media_lable',
+        '_custom_option_row_sku', '_custom_option_row_sort', '_media_attribute_id', '_media_image', '_media_label',
         '_media_position', '_media_is_disabled'
     );
 
@@ -291,7 +291,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
             : Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product_Option',
-                array('product_entity' => $this)
+                array('data' => array('product_entity' => $this))
             );
 
         $this->_initWebsites()
@@ -482,7 +482,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     {
         $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
-            if (!($model = Mage::getModel($typeModel, array($this, $type)))) {
+            $params = array($this, $type);
+            if (!($model = Mage::getModel($typeModel, array('params' => $params)))) {
                 Mage::throwException("Entity type model '{$typeModel}' is not found");
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
@@ -889,7 +890,6 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
         $resource       = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource');
         $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
-        $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $productLimit   = null;
         $productsQty    = null;
 
@@ -998,7 +998,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 if (!empty($rowData['_media_image'])) {
                     $mediaGallery[$rowSku][] = array(
                         'attribute_id'      => $rowData['_media_attribute_id'],
-                        'label'             => $rowData['_media_lable'],
+                        'label'             => $rowData['_media_label'],
                         'position'          => $rowData['_media_position'],
                         'disabled'          => $rowData['_media_is_disabled'],
                         'value'             => $rowData['_media_image']
@@ -1007,9 +1007,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
                 // 6. Attributes phase
                 $rowStore     = self::SCOPE_STORE == $rowScope ? $this->_storeCodeToId[$rowData[self::COL_STORE]] : 0;
-                $productType  = $rowData[self::COL_TYPE];
-                if(!is_null($rowData[self::COL_TYPE])) {
-                    $previousType = $rowData[self::COL_TYPE];
+                $productType  = isset($rowData[self::COL_TYPE]) ? $rowData[self::COL_TYPE] : null;
+                if(!is_null($productType)) {
+                    $previousType = $productType;
                 }
                 if(!is_null($rowData[self::COL_ATTR_SET])) {
                     $previousAttributeSet = $rowData[Mage_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET];
@@ -1031,7 +1031,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
                 );
-                $product = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', $rowData);
+                $product = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product', array('data' => $rowData));
 
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
@@ -1045,7 +1045,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     $storeIds  = array(0);
 
                     if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
-                        $attrValue = gmstrftime($strftimeFormat, strtotime($attrValue));
+                        $attrValue = new DateTime('@' . strtotime($attrValue));
+                        $attrValue = $attrValue->format(Varien_Date::DATETIME_PHP_FORMAT);
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);
                         $attrValue = $product->getData($attribute->getAttributeCode());
@@ -1423,7 +1424,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
-     * Atttribute set ID-to-name pairs getter.
+     * Attribute set ID-to-name pairs getter.
      *
      * @return array
      */
@@ -1464,7 +1465,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
-     * Get next bunch of validatetd rows.
+     * Get next bunch of validated rows.
      *
      * @return array|null
      */
@@ -1491,13 +1492,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     public function getRowScope(array $rowData)
     {
-        if (strlen(trim($rowData[self::COL_SKU]))) {
+        if (!empty($rowData[self::COL_SKU]) && strlen(trim($rowData[self::COL_SKU]))) {
             return self::SCOPE_DEFAULT;
-        } elseif (empty($rowData[self::COL_STORE])) {
-            return self::SCOPE_NULL;
-        } else {
-            return self::SCOPE_STORE;
         }
+        if (empty($rowData[self::COL_STORE])) {
+            return self::SCOPE_NULL;
+        }
+        return self::SCOPE_STORE;
     }
 
     /**
@@ -1552,7 +1553,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
             $sku = $rowData[self::COL_SKU];
 
-            if (isset($this->_oldSku[$sku])) { // can we get all necessary data from existant DB product?
+            if (isset($this->_oldSku[$sku])) { // can we get all necessary data from existent DB product?
                 // check for supported type of existing product
                 if (isset($this->_productTypeModels[$this->_oldSku[$sku]['type_id']])) {
                     $this->_newSku[$sku] = array(

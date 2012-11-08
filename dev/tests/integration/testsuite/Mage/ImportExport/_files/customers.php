@@ -10,7 +10,7 @@
  */
 $customers = array();
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 
 $customer->setWebsiteId(1)
     ->setEntityId(1)
@@ -29,7 +29,7 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
@@ -47,7 +47,7 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)

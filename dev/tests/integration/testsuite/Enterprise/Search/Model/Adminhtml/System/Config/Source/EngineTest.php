@@ -18,7 +18,7 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
 
     protected function setUp()
     {
-        $this->_model= new Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine;
+        $this->_model= Mage::getModel('Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine');
     }
 
     protected function tearDown()

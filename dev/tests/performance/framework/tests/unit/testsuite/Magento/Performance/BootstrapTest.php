@@ -11,6 +11,14 @@
 
 class Magento_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
 {
+
+    public function tearDown()
+    {
+        // Delete a directory, where tests do some temporary work
+        $tmpDir = $this->_getBaseFixtureDir() . '/config_dist/tmp';
+        Varien_Io_File::rmdirRecursive($tmpDir);
+    }
+
     /**
      * @param string $fixtureDir
      * @param string $expectedUrl
@@ -24,6 +32,9 @@ class Magento_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedUrl, $config->getApplicationUrlHost());
     }
 
+    /**
+     * @return array
+     */
     public function configLoadDataProvider()
     {
         $baseFixtureDir = $this->_getBaseFixtureDir();
@@ -49,26 +60,30 @@ class Magento_Performance_BootstrapTest extends PHPUnit_Framework_TestCase
         return __DIR__ . '/_files/bootstrap';
     }
 
-    public function testCleanupReports()
+    public function testCleanupReportsCreatesDirectory()
     {
         $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
-        $reportDir = $fixtureDir . '/report';
-        mkdir($reportDir, 0777);
+        $bootstrap = new Magento_Performance_Bootstrap($fixtureDir, $fixtureDir);
 
-        try {
-            $reportFile = $reportDir . '/a.jtl';
-            touch($reportFile);
-            $this->assertFileExists($reportFile);
+        $reportDir = $fixtureDir . '/tmp/subdirectory/report';
 
-            $bootstrap = new Magento_Performance_Bootstrap($fixtureDir, $fixtureDir);
-            $bootstrap->cleanupReports();
-            $this->assertFileNotExists($reportFile);
-            $this->assertFileExists($reportDir);
+        $this->assertFalse(is_dir($reportDir));
+        $bootstrap->cleanupReports();
+        $this->assertTrue(is_dir($reportDir));
+    }
 
-            Varien_Io_File::rmdirRecursive($reportDir);
-        } catch (Exception $e) {
-            Varien_Io_File::rmdirRecursive($reportDir);
-            throw $e;
-        }
+    public function testCleanupReportsRemovesFiles()
+    {
+        $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
+        $bootstrap = new Magento_Performance_Bootstrap($fixtureDir, $fixtureDir);
+
+        $reportDir = $fixtureDir . '/tmp/subdirectory/report';
+        mkdir($reportDir, 0777, true);
+        $reportFile = $reportDir . '/a.jtl';
+        touch($reportFile);
+
+        $this->assertFileExists($reportFile);
+        $bootstrap->cleanupReports();
+        $this->assertFileNotExists($reportFile);
     }
 }

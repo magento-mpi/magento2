@@ -23,7 +23,7 @@ class Enterprise_PageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->_model = new Enterprise_PageCache_Model_Validator();
+        $this->_model = Mage::getModel('Enterprise_PageCache_Model_Validator');
     }
 
     public function tearDown()

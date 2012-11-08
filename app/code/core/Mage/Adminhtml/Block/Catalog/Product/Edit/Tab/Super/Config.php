@@ -19,15 +19,18 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+
+    protected $_template = 'catalog/product/edit/super/config.phtml';
+
     /**
      * Initialize block
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setProductId($this->getRequest()->getParam('id'));
-        $this->setTemplate('catalog/product/edit/super/config.phtml');
+
         $this->setId('config_super_product');
         $this->setCanEditPrice(true);
         $this->setCanReadPrice(true);
@@ -91,6 +94,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
+        $this->addChild('super_settings', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings');
 
         if ($this->_getProduct()->getId()) {
             $this->setChild('simple',
@@ -336,5 +340,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     {
         return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()
             && $this->_getProduct()->getStoreId();
+    }
+
+    /**
+     * Get list of used attributes
+     *
+     * @return array
+     */
+    public function getSelectedAttributes()
+    {
+        return array_filter(
+            $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct())
+        );
     }
 }

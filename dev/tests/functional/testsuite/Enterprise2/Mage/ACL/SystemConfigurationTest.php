@@ -79,11 +79,11 @@ class Enterprise2_Mage_ACL_SystemConfigurationTest extends Mage_Selenium_TestCas
     public function systemConfigurationOneTabDataProvider()
     {
         return array(
-            array('Wishlist Section', 'customers_wishlist'),
-            array('Persistent Shopping Cart', 'customers_persistent_shopping_cart'),
             array('Invitation Section', 'customer_invitations'),
             array('Gift Registry Section', 'customer_gift_registry'),
             array('Gift Cards', 'sales_gift_card'),
+            array('Promo Section','customers_promotions'),
+            array('Reward Points','customer_reward_points'),
         );
     }
 

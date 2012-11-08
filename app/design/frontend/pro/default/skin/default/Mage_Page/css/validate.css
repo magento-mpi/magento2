@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-input.mage-error {
+input.mage-error, textarea.mage-error, ul.mage-error, select.mage-error  {
     background: none repeat scroll 0 0 #FFF7F5 !important;
     border: 1px solid #F15C22 !important;
 }

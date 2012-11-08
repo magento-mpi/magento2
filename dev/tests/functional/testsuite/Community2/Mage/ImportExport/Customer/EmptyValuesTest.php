@@ -46,6 +46,7 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
      * Expected: Verify that customer middle name hasn't been changed or removed
      *
      * @test
+     * @author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5639
      */

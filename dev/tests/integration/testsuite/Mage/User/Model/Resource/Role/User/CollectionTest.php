@@ -20,7 +20,7 @@ class Mage_User_Model_Resource_Role_User_CollectionTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_collection = new Mage_User_Model_Resource_Role_User_Collection();
+        $this->_collection = Mage::getResourceModel('Mage_User_Model_Resource_Role_User_Collection');
     }
 
     protected function tearDown()

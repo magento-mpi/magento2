@@ -21,7 +21,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list">
-                <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm"><params>0</params></action>
                 </block>
             </block>
@@ -45,6 +45,8 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
@@ -77,13 +79,15 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
         </reference>
         <reference name="left">
-            <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" before="-"></block>
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"></block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
@@ -254,9 +258,15 @@ Layout handle for configurable products
 -->
 
     <adminhtml_catalog_product_configurable_new>
-        <remove name="product_tabs"/>
-        <reference name="left">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable" name="configurable_product_tabs"/>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>configurable</name>
+                <block>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config</block>
+            </action>
+            <action method="bindShadowTabs">
+                <first>configurable</first>
+                <second>customer_options</second>
+            </action>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
@@ -269,7 +279,7 @@ Layout handle for configurable products
 
     <adminhtml_catalog_product_action_attribute_edit>
         <reference name="left">
-            <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml" />
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml" />
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs" name="attributes_tabs">
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes" name="tab_attributes"/>
                 <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory" name="tab_inventory" template="catalog/product/edit/action/inventory.phtml" />

@@ -22,13 +22,7 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Define template
-     */
-    public function __construct()
-    {
-        $this->setTemplate('sku/errors/grid/description.phtml');
-    }
+    protected $_template = 'sku/errors/grid/description.phtml';
 
     /**
      * Retrieves HTML code of "Configure" button

@@ -18,7 +18,7 @@ class Enterprise_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_CatalogEvent_Model_Event;
+        $this->_model = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
     }
 
     protected function tearDown()

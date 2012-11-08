@@ -27,7 +27,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
      */
     public function testSaveAction()
     {
-        $segment = new Enterprise_CustomerSegment_Model_Segment;
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();

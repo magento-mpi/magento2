@@ -38,9 +38,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
      * Initialize Grid
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('source_wishlist');
         $this->setDefaultSort('added_at');
         $this->setData('open', true);

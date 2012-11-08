@@ -13,11 +13,8 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
  implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
-    protected function _construct()
-    {
-        $this->setTemplate('catalog/product/edit/tab/giftcard.phtml');
-        parent::_construct();
-    }
+    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
+
     /**
      * Get tab label
      *
@@ -118,7 +115,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template');
+        $template = Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template');
         $template->setPath(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);

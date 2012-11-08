@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 'required' => true,
                 'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
@@ -186,14 +186,14 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Uses per Customer'),
         ));
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => Mage::helper('Mage_SalesRule_Helper_Data')->__('From Date'),
             'title'  => Mage::helper('Mage_SalesRule_Helper_Data')->__('From Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
-            'format'       => $dateFormatIso
+            'date_format'  => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'   => 'to_date',
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'title'  => Mage::helper('Mage_SalesRule_Helper_Data')->__('To Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
-            'format'       => $dateFormatIso
+            'date_format'  => $dateFormat
         ));
 
         $fieldset->addField('sort_order', 'text', array(

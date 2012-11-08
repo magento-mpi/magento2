@@ -129,7 +129,16 @@ new_product:
                                         product_price_to: //*[@id='productGrid_product_filter_price_to']
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
-
+                -
+                    associated:
+                        fieldsets:
+                            -
+                                select_configurable_attributes:
+                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
+                                    buttons:
+                                        continue: //button[span='Continue']
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
             fieldsets:
                 -
                     product_information:
@@ -150,6 +159,7 @@ new_product:
             save: //button[span='Save']
 
 new_configurable_product:
+    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:

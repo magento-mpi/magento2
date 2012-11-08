@@ -21,7 +21,12 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorValidArguments()
     {
-        $this->_model = new Enterprise_GiftCard_Model_Observer(array(
+        $this->_model = new Enterprise_GiftCard_Model_Observer(
+            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+            null,
+            null,
+            array(
             'email_template_model' => $this->getMock('Mage_Core_Model_Email_Template', array(), array(), '', false),
             'custom_field'         => 'custom_value',
         ));
@@ -35,6 +40,12 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorInvalidArgument()
     {
-        $this->_model = new Enterprise_GiftCard_Model_Observer(array('email_template_model' => new stdClass()));
+        $this->_model = new Enterprise_GiftCard_Model_Observer(
+            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+            null,
+            null,
+            array('email_template_model' => new stdClass())
+        );
     }
 }

@@ -21,12 +21,12 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Wishlist';
         $this->_controller = 'adminhtml_report_customer_wishlist';
         $this->_headerText = Mage::helper('Enterprise_Wishlist_Helper_Data')->__("Customer's Wishlist Report");
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('add');
     }
 }

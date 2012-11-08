@@ -37,9 +37,9 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      *
      * @param array $arguments Object data
      */
-    public function __construct($arguments=array())
+    public function _construct()
     {
-        parent::__construct($arguments);
+        parent::_construct();
         $this->setDefaultFilter(array('in_banners'=>1));
     }
 

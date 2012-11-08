@@ -85,7 +85,7 @@ class Enterprise_Pci_Model_Observer
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, you must change it now.');
                 } else {
-                    $myAccountUrl = Mage::getSingleton('Mage_Adminhtml_Model_Url')->getUrl('adminhtml/system_account/');
+                    $myAccountUrl = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/');
                     $message = Mage::helper('Enterprise_Pci_Helper_Data')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice($message);
@@ -251,7 +251,7 @@ class Enterprise_Pci_Model_Observer
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), $actionList)) {
                 if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount')) {
-                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Adminhtml_Model_Url')
+                    $controller->getResponse()->setRedirect(Mage::getSingleton('Mage_Backend_Model_Url')
                             ->getUrl('adminhtml/system_account/'));
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
