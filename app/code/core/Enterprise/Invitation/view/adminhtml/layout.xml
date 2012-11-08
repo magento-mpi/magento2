@@ -197,7 +197,7 @@
                             <id>group</id>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_report_invitation_customer_sent">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sent">
                         <arguments>
                             <header translate="true" module="Enterprise_Invitation">Invitations Sent</header>
                             <index>sent</index>
