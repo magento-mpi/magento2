@@ -46,11 +46,8 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Array extends Mage_Eav_Model_Entit
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $data = $object->getData($attributeCode);
         if (is_array($data)) {
-            $data = array_filter($data);
-            $object->setData($attributeCode, implode(',', $data));
+            $object->setData($attributeCode, implode(',', array_filter($data)));
         }
         return parent::validate($object);
     }
-
-
 }
