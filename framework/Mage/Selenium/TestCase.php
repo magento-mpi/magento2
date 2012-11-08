@@ -3567,11 +3567,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    public function getLocatorStrategy($locator)
+    public function getLocatorStrategy(&$locator)
     {
         $locatorType = 'xpath';
         if (preg_match('/^css=/', $locator)) {
             $locatorType = 'css selector';
+            $locator = str_replace('css=', '', $locator);
+        } elseif (preg_match('/^id=/', $locator)) {
+            $locatorType = 'id';
+            $locator = str_replace('id=', '', $locator);
+        } elseif (preg_match('/^name=/', $locator)) {
+            $locatorType = 'name';
+            $locator = str_replace('name=', '', $locator);
+        } elseif (preg_match('/^class=/', $locator)) {
+            $locatorType = 'class name';
+            $locator = str_replace('class=', '', $locator);
+        } elseif (preg_match('/^link=/', $locator)) {
+            $locatorType = 'link text';
+            $locator = str_replace('link=', '', $locator);
         }
         return $locatorType;
     }
@@ -3585,7 +3598,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getElements($locator, $failIfEmpty = true)
     {
         $locatorType = $this->getLocatorStrategy($locator);
-        $locator = str_replace('css=', '', $locator);
         $elements = $this->elements($this->using($locatorType)->value($locator));
         if (empty($elements) && $failIfEmpty) {
             $this->assertEmptyPageErrors();
