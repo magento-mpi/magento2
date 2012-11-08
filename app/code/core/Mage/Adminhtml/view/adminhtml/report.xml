@@ -159,11 +159,11 @@
     <adminhtml_report_customer_accounts_grid>
         <reference name="report.customer.accounts.grid.container">
             <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.customer.accounts.grid" as="grid">
-            <arguments>
-                <id>gridAccounts</id>
-                <dataSource type="object">Mage_Reports_Model_Resource_Accounts_Initial</dataSource>
-                <use_ajax>0</use_ajax>
-            </arguments>
+                <arguments>
+                    <id>gridAccounts</id>
+                    <dataSource type="object">Mage_Reports_Model_Resource_Accounts_Initial</dataSource>
+                    <use_ajax>0</use_ajax>
+                </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.accounts.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
