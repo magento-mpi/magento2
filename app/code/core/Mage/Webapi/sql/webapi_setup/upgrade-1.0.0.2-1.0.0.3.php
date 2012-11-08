@@ -19,10 +19,10 @@ $connection->changeColumn(
     'api_secret',
     'secret',
     array(
-        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
-        'length' => 255,
+        'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'length'   => 255,
         'nullable' => false,
-        'comment' => 'Secret used for authentication.'
+        'comment'  => 'Secret used for authentication.'
     )
 );
 
