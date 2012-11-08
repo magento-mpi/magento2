@@ -21,7 +21,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Helper_Data */
     protected static $_helper;
 
-    /** @var Mage_Webapi_Model_Config_Resource */
+    /** @var Mage_Webapi_Model_Config */
     protected static $_apiConfig;
 
     protected function setUp()
@@ -38,7 +38,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Webapi_Model_Config_Resource
+     * @return Mage_Webapi_Model_Config
      */
     protected function _getModel()
     {
@@ -243,14 +243,14 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create resource config initialized with classes found in the specified directory.
      *
-     * @return Mage_Webapi_Model_Config_Resource
+     * @return Mage_Webapi_Model_Config
      */
     protected function _createResourceConfig()
     {
         $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
         $appConfig = new Mage_Core_Model_Config();
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
-        $apiConfig = new Mage_Webapi_Model_Config_Resource(array(
+        $apiConfig = new Mage_Webapi_Model_Config(array(
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
             'applicationConfig' => $appConfig,
             'helper' => new Mage_Webapi_Helper_Data(),

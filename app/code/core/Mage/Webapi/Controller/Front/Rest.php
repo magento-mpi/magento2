@@ -114,8 +114,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
             $operation = $this->_getOperationName();
             $resourceVersion = $this->_getResourceVersion($operation);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
-            $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
+            $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
+            $controllerClassName = $this->getApiConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
             /**
@@ -164,7 +164,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _checkRoute($methodName, $version)
     {
         $resourceName = $this->getRequest()->getResourceName();
-        $routes = $this->getResourceConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
+        $routes = $this->getApiConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
         foreach ($routes as $route) {
             if ($route->match($this->getRequest())) {
                 return;
@@ -184,7 +184,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getResourceConfig()->getAllRestRoutes());
+        $router->setRoutes($this->getApiConfig()->getAllRestRoutes());
         $route = $router->match($request);
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());
@@ -292,7 +292,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _renderInternalError($errorMessage, $trace = 'Trace is not available.', $httpCode = null)
     {
-        $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
+        $processor = new Mage_Webapi_Controller_Front_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
             $processor->saveReport($errorMessage . $trace);
         }

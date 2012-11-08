@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     protected function setUp()
     {
-        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
+        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config')
             ->setMethods(array('getDataType'))
             ->disableOriginalConstructor()
             ->getMock();

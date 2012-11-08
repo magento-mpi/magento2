@@ -1,18 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-use Zend\Soap\Server;
-
-/**
  * Front controller for SOAP API. At the same time it is a handler for SOAP server
+ *
+ * @copyright {copyright}
  */
-// TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbstract
 {
     const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
@@ -29,8 +20,17 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     const REQUEST_PARAM_RESOURCES = 'resources';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Server */
+    /** @var Zend\Soap\Server */
     protected $_soapServer;
+
+    /** @var Mage_Webapi_Model_Soap_AutoDiscover */
+    protected $_autoDiscover;
+
+    /** @var Mage_Core_Model_Store */
+    protected $_application;
+
+    /** @var Mage_Core_Model_Cache */
+    protected $_cache;
 
     /**
      * WS-Security UsernameToken object from request
@@ -38,6 +38,24 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      * @var stdClass
      */
     protected $_usernameTokenRequest;
+
+    function __construct(
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Controller_Response $response,
+        Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
+        Zend\Soap\Server $soapServer,
+        Mage_Core_Model_App $application,
+        Mage_Core_Model_Cache $cache
+    ) {
+        parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
+        $this->_autoDiscover = $autoDiscover;
+        $this->_soapServer = $soapServer;
+        $this->_cache = $cache;
+        $this->_application = $application;
+    }
 
     /**
      * Handler for all SOAP operations
@@ -52,18 +70,17 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
-            $role = $this->_authenticate();
             $resourceVersion = $this->_getOperationVersion($operation);
-            $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
+            $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
                 $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
             }
-            $controllerClass = $this->getResourceConfig()->getControllerClassByOperationName($operation);
+            $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
+            $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
-                // TODO: Refactor ACL check to work by operation name, not by resource name + method name
-                $this->_checkResourceAcl($role, $resourceName, $method);
+                // TODO: Uncomment after DI refactoring
+//                $this->_checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
@@ -72,14 +89,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $this->_checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
                 $action = $method . $versionAfterFallback;
                 $arguments = $this->getHelper()->prepareMethodParams($controllerClass, $action, $arguments,
-                    $this->getResourceConfig());
+                    $this->getApiConfig());
 //            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 // TODO: Implement response preparation according to current presentation
 //            $this->_presentation->prepareResponse($operation, $outputData);
-                $stdObj = new stdClass();
-                $stdObj->result = $outputData;
-                return $stdObj;
+                return (object)array('result' => $outputData);
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
@@ -119,6 +134,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getRequestedHeaders()
     {
+        // TODO: Do we need to move it to dependencies?
         $dom = new DOMDocument();
         $dom->loadXML($this->_getSoapServer()->getLastRequest());
         $headers = array();
@@ -183,6 +199,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function init()
     {
+        $this->_initSoapServer();
         return $this;
     }
 
@@ -194,7 +211,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-            $this->_initResourceConfig();
             if ($this->getRequest()->getParam(self::REQUEST_PARAM_WSDL) !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
@@ -226,7 +242,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $apiUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
 
         $details = array();
-        $resourceConfig = $this->getResourceConfig();
+        $resourceConfig = $this->getApiConfig();
         if (!is_null($resourceConfig)) {
             foreach ($resourceConfig->getAllResourcesVersions() as $resourceName => $versions) {
                 foreach ($versions as $version) {
@@ -248,8 +264,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     {
         $requestedResources = $this->getRequest()->getRequestedResources();
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
-            $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
+        if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
+            $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
             }
@@ -258,64 +274,64 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $resources = array();
         try {
             foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->getResourceConfig()
+                $resources[$resourceName] = $this->getApiConfig()
                     ->getResourceDataMerged($resourceName, $resourceVersion);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
-        /** @var Mage_Webapi_Model_Soap_AutoDiscover $wsdlAutoDiscover */
-        $wsdlAutoDiscover = Mage::getModel('Mage_Webapi_Model_Soap_AutoDiscover', array(
-            'resource_config' => $this->getResourceConfig(),
-            'endpoint_url' => $this->_getEndpointUrl(),
-        ));
-        $wsdlContent = $wsdlAutoDiscover->generate($resources);
+        $wsdlContent = $this->_autoDiscover->generate($resources, $this->_getEndpointUrl());
 
-        if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
-            Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
+        if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;
     }
 
     /**
-     * Retrieve SOAP server. Instantiate it during the first execution
+     * Retrieve SOAP Server.
      *
-     * @return Server
+     * @return Zend\Soap\Server
      * @throws SoapFault
      */
     protected function _getSoapServer()
     {
-        if (is_null($this->_soapServer)) {
-            $this->_initWsdlCache();
-            $soapSchemaImportTriesCount = 0;
-            do {
-                $soapSchemaImportFailed = false;
-                try {
-                    $this->_soapServer = new Server($this->_getWsdlUrl(),
-                        array(
-                            'encoding' => $this->_getApiCharset(),
-                            'classMap' => $this->getResourceConfig()->getTypeToClassMap(),
-                        )
-                    );
-                } catch (SoapFault $e) {
-                    if (false !== strpos($e->getMessage(),
-                        "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
-                    ) {
-                        $soapSchemaImportFailed = true;
-                        $soapSchemaImportTriesCount++;
-                        sleep(1);
-                    } else {
-                        throw $e;
-                    }
-                }
-            } while ($soapSchemaImportFailed && $soapSchemaImportTriesCount < 5);
-            use_soap_error_handler(false);
-            // Front controller plays the role of SOAP handler
-            $this->_soapServer->setReturnResponse(true)->setObject($this);
-        }
         return $this->_soapServer;
+    }
+
+    /**
+     * Initialize Soap Server.
+     *
+     * @throws SoapFault
+     */
+    protected function _initSoapServer()
+    {
+        $this->_initWsdlCache();
+        $soapSchemaImportTriesCount = 0;
+        do {
+            $soapSchemaImportFailed = false;
+            try {
+                $this->_soapServer
+                    ->setWSDL($this->_getWsdlUrl())
+                    ->setEncoding($this->_getApiCharset())
+                    ->setClassmap($this->getApiConfig()->getTypeToClassMap());
+            } catch (SoapFault $e) {
+                if (false !== strpos($e->getMessage(),
+                    "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
+                ) {
+                    $soapSchemaImportFailed = true;
+                    $soapSchemaImportTriesCount++;
+                    sleep(1);
+                } else {
+                    throw $e;
+                }
+            }
+        } while ($soapSchemaImportFailed && $soapSchemaImportTriesCount < 5);
+        use_soap_error_handler(false);
+        // Front controller plays the role of SOAP handler
+        $this->_soapServer->setReturnResponse(true)->setObject($this);
     }
 
     /**
@@ -356,7 +372,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected function _getApiCharset()
     {
         // TODO: What do we need this charset for?
-        return Mage::getStoreConfig('api/config/charset');
+        return $this->_application->getStore()->getConfig('api/config/charset');
     }
 
     /**
@@ -364,7 +380,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _initWsdlCache()
     {
-        $wsdlCacheEnabled = (bool)Mage::getStoreConfig('api/config/wsdl_cache_enabled');
+        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig('api/config/wsdl_cache_enabled');
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');
         } else {
@@ -398,7 +414,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
         $query = http_build_query($params, '', '&');
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap?' . $query;
+        return $this->_application->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap?' . $query;
     }
 
     /**
@@ -519,7 +535,7 @@ FAULT_MESSAGE;
     protected function _getOperationVersion($operationName)
     {
         $requestedResources = $this->getRequest()->getRequestedResources();
-        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operationName);
+        $resourceName = $this->getApiConfig()->getResourceNameByOperation($operationName);
         if (!isset($requestedResources[$resourceName])) {
             throw new Mage_Webapi_Exception(
                 $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),

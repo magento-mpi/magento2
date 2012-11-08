@@ -118,6 +118,10 @@
                 </response>
             </rest>
         </webapi>
+        <di>
+            <!--<Zend/Server/Reflection><shared>0</shared></Zend/Server/Reflection>-->
+            <Mage_Webapi_Controller_Router_Route_ApiType><shared>0</shared></Mage_Webapi_Controller_Router_Route_ApiType>
+        </di>
     </global>
     <admin>
         <routers>

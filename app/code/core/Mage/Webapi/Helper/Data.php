@@ -31,12 +31,12 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string|object $classOrObject
      * @param string $methodName
      * @param array $requestData Data to be passed to method
-     * @param Mage_Webapi_Model_Config_Resource $apiConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
      * @return array Array of prepared method arguments
      * @throws Mage_Webapi_Exception
      */
     public function prepareMethodParams($classOrObject, $methodName, $requestData,
-        Mage_Webapi_Model_Config_Resource $apiConfig
+        Mage_Webapi_Model_Config $apiConfig
     ) {
         $methodReflection = $this->createMethodReflection($classOrObject, $methodName);
         $methodData = $apiConfig->getMethodMetadata($methodReflection);
@@ -66,12 +66,12 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param mixed $data
      * @param string $dataType
-     * @param Mage_Webapi_Model_Config_Resource $apiConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
      * @return mixed
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
      */
-    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config_Resource $apiConfig) {
+    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig) {
         if ($apiConfig->isTypeSimple($dataType) || is_null($data)) {
             return $data;
         } elseif ($apiConfig->isArrayType($dataType)) {

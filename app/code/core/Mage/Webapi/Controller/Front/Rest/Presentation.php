@@ -34,7 +34,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      */
     public function fetchRequestData($controllerInstance, $action)
     {
-        $config = $this->_frontController->getResourceConfig();
+        $config = $this->_frontController->getApiConfig();
         $apiHelper = $this->_frontController->getHelper();
         $methodReflection = $apiHelper->createMethodReflection($controllerInstance, $action);
         $methodName = $config->getMethodNameWithoutVersionSuffix($methodReflection);
@@ -116,7 +116,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         /* @var $apiTypeRoute Mage_Webapi_Controller_Router_Route_ApiType */
         $apiTypeRoute = Mage::getModel('Mage_Webapi_Controller_Router_Route_ApiType');
 
-        $router = new Zend_Controller_Router_Route($this->_frontController->getResourceConfig()->getRestRouteToItem(
+        $router = new Zend_Controller_Router_Route($this->_frontController->getApiConfig()->getRestRouteToItem(
             $this->getRequest()->getResourceName()));
         $chain = $apiTypeRoute->chain($router);
         $params = array(

@@ -13,11 +13,11 @@ include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructureB.php';
 /**#@-*/
 
 /**
- * Class for {@see Mage_Webapi_Model_Config_Resource} model testing.
+ * Class for {@see Mage_Webapi_Model_Config} model testing.
  */
 class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config_Resource */
+    /** @var Mage_Webapi_Model_Config */
     protected $_config;
 
     /**
@@ -29,7 +29,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
 
-        $this->_config = new Mage_Webapi_Model_Config_Resource(array(
+        $this->_config = new Mage_Webapi_Model_Config(array(
             'directoryScanner' => $directoryScanner,
             'cache' => $cache,
         ));

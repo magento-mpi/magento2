@@ -39,10 +39,13 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     protected $_concreteFrontController;
 
     /** @var Mage_Webapi_Controller_RequestAbstract */
-    protected $_request;
+    protected $_apiRequest;
 
     /** @var Mage_Webapi_Controller_Response */
-    protected $_response;
+    protected $_apiResponse;
+
+    /** @var Mage_Core_Model_App */
+    protected $_application;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
@@ -50,9 +53,34 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var string */
     protected $_apiType;
 
-    function __construct(Mage_Webapi_Helper_Data $helper = null)
-    {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    /** @var Mage_Webapi_Controller_FrontFactory */
+    protected $_frontControllerFactory;
+
+    /** @var Mage_Webapi_Controller_RequestFactory */
+    protected $_requestFactory;
+
+    /** @var Mage_Webapi_Controller_Router_Route_ApiType */
+    protected $_apiRoute;
+
+    /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
+    protected $_errorProcessor;
+
+    function __construct(
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Controller_FrontFactory $frontControllerFactory,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
+        Mage_Webapi_Controller_Response $response,
+        Mage_Core_Model_App $application,
+        Mage_Webapi_Controller_Router_Route_ApiType $apiRoute,
+        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
+    ) {
+        $this->_helper = $helper;
+        $this->_frontControllerFactory = $frontControllerFactory;
+        $this->_requestFactory = $requestFactory;
+        $this->_apiResponse = $response;
+        $this->_application = $application;
+        $this->_apiRoute = $apiRoute;
+        $this->_errorProcessor = $apiRoute;
     }
 
     /**
@@ -63,8 +91,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     public function init()
     {
         try {
-            $this->_request = Mage_Webapi_Controller_RequestAbstract::createRequest($this->_determineApiType());
-            $this->_response = Mage::getSingleton('Mage_Webapi_Controller_Response');
+            $this->_apiRequest = $this->_requestFactory->getRequest($this->_determineApiType());
 
             // TODO: Make sure that non-admin users cannot access this area
             Mage::register('isSecureArea', true, true);
@@ -72,11 +99,9 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
             ini_set('display_startup_errors', 0);
             ini_set('display_errors', 0);
 
-            $this->_getConcreteFrontController()->setRequest($this->_request)->setResponse($this->_response)->init();
+            $this->_getConcreteFrontController()->setRequest($this->_apiRequest)->init();
         } catch (Mage_Webapi_Exception $e) {
-            /** @var $restErrorProcessor Mage_Webapi_Controller_Front_Rest_ErrorProcessor */
-            $restErrorProcessor = Mage::getModel('Mage_Webapi_Controller_Front_Rest_ErrorProcessor');
-            $restErrorProcessor->render($e->getMessage(), $e->getTraceAsString(), $e->getCode());
+            $this->_errorProcessor->render($e->getMessage(), $e->getTraceAsString(), $e->getCode());
             die();
         }
         return $this;
@@ -116,7 +141,9 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
             $apiType = $this->_determineApiType();
 
             $concreteFrontControllerClass = $this->_concreteFrontControllers[$apiType];
-            $this->_setConcreteFrontController(new $concreteFrontControllerClass());
+            $this->_setConcreteFrontController(
+                $this->_frontControllerFactory->createFrontController($concreteFrontControllerClass)
+            );
         }
         return $this->_concreteFrontController;
     }
@@ -132,10 +159,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     {
         // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
         if (is_null($this->_apiType)) {
-            $request = Mage::app()->getRequest();
-            $apiTypeRoute = new Mage_Webapi_Controller_Router_Route_ApiType();
-
-            if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
+            $request = $this->_application->getRequest();
+            if (!($apiTypeMatch = $this->_apiRoute->match($request, true))) {
                 throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any API type route.'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
