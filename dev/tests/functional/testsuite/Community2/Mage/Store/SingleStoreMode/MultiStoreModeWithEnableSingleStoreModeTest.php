@@ -320,7 +320,7 @@ class Community2_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
-        $this->clickButton('add_new_product');
+        $this->clickButton('add_new_product_split');
         $this->productHelper()->fillProductSettings($productData);
         $this->openTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
@@ -461,7 +461,7 @@ class Community2_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         //Steps
         $this->admin('url_rewrite_management');
         //Verifying
-        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_store'),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'filter_store_view'),
             "There is no 'Store View' column on the page");
     }
 
