@@ -662,4 +662,5 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Upload'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Totals_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Accounts_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Sold_Grid'),
 );
