@@ -59,7 +59,7 @@ varienForm.prototype = {
     _validate : function(){
         new Ajax.Request(this.validationUrl,{
             method: 'post',
-            parameters: $(this.formId).serialize(),
+            parameters: jQuery('#' + this.formId).serialize(),
             onComplete: this._processValidationResult.bind(this),
             onFailure: this._processFailure.bind(this)
         });
