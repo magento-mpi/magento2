@@ -13,7 +13,7 @@
 cms_page_link_widget:
     settings:
         type: CMS Page Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: CMS Page Link %randomize%
@@ -24,13 +24,13 @@ cms_page_link_widget:
             select_block_reference: Right Column
             select_template: CMS Page Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: CMS Page Link Inline Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -109,7 +109,7 @@ cms_page_link_widget:
 cms_static_block_widget:
     settings:
         type: CMS Static Block
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: CMS Static Block %randomize%
@@ -119,12 +119,12 @@ cms_static_block_widget:
             select_display_on: Anchor Categories
             select_block_reference: Left Column
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -192,7 +192,7 @@ cms_static_block_widget:
 catalog_category_link_widget:
     settings:
         type: Catalog Category Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog Category Link %randomize%
@@ -203,13 +203,13 @@ catalog_category_link_widget:
             select_block_reference: Right Column
             select_template: Category Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: Category Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
@@ -282,13 +282,13 @@ catalog_category_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path: %noValue%
+            category_path: %not_anchor%
 
 #<-------------------------Catalog New Products List--------------------------->
 catalog_new_products_list_widget:
     settings:
         type: Catalog New Products List
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog New Products List %randomize%
@@ -299,13 +299,13 @@ catalog_new_products_list_widget:
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -382,7 +382,7 @@ catalog_new_products_list_widget:
 catalog_product_link_widget:
     settings:
         type: Catalog Product Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog Product Link %randomize%
@@ -393,13 +393,13 @@ catalog_product_link_widget:
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -472,14 +472,14 @@ catalog_product_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path: %noValue%
+            category_path: %not_anchor%
             filter_sku: %product_1%
 
 #<-------------------------Orders and Returns---------------------------------->
 orders_and_returns_widget:
     settings:
         type: Orders and Returns
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Orders and Returns %randomize%
@@ -489,12 +489,12 @@ orders_and_returns_widget:
             select_display_on: Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -560,7 +560,7 @@ orders_and_returns_widget:
 recently_compared_products_widget:
     settings:
         type: Recently Compared Products
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Recently Compared Products %randomize%
@@ -571,13 +571,13 @@ recently_compared_products_widget:
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -654,7 +654,7 @@ recently_compared_products_widget:
 recently_viewed_products_widget:
     settings:
         type: Recently Viewed Products
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Recently Viewed Products %randomize%
@@ -665,13 +665,13 @@ recently_viewed_products_widget:
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %anchor%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path: %noValue%
+                category_path: %not_anchor%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
@@ -748,7 +748,7 @@ recently_viewed_products_widget:
 cms_page_link_widget_req:
     settings:
         type: CMS Page Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: CMS Page Link %randomize%
@@ -765,7 +765,7 @@ cms_page_link_widget_req:
 cms_static_block_widget_req:
     settings:
         type: CMS Static Block
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: CMS Static Block %randomize%
@@ -781,7 +781,7 @@ cms_static_block_widget_req:
 catalog_category_link_widget_req:
     settings:
         type: Catalog Category Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog Category Link %randomize%
@@ -800,7 +800,7 @@ catalog_category_link_widget_req:
 catalog_new_products_list_widget_req:
     settings:
         type: Catalog New Products List
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog New Products List %randomize%
@@ -815,7 +815,7 @@ catalog_new_products_list_widget_req:
 catalog_product_link_widget_req:
     settings:
         type: Catalog Product Link
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Catalog Product Link %randomize%
@@ -832,7 +832,7 @@ catalog_product_link_widget_req:
 orders_and_returns_widget_req:
     settings:
         type: Orders and Returns
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Orders and Returns %randomize%
@@ -846,7 +846,7 @@ orders_and_returns_widget_req:
 recently_compared_products_widget_req:
     settings:
         type: Recently Compared Products
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Recently Compared Products %randomize%
@@ -862,7 +862,7 @@ recently_compared_products_widget_req:
 recently_viewed_products_widget_req:
     settings:
         type: Recently Viewed Products
-        design_package_theme: base / default
+        design_package_theme: Default/Magento Demo
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Recently Viewed Products %randomize%

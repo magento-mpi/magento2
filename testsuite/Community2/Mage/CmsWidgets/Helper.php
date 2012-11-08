@@ -32,8 +32,8 @@ class Community2_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
 
             list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
             $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'design_package_theme'));
-            $this->addParameter('optionGroup', ucfirst(strtolower($package)));
-            $this->addParameter('optionText', ucfirst(strtolower($theme)));
+            $this->addParameter('optionGroup', $package);
+            $this->addParameter('optionText', $theme);
             $value = $this->getControlAttribute('pageelement', 'dropdown_group_option_text', 'value');
             $this->addParameter('package_theme', str_replace('/', '-', $value));
             $this->fillDropdown('design_package_theme', $value);
