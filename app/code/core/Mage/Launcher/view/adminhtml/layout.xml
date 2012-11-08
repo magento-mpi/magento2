@@ -10,6 +10,9 @@
  */
 -->
 <layout>
-    <adminhtml_launcher_index>
-    </adminhtml_launcher_index>
+    <launcher_index_index>
+        <reference name="content">
+            <block type="Mage_Launcher_Block_LandingPage" name="landing.page" template="landingpage.phtml"/>
+        </reference>
+    </launcher_index_index>
 </layout>
