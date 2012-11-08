@@ -22,7 +22,6 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
     }
 
     /**
@@ -31,18 +30,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function enableCustomerSegments()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('dashboard');
-        $menuElementXpath = $this->_getControlXpath('pageelement', 'menu_element_customer_segments');
         //Verification
-        if(!$this->isElementPresent($menuElementXpath)) {
-            $this->fail('Menu element Customer Segments is absent');
-        }
+        $this->assertEquals(true, $this->controlIsPresent('pageelement', 'menu_element_customer_segments'),
+            'segment is disabled');
     }
 
     /**
@@ -51,18 +46,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function disableCustomerSegments()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'disable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'No');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('dashboard');
-        $menuElementXpath = $this->_getControlXpath('pageelement', 'menu_element_customer_segments');
         //Verification
-        if($this->isElementPresent($menuElementXpath)) {
-            $this->fail('Menu element Customer Segments is present');
-        }
+        $this->assertEquals(false, $this->controlIsPresent('pageelement', 'menu_element_customer_segments'),
+            'segment is enabled');
     }
 
     /**
@@ -71,19 +62,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function enableCustomerSegmentsForCmsBanners()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_cms_banners');
         $this->clickButton('add_new_banner');
-        $menuElementXpath = $this->_getControlXpath('dropdown', 'customer_segments');
         //Verification
-        if(!$this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments dropdown is absent on create new cms banner page');
-        }
+        $this->assertEquals(true, $this->controlIsPresent('dropdown', 'customer_segments'), 'segment is disabled');
     }
 
     /**
@@ -92,19 +78,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function disableCustomerSegmentsForCmsBanners()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'disable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'No');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_cms_banners');
         $this->clickButton('add_new_banner');
-        $menuElementXpath = $this->_getControlXpath('dropdown', 'customer_segments');
         //Verification
-        if($this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments dropdown is present on create new cms banner page');
-        }
+        $this->assertEquals(false, $this->controlIsPresent('dropdown', 'customer_segments'), 'segment is enabled');
     }
 
     /**
@@ -113,19 +94,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function enableCustomerSegmentsForProductRelations()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_product_rules');
         $this->clickButton('add_rule');
-        $menuElementXpath = $this->_getControlXpath('dropdown', 'customer_segments');
         //Verification
-        if(!$this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments dropdown is absent on create new product rule page');
-        }
+        $this->assertEquals(true, $this->controlIsPresent('dropdown', 'customer_segments'), 'segment is disabled');
     }
 
     /**
@@ -134,19 +110,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function disableCustomerSegmentsForProductRelations()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'disable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'No');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_product_rules');
         $this->clickButton('add_rule');
-        $menuElementXpath = $this->_getControlXpath('dropdown', 'customer_segments');
         //Verification
-        if($this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments dropdown is present create new product rule page');
-        }
+        $this->assertEquals(false, $this->controlIsPresent('dropdown', 'customer_segments'), 'segment is enabled');
     }
 
     /**
@@ -155,21 +126,15 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function enableCustomerSegmentsForSCPR()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_shopping_cart_price_rules');
         $this->clickButton('add_new_rule');
         $this->openTab('rule_conditions');
-        $menuElementXpath = $this->_getControlXpath('pageelement', 'customer_segments');
         //Verification
-        if(!$this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments option is absent in conditions dropdown on new shopping cart price rules
-            page');
-        }
+        $this->assertEquals(true, $this->controlIsPresent('pageelement', 'customer_segments'), 'segment is disabled');
     }
 
     /**
@@ -178,20 +143,14 @@ class Enterprise2_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Sele
      */
     public function disableCustomerSegmentsForSCPR()
     {
+        //Data
+        $config = $this->loadDataSet('CustomerSegment', 'disable_customer_segment');
         //Steps
-        $this->fillDropdown('enable_customer_segment_functionality', 'No');
-        $this->clickButton('save_config');
-        //Verification
-        $this->assertMessagePresent('success', 'success_saved_config');
-        //Steps
+        $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_shopping_cart_price_rules');
         $this->clickButton('add_new_rule');
         $this->openTab('rule_conditions');
-        $menuElementXpath = $this->_getControlXpath('pageelement', 'customer_segments');
         //Verification
-        if($this->isElementPresent($menuElementXpath)) {
-            $this->fail('Customer Segments option is present in conditions dropdown on new shopping cart price rules
-            page');
-        }
+        $this->assertEquals(false, $this->controlIsPresent('pageelement', 'customer_segments'), 'segment is enabled');
     }
 }

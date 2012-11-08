@@ -26,10 +26,8 @@ class Enterprise2_Mage_CustomerSegment_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
-        $this->fillDropdown('enable_customer_segment_functionality', 'Yes');
-        $this->clickButton('save_config');
-        $this->assertMessagePresent('success', 'success_saved_config');
+        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     /**
