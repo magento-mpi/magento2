@@ -58,7 +58,7 @@ root_category_all: &categoryAll
     #Custom Design
     use_parent_category_settings: No
     apply_to_products: Yes
-    custom_design: default
+    custom_design: Magento Demo
     active_from: %currentDate%
     active_to: %currentDate%
     page_layout: 3 columns
