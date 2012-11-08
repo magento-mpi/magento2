@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Webapi>
-            <version>1.0.0.2</version>
+            <version>1.0.0.3</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>

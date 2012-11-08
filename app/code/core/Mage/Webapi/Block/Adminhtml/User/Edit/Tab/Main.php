@@ -67,9 +67,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key'),
         ));
 
-        $fieldset->addField('api_secret', 'text', array(
-            'name' => 'api_secret',
-            'id' => 'api_secret',
+        $fieldset->addField('secret', 'text', array(
+            'name' => 'secret',
+            'id' => 'secret',
             'required' => true,
             'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
             'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),

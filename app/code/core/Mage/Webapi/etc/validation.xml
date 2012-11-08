@@ -28,7 +28,7 @@
                             </argument>
                         </constraint>
                     </property>
-                    <property name="api_secret">
+                    <property name="secret">
                         <constraint class="Magento_Validator_StringLength">
                             <argument>
                                 <option name="min">1</option>
