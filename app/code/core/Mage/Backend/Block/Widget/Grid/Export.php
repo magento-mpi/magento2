@@ -212,6 +212,7 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function _exportIterateCollection($callback, array $args)
     {
+        /** @var $originalCollection Varien_Data_Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
         $page  = 1;
@@ -232,6 +233,7 @@ class Mage_Backend_Block_Widget_Grid_Export
             }
             $page ++;
 
+            $collection = $this->_getRowCollection($collection);
             foreach ($collection as $item) {
                 call_user_func_array(array($this, $callback), array_merge(array($item), $args));
             }
@@ -476,14 +478,14 @@ class Mage_Backend_Block_Widget_Grid_Export
 
         /** @var $item Varien_Object */
         foreach ($baseCollection as $item) {
-            if ($item->isEmpty()) {
+            if ($item->getIsEmpty()) {
                 continue;
             }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
                 /** @var $subItem Varien_Object */
                 foreach ($item->getChildren() as $subItem) {
                     $tmpItem = clone $item;
-                    $tmpItem->unsetChildren();
+                    $tmpItem->unsChildren();
                     $tmpItem->addData($subItem->getData());
                     $collection->addItem($tmpItem);
                 }
@@ -502,11 +504,16 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function _getPreparedCollection()
     {
+        /** @var $collection Varien_Data_Collection */
         $collection = $this->getParentBlock()->getPreparedCollection();
-        $collection->getSelect()->limit();
         $collection->setPageSize(0);
         $collection->load();
 
         return $this->_getRowCollection($collection);
+    }
+
+    public function getExportPageSize()
+    {
+        return $this->_exportPageSize;
     }
 }

@@ -64,7 +64,8 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         if ($code = $row->getData($this->getColumn()->getCurrency())) {
             return $code;
         }
-        return false;
+
+        return $this->_getBaseCurrencyCode();
     }
 
     /**
@@ -81,7 +82,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         if ($rate = $row->getData($this->getColumn()->getRateField())) {
             return floatval($rate);
         }
-        return 1;
+        return Mage::app()->getStore()->getBaseCurrency()->getRate($this->_getCurrencyCode($row));
     }
 
     /**
