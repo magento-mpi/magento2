@@ -172,20 +172,22 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         $this->pleaseWait();
-        $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table').'/tbody/tr/td[2]';
-        $count = $this->getText($gridXpath);
+        $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table').'/tfoot/tr/th[2]';
+        $count = $this->getElementByXpath($gridXpath);
         //Steps
-        $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-            array('first_name'=> $this->generate('string', 10, ':alnum:')));
-        $addressData = $this->loadDataSet('SalesOrderActions', 'customer_addresses');
-        $this->customerHelper()->createCustomer($userData, $addressData);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->frontend();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->loginAdminUser();
         $this->navigate('report_customer_accounts');
         $this->gridHelper()->fillDateFromTo();
+        $this->clickButton('refresh');
+        $this->pleaseWait();
         //Verifying
-        $this->assertEquals($count, $this->getText($gridXpath),
+        $this->assertEquals($count+1, $this->getElementByXpath($gridXpath),
             'Wrong records number in grid report_customer_accounts_table');
     }
 }
