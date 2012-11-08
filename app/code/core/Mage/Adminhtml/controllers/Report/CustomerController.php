@@ -113,7 +113,6 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             ->_setActiveMenu('Mage_Reports::report_customers_totals')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'),
                 Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'))
-      //      ->_addCon($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Customer_Totals'))
             ->renderLayout();
     }
 
