@@ -43,7 +43,6 @@
                 <arguments>
                     <id>invitation_order_grid</id>
                     <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection</dataSource>
-                    <use_ajax>0</use_ajax>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.invitation.order.grid.export" as="grid.export">
                     <arguments>
@@ -59,7 +58,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Reports::store/switcher.phtml"  as="store_switcher">
+                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher.phtml"  as="store_switcher">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type='url'>
@@ -263,7 +262,7 @@
 
     <adminhtml_report_invitation_block>
         <reference name="adminhtml.report.general.container">
-            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.general.customer" as="grid">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.invitation.general" as="grid">
                 <arguments>
                     <use_ajax>0</use_ajax>
                     <id>report_invitation_general</id>

@@ -24,8 +24,8 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
     }
 
     /**
+     * <p>Get TOP entity, Customer Name and Total Amount, from Grid </p>
      * @return array
-     *
      */
     protected  function _getTopCustomerNameAndTotalAmount()
     {
@@ -55,11 +55,18 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
     }
 
     /**
-     * <p>Preconditions: create customer and order</p>
+     * <p>Preconditions: create customer and order in TOP of the Grid</p>
      *
+     * <p>1. Create test customers</p>
+     * <p>2. Create product with price </p>
+     * <p>2.1 Login to backend</p>
+     * <p>2.2 Go to Reports>Customers>Customer by orders total and check Top Order Amout value</p>
+     * <p>2.3 Create simple product with price = (Top Order Amout value) * 2</p>
+     *
+     * @return array
      * @test
      */
-    public function createEntityInReportGridTest()
+    public function createTopEntityInReportGridTest()
     {
         $topReportData = $this->_getTopCustomerNameAndTotalAmount();
         $priceForTestProduct = array();
@@ -81,31 +88,27 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-       $orderData = array('sku'   => $simple['general_name'], 'email' => $userData['email']);
+       $orderData = array(
+           'sku' => $simple['general_name'],
+           'email' => $userData['email'],
+       );
         $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $orderData['sku'], 'email'      => $orderData['email']));
+            array('filter_sku' => $orderData['sku'], 'email' => $orderData['email']));
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderCreationData);
         $this->assertMessagePresent('success', 'success_created_order');
 
-        return array('first_name'=>$userData['first_name'],
-                     'last_name'=>$userData['last_name'],
-                     'email' => $userData['email'],
-                     'price' => $simple['prices_price'],
-                     'sku'   => $simple['general_name']
+        return array(
+            'first_name' => $userData['first_name'],
+            'last_name' => $userData['last_name'],
+            'email' => $userData['email'],
+            'price' => $simple['prices_price'],
+            'sku'   => $simple['general_name'],
         );
     }
 
     /**
      * <p>Verifying that number of Orders and total amount are increased after create new order</p>
-     * <p>Preconditions: </p>
-     * <p>1. Test Customer is created</p>
-     * <p>2. Test product with price </p>
-     * <p>2.1 Login to backend</p>
-     * <p>2.2 Go to Reports>Customers>Customer by orders total and check Top Order Amout value</p>
-     * <p>2.3 Create simple product with price = (Top Order Amout value) * 2</p>
-     * <p>Steps to reproduce:</p>
-     *
      * <p>1. Log in to backend as admin</p>
      * <p>2. Create the first order with test product</p>
      * <p>3. Go to Report>Customers> Orders total</p>
