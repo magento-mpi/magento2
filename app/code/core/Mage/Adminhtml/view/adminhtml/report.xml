@@ -83,6 +83,7 @@
                             <filter>0</filter>
                             <id>period</id>
                             <grouped>1</grouped>
+                            <totals_label>Total</totals_label>
                             <sortable>0</sortable>
                         </arguments>
                     </block>
