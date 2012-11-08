@@ -16,7 +16,8 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate, Countable
+class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collection
+    implements IteratorAggregate, Countable
 {
     /**
      * From value
@@ -54,6 +55,13 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
     protected $_intervals;
 
     /**
+     * Intervals
+     *
+     * @var int
+     */
+    protected $_reports;
+
+    /**
      * Page size
      *
      * @var int
@@ -66,15 +74,6 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
      * @var array
      */
     protected $_storeIds;
-
-    /**
-     * Resource initialization
-     *
-     */
-    protected function _construct()
-    {
-
-    }
 
     /**
      * Set period
@@ -243,22 +242,6 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
     }
 
     /**
-     * Init report
-     *
-     * @param string $modelClass
-     * @return Mage_Reports_Model_Resource_Report_Collection
-     */
-    public function initReport($modelClass)
-    {
-        $this->_model = Mage::getModel('Mage_Reports_Model_Report')
-            ->setPageSize($this->getPageSize())
-            ->setStoreIds($this->getStoreIds())
-            ->initCollection($modelClass);
-
-        return $this;
-    }
-
-    /**
      * get report full
      *
      * @param int $from
@@ -271,46 +254,48 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
     }
 
     /**
-     * Get report
+     * Get report for some interval
      *
      * @param int $from
      * @param int $to
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    public function getReport($from, $to)
+    protected function _getReport($from, $to)
     {
         $collectionClass = $this->getReportCollection();
         $reportResource = new $collectionClass();
         $reportResource
             ->setDateRange($this->timeShift($from), $this->timeShift($to))
-            ->setPageSize($this->getPageSize())
             ->setStoreIds($this->getStoreIds());
         return $reportResource;
 
     }
 
     /**
-     * Get Reports for interval
+     * Get Reports based on intervals
      *
      * @return array
      */
     public function getReports()
     {
-        $reports = array();
-        foreach ($this->_getIntervals() as $interval) {
-            $interval->setChildren(
-                $this->getReport($interval->getStart(), $interval->getEnd())
-            );
-            if (count($interval->getChildren()) == 0) {
-                $interval->setIsEmpty(true);
+        if (!$this->_reports) {
+            $reports = array();
+            foreach ($this->_getIntervals() as $interval) {
+                $interval->setChildren(
+                    $this->_getReport($interval->getStart(), $interval->getEnd())
+                );
+                if (count($interval->getChildren()) == 0) {
+                    $interval->setIsEmpty(true);
+                }
+                $reports[] = $interval;
             }
-            $reports[] = $interval;
+            $this->_reports = $reports;
         }
-        return $reports;
+        return $this->_reports;
     }
 
     /**
-     * Retreive time shift
+     * Retrieve time shift
      *
      * @param string $datetime
      * @return string
@@ -320,26 +305,6 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
         return Mage::app()->getLocale()
             ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)
             ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-    }
-
-    /**
-     * Retrieve an external iterator
-     *
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or <b>Traversable</b>
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->getReports());
-    }
-
-    /**
-     * Count elements of an object
-     *
-     * @return int The custom count as an integer.
-     */
-    public function count()
-    {
-        return count($this->getReports());
     }
 
     /**
@@ -362,5 +327,18 @@ class Mage_Reports_Model_Resource_Report_Collection implements IteratorAggregate
     public function getReportCollection()
     {
         return $this->_reportCollectionClass;
+    }
+
+    /**
+     * Load data
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return Mage_Reports_Model_Resource_Report_Collection|Varien_Data_Collection
+     */
+    public function loadData($printQuery = false, $logQuery = false)
+    {
+        $this->_items = $this->getReports();
+        return $this;
     }
 }

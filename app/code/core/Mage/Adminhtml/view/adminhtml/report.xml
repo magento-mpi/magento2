@@ -23,7 +23,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Report_Product_Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
-                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Adminhtml::report/store/switcher/enhanced.phtml" name="store.switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
                 <block type="Mage_Adminhtml_Block_Report_Filter_Form" name="grid.filter.form">
@@ -57,7 +57,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type='url'>
@@ -73,6 +73,7 @@
                         <filter_visibility>0</filter_visibility>
                         <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
                         <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
+                        <count_totals>1</count_totals>
                         <id>gridTotalsCustomerSet</id>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
@@ -154,12 +155,13 @@
 
     <adminhtml_report_customer_accounts_grid>
         <reference name="report.customer.accounts.grid.container">
-            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.customer.account.grid" as="grid">
+            <block type="Mage_Reports_Block_Adminhtml_Grid" name="report.customer.accounts.grid" as="grid">
             <arguments>
                 <id>gridAccounts</id>
                 <dataSource type="object">Mage_Reports_Model_Resource_Accounts_Initial</dataSource>
+                <use_ajax>0</use_ajax>
             </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.account.grid.export" as="grid.export">
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="report.customer.accounts.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -173,7 +175,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Adminhtml_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" template="Mage_Reports::store/switcher/enhanced.phtml"  as="store_switcher">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type='url'>
@@ -190,15 +192,18 @@
                         <empty_text translate="true" module="Mage_Reports">No records found for this period.</empty_text>
                         <empty_cell_label translate="true" module="Mage_Reports">No records found for this period.</empty_cell_label>
                         <id>accounts</id>
+                        <count_totals>1</count_totals>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Period</header>
                             <index>period</index>
+                            <width>100px</width>
                             <filter>0</filter>
                             <id>period</id>
                             <grouped>1</grouped>
                             <sortable>0</sortable>
+                            <totals_label>Total</totals_label>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="accounts">
@@ -221,13 +226,14 @@
             <block name='report.customer.accounts.grid.container' type="Mage_Adminhtml_Block_Report_Customer_Accounts" />
         </reference>
     </adminhtml_report_customer_accounts>
-    <adminhtml_report_customer_exporttotalscsv>
-        <update handle="adminhtml_report_customer_accounts_grid"/>
-        <container name="report.customer.accounts.grid.container" label="Report Customer Accounts Grid Container"/>
-    </adminhtml_report_customer_exporttotalscsv>
 
-    <adminhtml_report_customer_exporttotalsexcel>
+    <adminhtml_report_customer_exportaccountscsv>
         <update handle="adminhtml_report_customer_accounts_grid"/>
         <container name="report.customer.accounts.grid.container" label="Report Customer Accounts Grid Container"/>
-    </adminhtml_report_customer_exporttotalsexcel>
+    </adminhtml_report_customer_exportaccountscsv>
+
+    <adminhtml_report_customer_exportaccountsexcel>
+        <update handle="adminhtml_report_customer_accounts_grid"/>
+        <container name="report.customer.accounts.grid.container" label="Report Customer Accounts Grid Container"/>
+    </adminhtml_report_customer_exportaccountsexcel>
 </layout>
