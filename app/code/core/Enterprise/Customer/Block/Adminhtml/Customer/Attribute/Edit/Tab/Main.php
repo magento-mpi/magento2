@@ -139,19 +139,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             'name'      => 'date_range_min',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimal value'),
             'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Minimal value'),
-            'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => $helper->getDateFormat()
+            'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
+            'date_format'    => $helper->getDateFormat()
         ), 'default_value_date');
 
         $fieldset->addField('date_range_max', 'date', array(
             'name'      => 'date_range_max',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum value'),
             'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Maximum value'),
-            'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => $helper->getDateFormat()
+            'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
+            'date_format'    => $helper->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Frontend Properties')

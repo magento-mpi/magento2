@@ -15,7 +15,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Date extends Enterprise_Customer_Block_Form_Renderer_Date
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Date extends Enterprise_Eav_Block_Form_Renderer_Date
 {
     /**
      * Field type
@@ -60,7 +60,7 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Date extends Enterprise_Custo
         $attributes = array(
             'label' => $this->getLabel(),
             'name'  => $this->getFieldName(),
-            'format'=> $this->getDateFormat(),
+            'date_format'=> $this->getDateFormat(),
             'value' => $this->_prepareValues()
         );
 

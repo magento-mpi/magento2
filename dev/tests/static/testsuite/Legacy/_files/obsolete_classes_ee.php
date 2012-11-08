@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 return array(
-    'Enterprise_Search_Model_Resource_Suggestions',
-    'Enterprise_GiftCard_Block_Email_Generated',
-    'Enterprise_Search_Model_Indexer_Price',
-    'Enterprise_Cms_Model_Resource_Setup',
-    'Enterprise_GiftRegistry_Block_Adminhtml_Customer_View',
+    $this->_getClassRule('Enterprise_Search_Model_Resource_Suggestions'),
+    $this->_getClassRule('Enterprise_GiftCard_Block_Email_Generated'),
+    $this->_getClassRule('Enterprise_Search_Model_Indexer_Price'),
+    $this->_getClassRule('Enterprise_Cms_Model_Resource_Setup'),
+    $this->_getClassRule('Enterprise_GiftRegistry_Block_Adminhtml_Customer_View'),
 );

@@ -20,9 +20,9 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Price extends Mage_Catalog_Bl
     /**
      * Initialize Price filter module
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_filterModelName = 'Enterprise_Search_Model_Catalog_Layer_Filter_Price';
     }
 

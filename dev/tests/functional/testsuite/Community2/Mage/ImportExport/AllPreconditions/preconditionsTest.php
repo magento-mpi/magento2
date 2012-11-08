@@ -33,4 +33,21 @@ class Community2_Mage_ImportExport_PreconditionTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure('General/disable_httponly');
         $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
+    /**
+     * Delete all customers to prevent export fails
+     *
+     * @test
+     */
+    public function preconditionClearData()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+        $totalCount = intval($this->getText($qtyElementsInTable));
+        if ($totalCount > 0) {
+            $this->customerHelper()->clickControl('link', 'select_all', false);
+            $this->fillDropdown('grid_massaction_select', 'Delete');
+            $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
+        }
+    }
 }

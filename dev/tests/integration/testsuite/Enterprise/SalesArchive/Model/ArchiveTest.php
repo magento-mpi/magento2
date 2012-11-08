@@ -18,7 +18,7 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model= new Enterprise_SalesArchive_Model_Archive;
+        $this->_model= Mage::getModel('Enterprise_SalesArchive_Model_Archive');
     }
 
     protected function tearDown()
@@ -63,7 +63,7 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
      */
     public function testDetectArchiveEntity($object, $expectedResult)
     {
-        $actualResult = $this->_model->detectArchiveEntity($object);
+        $actualResult = $this->_model->detectArchiveEntity(Mage::getModel($object));
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -73,15 +73,39 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
     public function detectArchiveEntityDataProvider()
     {
         return array(
-            array(new Mage_Sales_Model_Order, Enterprise_SalesArchive_Model_Archive::ORDER),
-            array(new Mage_Sales_Model_Resource_Order, Enterprise_SalesArchive_Model_Archive::ORDER),
-            array(new Mage_Sales_Model_Order_Invoice, Enterprise_SalesArchive_Model_Archive::INVOICE),
-            array(new Mage_Sales_Model_Resource_Order_Invoice, Enterprise_SalesArchive_Model_Archive::INVOICE),
-            array(new Mage_Sales_Model_Order_Shipment, Enterprise_SalesArchive_Model_Archive::SHIPMENT),
-            array(new Mage_Sales_Model_Resource_Order_Shipment, Enterprise_SalesArchive_Model_Archive::SHIPMENT),
-            array(new Mage_Sales_Model_Order_Creditmemo, Enterprise_SalesArchive_Model_Archive::CREDITMEMO),
-            array(new Mage_Sales_Model_Resource_Order_Creditmemo, Enterprise_SalesArchive_Model_Archive::CREDITMEMO),
-            array(new Varien_Object, false)
+            array(
+                'Mage_Sales_Model_Order',
+                Enterprise_SalesArchive_Model_Archive::ORDER
+            ),
+            array(
+                'Mage_Sales_Model_Resource_Order',
+                Enterprise_SalesArchive_Model_Archive::ORDER
+            ),
+            array(
+                'Mage_Sales_Model_Order_Invoice',
+                Enterprise_SalesArchive_Model_Archive::INVOICE
+            ),
+            array(
+                'Mage_Sales_Model_Resource_Order_Invoice',
+                Enterprise_SalesArchive_Model_Archive::INVOICE
+            ),
+            array(
+                'Mage_Sales_Model_Order_Shipment',
+                Enterprise_SalesArchive_Model_Archive::SHIPMENT
+            ),
+            array(
+                'Mage_Sales_Model_Resource_Order_Shipment',
+                Enterprise_SalesArchive_Model_Archive::SHIPMENT
+            ),
+            array(
+                'Mage_Sales_Model_Order_Creditmemo',
+                Enterprise_SalesArchive_Model_Archive::CREDITMEMO
+            ),
+            array(
+                'Mage_Sales_Model_Resource_Order_Creditmemo',
+                Enterprise_SalesArchive_Model_Archive::CREDITMEMO
+            ),
+            array('Varien_Object', false)
         );
     }
 }

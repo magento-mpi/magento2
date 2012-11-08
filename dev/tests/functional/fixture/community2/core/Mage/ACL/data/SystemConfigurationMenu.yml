@@ -63,7 +63,6 @@ configuration_menu_default:
     catalog_catalog:
         product_reviews:
         frontend:
-        sitemap:
         product_alerts:
         product_alerts_run_settings:
         product_image_placeholders:
@@ -107,6 +106,8 @@ configuration_menu_default:
         general_options_wishlist:
         share_options:
         my_wishlist_link:
+    customers_promotions:
+        auto_generated_specific_coupon_codes:
     customers_persistent_shopping_cart:
         general_options_shopping_cart:
     sales_sales:
@@ -270,7 +271,6 @@ configuration_menu_website:
     catalog_catalog:
         product_reviews:
         frontend:
-        sitemap:
         product_alerts:
         product_image_placeholders:
         recently_viewed_compared_products:
@@ -405,4 +405,3 @@ configuration_menu_website:
         log_settings:
         javascript_settings:
         css_settings:
-

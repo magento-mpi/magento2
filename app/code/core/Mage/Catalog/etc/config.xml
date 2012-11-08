@@ -195,6 +195,7 @@
                 </flat>
                 <attributes>
                     <unassignable>
+                        <image/>
                         <name/>
                         <description/>
                         <short_description/>

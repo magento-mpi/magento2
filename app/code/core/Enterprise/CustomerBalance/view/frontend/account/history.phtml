@@ -34,5 +34,5 @@
         </tbody>
         <?php endforeach; ?>
     </table>
-    <script type="text/javascript">decorateTable('customerbalance-history')</script>
+    <script type="text/javascript">(function($) {$('#customerbalance-history').decorate('table')})(jQuery)</script>
 <?php endif; ?>

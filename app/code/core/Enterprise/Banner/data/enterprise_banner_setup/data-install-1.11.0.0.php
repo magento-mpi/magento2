@@ -14,7 +14,7 @@ $banners = array(
         'Free Shipping on All Handbags',
         '<a href="{{store direct_url="apparel/women/handbags"}}"> '
             . '<img class="callout" title="Get Free Shipping on All Items under Handbags" '
-            . 'src="{{skin url="images/callouts/home/free_shipping_all_handbags.jpg"}}" '
+            . 'src="{{view url="images/callouts/home/free_shipping_all_handbags.jpg"}}" '
             . 'alt="Free Shipping on All Handbags" /></a>'
     ),
     array(
@@ -22,7 +22,7 @@ $banners = array(
         '15% off Our New Evening Dresses',
         '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> '
         . '<img class="callout" title="15% off Our New Evening Dresses" '
-        . 'src="{{skin url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" '
+        . 'src="{{view url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" '
         . 'alt="15% off Our New Evening Dresses" /></a>'
     )
 );
@@ -56,7 +56,7 @@ foreach ($banners as $sortOrder => $bannerData) {
         ))
         ->addData(array(
             'instance_type'          => 'Enterprise_Banner_Block_Widget_Banner',
-            'package_theme' => 'enterprise/default',
+            'package_theme' => 'enterprise/fixed',
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder
         ))

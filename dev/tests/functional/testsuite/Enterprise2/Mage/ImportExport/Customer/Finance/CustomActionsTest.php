@@ -387,7 +387,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Expected: After step 6 the finances for both customers aren't deleted
      *
      * @test
-     * @author roman.grebenchuk
+     * @author irina.glazunova
      * @dataProvider importFinance
      * @TestlinkId TL-MAGE-5717
      */

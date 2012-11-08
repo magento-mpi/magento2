@@ -15,7 +15,7 @@
     <adminhtml_customersegment_index>
         <reference name="content">
             <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment" name="customersegment.list">
-                <block type="Mage_Adminhtml_Block_Store_Switcher" name="store_switcher" as="store_switcher">
+                <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm"><params>0</params></action>
                 </block>
             </block>

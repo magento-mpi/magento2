@@ -522,6 +522,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         // prepare api call
         $token = $payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
+        $parameters = array('params' => array($order));
         $api = $this->_pro->getApi()
             ->setToken($token)
             ->setPayerId($payment->
@@ -531,7 +532,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', array($order)))
+            ->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
         if ($order->getIsVirtual()) {

@@ -20,7 +20,7 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
      */
     public function testStubAction()
     {
-        $page = new Mage_Cms_Model_Page;
+        $page = Mage::getModel('Mage_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture
 
         $websiteId = Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed
@@ -29,12 +29,12 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
          * therefore cleanup is performed by cache ID
          */
         Mage::app()->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
-
+        $this->markTestIncomplete('MAGETWO-4342');
 
         $this->dispatch('restriction/index/stub');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<h1>Cms Page Design Modern Title</h1>', $body);
-        $this->assertContains('skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico', $body);
+        $this->assertContains('theme/frontend/default/modern/en_US/Mage_Page/favicon.ico', $body);
         $this->assertHeaderPcre('Http/1.1', '/^503 Service Unavailable$/');
     }
 }

@@ -13,7 +13,7 @@ class Enterprise_Customer_Block_FormTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $template = $layout->createBlock('Mage_Core_Block_Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
             'block' => 'Mage_Core_Block_Text', 'template' => '1.phtml'
@@ -27,7 +27,7 @@ class Enterprise_Customer_Block_FormTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareLayoutNoRenderer()
     {
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->createBlock('Mage_Core_Block_Text', 'customer_form_template');
         $block = $layout->createBlock('Enterprise_Customer_Block_Form');
         $this->assertEquals('', $block->toHtml());

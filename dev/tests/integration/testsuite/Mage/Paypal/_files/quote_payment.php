@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->load('test01', 'reserved_order_id');
 
 $payment = $quote->getPayment();

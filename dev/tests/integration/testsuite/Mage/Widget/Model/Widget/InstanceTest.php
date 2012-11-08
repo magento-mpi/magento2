@@ -18,7 +18,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Widget_Model_Widget_Instance;
+        $this->_model = Mage::getModel('Mage_Widget_Model_Widget_Instance');
     }
 
     protected function tearDown()
@@ -96,7 +96,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
     public function testGenerateLayoutUpdateXml(Mage_Widget_Model_Widget_Instance $model)
     {
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
-        $model->setId('test_id')->setPackageTheme('default/default');
+        $model->setId('test_id')->setPackageTheme('default/demo');
         $result = $model->generateLayoutUpdateXml('content');
         $this->assertContains('<reference name="content">', $result);
         $this->assertContains('<block type="' . $model->getType() . '"', $result);

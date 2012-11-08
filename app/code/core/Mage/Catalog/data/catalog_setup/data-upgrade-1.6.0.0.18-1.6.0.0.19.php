@@ -10,14 +10,29 @@
 
 /** @var $this Mage_Catalog_Model_Resource_Setup */
 
-$applyTo = array_merge(
-    explode(',', $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight', 'apply_to')),
-    array('virtual', 'downloadable')
-);
+$attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'image');
 
-$this->updateAttribute(
-    Mage_Catalog_Model_Product::ENTITY, 'weight', 'frontend_input_renderer',
-    'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer'
-);
-$this->updateAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));
+if ($attribute) {
+    $this->addAttributeToSet(
+        $attribute['entity_type_id'],
+        $this->getAttributeSetId($attribute['entity_type_id'], 'Minimal'),
+        $this->getGeneralGroupName(),
+        $attribute['attribute_id'],
+        0
+    );
 
+    $this->addAttributeToGroup(
+        $attribute['entity_type_id'],
+        $this->getAttributeSetId($attribute['entity_type_id'], 'Default'),
+        $this->getGeneralGroupName(),
+        $attribute['attribute_id'],
+        0
+    );
+
+    $this->updateAttribute(
+        $attribute['entity_type_id'],
+        $attribute['attribute_id'],
+        'frontend_input_renderer',
+        'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage'
+    );
+}

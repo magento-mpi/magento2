@@ -38,15 +38,15 @@ register_account:
                             captcha: //img[@alt='CAPTCHA']
                         required: [first_name, last_name, email, password, password_confirmation]
         messages: &customerMessages
-            not_valid_length_first_name: //li[normalize-space(@class)='error-msg' and contains(.,'"First Name" length must be equal or less than 255 characters.')]
-            not_valid_length_last_name: //li[normalize-space(@class)='error-msg' and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
-            not_valid_length_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
+            not_valid_length_first_name: //*[@data-ui-id="messages-message-error" and contains(.,'"First Name" length must be equal or less than 255 characters.')]
+            not_valid_length_last_name: //*[@data-ui-id="messages-message-error" and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
+            not_valid_length_email: //*[@data-ui-id="messages-message-error" and contains(.,'"Email" exceeds the allowed length.')]
             empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
-            invalid_mail: //div[@id='advice-validate-email-email_address']
-            passwords_not_match: //div[@id='advice-validate-cpassword-confirmation']
-            short_passwords: //div[@id='advice-validate-password-password']
-            email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
-            invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid login or password.')]
+            invalid_mail: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid email address.')]
+            passwords_not_match: //div[normalize-space(@class)='mage-error' and contains(.,'Please make sure your passwords match.')]
+            short_passwords: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]
+            email_exists: //*[@data-ui-id="messages-message-error" and contains(.,'There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.')]
+            invalid_login_or_password: //*[@data-ui-id="messages-message-error" and contains(.,'Invalid login or password.')]
 
 # 'Login or Create an Account' page
 customer_login:

@@ -19,5 +19,5 @@ $options = array();
 if (!empty($_SERVER['MAGE_LOCAL_CONFIG'])) {
     $options['local_config'] = $_SERVER['MAGE_LOCAL_CONFIG'];
 }
-Mage::setIsDeveloperMode(true);
-Mage::run($mageRunCode, $mageRunType, $options);
+
+Mage::run($mageRunCode, $mageRunType);

@@ -23,7 +23,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
          */
         $this->markTestIncomplete('Bug MAGE-6535');
 
-        $segment = new Enterprise_CustomerSegment_Model_Segment;
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
