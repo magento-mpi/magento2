@@ -32,17 +32,16 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
         $this->navigate('report_customer_totals');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-        $gridXpath = $this->_getControlXpath('pageelement', 'customer_by_orders_total_table');
         //get TOP  "Total Order Amount" from first row in grid
-        $topOrderAmountXpath = $gridXpath. '/tbody/tr[1]/td[5]';
+        $topOrderAmountXpath = $this->_getControlXpath('pageelement', 'top_order_amount');
         if($this->isElementPresent($topOrderAmountXpath))
         {
             $topOrderAmountData = preg_replace("/[^\d.]/", "", $this->getElementByXpath($topOrderAmountXpath));
             //get TOP "Customer Name" from first row in grid
-            $topCustomerNameXpath = $gridXpath . '/tbody/tr[1]/td[2]';
+            $topCustomerNameXpath = $this->_getControlXpath('pageelement', 'top_customer_name');
             $topCustomerNameData = $this->getElementByXpath($topCustomerNameXpath);
             //get "Number of Orders" from first row in grid
-            $topNumberOfOrderXpath = $gridXpath . '/tbody/tr[1]/td[3]';
+            $topNumberOfOrderXpath = $this->_getControlXpath('pageelement', 'top_number_of_order');
             $topNumberOfOrderData = $this->getElementByXpath($topNumberOfOrderXpath);
 
             return array('customer_name'    => $topCustomerNameData,
@@ -118,7 +117,7 @@ class Community2_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Ma
      * <p>After step 3: TOP line in grid conatains First and Last name of test customer, number of order =1. Total amount is equals of simple test product price</p>
      * <p>After step 5: TOP line in grid conatains First and Last name of test customer, number of order =2. Total amount is equals of simple test product price *2</p>
      *
-     * @depends createEntityInReportGridTest
+     * @depends createTopEntityInReportGridTest
      *
      * @test
      * @TestlinkId TL-MAGE-6442

@@ -167,6 +167,9 @@ report_customer_totals:
                             total_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Total Order Amount')]
                         pageelements:
                             customer_by_orders_total_table: //table[@id='gridTotalsCustomer_table']
+                            top_order_amount: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[5]
+                            top_customer_name: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[2]
+                            top_number_of_order: //table[@id='gridTotalsCustomer_table']//tbody/tr[1]/td[3]
 
 # Customers: Customers by number of orders page
 report_customer_orders:
