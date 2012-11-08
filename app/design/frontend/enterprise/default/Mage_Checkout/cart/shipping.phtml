@@ -53,12 +53,11 @@
                 "<?php echo $this->getSkinUrl('mage/validation/validation.js') ?>",
                 "<?php echo $this->getSkinUrl('Mage_Checkout::js/region-updater.js') ?>",
                 function() {
-                    var form = $('#shipping-zip-form').validation();
                     $('#country').regionUpdater({
                         regionListId: '#region_id',
                         regionInputId: '#region',
                         postcodeId: '#postcode',
-                        form: form,
+                        form: $('#shipping-zip-form').validation(),
                         regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
                         defaultRegion: "<?php echo $this->getEstimateRegionId() ?>",
                         countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>

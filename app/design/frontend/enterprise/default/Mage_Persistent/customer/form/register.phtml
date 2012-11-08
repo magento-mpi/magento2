@@ -188,8 +188,7 @@
                 "<?php echo $this->getSkinUrl('jquery/jquery.hook.js') ?>",
                 "<?php echo $this->getSkinUrl('mage/validation/validation.js') ?>",
                 function() {
-                    $('#form-validate').find('input:text').attr('autocomplete', 'off');
-                    $('#form-validate').validation();
+                    $('#form-validate').validation().find('input:text').attr('autocomplete', 'off');
                 });
         })(jQuery);
     </script>

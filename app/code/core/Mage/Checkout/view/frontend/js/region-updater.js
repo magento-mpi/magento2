@@ -12,6 +12,7 @@
         options: {
             regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>'
         },
+
         _create: function() {
             this._updateRegion(this.element.find('option:selected').val());
             this.element.on('change', $.proxy(function(e) {
@@ -22,7 +23,7 @@
 
         /**
          * Remove options from dropdown list
-         * @param selectElement
+         * @param {object} selectElement - jQuery object for dropdown list
          * @private
          */
         _removeSelectOptions: function(selectElement) {
@@ -33,9 +34,9 @@
 
         /**
          * Render dropdown list
-         * @param selectElement
-         * @param key
-         * @param value
+         * @param {object} selectElement - jQuery object for dropdown list
+         * @param {string} key - region code
+         * @param {object} value - region object
          * @private
          */
         _renderSelectOption: function(selectElement, key, value) {
@@ -51,14 +52,15 @@
 
         /**
          * Update dropdown list based on the country selected
-         * @param country
+         * @param {string} country - 2 uppercase letter for country code
          * @private
          */
         _updateRegion: function(country) {
             // Clear validation error messages
             var regionList = $(this.options.regionListId),
                 regionInput = $(this.options.regionInputId),
-                postcode = $(this.options.postcodeId);
+                postcode = $(this.options.postcodeId),
+                requiredLabel = regionList.parent().siblings('label').children('em');
             this.options.form && this.options.form.validation('clearError',
                 this.options.regionListId, this.options.regionInputId, this.options.postcodeId);
             // Populate state/province dropdown list if available or use input box
@@ -69,11 +71,11 @@
                 }, this));
                 regionList.addClass('required').show();
                 regionInput.hide();
-                regionList.parent().siblings('label').children('em').show();
+                requiredLabel.show();
             } else {
                 regionList.removeClass('required').hide();
                 regionInput.show();
-                regionList.parent().siblings('label').children('em').hide();
+                requiredLabel.hide();
             }
             // If country is in optionalzip list, make postcode input not required
             $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
