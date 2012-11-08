@@ -76,7 +76,7 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function getCountTotals()
     {
-        return $this->getParentBlock()->getColumnSet()->getCountTotals();
+        return $this->getParentBlock()->getColumnSet()->shouldRenderTotal();
     }
 
     /**
@@ -476,6 +476,9 @@ class Mage_Backend_Block_Widget_Grid_Export
 
         /** @var $item Varien_Object */
         foreach ($baseCollection as $item) {
+            if ($item->isEmpty()) {
+                continue;
+            }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
                 /** @var $subItem Varien_Object */
                 foreach ($item->getChildren() as $subItem) {

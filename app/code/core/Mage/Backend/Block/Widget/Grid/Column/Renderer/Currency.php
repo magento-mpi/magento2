@@ -93,4 +93,27 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     {
         return parent::renderCss() . ' a-right';
     }
+
+    /**
+     * Get Base Currency Code
+     *
+     * @return string
+     */
+    protected function _getBaseCurrencyCode()
+    {
+        if ($this->_request->getParam('store')) {
+            $store = $this->_request->getParam('store');
+            $currencyCode = Mage::app()->getStore($store)->getBaseCurrencyCode();
+        } else if ($this->_request->getParam('website')){
+            $website = $this->_request->getParam('website');
+            $currencyCode = Mage::app()->getWebsite($website)->getBaseCurrencyCode();
+        } else if ($this->_request->getParam('group')){
+            $group = $this->_request->getParam('group');
+            $currencyCode =  Mage::app()->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+        } else {
+            $currencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+        }
+
+        return $currencyCode;
+    }
 }

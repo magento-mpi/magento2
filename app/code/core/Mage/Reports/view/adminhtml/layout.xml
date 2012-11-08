@@ -16,7 +16,6 @@
             <block type="Mage_Reports_Block_Adminhtml_Grid" name="adminhtml.report.customer.orders.grid" as="grid">
                 <arguments>
                     <use_ajax>0</use_ajax>
-                    <countTotals>1</countTotals>
                     <pager_visibility>0</pager_visibility>
                     <id>gridOrdersCustomer</id>
                     <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>

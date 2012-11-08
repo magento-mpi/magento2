@@ -335,8 +335,19 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function shouldRenderSubTotal($item)
     {
         return ($this->getCountSubTotals() &&
-//            count($this->getSubTotals()) > 0 &&
             count($this->getMultipleRows($item)) > 0
+        );
+    }
+
+    /**
+     * Check whether total should be rendered
+     *
+     * @return boolean
+     */
+    public function shouldRenderTotal()
+    {
+        return ($this->getCountTotals() &&
+            count($this->getCollection()) > 0
         );
     }
 
