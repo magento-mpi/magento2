@@ -235,7 +235,7 @@ class Community2_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
-        $this->clickButton('add_new_product');
+        $this->clickButton('add_new_product_split');
         $this->productHelper()->fillProductSettings($productData);
         //Veryfying
         $this->assertFalse($this->controlIsPresent('tab', 'websites'),
@@ -378,7 +378,7 @@ class Community2_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
         //Steps
         $this->admin('url_rewrite_management');
         //Veryfying
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store'),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store_view'),
             "There is 'Store View' column on the page");
     }
 
