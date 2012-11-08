@@ -8,21 +8,20 @@
  */
 
 /*jshint evil:true browser:true jquery:true*/
-(function ($) {
-
+(function($) {
     $.widget('mage.addToCart', {
-        _create: function () {
-            $(this.options.cartButtonId).on('click', $.proxy(function () {
-                this._validateAndSubmit();
+        _create: function() {
+            $(this.options.cartButtonId).on('click', $.proxy(function() {
+                this._addToCartSubmit();
             }, this));
 
-            $(this.options.popupId).on('click', $.proxy(function (e) {
+            $(this.options.popupId).on('click', $.proxy(function(e) {
 
                 if (this.options.submitUrl) {
                     location.href = this.options.submitUrl;
                 } else {
-                    $(this.options.popupCartButtonId).on('click', $.proxy(function () {
-                        this._validateAndSubmit();
+                    $(this.options.popupCartButtonId).on('click', $.proxy(function() {
+                        this._addToCartSubmit();
                     }, this));
 
                     $('#map-popup-heading').text(this.options.productName);
@@ -39,7 +38,7 @@
                 }
             }, this));
 
-            $(this.options.helpLinkId).on('click', $.proxy(function (e) {
+            $(this.options.helpLinkId).on('click', $.proxy(function(e) {
                 $('#map-popup-heading').text(this.options.productName);
                 var width = $('#map-popup').width();
                 var offsetX = e.pageX - (width / 2) + "px";
@@ -50,39 +49,14 @@
                 return false;
             }, this));
 
-            $(this.options.closeButtonId).on('click', $.proxy(function (e) {
+            $(this.options.closeButtonId).on('click', $.proxy(function(e) {
                 $('#map-popup').hide();
                 return false;
             }, this));
 
         },
 
-        _validateAndSubmit: function () {
-            if (this.options.cartForm) {
-                $(this.options.cartForm).mage().validate({
-                    errorPlacement: function (error, element) {
-                        if (element.is(':radio') || element.is(':checkbox')) {
-                            element.closest('ul').after(error);
-                        } else {
-                            element.after(error);
-                        }
-                    },
-                    highlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').addClass('mage-error');
-                        } else {
-                            $(element).addClass('mage-error');
-                        }
-                    },
-                    unhighlight: function (element) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
-                            $(element).closest('ul').removeClass('mage-error');
-                        } else {
-                            $(element).removeClass('mage-error');
-                        }
-                    }
-                });
-            }
+        _addToCartSubmit: function() {
             if (this.options.addToCartUrl) {
                 $('#map-popup').hide();
                 if (opener !== null) {
@@ -95,8 +69,6 @@
                 $(this.options.cartForm).submit();
             }
         }
-
     });
-
 })(jQuery);
 
