@@ -27,4 +27,15 @@ class Mage_Catalog_Model_Product_Type_Virtual extends Mage_Catalog_Model_Product
     {
         return true;
     }
+
+    /**
+     * Check product has weight
+     * @param Mage_Catalog_Model_Product $product
+     *
+     * @return bool
+     */
+    public function isWeightDisabled($product)
+    {
+        return true;
+    }
 }

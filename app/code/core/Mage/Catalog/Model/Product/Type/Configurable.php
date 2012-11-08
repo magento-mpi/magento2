@@ -850,4 +850,15 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Type_Configurable')
             ->getConfigurableOptions($product, $this->getUsedProductAttributes($product));
     }
+
+    /**
+     * Check product has weight
+     * @param Mage_Catalog_Model_Product $product
+     *
+     * @return bool
+     */
+    public function isWeightDisabled($product)
+    {
+        return true;
+    }
 }

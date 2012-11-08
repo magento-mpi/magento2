@@ -1057,4 +1057,14 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         return null;
     }
+    /**
+     * Check product has weight
+     * @param Mage_Catalog_Model_Product $product
+     *
+     * @return bool
+     */
+    public function isWeightDisabled($product)
+    {
+        return false;
+    }
 }

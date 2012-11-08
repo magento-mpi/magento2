@@ -454,4 +454,15 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     {
         return $this->hasLinks($product) && $product->getLinksPurchasedSeparately();
     }
+
+    /**
+     * Check product has weight
+     * @param Mage_Catalog_Model_Product $product
+     *
+     * @return bool
+     */
+    public function isWeightDisabled($product)
+    {
+        return true;
+    }
 }

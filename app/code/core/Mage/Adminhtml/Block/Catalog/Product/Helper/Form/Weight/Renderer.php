@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
      */
     public function getElementHtml()
     {
-        if ($this->getForm()->getDataObject()->getTypeId() !== Mage_Catalog_Model_Product_Type::TYPE_SIMPLE) {
+        if ($this->getForm()->getDataObject()->getTypeInstance()->isWeightDisabled()) {
             $this->_virtual->setChecked('checked');
         }
         return $this->_virtual->getElementHtml() . parent::getElementHtml();
