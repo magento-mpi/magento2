@@ -10,8 +10,8 @@ use Zend\Soap\Wsdl;
 /**#@+
  * Data structures should be available without auto loader as the file name cannot be calculated from class name.
  */
-include __DIR__ . '/../../_files/controllers/AutoDiscover/ModuleB/DataStructure.php';
-include __DIR__ . '/../../_files/controllers/AutoDiscover/ModuleB/Subresource/DataStructure.php';
+include __DIR__ . '/../../_files/Model/Webapi/ModuleB/Subresource/SubresourceData.php';
+include __DIR__ . '/../../_files/Model/Webapi/ModuleB/ModuleBData.php';
 /**#@-*/
 
 /**
@@ -159,16 +159,16 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that complexType for DataStructures has been generated correctly in WSDL.
-     * See /_files/controllers/AutoDiscover/ModuleB/DataStructure.php
+     * Test that complexType for Data structures has been generated correctly in WSDL.
+     * See /_files/controllers/AutoDiscover/ModuleB/SubresourceData.php
      */
     public function testGenerateDataStructureComplexTypes()
     {
         $wsdlNs = Wsdl::WSDL_NS;
         $xsdNs = Wsdl::XSD_NS;
 
-        // Generated from Vendor_ModuleB_Webapi_ModuleB_DataStructure class.
-        $dataStructureName = 'VendorModuleBDataStructure';
+        // Generated from Vendor_ModuleB_Model_Webapi_ModuleBData class.
+        $dataStructureName = 'VendorModuleBData';
         $typeData = $this->_config->getDataType($dataStructureName);
         $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
         /** @var DOMElement $dataStructure */

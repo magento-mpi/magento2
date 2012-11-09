@@ -10,8 +10,8 @@
  */
 require_once __DIR__ . '/../../_files/autodiscovery/resource_class_fixture.php';
 require_once __DIR__ . '/../../_files/autodiscovery/subresource_class_fixture.php';
-require_once __DIR__ . '/../../_files/autodiscovery/Customer/DataStructure.php';
-require_once __DIR__ . '/../../_files/autodiscovery/Customer/Address/DataStructure.php';
+require_once __DIR__ . '/../../_files/data_types/CustomerData.php';
+require_once __DIR__ . '/../../_files/data_types/Customer/AddressData.php';
 require_once __DIR__ . '/_files/resource_with_invalid_interface.php';
 require_once __DIR__ . '/_files/resource_with_invalid_name.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_var_tags/data_type.php';
@@ -428,7 +428,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetDataType()
     {
-        $actualDataType = $this->_getModel()->getDataType('VendorModuleCustomerAddressDataStructure');
+        $actualDataType = $this->_getModel()->getDataType('VendorModuleCustomerAddressData');
         $expectedDataType = array(
             'documentation' => 'Tests fixture for Auto Discovery functionality. Customer address entity.',
             'parameters' => array(
@@ -602,10 +602,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public static function dataProviderForTestTranslateTypeName()
     {
         return array(
-            array('Mage_Customer_Webapi_Customer_DataStructure', 'CustomerDataStructure'),
-            array('Mage_Catalog_Webapi_Product_DataStructure', 'CatalogProductDataStructure'),
-            array('Enterprise_Customer_Webapi_Customer_Address_DataStructure',
-                'EnterpriseCustomerAddressDataStructure'),
+            array('Mage_Customer_Model_Webapi_CustomerData', 'CustomerData'),
+            array('Mage_Catalog_Model_Webapi_ProductData', 'CatalogProductData'),
+            array('Enterprise_Customer_Model_Webapi_Customer_AddressData', 'EnterpriseCustomerAddressData'),
+            array('Producer_Module_Model_Webapi_ProducerData', 'ProducerModuleProducerData'),
+            array('Producer_Module_Model_Webapi_ProducerModuleData', 'ProducerModuleProducerModuleData'),
         );
     }
 

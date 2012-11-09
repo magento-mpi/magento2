@@ -10,7 +10,7 @@ class NamespaceA_ModuleA_Webapi_ModuleA_SubresourceBController extends Mage_Weba
      * Subresource description.
      *
      * @param int $subresourceId ID of subresource.
-     * @return NamespaceA_ModuleA_Webapi_ModuleA_DataStructure Data of resource
+     * @return NamespaceA_ModuleA_Model_Webapi_ModuleAData Data of resource
      */
     public function getV1($subresourceId)
     {
@@ -21,7 +21,7 @@ class NamespaceA_ModuleA_Webapi_ModuleA_SubresourceBController extends Mage_Weba
      * List description.
      *
      * @param int $parentId Id of parent resource
-     * @return NamespaceA_ModuleA_Webapi_ModuleA_DataStructure[] list of resources
+     * @return NamespaceA_ModuleA_Model_Webapi_ModuleAData[] list of resources
      */
     public function listV1($parentId)
     {

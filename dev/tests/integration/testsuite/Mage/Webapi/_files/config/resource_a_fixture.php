@@ -15,7 +15,7 @@ Multiline <b>with html</b>.",
                 'in' => array(
                     'parameters' => array(
                         'resourceData' => array(
-                            'type' => 'NamespaceAModuleADataStructure',
+                            'type' => 'NamespaceAModuleAData',
                             'required' => true,
                             'documentation' => 'Data of the resource'
                         )
@@ -48,7 +48,7 @@ Multiline <b>with html</b>.",
                 'out' => array(
                     'parameters' => array(
                         'result' => array(
-                            'type' => 'NamespaceAModuleADataStructure',
+                            'type' => 'NamespaceAModuleAData',
                             'documentation' => 'data of resource',
                             'required' => true,
                         )

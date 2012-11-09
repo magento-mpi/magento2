@@ -27,14 +27,14 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Create customer.
      *
-     * @param Mage_Customer_Webapi_Customer_DataStructure $data Customer create data.
+     * @param Mage_Customer_Model_Webapi_CustomerData $data Customer create data.
      * @param string $optional {maxLength:255 chars.}May be not passed.
      * @param int $int {min:10}{max:100} Optional integer parameter.
      * @param bool $bool optional boolean
      * @return int ID of created customer
      * @throws Mage_Webapi_Exception
      */
-    public function createV1(Mage_Customer_Webapi_Customer_DataStructure $data, $optional = 'default', $int = null, $bool = true)
+    public function createV1(Mage_Customer_Model_Webapi_CustomerData $data, $optional = 'default', $int = null, $bool = true)
     {
         try {
             /** @var $customer Mage_Customer_Model_Customer */
@@ -53,7 +53,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Get customers list.
      *
-     * @return Mage_Customer_Webapi_Customer_DataStructure[] array of customer data objects
+     * @return Mage_Customer_Model_Webapi_CustomerData[] array of customer data objects
      */
     public function listV1()
     {
@@ -71,10 +71,10 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Update customer.
      *
      * @param int $id
-     * @param Mage_Customer_Webapi_Customer_DataStructure $data
+     * @param Mage_Customer_Model_Webapi_CustomerData $data
      * @throws Mage_Webapi_Exception
      */
-    public function updateV1($id, Mage_Customer_Webapi_Customer_DataStructure $data)
+    public function updateV1($id, Mage_Customer_Model_Webapi_CustomerData $data)
     {
         try {
             /** @var $customer Mage_Customer_Model_Customer */
@@ -90,7 +90,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Retrieve information about customer. Add last logged in datetime.
      *
      * @param int $customerId
-     * @return Mage_Customer_Webapi_Customer_DataStructure
+     * @return Mage_Customer_Model_Webapi_CustomerData
      * @throws Mage_Webapi_Exception
      */
     public function getV1($customerId)
@@ -116,11 +116,11 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Create customer data object based on associative array of customer data.
      *
      * @param array $data
-     * @return Mage_Customer_Webapi_Customer_DataStructure
+     * @return Mage_Customer_Model_Webapi_CustomerData
      */
     protected function _createCustomerDataObject($data)
     {
-        $customerData = new Mage_Customer_Webapi_Customer_DataStructure();
+        $customerData = new Mage_Customer_Model_Webapi_CustomerData();
         foreach ($data as $field => $value) {
             $customerData->$field = $value;
         }
@@ -132,7 +132,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      *
      * @param string $id
      * @param int $newParam
-     * @return Mage_Customer_Webapi_Customer_DataStructure
+     * @return Mage_Customer_Model_Webapi_CustomerData
      * @throws Mage_Webapi_Exception
      */
     public function getV2($id, $newParam = null)

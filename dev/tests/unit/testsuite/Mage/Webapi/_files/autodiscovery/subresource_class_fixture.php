@@ -11,7 +11,7 @@ class Vendor_Module_Webapi_Resource_SubresourceController
     /**
      * @param int $param1
      * @param string $param2
-     * @param Vendor_Module_Webapi_Customer_DataStructure[] $param3
+     * @param Vendor_Module_Model_Webapi_CustomerData[] $param3
      * @param string $param4
      */
     public function createV1($param1, $param2, $param3 = array(), $param4 = 'default_value')
@@ -30,7 +30,7 @@ class Vendor_Module_Webapi_Resource_SubresourceController
 
     /**
      * @param int $param1
-     * @param Vendor_Module_Webapi_Customer_DataStructure $param2
+     * @param Vendor_Module_Model_Webapi_CustomerData $param2
      */
     public function updateV1($param1, $param2)
     {

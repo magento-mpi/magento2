@@ -1,10 +1,10 @@
 <?php
 /**
- * Tests fixture for Auto Discovery functionality. Customer address entity.
+ * Data structure description for customer address entity
  *
  * @copyright {}
  */
-class Vendor_Module_Webapi_Customer_Address_DataStructure
+class Mage_Customer_Model_Webapi_Customer_AddressData
 {
     /**
      * Street
