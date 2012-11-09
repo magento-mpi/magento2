@@ -30,7 +30,12 @@
             <path>CHANGELOG.markdown</path>
         </item>
         <item>
-            <path>dev/tests/static/testsuite/Legacy/_files/sanity_core.xml</path>
+            <path>app/code/core/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+            <word>xmlconnect</word>
+        </item>
+        <item>
+            <path>app/code/core/Mage/User/sql/user_setup/upgrade-1.6.1.2-1.6.1.3.php</path>
+            <word>xmlconnect</word>
         </item>
         <item>
             <path>dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd</path>

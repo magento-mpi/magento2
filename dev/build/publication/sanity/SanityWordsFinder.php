@@ -11,61 +11,38 @@
  */
 
 /**
- * Routine with run-time functions
+ * Extend words finder class, which is designed for sanity tests. The added functionality is method to search through
+ * directories and method to return words list for logging.
  */
-class SanityRoutine
+class SanityWordsFinder extends Inspection_WordsFinder
 {
-    /**
-     * Tool class, used to load config and check files
-     *
-     * @var Inspection_Sanity
-     */
-    protected $_sanityChecker;
-
-    /**
-     * Base directory, used to start searching from
-     *
-     * @var string
-     */
-    protected $_baseDir;
-
-    /**
-     * @param string $configFile
-     * @param string $baseDir
-     */
-    public function __construct($configFile, $baseDir)
-    {
-        $this->_sanityChecker = new Inspection_Sanity($configFile, $baseDir);
-        $this->_baseDir = realpath($baseDir);
-    }
-
     /**
      * Get list of words, configured to be searched
      *
      * @return array
      */
-    public function getWords()
+    public function getSearchedWords()
     {
-        return $this->_sanityChecker->getWords();
+        return $this->_words;
     }
 
     /**
-     * Searches words in files content within base directory tree
+     * Searche words in files content recursively within base directory tree
      *
      * @return array
      */
-    public function findWords()
+    public function findWordsRecursively()
     {
-        return $this->_findWords($this->_baseDir);
+        return $this->_findWordsRecursively($this->_baseDir);
     }
 
     /**
-     * Searches words in files content within directory tree
+     * Search words in files content recursively within base directory tree
      *
      * @param  string $currentDir Current dir to look in
      * @return array
      */
-    protected function _findWords($currentDir)
+    protected function _findWordsRecursively($currentDir)
     {
         $result = array();
 
@@ -73,14 +50,14 @@ class SanityRoutine
         $initialLength = strlen($this->_baseDir);
         foreach ($entries as $entry) {
             if (is_file($entry)) {
-                $foundWords = $this->_sanityChecker->findWords($entry);
+                $foundWords = $this->findWords($entry);
                 if (!$foundWords) {
                     continue;
                 }
                 $relPath = substr($entry, $initialLength + 1);
                 $result[] = array('words' => $foundWords, 'file' => $relPath);
             } else if (is_dir($entry)) {
-                $more = $this->_findWords($entry);
+                $more = $this->_findWordsRecursively($entry);
                 $result = array_merge($result, $more);
             }
         }

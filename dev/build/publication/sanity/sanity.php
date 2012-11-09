@@ -41,15 +41,15 @@ if (isset($options['w'])) {
     $workingDir = $options['w'];
 }
 
-$sanityChecker = new SanityRoutine($configFile, $workingDir);
+$wordsFinder = new SanityWordsFinder($configFile, $workingDir);
 
 $verbose = isset($options['v']) ? true : false;
 if ($verbose) {
-    $words = $sanityChecker->getWords();
+    $words = $wordsFinder->getSearchedWords();
     printf('Searching for banned words: "%s"...', implode('", "', $words));
 }
 
-$found = $sanityChecker->findWords();
+$found = $wordsFinder->findWordsRecursively();
 if ($found) {
     echo "Found banned words in the following files:\n";
     foreach ($found as $info) {
@@ -59,6 +59,6 @@ if ($found) {
 }
 
 if ($verbose) {
-    "No banned words found in the source code.\n";
+    echo "No banned words found in the source code.\n";
 }
 exit(0);

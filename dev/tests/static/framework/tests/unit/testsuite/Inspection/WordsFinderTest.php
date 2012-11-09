@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Inspection_SanityTest extends PHPUnit_Framework_TestCase
+class Inspection_WordsFinderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
@@ -19,7 +19,7 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException($configFile, $baseDir)
     {
-        new Inspection_Sanity($configFile, $baseDir);
+        new Inspection_WordsFinder($configFile, $baseDir);
     }
 
     public function constructorExceptionDataProvider()
@@ -38,6 +38,10 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
                 $fixturePath . 'broken_config.xml',
                 $fixturePath
             ),
+            'empty words config' => array(
+                $fixturePath . 'empty_words_config.xml',
+                $fixturePath
+            ),
             'empty whitelisted path' => array(
                 $fixturePath . 'empty_whitelisted_path.xml',
                 $fixturePath
@@ -45,25 +49,16 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetWords()
-    {
-        $sanityChecker = new Inspection_Sanity(__DIR__ . '/_files/config.xml', __DIR__ . '/_files/sanity');
-        $actual = $sanityChecker->getWords();
-        $expected = array('demon', 'vampire');
-        $this->assertEquals($expected, $actual);
-    }
-
     /**
      * @param string|array $configFiles
      * @param string $file
-     * @param bool $checkContents
      * @param array $expected
      * @dataProvider findWordsDataProvider
      */
-    public function testFindWords($configFiles, $file, $checkContents, $expected)
+    public function testFindWords($configFiles, $file, $expected)
     {
-        $sanityChecker = new Inspection_Sanity($configFiles, __DIR__ . '/_files/sanity');
-        $actual = $sanityChecker->findWords($file, $checkContents);
+        $wordsFinder = new Inspection_WordsFinder($configFiles, __DIR__ . '/_files/words_finder');
+        $actual = $wordsFinder->findWords($file);
         $this->assertEquals($expected, $actual);
     }
 
@@ -74,36 +69,31 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
     {
         $mainConfig = __DIR__ . '/_files/config.xml';
         $additionalConfig = __DIR__ . '/_files/config_additional.xml';
-        $basePath = __DIR__ . '/_files/sanity/';
+        $basePath = __DIR__ . '/_files/words_finder/';
         return array(
             'usual file' => array(
                 $mainConfig,
                 $basePath . 'buffy.php',
-                true,
                 array('demon', 'vampire'),
-            ),
-            'usual file no contents checked' => array(
-                $mainConfig,
-                $basePath . 'buffy.php',
-                false,
-                array(),
             ),
             'whitelisted file' => array(
                 $mainConfig,
                 $basePath . 'twilight/eclipse.php',
-                true,
                 array(),
             ),
             'partially whitelisted file' => array(
                 $mainConfig,
                 $basePath . 'twilight/newmoon.php',
-                true,
                 array('demon')
             ),
             'filename with bad word' => array(
                 $mainConfig,
                 $basePath . 'interview_with_the_vampire.php',
-                true,
+                array('vampire')
+            ),
+            'binary file, having name with bad word' => array(
+                $mainConfig,
+                $basePath . 'interview_with_the_vampire.zip',
                 array('vampire')
             ),
             'words in multiple configs' => array(
@@ -112,7 +102,6 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
                     $additionalConfig,
                 ),
                 $basePath . 'buffy.php',
-                true,
                 array('demon', 'vampire', 'darkness')
             ),
             'whitelisted paths in multiple configs' => array(
@@ -121,9 +110,18 @@ class Inspection_SanityTest extends PHPUnit_Framework_TestCase
                     $additionalConfig,
                 ),
                 $basePath . 'twilight/newmoon.php',
-                true,
                 array('demon')
             ),
+            'case-insensitive search for multibyte words' => array(
+                $mainConfig,
+                $basePath . 'buffy_ua.php',
+                array('кровосіс')
+            ),
+            'config must be whitelisted automatically' => array(
+                $basePath . 'self_tested_config.xml',
+                $basePath . 'self_tested_config.xml',
+                array()
+            )
         );
     }
 }

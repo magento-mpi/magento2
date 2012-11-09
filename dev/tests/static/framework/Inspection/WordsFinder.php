@@ -10,10 +10,17 @@
  */
 
 /**
- * Sanity checking routine
+ * Finder for a list of preconfigured words
  */
-class Inspection_Sanity
+class Inspection_WordsFinder
 {
+    /**
+     * List of file extensions, that indicate a binary file
+     *
+     * @var array
+     */
+    protected $_binaryExtensions = array('jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip');
+
     /**
      * Words to search for
      *
@@ -47,11 +54,29 @@ class Inspection_Sanity
         }
         $this->_baseDir = realpath($baseDir);
 
+        // Load config files
         if (!is_array($configFiles)) {
             $configFiles = array($configFiles);
         }
         foreach ($configFiles as $configFile) {
             $this->_loadConfig($configFile);
+        }
+
+        // Add config files to whitelist, as they surely contain banned words
+        $basePath = $this->_baseDir . DIRECTORY_SEPARATOR;
+        $basePathLen = strlen($basePath);
+        foreach ($configFiles as $configFile) {
+            $configFile = realpath($configFile);
+            if (strncmp($basePath, $configFile, $basePathLen) === 0) { // File is inside base dir
+                $this->_whitelist[$this->_getRelPath($configFile)] = array();
+            }
+        }
+
+        $this->_normalizeWhitelistPaths();
+
+        // Final verifications
+        if (!$this->_words) {
+            throw new Inspection_Exception('No words to check');
         }
     }
 
@@ -80,7 +105,7 @@ class Inspection_Sanity
      * Extract words from configuration xml
      *
      * @param SimpleXMLElement $configXml
-     * @return Inspection_Sanity
+     * @return Inspection_WordsFinder
      * @throws Inspection_Exception
      */
     protected function _extractWords(SimpleXMLElement $configXml)
@@ -101,7 +126,7 @@ class Inspection_Sanity
      * Extract whitelisted entries and words from configuration xml
      *
      * @param SimpleXMLElement $configXml
-     * @return Inspection_Sanity
+     * @return Inspection_WordsFinder
      * @throws Inspection_Exception
      */
     protected function _extractWhitelist(SimpleXMLElement $configXml)
@@ -112,7 +137,7 @@ class Inspection_Sanity
         foreach ($nodes as $node) {
             $path = $node->xpath('path');
             if (!$path) {
-                throw new Inspection_Exception('Wrong whitelisted path configuration');
+                throw new Inspection_Exception('A "path" must be defined for the whitelisted item');
             }
             $path = (string) $path[0];
 
@@ -139,59 +164,70 @@ class Inspection_Sanity
         return $this;
     }
 
-
     /**
-     * Get list of words, configured to be searched
-     *
-     * @return array
+     * Normalize whitelist paths, so that they containt only native directory separators
      */
-    public function getWords()
+    protected function _normalizeWhitelistPaths()
     {
-        return $this->_words;
+        $whitelist = $this->_whitelist;
+        $this->_whitelist = array();
+        foreach ($whitelist as $whitelistFile => $whitelistWords) {
+            $whitelistFile = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $whitelistFile);
+            $this->_whitelist[$whitelistFile] = $whitelistWords;
+        }
     }
 
     /**
-     * Checks the file content against the list of words
+     * Checks the file content and name against the list of words. Do not check content of binary files.
+     * Exclude whitelisted entries.
      *
      * @param  string $file
-     * @param  bool $checkContents
      * @return array Words, found
      */
-    public function findWords($file, $checkContents = true)
+    public function findWords($file)
     {
-        $foundWords = $this->_findWords($file, $checkContents);
+        $foundWords = $this->_findWords($file);
         if (!$foundWords) {
             return array();
         }
 
         $relPath = substr($file, strlen($this->_baseDir) + 1);
-        $foundWords = self::_removeWhitelistedWords($relPath, $foundWords);
-        if (!$foundWords) {
-            return array();
-        }
-
-        return $foundWords;
+        return self::_removeWhitelistedWords($relPath, $foundWords);
     }
 
     /**
-     * Tries to find specific words in the file
+     * Checks the file content and name against the list of words. Do not check content of binary files.
      *
      * @param  string $file
-     * @param  bool $checkContents
      * @return array
      */
-    protected function _findWords($file, $checkContents = true)
+    protected function _findWords($file)
     {
+        $checkContents = !$this->_isBinaryFile($file);
+
         $relPath = $this->_getRelPath($file);
         $contents = $checkContents ? file_get_contents($file) : '';
 
         $foundWords = array();
         foreach ($this->_words as $word) {
-            if ((stripos($contents, $word) !== false) || (stripos($relPath, $word) !== false)) {
+            if ((mb_stripos($contents, $word, null, 'UTF-8') !== false)
+                || (mb_stripos($relPath, $word, null, 'UTF-8') !== false)) {
                 $foundWords[] = $word;
             }
         }
         return $foundWords;
+    }
+
+    /**
+     * Check, whether file is a binary one
+     *
+     * @param string $file
+     * @return bool
+     */
+    protected function _isBinaryFile($file)
+    {
+        $regexp = '/\\.'  .  implode('|', $this->_binaryExtensions) . '$/';
+        return preg_match($regexp, $file);
     }
 
     /**
@@ -203,7 +239,7 @@ class Inspection_Sanity
      */
     protected function _removeWhitelistedWords($path, $foundWords)
     {
-        $path = str_replace('\\', '/', $path);
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
         foreach ($this->_whitelist as $whitelistPath => $whitelistWords) {
             if (strncmp($whitelistPath, $path, strlen($whitelistPath)) != 0) {
                 continue;

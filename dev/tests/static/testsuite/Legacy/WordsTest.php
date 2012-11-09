@@ -12,29 +12,28 @@
 /**
  * Tests, that perform search of words, that signal of obsolete code
  */
-class Legacy_SanityTest extends PHPUnit_Framework_TestCase
+class Legacy_WordsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Inspection_Sanity
+     * @var Inspection_WordsFinder
      */
-    protected static $_sanityChecker;
+    protected static $_wordsFinder;
 
     public static function setUpBeforeClass()
     {
-        self::$_sanityChecker = new Inspection_Sanity(
-            glob(__DIR__ . '/_files/sanity_*.xml'),
+        self::$_wordsFinder = new Inspection_WordsFinder(
+            glob(__DIR__ . '/_files/words_*.xml'),
             Utility_Files::init()->getPathToSource()
         );
     }
 
     /**
      * @param string $file
-     * @dataProvider sanityDataProvider
+     * @dataProvider wordsDataProvider
      */
-    public function testSanity($file)
+    public function testWords($file)
     {
-        $isBinaryFile = preg_match('/\.(jpg|png|gif|swf|avi|mov|flv|jar)$/', $file);
-        $words = self::$_sanityChecker->findWords($file, !$isBinaryFile);
+        $words = self::$_wordsFinder->findWords($file);
         if ($words) {
             $this->fail('Found words: ' . implode(', ', $words));
         }
@@ -43,7 +42,7 @@ class Legacy_SanityTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function sanityDataProvider()
+    public function wordsDataProvider()
     {
         return Utility_Files::init()->getAllFiles();
     }
