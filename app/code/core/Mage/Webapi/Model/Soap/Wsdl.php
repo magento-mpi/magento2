@@ -27,14 +27,4 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy, $classMap);
     }
-
-    /**
-     * Retrieve target namespace of the WSDL document.
-     *
-     * @return string
-     */
-    public function getTargetNamespace()
-    {
-        return sprintf('urn:Magento-%s', md5($this->_uri));
-    }
 }
