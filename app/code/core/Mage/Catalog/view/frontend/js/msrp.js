@@ -49,7 +49,7 @@
                 return false;
             }, this));
 
-            $(this.options.closeButtonId).on('click', $.proxy(function(e) {
+            $(this.options.closeButtonId).on('click', $.proxy(function() {
                 $('#map-popup').hide();
                 return false;
             }, this));
