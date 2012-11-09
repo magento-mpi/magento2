@@ -43,6 +43,9 @@ try {
     }
     $list = array();
     foreach ($options['l'] as $file) {
+        if (!is_file($file) || !is_readable($file)) {
+            throw new Exception("Specified file with patterns does not exist or cannot be read: '{$file}'");
+        }
         $patterns = file($file, FILE_IGNORE_NEW_LINES);
         foreach ($patterns as $pattern) {
             if (empty($pattern) || 0 === strpos($pattern, '#')) { // comments start from #
