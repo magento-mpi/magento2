@@ -44,10 +44,15 @@ class Mage_Downloadable_Model_Observer
         $product = $observer->getEvent()->getProduct();
         $downloadable = $request->getPost('downloadable');
 
-        if ($downloadable && $product->hasIsVirtual()) {
-            $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
-            $product->setTypeIdChanged(true);
-            $product->setDownloadableData($downloadable);
+        if ($product->hasIsVirtual()) {
+            if ($downloadable) {
+                $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
+                $product->setDownloadableData($downloadable);
+            } else {
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+            }
+        } else {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
 
         return $this;
