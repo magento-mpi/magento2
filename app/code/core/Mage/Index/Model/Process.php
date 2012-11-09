@@ -61,9 +61,20 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     protected $_indexer = null;
 
     /**
-     * Process lock properties
+     * Process lock flag:
+     *  - true  - if process is already locked by another user
+     *  - false - if process is locked by us
+     *  - null  - unknown lock status
+     *
+     * @var bool
      */
     protected $_isLocked = null;
+
+    /**
+     * Lock file handler
+     *
+     * @var resource
+     */
     protected $_lockFile = null;
 
     /**
@@ -404,14 +415,13 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
 
     /**
      * Lock process without blocking.
-     * This method allow protect multiple process runing and fast lock validation.
+     * This method allow protect multiple process running and fast lock validation.
      *
      * @return Mage_Index_Model_Process
      */
     public function lock()
     {
-        $this->_isLocked = true;
-        flock($this->_getLockFile(), LOCK_EX | LOCK_NB);
+        $this->_isLocked = !flock($this->_getLockFile(), LOCK_EX | LOCK_NB);
         return $this;
     }
 
@@ -424,8 +434,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function lockAndBlock()
     {
-        $this->_isLocked = true;
-        flock($this->_getLockFile(), LOCK_EX);
+        $this->_isLocked = !flock($this->_getLockFile(), LOCK_EX);
         return $this;
     }
 
@@ -436,24 +445,27 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function unlock()
     {
-        $this->_isLocked = false;
+        $this->_isLocked = null;
         flock($this->_getLockFile(), LOCK_UN);
         return $this;
     }
 
     /**
-     * Check if process is locked
+     * Check if process is locked by ANOTHER user
      *
+     * @param bool $needUnlock
      * @return bool
      */
-    public function isLocked()
+    public function isLocked($needUnlock = false)
     {
         if ($this->_isLocked !== null) {
             return $this->_isLocked;
         } else {
             $fp = $this->_getLockFile();
             if (flock($fp, LOCK_EX | LOCK_NB)) {
-                flock($fp, LOCK_UN);
+                if ($needUnlock) {
+                    flock($fp, LOCK_UN);
+                }
                 return false;
             }
             return true;
