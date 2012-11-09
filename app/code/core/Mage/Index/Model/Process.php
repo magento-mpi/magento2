@@ -61,21 +61,38 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     protected $_indexer = null;
 
     /**
-     * Process lock flag:
-     *  - true  - if process is already locked by another user
-     *  - false - if process is locked by us
-     *  - null  - unknown lock status
+     * Lock file entity storage
      *
-     * @var bool
+     * @var Mage_Index_Model_Lock_Storage
      */
-    protected $_isLocked = null;
+    protected $_lockStorage;
 
     /**
-     * Lock file handler
+     * Instance of current process file
      *
-     * @var resource
+     * @var Mage_Index_Model_Process_File
      */
-    protected $_lockFile = null;
+    protected $_processFile;
+
+    /**
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Mage_Index_Model_Lock_Storage $lockStorage
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Index_Model_Lock_Storage $lockStorage,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_lockStorage = $lockStorage;
+    }
 
     /**
      * Initialize resource
@@ -229,6 +246,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         $this->setForcePartialReindex(count($unprocessedEvents) > 0 && $this->getStatus() == self::STATUS_PENDING);
 
         if ($this->getDepends()) {
+            /** @var $indexer Mage_Index_Model_Indexer */
             $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
             foreach ($this->getDepends() as $code) {
                 $process = $indexer->getProcessByCode($code);
@@ -394,23 +412,16 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get lock file resource
+     * Get process file instance
      *
-     * @return resource
+     * @return Mage_Index_Model_Process_File
      */
-    protected function _getLockFile()
+    protected function _getProcessFile()
     {
-        if ($this->_lockFile === null) {
-            $varDir = Mage::getConfig()->getVarDir('locks');
-            $file = $varDir . DS . 'index_process_'.$this->getId().'.lock';
-            if (is_file($file)) {
-                $this->_lockFile = fopen($file, 'w');
-            } else {
-                $this->_lockFile = fopen($file, 'x');
-            }
-            fwrite($this->_lockFile, date('r'));
+        if (!$this->_processFile) {
+            $this->_processFile = $this->_lockStorage->getFile($this->getId());
         }
-        return $this->_lockFile;
+        return $this->_processFile;
     }
 
     /**
@@ -421,7 +432,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function lock()
     {
-        $this->_isLocked = !flock($this->_getLockFile(), LOCK_EX | LOCK_NB);
+        $this->_getProcessFile()->processLock();
         return $this;
     }
 
@@ -434,7 +445,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function lockAndBlock()
     {
-        $this->_isLocked = !flock($this->_getLockFile(), LOCK_EX);
+        $this->_getProcessFile()->processLock(false);
         return $this;
     }
 
@@ -445,41 +456,19 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function unlock()
     {
-        $this->_isLocked = null;
-        flock($this->_getLockFile(), LOCK_UN);
+        $this->_getProcessFile()->processUnlock();
         return $this;
     }
 
     /**
-     * Check if process is locked by ANOTHER user
+     * Check if process is locked by another user
      *
      * @param bool $needUnlock
      * @return bool
      */
     public function isLocked($needUnlock = false)
     {
-        if ($this->_isLocked !== null) {
-            return $this->_isLocked;
-        } else {
-            $fp = $this->_getLockFile();
-            if (flock($fp, LOCK_EX | LOCK_NB)) {
-                if ($needUnlock) {
-                    flock($fp, LOCK_UN);
-                }
-                return false;
-            }
-            return true;
-        }
-    }
-
-    /**
-     * Close file resource if it was opened
-     */
-    public function __destruct()
-    {
-        if ($this->_lockFile) {
-            fclose($this->_lockFile);
-        }
+        return $this->_getProcessFile()->isProcessLocked($needUnlock);
     }
 
     /**
@@ -568,6 +557,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      *
      * @param Mage_Index_Model_Event $event
      * @return Mage_Index_Model_Process
+     * @throws Exception
      */
     public function safeProcessEvent(Mage_Index_Model_Event $event)
     {
