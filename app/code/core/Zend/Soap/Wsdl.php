@@ -108,18 +108,19 @@ class Wsdl
     }
 
     /**
-     * Percent-encode reserved characters in URI.
-     * This method will encode everything except letters, digits and URL chars (-_~:/?=.)
+     * URL encode query part of the URI if it is present.
      *
      * @param string $uri
      * @return string
      */
     protected function _escapeUri($uri)
     {
-        $charsToEncodeRegExp = '/[^a-z0-9\-_\.\~\:\/\?\=]/i';
-        $uri = preg_replace_callback($charsToEncodeRegExp, function ($char) {
-            return '%' . strtoupper(dechex(ord($char[0])));
-        }, $uri);
+        // normalize URL
+        $uri = urldecode($uri);
+        if (preg_match('/\?(.+)$/', $uri, $matches)) {
+            $query = $matches[1];
+            $uri = str_replace($query, urlencode($query), $uri);
+        }
 
         return $uri;
     }
