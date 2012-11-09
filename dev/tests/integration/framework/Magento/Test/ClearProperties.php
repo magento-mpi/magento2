@@ -29,7 +29,7 @@ class Magento_Test_ClearProperties
             foreach ($properties as $property) {
                 $property->setAccessible(true);
                 $value = $property->getValue($test);
-                if (is_object($value) && (method_exists($value, '__destruct'))) {
+                if (is_object($value) && method_exists($value, '__destruct')) {
                     $value->__destruct();
                 }
                 $property->setValue($test, null);

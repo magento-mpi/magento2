@@ -19,6 +19,14 @@ class Magento_Test_ClearPropertiesTest extends PHPUnit_Framework_TestCase
      */
     protected $_properties = array(
         array(
+            'name' => 'testPublic',
+            'expectedValue' => 'public',
+        ),
+        array(
+            'name' => '_testPrivate',
+            'expectedValue' => 'private',
+        ),
+        array(
             'name' => '_testPropertyBoolean',
             'expectedValue' => true,
         ),
@@ -37,6 +45,18 @@ class Magento_Test_ClearPropertiesTest extends PHPUnit_Framework_TestCase
         array(
             'name' => '_testPropertyArray',
             'expectedValue' => array('test', 20),
+        ),
+        array(
+            'name' => 'testPublicStatic',
+            'expectedValue' => 'static public',
+        ),
+        array(
+            'name' => '_testProtectedStatic',
+            'expectedValue' => 'static protected',
+        ),
+        array(
+            'name' => '_testPrivateStatic',
+            'expectedValue' => 'static private',
         ),
     );
 
