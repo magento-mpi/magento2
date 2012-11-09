@@ -761,9 +761,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _transitionProductType($product)
     {
-        if (in_array($product->getTypeId(), array(
-            Mage_Catalog_Model_Product_Type::TYPE_SIMPLE, Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-        )) || !$product->getTypeIdChanged()) {
+        $isTransitionalType = !in_array($product->getTypeId(), array(
+            Mage_Catalog_Model_Product_Type::TYPE_GROUPED, Mage_Catalog_Model_Product_Type::TYPE_BUNDLE));
+        if ($isTransitionalType && !$product->getTypeIdChanged()) {
             $product->setTypeId($product->hasIsVirtual()
                 ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
                 : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
