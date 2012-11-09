@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+(function ($, window) {
     $.widget('mage.compareList', {
         _create: function() {
             this.element.decorate('table');
@@ -46,4 +46,4 @@
             });
         }
     });
-})(jQuery);
+})(jQuery, window);
