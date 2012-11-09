@@ -698,10 +698,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data) {
             $this->_filterStockData($data['product']['stock_data']);
 
-            $product = $this->_initProduct();
-
-            $this->_transitionProductType($product, $data);
-            $product = $this->_initProductSave($product);
+            $product = $this->_initProductSave($this->_initProduct());
+            $this->_transitionProductType($product);
 
             try {
                 $originalSku = $product->getSku();
@@ -760,14 +758,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      * Change product type on the fly depending on selected options
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param array $data
      */
-    protected function _transitionProductType($product, $data)
+    protected function _transitionProductType($product)
     {
-        if (in_array($product->getTypeId(), array(
-            Mage_Catalog_Model_Product_Type::TYPE_SIMPLE, Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-        ))) {
-            $product->setTypeId(isset($data['product']['is_virtual'])
+        if (!$product->dataHasChangedFor('type_id')) {
+            $product->setTypeId($product->hasIsVirtual()
                 ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
                 : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
             );
