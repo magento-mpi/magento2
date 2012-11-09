@@ -66,8 +66,8 @@ class Enterprise2_Mage_Invitation_Helper extends Mage_Selenium_TestCase
         $loginData = array('email' => $userData['email'], 'password' => $userData['password']);
         $this->customerHelper()->frontLoginCustomer($loginData);
         $this->validatePage('customer_account');
-        //$this->sendInvitationFrontend($count, $messageType = 'success', $messageName = 'success_send');
-       $this->sendInvitationFrontend($count, $messageType = 'error', $messageName = 'failed_send');//if run test on localhost
+        $this->sendInvitationFrontend($count, $messageType = 'success', $messageName = 'success_send');
+        //$this->sendInvitationFrontend($count, $messageType = 'error', $messageName = 'failed_send');//if run test on localhost
     }
 }
 
