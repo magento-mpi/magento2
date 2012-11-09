@@ -87,7 +87,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName = 'customers_orders.csv';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.customer.orders.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName   = 'customers_orders.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.customer.orders.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
