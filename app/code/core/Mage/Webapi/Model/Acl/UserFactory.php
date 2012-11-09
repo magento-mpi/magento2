@@ -1,10 +1,10 @@
 <?php
 /**
- * DOM document factory.
+ * User builder factory.
  *
  * @copyright {copyright}
  */
-class Magento_DomDocument_Factory
+class Mage_Webapi_Model_Acl_UserFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -20,12 +20,13 @@ class Magento_DomDocument_Factory
     }
 
     /**
-     * Create empty DOM document instance.
+     * Create user model.
      *
-     * @return DOMDocument
+     * @param array $arguments
+     * @return Mage_Webapi_Model_Acl_User
      */
-    public function createDomDocument()
+    public function createFromArray($arguments = array())
     {
-        return $this->_objectManager->create('DOMDocument', array(), false);
+        return $this->_objectManager->create('Mage_Webapi_Model_Acl_User', $arguments);
     }
 }

@@ -35,6 +35,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
+    /** @var Mage_Webapi_Model_Soap_Security_UsernameTokenFactory */
+    protected $_usernameTokenFactory;
+
+    /** @var Mage_Webapi_Model_Authorization_RoleLocator */
+    protected $_roleLocator;
+
     /**
      * WS-Security UsernameToken object from request
      *
@@ -52,7 +58,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         Zend\Soap\Server $soapServer,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
-        Magento_DomDocument_Factory $domDocumentFactory
+        Magento_DomDocument_Factory $domDocumentFactory,
+        Mage_Webapi_Model_Soap_Security_UsernameTokenFactory $usernameTokenFactory,
+        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
         parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
         $this->_autoDiscover = $autoDiscover;
@@ -60,6 +68,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $this->_cache = $cache;
         $this->_application = $application;
         $this->_domDocumentFactory = $domDocumentFactory;
+        $this->_usernameTokenFactory = $usernameTokenFactory;
+        $this->_roleLocator = $roleLocator;
     }
 
     /**
@@ -162,16 +172,10 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         }
 
         try {
-            /** @var Mage_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
-            $usernameToken = Mage::getModel('Mage_Webapi_Model_Soap_Security_UsernameToken', array(
-                'username' => $this->_usernameTokenRequest->Username,
-                'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
-                'password' => $this->_usernameTokenRequest->Password,
-                'nonce' => $this->_usernameTokenRequest->Nonce,
-                'created' => $this->_usernameTokenRequest->Created
-            ));
-            Mage::getSingleton('Mage_Webapi_Model_Authorization_RoleLocator')
-                ->setRoleId($usernameToken->authenticate()->getRoleId());
+            $token = $this->_usernameTokenFactory->createFromArray();
+            $request = $this->_usernameTokenRequest;
+            $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);
+            $this->_roleLocator->setRoleId($user->getRoleId());
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
             $this->_soapFault($this->_helper->__('WS-Security UsernameToken Nonce is already used.'),
                 self::FAULT_CODE_SENDER);

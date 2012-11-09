@@ -22,48 +22,40 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectFactoryMock;
+    protected $_userFactoryMock;
 
     /**
-     * @var array
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_tokenOptionsFixture = array();
-
-    /**
-     * @var string
-     */
-    protected $_validFixturePassword;
+    protected $_userMock;
 
     /**
      * Set up nonce storage mock to be used in further tests.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_nonceStorageMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage')
             ->disableOriginalConstructor()
             ->setConstructorArgs(array('validateNonce'))
             ->getMock();
-        $this->_nonceStorageMock->expects($this->any())
-            ->method('validateNonce')
-            ->will($this->returnValue(true));
-
-        $this->_objectFactoryMock = $this->getMockBuilder('Mage_Core_Model_Config')
+        $this->_userMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_User')
             ->disableOriginalConstructor()
-            ->setMethods(array('getModelInstance'))
+            ->setMethods(array('load', 'getId', 'getApiSecret'))
             ->getMock();
+        $this->_userFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_UserFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('createFromArray'))
+            ->getMock();
+    }
 
-        $nonce = mt_rand();
-        $created = date('c');
-        $this->_validFixturePassword = '123123qa';
-        $this->_tokenOptionsFixture = array(
-            'username' => 'testuser',
-            'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
-            'password' => base64_encode(hash('sha1', $nonce . $created . $this->_validFixturePassword, true)),
-            'nonce' => base64_encode($nonce),
-            'created' => $created,
-            'nonceStorage' => $this->_nonceStorageMock,
-            'objectFactory' => $this->_objectFactoryMock,
-        );
+    /**
+     * Clean up.
+     */
+    protected function tearDown()
+    {
+        unset($this->_nonceStorageMock);
+        unset($this->_userMock);
+        unset($this->_userFactoryMock);
     }
 
     /**
@@ -72,17 +64,36 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      * @dataProvider validDateTimeProvider()
      * @param string $validDateTime
      */
-    public function testConstructNewUsernameToken($validDateTime)
+    public function testAuthenticateUsernameToken($validDateTime)
     {
-        $this->_tokenOptionsFixture['created'] = $validDateTime;
-
+        $username = 'test_user';
+        $password = 'test_password';
+        $nonce = mt_rand();
+        $tokenPassword = base64_encode(hash('sha1', $nonce . $validDateTime . $password, true));
+        $tokenNonce = base64_encode($nonce);
         $this->_nonceStorageMock
             ->expects($this->once())
             ->method('validateNonce')
-            ->with($this->_tokenOptionsFixture['nonce'], strtotime($validDateTime));
+            ->with($tokenNonce, strtotime($validDateTime));
+        $this->_userFactoryMock->expects($this->once())
+            ->method('createFromArray')
+            ->with()
+            ->will($this->returnValue($this->_userMock));
+        $this->_userMock->expects($this->once())
+            ->method('load')
+            ->with($username, 'api_key')
+            ->will($this->returnSelf());
+        $this->_userMock->expects($this->once())
+            ->method('getId')
+            ->with()
+            ->will($this->returnValue(1));
+        $this->_userMock->expects($this->once())
+            ->method('getApiSecret')
+            ->with()
+            ->will($this->returnValue($password));
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-        $this->assertInstanceOf('Mage_Webapi_Model_Soap_Security_UsernameToken', $usernameToken);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $this->assertEquals($this->_userMock, $usernameToken->authenticate($username, $tokenPassword, $validDateTime, $tokenNonce));
     }
 
     /**
@@ -107,11 +118,14 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      * @param string $invalidDateTime
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
      */
-    public function testConstructNewUsernameTokenWithInvalidCreatedDate($invalidDateTime)
+    public function testAuthenticateUsernameTokenWithInvalidCreatedDate($invalidDateTime)
     {
-        $this->_tokenOptionsFixture['created'] = $invalidDateTime;
+        $username = 'test_user';
+        $password = 'test_password';
+        $nonce = mt_rand();
 
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken->authenticate($username, $password, $invalidDateTime, $nonce);
     }
 
     /**
@@ -129,156 +143,13 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test construction of object with missing username.
-     *
-     * @dataProvider missingUsernameDataProvider()
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingUsernameException
-     */
-    public function testConstructNewUsernameTokenWithMissingUsername($action, $field)
-    {
-        $this->_prepareFixture($action, $field);
-
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-    }
-
-    /**
-     * Data provider for testConstructNewUsernameTokenWithMissingUsername
-     *
-     * @return array
-     */
-    public static function missingUsernameDataProvider()
-    {
-        return array(
-            'Username is not set' => array('unset', 'username'),
-            'Username is empty' => array('empty', 'username')
-        );
-    }
-
-    /**
      * Test construction of object with invalid password type.
      *
      * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
      */
     public function testConstructNewUsernameTokenWithInvalidPasswordType()
     {
-        $this->_tokenOptionsFixture['passwordType'] = 'INVALID_TYPE';
-
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-    }
-
-    /**
-     * Test construction of object with missing password input.
-     *
-     * @dataProvider missingPasswordDataProvider()
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingPasswordException
-     */
-    public function testConstructNewUsernameTokenWithMissingPassword($action, $field)
-    {
-        $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-    }
-
-    /**
-     * Data provider for testConstructNewUsernameTokenWithMissingPassword
-     *
-     * @return array
-     */
-    public static function missingPasswordDataProvider()
-    {
-        return array(
-            'Password is not set' => array('unset', 'password'),
-            'Password is empty' => array('empty', 'password')
-        );
-    }
-
-    /**
-     * Test construction of object with missing nonce input.
-     *
-     * @dataProvider missingNonceDataProvider()
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingNonceException
-     */
-    public function testConstructNewUsernameTokenWithMissingNonce($action, $field)
-    {
-        $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-    }
-
-    /**
-     * Data provider for testConstructNewUsernameTokenWithMissingNonce
-     *
-     * @return array
-     */
-    public static function missingNonceDataProvider()
-    {
-        return array(
-            'Nonce is not set' => array('unset', 'nonce'),
-            'Nonce is empty' => array('empty', 'nonce')
-        );
-    }
-
-    /**
-     * Test construction of object with missing created timestamp input.
-     *
-     * @dataProvider missingCreatedDataProvider()
-     * @expectedException Mage_Webapi_Model_Soap_Security_UsernameToken_MissingCreatedException
-     */
-    public function testConstructNewUsernameTokenWithMissingCreated($action, $field)
-    {
-        $this->_prepareFixture($action, $field);
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-    }
-
-    /**
-     * Data provider for testConstructNewUsernameTokenWithMissingCreated
-     *
-     * @return array
-     */
-    public static function missingCreatedDataProvider()
-    {
-        return array(
-            'Created is not set' => array('unset', 'created'),
-            'Created is empty' => array('empty', 'created')
-        );
-    }
-
-    /**
-     * Prepare usernameTokenOptions fixture for empty/is set tests.
-     *
-     * @param string $action to perform: unset or empty
-     * @param string $field of the fixture to which perform the action
-     */
-    protected function _prepareFixture($action, $field)
-    {
-        if ($action == 'unset') {
-            unset($this->_tokenOptionsFixture[$field]);
-        } elseif ($action == 'empty') {
-            $this->_tokenOptionsFixture[$field] = '';
-        }
-    }
-
-    /**
-     * Test positive token authentication.
-     */
-    public function testAuthenticate()
-    {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-
-        $userMock = $this->_getUserMock();
-        $this->_objectFactoryMock
-            ->expects($this->once())
-            ->method('getModelInstance')
-            ->with('Mage_Webapi_Model_Acl_User')
-            ->will($this->returnValue($userMock));
-
-        $userMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $userMock->expects($this->once())
-            ->method('getApiSecret')
-            ->will($this->returnValue($this->_validFixturePassword));
-
-        $user = $usernameToken->authenticate();
-        $this->assertInstanceOf('Mage_Webapi_Model_Acl_User', $user);
+        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock, 'INVALID_TYPE');
     }
 
     /**
@@ -288,20 +159,31 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testAuthenticateWithInvalidUsername()
     {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-
-        $userMock = $this->_getUserMock();
-        $this->_objectFactoryMock
+        $username = 'test_user';
+        $password = 'test_password';
+        $nonce = mt_rand();
+        $created = date('c');
+        $tokenPassword = base64_encode(hash('sha1', $nonce . $created . $password, true));
+        $tokenNonce = base64_encode($nonce);
+        $this->_nonceStorageMock
             ->expects($this->once())
-            ->method('getModelInstance')
-            ->with('Mage_Webapi_Model_Acl_User')
-            ->will($this->returnValue($userMock));
-
-        $userMock->expects($this->once())
+            ->method('validateNonce')
+            ->with($tokenNonce, strtotime($created));
+        $this->_userFactoryMock->expects($this->once())
+            ->method('createFromArray')
+            ->with()
+            ->will($this->returnValue($this->_userMock));
+        $this->_userMock->expects($this->once())
+            ->method('load')
+            ->with($username, 'api_key')
+            ->will($this->returnSelf());
+        $this->_userMock->expects($this->once())
             ->method('getId')
+            ->with()
             ->will($this->returnValue(false));
 
-        $usernameToken->authenticate();
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken->authenticate($username, $tokenPassword, $created, $tokenNonce);
     }
 
     /**
@@ -311,41 +193,35 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testAuthenticateWithInvalidPassword()
     {
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_tokenOptionsFixture);
-
-        $userMock = $this->_getUserMock();
-        $this->_objectFactoryMock
+        $username = 'test_user';
+        $password = 'test_password';
+        $invalidPassword = 'invalid_password';
+        $nonce = mt_rand();
+        $created = date('c');
+        $tokenPassword = base64_encode(hash('sha1', $nonce . $created . $password, true));
+        $tokenNonce = base64_encode($nonce);
+        $this->_nonceStorageMock
             ->expects($this->once())
-            ->method('getModelInstance')
-            ->with('Mage_Webapi_Model_Acl_User')
-            ->will($this->returnValue($userMock));
-
-        $userMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $userMock->expects($this->once())
-            ->method('getApiSecret')
-            ->will($this->returnValue('INVALID_PASSWORD'));
-
-        $usernameToken->authenticate();
-    }
-
-    /**
-     * Prepare mock for user model.
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getUserMock()
-    {
-        $userMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_User')
-            ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getId', 'getApiSecret'))
-            ->getMock();
-        $userMock->expects($this->once())
+            ->method('validateNonce')
+            ->with($tokenNonce, strtotime($created));
+        $this->_userFactoryMock->expects($this->once())
+            ->method('createFromArray')
+            ->with()
+            ->will($this->returnValue($this->_userMock));
+        $this->_userMock->expects($this->once())
             ->method('load')
-            ->with($this->_tokenOptionsFixture['username'], 'api_key')
+            ->with($username, 'api_key')
             ->will($this->returnSelf());
+        $this->_userMock->expects($this->once())
+            ->method('getId')
+            ->with()
+            ->will($this->returnValue(1));
+        $this->_userMock->expects($this->once())
+            ->method('getApiSecret')
+            ->with()
+            ->will($this->returnValue($invalidPassword));
 
-        return $userMock;
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken->authenticate($username, $tokenPassword, $created, $tokenNonce);
     }
 }
