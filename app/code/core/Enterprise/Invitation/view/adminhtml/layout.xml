@@ -49,10 +49,10 @@
             <arguments>
                 <exportTypes>
                     <csv>
-                        <urlPath>*/*/exportOrdersCsv</urlPath>
+                        <urlPath>*/*/exportOrderCsv</urlPath>
                     </csv>
                     <excel>
-                        <urlPath>*/*/exportOrdersExcel</urlPath>
+                        <urlPath>*/*/exportOrderExcel</urlPath>
                     </excel>
                 </exportTypes>
             </arguments>
