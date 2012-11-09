@@ -46,6 +46,7 @@ class Mage_Downloadable_Model_Observer
 
         if ($downloadable && $product->hasIsVirtual()) {
             $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
+            $product->setTypeIdChanged(true);
             $product->setDownloadableData($downloadable);
         }
 
