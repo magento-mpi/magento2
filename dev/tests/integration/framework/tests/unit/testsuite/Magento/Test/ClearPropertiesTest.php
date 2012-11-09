@@ -20,42 +20,52 @@ class Magento_Test_ClearPropertiesTest extends PHPUnit_Framework_TestCase
     protected $_properties = array(
         array(
             'name' => 'testPublic',
+            'is_static' => false,
             'expectedValue' => 'public',
         ),
         array(
             'name' => '_testPrivate',
+            'is_static' => false,
             'expectedValue' => 'private',
         ),
         array(
             'name' => '_testPropertyBoolean',
+            'is_static' => false,
             'expectedValue' => true,
         ),
         array(
             'name' => '_testPropertyInteger',
+            'is_static' => false,
             'expectedValue' => 10,
         ),
         array(
             'name' => '_testPropertyFloat',
+            'is_static' => false,
             'expectedValue' => 1.97,
         ),
         array(
             'name' => '_testPropertyString',
+            'is_static' => false,
             'expectedValue' => 'string',
         ),
         array(
             'name' => '_testPropertyArray',
+            'is_static' => false,
             'expectedValue' => array('test', 20),
         ),
         array(
             'name' => 'testPublicStatic',
+            'is_static' => true,
             'expectedValue' => 'static public',
         ),
         array(
             'name' => '_testProtectedStatic',
+            'is_static' => true,
             'expectedValue' => 'static protected',
         ),
         array(
             'name' => '_testPrivateStatic',
+            'is_static' => true,
             'expectedValue' => 'static private',
         ),
     );
@@ -72,22 +82,21 @@ class Magento_Test_ClearPropertiesTest extends PHPUnit_Framework_TestCase
         $testSuite = $phpUnitTestSuite->testAt(0);
         $testSuite->run();
         $testClass = $testSuite->testAt(0);
-        $stubReflection = new ReflectionClass($testClass);
-        $this->assertFalse(Magento_Test_ClearProperties_Stub::$isDestructCalled);
         foreach ($this->_properties as $property) {
-            $testProperty = $stubReflection->getProperty($property['name']);
-            $testProperty->setAccessible(true);
-            $actualValue = $testProperty->getValue($testClass);
-            $this->assertEquals($property['expectedValue'], $actualValue);
+            if ($property['is_static']) {
+                $this->assertAttributeEquals($property['expectedValue'], $property['name'], get_class($testClass));
+            } else {
+                $this->assertAttributeEquals($property['expectedValue'], $property['name'], $testClass);
+            }
         }
         $clearProperties->endTestSuite($testSuite);
         $this->assertTrue(Magento_Test_ClearProperties_Stub::$isDestructCalled);
         foreach ($this->_properties as $property) {
-            $testProperty = $stubReflection->getProperty($property['name']);
-            $testProperty->setAccessible(true);
-            $actualValue = $testProperty->getValue($testClass);
-            $this->assertNull($actualValue);
+            if ($property['is_static']) {
+                $this->assertAttributeEmpty($property['name'], get_class($testClass));
+            } else {
+                $this->assertAttributeEmpty($property['name'], $testClass);
+            }
         }
     }
 }
-
