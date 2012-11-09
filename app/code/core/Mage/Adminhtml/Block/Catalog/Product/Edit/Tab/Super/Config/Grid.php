@@ -30,6 +30,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     }
 
     /**
+     * Get product type
+     *
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function getProductType()
+    {
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
+    }
+
+    /**
      * Retrieve currently edited product object
      *
      * @return Mage_Catalog_Model_Product
@@ -114,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->addCatalogInventoryToProductCollection($collection);
         }
 
-        foreach ($product->getTypeInstance()->getUsedProductAttributes($product) as $attribute) {
+        foreach ($this->getProductType()->getUsedProductAttributes($product) as $attribute) {
             $collection->addAttributeToSelect($attribute->getAttributeCode());
             $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
         }
@@ -133,7 +143,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     {
         $products = $this->getRequest()->getPost('products', null);
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getTypeInstance()->getUsedProductIds($this->_getProduct());
+            $products = $this->getProductType()->getUsedProductIds($this->_getProduct());
         }
         return $products;
     }
@@ -154,7 +164,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _prepareColumns()
     {
         $product = $this->_getProduct();
-        $attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
+        $attributes = $this->getProductType()->getConfigurableAttributes($product);
 
         if (!$this->isReadonly()) {
             $this->addColumn('in_products', array(
@@ -178,21 +188,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name'
-        ));
-
-
-        $sets = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->getCollection()
-            ->setEntityTypeFilter($this->_getProduct()->getResource()->getTypeId())
-            ->load()
-            ->toOptionHash();
-
-        $this->addColumn('set_name',
-            array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
-                'width' => '130px',
-                'index' => 'attribute_set_id',
-                'type'  => 'options',
-                'options' => $sets,
         ));
 
         $this->addColumn('sku', array(
@@ -266,11 +261,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _getRequiredAttributesIds()
     {
         $attributesIds = array();
-        foreach (
-            $this->_getProduct()
-                ->getTypeInstance()
-                ->getConfigurableAttributes($this->_getProduct()) as $attribute
-        ) {
+        foreach ($this->getProductType()->getConfigurableAttributes($this->_getProduct()) as $attribute) {
             $attributesIds[] = $attribute->getProductAttribute()->getId();
         }
 

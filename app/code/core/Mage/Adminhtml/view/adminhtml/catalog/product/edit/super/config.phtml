@@ -7,12 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+ /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
 <div id="<?php echo $this->getId()?>" class="entry-edit">
 <div class="entry-edit-head">
     <h4 class="icon-head head-edit-form fieldset-legend">
-        <input type="checkbox" id="<?php echo $this->getId()?>-checkbox"/>
-        <label for="<?php echo $this->getId()?>-checkbox"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?></label>
+        <input type="checkbox" id="<?php echo $this->getId()?>-checkbox"  name="type"
+            value="<?php echo $this->escapeHtml(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) ?>"
+            <?php if ($this->_getProduct()->isConfigurable()) {
+                echo ' checked="checked" ';
+            } ?>
+        />
+        <label for="<?php echo $this->getId()?>-checkbox">
+            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?>
+        </label>
     </h4>
 </div>
 <fieldset>
@@ -23,7 +31,7 @@ if (count($this->getSelectedAttributes())) {
 ?>
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><input type="checkbox" id="<?php echo $this->getId()?>" /><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></h4>
     </div>
     <fieldset id="<?php echo $this->getHtmlId() ?>">
         <legend><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></legend>
@@ -132,7 +140,12 @@ Validation.add(
 jQuery(function($) {
     $("#<?php echo $this->getId()?>-checkbox").bind('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
-        $fieldset[ $(this).attr('checked') ? 'show' : 'hide']();
+        if ($(this).attr('checked')) {
+            $fieldset.show();
+        } else {
+            $fieldset.find("input[name='attribute']").removeAttr('checked');
+            $fieldset.hide();
+        }
     }).trigger('change');
 });
 </script>

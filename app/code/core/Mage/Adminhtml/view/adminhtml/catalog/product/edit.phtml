@@ -73,23 +73,7 @@
     }
 
     function setSuperSettings(urlTemplate, attributesClass, validateField) {
-        var attributesFields = $$('.' + attributesClass);
-        var attributes = Form.serializeElements(attributesFields, true).attribute;
-        if (typeof attributes == 'string') {
-            attributes = [attributes];
-        }
-
-        if (!attributes) {
-            $(validateField).value = 'no-attributes';
-        } else {
-            $(validateField).value = 'has-attributes';
-        }
-
-        var template = new Template(urlTemplate, productTemplateSyntax);
-        var url = template.evaluate({
-            attributes: encode_base64(attributes.join(',')).replace(new RegExp('/', 'g'), '%2F').replace(new RegExp('=', 'g'), '%3D')
-        });
-        jQuery('#product_edit_form').attr('action', url + '&active_tab=configurable').submit();
+        jQuery('#product_edit_form').attr('action', urlTemplate).submit();
     }
 
     function checkMaxLength(Object, MaxLen)
