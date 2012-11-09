@@ -120,26 +120,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Retrieve product type attributes
-     *
-     * @param  Mage_Catalog_Model_Product $product
-     * @return array
-     */
-    public function getEditableAttributes($product)
-    {
-        if (is_null($this->_editableAttributes)) {
-            $this->_editableAttributes = parent::getEditableAttributes($product);
-            foreach ($this->_editableAttributes as $index => $attribute) {
-                if ($this->getUsedProductAttributeIds($product)
-                    && in_array($attribute->getAttributeId(), $this->getUsedProductAttributeIds($product))) {
-                    unset($this->_editableAttributes[$index]);
-                }
-            }
-        }
-        return $this->_editableAttributes;
-    }
-
-    /**
      * Checkin attribute availability for create superproduct
      *
      * @param   Mage_Eav_Model_Entity_Attribute $attribute
@@ -149,7 +129,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $allow = $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
             && $attribute->getIsVisible()
-            && $attribute->getIsConfigurable()
             && $attribute->usesSource()
             && $attribute->getIsUserDefined();
 
