@@ -22,7 +22,7 @@ class Mage_Reports_Block_Adminhtml_Customer_Orders extends Mage_Backend_Block_Wi
 
     protected function _construct()
     {
-        $this->_controller = 'adminhtml_report_customer_orders';
+        $this->_controller = 'report_customer_orders';
         $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Customers by number of orders');
         parent::_construct();
         $this->_removeButton('add');

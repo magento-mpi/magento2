@@ -50,7 +50,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName = 'new_accounts.csv';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('report.customer.accounts.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName = 'accounts.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('report.customer.accounts.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName = 'customer_totals.csv';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('report.customer.totals.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
 
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $fileName = 'customer_totals.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('report.customer.totals.grid', 'grid.export');
+        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
 

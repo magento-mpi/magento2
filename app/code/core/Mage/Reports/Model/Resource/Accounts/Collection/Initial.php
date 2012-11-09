@@ -16,10 +16,10 @@
 * @package     Mage_Reports
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class Mage_Reports_Model_Resource_Accounts_Initial extends Mage_Reports_Model_Resource_Report_Collection
+class Mage_Reports_Model_Resource_Accounts_Collection_Initial extends Mage_Reports_Model_Resource_Report_Collection
 {
     /**
-     * Report subcollection class name
+     * Report sub-collection class name
      * @var Mage_Reports_Model_Resource_Accounts_Collection $_reportCollectionClass
      */
     protected $_reportCollectionClass = 'Mage_Reports_Model_Resource_Accounts_Collection';

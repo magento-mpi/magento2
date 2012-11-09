@@ -16,8 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Report_Customer_Accounts extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Reports_Block_Adminhtml_Customer_Accounts extends Mage_Backend_Block_Widget_Grid_Container
 {
+    protected $_blockGroup = 'Mage_Reports';
 
     protected function _construct()
     {
