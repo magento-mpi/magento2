@@ -64,7 +64,8 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         if ($code = $row->getData($this->getColumn()->getCurrency())) {
             return $code;
         }
-        return false;
+
+        return $this->_getBaseCurrencyCode();
     }
 
     /**
@@ -81,7 +82,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         if ($rate = $row->getData($this->getColumn()->getRateField())) {
             return floatval($rate);
         }
-        return 1;
+        return Mage::app()->getStore()->getBaseCurrency()->getRate($this->_getCurrencyCode($row));
     }
 
     /**
@@ -92,5 +93,28 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     public function renderCss()
     {
         return parent::renderCss() . ' a-right';
+    }
+
+    /**
+     * Get Base Currency Code
+     *
+     * @return string
+     */
+    protected function _getBaseCurrencyCode()
+    {
+        if ($this->_request->getParam('store')) {
+            $store = $this->_request->getParam('store');
+            $currencyCode = Mage::app()->getStore($store)->getBaseCurrencyCode();
+        } else if ($this->_request->getParam('website')){
+            $website = $this->_request->getParam('website');
+            $currencyCode = Mage::app()->getWebsite($website)->getBaseCurrencyCode();
+        } else if ($this->_request->getParam('group')){
+            $group = $this->_request->getParam('group');
+            $currencyCode =  Mage::app()->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+        } else {
+            $currencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+        }
+
+        return $currencyCode;
     }
 }

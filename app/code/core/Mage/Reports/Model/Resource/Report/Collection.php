@@ -17,7 +17,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collection
-    implements IteratorAggregate, Countable
 {
     /**
      * From value
@@ -39,13 +38,6 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      * @var int
      */
     protected $_period;
-
-    /**
-     * Model object
-     *
-     * @var string
-     */
-    protected $_model;
 
     /**
      * Intervals
@@ -74,6 +66,13 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      * @var array
      */
     protected $_storeIds;
+
+    /**
+     * Set the resource report collection class
+     *
+     * @var string
+     */
+    protected $_reportCollectionClass = null;
 
     /**
      * Set period
@@ -262,7 +261,10 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      */
     protected function _getReport($from, $to)
     {
-        $collectionClass = $this->getReportCollection();
+        if ($this->_reportCollectionClass === null) {
+            return array();
+        }
+        $collectionClass = $this->_reportCollectionClass;
         $reportResource = new $collectionClass();
         $reportResource
             ->setDateRange($this->timeShift($from), $this->timeShift($to))
@@ -305,28 +307,6 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
         return Mage::app()->getLocale()
             ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)
             ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-    }
-
-    /**
-     * Set Report resource collection class name
-     *
-     * @param string $reportCollectionClass
-     * @return Mage_Reports_Model_Resource_Report_Collection
-     */
-    public function setReportCollection($reportCollectionClass)
-    {
-        $this->_reportCollectionClass = $reportCollectionClass;
-        return $this;
-    }
-
-    /**
-     * Get Report resource collection class name
-     *
-     * @return string
-     */
-    public function getReportCollection()
-    {
-        return $this->_reportCollectionClass;
     }
 
     /**

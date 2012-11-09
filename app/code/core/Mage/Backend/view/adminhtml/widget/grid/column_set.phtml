@@ -104,11 +104,11 @@ $numColumns = sizeof($this->getColumns());
         <?php endif; ?>
     </tbody>
 
-    <?php if ($this->getCountTotals()): ?>
+    <?php if ($this->shouldRenderTotal()): ?>
     <tfoot>
         <tr class="totals">
             <?php foreach ($this->getColumns() as $_column): ?>
-                <th class="<?php echo $_column->getCssProperty() ?>"><?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($this->getTotals()) ?>&nbsp;</th>
+                <th class="<?php echo $_column->getCssProperty() ?>"><?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($this->getTotals()) ?></th>
             <?php endforeach; ?>
         </tr>
     </tfoot>
