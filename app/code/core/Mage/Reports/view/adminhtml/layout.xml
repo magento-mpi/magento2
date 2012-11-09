@@ -20,7 +20,7 @@
                 <id>gridReport</id>
                 <dataSource type="object">Mage_Reports_Model_Resource_Report_Collection</dataSource>
             </arguments>
-            <block type="Mage_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher">
+            <block type="Mage_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Mage_Reports::store/switcher.phtml">
                 <arguments>
                     <use_confirm>0</use_confirm>
                     <switch_url type='url'>
