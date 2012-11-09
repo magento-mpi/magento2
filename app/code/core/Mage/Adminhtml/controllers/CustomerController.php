@@ -365,7 +365,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
-            $serviceAttributes = array('password', 'new_password', 'default_billing', 'default_shipping');
+            $serviceAttributes = array(
+                'password', 'new_password', 'default_billing', 'default_shipping', 'confirmation');
+
             $customerEntity = Mage::getModel('Mage_Customer_Model_Customer');
             $customerData = $this->_customerHelper
                 ->extractCustomerData($this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes,
@@ -374,10 +376,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $this->_processCustomerPassword($customerData);
         if ($this->_acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
-            $subscription = $this->getRequest()->getPost('subscription', false);
-            if (!empty($subscription)) {
-                $customerData['is_subscribed'] = true;
-            }
+            $customerData['is_subscribed'] = (bool)$this->getRequest()->getPost('subscription', false);
         }
 
         if (isset($customerData['disable_auto_group_change'])) {
@@ -450,8 +449,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (isset($customerData['password']) && ($customerData['password'] == 'auto')) {
             unset($customerData['password']);
             $customerData['autogenerate_password'] = true;
-        } else {
-            $customerData['confirmation'] = $customerData['password'];
         }
     }
 
