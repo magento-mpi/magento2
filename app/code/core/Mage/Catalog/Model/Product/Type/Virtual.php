@@ -29,13 +29,12 @@ class Mage_Catalog_Model_Product_Type_Virtual extends Mage_Catalog_Model_Product
     }
 
     /**
-     * Check product has weight
-     * @param Mage_Catalog_Model_Product $product
+     * Check that product of this type has weight
      *
      * @return bool
      */
-    public function isWeightDisabled($product)
+    public function hasWeight()
     {
-        return true;
+        return false;
     }
 }

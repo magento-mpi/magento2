@@ -186,4 +186,53 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
                 'Downloadable Information is absent');
         }
     }
+
+    /**
+     * <p>Verify, that Weight field and Is Virtual checkbox is absent for Configurable and Grouped products</p>
+     * <p>that Is Virtual checkbox isn't selected for Bundle products</p>
+     *
+     * @param $productType
+     * @param $isWeightDisabled
+     *
+     * @test
+     * @dataProvider isWeightDisabledDataProvider
+     * @TestLinkId TL-MAGE-6459, TL-MAGE-6460
+     */
+    public function checkDefaultIsVirtual($productType, $isWeightDisabled)
+    {
+        //Steps
+        $this->clickButton('add_new_product_split_select', false);
+        $this->addParameter('productType', $productType);
+        $this->clickControl('dropdown', 'add_product_by_type', false);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('setId', $this->defineParameterFromUrl('set'));
+        $this->validatePage();
+        //Verification (grouped and configurable products)
+        if ($isWeightDisabled == null) {
+            $this->assertFalse($this->isElementPresent('field', 'general_weight'));
+            $this->assertFalse($this->isElementPresent('checkbox', 'weight_and_type_switcher'));
+        }
+        //Verification for Bundle product (Dynamic and Fixed)
+        else {
+            $this->assertEquals($isWeightDisabled, $this->isChecked(
+                $this->_getControlXpath('checkbox', 'weight_and_type_switcher')));
+            $this->assertFalse($this->isEditable('field', 'general_weight'));
+            $this->fillDropdown('general_weight_type', 'Fixed');
+            $this->assertTrue($this->isEditable('field', 'general_weight'));
+        }
+    }
+
+    /**
+     * <p>Data provider for default values for Is Virtual checkbox according product types</p>
+     *
+     * @return array
+     */
+    public function isWeightDisabledDataProvider()
+    {
+        return array(
+            array('grouped', null),
+            array('configurable', null),
+            array('bundle', false),
+        );
+    }
 }

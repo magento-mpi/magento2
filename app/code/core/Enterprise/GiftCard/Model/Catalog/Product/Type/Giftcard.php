@@ -470,16 +470,12 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     }
 
     /**
-     * Check product has weight
-     * @param Mage_Catalog_Model_Product $product
+     * Check that product of this type has weight
      *
      * @return bool
      */
-    public function isWeightDisabled($product)
+    public function hasWeight()
     {
-        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
-            return true;
-        }
-        return false;
+        return true;
     }
 }

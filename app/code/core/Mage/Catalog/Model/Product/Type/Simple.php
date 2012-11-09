@@ -18,13 +18,12 @@
 class Mage_Catalog_Model_Product_Type_Simple extends Mage_Catalog_Model_Product_Type_Abstract
 {
     /**
-     * Check product has weight
-     * @param Mage_Catalog_Model_Product $product
+     * Check that product of this type has weight
      *
      * @return bool
      */
-    public function isWeightDisabled($product)
+    public function hasWeight()
     {
-        return false;
+        return true;
     }
 }
