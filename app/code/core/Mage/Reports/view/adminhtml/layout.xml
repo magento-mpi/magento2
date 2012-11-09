@@ -188,6 +188,7 @@
                     <arguments>
                         <id>report_product_sold</id>
                         <filter_visibility>0</filter_visibility>
+                        <count_totals>1</count_totals>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
@@ -197,6 +198,7 @@
                             <index>period</index>
                             <id>period</id>
                             <grouped>1</grouped>
+                            <totals_label>Total</totals_label>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
@@ -216,6 +218,7 @@
                             <type>number</type>
                             <index>ordered_qty</index>
                             <id>ordered_qty</id>
+                            <total>sum</total>
                         </arguments>
                     </block>
                 </block>
