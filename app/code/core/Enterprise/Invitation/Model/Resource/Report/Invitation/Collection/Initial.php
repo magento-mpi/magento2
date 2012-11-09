@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Invitation_Model_Resource_Report_Invitation_Initial
+class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection_Initial
         extends Mage_Reports_Model_Resource_Report_Collection
 {
     /**
