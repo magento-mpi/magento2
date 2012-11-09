@@ -611,6 +611,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getSubTotals($item)
     {
         $this->_prepareSubTotals();
+        $this->_subTotalObj->reset();
         return $this->_subTotalObj->countTotals($item->getChildren());
     }
 
@@ -622,6 +623,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getTotals()
     {
         $this->_prepareTotals();
+        $this->_totalObj->reset();
         return $this->_totalObj->countTotals($this->getCollection());
     }
 
