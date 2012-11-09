@@ -126,15 +126,16 @@
     (function($) {
         head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/list.js')?>", function() {
             $('#product_comparison').compareList({
-                productSelector: 'h2.product-name > a',
-                productImageSelector: 'a.product-image',
-                productAddToCartSelector: 'button.btn-cart',
-                productWishListSelector: 'a.link-wishlist',
                 productRemoveSelector: 'a.btn-remove',
-                productTableSelector: '#product_comparison',
                 ajaxSpinner: '#compare-list-please-wait',
                 windowCloseSelector: '#window-close',
-                windowPrintSelector: 'a.link-print'
+                windowPrintSelector: 'a.link-print',
+                selectors: {
+                    productSelector: 'h2.product-name > a',
+                    productImageSelector: 'a.product-image',
+                    productAddToCartSelector: 'button.btn-cart',
+                    productWishListSelector: 'a.link-wishlist'
+                }
             });
         });
     })(jQuery);

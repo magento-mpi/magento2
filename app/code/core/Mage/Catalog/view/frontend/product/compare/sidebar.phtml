@@ -34,7 +34,7 @@ $_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
         </ol>
         <div class="actions">
             <a id='compare-clear-all' href="<?php echo $_helper->getClearListUrl() ?>" ><?php echo $this->__('Clear All') ?></a>
-            <button type="button" title="<?php echo $this->__('Compare') ?>" class="button" data-mage-popwin="{windowURL:'<?php echo $_helper->getListUrl() ?>',windowName:'compare',resizable:1,scrollbars:1,width:820,height:600}"><span><span><?php echo $this->__('Compare') ?></span></span></button>
+            <button type="button" title="<?php echo $this->__('Compare') ?>" class="button" data-mage-popwin="{windowURL:'<?php echo $_helper->getListUrl() ?>',windowName:'compare',centerScreen:1,resizable:1,scrollbars:1,width:820,height:600}"><span><span><?php echo $this->__('Compare') ?></span></span></button>
         </div>
         <script type="text/javascript">
             (function($) {

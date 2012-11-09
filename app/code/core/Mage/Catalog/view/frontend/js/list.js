@@ -22,7 +22,7 @@
             });
 
             var ajaxSpinner = $(this.options.ajaxSpinner);
-            $(this.options.productRemoveSelector).on('click', $.proxy(function(e) {
+            $(this.options.productRemoveSelector).on('click', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: $(e.target).data('url'),
@@ -35,24 +35,14 @@
                     window.location.reload();
                     window.opener.location.reload();
                 });
-            }, this));
+            });
 
-            var properties = [
-                'windowCloseSelector',
-                'windowPrintSelector',
-                'productRemoveSelector',
-                'ajaxSpinner',
-                'productTableSelector'
-            ];
-
-            $.each(this.options, function(index, option) {
-               if ($.inArray(index, properties) === -1) {
-                   $(option).on('click', function(e) {
-                       e.preventDefault();
-                       window.opener.focus();
-                       window.opener.location.href = $(this).data('url');
-                   });
-               }
+            $.each(this.options.selectors, function(i, selector) {
+                $(selector).on('click', function(e) {
+                    e.preventDefault();
+                    window.opener.focus();
+                    window.opener.location.href = $(this).data('url');
+                });
             });
         }
     });
