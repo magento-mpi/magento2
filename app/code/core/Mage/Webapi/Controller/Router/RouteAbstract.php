@@ -9,11 +9,9 @@
  */
 
 /**
- * Webservice apia2 route abstract
+ * API route abstract
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controller_Router_Route
 {

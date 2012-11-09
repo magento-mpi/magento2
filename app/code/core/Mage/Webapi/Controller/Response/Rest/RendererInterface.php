@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Webapi_Controller_Response_RendererInterface
+interface Mage_Webapi_Controller_Response_Rest_RendererInterface
 {
     /**
      * Render content in a certain format.

@@ -2,7 +2,7 @@
 /**
  * Front controller for SOAP API. At the same time it is a handler for SOAP server
  *
- * @copyright {copyright}
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbstract
 {
@@ -32,6 +32,9 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /** @var Mage_Core_Model_Cache */
     protected $_cache;
 
+    /** @var Magento_DomDocument_Factory */
+    protected $_domDocumentFactory;
+
     /**
      * WS-Security UsernameToken object from request
      *
@@ -48,13 +51,15 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Zend\Soap\Server $soapServer,
         Mage_Core_Model_App $application,
-        Mage_Core_Model_Cache $cache
+        Mage_Core_Model_Cache $cache,
+        Magento_DomDocument_Factory $domDocumentFactory
     ) {
         parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
         $this->_application = $application;
+        $this->_domDocumentFactory = $domDocumentFactory;
     }
 
     /**
@@ -134,8 +139,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _getRequestedHeaders()
     {
-        // TODO: Do we need to move it to dependencies?
-        $dom = new DOMDocument();
+        $dom = $this->_domDocumentFactory->createDomDocument();
         $dom->loadXML($this->_getSoapServer()->getLastRequest());
         $headers = array();
         /** @var DOMElement $header */

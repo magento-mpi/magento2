@@ -59,8 +59,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var Mage_Webapi_Controller_RequestFactory */
     protected $_requestFactory;
 
-    /** @var Mage_Webapi_Controller_Router_Route_ApiType */
-    protected $_apiRoute;
+    /** @var Magento_Controller_Router_Route_Factory */
+    protected $_routeFactory;
 
     /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
     protected $_errorProcessor;
@@ -71,7 +71,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_App $application,
-        Mage_Webapi_Controller_Router_Route_ApiType $apiRoute,
+        Magento_Controller_Router_Route_Factory $routeFactory,
         Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
     ) {
         $this->_helper = $helper;
@@ -79,8 +79,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         $this->_requestFactory = $requestFactory;
         $this->_apiResponse = $response;
         $this->_application = $application;
-        $this->_apiRoute = $apiRoute;
-        $this->_errorProcessor = $apiRoute;
+        $this->_routeFactory = $routeFactory;
+        $this->_errorProcessor = $errorProcessor;
     }
 
     /**
@@ -160,7 +160,11 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
         if (is_null($this->_apiType)) {
             $request = $this->_application->getRequest();
-            if (!($apiTypeMatch = $this->_apiRoute->match($request, true))) {
+            $apiRoute = $this->_routeFactory->createRoute(
+                'Mage_Webapi_Controller_Router_Route_ApiType',
+                Mage_Webapi_Controller_Router_Route_ApiType::getApiRoute()
+            );
+            if (!($apiTypeMatch = $apiRoute->match($request, true))) {
                 throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any API type route.'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }

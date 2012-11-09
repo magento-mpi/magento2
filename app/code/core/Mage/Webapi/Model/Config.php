@@ -821,7 +821,8 @@ class Mage_Webapi_Model_Config
      */
     protected function _createRoute($routePath, $resourceName, $actionType)
     {
-        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
+        $apiTypeRoutePath = Mage_Webapi_Controller_Router_Route_ApiType::API_AREA_NAME
+            . '/:' . Mage_Webapi_Controller_Front_Base::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
         // TODO: Change to dependency injection
         $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
