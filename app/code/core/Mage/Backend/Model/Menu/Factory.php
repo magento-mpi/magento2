@@ -21,12 +21,12 @@ class Mage_Backend_Model_Menu_Factory
 
     /**
      * @param Magento_ObjectManager $factory
-     * @param Mage_Core_Model_Logger $menuLogger
+     * @param Mage_Core_Model_Logger $logger
      */
-    public function __construct(Magento_ObjectManager $factory, Mage_Core_Model_Logger $menuLogger)
+    public function __construct(Magento_ObjectManager $factory, Mage_Core_Model_Logger $logger)
     {
         $this->_factory = $factory;
-        $this->_logger = $menuLogger;
+        $this->_logger = $logger;
     }
 
     /**

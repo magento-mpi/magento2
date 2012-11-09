@@ -145,6 +145,6 @@ class Mage_Core_Model_Logger
      */
     public function logException(Exception $e)
     {
-        self::log("\n" . $e->__toString(), Zend_Log::ERR, self::LOGGER_EXCEPTION);
+        $this->log("\n" . $e->__toString(), Zend_Log::ERR, self::LOGGER_EXCEPTION);
     }
 }

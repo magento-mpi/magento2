@@ -53,7 +53,7 @@ class Mage_Backend_Model_Menu_Config
      * @param Magento_ObjectManager $factory
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Logger $menuLogger
+     * @param Mage_Core_Model_Logger $logger
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      */
     public function __construct(
@@ -61,14 +61,14 @@ class Mage_Backend_Model_Menu_Config
         Magento_ObjectManager $factory,
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Logger $menuLogger,
+        Mage_Core_Model_Logger $logger,
         Mage_Backend_Model_Menu_Factory $menuFactory
     ) {
         $this->_cache = $cache;
         $this->_factory = $factory;
         $this->_appConfig = $config;
         $this->_eventManager = $eventManager;
-        $this->_logger = $menuLogger;
+        $this->_logger = $logger;
         $this->_menuFactory = $menuFactory;
     }
 

@@ -332,4 +332,11 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals($expected, $actual);
     }
+
+    public function testSerialize()
+    {
+        $this->assertNotEmpty($this->_model->serialize());
+        $this->_logger->expects($this->once())->method('log');
+        $this->_model->add($this->_items['item1']);
+    }
 }
