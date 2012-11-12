@@ -8,8 +8,8 @@
 /**#@+
  * API resources must be available without auto loader as the file name cannot be calculated from class name.
  */
-include_once __DIR__ . '/../_files/autodiscovery/Customer/Address/DataStructure.php';
-include_once __DIR__ . '/../_files/autodiscovery/Customer/DataStructure.php';
+include_once __DIR__ . '/../_files/data_types/Customer/AddressData.php';
+include_once __DIR__ . '/../_files/data_types/CustomerData.php';
 include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
 /**#@-*/
 
@@ -108,10 +108,10 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public static function dataProviderForTestPrepareMethodParamsPositive()
     {
-        $customerDataObject = new Vendor_Module_Webapi_Customer_DataStructure();
+        $customerDataObject = new Vendor_Module_Model_Webapi_CustomerData();
         $customerDataObject->email = "test_email@example.com";
         $customerDataObject->firstname = "firstName";
-        $customerDataObject->address = new Vendor_Module_Webapi_Customer_Address_DataStructure();
+        $customerDataObject->address = new Vendor_Module_Model_Webapi_Customer_AddressData();
         $customerDataObject->address->city = "cityName";
         $customerDataObject->address->street = "streetName";
 
@@ -120,7 +120,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             'email' => "test_email@example.com",
             'firstname' => 'firstName'
         );
-        $customerDataWithoutOptionalFieldsOutput = new Vendor_Module_Webapi_Customer_DataStructure();
+        $customerDataWithoutOptionalFieldsOutput = new Vendor_Module_Model_Webapi_CustomerData();
         $customerDataWithoutOptionalFieldsOutput->email = "test_email@example.com";
         $customerDataWithoutOptionalFieldsOutput->firstname = "firstName";
         $customerDataWithoutOptionalFieldsOutput->lastname = "DefaultLastName";

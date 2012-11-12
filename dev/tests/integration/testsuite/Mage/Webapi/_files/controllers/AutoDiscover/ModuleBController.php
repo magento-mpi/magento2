@@ -11,8 +11,8 @@ class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_Act
      *
      * Long description.
      *
-     * @param Vendor_ModuleB_Webapi_ModuleB_DataStructure $resourceData Data of the resource
-     * @param Vendor_ModuleB_Webapi_ModuleB_Subresource_DataStructure $complexParam
+     * @param Vendor_ModuleB_Model_Webapi_ModuleBData $resourceData Data of the resource
+     * @param Vendor_ModuleB_Model_Webapi_ModuleB_SubresourceData $complexParam
      * @return int ID of created resource
      */
     public function createV1($resourceData, $complexParam = null)
@@ -26,7 +26,7 @@ class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_Act
      * Update short doc.
      *
      * @param int $resourceId
-     * @param Vendor_ModuleB_Webapi_ModuleB_DataStructure $resourceData
+     * @param Vendor_ModuleB_Model_Webapi_ModuleBData $resourceData
      * @param bool $optionalParam
      */
     public function updateV1($resourceId, $resourceData, $optionalParam = false)
@@ -37,7 +37,7 @@ class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_Act
     /**
      * Method without input parameters.
      *
-     * @return Vendor_ModuleB_Webapi_ModuleB_DataStructure[] array of resources
+     * @return Vendor_ModuleB_Model_Webapi_ModuleBData[] array of resources
      */
     public function listV1()
     {
@@ -48,7 +48,7 @@ class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_Act
      * Get resource operation.
      *
      * @param int $resourceId Resource ID.
-     * @return Vendor_ModuleB_Webapi_ModuleB_DataStructure
+     * @return Vendor_ModuleB_Model_Webapi_ModuleBData
      */
     public function getV1($resourceId)
     {

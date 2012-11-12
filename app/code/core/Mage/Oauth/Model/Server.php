@@ -295,6 +295,21 @@ class Mage_Oauth_Model_Server
     }
 
     /**
+     * Initialize two legged consumer
+     *
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _initTwoLeggedConsumer()
+    {
+        $this->_consumer = Mage::getModel('Mage_Webapi_Model_Acl_User');
+
+        $this->_consumer->load($this->_protocolParams['oauth_consumer_key'], 'api_key');
+
+        if (!$this->_consumer->getId()) {
+            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
+        }
+    }
+    /**
      * Load token object, validate it depending on request type, set access data and save
      *
      * @return Mage_Oauth_Model_Server
@@ -490,10 +505,6 @@ class Mage_Oauth_Model_Server
                 $this->_throwException($paramName, self::ERR_PARAMETER_REJECTED);
             }
         }
-        // validate consumer key length
-        if (strlen($this->_protocolParams['oauth_consumer_key']) != Mage_Oauth_Model_Consumer::KEY_LENGTH) {
-            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
-        }
         // validate signature method
         if (!in_array($this->_protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             $this->_throwException('', self::ERR_SIGNATURE_METHOD_REJECTED);
@@ -637,9 +648,9 @@ class Mage_Oauth_Model_Server
     /**
      * Authenticate two-legged REST request.
      *
-     * @return string
+     * @return Mage_Webapi_Model_Acl_User
      */
-    public function authenticateTwoLeggedRest()
+    public function authenticateTwoLegged()
     {
         // get parameters from request
         $this->_fetchParams();
@@ -648,36 +659,12 @@ class Mage_Oauth_Model_Server
         $this->_validateProtocolParams();
 
         // initialize consumer
-        $this->_initConsumer();
+        $this->_initTwoLeggedConsumer();
 
         // validate signature
         $this->_validateSignature();
 
-        return $this->_consumer->getKey();
-    }
-
-    /**
-     * Authenticate two-legged SOAP request.
-     *
-     * @param string $header
-     * @param string $operation
-     * @return string
-     */
-    public function authenticateTwoLeggedSoap($header, $operation)
-    {
-        // get parameters from request
-        $this->_fetchParams($header);
-
-        // make generic validation of request parameters
-        $this->_validateProtocolParams();
-
-        // initialize consumer
-        $this->_initConsumer();
-
-        // validate signature for SOAP
-        $this->_validateSoapSignature($operation);
-
-        return $this->_consumer->getKey();
+        return $this->_consumer;
     }
 
     /**

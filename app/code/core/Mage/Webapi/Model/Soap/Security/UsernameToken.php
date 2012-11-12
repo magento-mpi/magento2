@@ -89,7 +89,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 
-        $localPassword = $user->getApiSecret();
+        $localPassword = $user->getSecret();
         if ($this->_passwordType == self::PASSWORD_TYPE_DIGEST) {
             $baseString = base64_decode($nonce) . $created . $localPassword;
             $localPassword = base64_encode(hash('sha1', $baseString, true));

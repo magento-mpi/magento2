@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Vendor_ModuleB_Webapi_ModuleB_DataStructure
+class Vendor_ModuleB_Model_Webapi_ModuleBData
 {
     /**
      * String doc.
@@ -38,7 +38,7 @@ class Vendor_ModuleB_Webapi_ModuleB_DataStructure
      * {tagStatus:some status}
      *
      * @optional
-     * @var Vendor_ModuleB_Webapi_ModuleB_Subresource_DataStructure[]
+     * @var Vendor_ModuleB_Model_Webapi_ModuleB_SubresourceData[]
      */
     public $optionalComplexTypeArray;
 }

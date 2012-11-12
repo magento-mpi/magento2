@@ -9,11 +9,11 @@
 class Vendor_Module_Webapi_ResourceController
 {
     /**
-     * @param Vendor_Module_Webapi_Customer_DataStructure[] $resourceData
+     * @param Vendor_Module_Model_Webapi_CustomerData[] $resourceData
      * @param bool $requiredField
      * @param string $optionalField
      * @param int $secondOptional
-     * @return Vendor_Module_Webapi_Customer_DataStructure
+     * @return Vendor_Module_Model_Webapi_CustomerData
      */
     public function createV1($resourceData, $requiredField, $optionalField = 'optionalField', $secondOptional = 1)
     {
@@ -22,7 +22,7 @@ class Vendor_Module_Webapi_ResourceController
 
     /**
      * @param int $resourceId
-     * @param Vendor_Module_Webapi_Customer_DataStructure $resourceData
+     * @param Vendor_Module_Model_Webapi_CustomerData $resourceData
      * @param float $additionalRequired
      */
     public function updateV2($resourceId, $resourceData, $additionalRequired)
@@ -32,7 +32,7 @@ class Vendor_Module_Webapi_ResourceController
 
     /**
      * @param int $resourceId
-     * @return Vendor_Module_Webapi_Customer_DataStructure
+     * @return Vendor_Module_Model_Webapi_CustomerData
      */
     public function getV2($resourceId)
     {
@@ -43,7 +43,7 @@ class Vendor_Module_Webapi_ResourceController
      * @apiDeprecated vendorModuleResource::listV3
      * @param float $additionalRequired
      * @param bool $optional
-     * @return Vendor_Module_Webapi_Customer_DataStructure[]
+     * @return Vendor_Module_Model_Webapi_CustomerData[]
      */
     public function listV2($additionalRequired, $optional = false)
     {
@@ -101,7 +101,7 @@ class Vendor_Module_Webapi_ResourceController
     }
 
     /**
-     * @param Vendor_Module_Webapi_Customer_DataStructure[] $resourceData
+     * @param Vendor_Module_Model_Webapi_CustomerData[] $resourceData
      */
     public function multiUpdateV2($resourceData)
     {

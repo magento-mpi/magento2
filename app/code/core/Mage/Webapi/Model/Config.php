@@ -1133,8 +1133,8 @@ class Mage_Webapi_Model_Config
      *
      * Example:
      * <pre>
-     *  Mage_Customer_Webapi_Customer_DataStructure => CustomerDataStructure
-     *  Mage_Catalog_Webapi_Product_DataStructure => CatalogProductDataStructure
+     *  Mage_Customer_Model_Webapi_CustomerData => CustomerData
+     *  Mage_Catalog_Model_Webapi_ProductData => CatalogProductData
      * </pre>
      *
      * @param string $class
@@ -1143,13 +1143,11 @@ class Mage_Webapi_Model_Config
      */
     public function translateTypeName($class)
     {
-        if (preg_match('/(.*)_(.*)_Webapi_(.*)/', $class, $matches)) {
+        if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);
-            if ($moduleName == $typeNameParts[0]) {
-                array_shift($typeNameParts);
-            }
+
             return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
         throw new InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));

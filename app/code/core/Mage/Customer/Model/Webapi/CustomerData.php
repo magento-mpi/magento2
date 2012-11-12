@@ -6,7 +6,7 @@
  *
  * @copyright {}
  */
-class Mage_Customer_Webapi_Customer_DataStructure
+class Mage_Customer_Model_Webapi_CustomerData
 {
     /**
      * {summary:This is a summary for email.<br/>
@@ -59,7 +59,7 @@ class Mage_Customer_Webapi_Customer_DataStructure
      * Customer address
      *
      * @optional true
-     * @var Mage_Customer_Webapi_Customer_Address_DataStructure
+     * @var Mage_Customer_Model_Webapi_Customer_AddressData
      */
     public $address;
 }

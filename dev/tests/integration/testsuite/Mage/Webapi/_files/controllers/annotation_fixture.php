@@ -1,6 +1,6 @@
 <?php
 /**
- * Annotations fixture for Vendor_ModuleB_Webapi_ModuleB_DataStructure class
+ * Annotations fixture for Vendor_ModuleB_Model_Webapi_ModuleBData class
  *
  * @copyright {}
  */

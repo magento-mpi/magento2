@@ -9,10 +9,10 @@ class Mage_Catalog_Webapi_ProductController extends Mage_Webapi_Controller_Actio
     /**
      * Create new product.
      *
-     * @param Mage_Catalog_Webapi_Product_DataStructure $data
+     * @param Mage_Catalog_Model_Webapi_ProductData $data
      * @return int ID of created product
      */
-    public function createV1(Mage_Catalog_Webapi_Product_DataStructure $data)
+    public function createV1(Mage_Catalog_Model_Webapi_ProductData $data)
     {
         return 1;
     }
@@ -21,17 +21,17 @@ class Mage_Catalog_Webapi_ProductController extends Mage_Webapi_Controller_Actio
      * Retrieve product data.
      *
      * @param int $productId ID of the product you want to retrieve.
-     * @return Mage_Catalog_Webapi_Product_DataStructure returns product data.
+     * @return Mage_Catalog_Model_Webapi_ProductData returns product data.
      */
     public function getV1($productId)
     {
-        $product = new Mage_Catalog_Webapi_Product_DataStructure;
+        $product = new Mage_Catalog_Model_Webapi_ProductData;
         $product->name = 'Fake product';
         $product->description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit posuere.';
         $product->price = 9.99;
         $product->sku = 'product-001';
         $product->weight = 5.25;
-        $stock = new Mage_Catalog_Webapi_Product_Stock_DataStructure;
+        $stock = new Mage_Catalog_Model_Webapi_Product_StockData;
         $stock->isInStock = true;
         $stock->quantity = 100;
         $product->stock = $stock;
