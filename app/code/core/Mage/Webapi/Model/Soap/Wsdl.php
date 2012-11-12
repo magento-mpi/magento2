@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
      * @param Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface $strategy
      * @param array $classMap
      */
-    public function __construct($name, $uri, ComplexTypeStrategy $strategy = null, array $classMap = array())
+    public function __construct($name, $uri, ComplexTypeStrategy $strategy, array $classMap = array())
     {
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy, $classMap);

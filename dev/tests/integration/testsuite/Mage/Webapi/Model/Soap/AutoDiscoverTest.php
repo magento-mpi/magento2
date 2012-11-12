@@ -60,19 +60,26 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     {
         $fixtureDir = __DIR__ . '/../../_files/controllers/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
+        $serverReflection = new \Zend\Server\Reflection();
+        /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $this->_config = new Mage_Webapi_Model_Config(array(
-            'directoryScanner' => $directoryScanner,
-            'cache' => $cache,
-        ));
-        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(array(
-            'resource_config' => $this->_config,
-            'endpoint_url' => 'http://magento.host/api/soap/'
-        ));
+        $appConfig = Mage::app()->getConfig();
+        $objectManager = new Magento_Test_ObjectManager();
+        $helperFactory = new Mage_Core_Model_Factory_Helper($objectManager);
+        /** @var Magento_Controller_Router_Route_Factory $routeFactory */
+        $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_config = new Mage_Webapi_Model_Config($directoryScanner, $helperFactory, $appConfig, $cache,
+            $serverReflection, $routeFactory);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
+        $wsdlFactory = new Mage_Webapi_Model_Soap_WsdlFactory($objectManager);
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($this->_config, $wsdlFactory);
 
         $this->_resourceName = 'vendorModuleB';
         $this->_resourceData = $this->_config->getResourceDataMerged($this->_resourceName, 'v1');
-        $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData));
+        $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData),
+            'http://magento.host/api/soap');
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);
         $this->_xpath = new DOMXPath($this->_dom);
