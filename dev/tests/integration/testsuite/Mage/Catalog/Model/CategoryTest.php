@@ -19,18 +19,49 @@
 class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Default root category ID
+     */
+    const ROOT_CATEGORY_ID = 2;
+
+    /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
      * @var Mage_Catalog_Model_Category
      */
     protected $_model;
 
+    public static function setUpBeforeClass()
+    {
+        // create flat tables
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        /** @var $indexer Mage_Catalog_Model_Category_Indexer_Flat */
+        $indexer = $objectManager->create('Mage_Catalog_Model_Category_Indexer_Flat');
+        $indexer->reindexAll();
+    }
+
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Catalog_Model_Category');
+        $this->_objectManager = Mage::getObjectManager();
+        /** @var $application Mage_Core_Model_App */
+        $application  = $this->_objectManager->get('Mage_Core_Model_App');
+        $this->_store = $application->getStore();
+        $this->_model = $this->_objectManager->create('Mage_Catalog_Model_Category');
     }
 
     protected function tearDown()
     {
-        $this->_model = null;
+        unset($this->_objectManager);
+        unset($this->_store);
+        unset($this->_model);
     }
 
     public function testGetUrlInstance()
@@ -229,5 +260,38 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testValidate()
     {
         $this->assertNotEmpty($this->_model->validate());
+    }
+
+    /**
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category 1
+     */
+    public function testSaveWithFlatIndexer()
+    {
+        $categoryName = 'Indexer Category Name ' . uniqid();
+
+        /** @var $parentCategory Mage_Catalog_Model_Category */
+        $parentCategory = $this->_objectManager->create('Mage_Catalog_Model_Category');
+        $parentCategory->load(self::ROOT_CATEGORY_ID);
+
+        // init category model with EAV entity resource model
+        $resourceModel = $this->_objectManager->create('Mage_Catalog_Model_Resource_Category');
+        $this->_model  = $this->_objectManager->create('Mage_Catalog_Model_Category',
+            array('resource' => $resourceModel)
+        );
+        $this->_model->setName($categoryName)
+            ->setParentId(self::ROOT_CATEGORY_ID)
+            ->setPath($parentCategory->getPath())
+            ->setLevel(2)
+            ->setPosition(1)
+            ->setAvailableSortBy('name')
+            ->setDefaultSortBy('name')
+            ->setIsActive(true)
+            ->save();
+
+        // check if category record exists in flat table
+        /** @var $collection Mage_Catalog_Model_Resource_Category_Flat_Collection */
+        $collection = $this->_objectManager->create('Mage_Catalog_Model_Resource_Category_Flat_Collection');
+        $collection->addFieldToFilter('name', $categoryName);
+        $this->assertCount(1, $collection->getItems());
     }
 }
