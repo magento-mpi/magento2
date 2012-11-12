@@ -112,8 +112,8 @@ class MageTest extends PHPUnit_Framework_TestCase
         // reinitialization is needed here, too
         Magento_Test_Bootstrap::getInstance()->initialize();
         $msg = uniqid();
-        $e = new Exception((string)$msg);
-        Mage::logException($e);
+        $exception = new Exception((string)$msg);
+        Mage::logException($exception);
         $this->expectOutputRegex('/' . $msg . '/');
     }
 
