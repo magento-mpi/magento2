@@ -52,10 +52,10 @@ class Mage_Downloadable_Model_Observer
     /**
      * Change product type on the fly depending on selected options
      *
-     * @param  Varien_Object $observer
+     * @param  Varien_Event_Observer $observer
      * @return Mage_Downloadable_Model_Observer
      */
-    public function transitionProductType($observer)
+    public function transitionProductType(Varien_Event_Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
