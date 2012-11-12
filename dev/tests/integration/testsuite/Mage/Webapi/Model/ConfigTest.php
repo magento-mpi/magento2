@@ -8,14 +8,14 @@
 /**#@+
  * Data structures should be available without auto loader as the file name cannot be calculated from class name.
  */
-include __DIR__ . '/../../_files/Model/Webapi/ModuleA/ModuleAData.php';
-include __DIR__ . '/../../_files/Model/Webapi/ModuleA/ModuleADataB.php';
+include __DIR__ . '/../_files/Model/Webapi/ModuleA/ModuleAData.php';
+include __DIR__ . '/../_files/Model/Webapi/ModuleA/ModuleADataB.php';
 /**#@-*/
 
 /**
  * Class for {@see Mage_Webapi_Model_Config} model testing.
  */
-class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Model_Config */
     protected $_config;
@@ -23,16 +23,31 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     /**
      * Set up config with fixture controllers directory scanner
      */
-    public function setUp()
+    protected function setUp()
     {
-        $fixtureDir = __DIR__ . '/../../_files/controllers/Webapi/';
+        $fixtureDir = __DIR__ . '/../_files/controllers/Webapi/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
+        $serverReflection = new \Zend\Server\Reflection();
+        /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        $appConfig = Mage::app()->getConfig();
+        $objectManager = new Magento_Test_ObjectManager();
+        $helperFactory = new Mage_Core_Model_Factory_Helper($objectManager);
+        /** @var Magento_Controller_Router_Route_Factory $routeFactory */
+        $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_config = new Mage_Webapi_Model_Config($directoryScanner, $helperFactory, $appConfig, $cache,
+            $serverReflection, $routeFactory);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
+    }
 
-        $this->_config = new Mage_Webapi_Model_Config(array(
-            'directoryScanner' => $directoryScanner,
-            'cache' => $cache,
-        ));
+    /**
+     * Clean up.
+     */
+    protected function tearDown()
+    {
+        unset($this->_config);
     }
 
     /**
@@ -41,15 +56,15 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResource()
     {
-        $expectedResourceA = include __DIR__ . '/../../_files/config/resource_a_fixture.php';
+        $expectedResourceA = include __DIR__ . '/../_files/config/resource_a_fixture.php';
         $this->assertEquals($expectedResourceA, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v1'),
             'Version 1 resource_a data does not match');
 
-        $expectedResourceAV2 = include __DIR__ . '/../../_files/config/resource_a_fixture_v2.php';
+        $expectedResourceAV2 = include __DIR__ . '/../_files/config/resource_a_fixture_v2.php';
         $this->assertEquals($expectedResourceAV2, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v2'),
             'Version 2 resource_a data does not match.');
 
-        $expectedSubresourceB = include __DIR__ . '/../../_files/config/resource_a_subresource_b_fixture.php';
+        $expectedSubresourceB = include __DIR__ . '/../_files/config/resource_a_subresource_b_fixture.php';
         $this->assertEquals($expectedSubresourceB, $this->_config->getResourceDataMerged('namespaceAModuleASubresourceB', 'v1'),
             'Version 1 resource_a_subresource_b data does no match.');
     }
@@ -60,7 +75,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDataType()
     {
-        $expectedType = include __DIR__ . '/../../_files/config/data_structure_fixture.php';
+        $expectedType = include __DIR__ . '/../_files/config/data_structure_fixture.php';
         $this->assertEquals($expectedType, $this->_config->getDataType('NamespaceAModuleAData'));
     }
 }
