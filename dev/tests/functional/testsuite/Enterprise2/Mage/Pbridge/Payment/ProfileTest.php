@@ -31,8 +31,8 @@ class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->useHttps('frontend');
 
-        $this->_enableAuthorizePBConfiguration();
-        $this->_enablePaymentBridgeConfiguration();
+        $this->_toggleAuthorizePBConfiguration();
+        $this->_togglePaymentBridgeConfiguration();
 
         return $userData;
     }
@@ -40,12 +40,12 @@ class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCas
     /**
      * Enable/Disable Authorize.net (Payment Bridge only) configuration
      *
-     * @param bool $flag
+     * @param bool $enable
      */
-    protected function _enableAuthorizePBConfiguration($flag = true)
+    protected function _toggleAuthorizePBConfiguration($enable = true)
     {
         $key = 'enable';
-        if (!$flag) {
+        if (!$enable) {
             $key = 'disable';
         }
 
@@ -56,12 +56,12 @@ class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCas
     /**
      * Enable/Disable Payment Bridge configuration
      *
-     * @param bool $flag
+     * @param bool $enable
      */
-    protected function _enablePaymentBridgeConfiguration($flag = true)
+    protected function _togglePaymentBridgeConfiguration($enable = true)
     {
         $key = 'enable';
-        if (!$flag) {
+        if (!$enable) {
             $key = 'disable';
         }
 
@@ -82,18 +82,18 @@ class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCas
     {
         $this->customerHelper()->frontLoginCustomer(
             array(
-                'email' => $userData['email'],
+                'email'    => $userData['email'],
                 'password' => $userData['password']
             )
         );
 
-        $this->navigate('my_credit_cards');
         $page = 'my_credit_cards';
         $pageUrl = $this->_uimapHelper->getPageUrl('frontend', $page);
         if (substr($pageUrl, 0, 5) === 'https') {
             $pageUrl = str_replace('https://', 'http://', $pageUrl);
         }
         $this->open($pageUrl);
+        $this->validatePage($page);
         $this->assertTrue($this->controlIsPresent('pageelement', 'account_title'));
 
         $this->assertStringStartsWith('https://', $this->getLocation(), 'Url must be secure');
@@ -109,7 +109,7 @@ class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCas
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->useHttps('frontend', 'No');
 
-        $this->_enableAuthorizePBConfiguration(false);
-        $this->_enablePaymentBridgeConfiguration(false);
+        $this->_toggleAuthorizePBConfiguration(false);
+        $this->_togglePaymentBridgeConfiguration(false);
     }
 }
