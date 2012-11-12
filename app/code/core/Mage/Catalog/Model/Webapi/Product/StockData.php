@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Catalog_Webapi_Product_Stock_DataStructure
+class Mage_Catalog_Model_Webapi_Product_StockData
 {
     /**
      * Manage stock or not.

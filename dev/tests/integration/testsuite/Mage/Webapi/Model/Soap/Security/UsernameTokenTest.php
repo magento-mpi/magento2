@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
             'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_TEXT,
-            'password' => $userFixture->getApiSecret(),
+            'password' => $userFixture->getSecret(),
             'nonce' => base64_encode(mt_rand()),
             'created' => date('c')
         ));
@@ -41,7 +41,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(array(
             'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
-            'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getApiSecret(), true)),
+            'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getSecret(), true)),
             'nonce' => base64_encode($nonce),
             'created' => $timestamp
         ));
@@ -63,7 +63,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $options = array(
             'username' => $userFixture->getApiKey(),
             'passwordType' => Mage_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_DIGEST,
-            'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getApiSecret(), true)),
+            'password' => base64_encode(hash('sha1', $nonce . $timestamp . $userFixture->getSecret(), true)),
             'nonce' => base64_encode($nonce),
             'created' => $timestamp
         );

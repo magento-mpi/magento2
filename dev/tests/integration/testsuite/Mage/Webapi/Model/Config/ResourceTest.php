@@ -8,8 +8,8 @@
 /**#@+
  * Data structures should be available without auto loader as the file name cannot be calculated from class name.
  */
-include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructure.php';
-include __DIR__ . '/../../_files/controllers/Webapi/ModuleA/DataStructureB.php';
+include __DIR__ . '/../../_files/Model/Webapi/ModuleA/ModuleAData.php';
+include __DIR__ . '/../../_files/Model/Webapi/ModuleA/ModuleADataB.php';
 /**#@-*/
 
 /**
@@ -61,6 +61,6 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetDataType()
     {
         $expectedType = include __DIR__ . '/../../_files/config/data_structure_fixture.php';
-        $this->assertEquals($expectedType, $this->_config->getDataType('NamespaceAModuleADataStructure'));
+        $this->assertEquals($expectedType, $this->_config->getDataType('NamespaceAModuleAData'));
     }
 }

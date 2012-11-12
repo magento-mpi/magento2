@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Catalog_Webapi_Product_DataStructure
+class Mage_Catalog_Model_Webapi_ProductData
 {
     /**
      * Product name
@@ -44,7 +44,7 @@ class Mage_Catalog_Webapi_Product_DataStructure
     /**
      * Product stock data
      *
-     * @var Mage_Catalog_Webapi_Product_Stock_DataStructure
+     * @var Mage_Catalog_Model_Webapi_Product_StockData
      */
     public $stock = false;
 }

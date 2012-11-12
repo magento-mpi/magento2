@@ -230,22 +230,15 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
     {
-        /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
-        $collection = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_User_Collection');
-        /** @var $user Mage_Webapi_Model_Acl_User */
-        $user = $collection->getFirstItem();
-        Mage::getSingleton('Mage_Webapi_Model_Authorization_RoleLocator')->setRoleId($user->getRoleId());
 
-//        try {
-//            /** @var $oauthServer Mage_Oauth_Model_Server */
-//            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
-//            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
-//        } catch (Exception $e) {
-//            TODO: Mage_Webapi_Exception must be translated
-//            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
-//        }
-//        // TODO: implement consumer role loading
-//        return $consumerKey;
+        try {
+            /** @var $oauthServer Mage_Oauth_Model_Server */
+            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
+            $consumer = $oauthServer->authenticateTwoLegged();
+            Mage::getSingleton('Mage_Webapi_Model_Authorization_RoleLocator')->setRoleId($consumer->getRoleId());
+        } catch (Exception $e) {
+            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
+        }
     }
 
     /**

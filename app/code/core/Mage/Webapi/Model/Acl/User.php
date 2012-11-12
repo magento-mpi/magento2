@@ -15,7 +15,7 @@
  * @method int getRoleId()
  * @method Mage_Webapi_Model_Acl_User setApiKey(string $apiKey)
  * @method string getApiKey()
- * @method string getApiSecret()
+ * @method string getSecret()
  * @method Mage_Webapi_Model_Acl_User setContactEmail(string $contactEmail)
  * @method string getContactEmail()
  * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)

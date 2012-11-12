@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Vendor_Module_Webapi_Customer_DataStructure
+class Vendor_Module_Model_Webapi_CustomerData
 {
     /**
      * Customer email.
@@ -39,7 +39,7 @@ class Vendor_Module_Webapi_Customer_DataStructure
      * Customer address
      *
      * @optional true
-     * @var Vendor_Module_Webapi_Customer_Address_DataStructure
+     * @var Vendor_Module_Model_Webapi_Customer_AddressData
      */
     public $address;
 }

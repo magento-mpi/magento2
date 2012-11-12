@@ -52,7 +52,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
-            $role = $this->_authenticate();
+            $this->_authenticate();
             $resourceVersion = $this->_getOperationVersion($operation);
             $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
@@ -63,7 +63,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
                 // TODO: Refactor ACL check to work by operation name, not by resource name + method name
-                $this->_checkResourceAcl($role, $resourceName, $method);
+                $this->_checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);

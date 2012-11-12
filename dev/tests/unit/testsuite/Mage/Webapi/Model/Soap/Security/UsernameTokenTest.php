@@ -274,7 +274,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->method('getId')
             ->will($this->returnValue(1));
         $userMock->expects($this->once())
-            ->method('getApiSecret')
+            ->method('getSecret')
             ->will($this->returnValue($this->_validFixturePassword));
 
         $user = $usernameToken->authenticate();
@@ -324,7 +324,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->method('getId')
             ->will($this->returnValue(1));
         $userMock->expects($this->once())
-            ->method('getApiSecret')
+            ->method('getSecret')
             ->will($this->returnValue('INVALID_PASSWORD'));
 
         $usernameToken->authenticate();
@@ -339,7 +339,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     {
         $userMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_User')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getId', 'getApiSecret'))
+            ->setMethods(array('load', 'getId', 'getSecret'))
             ->getMock();
         $userMock->expects($this->once())
             ->method('load')

@@ -1,6 +1,6 @@
 <?php
 
-class Vendor_Module_Webapi_Property_Without_Var
+class Vendor_Module_Model_Webapi_Property_Without_Var
 {
     /**
      * Property without var tag
