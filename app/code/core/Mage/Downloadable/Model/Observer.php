@@ -60,15 +60,20 @@ class Mage_Downloadable_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
         $downloadable = $request->getPost('downloadable');
+        $isTransitionalType = $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            || $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+            || $product->getTypeId() === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE;
 
-        if ($product->hasIsVirtual()) {
-            if ($downloadable) {
-                $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
+        if ($isTransitionalType) {
+            if ($product->hasIsVirtual()) {
+                if ($downloadable) {
+                    $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
+                } else {
+                    $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+                }
             } else {
-                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
             }
-        } else {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
 
         return $this;
