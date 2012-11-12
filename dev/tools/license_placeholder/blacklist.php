@@ -33,7 +33,6 @@ return array(
     'pub/lib/extjs',
     'pub/lib/firebug',
     'pub/lib/flash',
-    'pub/lib/jscolor',
     'pub/lib/jquery',
     'pub/lib/lib/boxover.js',
     'pub/lib/lib/ccard.js',
