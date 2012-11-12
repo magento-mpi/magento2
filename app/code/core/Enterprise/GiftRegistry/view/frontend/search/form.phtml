@@ -12,7 +12,7 @@
     <h1><?php echo $this->getFormHeader() ?></h1>
 </div>
 <span id="gr-please-wait" class="please-wait" style="display:none;">
-    <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+    <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
 </span>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>

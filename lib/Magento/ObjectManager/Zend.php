@@ -9,8 +9,7 @@
  */
 
 use Zend\Di\Di,
-    Zend\Di\DefinitionList,
-    Zend\Di\Configuration,
+    Zend\Di\Config,
     Zend\Di\Definition;
 
 /**
@@ -44,13 +43,15 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         Magento_Profiler::start('di');
 
         if (is_file($definitionsFile) && is_readable($definitionsFile)) {
-            $definition = new Definition\ArrayDefinition(unserialize(file_get_contents($definitionsFile)));
+            $definition = new Magento_Di_Definition_ArrayDefinition_Zend(
+                unserialize(file_get_contents($definitionsFile))
+            );
         } else {
-            $definition = new Definition\RuntimeDefinition();
+            $definition = new Magento_Di_Definition_RuntimeDefinition_Zend();
         }
 
         $this->_di = $diInstance ? $diInstance : new Magento_Di();
-        $this->_di->setDefinitionList(new DefinitionList($definition));
+        $this->_di->setDefinitionList(new Magento_Di_DefinitionList_Zend($definition));
         $this->_di->instanceManager()->addSharedInstance($this, 'Magento_ObjectManager');
 
         Magento_Profiler::stop('di');
@@ -99,7 +100,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $magentoConfiguration = $this->get('Mage_Core_Model_Config');
         $node = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
         if ($node) {
-            $diConfiguration = new Configuration(array('instance' => $node->asArray()));
+            $diConfiguration = new Config(array('instance' => $node->asArray()));
             $diConfiguration->configure($this->_di);
         }
         return $this;

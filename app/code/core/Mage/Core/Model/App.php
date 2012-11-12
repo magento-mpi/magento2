@@ -1257,7 +1257,7 @@ class Mage_Core_Model_App
     public function getRequest()
     {
         if (empty($this->_request)) {
-            $this->_request = $this->_objectManager->create('Mage_Core_Controller_Request_Http');
+            $this->_request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
     }
@@ -1282,7 +1282,7 @@ class Mage_Core_Model_App
     public function getResponse()
     {
         if (empty($this->_response)) {
-            $this->_response = $this->_objectManager->create('Mage_Core_Controller_Response_Http');
+            $this->_response = $this->_objectManager->get('Mage_Core_Controller_Response_Http');
             $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }

@@ -40,17 +40,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_app;
 
     /**
-     * Define custom form template for block
-     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Session $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
      * @param array $data
      *
@@ -60,27 +60,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
         Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Session $session,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         array $data = array()
     ) {
         parent::__construct(
-            $request,
-            $layout,
-            $eventManager,
-            $translator, $cache,
-            $designPackage,
-            $session,
-            $storeConfig,
-            $frontController
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
         );
-        $this->setTemplate('hierarchy/edit.phtml');
 
+        $this->setTemplate('hierarchy/edit.phtml');
         $this->_app = $application;
 
         $this->_currentStore = $this->getRequest()->getParam('store');
@@ -174,7 +170,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('No preview available'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes

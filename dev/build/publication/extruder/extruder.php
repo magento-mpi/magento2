@@ -9,16 +9,14 @@
  * @license    {license_link}
  */
 
-require dirname(__FILE__) . '/Routine.php';
+require __DIR__ . '/../../../../lib/Magento/Shell.php';
 
 define('USAGE', <<<USAGE
-$>./extruder.php -l common.txt [[-l extra.txt] parameters]
+$>./extruder.php -w <working_dir> -l /path/to/common.txt [[-l /path/to/extra.txt] parameters]
     additional parameters:
-    -w dir      use specified working dir instead of current
-    -g          use "git rm" command instead of "rm -rf"
-    -d          remove in dry-run mode (available for "git rm" command only)
-    -v          verbose output
-    -i          ignore errors from remove command
+    -w dir  directory with working copy to edit with the extruder
+    -l      one or many files with lists that refer to files and directories to be deleted
+    -v      additional verbosity in output
 
 USAGE
 );
@@ -26,77 +24,70 @@ USAGE
 $shortOpts = 'l:w:gdvi';
 $options = getopt($shortOpts);
 
-if (!isset($options['l'])) {
-    print USAGE;
-    exit(1);
-}
-
-if (!is_array($options['l'])) {
-    $options['l'] = array($options['l']);
-}
-
-$list = array();
-foreach ($options['l'] as $file) {
-    if (!file_exists($file)) {
-        print 'File "' . $file . '" does not exist (current dir is "' . getcwd() . '").' . "\n";
-        exit(1);
+try {
+    // working dir argument
+    if (empty($options['w'])) {
+        throw new Exception(USAGE);
     }
-    $list = array_merge($list, explode("\n", file_get_contents($file)));
-}
-$list = array_unique($list);
-foreach ($list as $key => $line) {
-    if (trim($line) == '' || substr($line, 0, 2) == '//') {
-        unset($list[$key]);
+    $workingDir = realpath($options['w']);
+    if (!$workingDir || !is_writable($workingDir) || !is_dir($workingDir)) {
+        throw new Exception("'{$options['w']}' must be a writable directory.");
     }
-}
 
-$workingDir = '.';
-if (isset($options['w'])) {
-    $workingDir = realpath(
-        rtrim(
-            str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $options['w']),
-            DIRECTORY_SEPARATOR
-        )
-    );
-}
-if (!is_dir($workingDir)) {
-    print 'Working dir "' . $workingDir . '" does not exist' . "\n";
-    exit(1);
-}
-
-$rmCommand = 'rm -rf';
-if (isset($options['g'])) {
-    $rmCommand = 'git rm -r -f --ignore-unmatch';
-    if (isset($options['d'])) {
-        $rmCommand .= " --dry-run";
+    // lists argument
+    if (empty($options['l'])) {
+        throw new Exception(USAGE);
     }
-}
-
-$verbose = false;
-if (isset($options['v'])) {
-    $verbose = true;
-}
-
-$ignore = false;
-if (isset($options['i'])) {
-    $ignore = true;
-}
-
-$currentWorkingDir = getcwd();
-chdir($workingDir);
-foreach ($list as $item) {
-    if (empty($item)) {
-        continue;
+    if (!is_array($options['l'])) {
+        $options['l'] = array($options['l']);
     }
-    foreach (Routine::parsePath($item) as $currItem) {
-        $currItem = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $currItem);
-        $result = Routine::execCmd("$rmCommand $currItem", $verbose, $ignore);
-        if ($result !== 0) {
-            chdir($currentWorkingDir);
-            exit($result);
+    $list = array();
+    foreach ($options['l'] as $file) {
+        if (!is_file($file) || !is_readable($file)) {
+            throw new Exception("Specified file with patterns does not exist or cannot be read: '{$file}'");
+        }
+        $patterns = file($file, FILE_IGNORE_NEW_LINES);
+        foreach ($patterns as $pattern) {
+            if (empty($pattern) || 0 === strpos($pattern, '#')) { // comments start from #
+                continue;
+            }
+            $pattern = $workingDir . DIRECTORY_SEPARATOR . $pattern;
+            $items = glob($pattern, GLOB_BRACE);
+            if (empty($items)) {
+                throw new Exception("glob() pattern '{$pattern}' returned empty result.");
+            }
+            $list = array_merge($list, $items);
         }
     }
-}
-chdir($currentWorkingDir);
+    if (empty($list)) {
+        throw new Exception('List of files or directories to delete is empty.');
+    }
 
-exit(0);
+    // verbosity argument
+    $verbose = isset($options['v']);
+
+    // perform "extrusion"
+    $shell = new Magento_Shell($verbose);
+    foreach ($list as $item) {
+        if (!file_exists($item)) {
+            throw new Exception("The file or directory '{$item} is marked for deletion, but it doesn't exist.");
+        }
+        $shell->execute(
+            'git --git-dir %s --work-tree %s rm -r -f -- %s',
+            array("{$workingDir}/.git", $workingDir, $item)
+        );
+        if (file_exists($item)) {
+            throw new Exception("The file or directory '{$item}' was supposed to be deleted, but it still exists.");
+        }
+    }
+
+    exit(0);
+} catch (Exception $e) {
+    if ($e->getPrevious()) {
+        $message = (string)$e->getPrevious();
+    } else {
+        $message = $e->getMessage();
+    }
+    echo $message . PHP_EOL;
+    exit(1);
+}

@@ -1482,18 +1482,15 @@
             <Mage_Tax_Model_Class/>
         </expected_models>
         <actions>
-            <adminhtml_tax_class_customer_edit>
-                <action>view</action>
-            </adminhtml_tax_class_customer_edit>
-
-            <adminhtml_tax_class_customer_delete>
+            <adminhtml_tax_class_ajaxDelete>
                 <action>delete</action>
-            </adminhtml_tax_class_customer_delete>
+                <post_dispatch>postDispatchTaxClassDelete</post_dispatch>
+            </adminhtml_tax_class_ajaxDelete>
 
-            <adminhtml_tax_class_save>
+            <adminhtml_tax_class_ajaxSave>
                 <action>save</action>
                 <post_dispatch>postDispatchTaxClassSave</post_dispatch>
-            </adminhtml_tax_class_save>
+            </adminhtml_tax_class_ajaxSave>
         </actions>
     </tax_customer_tax_classes>
 
@@ -1502,15 +1499,6 @@
         <expected_models>
             <Mage_Tax_Model_Class/>
         </expected_models>
-        <actions>
-            <adminhtml_tax_class_product_edit>
-                <action>view</action>
-            </adminhtml_tax_class_product_edit>
-
-            <adminhtml_tax_class_product_delete>
-                <action>delete</action>
-            </adminhtml_tax_class_product_delete>
-        </actions>
     </tax_product_tax_classes>
 
     <tax_rules translate="label">

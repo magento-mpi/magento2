@@ -1,26 +1,23 @@
-// Files that are not published with Magento CE
-// ---------------------------------------------------
+# Files that are not published with Magento CE
+#
 LICENSE_EE.html
 LICENSE_EE.txt
 LICENSE_PRO.html
 LICENSE_PRO.txt
 app/code/core/Enterprise
-app/design/adminhtml/default/default/skin/enterprise/
-app/design/adminhtml/default/default/skin/pro/
-app/design/frontend/enterprise/
-app/design/frontend/pro/
-app/design/install/default/enterprise/
-app/design/install/default/pro/
+app/design/adminhtml/default/enterprise
+app/design/adminhtml/default/pro
+app/design/frontend/enterprise
+app/design/frontend/pro
+app/design/install/default/enterprise
+app/design/install/default/pro
 app/etc/enterprise.xml
-app/etc/modules/Enterprise_*.xml
-app/etc/modules/XEnterprise_Enabler.xml.dist
-app/locale/*/Enterprise_*.csv
+app/etc/modules
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
-dev/tests/integration/testsuite/integrity/modular/SkinFilesTest.php
+dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
-dev/tests/integration/testsuite/Theme/Enterprise
-dev/tests/integration/testsuite/Theme/Pro
+dev/tests/integration/testsuite/Theme
 dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
@@ -33,11 +30,12 @@ dev/tests/static/testsuite/Php/_files/whitelist/core-ee.txt
 dev/tests/unit/testsuite/Enterprise
 dev/tools/migration/factory_table_names/replace_ee.php
 dev/tools/migration/aliases_map/composite_modules_ee.php
+dev/tools/migration/System/log/report_ee.log
 downloader/Maged/Model/Config/Enterprise.php
 downloader/Maged/Model/Config/Professional.php
 downloader/skin/install/images/enterprise.gif
-downloader/template/enterprise/
-downloader/template/professional/
+downloader/template/enterprise
+downloader/template/professional
 lib/Apache
 pub/errors/enterprise
 pub/errors/pro
