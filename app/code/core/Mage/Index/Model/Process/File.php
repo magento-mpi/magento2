@@ -67,6 +67,8 @@ class Mage_Index_Model_Process_File extends Varien_Io_File
             if (flock($this->_streamHandler, LOCK_EX | LOCK_NB)) {
                 if ($needUnlock) {
                     flock($this->_streamHandler, LOCK_UN);
+                } else {
+                    $this->_streamLocked = true;
                 }
                 return false;
             }
