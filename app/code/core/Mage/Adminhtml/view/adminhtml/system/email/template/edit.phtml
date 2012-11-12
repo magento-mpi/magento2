@@ -95,7 +95,7 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    var templateForm = new varienForm('email_template_edit_form');
+    jQuery('#email_template_edit_form').form().validation();
     var templatePreviewForm = new varienForm('email_template_preview_form');
     var templateControl = {
         unconvertedText: '',
@@ -134,7 +134,8 @@
             if (this.typeChange) {
                 $('change_flag_element').value = '1';
             }
-            templateForm.submit();
+            // Temporary solution will be replaced after refactoring of email templates functionality
+            jQuery('#email_template_edit_form').triggerHandler('save');
             return false;
         },
         preview: function() {
