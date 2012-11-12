@@ -17,14 +17,16 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract
 {
+
     /**
-     * @param array $data
+     * @param Mage_Webapi_Model_Authorization_Config $config
+     * @param Magento_Acl_ResourceFactory $resourceFactory
      */
-    public function __construct(array $data = array())
-    {
-        $this->_config = isset($data['config']) ? $data['config'] :
-            Mage::getSingleton('Mage_Webapi_Model_Authorization_Config');
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+    public function __construct(Mage_Webapi_Model_Authorization_Config $config,
+        Magento_Acl_ResourceFactory $resourceFactory
+    ) {
+        $this->_config = $config;
+        $this->_resourceFactory = $resourceFactory;
     }
 
     /**
@@ -56,7 +58,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
             $resourceId = $resourceConfig->getAttribute('id');
             if ($acl->has($parent) && !$acl->has($resourceId)) {
                 /** @var $resource Magento_Acl_Resource */
-                $resource = $this->_objectFactory->getModelInstance('Magento_Acl_Resource', $resourceId);
+                $resource = $this->_resourceFactory->createResource(array($resourceId));
                 $acl->addResource($resource, $parent);
             }
         }

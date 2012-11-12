@@ -20,7 +20,12 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Role
      */
-    protected $_resourceModel;
+    protected $_roleResource;
+
+    /**
+     * @var Mage_Webapi_Model_Acl_RoleFactory
+     */
+    protected $_roleFactory;
 
     /**
      * @var Mage_Core_Model_Config
@@ -28,13 +33,14 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
     protected $_config;
 
     /**
-     * @param array $data
+     * @param Mage_Webapi_Model_Resource_Acl_Role $roleResource
+     * @param Mage_Webapi_Model_Authorization_RoleFactory $roleFactory
      */
-    public function __construct(array $data = array())
-    {
-        $this->_resourceModel = isset($data['resourceModel']) ?
-            $data['resourceModel'] : Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Role');
-        $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
+    public function __construct(Mage_Webapi_Model_Resource_Acl_Role $roleResource,
+        Mage_Webapi_Model_Authorization_RoleFactory $roleFactory
+    ) {
+        $this->_roleResource = $roleResource;
+        $this->_roleFactory = $roleFactory;
     }
 
     /**
@@ -44,10 +50,10 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $roleList = $this->_resourceModel->getRolesIds();
+        $roleList = $this->_roleResource->getRolesIds();
         foreach ($roleList as $roleId) {
             /** @var $aclRole Mage_Webapi_Model_Authorization_Role */
-            $aclRole = $this->_config->getModelInstance('Mage_Webapi_Model_Authorization_Role', $roleId);
+            $aclRole = $this->_roleFactory->createRole(array($roleId));
             $acl->addRole($aclRole);
             //Deny all privileges to Role. Some of them could be allowed later by whitelist
             $acl->deny($aclRole);

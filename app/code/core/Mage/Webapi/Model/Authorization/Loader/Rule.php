@@ -20,15 +20,14 @@ class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Rule
      */
-    protected $_resourceModel;
+    protected $_ruleResource;
 
     /**
-     * @param array $data
+     * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      */
-    public function __construct(array $data = array())
+    public function __construct(Mage_Webapi_Model_Resource_Acl_Rule $ruleResource)
     {
-        $this->_resourceModel = isset($data['resourceModel']) ?
-            $data['resourceModel'] : Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule');
+        $this->_ruleResource = $ruleResource;
     }
 
     /**
@@ -38,7 +37,7 @@ class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $ruleList = $this->_resourceModel->getRuleList();
+        $ruleList = $this->_ruleResource->getRuleList();
         foreach ($ruleList as $rule) {
             $role = $rule['role_id'];
             $resource = $rule['resource_id'];

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Api Acl Config model
  *
@@ -33,9 +32,20 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
      */
     protected $_reader;
 
-    public function __construct(array $args = array())
-    {
-        $this->_config = isset($args['config']) ? $args['config'] : Mage::getConfig();
+    /**
+     * @var Mage_Webapi_Model_Authorization_Config_ReaderFactory
+     */
+    protected $_readerFactory;
+
+    /**
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Webapi_Model_Authorization_Config_ReaderFactory $readerFactory
+     */
+    public function __construct(Mage_Core_Model_Config $config,
+        Mage_Webapi_Model_Authorization_Config_ReaderFactory $readerFactory
+    ) {
+        $this->_config = $config;
+        $this->_readerFactory = $readerFactory;
     }
 
     /**
@@ -45,8 +55,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
      */
     protected function _getAclResourceFiles()
     {
-        $files = $this->_config
-            ->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
+        $files = $this->_config->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
         return (array)$files;
     }
 
@@ -59,8 +68,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         if (is_null($this->_reader)) {
             $aclResourceFiles = $this->_getAclResourceFiles();
-            $this->_reader = $this->_config
-                ->getModelInstance('Mage_Webapi_Model_Authorization_Config_Reader', $aclResourceFiles);
+            $this->_reader = $this->_readerFactory->createReader(array($aclResourceFiles));
         }
         return $this->_reader;
     }
