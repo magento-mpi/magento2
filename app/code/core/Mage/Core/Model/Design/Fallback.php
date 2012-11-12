@@ -180,7 +180,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _getInheritedTheme($package, $theme)
     {
-        return $this->_themeConfig->getParentTheme($package, $theme);
+        return $this->_themeConfig ? $this->_themeConfig->getParentTheme($package, $theme) : null;
     }
 
     /**
