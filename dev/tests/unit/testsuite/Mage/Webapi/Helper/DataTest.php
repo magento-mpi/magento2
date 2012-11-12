@@ -247,15 +247,30 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function _createResourceConfig()
     {
+        /** Prepare arguments for SUT constructor. */
         $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
-        $appConfig = new Mage_Core_Model_Config();
+        $objectManager = new Magento_ObjectManager_Zend();
+        /** @var $appConfig Mage_Core_Model_Config */
+        $appConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array($objectManager));
+        $appConfig->expects($this->once())->method('getNode')
+            ->will($this->returnValue(new Mage_Core_Model_Config_Element("<empty_node></empty_node>")));
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
-        $apiConfig = new Mage_Webapi_Model_Config(array(
-            'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
-            'applicationConfig' => $appConfig,
-            'helper' => new Mage_Webapi_Helper_Data(),
-            'cache' => $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock()
-        ));
+        /** Prepare mocks for SUT constructor. */
+        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
+        $routeFactory = new Magento_Controller_Router_Route_Factory($objectManager);
+
+        /** Initialize SUT. */
+        $apiConfig = new Mage_Webapi_Model_Config(
+            new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
+            $helperFactory,
+            $appConfig,
+            $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
+            new \Zend\Server\Reflection(),
+            $routeFactory
+        );
         return $apiConfig;
     }
 }

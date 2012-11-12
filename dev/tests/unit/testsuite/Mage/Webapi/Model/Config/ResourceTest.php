@@ -800,17 +800,31 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     protected function _createResourceConfig($pathToDirectoryWithResources)
     {
+        /** Prepare arguments for SUT constructor. */
+        $objectManager = new Magento_ObjectManager_Zend();
+        /** @var $appConfig Mage_Core_Model_Config */
+        $appConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array($objectManager));
+        $appConfig->expects($this->once())->method('getNode')
+            ->will($this->returnValue(new Mage_Core_Model_Config_Element("<empty_node></empty_node>")));
+        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../../")));
+        /** Prepare mocks for SUT constructor. */
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $applicationConfig = new Mage_Core_Model_Config();
-        $applicationConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../../")));
-        $apiConfig = new Mage_Webapi_Model_Config(array(
-            'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources),
-            'applicationConfig' => $applicationConfig,
-            // clone is required to prevent mock object removal after test execution
-            'helper' => clone $helper,
-            'cache' => $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock()
-        ));
+        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
+        // clone is required to prevent mock object removal after test execution
+        $helperClone = clone $helper;
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helperClone));
+        $routeFactory = new Magento_Controller_Router_Route_Factory($objectManager);
+
+        /** Initialize SUT. */
+        $apiConfig = new Mage_Webapi_Model_Config(
+            new \Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources),
+            $helperFactory,
+            $appConfig,
+            $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
+            new \Zend\Server\Reflection(),
+            $routeFactory
+        );
         return $apiConfig;
     }
 

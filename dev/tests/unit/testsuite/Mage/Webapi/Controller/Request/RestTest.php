@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test Webapi Request model
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 {
@@ -19,18 +11,28 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestMock;
-
+    protected $_request;
 
     protected function setUp()
     {
         parent::setUp();
-
+        /** Prepare mocks for request constructor arguments. */
+        $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
+            ->disableOriginalConstructor()->getMock();
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $requestMock = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
-            'isPost', 'isPut', 'isDelete'), array(null, $helper));
-        $this->_requestMock = $requestMock;
+        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
+        $helperFactory->expects($this->once())->method('get')->will($this->returnValue($helper));
+        /** Instantiate request. */
+        // TODO: Get rid of SUT mocks.
+        $this->_request = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
+            'isPost', 'isPut', 'isDelete'), array($interpreterFactory, $helperFactory));
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_request);
+        parent::tearDown();
     }
 
     /**
@@ -42,13 +44,13 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAcceptTypes($acceptHeader, $expectedResult)
     {
-        $this->_requestMock
+        $this->_request
             ->expects($this->once())
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
         /** @var Mage_Webapi_Controller_Request_Rest _requestMock */
-        $this->assertSame($expectedResult, $this->_requestMock->getAcceptTypes());
+        $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
     /**
@@ -89,14 +91,14 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetContentType($contentTypeHeader, $contentType, $exceptionMessage = false)
     {
-        $this->_requestMock
+        $this->_request
             ->expects($this->once())
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentTypeHeader));
 
         try {
-            $this->assertEquals($contentType, $this->_requestMock->getContentType());
+            $this->assertEquals($contentType, $this->_request->getContentType());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
@@ -116,7 +118,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      * Test for getOperation() method
      *
      * @dataProvider providerRequestMethod
-     *
      * @param string $requestMethod Request method
      * @param string $crudOperation CRUD operation name
      * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
@@ -134,19 +135,19 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         }
 
         if ($expectedMethod) {
-            $this->_requestMock
+            $this->_request
                 ->expects($this->once())
                 ->method($expectedMethod)
                 ->will($this->returnValue(true));
         }
 
-        $this->_requestMock
+        $this->_request
             ->expects($this->any())
             ->method('getMethod')
             ->will($this->returnValue($requestMethod));
 
         try {
-            $this->assertEquals($crudOperation, $this->_requestMock->getHttpMethod());
+            $this->assertEquals($crudOperation, $this->_request->getHttpMethod());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
@@ -168,10 +169,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceType()
     {
-        $this->assertNull($this->_requestMock->getResourceType());
+        $this->assertNull($this->_request->getResourceType());
         $resource = 'test_resource';
-        $this->_requestMock->setResourceType($resource);
-        $this->assertEquals($resource, $this->_requestMock->getResourceType());
+        $this->_request->setResourceType($resource);
+        $this->assertEquals($resource, $this->_request->getResourceType());
     }
 
     /**

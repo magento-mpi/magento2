@@ -42,10 +42,12 @@ class Mage_Webapi_Model_Config
      */
     protected $_serverReflection;
 
-    /**
-     * @var Mage_Webapi_Helper_Data
-     */
+
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
+
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
 
     /**
      * Resources configuration data.
@@ -66,7 +68,7 @@ class Mage_Webapi_Model_Config
 
     /**
      * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_Cache $cache
      * @param Zend\Server\Reflection $serverReflection
@@ -75,21 +77,22 @@ class Mage_Webapi_Model_Config
     public function __construct(
         DirectoryScanner $directoryScanner,
 //        Magento_Autoload $autoLoader,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_Cache $cache,
         Reflection $serverReflection,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
-        // TODO: Introduce directory scanner factory
-        $this->_directoryScanner = $directoryScanner;
-        $this->_initDirectoryScanner();
-
         $this->_autoloader = Magento_Autoload::getInstance();
-        $this->_helper = $helper;
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
         $this->_routeFactory = $routeFactory;
+
+        // TODO: Introduce directory scanner factory
+        $this->_directoryScanner = $directoryScanner;
+        $this->_initDirectoryScanner();
 
         // TODO: Introduce factory
         $this->_serverReflection = $serverReflection;
@@ -102,9 +105,9 @@ class Mage_Webapi_Model_Config
     protected function _initDirectoryScanner()
     {
         /** @var Mage_Core_Model_Config_Element $module */
-        foreach (Mage::getConfig()->getNode('modules')->children() as $moduleName => $module) {
+        foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
             if ($module->is('active')) {
-                $directory = Mage::getConfig()->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
+                $directory = $this->_applicationConfig->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
                 if (is_dir($directory)) {
                     $this->_directoryScanner->addDirectory($directory);
                 }
@@ -850,7 +853,7 @@ class Mage_Webapi_Model_Config
             }
             /** @var \Zend\Code\Scanner\ClassScanner $class */
             $class = reset($classes);
-            $baseDir = $this->_applicationConfig->getOptions()->getBaseDir() . DS;
+            $baseDir = $this->_applicationConfig->getOptions()->getBaseDir() . DIRECTORY_SEPARATOR;
             $relativePath = str_replace($baseDir, '', $filename);
             $classMap[$class->getName()] = $relativePath;
         }
