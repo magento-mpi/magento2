@@ -290,7 +290,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
-        $hasChanges = false;
+        $hasChanges = $customer->hasDataChanges();
         $actualAddressesIds = array();
         foreach ($addressesData as $addressData) {
             $addressId = null;
