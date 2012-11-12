@@ -79,6 +79,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Rss_OrderController'),
     $this->_getClassRule('Mage_Bundle_Product_EditController', 'Mage_Bundle_Adminhtml_Bundle_SelectionController'),
     $this->_getClassRule('Mage_Bundle_SelectionController', 'Mage_Bundle_Adminhtml_Bundle_SelectionController'),
+    $this->_getClassRule('Mage_Catalog_Model_Convert'),
     $this->_getClassRule('Mage_Catalog_Model_Convert_Adapter_Catalog'),
     $this->_getClassRule('Mage_Catalog_Model_Convert_Adapter_Product'),
     $this->_getClassRule('Mage_Catalog_Model_Convert_Parser_Product'),

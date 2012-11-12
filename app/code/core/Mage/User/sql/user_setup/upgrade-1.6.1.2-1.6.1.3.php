@@ -14,4 +14,19 @@ $tableName = $installer->getTable('admin_rule');
 /** @var Varien_Db_Adapter_Interface $connection */
 $connection = $installer->getConnection();
 
-$connection->delete($tableName, array('resource_id LIKE ?' => '%xmlconnect%'));
+$condition = $connection->prepareSqlCondition('resource_id', array(
+    array('like' => '%xmlconnect%'),
+    array(
+        'in' => array(
+            /**
+             * Include both old and new identifiers, as depending on install or upgrade process there can be
+             * either first or second in the database
+             */
+            'admin/system/convert/gui',
+            'Mage_Adminhtml::gui',
+            'admin/system/convert/profiles',
+            'Mage_Adminhtml::profiles'
+        ),
+    ),
+));
+$connection->delete($tableName, $condition);
