@@ -42,12 +42,28 @@ class Mage_Downloadable_Model_Observer
     {
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
+
+        if ($downloadable = $request->getPost('downloadable')) {
+            $product->setDownloadableData($downloadable);
+        }
+
+        return $this;
+    }
+    /**
+     * Change product type on the fly depending on selected options
+     *
+     * @param  Varien_Object $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function transitionProductType($observer)
+    {
+        $request = $observer->getEvent()->getRequest();
+        $product = $observer->getEvent()->getProduct();
         $downloadable = $request->getPost('downloadable');
 
         if ($product->hasIsVirtual()) {
             if ($downloadable) {
                 $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
-                $product->setDownloadableData($downloadable);
             } else {
                 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
             }

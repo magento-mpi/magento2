@@ -67,6 +67,14 @@
                     </bind_locale>
                 </observers>
             </admin_system_config_changed_section_admin>
+            <catalog_product_transition_product_type>
+                <observers>
+                    <type_transition>
+                        <class>Mage_Adminhtml_Model_Observer</class>
+                        <method>transitionProductType</method>
+                    </type_transition>
+                </observers>
+            </catalog_product_transition_product_type>
         </events>
         <global_search>
             <products>

@@ -699,7 +699,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
-            $this->_transitionProductType($product);
+            Mage::dispatchEvent(
+                'catalog_product_transition_product_type',
+                array('product' => $product, 'request' => $this->getRequest())
+            );
 
             try {
                 $originalSku = $product->getSku();
@@ -751,25 +754,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ));
         } else {
             $this->_redirect('*/*/', array('store'=>$storeId));
-        }
-    }
-
-    /**
-     * Change product type on the fly depending on selected options
-     *
-     * @param Mage_Catalog_Model_Product $product
-     */
-    protected function _transitionProductType($product)
-    {
-        $isTransitionalType = in_array($product->getTypeId(), array(
-            Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
-        );
-        if ($isTransitionalType) {
-            $product->setTypeId($product->hasIsVirtual()
-                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
-            );
         }
     }
 
