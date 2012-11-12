@@ -143,12 +143,12 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
 
     public function testLogException()
     {
-        $e = new Exception;
-        $expected = "\n{$e}";
+        $exception = new Exception;
+        $expected = "\n{$exception}";
         /** @var $model Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false);
         $model->expects($this->at(0))->method('log')
             ->with($expected, Zend_Log::ERR, Mage_Core_Model_Logger::LOGGER_EXCEPTION);
-        $model->logException($e);
+        $model->logException($exception);
     }
 }
