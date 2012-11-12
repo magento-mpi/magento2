@@ -15,10 +15,6 @@ product_page:
         form:
             fieldsets: &productFieldsets
                 -
-                    add_tag:
-                        buttons:
-                            add_tags: //*[@data-ui-id='product-tag-list-add-button']
-                -
                     product_info:
                         links:
                             what_is_this: //a[contains(., concat("What", "'s this?"))]
