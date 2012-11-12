@@ -20,13 +20,25 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager = null;
+
+    /**
      * @var Mage_Customer_Model_Customer
      */
     protected $_createdCustomer;
 
+    /**
+     * @var Mage_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory = null;
+
     protected function setUp()
     {
-        $this->_model = new Mage_Customer_Service_Customer();
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_customerFactory = new Mage_Customer_Model_CustomerFactory($this->_objectManager);
+        $this->_model = $this->_objectManager->create('Mage_Customer_Service_Customer');
     }
 
     protected function tearDown()
@@ -51,7 +63,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
-        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+        $loadedCustomer = $this->_customerFactory->create()
+            ->load($this->_createdCustomer->getId());
         if (array_key_exists('sendemail', $customerData)) {
             unset($customerData['sendemail']);
         }
@@ -170,7 +183,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(count($addressesData), $this->_createdCustomer->getAddresses());
 
         /** @var Mage_Customer_Model_Customer $loadedCustomer */
-        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+        $loadedCustomer = $this->_customerFactory->create()
+            ->load($this->_createdCustomer->getId());
 
         $createdData = array();
         /** @var Mage_Customer_Model_Address $address */
@@ -284,14 +298,15 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
+        $expected = $this->_customerFactory->create()
+            ->load(1);
 
         $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
 
-        $actualData = Mage::getModel('Mage_Customer_Model_Customer')->load($expected->getId())->getData();
+        $actualData = $this->_customerFactory->create()
+            ->load($expected->getId())->getData();
         $expectedData = array_merge($updatedCustomer->toArray(array_keys($actualData)), $customerData);
         if (isset($expectedData['password'])) {
             // TODO Add assertions for password if needed
@@ -372,7 +387,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testAutoGeneratePassword()
     {
-        $oldPasswordHash = Mage::getModel('Mage_Customer_Model_Customer')->load(1)->getPasswordHash();
+        $oldPasswordHash = $this->_customerFactory->create()
+            ->load(1)
+            ->getPasswordHash();
         $updatedCustomer = $this->_model->update(1, array(
             'autogenerate_password' => true,
         ));
@@ -388,14 +405,16 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCustomerAddressManipulation($addressesData)
     {
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $customer = $this->_customerFactory->create()
+            ->load(1);
         $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
         $updatedCustomer = $this->_model->update(1, array(), $addressesData);
         $this->assertCount(count($addressesData), $updatedCustomer->getAddresses(),
             'Customer address was not deleted.');
 
         /** @var Mage_Customer_Model_Customer $actualCustomer */
-        $actualCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $actualCustomer = $this->_customerFactory->create()
+            ->load(1);
         $actualAddresses = $actualCustomer->getAddresses();
         $this->assertCount(count($addressesData), $actualAddresses, 'Customer address was not actually deleted.');
 
@@ -466,7 +485,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testCallback()
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $customer = $this->_customerFactory->create()
+            ->load(1);
         $customerData = array('firstname' => 'Updated name');
         $customer->addData($customerData);
         $addressData = array(array(
@@ -503,11 +523,10 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      * @param int $storeId
      * @param boolean $isConfirmed
      * @dataProvider forceConfirmedDataProvider
-     * @magentoAppIsolation enabled
      */
     public function testCustomerSetForceConfirmed($storeId, $isConfirmed)
     {
-        Mage::app()->setCurrentStore($storeId);
+        $this->_model->setStoreId($storeId);
         $customerData = array(
             'firstname' => 'SomeName',
             'lastname' => 'SomeSurname',

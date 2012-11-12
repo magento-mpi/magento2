@@ -19,10 +19,18 @@
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Core_Model_ValidatorFactory
      */
-    public function __construct()
+    protected $_validatorFactory;
+
+    /**
+     * Resource initialization
+     *
+     * @param Mage_Core_Model_ValidatorFactory $validatorFactory
+     */
+    public function __construct(Mage_Core_Model_ValidatorFactory $validatorFactory)
     {
+        $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
         $this->setConnection('customer_read', 'customer_write');
     }
@@ -111,8 +119,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     protected function _validate($customer)
     {
-        $validatorFactory = Mage::getConfig()->getValidatorConfig();
-        $validator = $validatorFactory
+        $validatorConfig = $this->_validatorFactory->create();
+        $validator = $validatorConfig
             ->getValidatorBuilder('customer', 'save')
             ->createValidator();
 

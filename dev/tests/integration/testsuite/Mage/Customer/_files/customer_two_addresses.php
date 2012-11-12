@@ -11,7 +11,8 @@
 
 require 'customer_address.php';
 
-$customerAddress = new Mage_Customer_Model_Address();
+/** @var Mage_Customer_Model_Address $customerAddress */
+$customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setCustomerId(1)
     ->setData(array(
         'entity_id' => 2,

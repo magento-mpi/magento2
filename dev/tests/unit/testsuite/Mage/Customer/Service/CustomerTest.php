@@ -16,13 +16,32 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     protected $_service;
 
+    /**
+     * @var Mage_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Mage_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
     protected function setUp()
     {
         $helper = $this->getMockBuilder('Mage_Customer_Helper_Data')
             ->getMock();
-        $this->_service = new Mage_Customer_Service_Customer(array(
-            'helper' => $helper
-        ));
+        $helper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $this->_customerFactory = $this->getMockBuilder('Mage_Customer_Model_CustomerFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('create'))
+            ->getMock();
+        $this->_addressFactory = $this->getMockBuilder('Mage_Customer_Model_AddressFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('create'))
+            ->getMock();
+        $this->_service = new Mage_Customer_Service_Customer($helper, $this->_customerFactory, $this->_addressFactory);
     }
 
     protected function tearDown()

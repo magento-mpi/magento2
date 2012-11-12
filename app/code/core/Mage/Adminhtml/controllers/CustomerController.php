@@ -18,94 +18,9 @@
 class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    /**
-     * Event manager
-     *
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
-     * Registry model
-     *
-     * @var Mage_Core_Model_Registry
-     */
-    protected $_registryManager;
-
-    /**
-     * ACL
-     *
-     * @var Mage_Backend_Model_Auth_Session
-     */
-    protected $_acl;
-
-    /**
-     * @var Mage_Customer_Service_Customer
-     */
-    protected $_customerService;
-
-    /**
-     * @var Mage_Customer_Helper_Data
-     */
-    protected $_customerHelper;
-
-    /**
      * @var Magento_Validator
      */
     protected $_validator;
-
-    /**
-     * Constructor
-     *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param Zend_Controller_Response_Abstract $response
-     * @param array $invokeArgs
-     */
-    public function __construct(Zend_Controller_Request_Abstract $request,
-        Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
-    ) {
-        parent::__construct($request, $response, $invokeArgs);
-
-        if (isset($invokeArgs['objectFactory'])) {
-            $this->_objectFactory = $invokeArgs['objectFactory'];
-        } else {
-            $this->_objectFactory = Mage::getConfig();
-        }
-
-        if (isset($invokeArgs['registry'])) {
-            $this->_registryManager = $invokeArgs['registry'];
-        } else {
-            $this->_registryManager = Mage::getSingleton('Mage_Core_Model_Registry');
-        }
-
-        if (isset($invokeArgs['acl'])) {
-            $this->_acl = $invokeArgs['acl'];
-        } else {
-            $this->_acl = Mage::getSingleton('Mage_Core_Model_Authorization');
-        }
-
-        if (isset($invokeArgs['eventManager'])) {
-            $this->_eventManager = $invokeArgs['eventManager'];
-        } else {
-            $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
-        }
-
-        if (isset($invokeArgs['customerService'])) {
-            $this->_customerService = $invokeArgs['customerService'];
-        } else {
-            $this->_customerService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Customer');
-        }
-
-        if (isset($invokeArgs['customerHelper'])) {
-            $this->_customerHelper = $invokeArgs['customerHelper'];
-        } else {
-            $this->_customerHelper = Mage::helper('Mage_Customer_Helper_Data');
-        }
-    }
 
     /**
      * Customer initialization
@@ -293,15 +208,19 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     ));
                 };
 
-                $this->_customerService->setBeforeSaveCallback($beforeSaveCallback);
-                $this->_customerService->setAfterSaveCallback($afterSaveCallback);
+                /** @var Mage_Customer_Service_Customer $customerService */
+                $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer', array(
+                    'storeId' => Mage::app()->getStore()->getId())
+                );
+                $customerService->setBeforeSaveCallback($beforeSaveCallback);
+                $customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
-                    $customer = $this->_customerService->update($customerId, $accountData, $addressesData);
+                    $customer = $customerService->update($customerId, $accountData, $addressesData);
                 } else {
-                    $customer = $this->_customerService->create($accountData, $addressesData);
+                    $customer = $customerService->create($accountData, $addressesData);
                 }
 
-                $this->_registryManager->register('current_customer', $customer);
+                $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
@@ -368,14 +287,18 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $serviceAttributes = array(
                 'password', 'new_password', 'default_billing', 'default_shipping', 'confirmation');
 
-            $customerEntity = Mage::getModel('Mage_Customer_Model_Customer');
-            $customerData = $this->_customerHelper
-                ->extractCustomerData($this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes,
-                    'account');
+            /** @var Mage_Customer_Model_Customer $customerEntity */
+            $customerEntity = $this->_objectManager->create('Mage_Customer_Model_Customer');
+            /** @var Mage_Customer_Helper_Data $customerHelper */
+            $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
+            $customerData = $customerHelper->extractCustomerData(
+                $this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes, 'account');
         }
 
         $this->_processCustomerPassword($customerData);
-        if ($this->_acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
+        /** @var Mage_Core_Model_Authorization $acl */
+        $acl = $this->_objectManager->get('Mage_Core_Model_Authorization');
+        if ($acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
             $customerData['is_subscribed'] = (bool)$this->getRequest()->getPost('subscription', false);
         }
 
@@ -402,20 +325,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
 
             /** @var Mage_Customer_Model_Address_Form $eavForm */
-            $eavForm = Mage::getModel('Mage_Customer_Model_Address_Form');
-            $addressEntity = Mage::getModel('Mage_Customer_Model_Address');
+            $eavForm = $this->_objectManager->create('Mage_Customer_Model_Address_Form');
+            /** @var Mage_Customer_Model_Address $addressEntity */
+            $addressEntity = $this->_objectManager->create('Mage_Customer_Model_Address');
 
             $addressIdList = array_keys($addresses);
+            /** @var Mage_Customer_Helper_Data $customerHelper */
+            $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
-                $addressData = $this->_customerHelper->extractCustomerData(
-                    $this->getRequest(),
-                    'adminhtml_customer_address',
-                    $addressEntity,
-                    array(),
-                    $scope,
-                    $eavForm
-                );
+                $addressData = $customerHelper->extractCustomerData(
+                    $this->getRequest(), 'adminhtml_customer_address', $addressEntity, array(), $scope, $eavForm);
                 if (is_numeric($addressId)) {
                     $addressData['entity_id'] = $addressId;
                 }
@@ -646,14 +566,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         try {
             /** @var Mage_Customer_Model_Customer $customer */
-            $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer');
+            $customer = $this->_objectManager->create('Mage_Customer_Model_Customer');
             $customerId = $this->getRequest()->getParam('id');
             if ($customerId) {
                 $customer->load($customerId);
             }
 
             /* @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
+            $customerForm = $this->_objectManager->get('Mage_Customer_Model_Form');
             $customerForm->setEntity($customer)
                 ->setFormCode('adminhtml_customer')
                 ->setIsAjaxRequest(true)
@@ -693,6 +613,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     /**
      * Customer validation
+     *
      * @param Varien_Object $response
      * @param Mage_Customer_Model_Customer $customer
      */
