@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Helper for errors processing.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webapi error processor.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Front_ErrorProcessor
 {
@@ -37,14 +26,19 @@ class Mage_Webapi_Controller_Front_ErrorProcessor
      */
     protected $_reportDir;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
     /**
      * Initialize report directory.
      */
-    public function __construct(Mage_Core_Helper_Data $helper)
+    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory)
     {
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         /** @see Error_Processor::__construct() */
         $this->_reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
     }

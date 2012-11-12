@@ -1,17 +1,11 @@
 <?php
 /**
- * {license_notice}
+ * Front controller associated with API area.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
+ * The main responsibility of this class is to identify requested API type and instantiate correct handler for it.
+ *
+ * @copyright {}
  */
-
-/**
- * Generic front controller for all API types
- */
-// TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInterface
 {
     /**#@+
@@ -47,6 +41,9 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var Mage_Core_Model_App */
     protected $_application;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
@@ -66,7 +63,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     protected $_errorProcessor;
 
     function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_FrontFactory $frontControllerFactory,
         Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
@@ -74,7 +71,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         Magento_Controller_Router_Route_Factory $routeFactory,
         Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
     ) {
-        $this->_helper = $helper;
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_frontControllerFactory = $frontControllerFactory;
         $this->_requestFactory = $requestFactory;
         $this->_apiResponse = $response;

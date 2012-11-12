@@ -28,9 +28,9 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer extends Zend_Conf
      *
      * @return string
      */
+    // TODO: Rewrite this method using DOMDocument
     public function render()
     {
-        // TODO: Consider if SimpleXML should be replaced with DOMDocument
         $xml = new SimpleXMLElement('<' . self::XML_ROOT_NODE . '/>');
         $extends = $this->_config->getExtends();
         $sectionName = $this->_config->getSectionName();

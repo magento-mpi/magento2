@@ -1,17 +1,16 @@
 <?php
 /**
- * {license_notice}
+ * Helper for data processing according to REST presentation.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
 class Mage_Webapi_Controller_Front_Rest_Presentation
 {
     /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
+
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
@@ -33,14 +32,15 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
 
     function __construct(
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Helper_Data $apiHelper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         $this->_apiConfig = $apiConfig;
-        $this->_apiHelper = $apiHelper;
+        $this->_helperFactory = $helperFactory;
+        $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_request = $request;
         $this->_response = $response;
         $this->_rendererFactory = $rendererFactory;
@@ -213,7 +213,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     public function getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = $this->_rendererFactory->getRenderer($this->_request->getAcceptTypes());
+            $this->_renderer = $this->_rendererFactory->create($this->_request->getAcceptTypes());
         }
         return $this->_renderer;
     }

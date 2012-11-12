@@ -32,28 +32,6 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
     protected $_apiType;
 
     /**
-     * Create request object. Factory method for API requests.
-     *
-     * @param string $apiType
-     * @return Mage_Webapi_Controller_RequestAbstract
-     * @throws InvalidArgumentException If API type is undefined in Mage_Webapi_Controller_Front_Base
-     */
-    public static function createRequest($apiType)
-    {
-        switch($apiType) {
-            case Mage_Webapi_Controller_Front_Base::API_TYPE_REST:
-                return new Mage_Webapi_Controller_Request_Rest();
-                break;
-            case Mage_Webapi_Controller_Front_Base::API_TYPE_SOAP:
-                return new Mage_Webapi_Controller_Request_Soap();
-                break;
-            default:
-                throw new InvalidArgumentException('The "%s" API type is not valid.', $apiType);
-                break;
-        }
-    }
-
-    /**
      * Get current API type.
      *
      * @return string

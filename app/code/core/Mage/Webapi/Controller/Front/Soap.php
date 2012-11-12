@@ -49,11 +49,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     protected $_usernameTokenRequest;
 
     function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Zend\Soap\Server $soapServer,
         Mage_Core_Model_App $application,
@@ -62,7 +63,14 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         Mage_Webapi_Model_Soap_Security_UsernameTokenFactory $usernameTokenFactory,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
-        parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
+        parent::__construct(
+            $helperFactory,
+            $applicationConfig,
+            $apiConfig,
+            $response,
+            $actionControllerFactory,
+            $logger
+        );
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
@@ -114,7 +122,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
                 if (!Mage::getIsDeveloperMode()) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
                 } else {
                     $this->_soapFault($this->_helper->__("Internal Error."), self::FAULT_CODE_RECEIVER, $e);

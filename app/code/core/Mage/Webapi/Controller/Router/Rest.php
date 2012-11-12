@@ -17,24 +17,22 @@
  */
 class Mage_Webapi_Controller_Router_Rest
 {
-    /**
-     * Routes which are stored in module config files webapi.xml
-     *
-     * @var array
-     */
+    /** @var array */
     protected $_routes = array();
 
     /** @var Mage_Core_Helper_Abstract */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /**
-     * Initialize helper.
-     *
-     * @param Mage_Core_Helper_Abstract $helper
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    function __construct(Mage_Core_Helper_Abstract $helper = null)
+    function __construct(Mage_Core_Model_Factory_Helper $helperFactory)
     {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
     }
 
     /**
@@ -46,7 +44,6 @@ class Mage_Webapi_Controller_Router_Rest
     public function setRoutes(array $routes)
     {
         $this->_routes = $routes;
-
         return $this;
     }
 

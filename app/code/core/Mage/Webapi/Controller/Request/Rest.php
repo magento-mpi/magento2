@@ -32,42 +32,48 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     protected $_resourceVersion;
 
     /**
-     * Interpreter adapter.
-     *
-     * @var Mage_Webapi_Controller_Request_InterpreterInterface
+     * @var Mage_Webapi_Controller_Request_Rest_InterpreterInterface
      */
     protected $_interpreter;
 
     /** @var array */
     protected $_bodyParams;
 
-    /**
-     * @var Mage_Core_Helper_Abstract
-     */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
+    /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
+    protected $_interpreterFactory;
+
     /**
-     * Initialize API type.
-     *
+     * @param Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param string|null $uri
-     * @param Mage_Core_Helper_Abstract|null $helper
      */
-    public function __construct($uri = null, Mage_Core_Helper_Abstract $helper = null)
-    {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    public function __construct(
+        Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        $uri = null
+    ) {
         $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_REST);
         parent::__construct($uri);
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_interpreterFactory = $interpreterFactory;
     }
 
     /**
      * Get request interpreter.
      *
-     * @return Mage_Webapi_Controller_Request_InterpreterInterface
+     * @return Mage_Webapi_Controller_Request_Rest_InterpreterInterface
      */
     protected function _getInterpreter()
     {
         if (null === $this->_interpreter) {
-            $this->_interpreter = Mage_Webapi_Controller_Request_Interpreter::factory($this->getContentType());
+            $this->_interpreter = $this->_interpreterFactory->get($this->getContentType());
         }
         return $this->_interpreter;
     }

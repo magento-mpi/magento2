@@ -66,26 +66,33 @@ class Mage_Webapi_Controller_Request_Uploader_File
      */
     protected $_isCustomUploadDirectory = false;
 
-    /**
-     * @var Varien_Io_File
-     */
+    /** @var Varien_Io_File */
     protected $_filesystemAdapter;
 
-    /** @var Mage_Core_Helper_Abstract */
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Config */
+    protected $_applicationConfig;
+
     /**
-     * Initialize helper and filesystem adapter.
-     *
-     * @param array $options
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Varien_Io_File $fileSystemAdapter
+     * @param Mage_Core_Model_Config $applicationConfig
      */
-    function __construct($options = array())
-    {
-        $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Webapi_Helper_Data');
-        $this->_filesystemAdapter = isset($options['filesystemAdapter'])
-            ? $options['filesystemAdapter']
-            : new Varien_Io_File();
-        $this->_uploadDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . uniqid();
+    function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Varien_Io_File $fileSystemAdapter,
+        Mage_Core_Model_Config $applicationConfig
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_filesystemAdapter = $fileSystemAdapter;
+        $this->_applicationConfig = $applicationConfig;
+        $this->_uploadDirectory = $applicationConfig->getOptions()->getBaseDir('var') . DS . 'api' . DS . uniqid();
     }
 
     /**

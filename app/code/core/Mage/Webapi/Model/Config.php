@@ -61,15 +61,16 @@ class Mage_Webapi_Model_Config
      */
     protected $_autoLoaderClassMap;
 
+    /** @var Magento_Controller_Router_Route_Factory */
+    protected $_routeFactory;
+
     /**
-     * Initialize API resources config.
-     *
      * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
-//     * @param Magento_Autoload $autoLoader
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_Cache $cache
      * @param Zend\Server\Reflection $serverReflection
+     * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
         DirectoryScanner $directoryScanner,
@@ -77,7 +78,8 @@ class Mage_Webapi_Model_Config
         Mage_Webapi_Helper_Data $helper,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_Cache $cache,
-        Reflection $serverReflection
+        Reflection $serverReflection,
+        Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         // TODO: Introduce directory scanner factory
         $this->_directoryScanner = $directoryScanner;
@@ -87,6 +89,7 @@ class Mage_Webapi_Model_Config
         $this->_helper = $helper;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
+        $this->_routeFactory = $routeFactory;
 
         // TODO: Introduce factory
         $this->_serverReflection = $serverReflection;
@@ -824,8 +827,8 @@ class Mage_Webapi_Model_Config
         $apiTypeRoutePath = Mage_Webapi_Controller_Router_Route_ApiType::API_AREA_NAME
             . '/:' . Mage_Webapi_Controller_Front_Base::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
-        // TODO: Change to dependency injection
-        $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
+        /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
+        $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
         $route->setResourceName($resourceName)->setResourceType($actionType);
         return $route;
     }

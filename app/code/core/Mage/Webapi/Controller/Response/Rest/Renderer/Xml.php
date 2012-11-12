@@ -54,7 +54,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements Mage_Webapi_C
      *
      * @var string
      */
-    // TODO: What a strange name? Why does 'protected' mean?
+    // TODO: What a strange name? What does 'protected' mean?
     protected $_protectedTagNamePattern = '/^[0-9,.-]/';
 
     /**
@@ -65,6 +65,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements Mage_Webapi_C
      */
     public function render($data)
     {
+        // TODO: Consider removing Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer
         /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer $writer */
         $writer = Mage::getModel('Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer', array(
             'config' => new Zend_Config($this->_prepareData($data, true))

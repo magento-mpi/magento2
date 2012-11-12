@@ -17,11 +17,13 @@
  */
 class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_ActionAbstract
 {
-    public function __construct(Mage_Webapi_Controller_RequestAbstract $request,
-        Mage_Webapi_Controller_Response $response, Mage_Core_Helper_Abstract $translationHelper = null
+    public function __construct(
+        Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Response $response,
+        Mage_Core_Model_Factory_Helper $helperFactory
     ) {
-        $translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Customer_Helper_Data');
-        parent::__construct($request, $response, $translationHelper);
+        parent::__construct($request, $response, $helperFactory);
+        $this->_translationHelper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
     }
 
     /**

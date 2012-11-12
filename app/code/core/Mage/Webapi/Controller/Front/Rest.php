@@ -74,18 +74,41 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
+    protected $_rendererFactory;
+
+    /** @var Mage_Core_Model_Event_Manager */
+    protected $_eventManager;
+
+    /** @var Mage_Webapi_Controller_Router_Rest */
+    protected $_router;
+
     function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Core_Model_Logger $logger,
         Mage_Webapi_Controller_Front_Rest_Presentation $restPresentation,
-        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor,
+        Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Webapi_Controller_Router_Rest $router
     ) {
-        parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
+        parent::__construct(
+            $helperFactory,
+            $applicationConfig,
+            $apiConfig,
+            $response,
+            $actionControllerFactory,
+            $logger
+        );
         $this->_restPresentation = $restPresentation;
         $this->_errorProcessor = $errorProcessor;
+        $this->_rendererFactory = $rendererFactory;
+        $this->_eventManager = $eventManager;
+        $this->_router = $router;
     }
 
     /**
@@ -145,7 +168,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_addException($e);
         } catch (Exception $e) {
             if (!Mage::getIsDeveloperMode()) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $this->_addException(new Mage_Webapi_Exception(
                     $this->_helper->__("Internal Error. Details are available in Magento log file."),
                     Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
@@ -155,11 +178,9 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             }
         }
 
-        Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
-        Magento_Profiler::start('send_response');
+        $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
         $this->_sendResponse();
-        Magento_Profiler::stop('send_response');
-        Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
+        $this->_eventManager->dispatch('controller_front_send_response_after', array('front' => $this));
     }
 
     /**
@@ -191,9 +212,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getApiConfig()->getAllRestRoutes());
-        $route = $router->match($request);
+        $this->_router->setRoutes($this->getApiConfig()->getAllRestRoutes());
+        $route = $this->_router->match($request);
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());
         $this->getRequest()->setResourceType($route->getResourceType());
@@ -342,7 +362,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = Mage_Webapi_Controller_Response_Rest_Renderer_Factory::getRenderer($this->getRequest()->getAcceptTypes());
+            $this->_renderer = $this->_rendererFactory->create($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

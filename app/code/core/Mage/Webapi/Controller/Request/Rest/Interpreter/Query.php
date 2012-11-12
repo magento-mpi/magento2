@@ -15,21 +15,24 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Controller_Request_Interpreter_Query implements Mage_Webapi_Controller_Request_InterpreterInterface
+class Mage_Webapi_Controller_Request_Rest_Interpreter_Query implements Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
     const URI_VALIDATION_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
 
-    /** @var Mage_Core_Helper_Abstract */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /**
-     * Initialize helper.
-     *
-     * @param array $options
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    function __construct($options = array())
-    {
-        $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Webapi_Helper_Data');
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
     }
 
     /**

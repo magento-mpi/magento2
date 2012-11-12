@@ -18,6 +18,19 @@
 // TODO: Check this class implementation (it was copied from Magento 1 implementation)
 class Mage_Webapi_Controller_Request_Uploader_Image extends Mage_Webapi_Controller_Request_Uploader_File
 {
+    /** @var Varien_Image_Factory */
+    protected $_imageFactory;
+
+    function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Varien_Io_File $fileSystemAdapter,
+        Mage_Core_Model_Config $applicationConfig,
+        Varien_Image_Factory $imageFactory
+    ) {
+        parent::__construct($helperFactory, $fileSystemAdapter, $applicationConfig);
+        $this->_imageFactory = $imageFactory;
+    }
+
     /**
      * List of MIME types allowed for image
      *
@@ -59,7 +72,7 @@ class Mage_Webapi_Controller_Request_Uploader_Image extends Mage_Webapi_Controll
     {
         try {
             // try to create Image object to check if image data is valid
-            new Varien_Image($this->_uploadedFilePath);
+            $this->_imageFactory->create($this->_uploadedFilePath);
         } catch (Exception $e) {
             $this->_filesystemAdapter->rmdir($this->_uploadedFilePath, true);
             throw new Mage_Webapi_Exception($this->_helper->__("File content is not an image file."),

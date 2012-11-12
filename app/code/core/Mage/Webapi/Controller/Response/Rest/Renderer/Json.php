@@ -22,6 +22,22 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Json implements Mage_Webapi_
      */
     const MIME_TYPE = 'application/json';
 
+    /** @var Mage_Core_Helper_Data */
+    protected $_helper;
+
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
+    /**
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     */
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
+    }
+
     /**
      * Convert data to JSON.
      *
@@ -30,7 +46,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Json implements Mage_Webapi_
      */
     public function render($data)
     {
-        return Zend_Json::encode($data);
+        return $this->_helper->jsonEncode($data);
     }
 
     /**

@@ -24,6 +24,9 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Webapi_Model_Config */
     protected $_resourceConfig;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
@@ -33,18 +36,24 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Webapi_Controller_ActionFactory */
     protected $_actionControllerFactory;
 
+    /** @var Mage_Core_Model_Logger */
+    protected $_logger;
+
     function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_ActionFactory $actionControllerFactory
+        Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Core_Model_Logger $logger
     ) {
-        $this->_helper = $helper;
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_applicationConfig = $applicationConfig;
         $this->_apiConfig = $apiConfig;
         $this->_actionControllerFactory = $actionControllerFactory;
         $this->_response = $response;
+        $this->_logger = $logger;
     }
 
     /**

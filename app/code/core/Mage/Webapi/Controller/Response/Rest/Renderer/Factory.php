@@ -22,19 +22,23 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config $applicationConfig,
-        Mage_Webapi_Helper_Data $helper
+        Mage_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
-        $this->_helper = $helper;
+        $this->_helperFactory = $helperFactory;
+        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
     }
 
     /**
@@ -45,7 +49,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    public function getRenderer($acceptTypes)
+    public function create($acceptTypes)
     {
         $availableRenderers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
         if (!is_array($acceptTypes)) {
@@ -63,7 +67,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
                 }
             }
         }
-        if (!isset($rendererClass)) {
+        if (!isset($rendererClass) || empty($rendererClass)) {
             /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Server can not understand Accept HTTP header media type.'),
@@ -73,7 +77,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
         $renderer = $this->_objectManager->get($rendererClass);
         if (!$renderer instanceof Mage_Webapi_Controller_Response_Rest_RendererInterface) {
             throw new LogicException(
-                'All renderers must implement "Mage_Webapi_Controller_Response_Rest_RendererInterface".');
+                'The renderer must implement "Mage_Webapi_Controller_Response_Rest_RendererInterface".');
         }
         return $renderer;
     }
