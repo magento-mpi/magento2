@@ -806,7 +806,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $appConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array($objectManager));
         $appConfig->expects($this->once())->method('getNode')
             ->will($this->returnValue(new Mage_Core_Model_Config_Element("<empty_node></empty_node>")));
-        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../../")));
+        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "/../../../../../../../..")));
         /** Prepare mocks for SUT constructor. */
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
