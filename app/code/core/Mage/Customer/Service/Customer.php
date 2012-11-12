@@ -313,7 +313,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
                 $customer->addAddress($address);
             }
             $address->addData($addressData);
-            $hasChanges = $address->hasDataChanges();
+            $hasChanges = $hasChanges || $address->hasDataChanges();
 
             // Set post_index for detect default billing and shipping addresses
             $address->setPostIndex($addressId);
@@ -323,7 +323,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 
         /** @var Mage_Customer_Model_Address $address */
         foreach ($customer->getAddressesCollection() as $address) {
-            if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
+            if (!in_array($address->getId(), $actualAddressesIds)) {
                 $address->setData('_deleted', true);
                 $hasChanges = true;
             }
