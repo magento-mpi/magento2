@@ -612,7 +612,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
-     * Customer validation
+     * Customer address validation.
      *
      * @param Varien_Object $response
      * @param Mage_Customer_Model_Customer $customer
