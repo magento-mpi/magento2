@@ -49,11 +49,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected $_customerService;
 
     /**
-     * @var Mage_Customer_Service_Address
-     */
-    protected $_addressService;
-
-    /**
      * @var Mage_Customer_Helper_Data
      */
     protected $_customerHelper;
@@ -103,12 +98,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_customerService = $invokeArgs['customerService'];
         } else {
             $this->_customerService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Customer');
-        }
-
-        if (isset($invokeArgs['addressService'])) {
-            $this->_addressService = $invokeArgs['addressService'];
-        } else {
-            $this->_addressService = $this->_objectFactory->getModelInstance('Mage_Customer_Service_Address');
         }
 
         if (isset($invokeArgs['customerHelper'])) {
@@ -263,7 +252,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customer = Mage::registry('current_customer');
         if ($customer->getId()) {
             try {
-                $this->_customerService->delete($customer->getId());
+                $customer->delete();
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Adminhtml_Helper_Data')->__('The customer has been deleted.'));
             }
@@ -279,50 +268,44 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function saveAction()
     {
+        /** @var Mage_Customer_Model_Customer $customer */
         $customer = null;
         $returnToEdit = false;
-        if ($originalRequestData = $this->getRequest()->getPost()) {
+        $customerId = (int)$this->getRequest()->getPost('customer_id');
+        $originalRequestData = $this->getRequest()->getPost();
+        if ($originalRequestData) {
             try {
                 // optional fields might be set in request for future processing by observers in other modules
-                $customerData = $originalRequestData;
-                $customerData['account'] = $this->_extractCustomerData();
-                $customerData['addresses'] = $this->_extractCustomerAddressData();
+                $accountData = $this->_extractCustomerData();
+                $addressesData = $this->_extractCustomerAddressData();
 
-                $customerId = (int)$this->getRequest()->getPost('customer_id');
+                $request = $this->getRequest();
+                $beforeSaveCallback = function ($customer) use ($request) {
+                    Mage::dispatchEvent('adminhtml_customer_prepare_save', array(
+                        'customer'  => $customer,
+                        'request'   => $request
+                    ));
+                };
+                $afterSaveCallback = function ($customer) use ($request) {
+                    Mage::dispatchEvent('adminhtml_customer_save_after', array(
+                        'customer' => $customer,
+                        'request'  => $request
+                    ));
+                };
+
+                $this->_customerService->setBeforeSaveCallback($beforeSaveCallback);
+                $this->_customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
-                    $customer = $this->_customerService->update($customerId, $customerData['account'], true);
+                    $customer = $this->_customerService->update($customerId, $accountData, $addressesData);
                 } else {
-                    $customer = $this->_customerService->create($customerData['account']);
-                }
-
-                $actualAddressesIds = array();
-                foreach ($customerData['addresses'] as  $addressId => $addressData) {
-                    if (is_numeric($addressId)) {
-                        $address = $this->_addressService->update($addressId, $addressData);
-                    } else {
-                        $address = $this->_addressService->create($addressData, $customer->getId());
-                    }
-                    $actualAddressesIds[] = $address->getId();
-                }
-
-                // @todo Deleting customer addresses should be implemented in service layer
-                $hasDeletedAddresses = false;
-                foreach ($customer->getAddressesCollection() as $address) {
-                    if ($address->getId() && !in_array($address->getId(), $actualAddressesIds)) {
-                        $address->setData('_deleted', true);
-                        $hasDeletedAddresses = true;
-                    }
-                }
-                if ($hasDeletedAddresses) {
-                    // Deleting of addresses triggered in Mage_Customer_Model_Resource_Customer::_beforeSave
-                    $customer->setDataChanges(true);
-                    $customer->save();
+                    $customer = $this->_customerService->create($accountData, $addressesData);
                 }
 
                 $this->_registryManager->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The customer has been saved.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
+                $customerId = $customer->getId();
             } catch (Magento_Validator_Exception $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
@@ -344,16 +327,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         if ($returnToEdit) {
-            if ($customer) {
-                $this->_redirect('*/*/edit', array('id' => $customer->getId(), '_current' => true));
+            if ($customerId) {
+                $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
             } else {
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('*/*/new', array('_current' => true));
             }
         } else {
             $this->_redirect('*/customer');
         }
     }
-
 
     /**
      * Add errors messages to session.
@@ -365,15 +347,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $messages = (array)$messages;
         $session = $this->_getSession();
 
-        array_walk_recursive(
-            $messages,
-            function ($error) use ($session) {
-                if (!($error instanceof Mage_Core_Model_Message_Error)) {
-                    $error = new Mage_Core_Model_Message_Error($error);
-                }
-                $session->addMessage($error);
+        $callback = function ($error) use ($session) {
+            if (!($error instanceof Mage_Core_Model_Message_Error)) {
+                $error = new Mage_Core_Model_Message_Error($error);
             }
-        );
+            $session->addMessage($error);
+        };
+        array_walk_recursive($messages, $callback);
     }
 
     /**
@@ -415,6 +395,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _extractCustomerAddressData()
     {
         $addresses = $this->getRequest()->getPost('address');
+        $customerData = $this->getRequest()->getPost('account');
+        $result = array();
         if ($addresses) {
             if (isset($addresses['_template_'])) {
                 unset($addresses['_template_']);
@@ -427,13 +409,30 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $addressIdList = array_keys($addresses);
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
-                $addresses[$addressId] = $this->_customerHelper
-                    ->extractCustomerData($this->getRequest(), 'adminhtml_customer_address', $addressEntity, array(),
-                        $scope, $eavForm);
+                $addressData = $this->_customerHelper->extractCustomerData(
+                    $this->getRequest(),
+                    'adminhtml_customer_address',
+                    $addressEntity,
+                    array(),
+                    $scope,
+                    $eavForm
+                );
+                if (is_numeric($addressId)) {
+                    $addressData['entity_id'] = $addressId;
+                }
+                // Set default billing and shipping flags to address
+                $addressData['is_default_billing'] = isset($customerData['default_billing'])
+                    && $customerData['default_billing']
+                    && $customerData['default_billing'] == $addressId;
+                $addressData['is_default_shipping'] = isset($customerData['default_shipping'])
+                    && $customerData['default_shipping']
+                    && $customerData['default_shipping'] == $addressId;
+
+                $result[] = $addressData;
             }
         }
 
-        return $addresses;
+        return $result;
     }
 
     /**
@@ -451,26 +450,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (isset($customerData['password']) && ($customerData['password'] == 'auto')) {
             unset($customerData['password']);
             $customerData['autogenerate_password'] = true;
-        }
-        $customerData['confirmation'] = $customerData['password'];
-
-        if (empty($customerData['autogenerate_password'])) {
-            /** @var $validatorFactory Magento_Validator_Config */
-            $validatorFactory = Mage::getSingleton('Magento_Validator_Config',
-                Mage::getConfig()->getModuleConfigurationFiles('validation.xml'));
-            $passwordValidator = $validatorFactory->createValidator('customer', 'adminhtml_password_check');
-            if (!$passwordValidator->isValid($customerData)) {
-                $exception = new Mage_Core_Exception();
-                /* @var $messageFactory Mage_Core_Model_Message */
-                $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
-                foreach ($passwordValidator->getMessages() as $error) {
-                    foreach ($error as $errorMessage) {
-                        $exception->addMessage($messageFactory->error($errorMessage));
-                    }
-                }
-
-                throw $exception;
-            }
+        } else {
+            $customerData['confirmation'] = $customerData['password'];
         }
     }
 
