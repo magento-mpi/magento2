@@ -48,10 +48,12 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Core_Helper_Abstract $translationHelper
      */
-    public function __construct(Mage_Webapi_Controller_RequestAbstract $request,
-        Mage_Webapi_Controller_Response $response, Mage_Core_Helper_Abstract $translationHelper = null
+    public function __construct(
+        Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Response $response,
+        Mage_Core_Helper_Abstract $translationHelper
     ) {
-        $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
+        $this->_translationHelper = $translationHelper;
         $this->_request = $request;
         $this->_response = $response;
     }

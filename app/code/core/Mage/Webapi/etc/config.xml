@@ -88,36 +88,40 @@
                         <!-- JSON -->
                         <default>
                             <type>*/*</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Json</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Json</model>
                         </default>
                         <application_json>
                             <type>application/json</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Json</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Json</model>
                         </application_json>
 
                         <!-- QUERY -->
                         <text_plain>
                             <type>text/plain</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Query</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Query</model>
                         </text_plain>
 
                         <!-- XML -->
                         <text_xml>
                             <type>text/xml</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Xml</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Xml</model>
                         </text_xml>
                         <application_xml>
                             <type>application/xml</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Xml</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>Mage_Webapi_Controller_Response_Renderer_Xml</model>
+                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Xml</model>
                         </application_xhtml_xml>
                     </renders>
                 </response>
             </rest>
         </webapi>
+        <di>
+            <!--<Zend/Server/Reflection><shared>0</shared></Zend/Server/Reflection>-->
+            <Mage_Webapi_Controller_Router_Route_ApiType><shared>0</shared></Mage_Webapi_Controller_Router_Route_ApiType>
+        </di>
     </global>
     <admin>
         <routers>

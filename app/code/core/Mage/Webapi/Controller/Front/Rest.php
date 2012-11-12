@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Front controller for REST API
+ *
+ * @copyright {}
  */
 // TODO: Add profiler calls
 class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
@@ -71,12 +64,29 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
     /**
-     * @var Mage_Webapi_Controller_Response_RendererInterface
+     * @var Mage_Webapi_Controller_Response_Rest_RendererInterface
      */
     protected $_renderer;
 
     /** @var Mage_Webapi_Controller_Front_Rest_Presentation */
-    protected $_presentation;
+    protected $_restPresentation;
+
+    /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
+    protected $_errorProcessor;
+
+    function __construct(
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Controller_Response $response,
+        Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Webapi_Controller_Front_Rest_Presentation $restPresentation,
+        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
+    ) {
+        parent::__construct($helper, $applicationConfig, $apiConfig, $response, $actionControllerFactory);
+        $this->_restPresentation = $restPresentation;
+        $this->_errorProcessor = $errorProcessor;
+    }
 
     /**
      * Get REST request.
@@ -97,8 +107,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     {
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
-        $this->_presentation = Mage::getModel('Mage_Webapi_Controller_Front_Rest_Presentation', $this);
-        $this->_initResourceConfig();
         return $this;
     }
 
@@ -114,8 +122,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
             $operation = $this->_getOperationName();
             $resourceVersion = $this->_getResourceVersion($operation);
-            $method = $this->getResourceConfig()->getMethodNameByOperation($operation, $resourceVersion);
-            $controllerClassName = $this->getResourceConfig()->getControllerClassByOperationName($operation);
+            $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
+            $controllerClassName = $this->getApiConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
             /**
@@ -127,12 +135,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
-            $this->_checkResourceAcl($route->getResourceName(), $method);
+//            $this->_checkResourceAcl($route->getResourceName(), $method);
 
             // TODO: Think about passing parameters if they will be available and valid in the resource action
-            $inputData = $this->_presentation->fetchRequestData($controllerInstance, $action);
+            $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
-            $this->_presentation->prepareResponse($method, $outputData);
+            $this->_restPresentation->prepareResponse($method, $outputData);
         } catch (Mage_Webapi_Exception $e) {
             $this->_addException($e);
         } catch (Exception $e) {
@@ -164,7 +172,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _checkRoute($methodName, $version)
     {
         $resourceName = $this->getRequest()->getResourceName();
-        $routes = $this->getResourceConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
+        $routes = $this->getApiConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
         foreach ($routes as $route) {
             if ($route->match($this->getRequest())) {
                 return;
@@ -184,7 +192,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     protected function _matchRoute(Mage_Webapi_Controller_Request_Rest $request)
     {
         $router = new Mage_Webapi_Controller_Router_Rest();
-        $router->setRoutes($this->getResourceConfig()->getAllRestRoutes());
+        $router->setRoutes($this->getApiConfig()->getAllRestRoutes());
         $route = $router->match($request);
         /** Initialize additional request parameters using data from route */
         $this->getRequest()->setResourceName($route->getResourceName());
@@ -272,7 +280,6 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->getResponse()->sendResponse();
         } catch (Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
-            // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
             $httpCode = $e->getCode() == Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
                 ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
                 : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
@@ -292,11 +299,10 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected function _renderInternalError($errorMessage, $trace = 'Trace is not available.', $httpCode = null)
     {
-        $processor = new Mage_Webapi_Controller_Front_Rest_ErrorProcessor();
         if (!Mage::getIsDeveloperMode()) {
-            $processor->saveReport($errorMessage . $trace);
+            $this->_errorProcessor->saveReport($errorMessage . $trace);
         }
-        $processor->render($errorMessage, $trace, $httpCode);
+        $this->_errorProcessor->render($errorMessage, $trace, $httpCode);
     }
 
     /**
@@ -331,12 +337,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Get renderer object according to request accepted mime type
      *
-     * @return Mage_Webapi_Controller_Response_RendererInterface
+     * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
      */
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = Mage_Webapi_Controller_Response_Renderer::factory($this->getRequest()->getAcceptTypes());
+            $this->_renderer = Mage_Webapi_Controller_Response_Rest_Renderer_Factory::getRenderer($this->getRequest()->getAcceptTypes());
         }
         return $this->_renderer;
     }

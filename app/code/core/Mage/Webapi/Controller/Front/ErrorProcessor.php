@@ -15,7 +15,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
+class Mage_Webapi_Controller_Front_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
@@ -37,10 +37,13 @@ class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
      */
     protected $_reportDir;
 
+    /** @var Mage_Core_Helper_Data */
+    protected $_helper;
+
     /**
      * Initialize report directory.
      */
-    public function __construct()
+    public function __construct(Mage_Core_Helper_Data $helper)
     {
         /** @see Error_Processor::__construct() */
         $this->_reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
@@ -50,7 +53,7 @@ class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
      * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Controller_Front_Rest_ErrorProcessor
+     * @return Mage_Webapi_Controller_Front_ErrorProcessor
      */
     public function saveReport($reportData)
     {
@@ -115,7 +118,7 @@ class Mage_Webapi_Controller_Front_Rest_ErrorProcessor
         $errorData['messages']['error'][] = $message;
         switch ($format) {
             case self::DATA_FORMAT_JSON:
-                $errorData = Zend_Json::encode($errorData);
+                $errorData = $this->_helper->jsonEncode($errorData);
                 break;
             case self::DATA_FORMAT_XML:
                 $errorData = '<?xml version="1.0"?>'

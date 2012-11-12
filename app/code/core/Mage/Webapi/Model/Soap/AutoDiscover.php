@@ -14,106 +14,85 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Webapi_Model_Config_Resource
+     * @var Mage_Webapi_Model_Config
      */
-    protected $_resourceConfig;
+    protected $_apiConfig;
 
     /**
-     * WSDL builder instance.
+     * WSDL factory instance.
      *
-     * @var Mage_Webapi_Model_Soap_Wsdl
+     * @var Mage_Webapi_Model_Soap_WsdlFactory
      */
-    protected $_wsdl;
-
-    /**
-     * Service port endpoint URL.
-     *
-     * @var string
-     */
-    protected $_endpointUrl;
+    protected $_wsdlFactory;
 
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param array $options
+     * Mage_Webapi_Model_Config $apiConfig
+     * Mage_Webapi_Model_Soap_WsdlFactory $wsdlFactory
      * @throws InvalidArgumentException
      */
-    public function __construct($options)
+    public function __construct(Mage_Webapi_Model_Config $apiConfig, Mage_Webapi_Model_Soap_WsdlFactory $wsdlFactory)
     {
-        if (!isset($options['resource_config'])) {
-            throw new InvalidArgumentException('"resource_config" option is required.');
-        }
-        if (!$options['resource_config'] instanceof Mage_Webapi_Model_Config_Resource) {
-            throw new InvalidArgumentException('Invalid resource config.');
-        }
-        $this->_resourceConfig = $options['resource_config'];
-
-        if (!isset($options['endpoint_url'])) {
-            throw new InvalidArgumentException('"endpoint_url" option is required.');
-        }
-        $this->_endpointUrl = $options['endpoint_url'];
-
-        if (isset($options['wsdl']) && $options['wsdl'] instanceof Mage_Webapi_Model_Soap_Wsdl) {
-            $this->_wsdl = $options['wsdl'];
-        } else {
-            // TODO: Refactor according to DI
-            $strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
-            $this->_wsdl = new Mage_Webapi_Model_Soap_Wsdl(self::WSDL_NAME, $options['endpoint_url'], $strategy);
-        }
+        $this->_apiConfig = $apiConfig;
+        $this->_wsdlFactory = $wsdlFactory;
     }
 
     /**
      * Generate WSDL file based on requested resources.
      *
      * @param array $requestedResources
+     * @param string $endPointUrl
      * @return string
      */
-    public function generate($requestedResources)
+    public function generate($requestedResources, $endPointUrl)
     {
         $this->_collectCallInfo($requestedResources);
-        $this->_wsdl->addSchemaTypeSection();
+        $wsdl = $this->_wsdlFactory->createWsdl(self::WSDL_NAME, $endPointUrl);
+        $wsdl->addSchemaTypeSection();
 
         foreach ($requestedResources as $resourceName => $resourceData) {
             $portTypeName = $this->getPortTypeName($resourceName);
             $bindingName = $this->getBindingName($resourceName);
-            $portType = $this->_wsdl->addPortType($portTypeName);
-            $binding = $this->_wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
-            $this->_wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
+            $portType = $wsdl->addPortType($portTypeName);
+            $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
+            $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($resourceName);
             $serviceName = $this->getServiceName($resourceName);
-            $this->_wsdl->addService($serviceName, $portName, 'tns:' . $bindingName, $this->_endpointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, 'tns:' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($resourceName, $methodName);
                 $inputBinding = array('use' => 'literal');
-                $inputMessageName = $this->_createOperationInput($operationName, $methodData);
+                $inputMessageName = $this->_createOperationInput($wsdl, $operationName, $methodData);
 
                 $outputMessageName = false;
                 $outputBinding = false;
                 if (isset($methodData['interface']['out']['parameters'])) {
                     $outputBinding = $inputBinding;
-                    $outputMessageName = $this->_createOperationOutput($operationName, $methodData);
+                    $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
 
-                $this->_wsdl->addPortOperation($portType, $operationName, $inputMessageName, $outputMessageName);
-                $bindingOperation = $this->_wsdl->addBindingOperation($binding, $operationName, $inputBinding,
+                $wsdl->addPortOperation($portType, $operationName, $inputMessageName, $outputMessageName);
+                $bindingOperation = $wsdl->addBindingOperation($binding, $operationName, $inputBinding,
                     $outputBinding, false, SOAP_1_2);
-                $this->_wsdl->addSoapOperation($bindingOperation, $operationName, SOAP_1_2);
+                $wsdl->addSoapOperation($bindingOperation, $operationName, SOAP_1_2);
                 // @TODO: implement faults binding
             }
         }
 
-        return $this->_wsdl->toXML();
+        return $wsdl->toXML();
     }
 
     /**
      * Create input message and corresponding element and complex types in WSDL.
      *
+     * @param Mage_Webapi_Model_Soap_Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string input message name
      */
-    protected function _createOperationInput($operationName, $methodData)
+    protected function _createOperationInput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
         $inputMessageName = $this->getInputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
@@ -127,7 +106,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         } else {
             $elementData['nillable'] = 'true';
         }
-        $this->_wsdl->addElement($elementData);
+        $wsdl->addElement($elementData);
         $callInfo = array();
         $callInfo['requiredInput']['yes']['calls'] = array($operationName);
         $typeData = array(
@@ -135,9 +114,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $inputParameters,
             'callInfo' => $callInfo,
         );
-        $this->_resourceConfig->setTypeData($complexTypeName, $typeData);
-        $this->_wsdl->addComplexType($complexTypeName);
-        $this->_wsdl->addMessage($inputMessageName, array(
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $wsdl->addComplexType($complexTypeName);
+        $wsdl->addMessage($inputMessageName, array(
             'messageParameters' => array(
                 'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
             )
@@ -149,15 +128,16 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Create output message and corresponding element and complex types in WSDL.
      *
-     * @param $operationName
-     * @param $methodData
+     * @param Mage_Webapi_Model_Soap_Wsdl $wsdl
+     * @param string $operationName
+     * @param array $methodData
      * @return string output message name
      */
-    protected function _createOperationOutput($operationName, $methodData)
+    protected function _createOperationOutput(Mage_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
-        $this->_wsdl->addElement(array(
+        $wsdl->addElement(array(
             'name' => $outputMessageName,
             'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
         ));
@@ -168,9 +148,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $methodData['interface']['out']['parameters'],
             'callInfo' => $callInfo,
         );
-        $this->_resourceConfig->setTypeData($complexTypeName, $typeData);
-        $this->_wsdl->addComplexType($complexTypeName);
-        $this->_wsdl->addMessage($outputMessageName, array(
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $wsdl->addComplexType($complexTypeName);
+        $wsdl->addMessage($outputMessageName, array(
             'messageParameters' => array(
                 'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
@@ -282,7 +262,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
                     foreach ($interface['parameters'] as $parameterData) {
                         $parameterType = $parameterData['type'];
-                        if (!$this->_resourceConfig->isTypeSimple($parameterType)) {
+                        if (!$this->_apiConfig->isTypeSimple($parameterType)) {
                             $operation = $this->getOperationName($resourceName, $methodName);
                             if ($parameterData['required']) {
                                 $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
@@ -291,7 +271,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                             }
                             $callInfo = array();
                             $callInfo[$direction][$condition]['calls'][] = $operation;
-                            $this->_resourceConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
+                            $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
                         }
                     }
                 }

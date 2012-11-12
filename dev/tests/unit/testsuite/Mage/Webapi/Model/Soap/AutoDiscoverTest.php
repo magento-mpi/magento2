@@ -15,7 +15,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerate($resourceName, $methodName, $interface)
     {
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
+        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')
             ->setMethods(array('getDataType'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -193,7 +193,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateMissingEndpointUrl()
     {
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
+        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
         new Mage_Webapi_Model_Soap_AutoDiscover(array(

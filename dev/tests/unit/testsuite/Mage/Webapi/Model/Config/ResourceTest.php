@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Resource
+ * File with unit tests for API configuration class: Mage_Webapi_Model_Config
  *
  * @copyright {}
  */
@@ -19,12 +19,12 @@ require_once __DIR__ . '/_files/autodiscovery/empty_property_description/data_ty
 /**#@-*/
 
 /**
- * Test of API configuration class: Mage_Webapi_Model_Config_Resource
+ * Test of API configuration class: Mage_Webapi_Model_Config
  */
 class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Config_Resource
+     * @var Mage_Webapi_Model_Config
      */
     protected static $_apiConfig;
 
@@ -35,7 +35,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Webapi_Model_Config_Resource
+     * @return Mage_Webapi_Model_Config
      */
     protected function _getModel()
     {
@@ -382,7 +382,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function assertRoutesEqual($expectedRoutes, $actualRoutes)
     {
         $this->assertInternalType('array', $actualRoutes,
-            "Mage_Webapi_Model_Config_Resource::generateRestRoutes() must return value of 'array' type.");
+            "Mage_Webapi_Model_Config::generateRestRoutes() must return value of 'array' type.");
 
         foreach ($expectedRoutes as $expectedRoute => $expectedRouteMetadata) {
             $this->assertArrayHasKey($expectedRoute, $actualRoutes,
@@ -795,7 +795,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToDirectoryWithResources
-     * @return Mage_Webapi_Model_Config_Resource
+     * @return Mage_Webapi_Model_Config
      */
     protected function _createResourceConfig($pathToDirectoryWithResources)
     {
@@ -803,7 +803,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $applicationConfig = new Mage_Core_Model_Config();
         $applicationConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../../")));
-        $apiConfig = new Mage_Webapi_Model_Config_Resource(array(
+        $apiConfig = new Mage_Webapi_Model_Config(array(
             'directoryScanner' => new \Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources),
             'applicationConfig' => $applicationConfig,
             // clone is required to prevent mock object removal after test execution

@@ -19,7 +19,7 @@ include __DIR__ . '/../../_files/controllers/AutoDiscover/ModuleB/Subresource/Da
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config_Resource */
+    /** @var Mage_Webapi_Model_Config */
     protected $_config;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
@@ -61,7 +61,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $fixtureDir = __DIR__ . '/../../_files/controllers/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $this->_config = new Mage_Webapi_Model_Config_Resource(array(
+        $this->_config = new Mage_Webapi_Model_Config(array(
             'directoryScanner' => $directoryScanner,
             'cache' => $cache,
         ));

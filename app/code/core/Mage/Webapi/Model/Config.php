@@ -10,7 +10,7 @@ use Zend\Code\Scanner\DirectoryScanner,
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Config_Resource
+class Mage_Webapi_Model_Config
 {
     /**
      * Cache ID for resource config.
@@ -64,56 +64,49 @@ class Mage_Webapi_Model_Config_Resource
     /**
      * Initialize API resources config.
      *
-     * @param array $options
+     * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
+//     * @param Magento_Autoload $autoLoader
+     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Model_Config $appConfig
+     * @param Mage_Core_Model_Cache $cache
+     * @param Zend\Server\Reflection $serverReflection
      */
-    public function __construct(array $options)
+    public function __construct(
+        DirectoryScanner $directoryScanner,
+//        Magento_Autoload $autoLoader,
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Config $appConfig,
+        Mage_Core_Model_Cache $cache,
+        Reflection $serverReflection
+    ) {
+        // TODO: Introduce directory scanner factory
+        $this->_directoryScanner = $directoryScanner;
+        $this->_initDirectoryScanner();
+
+        $this->_autoloader = Magento_Autoload::getInstance();
+        $this->_helper = $helper;
+        $this->_applicationConfig = $appConfig;
+        $this->_cache = $cache;
+
+        // TODO: Introduce factory
+        $this->_serverReflection = $serverReflection;
+        $this->_extractData();
+    }
+
+    /**
+     * Initialize directory scanner with API controller directories.
+     */
+    protected function _initDirectoryScanner()
     {
-        if (isset($options['directoryScanner']) && $options['directoryScanner'] instanceof DirectoryScanner) {
-            $this->_directoryScanner = $options['directoryScanner'];
-        } else {
-            $directories = array();
-            /** @var Mage_Core_Model_Config_Element $module */
-            foreach (Mage::getConfig()->getNode('modules')->children() as $moduleName => $module) {
-                if ($module->is('active')) {
-                    $directory = Mage::getConfig()->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
-                    if (is_dir($directory)) {
-                        $directories[] = $directory;
-                    }
+        /** @var Mage_Core_Model_Config_Element $module */
+        foreach (Mage::getConfig()->getNode('modules')->children() as $moduleName => $module) {
+            if ($module->is('active')) {
+                $directory = Mage::getConfig()->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
+                if (is_dir($directory)) {
+                    $this->_directoryScanner->addDirectory($directory);
                 }
             }
-            $this->_directoryScanner = new DirectoryScanner($directories);
         }
-
-        if (isset($options['autoloader']) && $options['autoloader'] instanceof Magento_Autoload) {
-            $this->_autoloader = $options['autoloader'];
-        } else {
-            $this->_autoloader = Magento_Autoload::getInstance();
-        }
-
-        if (isset($options['helper']) && $options['helper'] instanceof Mage_Webapi_Helper_Data) {
-            $this->_helper = $options['helper'];
-        } else {
-            $this->_helper = Mage::helper('Mage_Webapi_Helper_Data');
-        }
-
-        if (isset($options['applicationConfig']) && $options['applicationConfig'] instanceof Mage_Core_Model_Config) {
-            $this->_applicationConfig = $options['applicationConfig'];
-        } else {
-            $this->_applicationConfig = Mage::getConfig();
-        }
-
-        if (isset($options['cache']) && $options['cache'] instanceof Mage_Core_Model_Cache) {
-            $this->_cache = $options['cache'];
-        } else {
-            $this->_cache = Mage::app()->getCacheInstance();
-        }
-
-        if (isset($options['serverReflection']) && $options['serverReflection'] instanceof Reflection) {
-            $this->_serverReflection = $options['serverReflection'];
-        } else {
-            $this->_serverReflection = new Reflection();
-        }
-        $this->_extractData();
     }
 
     /**
@@ -828,7 +821,8 @@ class Mage_Webapi_Model_Config_Resource
      */
     protected function _createRoute($routePath, $resourceName, $actionType)
     {
-        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Webapi_Controller_Router_Route_ApiType::API_ROUTE);
+        $apiTypeRoutePath = Mage_Webapi_Controller_Router_Route_ApiType::API_AREA_NAME
+            . '/:' . Mage_Webapi_Controller_Front_Base::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
         // TODO: Change to dependency injection
         $route = new Mage_Webapi_Controller_Router_Route_Rest($fullRoutePath);
