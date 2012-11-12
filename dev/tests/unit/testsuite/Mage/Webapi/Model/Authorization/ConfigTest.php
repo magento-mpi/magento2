@@ -25,6 +25,11 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     protected $_configReader;
 
     /**
+     * @var Mage_Webapi_Model_Authorization_Config_ReaderFactory
+     */
+    protected $_readerFactory;
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -34,18 +39,27 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+
         $this->_config = $this->getMock('Mage_Core_Model_Config',
-            array('getModelInstance', 'getModuleConfigurationFiles'), array(), '', false);
+            array('getModuleConfigurationFiles'), array(), '', false);
+
+        $this->_readerFactory = $this->getMock('Mage_Webapi_Model_Authorization_Config_ReaderFactory',
+            array('createReader'), array(), '', false);
+
         $this->_configReader = $this->getMock('Magento_Acl_Config_Reader',
             array('getAclResources'), array(), '', false);
-        $this->_model = new Mage_Webapi_Model_Authorization_Config(array(
-            'config' => $this->_config
+
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config', array(
+            'config' => $this->_config,
+            'readerFactory' => $this->_readerFactory
         ));
+
         $this->_config->expects($this->once())
             ->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array()));
-        $this->_config->expects($this->once())
-            ->method('getModelInstance')
+        $this->_readerFactory->expects($this->once())
+            ->method('createReader')
             ->will($this->returnValue($this->_configReader));
     }
 

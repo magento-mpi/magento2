@@ -59,14 +59,18 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
      */
     protected function setUp()
     {
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Rule',
             array('getRuleList'), array(), '', false);
-        $this->_model = new Mage_Webapi_Model_Authorization_Loader_Rule(array(
-            'resourceModel' => $this->_resourceModelMock,
+
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Loader_Rule', array(
+            'ruleResource' => $this->_resourceModelMock,
         ));
-        $this->_role = new Zend_Acl_Role($this->_roleId);
-        $this->_resource = new Zend_Acl_Resource($this->_resourceId);
-        $this->_resourceDeny = new Zend_Acl_Resource($this->_resourceDenyId);
+
+        $this->_role = new Mage_Webapi_Model_Authorization_Role($this->_roleId);
+        $this->_resource = new Magento_Acl_Resource($this->_resourceId);
+        $this->_resourceDeny = new Magento_Acl_Resource($this->_resourceDenyId);
     }
 
     /**

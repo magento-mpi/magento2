@@ -23,9 +23,9 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
     /**
      * Application object factory
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Acl_ResourceFactory
      */
-    protected $_objectFactory;
+    protected $_resourceFactory;
 
     /**
      * Populate ACL with resources from external storage
@@ -38,8 +38,8 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
         if (!($this->_config instanceof Mage_Core_Model_Acl_Config_ConfigInterface)) {
             throw new Mage_Core_Exception('Config loader is not defined');
         }
-        if (!($this->_objectFactory instanceof Mage_Core_Model_Config)) {
-            throw new Mage_Core_Exception('Object Factory is not defined');
+        if (!($this->_resourceFactory instanceof Magento_Acl_ResourceFactory)) {
+            throw new Mage_Core_Exception('Resource Factory is not defined');
         }
         $this->_addResourceTree($acl, $this->_config->getAclResources(), null);
     }
@@ -59,10 +59,7 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
                 continue;
             }
             /** @var $resource Magento_Acl_Resource */
-            $resource = $this->_objectFactory->getModelInstance(
-                'Magento_Acl_Resource',
-                $resourceConfig->getAttribute('id')
-            );
+            $resource = $this->_resourceFactory->createResource(array($resourceConfig->getAttribute('id')));
             $acl->addResource($resource, $parent);
             if ($resourceConfig->hasChildNodes()) {
                 $this->_addResourceTree($acl, $resourceConfig->childNodes, $resource);

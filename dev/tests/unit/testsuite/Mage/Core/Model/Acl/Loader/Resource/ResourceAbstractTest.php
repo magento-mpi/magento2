@@ -30,8 +30,8 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
         $acl->expects($this->at(2))->method('addResource')->with($aclResource, $aclResource)->will($this->returnSelf());
 
         /** @var $factoryObject Mage_Core_Model_Config */
-        $factoryObject = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
-        $factoryObject->expects($this->any())->method('getModelInstance')->will($this->returnValue($aclResource));
+        $factoryObject = $this->getMock('Magento_Acl_ResourceFactory', array('createResource'), array(), '', false);
+        $factoryObject->expects($this->any())->method('createResource')->will($this->returnValue($aclResource));
 
         /** @var $configObject Mage_Core_Model_Acl_Config_ConfigInterface */
         $configObject = $this->getMock('Mage_Core_Model_Acl_Config_ConfigInterface',
@@ -42,7 +42,7 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
         /** @var $loaderResource Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract */
         $loaderResource = $this->getMockForAbstractClass('Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract');
 
-        $factory = new ReflectionProperty($loaderResource, '_objectFactory');
+        $factory = new ReflectionProperty($loaderResource, '_resourceFactory');
         $factory->setAccessible(true);
         $factory->setValue($loaderResource, $factoryObject);
 
@@ -81,7 +81,7 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
      * Test for Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract::populateAcl
      *
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Object Factory is not defined
+     * @expectedExceptionMessage Resource Factory is not defined
      */
     public function testPopulateAclOnInvalidFactory()
     {
@@ -92,7 +92,7 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
         $configObject = $this->getMock('Mage_Core_Model_Acl_Config_ConfigInterface', array(), array(), '', false);
 
         /** @var $factoryObject Varien_Object */
-        $factoryObject = $this->getMock('Varien_Object', array('getModelInstance'), array(), '', false);
+        $factoryObject = $this->getMock('Varien_Object', array('createResource'), array(), '', false);
 
         /** @var $acl Magento_Acl */
         $acl = $this->getMock('Magento_Acl', array(), array(), '', false);
@@ -101,7 +101,7 @@ class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_F
         $config->setAccessible(true);
         $config->setValue($loaderResource, $configObject);
 
-        $factory = new ReflectionProperty($loaderResource, '_objectFactory');
+        $factory = new ReflectionProperty($loaderResource, '_resourceFactory');
         $factory->setAccessible(true);
         $factory->setValue($loaderResource, $factoryObject);
 
