@@ -1146,19 +1146,12 @@ class Mage_Webapi_Model_Config_Resource
      */
     public function translateTypeName($class)
     {
-        if (preg_match('/(.*)_(.*)_Model_Webapi_(.*)/', $class, $matches)) {
+        if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);
-            foreach($typeNameParts as $typeNamePart){
-                if(stripos($typeNamePart, $moduleName) === 0){
-                    $typeNames[] = str_replace($moduleName, '', $typeNamePart);
-                }
-                else{
-                    $typeNames[] = $typeNamePart;
-                }
-            }
-            return ucfirst($moduleNamespace . $moduleName . implode('',$typeNames));
+
+            return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
         throw new InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));
     }
