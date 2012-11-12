@@ -1,0 +1,82 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Tax
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Add New Tax Rule page
+create_tax_rule:
+    mca: tax_rule/new/
+    title: New Rule / Manage Tax Rules / Tax / Sales / Magento Admin
+    uimap:
+        form: &create_tax_rule-form
+            fieldsets:
+                -
+                    tax_rule_info:
+                        xpath: //form[div/h4='Tax Rule Information']
+                        fields:
+                            name: //input[@id='code']
+                            priority:
+                            sort_order:
+                        multiselects:
+                            customer_tax_class:
+                            product_tax_class:
+                            tax_rate:
+                        required:
+                        composite_multiselects:
+                            tax_rate: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-rate']//section
+                -
+                    tax_rule_info_additional:
+                        xpath: //div[h3='Additional Settings']
+                        links:
+                            tax_rule_info_additional_link: /h3/span
+                        fields:
+                            priority: //input[@id='priority']
+                            sort_order: //input[@id='position']
+                        composite_multiselects:
+                            customer_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-customer-class']//section
+                            product_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section
+                -
+                    import_tax_rates:
+                        xpath: //form[div/h4='Import Tax Rates']
+                        buttons:
+                            export_tax_rates: //button[@title='Import Tax Rates']
+                -
+                    export_tax_rates:
+                        xpath: //form[div/h4='Export Tax Rates']
+                        buttons:
+                            export_tax_rates: //button[@title='Export Tax Rates']
+                -
+                    new_tax_rate:
+                        xpath: //div[div/span='Tax Rate']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_rule: //button[span='Save Rule']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: &newTaxRuleMessages
+            code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
+            empty_required_field:  "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete_rule: Are you sure you want to do this?
+            confirmation_for_delete_rate: Do you really want to delete this tax rate?
+            confirmation_for_delete_class: Do you really want to delete this tax class?
+
+# Edit Tax Rule page
+edit_tax_rule:
+    mca: tax_rule/edit/rule/%rule%/
+    title: %elementTitle% / Manage Tax Rules / Tax / Sales / Magento Admin
+    uimap:
+        form: *create_tax_rule-form
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete_rule: //button[span='Delete Rule']
+            save_rule: //button[span='Save Rule']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *newTaxRuleMessages

@@ -174,40 +174,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected $_urlPostfix;
 
     /**
-     * Type of uimap elements
-     * @var string
+     * Types of uimap elements
      */
     const FIELD_TYPE_MULTISELECT = 'multiselect';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
     const FIELD_TYPE_DROPDOWN = 'dropdown';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
     const FIELD_TYPE_CHECKBOX = 'checkbox';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
     const FIELD_TYPE_INPUT = 'field';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
     const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+    const FIELD_TYPE_COMPOSITE_MULTISELECT = 'composite_multiselect';
 
     ################################################################################
     #                             Else variables                                   #
@@ -1755,29 +1730,29 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $element = $this->getElement($locator);
         switch ($attribute) {
             case 'selectedValue':
-                if ($controlType == 'dropdown') {
+                if ($controlType == self::FIELD_TYPE_DROPDOWN) {
                     $elementValue = $this->select($element)->selectedValue();
-                } elseif ($controlType == 'multiselect') {
+                } elseif ($controlType == self::FIELD_TYPE_MULTISELECT) {
                     $elementValue = $this->select($element)->selectedValues();
-                } elseif ($controlType == 'radiobutton' || $controlType == 'checkbox') {
+                } elseif ($controlType == self::FIELD_TYPE_CHECKBOX || $controlType == self::FIELD_TYPE_CHECKBOX) {
                     $elementValue = $element->selected();
                 } else {
                     $elementValue = $element->attribute('value');
                 }
                 break;
             case 'selectedId':
-                if ($controlType == 'dropdown') {
+                if ($controlType == self::FIELD_TYPE_DROPDOWN) {
                     $elementValue = $this->select($element)->selectedId();
-                } elseif ($controlType == 'multiselect') {
+                } elseif ($controlType == self::FIELD_TYPE_MULTISELECT) {
                     $elementValue = $this->select($element)->selectedIds();
                 } else {
                     $elementValue = $element->attribute('id');
                 }
                 break;
             case 'selectedLabel':
-                if ($controlType == 'dropdown') {
+                if ($controlType == self::FIELD_TYPE_DROPDOWN) {
                     $elementValue = trim($this->select($element)->selectedLabel(), chr(0xC2) . chr(0xA0));
-                } elseif ($controlType == 'multiselect') {
+                } elseif ($controlType == self::FIELD_TYPE_MULTISELECT) {
                     $elementValue = $this->select($element)->selectedLabels();
                     foreach ($elementValue as $key => $label) {
                         $elementValue[$key] = trim($label, chr(0xC2) . chr(0xA0));
@@ -2761,7 +2736,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function _prepareDataForSearch(array $data, array $checkFields = array('dropdown' => 'website'))
+    public function _prepareDataForSearch(array $data, array $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
@@ -2797,7 +2772,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForPageToLoad();
             $this->validatePage();
         }
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+        $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
@@ -3122,6 +3097,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             case self::FIELD_TYPE_DROPDOWN:
                 $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
+            case self::FIELD_TYPE_COMPOSITE_MULTISELECT:
+                $this->fillCompositeMultiselect($fieldData['name'], $fieldData['value'], $fieldData['locator']);
+                break;
             default:
                 throw new OutOfRangeException(
                     'Unsupported field type: "' . $fieldData['type'] . '" for fillFieldset() function');
@@ -3140,7 +3118,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillField($name, $value, $locator = null)
     {
         if (is_null($locator)) {
-            $locator = $this->_getControlXpath('field', $name);
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, $name);
         }
         $element = $this->waitForElementEditable($locator, 10);
         $currentValue = $element->value();
@@ -3165,7 +3143,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillMultiselect($name, $value, $locator = null)
     {
         if (is_null($locator)) {
-            $locator = $this->_getControlXpath('multiselect', $name);
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_MULTISELECT, $name);
         }
         $element = $this->waitForElementEditable($locator, 10);
         $this->focusOnElement($element);
@@ -3209,7 +3187,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillDropdown($name, $value, $locator = null, $confirmation = false)
     {
         if (is_null($locator)) {
-            $locator = $this->_getControlXpath('dropdown', $name);
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_DROPDOWN, $name);
         }
         $element = $this->waitForElementEditable($locator, 10);
         $optionLocators = array("//option[normalize-space(text())='$value']",
@@ -3240,7 +3218,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillCheckbox($name, $value, $locator = null)
     {
         if (is_null($locator)) {
-            $locator = $this->_getControlXpath('checkbox', $name);
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_CHECKBOX, $name);
         }
         $element = $this->waitForElementEditable($locator, 10);
         $isSelected = $element->selected();
@@ -3263,7 +3241,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillRadiobutton($name, $value, $locator = null)
     {
         if (is_null($locator)) {
-            $locator = $this->_getControlXpath('radiobutton', $name);
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_RADIOBUTTON, $name);
         }
         $element = $this->waitForElementEditable($locator, 10);
         $isSelected = $element->selected();
@@ -3274,6 +3252,191 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->clearActiveFocus();
             $this->waitForAjax();
         }
+    }
+
+    /**
+     * Fill CompositeMultiselect
+     *
+     * @param string $fieldName
+     * @param string|array $fieldValue
+     * @param null|string $locator
+     *
+     * @throws RuntimeException
+     */
+    public function fillCompositeMultiselect($fieldName, $fieldValue, $locator = null)
+    {
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+        if (is_string($fieldValue)) {
+            $fieldValue = explode(',', $fieldValue);
+        }
+        $fieldValue = array_map('trim', $fieldValue);
+        $generalElement = $this->getElement($locator);
+        //Get all available options
+        /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        $existValues = array();
+        foreach ($this->getChildElements($generalElement, '//label/span') as $element) {
+            $existValues[] = trim($element->text());
+        }
+        //Sort options for filling by type
+        $isNeedAdd = array_diff($fieldValue, $existValues);
+        $isUnselect = array_diff($existValues, $fieldValue);
+        $isSelect = array_diff($fieldValue, $isNeedAdd);
+        //Select options
+        $optionLocator = "//label[span='%s']/%s";
+        foreach ($isSelect as $label) {
+            if (!$this->getChildElement($generalElement, sprintf($optionLocator, $label, 'input'))->selected()) {
+                $this->getChildElement($generalElement, sprintf($optionLocator, $label, 'span'))->click();
+            }
+        }
+        //Unselect options
+        foreach ($isUnselect as $label) {
+            if ($this->getChildElement($generalElement, sprintf($optionLocator, $label, 'input'))->selected()) {
+                $this->getChildElement($generalElement, sprintf($optionLocator, $label, 'span'))->click();
+            }
+        }
+        //Add new Options
+        if ($isNeedAdd) {
+            $saveValueWithoutForm = "//span[@title='Add']";
+            $newValueButtonLocator = '//footer/span';
+            $newValueLocator = "//input[@title='Enter new option']";
+            //Define filling in type
+            $this->getChildElement($generalElement, $newValueButtonLocator)->click();
+            $newValueField = $this->elementIsPresent($locator . $newValueLocator);
+            //Add new options
+            if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
+                //by field
+                foreach ($isNeedAdd as $key => $label) {
+                    $this->getChildElement($generalElement, $newValueLocator)->value($label);
+                    $this->getChildElement($generalElement, $saveValueWithoutForm)->click();
+                    $this->pleaseWait();
+                    //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
+                    sleep(3);
+                    if (isset($isNeedAdd[$key + 1])) {
+                        $this->getChildElement($generalElement, $newValueButtonLocator)->click();
+                    }
+                }
+            } else {
+                //by new form
+                throw new RuntimeException('@TODO fillCompositeMultiselect() - add new value in new form');
+            }
+        }
+    }
+
+    /**
+     * Edit CompositeMultiselect Option
+     *
+     * @param string $fieldName
+     * @param string $optionName
+     * @param string|array $editData
+     * @param null|string $locator
+     * @throws RuntimeException
+     */
+    public function editCompositeMultiselectOption($fieldName, $optionName, $editData, $locator = null)
+    {
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+        $labelLocator = "//div[normalize-space(label/span)='%s']";
+        $generalElement = $this->getElement($locator);
+        $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $optionName));
+        $optionElement->click();
+        $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
+        $editOptionElement = $this->getChildElements($optionElement, '//input[@name="class_name"]', false);
+        if (!empty($editOptionElement)) {
+            /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            list($element) = $editOptionElement;
+            $element->clear();
+            $element->value($editData);
+            $this->getChildElement($optionElement, '//button[@title="Save"]')->click();
+            if ($this->alertIsPresent()) {
+                $this->fail($this->alertText());
+            }
+            $this->getChildElement($generalElement, sprintf($labelLocator, $editData))->click();
+        } else {
+            //by edit form
+            throw new RuntimeException('@TODO editCompositeMultiselectOption() - edit value in new form');
+        }
+    }
+
+    /**
+     * Delete CompositeMultiselect Option
+     *
+     * @param string $fieldName
+     * @param string $optionName
+     * @param string $message
+     * @param null|string $locator
+     */
+    public function deleteCompositeMultiselectOption($fieldName, $optionName, $message, $locator = null)
+    {
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+        $labelLocator = "//div[normalize-space(label/span)='$optionName']";
+        $generalElement = $this->getElement($locator);
+        $optionElement = $this->getChildElement($generalElement, $labelLocator);
+        $optionElement->click();
+        $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
+        $this->assertSame($this->_getMessageXpath($message), $this->alertText(), 'Confirmation massage is incorrect');
+        $this->acceptAlert();
+        if ($this->alertIsPresent()) {
+            $this->fail($this->alertText());
+        }
+        $this->assertEmpty($this->getChildElements($generalElement, $labelLocator, false), 'Option is not deleted');
+    }
+
+    /**
+     * Verify CompositeMultiselect
+     *
+     * @param string $fieldName
+     * @param string|array $fieldValues
+     * @param null|string $locator
+     *
+     * @return bool
+     */
+    public function verifyCompositeMultiselect($fieldName, $fieldValues, $locator = null)
+    {
+        //Prepare data
+        if (is_string($fieldValues)) {
+            $fieldValues = explode(',', $fieldValues);
+        }
+        $fieldValues = array_map('trim', $fieldValues);
+        $fieldValues = array_diff($fieldValues, array(''));
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+
+        $resultFlag = true;
+        $actualValues = array();
+
+        //Get selected options
+        /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        $generalElement = $this->getElement($locator);
+        foreach ($this->getChildElements($generalElement, '//div[label/span]/label') as $element) {
+            if ($this->getChildElement($element, 'input')->selected()) {
+                $actualValues[] = trim($element->text(), " \t\n\r\0\x0B");
+            }
+        }
+        //Verify
+        foreach ($fieldValues as $value) {
+            if (!in_array($value, $actualValues)) {
+                $actual = implode(', ', $actualValues);
+                $this->addVerificationMessage(
+                    "$fieldName: The value '$value' is not selected.(Selected values are: '$actual')"
+                );
+                $resultFlag = false;
+            }
+        }
+        if (count($actualValues) != count($fieldValues)) {
+            $actual = implode(', ', $actualValues);
+            $expected = implode(', ', $fieldValues);
+            $this->addVerificationMessage(
+                "Amounts of the expected options are not equal to selected:('$expected' != '$actual')"
+            );
+            $resultFlag = false;
+        }
+        return $resultFlag;
     }
 
     ################################################################################
@@ -3308,7 +3471,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
-            $this->waitForElement(array($this->_getControlXpath('pageelement', 'admin_logo'),
+            $this->waitForElement(array($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'),
                                         $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
             if ($this->controlIsPresent('link', 'go_to_notifications') && $this->controlIsPresent('button', 'close')) {
@@ -3359,7 +3522,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
             $invalided = array('cache_disabled', 'cache_invalided');
             foreach ($invalided as $value) {
-                $elements = $this->getElements($this->_getControlXpath('pageelement', $value), false);
+                $elements = $this->getElements($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value), false);
                 /**
                  * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
                  */
@@ -3368,7 +3531,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 }
             }
             $this->fillDropdown('cache_action', 'Refresh');
-            $selectedItems = $this->getElement($this->_getControlXpath('pageelement', 'selected_items'))->text();
+            $selectedItems =
+                $this->getElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_items'))->text();
             if ($selectedItems == 0) {
                 $this->fail('Please select cache items for refresh.');
             }
@@ -3389,7 +3553,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
             $invalided = array('reindex_required', 'update_required');
             foreach ($invalided as $value) {
-                $locator = $this->_getControlXpath('pageelement', $value);
+                $locator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value);
                 while ($this->elementIsPresent($locator)) {
                     $this->getElement($locator . "//a[text()='Reindex Data']")->click();
                     $this->waitForNewPage();
@@ -3406,8 +3570,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->admin('index_management');
         $cellId = $this->getColumnIdByName('Index');
-        $locator = $this->_getControlXpath('pageelement', 'index_line');
-        $count = $this->getControlCount('pageelement', 'index_line');
+        $locator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'index_line');
+        $count = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'index_line');
         for ($i = 0; $i < $count; $i++) {
             $elements = $this->getElements($locator);
             /**
@@ -3436,19 +3600,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->waitForPageToLoad();
                 $notLoaded = false;
             } catch (RuntimeException $e) {
-                //$availableElement = $this->elementIsPresent("//*[@id='errorPageContainer']");
-                //if ($availableElement) {
-                //    $error = 'Problem loading page. ';
-                //    $availableElement = $this->elementIsPresent("//*[@id='errorTitleText']");
-                //    if ($availableElement) {
-                //        $error .= $availableElement->text() . '. ';
-                //    }
-                //    $availableElement = $this->elementIsPresent("//*[@id='errorShortDescText']");
-                //    if ($availableElement) {
-                //        $error .= $availableElement->text() . '. ';
-                //    }
-                //    throw new RuntimeException($error);
-                //}
                 if ($retries == 10) {
                     throw new RuntimeException('Timed out after ' . ($this->_browserTimeoutPeriod * 10) . ' seconds.');
                 }
@@ -3482,15 +3633,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function selectFrontStoreView($storeViewName = 'Default Store View')
     {
-        if ($this->controlIsPresent('dropdown', 'your_language')) {
-            $this->selectStoreScope('dropdown', 'your_language', $storeViewName);
+        if ($this->controlIsPresent(self::FIELD_TYPE_DROPDOWN, 'your_language')) {
+            $this->selectStoreScope(self::FIELD_TYPE_DROPDOWN, 'your_language', $storeViewName);
             return;
         }
         $this->addParameter('storeView', $storeViewName);
-        $isSelectedLocator = $this->_getControlXpath('pageelement', 'selected_store_view');
+        $isSelectedLocator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_store_view');
         $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
         if (!$isSelected) {
-            $this->clickControl('pageelement', 'change_store_view', false);
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'change_store_view', false);
             $this->waitForElementVisible($this->_getControlXpath('link', 'your_language'))->click();
             $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
         }
