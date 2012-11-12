@@ -17,7 +17,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
     protected function setUp()
     {
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-        $this->_layout = new Mage_Core_Model_Layout;
+        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
     }
 
     protected function tearDown()
@@ -41,7 +41,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
         Mage::getConfig()->setNode('modules/Enterprise_Banner/active', '1');
         $event = new Varien_Event_Observer();
         $event->setBlock($block);
-        $observer = new Enterprise_PromotionPermissions_Model_Observer;
+        $observer = Mage::getModel('Enterprise_PromotionPermissions_Model_Observer');
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));

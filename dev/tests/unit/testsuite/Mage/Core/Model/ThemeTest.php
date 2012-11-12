@@ -23,8 +23,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme.xml'));
 
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
+        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
         $themeMock->loadFromConfiguration($themePath);
 
         $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());
@@ -39,9 +41,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function testLoadInvalidConfiguration()
     {
         $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme_invalid.xml'));
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), array(), '', true);
+        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
         $themeMock->loadFromConfiguration($themePath);
 
         $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());

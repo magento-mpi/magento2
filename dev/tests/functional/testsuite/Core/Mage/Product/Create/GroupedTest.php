@@ -106,11 +106,11 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function existSkuInGrouped($productData)
     {
         //Steps
+        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
+        $this->addParameter('productName', $productData['general_name']);
         $this->productHelper()->createProduct($productData, 'grouped', false);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
-        $this->addParameter('productSku',  $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
@@ -143,6 +143,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         if ($emptyField == 'general_visibility') {
             $overrideData = array($emptyField => '-- Please Select --');
+        } elseif ($emptyField == 'general_sku') {
+            $overrideData = array($emptyField => '');
         } else {
             $overrideData = array($emptyField => '%noValue%');
         }

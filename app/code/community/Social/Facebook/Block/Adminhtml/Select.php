@@ -19,7 +19,7 @@ class Social_Facebook_Block_Adminhtml_Select extends Mage_Core_Block_Html_Select
 
     public function _toHtml()
     {
-        $yesnoSource = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         foreach ($yesnoSource as $action) {
             $this->addOption($action['value'], $action['label']);

@@ -22,10 +22,10 @@ $page = $installer->getConnection()->fetchRow($installer->getConnection()->selec
 if ($page) {
     // and static blocks
     $blocks = array(
-        array('Flaunt yourself', 'flaunt_yourself', '<img src="{{skin url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />'),
-        array('Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{skin url="images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>'),
-        array('Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{skin url="images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>'),
-        array('Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{skin url="images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>'),
+        array('Flaunt yourself', 'flaunt_yourself', '<img src="{{view url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />'),
+        array('Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{view url="images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>'),
+        array('Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{view url="images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>'),
+        array('Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{view url="images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>'),
     );
     $createdBlocks = array();
     foreach ($blocks as $key => $blockData) {

@@ -20,7 +20,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Core_Controller_Varien_Action',
-            array(new Magento_Test_Request(), new Magento_Test_Response())
+            array(
+                new Magento_Test_Request(),
+                new Magento_Test_Response(),
+                Mage::getObjectManager(),
+                Mage::app()->getFrontController()
+            )
         );
     }
 
@@ -78,7 +83,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     public function testGetLayout($controllerClass, $expectedArea)
     {
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $controller = new $controllerClass(
+            new Magento_Test_Request(),
+            new Magento_Test_Response(),
+            Mage::getObjectManager(),
+            Mage::app()->getFrontController()
+        );
         $this->assertInstanceOf('Mage_Core_Model_Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
@@ -222,7 +232,10 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $request->setDispatched();
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_model = new Mage_Core_Controller_Front_Action($request, new Magento_Test_Response());
+        $this->_model = Mage::getModel(
+            'Mage_Core_Controller_Front_Action',
+            array('request' => $request, 'response' =>  new Magento_Test_Response())
+        );
         $this->_model->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());
@@ -247,9 +260,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               install/design/theme/full_name   default/default/default
-     * @magentoConfigFixture               adminhtml/design/theme/full_name default/default/default
-     * @magentoConfigFixture current_store design/theme/full_name           default/iphone/default
+     * @magentoConfigFixture               install/design/theme/full_name   default/basic
+     * @magentoConfigFixture               adminhtml/design/theme/full_name default/basic
+     * @magentoConfigFixture current_store design/theme/full_name           default/demo
      * @magentoAppIsolation  enabled
      *
      * @dataProvider controllerAreaDesignDataProvider
@@ -263,7 +276,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     {
         Mage::getConfig()->setCurrentAreaCode($expectedArea);
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $controller = new $controllerClass(
+            new Magento_Test_Request(),
+            new Magento_Test_Response(),
+            Mage::getObjectManager(),
+            Mage::app()->getFrontController()
+        );
         $controller->preDispatch();
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
@@ -275,9 +293,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     public function controllerAreaDesignDataProvider()
     {
         return array(
-            'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/default/default'),
-            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/iphone/default'),
-            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/default/default'),
+            'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/basic'),
+            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/demo'),
+            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/basic'),
             'api'      => array('Mage_Api_Controller_Action',        'adminhtml', 'admin',   ''),
         );
     }
@@ -317,7 +335,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     public function testSetCurrentArea($controllerClass, $setArea, $expectedArea)
     {
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = new $controllerClass(new Magento_Test_Request(), new Magento_Test_Response());
+        $controller = new $controllerClass(
+            new Magento_Test_Request(),
+            new Magento_Test_Response(),
+            Mage::getObjectManager(),
+            Mage::app()->getFrontController()
+        );
         $this->assertInstanceOf($controllerClass, $controller->setCurrentArea($setArea));
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }

@@ -143,10 +143,10 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->addParameter('productName', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
-        $this->addParameter('productSku',  $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
+        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
@@ -183,6 +183,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             $overrideData[$emptyField] = '-- Please Select --';
         } elseif ($emptyField == 'inventory_qty') {
             $overrideData[$emptyField] = '';
+        } elseif ($emptyField == 'general_sku') {
+            $overrideData[$emptyField] = ' ';
         } else {
             $overrideData[$emptyField] = '%noValue%';
         }

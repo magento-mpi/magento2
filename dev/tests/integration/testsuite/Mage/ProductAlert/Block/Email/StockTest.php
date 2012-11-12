@@ -18,7 +18,7 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = new Mage_ProductAlert_Block_Email_Stock();
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_ProductAlert_Block_Email_Stock');
     }
 
     protected function tearDown()
@@ -31,7 +31,7 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
      */
     public function testThumbnail()
     {
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

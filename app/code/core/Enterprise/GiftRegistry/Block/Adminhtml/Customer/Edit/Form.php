@@ -11,16 +11,8 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Intialize form
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('customer/form.phtml');
-    }
+
+    protected $_template = 'customer/form.phtml';
 
     /**
      * Prepare layout

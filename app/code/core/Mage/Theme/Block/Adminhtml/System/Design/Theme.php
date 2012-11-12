@@ -16,9 +16,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme extends Mage_Backend_Block_
     /**
      * Initialize grid container and prepare controls
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_blockGroup = 'Mage_Theme';
         $this->_controller = 'Adminhtml_System_Design_Theme';
         $this->_updateButton('add', 'label', $this->__('Add New Theme'));

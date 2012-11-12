@@ -15,9 +15,9 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('enterprise_staging_tabs');
         $this->setDestElementId('enterprise_staging_form');
         $this->setTitle(Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Website Information'));

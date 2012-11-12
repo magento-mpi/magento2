@@ -320,18 +320,25 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
 
             /*
                We need to set default (frontend) area to send email correctly because we run cron task from backend.
-               If it wouldn't be done, then in email template resources will be loaded from aminhtml area
+               If it wouldn't be done, then in email template resources will be loaded from adminhtml area
                (in which we have only default theme) which is defined in preDispatch()
+
+                Add: After elimination of skins and refactoring of themes we can't just switch area,
+                cause we can't be sure that theme set for previous area exists in new one
             */
             $area = Mage::getDesign()->getArea();
-            Mage::getDesign()->setArea(null);
+            $theme = Mage::getDesign()->getDesignTheme();
+            Mage::getDesign()->setDesignTheme(
+                Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME),
+                Mage_Core_Model_App_Area::AREA_FRONTEND
+            );
 
             /** @var $observer Enterprise_ImportExport_Model_Observer */
             $observer = Mage::getModel('Enterprise_ImportExport_Model_Observer');
             $result = $observer->processScheduledOperation($schedule, true);
 
-            // restore current design area
-            Mage::getDesign()->setArea($area);
+            // restore current design area and theme
+            Mage::getDesign()->setDesignTheme($theme, $area);
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }

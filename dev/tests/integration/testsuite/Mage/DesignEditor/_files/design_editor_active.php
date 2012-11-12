@@ -9,16 +9,19 @@
  * @license     {license_link}
  */
 
-$session = new Mage_DesignEditor_Model_Session();
-$auth = new Mage_Backend_Model_Auth();
+/** @var $session Mage_DesignEditor_Model_Session */
+$session = Mage::getModel('Mage_DesignEditor_Model_Session');
+/** @var $auth Mage_Backend_Model_Auth */
+$auth = Mage::getModel('Mage_Backend_Model_Auth');
 $auth->setAuthStorage($session);
 $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
 
-$theme = new Mage_Core_Model_Theme();
+/** @var $theme Mage_Core_Model_Theme */
+$theme = Mage::getModel('Mage_Core_Model_Theme');
 $theme->setData(array(
     'parent_id'            => null,
-    'theme_path'           => 'default/default',
+    'theme_path'           => 'default/blank',
     'theme_version'        => '2.0.0.0',
     'theme_title'          => 'Default',
     'preview_image'        => 'media/preview_image.jpg',
@@ -28,8 +31,3 @@ $theme->setData(array(
 ));
 $theme->save();
 $session->setThemeId($theme->getThemeId());
-$skin = implode('/', array(
-    $theme->getThemePath(),
-    Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME
-));
-$session->setSkin($skin);

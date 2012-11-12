@@ -8,12 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$session = new Mage_DesignEditor_Model_Session();
-$auth = new Mage_Backend_Model_Auth();
+/** @var $session Mage_DesignEditor_Model_Session */
+$session = Mage::getModel('Mage_DesignEditor_Model_Session');
+/** @var $auth Mage_Backend_Model_Auth */
+$auth = Mage::getModel('Mage_Backend_Model_Auth');
 $auth->setAuthStorage($session);
 $session->deactivateDesignEditor();
 $auth->logout();
 $session->unsThemeId();
-$session->unsSkin();
-$theme = new Mage_Core_Model_Theme();
+/** @var $theme Mage_Core_Model_Theme */
+$theme = Mage::getModel('Mage_Core_Model_Theme');
 $theme->load($session->getThemeId())->delete();

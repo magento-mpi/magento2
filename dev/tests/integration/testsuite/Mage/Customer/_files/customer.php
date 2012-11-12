@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer
     ->setWebsiteId(1)
     ->setEntityId(1)

@@ -162,10 +162,10 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle', false);
+        $this->addParameter('productName', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
         $this->addParameter('productSku',  $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
@@ -213,7 +213,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
             array(array('general_description' => '%noValue%'), 'field'),
             array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku_type' => '-- Select --'), 'dropdown'),
-            array(array('general_sku' => '%noValue%'), 'field'),
+            array(array('general_sku' => ' '), 'field'),
             array(array('general_weight_type' => '-- Select --'), 'dropdown'),
             array(array('general_weight' => '%noValue%'), 'field'),
             array(array('general_status' => '%noValue%'), 'dropdown'),

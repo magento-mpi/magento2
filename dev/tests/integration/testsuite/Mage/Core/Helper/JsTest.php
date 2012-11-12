@@ -20,7 +20,7 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = new Mage_Core_Helper_Js();
+        $this->_helper = Mage::helper('Mage_Core_Helper_Js');
     }
 
     protected function tearDown()
@@ -56,7 +56,7 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
             $this->_helper->includeScript(self::FILE)
         );
         $script = '<script type="text/javascript" '
-            . 'src="http://localhost/pub/media/skin/frontend/%s/%s/%s/%s/images/spacer.gif"></script>';
+            . 'src="http://localhost/pub/media/theme/frontend/%s/%s/%s/images/spacer.gif"></script>';
         $this->assertStringMatchesFormat($script, $this->_helper->includeScript('images/spacer.gif'));
     }
 }

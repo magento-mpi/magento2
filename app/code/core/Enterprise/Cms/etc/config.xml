@@ -16,7 +16,6 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Admin />
                 <Mage_Adminhtml />
                 <Mage_Cms />
                 <Mage_Widget />

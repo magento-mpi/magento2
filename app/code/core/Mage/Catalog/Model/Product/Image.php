@@ -464,7 +464,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getUrl()
     {
         if ($this->_newFile === true) {
-            $url = Mage::getDesign()->getSkinUrl(
+            $url = Mage::getDesign()->getViewFileUrl(
                 "Mage_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {
@@ -546,9 +546,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         } elseif ( $this->_fileExists($baseDir . '/watermark/' . $file) ) {
             $filePath = $baseDir . '/watermark/' . $file;
         } else {
-            $skinFile = Mage::getDesign()->getSkinFile($file);
-            if (file_exists($skinFile)) {
-                $filePath = $skinFile;
+            $viewFile = Mage::getDesign()->getViewFile($file);
+            if (file_exists($viewFile)) {
+                $filePath = $viewFile;
             }
         }
 

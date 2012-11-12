@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Cache
-    extends Mage_Adminhtml_Model_System_Config_Backend_Cache
+    extends Mage_Backend_Model_Config_Backend_Cache
 {
     /**
      * Cache tags to clean

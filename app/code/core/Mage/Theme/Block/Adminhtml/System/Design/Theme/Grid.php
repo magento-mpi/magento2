@@ -16,9 +16,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml
     /**
      * Init Grid properties
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('theme_grid');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
@@ -80,27 +80,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml
             'header'       => $this->__('Magento Version To'),
             'index'        => 'magento_version_to',
             'filter_index' => 'main_table.magento_version_to'
-        ));
-
-        $this->addColumn('action', array(
-            'header'   => $this->__('Action'),
-            'width'    => '100px',
-            'type'     => 'action',
-            'getter'   => 'getId',
-            'actions'  => array(
-                array(
-                    'caption' => $this->__('Edit'),
-                    'url'     => array('base' => '*/*/edit'),
-                    'field'   => 'id',
-                ),
-                array(
-                    'caption' => $this->__('Delete'),
-                    'url'     => array('base' => '*/*/delete'),
-                    'field'   => 'id',
-            )),
-            'filter'   => false,
-            'sortable' => false,
-            'index'    => 'theme',
         ));
 
         return parent::_prepareColumns();

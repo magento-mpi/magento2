@@ -169,7 +169,7 @@ class Enterprise2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Se
      * 7. Repeat steps 4-5
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @dataProvider fileDuplicatedRows
      *
      * @TestlinkId TL-MAGE-5951

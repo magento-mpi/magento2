@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true */
 (function($) {
     $.widget("mage.translateInline", {
         options: {
@@ -52,9 +53,11 @@
          * @protected
          */
         _create: function() {
-            this.element.is(document) ?
-                $('body').addClass('trnslate-inline-area') :
+            if (this.element.is(document)) {
+                $('body').addClass('trnslate-inline-area');
+            } else {
                 this.element.addClass('trnslate-inline-area');
+            }
             this._initTranslateDialog();
             this._initEditTrigger();
             this._bind();
@@ -89,7 +92,7 @@
                             offset.left,
                             offset.top + $(e.target).outerHeight()]);
                     }
-                }, this))
+                }, this));
             }
         },
         /**
