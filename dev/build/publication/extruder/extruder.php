@@ -30,7 +30,7 @@ try {
         throw new Exception(USAGE);
     }
     $workingDir = realpath($options['w']);
-    if (!$workingDir  || !is_writable($workingDir) || !is_dir($workingDir)) {
+    if (!$workingDir || !is_writable($workingDir) || !is_dir($workingDir)) {
         throw new Exception("'{$options['w']}' must be a writable directory.");
     }
 
