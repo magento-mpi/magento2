@@ -18,15 +18,18 @@
 
 class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    const FORM_ELEMENT_ID = 'rate-form';
+    
     protected $_titles = null;
 
-    const FORM_ELEMENT_ID = 'rate-form';
+    protected $_template = 'tax/rate/form.phtml';
 
-    public function __construct()
+
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setDestElementId(self::FORM_ELEMENT_ID);
-        $this->setTemplate('tax/rate/form.phtml');
+
     }
 
     protected function _prepareForm()
@@ -34,7 +37,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $rateObject = new Varien_Object(Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->getData());
         $form = new Varien_Data_Form();
 
-        $countries = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Country')->toOptionArray();
+        $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {

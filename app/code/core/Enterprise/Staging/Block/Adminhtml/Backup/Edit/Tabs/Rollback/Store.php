@@ -23,11 +23,6 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store extends
      */
     protected $helper;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Prepare form before rendering HTML
      *

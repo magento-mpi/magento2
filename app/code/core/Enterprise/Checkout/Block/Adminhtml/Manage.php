@@ -17,9 +17,9 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('checkout_manage_container');
 
         if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::create')) {

@@ -27,9 +27,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
      * Constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $version = Mage::registry('cms_page_version');
 
         $config = Mage::getSingleton('Enterprise_Cms_Model_Config');

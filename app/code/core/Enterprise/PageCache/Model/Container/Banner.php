@@ -106,7 +106,7 @@ class Enterprise_PageCache_Model_Container_Banner
             . md5($this->_placeholder->getAttribute('cache_id')
             . '_' . $this->_getIdentifier())
             . '_' . implode(',', $this->_bannersSelected)
-            . '_' .  $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, '');
+            . '_' .  self::_getCookieValue(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, '');
     }
 
     /**

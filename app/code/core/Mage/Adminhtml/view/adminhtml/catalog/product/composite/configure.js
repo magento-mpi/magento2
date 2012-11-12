@@ -744,6 +744,6 @@ ProductConfigure.prototype = {
     }
 };
 
-Event.observe(window, 'load',  function() {
+jQuery(document).ready(function(){
     productConfigure = new ProductConfigure();
 });

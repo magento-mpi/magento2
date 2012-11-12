@@ -14,13 +14,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
      * Initialize banner edit page. Set management buttons
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_banner';
         $this->_blockGroup = 'Enterprise_Banner';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_updateButton('save', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Save Banner'));
         $this->_updateButton('delete', 'label', Mage::helper('Enterprise_Banner_Helper_Data')->__('Delete Banner'));

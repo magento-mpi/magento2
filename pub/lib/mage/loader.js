@@ -3,6 +3,7 @@
  *
  * @license     {}
  */
+/*jshint browser:true jquery:true */
 (function($){
     $.widget("mage.loader", {
         options: {

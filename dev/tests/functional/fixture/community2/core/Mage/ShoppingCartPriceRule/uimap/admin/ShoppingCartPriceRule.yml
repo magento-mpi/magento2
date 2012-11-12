@@ -85,3 +85,9 @@ edit_shopping_cart_price_rule:
             success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% Coupon(s) have been generated')]
             confirmation_for_delete: Are you sure you want to delete the selected coupon(s)?
             select_coupons_for_delete: Please select items.
+            validation_for_field_coupon_qty: //div[@id='advice-required-entry-coupons_qty']
+            validation_for_field_coupon_qty_negative: //div[@id='advice-validate-digits-coupons_qty']
+            validation_for_field_coupon_qty_zero: //div[@id='advice-validate-greater-than-zero-coupons_qty']
+            validation_for_field_code_length: //div[@id='advice-required-entry-coupons_length']
+            validation_for_field_code_length_negative: //div[@id='advice-validate-digits-coupons_length']
+            validation_for_field_dash_every_x_characters_negative: //div[@id='advice-validate-digits-coupons_dash']

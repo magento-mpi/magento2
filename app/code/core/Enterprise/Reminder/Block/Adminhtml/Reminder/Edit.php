@@ -19,13 +19,13 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_B
      * Add "Run Now" button
      * Add "Save and Continue" button
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId = 'id';
         $this->_blockGroup = 'Enterprise_Reminder';
         $this->_controller = 'adminhtml_reminder';
 
-        parent::__construct();
+        parent::_construct();
 
         /** @var $rule Enterprise_Reminder_Model_Rule */
         $rule = Mage::registry('current_reminder_rule');

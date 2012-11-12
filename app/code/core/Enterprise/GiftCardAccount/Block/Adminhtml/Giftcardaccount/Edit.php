@@ -11,13 +11,13 @@
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_giftcardaccount';
         $this->_blockGroup = 'Enterprise_GiftCardAccount';
 
-        parent::__construct();
+        parent::_construct();
 
         $clickSave = "\$('_sendaction').value = 0;";
         $clickSave .= "\$('_sendrecipient_email').removeClassName('required-entry');";

@@ -14,13 +14,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
      * Initialize RMA new page. Set management buttons
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_rma';
         $this->_blockGroup = 'Enterprise_Rma';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_updateButton('reset', 'label', Mage::helper('Enterprise_Rma_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');

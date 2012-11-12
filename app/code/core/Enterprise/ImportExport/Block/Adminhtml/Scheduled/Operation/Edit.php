@@ -39,6 +39,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit
                 ->setStatus(true);
         }
         Mage::register('current_operation', $operation);
+
+        parent::_construct();
     }
 
     /**

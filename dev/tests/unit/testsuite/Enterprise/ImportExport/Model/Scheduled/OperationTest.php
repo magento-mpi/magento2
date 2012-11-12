@@ -65,6 +65,8 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
      */
     protected function _getScheduledOperationModel(array $fileInfo)
     {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
@@ -72,6 +74,10 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
+        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Enterprise_ImportExport_Model_Scheduled_Operation'
+        );
+        $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Enterprise_ImportExport_Model_Scheduled_Operation',
             array(
@@ -81,7 +87,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
                 'getFileInfo',
                 '_init'
             ),
-            array(array('date_model' => $dateModelMock))
+            $arguments
         );
 
         $model->expects($this->once())

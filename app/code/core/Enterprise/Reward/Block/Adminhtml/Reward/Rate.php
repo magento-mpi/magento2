@@ -21,12 +21,12 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate extends Mage_Adminhtml_Block
     /**
      * Block constructor
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Reward';
         $this->_controller = 'adminhtml_reward_rate';
         $this->_headerText = Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates');
-        parent::__construct();
+        parent::_construct();
         $this->_updateButton('add', 'label', Mage::helper('Enterprise_Reward_Helper_Data')->__('Add New Rate'));
     }
 }

@@ -15,9 +15,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
     /**
      * Set identifier and title
      */
-    public function __construct()
+    protected  function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('gifregustry');
         $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
     }

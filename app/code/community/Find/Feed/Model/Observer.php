@@ -27,7 +27,7 @@ class Find_Feed_Model_Observer
         $website = $observer->getWebsite();
         $groups['settings']['fields']['cron_schedule']['value'] = $this->_getSchedule();
 
-        Mage::getModel('Mage_Adminhtml_Model_Config_Data')
+        Mage::getModel('Mage_Backend_Model_Config')
                 ->setSection('feed')
                 ->setWebsite($website)
                 ->setStore($store)

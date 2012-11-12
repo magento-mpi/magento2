@@ -69,7 +69,7 @@ PageTest.prototype.testProcessMarkers = function() {
     var page = jQuery('body').vde_page();
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
-    Mage.Cookies.set(cookieHighlightingName, 'off');
+    $.mage.cookies.set(cookieHighlightingName, 'off');
     page = jQuery('body').vde_page();
     var commentsExist = false;
     jQuery('*').contents().each(function () {
@@ -113,7 +113,7 @@ PageTest.prototype.testHighlight = function() {
     var page = jQuery('body').vde_page();
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
-    Mage.Cookies.set(cookieHighlightingName, 'off');
+    $.mage.cookies.set(cookieHighlightingName, 'off');
     page = jQuery('body').vde_page();
     page.trigger('checked.vde_checkbox');
     var resultHierarchy = {
@@ -130,7 +130,7 @@ PageTest.prototype.testHighlight = function() {
     });
     assertEquals(true, hierarchyIsCorrect);
     assertEquals(true, jQuery('.vde_wrapper_hidden').is(':visible'));
-    assertEquals(null, Mage.Cookies.get(cookieHighlightingName));
+    assertEquals(null, $.mage.cookies.get(cookieHighlightingName));
     var highlightElementTitleSelector = page.vde_page('option', 'highlightElementTitleSelector');
     assertEquals(true, jQuery(highlightElementTitleSelector).is(':visible'));
     page.vde_page('destroy');
@@ -166,7 +166,7 @@ PageTest.prototype.testUnhighlight = function() {
     })
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
-    Mage.Cookies.clear(cookieHighlightingName);
+    $.mage.cookies.clear(cookieHighlightingName);
     page = jQuery('body').vde_page();
     page.trigger('unchecked.vde_checkbox');
     var hierarchyIsCorrect = true;
@@ -179,7 +179,7 @@ PageTest.prototype.testUnhighlight = function() {
     });
     assertEquals(true, hierarchyIsCorrect);
     assertEquals(false, jQuery('.vde_wrapper_hidden').is(':visible'));
-    assertEquals('off', Mage.Cookies.get(cookieHighlightingName));
+    assertEquals('off', $.mage.cookies.get(cookieHighlightingName));
     assertEquals(false, jQuery(highlightElementTitleSelector).is(':visible'));
     page.vde_page('destroy');
     jQuery.fx.off = false;

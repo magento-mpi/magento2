@@ -15,12 +15,12 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_controller = 'adminhtml_giftwrapping';
         $this->_blockGroup = 'Enterprise_GiftWrapping';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_removeButton('reset');
 

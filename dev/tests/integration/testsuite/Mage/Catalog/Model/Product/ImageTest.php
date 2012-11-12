@@ -16,7 +16,8 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetBaseFilePlaceholder()
     {
-        $model = new Mage_Catalog_Model_Product_Image;
+        /** @var $model Mage_Catalog_Model_Product_Image */
+        $model = Mage::getModel('Mage_Catalog_Model_Product_Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;
@@ -40,7 +41,7 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetUrlPlaceholder($model)
     {
         $this->assertStringMatchesFormat(
-            'http://localhost/pub/media/skin/frontend/%s/Mage_Catalog/images/product/placeholder/image.jpg',
+            'http://localhost/pub/media/theme/frontend/%s/Mage_Catalog/images/product/placeholder/image.jpg',
             $model->getUrl()
         );
     }

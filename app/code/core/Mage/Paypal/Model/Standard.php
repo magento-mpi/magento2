@@ -40,7 +40,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return $this->getConfig()->isCurrencyCodeSupported($currencyCode);
     }
 
-     /**
+    /**
      * Get paypal session namespace
      *
      * @return Mage_Paypal_Model_Session
@@ -123,7 +123,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
 
         // add cart totals and line items
-        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', array($order)))
+        $parameters = array('params' => array($order));
+        $api->setPaypalCart(Mage::getModel('Mage_Paypal_Model_Cart', $parameters))
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
         ;
         $api->setCartSummary($this->_getAggregatedCartSummary());
@@ -156,7 +157,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($store = $this->getStore()) {
                 $params[] = is_object($store) ? $store->getId() : $store;
             }
-            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', $params);
+            $this->_config = Mage::getModel('Mage_Paypal_Model_Config', array('params' => $params));
         }
         return $this->_config;
     }

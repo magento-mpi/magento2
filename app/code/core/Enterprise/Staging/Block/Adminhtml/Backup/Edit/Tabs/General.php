@@ -25,9 +25,9 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setFieldNameSuffix('staging_backup');
     }
 
