@@ -21,8 +21,8 @@
          * @private
          */
         _hidePassword: function() {
-            $(this.options.currentPasswordId).parents(this.options.passwordContainer).hide();
-            $(this.options.currentPasswordId).removeAttr('data-validate');
+            $(this.options.currentPasswordId).removeAttr('data-validate')
+                .parents(this.options.passwordContainer).hide();
             $(this.options.passwordId).removeAttr('data-validate');
             $(this.options.confirmationId).removeAttr('data-validate');
         },
@@ -32,8 +32,8 @@
          * @private
          */
         _showPassword: function() {
-            $(this.options.currentPasswordId).parents(this.options.passwordContainer).show();
-            $(this.options.currentPasswordId).attr('data-validate', '{required:true}');
+            $(this.options.currentPasswordId).attr('data-validate', '{required:true}')
+                .parents(this.options.passwordContainer).show();
             $(this.options.passwordId).attr('data-validate', '{required:true, validatePassword:true}');
             $(this.options.confirmationId).attr('data-validate',
                 '{required:true, equalTo:"' + this.options.passwordId + '"}');

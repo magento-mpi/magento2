@@ -84,11 +84,11 @@
             "<?php echo $this->getSkinUrl('Mage_Customer::set-password.js') ?>",
             function() {
                 $('#change-password').setPassword({
-                    <?php if($this->getCustomer()->getChangePassword()): ?> showOnDefault: true <?php endif; ?>
                     currentPasswordId: '#current-password',
                     passwordId: '#password',
                     confirmationId: '#confirmation',
-                    passwordContainer: 'div.fieldset'
+                    passwordContainer: 'div.fieldset',
+                    showOnDefault: <?php echo $this->getCustomer()->getChangePassword() ? 'true' : 'false' ?>
                 });
                 $('#form-validate').validation();
             });
