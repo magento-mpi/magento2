@@ -1,0 +1,24 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+enable_customer_segment:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            enable_customer_segment_functionality: Yes
+
+disable_customer_segment:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            enable_customer_segment_functionality: No

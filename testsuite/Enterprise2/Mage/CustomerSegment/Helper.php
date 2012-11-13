@@ -28,7 +28,7 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
     public function createSegment($segmData)
     {
         $this->clickButton('add_new_segment');
-        $this->fillTabs($segmData,'general properties');
+        $this->fillTabs($segmData);
         $this->saveForm('save_segment');
     }
 
@@ -67,4 +67,17 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }
+
+    /**
+     * Open Segment and delete
+     *
+     * @param array $segmentSearch
+     */
+    public function deleteSegment(array $segmentSearch)
+    {
+        $this->openSegment($segmentSearch);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+    }
  }
+
+

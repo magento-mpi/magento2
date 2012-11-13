@@ -150,6 +150,8 @@ system_configuration:
                             -
                                 customer_customer_segment:
                                     xpath: //fieldset[@id='customer_enterprise_customersegment']
+                                    dropdowns:
+                                        enable_customer_segment_functionality: //select[@id='customer_enterprise_customersegment_is_enabled']
                 -
                     general_design:
                         fieldsets:

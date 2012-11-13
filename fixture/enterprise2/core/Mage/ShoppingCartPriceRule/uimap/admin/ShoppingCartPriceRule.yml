@@ -30,6 +30,14 @@ create_shopping_cart_price_rule:
                         pageelements:
                             weight_attribute: //option[contains(@value, 'Model_Rule_Condition_Product|weight')]
                 -
+                    rule_conditions:
+                        fieldsets:
+                            -
+                                apply_for_rule_condition:
+                                    pageelements:
+                                        customer_segments: //select[@id='conditions__1__new_child']//option[@value='Enterprise_CustomerSegment_Model_Segment_Condition_Segment']
+                                        weight_attribute: //option[contains(@value, 'Model_Rule_Condition_Product|weight')]
+                -
                     rule_related_banners:
                         xpath: //a[@title='Related Banners']/span
                         fieldsets:
@@ -56,4 +64,3 @@ create_shopping_cart_price_rule:
             save_and_apply: //button[span='Save and Apply']
             save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-
