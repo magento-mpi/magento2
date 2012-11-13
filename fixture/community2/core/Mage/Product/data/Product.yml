@@ -282,6 +282,23 @@ simple_product_zero_price:
     categories: Default Category
     custom_options_data: %noValue%
 
+simple_product_wcod:
+    product_attribute_set: Default
+    general_name: Simple Product Visible(%randomize%)
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku_%randomize%
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 12.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: %noValue%
+    
 #*********************************************
 #*         Group Price Data                   *
 #*********************************************
