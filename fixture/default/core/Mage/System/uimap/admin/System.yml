@@ -1,0 +1,265 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Notification (Messages Inbox) page
+notification:
+    mca: notification/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'notification/')]
+    title: Notifications / System / Magento Admin
+
+# Tools: Backups page
+system_backup:
+    mca: system_backup/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_backup/')]
+    title: Backups / Tools / System / Magento Admin
+
+# Web Services: Users page
+api_user:
+    mca: api_user/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_user/')]
+    title: Users / Web Services / System / Magento Admin
+
+# Web Services: Roles page
+api_role:
+    mca: api_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
+    title: Roles / Web Services / System / Magento Admin
+
+# Web Services: REST Roles page
+api2_role:
+    mca: api2_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
+    title: REST Roles / Web Services / System / Magento Admin
+
+# Web Services: REST Attributes page
+api2_attribute:
+    mca: api2_attribute/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_attribute/')]
+    title: REST Attributes / Web Services / System / Magento Admin
+
+# Web Services: OAuth Consumers page
+oauth_consumer:
+    mca: oauth_consumer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_consumer/')]
+    title: Consumers / OAuth / System / Magento Admin
+
+# Web Services: Authorized OAuth Tokens page
+oauth_authorizedTokens:
+    mca: oauth_authorizedTokens/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_authorizedTokens/')]
+    title: Authorized Tokens / OAuth / System / Magento Admin
+
+#Web Services: My Applications page
+oauth_admin_token:
+    mca: oauth_admin_token/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_admin_token/')]
+    title: My Applications / Permissions / System / Magento Admin
+
+# Design: Design page
+system_design:
+    mca: system_design/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design/')]
+    title: Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    design_grid:
+                        xpath: //div[@id='designGrid']
+                        dropdowns:
+                            store: //select[@name='store_id']
+        buttons:
+            add_design_change: //button[span='Add Design Change']
+
+# Add Design Change
+new_system_design:
+    mca: system_design/new/
+    title: New Design Change / Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_settings:
+                        xpath: //div[@id='general']
+                        dropdowns:
+                            store: //select[@name='design[store_id]']
+
+# Design: Visual Design Editor page
+system_design_editor:
+    mca: system_design_editor/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
+    title: Editor / Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    context_information:
+                        xpath: //div[@id='base_fieldset']
+                        dropdowns:
+                            store_view: //select[@name='store_id']
+
+# Import/Export: Profiles page
+system_convert_gui:
+    mca: system_convert_gui/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
+    title: Profiles / Import and Export / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    convert_profile_grid:
+                        xpath: //div[@id='convertProfileGrid']
+                        dropdowns:
+                            store: //select[@name='store_id']
+        buttons:
+            add_new_profile: //button[span='Add New Profile']
+
+# Add New Profile page
+new_system_convert_gui:
+    mca: system_convert_gui/new/
+    title: New Profile / Profiles / Import and Export / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    profile_information:
+                        xpath: //div[@id='profile-generator']/fieldset[1]
+                        dropdowns:
+                            store: //select[@name='store_id']
+
+# Import/Export: Advanced Profiles page
+system_convert_profile:
+    mca: system_convert_profile/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_profile/')]
+    title: Advanced Profiles / Import and Export / System / Magento Admin
+
+# Manage Currency:
+system_currency:
+    mca: system_currency/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currency/')]
+    title: Manage Currency Rates / System / Magento Admin
+
+# Manage Currency symbols:
+system_currencysymbol:
+    mca: system_currencysymbol/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currencysymbol/')]
+    title: Manage Currency Symbols / System / Magento Admin
+
+#Transactional email
+system_email_template:
+    mca: system_email_template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_email_template')]
+    title: Transactional Emails / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    system_email_template_grid:
+                        xpath:  //div[@id='systemEmailTemplateGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            filter_template_id: //input[@name='template_id']
+                            filter_template_name: //input[@name='code']
+                            filter_date_added_from: //input[@name='added_at[from]']
+                            filter_date_added_to: //input[@name='added_at[to]']
+                            filter_date_updated_from: //input[@name='modified_at[from]']
+                            filter_date_updated_to: //input[@name='modified_at[ti]']
+                            filter_subject: //input[@name='subject']
+                        dropdowns:
+                            filter_template_type: //select[@name='type']
+        buttons:
+            add_new_template:  //button[span='Add New Template']
+        messages: &templateMessages
+            success_create_template: //li[normalize-space(@class)='success-msg' and contains(.,'The email template has been saved.')]
+            confirmation_for_delete: Are you sure that you want to delete this template?
+            success_deleted_template: //li[normalize-space(@class)='success-msg' and contains(.,'The email template has been deleted.')]
+            required_field_message: //div[@id='advice-required-entry-%field%' and text()='This is a required field.']
+            confirmation_convert_to_plain_text: Are you sure that you want to strip tags?
+
+#Add New transactional email
+new_email_template:
+    mca: system_email_template/new/
+    title: New Template / Transactional Emails / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    load_default_template:
+                        xpath:  //form[@id='email_template_load_form']
+                        dropdowns:
+                            template: //select[@name='code']
+                        buttons:
+                            load_template: //button[span='Load Template']
+                -
+                    template_information:
+                        xpath: //form[@id='email_template_edit_form']
+                        buttons:
+                            insert_variable: //button[span='Insert Variable...']
+                        fields:
+                            template_name: //input[@name='template_code']
+                            template_subject: //input[@name='template_subject']
+                            template_content: //textarea[@name='template_text']
+                            template_styles: //textarea[@name='template_styles']
+                -
+                    variable_insertion:
+                        xpath: //div[@id='variables-chooser']
+                        links:
+                            reset_password_url_variable: //a[text()='Reset Password URL']
+                        buttons:
+                            close_variable_insertion: //div[@id='variables-chooser_close']
+        buttons: &templateButtons
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            convert_to_plain_text: //button[span='Convert to Plain Text']
+            preview_template: //button[span='Preview Template']
+            save_template: //button[span='Save Template']
+            return_html_version: //button[span='Return Html Version']
+            delete: //button[span='Delete Template']
+        messages: *templateMessages
+
+#Edit transactional email
+edit_email_template:
+    mca: system_email_template/edit/id/%id%/
+    title: %elementTitle% / Transactional Emails / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    template_information:
+                        xpath: //form[@id='email_template_edit_form']
+                        buttons:
+                            insert_variable: //button[span='Insert Variable...']
+                        fields:
+                            template_name: //input[@name='template_code']
+                            template_subject: //input[@name='template_subject']
+                            template_content: //textarea[@name='template_text']
+                            template_styles: //textarea[@name='template_styles']
+                -
+                    variable_insertion:
+                        xpath: //div[@id='variables-chooser']
+                        buttons:
+                            close_variable_insertion: //div[@id='variables-chooser_close']
+        buttons: *templateButtons
+        messages: *templateMessages
+
+# Custom Variables:
+system_custom_variables:
+    mca: system_variable/
+    click_xpath: //ul[@id='nav']//a[span='Custom Variables']
+    title: Custom Variables / System / Magento Admin
+
+ # 'Package Extensions' page
+system_package_extentions:
+     mca: extension_custom/
+     click_xpath: //ul[@id='nav']//a[contains(@href, 'extension_custom/')]
+     title: Edit Extension / Package Extensions / Magento Connect / System / Magento Admin

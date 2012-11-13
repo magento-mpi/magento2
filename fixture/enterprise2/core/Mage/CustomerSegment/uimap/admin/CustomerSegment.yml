@@ -4,50 +4,83 @@
 #
 # @category    Magento
 # @package     Mage_CustomerSegment
-# @subpackage  uimaps
+# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
+#Customer Segments page
 manage_customer_segments:
     mca: customersegment/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
     title: Customer Segments / Customers / Magento Admin
     uimap:
-        form:
-            fieldsets:
-                -
-                    manage_segments_grid:
-                        xpath: //div[@id='customersegmentGrid']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                        dropdowns:
-                            filter_status: //select[@name='grid_segment_is_active']
-                            filter_website: //select[@name='grid_segment_website']
-                        fields:
-                            filter_id: //input[@name='grid_segment_id']
-                            filter_segment_name: //input[@name='grid_segment_name']
+        form: &searchCustomerSegmentGrid
+                    fieldsets:
+                        -
+                            customer_segment_grid:
+                                xpath:  //div[@id='customersegmentGrid']
+                                buttons:
+                                    reset_filter: //button[span='Reset Filter']
+                                    search: //button[span='Search']
+                                fields:
+                                    segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
+                                    segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
+                                dropdowns:
+                                    status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
+                                pageelements:
+                                    customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
         buttons:
-            add_segment: //button[span='Add Segment']
-        messages: &segmentMessages
+                    add_new_segment: //button[span='Add Segment']
+        messages: &customerSegmentMessages
             success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
-            success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been deleted.')]
-            confirmation_for_delete: Are you sure you want to do this?
-create_customer_segment:
+            segment_name_required_field: //div[@id='advice-required-entry-segment_name']
+            note_apply_to: //p[@id='note_apply_to']
+
+# Add New Customer Segment page
+new_customer_segment:
     mca: customersegment/new/
     title: New Segment / Customer Segments / Customers / Magento Admin
     uimap:
-        form:
+        form: &newCustomerSegmentForm
             tabs:
                 -
-                    general_properties:
-                        xpath: //a[@title='General Properties']/span
+                    general_properties: &customerSegmentProperties
+                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']
                         fieldsets:
                             -
-                                general_properties:
+                                segment_properties:
                                     xpath: //div[@id='segment_base_fieldset']
+                                    dropdowns:
+                                        status: //select[@id='segment_is_active']
+                                        apply_to: //select[@id='segment_apply_to']
+                                    fields:
+                                        segment_name: //input[@id='segment_name']
+                                        description: //textarea[@id='segment_description']
                                     multiselects:
-                                        assigned_to_website: //select[@id='segment_website_ids']:
+                                        assigned_to_website: //select[@id='segment_website_ids']
+                                    required: [segment_name, assigned_to_website]
         buttons:
             back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages
+
+# Edit Customer Segment page
+edit_customer_segment:
+    mca: customersegment/edit/id/%id%/
+    title: %elementTitle% / Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &editCustomerSegmentForm
+            tabs:
+                -
+                    general_properties: *customerSegmentProperties
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            refresh_segment_data: //button[span='Refresh Segment Data']
+            delete: //button[span='Delete']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages

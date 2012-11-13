@@ -199,6 +199,7 @@ pending_tags:
                             tags_massaction: //select[@id='pending_grid_massaction-select']
                             filter_massaction: //select[@name='massaction']
                             tags_status: //select[@name='status']
+                            filter_visible_in: //select[@name='visible_in']
                         fields:
                             tag_name: //input[@id='pending_grid_filter_name']
                             products_from: //input[@id='pending_grid_filter_products_from']
