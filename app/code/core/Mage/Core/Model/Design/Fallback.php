@@ -96,10 +96,10 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $dirs = array();
         $package = $this->_package;
         $theme = $this->_theme;
-        do {
+        while ($theme) {
             $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
             list($package, $theme) = $this->_getInheritedTheme($package, $theme);
-        } while ($theme);
+        }
 
         return $this->_fallback($file, $dirs);
     }
