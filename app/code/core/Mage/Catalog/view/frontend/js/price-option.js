@@ -114,7 +114,7 @@
                                 }
                             }
                         } else if (element.is('select')) {
-                            element.find('selected').each(function () {
+                            element.find(':selected').each(function () {
                                 if (configOptions[$(this).val()]) {
                                     optionPrice.update(configOptions[$(this).val()].price,
                                         configOptions[$(this).val()].excludeTax,
