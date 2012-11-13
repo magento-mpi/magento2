@@ -82,7 +82,7 @@
                 },
                 close: function(event, ui) {
                     var selectedName = $('#new_category_parent').data('selected-name');
-                    $('#new_category_parent').val(selectedName === '' ? this.data('autocomplete').term : selectedName);
+                    $('#new_category_parent').val(selectedName === '' ? $(this).data('autocomplete').term : selectedName);
                     return false;
                 }
             })
@@ -91,7 +91,9 @@
                 if (!$this.data('focus-emulated') && $this.val() === '') {
                     $this.autocomplete('search');
                 }
-                $this.data('focus-emulated', false);
+                setTimeout(function() { // fix for IE9 in which two focus events are triggered
+                    $this.data('focus-emulated', false);
+                }, 100);
             })
             .data('autocomplete')._renderItem = function(ul, item) {
                 var level = window.parseInt(item.level),
