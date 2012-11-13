@@ -1,8 +1,20 @@
+/**
+ * {license_notice}
+ *
+ * @category    popup-menu
+ * @package     js
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /*jshint browser:true jquery:true*/
 (function($) {
     $.widget('mage.popUpMenu', {
         options: {
-            duration: 2000 // Timeout duration
+            fadeDuration: 'slow',
+            hideOnClick: true,
+            openedClass: 'list-opened',
+            switcher: 'span.switcher',
+            timeoutDuration: 2000
         },
 
         /**
@@ -11,14 +23,25 @@
          * @private
          */
         _create: function() {
-            this.switcher = this.element.find('span.switcher')
+            this.switcher = this.element.find(this.options.switcher)
                 .on('click', $.proxy(this._toggleMenu, this));
-            this.element
-                .on('blur', $.proxy(this._hide, this))
-                .on('mouseleave', $.proxy(this._onMouseleave, this))
-                .on('mouseenter', $.proxy(this._onMouseenter, this));
-            $(this.options.menu).find('a')
-                .on('click', $.proxy(this._hide, this));
+            var eventMap = this.options.hideOnClick ? {'blur': $.proxy(this._hide, this)} : {};
+            $.extend(eventMap, {
+                'mouseenter': $.proxy(this.options.onMouseEnter, this),
+                'mouseleave': $.proxy(this.options.onMouseLeave, this)
+            });
+            this.element.on(eventMap);
+            $(this.options.menu).find('a').on('click', $.proxy(this._hide, this));
+        },
+
+        /**
+         * Custom method for defining options during instantiation. User-provided options
+         * override the options returned by this method which override the default options.
+         * @return {Object} Object containing options for mouseenter/mouseleave events.
+         * @private
+         */
+        _getCreateOptions: function() {
+            return {onMouseEnter: this._onMouseEnter, onMouseLeave: this._onMouseLeave};
         },
 
         /**
@@ -26,19 +49,21 @@
          * @private
          */
         _hide: function(){
-            $(this.options.menu).fadeOut('slow', $.proxy(this._stopTimer, this));
-            this.switcher.removeClass('list-opened');
+            $(this.options.menu).fadeOut(this.options.fadeDuration, $.proxy(this._stopTimer, this));
+            this.switcher.removeClass(this.options.openedClass);
         },
 
         /**
-         * Show the popup menu using a fade effect and put focus on the containing element
-         * for the blur event.
+         * Show the popup menu using a fade effect and put focus on the containing element for
+         * the blur event.
          * @private
          */
         _show: function() {
-            $(this.options.menu).removeClass('faded').fadeIn('slow');
-            this.switcher.addClass('list-opened');
-            this.element.focus();
+            $(this.options.menu).removeClass('faded').fadeIn(this.options.fadeDuration);
+            this.switcher.addClass(this.options.openedClass);
+            if (this.options.hideOnClick) {
+                this.element.focus();
+            }
         },
 
         /**
@@ -55,18 +80,18 @@
          * @private
          */
         _isOpened: function() {
-            return this.switcher.hasClass('list-opened');
+            return this.switcher.hasClass(this.options.openedClass);
         },
 
         /**
          * Mouseleave event on the popup menu. Add faded class and set appropriate timeout.
          * @private
          */
-        _onMouseleave: function() {
+        _onMouseLeave: function() {
             if (this._isOpened()) {
                 $(this.options.menu).addClass('faded');
                 this._stopTimer();
-                this.timer = setTimeout($.proxy(this._hide, this), this.options.duration);
+                this.timer = setTimeout($.proxy(this._hide, this), this.options.timeoutDuration);
             }
         },
 
@@ -74,7 +99,7 @@
          * Mouseenter event on the popup menu. Reset the timer and remove the faded class.
          * @private
          */
-        _onMouseenter: function() {
+        _onMouseEnter: function() {
             if (this._isOpened()) {
                 this._stopTimer();
                 $(this.options.menu).removeClass('faded');

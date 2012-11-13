@@ -24,10 +24,10 @@ enterprice_frontend_header:
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
                             log_out: //a[@title='Log Out']
-                            your_language: //ul[@id='popId-languageSelect']//a[text()='%storeView%']
+                            your_language: //ul[@id='popup-language-select']//a[text()='%storeView%']
                         pageelements:
-                            change_store_view: //div[@id='languageSelect']//span[text()='Change']
-                            selected_store_view: //div[@id='languageSelect']/strong[normalize-space(text())='%storeView%']
+                            change_store_view: //div[@id='language-select']//span[text()='Change']
+                            selected_store_view: //div[@id='language-select']/strong[normalize-space(text())='%storeView%']
                         buttons:
                             go_search: //*[@id='search_mini_form']/div/button
                         fields:
