@@ -753,7 +753,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Retrive store filter for associated products
+     * Retrieve store filter for associated products
      *
      * @return int|Mage_Core_Model_Store
      */
@@ -778,7 +778,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Allow for updates of chidren qty's
+     * Allow for updates of children qty's
      * (applicable for complicated product types. As default returns false)
      *
      * @param Mage_Catalog_Model_Product $product
@@ -941,7 +941,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Set presence of weight for product type
+     * Determine presence of weight for product type
      *
      * @return bool
      */
