@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Router for Magento web API.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webservice webapi router model
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Router_Rest
 {
@@ -61,11 +50,11 @@ class Mage_Webapi_Controller_Router_Rest
      * Route the Request, the only responsibility of the class
      * Find route that match current URL, set parameters of the route to Request object
      *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Request $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
      * @throws Mage_Webapi_Exception
      */
-    public function match(Mage_Webapi_Controller_RequestAbstract $request)
+    public function match(Mage_Webapi_Controller_Request $request)
     {
         /** @var Mage_Webapi_Controller_Router_Route_Rest $route */
         foreach ($this->getRoutes() as $route) {

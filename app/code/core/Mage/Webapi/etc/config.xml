@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
+ * Webapi module configuration.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
 -->
 <config>
@@ -16,9 +13,9 @@
             <active>true</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Core />
-                <Mage_Oauth />
-                <Mage_Backend />
+                <Mage_Core/>
+                <Mage_Oauth/>
+                <Mage_Backend/>
             </depends>
         </Mage_Webapi>
     </modules>
@@ -26,7 +23,7 @@
         <areas>
             <webapi>
                 <frontName>api</frontName>
-                <front_controller>Mage_Webapi_Controller_Front_Base</front_controller>
+                <front_controller>Mage_Webapi_Controller_Front</front_controller>
                 <acl>
                     <policy>Magento_Authorization_Policy_Acl</policy>
                     <resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>
@@ -120,7 +117,12 @@
         </webapi>
         <di>
             <!--<Zend/Server/Reflection><shared>0</shared></Zend/Server/Reflection>-->
-            <Mage_Webapi_Controller_Router_Route_ApiType><shared>0</shared></Mage_Webapi_Controller_Router_Route_ApiType>
+            <Mage_Webapi_Controller_Router_Route_Webapi>
+                <shared>0</shared>
+            </Mage_Webapi_Controller_Router_Route_Webapi>
+            <Mage_Xml_Generator>
+                <shared>0</shared>
+            </Mage_Xml_Generator>
         </di>
     </global>
     <admin>

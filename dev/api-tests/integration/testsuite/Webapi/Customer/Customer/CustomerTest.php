@@ -114,7 +114,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
     {
         $response = $this->callGet('customers/' . $this->_customer->getId());
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
 
         $responseData = $response->getBody();
         $this->assertNotEmpty($responseData);
@@ -149,7 +149,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
         );
         $response = $this->callPut('customers/' . $this->_customer->getId(), $putData);
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
 
         /** @var $model Mage_Customer_Model_Customer */
         $model = Mage::getModel('Mage_Customer_Model_Customer');
@@ -187,7 +187,7 @@ class Webapi_Customer_Customer_CustomerTest extends Magento_Test_Webservice_Rest
         );
         $response = $this->callPut('customers/' . $this->_customer->getId(), $putData);
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
 
         /** @var $model Mage_Customer_Model_Customer */
         $model = Mage::getModel('Mage_Customer_Model_Customer');

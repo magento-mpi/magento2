@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Generic action controller for all resources available via web API.
  *
- * @category    Mage
- * @package     Mage_Backend
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Generic API action controller.
+ * @copyright {}
  */
 abstract class Mage_Webapi_Controller_ActionAbstract
 {
@@ -32,7 +25,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     const METHOD_MULTI_DELETE = 'multiDelete';
     /**#@-*/
 
-    /** @var Mage_Webapi_Controller_RequestAbstract */
+    /** @var Mage_Webapi_Controller_Request */
     protected $_request;
 
     /** @var Mage_Webapi_Controller_Response */
@@ -45,12 +38,12 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     protected $_helperFactory;
 
     /**
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Request $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Request $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
@@ -63,7 +56,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Retrieve request.
      *
-     * @return Mage_Webapi_Controller_RequestAbstract
+     * @return Mage_Webapi_Controller_Request
      */
     public function getRequest()
     {

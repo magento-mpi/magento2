@@ -1,20 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * SOAP WS-Security UsernameToken model.
+ * Model of SOAP WS-Security user token.
  *
  * @see http://docs.oasis-open.org/wss-m/wss/v1.1.1/os/wss-UsernameTokenProfile-v1.1.1-os.html
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Security_UsernameToken
 {
@@ -54,8 +43,10 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
      * @param string $passwordType
      * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
      */
-    public function __construct(Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage,
-        Mage_Webapi_Model_Acl_UserFactory $userFactory, $passwordType = self::PASSWORD_TYPE_DIGEST
+    public function __construct(
+        Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage,
+        Mage_Webapi_Model_Acl_UserFactory $userFactory,
+        $passwordType = self::PASSWORD_TYPE_DIGEST
     ) {
         if (!in_array($passwordType, array(self::PASSWORD_TYPE_DIGEST, self::PASSWORD_TYPE_TEXT))) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException;

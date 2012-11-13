@@ -1,8 +1,8 @@
 <?php
 /**
- * Action controller factory.
+ * Factory of web API action controllers (resources).
  *
- * @copyright {copyright}
+ * @copyright {}
  */
 class Mage_Webapi_Controller_ActionFactory
 {
@@ -23,7 +23,7 @@ class Mage_Webapi_Controller_ActionFactory
      * Create front controller instance.
      *
      * @param string $className
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Request $request
      * @return Mage_Webapi_Controller_ActionAbstract
      * @throws InvalidArgumentException
      */

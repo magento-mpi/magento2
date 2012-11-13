@@ -1,21 +1,11 @@
 <?php
 /**
- * {license_notice}
+ * XML interpreter of REST request content.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * Request content interpreter XML adapter
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements Mage_Webapi_Controller_Request_Rest_InterpreterInterface
+class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
+    Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
     /**
      * Default name for item of non-associative array.
@@ -57,6 +47,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements Mage_Webapi
      */
     public function interpret($body)
     {
+        // TODO: Try to utilize Mage_Xml_Parser
         if (!is_string($body)) {
             throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
         }

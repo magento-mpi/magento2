@@ -102,7 +102,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
     public function testCreateCustomerAddress($dataForCreate)
     {
         $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -203,7 +203,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         $dataForCreate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPost('customers/' . self::$_currentCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -228,7 +228,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = end(self::getFixture('addresses'));
         $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -251,7 +251,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
     public function testGetCustomerAddresses()
     {
         $restResponse = $this->callGet('customers/' . self::$_currentCustomer->getId() . '/addresses');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -280,7 +280,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -317,7 +317,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -390,7 +390,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         $dataForUpdate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -412,7 +412,7 @@ class Webapi_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_
         /* @var $fixtureCustomerAddress Mage_Customer_Model_Address */
         $fixtureCustomerAddress = reset(self::getFixture('addresses'));
         $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($fixtureCustomerAddress->getId());

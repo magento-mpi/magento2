@@ -286,7 +286,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
         $associatedIds = $configurableType->getUsedProductIds($configurable);
         $associatedToBeUnassigned = reset($associatedIds);
         $restResponse = $this->callDelete($this->_getResourcePath($configurable->getId(), $associatedToBeUnassigned));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         /** @var $updatedConfigurable Mage_Catalog_Model_Product */
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());
         $configurableType = $updatedConfigurable->getTypeInstance();
@@ -376,7 +376,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
         $expectedIds = $configurableType->getUsedProductIds($configurable);
 
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $assignedProductsFromResponse = $restResponse->getBody();
         $assignedIds = array();
@@ -397,7 +397,7 @@ class Webapi_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Ma
     protected function _assignSuccessful($configurable, $associatedData)
     {
         $restResponse = $this->callPost($this->_getResourcePath($configurable->getId()), $associatedData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(),
             "Invalid response code received.");
         /** @var $updatedConfigurable Mage_Catalog_Model_Product */
         $updatedConfigurable = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());

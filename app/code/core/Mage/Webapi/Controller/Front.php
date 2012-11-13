@@ -6,7 +6,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInterface
+class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterface
 {
     /**#@+
      * API types
@@ -21,18 +21,18 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
      * @var array array({api type} => {API front controller class})
      */
     protected $_concreteFrontControllers = array(
-        self::API_TYPE_REST => 'Mage_Webapi_Controller_Front_Rest',
-        self::API_TYPE_SOAP => 'Mage_Webapi_Controller_Front_Soap',
+        self::API_TYPE_REST => 'Mage_Webapi_Controller_Handler_Rest',
+        self::API_TYPE_SOAP => 'Mage_Webapi_Controller_Handler_Soap',
     );
 
     /**
      * Specific front controller for current API type.
      *
-     * @var Mage_Webapi_Controller_FrontAbstract
+     * @var Mage_Webapi_Controller_HandlerAbstract
      */
     protected $_concreteFrontController;
 
-    /** @var Mage_Webapi_Controller_RequestAbstract */
+    /** @var Mage_Webapi_Controller_Request */
     protected $_apiRequest;
 
     /** @var Mage_Webapi_Controller_Response */
@@ -41,16 +41,13 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var Mage_Core_Model_App */
     protected $_application;
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var string */
     protected $_apiType;
 
-    /** @var Mage_Webapi_Controller_FrontFactory */
+    /** @var Mage_Webapi_Controller_HandlerFactory */
     protected $_frontControllerFactory;
 
     /** @var Mage_Webapi_Controller_RequestFactory */
@@ -59,19 +56,18 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
-    /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor */
     protected $_errorProcessor;
 
     function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Webapi_Controller_FrontFactory $frontControllerFactory,
+        Mage_Webapi_Controller_HandlerFactory $frontControllerFactory,
         Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
     ) {
-        $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_frontControllerFactory = $frontControllerFactory;
         $this->_requestFactory = $requestFactory;
@@ -89,7 +85,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     public function init()
     {
         try {
-            $this->_apiRequest = $this->_requestFactory->getRequest($this->_determineApiType());
+            $this->_apiRequest = $this->_requestFactory->get($this->_determineApiType());
 
             // TODO: Make sure that non-admin users cannot access this area
             Mage::register('isSecureArea', true, true);
@@ -108,7 +104,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /**
      * Dispatch request and send response
      *
-     * @return Mage_Webapi_Controller_Front_Base
+     * @return Mage_Webapi_Controller_Front
      */
     public function dispatch()
     {
@@ -120,9 +116,9 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /**
      * Set front controller for concrete API type.
      *
-     * @param Mage_Webapi_Controller_FrontAbstract $concreteFrontController
+     * @param Mage_Webapi_Controller_HandlerAbstract $concreteFrontController
      */
-    protected function _setConcreteFrontController(Mage_Webapi_Controller_FrontAbstract $concreteFrontController)
+    protected function _setConcreteFrontController(Mage_Webapi_Controller_HandlerAbstract $concreteFrontController)
     {
         $this->_concreteFrontController = $concreteFrontController;
     }
@@ -130,7 +126,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
     /**
      * Retrieve front controller for concrete API type (factory method).
      *
-     * @return Mage_Webapi_Controller_FrontAbstract
+     * @return Mage_Webapi_Controller_HandlerAbstract
      * @throws Mage_Core_Exception
      */
     protected function _getConcreteFrontController()
@@ -140,7 +136,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
 
             $concreteFrontControllerClass = $this->_concreteFrontControllers[$apiType];
             $this->_setConcreteFrontController(
-                $this->_frontControllerFactory->createFrontController($concreteFrontControllerClass)
+                $this->_frontControllerFactory->create($concreteFrontControllerClass)
             );
         }
         return $this->_concreteFrontController;
@@ -159,8 +155,8 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         if (is_null($this->_apiType)) {
             $request = $this->_application->getRequest();
             $apiRoute = $this->_routeFactory->createRoute(
-                'Mage_Webapi_Controller_Router_Route_ApiType',
-                Mage_Webapi_Controller_Router_Route_ApiType::getApiRoute()
+                'Mage_Webapi_Controller_Router_Route_Webapi',
+                Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute()
             );
             if (!($apiTypeMatch = $apiRoute->match($request, true))) {
                 throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any API type route.'),

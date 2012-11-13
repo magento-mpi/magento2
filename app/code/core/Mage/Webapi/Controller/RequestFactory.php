@@ -1,8 +1,8 @@
 <?php
 /**
- * API request factory.
+ * Factory of web API requests.
  *
- * @copyright {copyright}
+ * @copyright {}
  */
 class Mage_Webapi_Controller_RequestFactory
 {
@@ -23,17 +23,23 @@ class Mage_Webapi_Controller_RequestFactory
      * Create request object.
      *
      * @param string $apiType
-     * @return Mage_Webapi_Controller_RequestAbstract
-     * @throws InvalidArgumentException If API type is not defined in Mage_Webapi_Controller_Front_Base
+     * @return Mage_Webapi_Controller_Request
+     * @throws InvalidArgumentException If API type is not defined in Mage_Webapi_Controller_Front
      */
-    public function getRequest($apiType)
+    public function get($apiType)
     {
-        switch($apiType) {
-            case Mage_Webapi_Controller_Front_Base::API_TYPE_REST:
-                return $this->_objectManager->get('Mage_Webapi_Controller_Request_Rest');
+        switch ($apiType) {
+            case Mage_Webapi_Controller_Front::API_TYPE_REST:
+                return $this->_objectManager->get(
+                    'Mage_Webapi_Controller_Request_Rest',
+                    array('apiType' => $apiType)
+                );
                 break;
-            case Mage_Webapi_Controller_Front_Base::API_TYPE_SOAP:
-                return $this->_objectManager->get('Mage_Webapi_Controller_Request_Soap');
+            case Mage_Webapi_Controller_Front::API_TYPE_SOAP:
+                return $this->_objectManager->get(
+                    'Mage_Webapi_Controller_Request',
+                    array('apiType' => $apiType)
+                );
                 break;
             default:
                 throw new InvalidArgumentException('The "%s" API type is not valid.', $apiType);

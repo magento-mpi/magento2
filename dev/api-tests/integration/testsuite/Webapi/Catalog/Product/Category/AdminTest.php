@@ -54,7 +54,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -78,10 +78,10 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
         $product = self::getFixture('product_simple');
 
         $restResponse = $this->callPost($this->_getResourcePath($product->getId()), $categoryData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $restResponse2 = $this->callPost($this->_getResourcePath($product->getId()), $categoryCreatedData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse2->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse2->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
@@ -221,7 +221,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
         self::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getCategoryIds();
@@ -259,7 +259,7 @@ class Webapi_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_
             ->save();
 
         $restResponse = $this->callDelete($this->_getResourcePath($product->getId(), $categoryData['category_id']));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());

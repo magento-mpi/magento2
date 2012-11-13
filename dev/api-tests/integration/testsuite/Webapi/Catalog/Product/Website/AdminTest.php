@@ -55,7 +55,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
         $product = self::getFixture('product');
 
         $restResponse = $this->callGet('products/' . $product->getId() . '/websites');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $websiteIds = $product->getWebsiteIds();
@@ -92,7 +92,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $websitesData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         // Check website
         /* @var $product Mage_Catalog_Model_Product */
@@ -379,7 +379,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             );
         }
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         // Check response body
         $responseData = $restResponse->getBody();
@@ -389,7 +389,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
         $this->assertArrayHasKey('success', $messages);
         $this->assertEquals(count($websitesNotAssignedToProduct), count($messages['success']));
         $this->assertEquals($messages['success'][0]['message'], 'Resource updated successful.');
-        $this->assertEquals($messages['success'][0]['code'], Mage_Webapi_Controller_Front_Rest::HTTP_OK);
+        $this->assertEquals($messages['success'][0]['code'], Mage_Webapi_Controller_Handler_Rest::HTTP_OK);
         $this->assertEquals($messages['success'][0]['product_id'], $product->getId());
         $this->assertEquals($messages['success'][0]['website_id'], $websitesNotAssignedToProduct[0]->getId());
 
@@ -447,7 +447,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
             )
         );
         $restResponse = $this->callPost('products/' . $product->getId() . '/websites', $multiData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);
@@ -479,7 +479,7 @@ class Webapi_Catalog_Product_Website_AdminTest extends Magento_Test_Webservice_R
 
         $restResponse = $this->callDelete('products/' . $product->getId() . '/websites/'
             . $websiteAssignedToProduct->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());

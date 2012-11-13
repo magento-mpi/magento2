@@ -1,6 +1,6 @@
 <?php
 /**
- * REST request content interpreter factory.
+ * Factory of REST request interpreters.
  *
  * @copyright {}
  */

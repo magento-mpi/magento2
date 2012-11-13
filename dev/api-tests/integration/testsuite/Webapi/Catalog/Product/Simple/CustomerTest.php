@@ -31,7 +31,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         $product = $this->getFixture('product_simple');
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getData();
@@ -127,7 +127,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         $params = array('attrs' => implode(',', $attributesToGet));
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()), $params);
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertEquals(count($attributesToGet), count($responseData));
         $originalData = $product->getData();
@@ -186,7 +186,7 @@ class Webapi_Catalog_Product_Simple_CustomerTest extends Webapi_Catalog_Product_
         $stockItem->save();
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**

@@ -4,7 +4,7 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
     Zend\Soap\Wsdl;
 
 /**
- * Complex type strategy for WSDL auto discovery using resource config.
+ * Magento-specific Complex type strategy for WSDL auto discovery.
  *
  * @copyright {}
  */
@@ -92,8 +92,11 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
 
                 if ($this->_config->isArrayType($parameterType)) {
                     $this->_processArrayParameter($parameterType, $callInfo);
-                    $element->setAttribute('type', Wsdl::TYPES_NS . ':' . $this->_config
-                        ->translateArrayTypeName($parameterType));
+                    $element->setAttribute(
+                        'type',
+                        Wsdl::TYPES_NS . ':' . $this->_config
+                            ->translateArrayTypeName($parameterType)
+                    );
                 } else {
                     $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
                     $maxOccurs = (isset($parameterData['isArray']) && $parameterData['isArray']) ? 'unbounded' : 1;
@@ -165,8 +168,11 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
             list($typeNs, $elementType) = explode(':', $element->getAttribute('type'));
         }
         $appInfoNode = $this->_dom->createElement(Wsdl::XSD_NS . ':appinfo');
-        $appInfoNode->setAttributeNS(Wsdl::XML_NS_URI, Wsdl::XML_NS . ':' . self::APP_INF_NS,
-            $this->getContext()->getTargetNamespace());
+        $appInfoNode->setAttributeNS(
+            Wsdl::XML_NS_URI,
+            Wsdl::XML_NS . ':' . self::APP_INF_NS,
+            $this->getContext()->getTargetNamespace()
+        );
 
         if ($elementType == 'boolean') {
             $default = (bool)$default ? 'true' : 'false';

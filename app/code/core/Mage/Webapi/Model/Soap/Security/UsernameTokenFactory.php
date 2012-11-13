@@ -1,8 +1,8 @@
 <?php
 /**
- * UsernameToken builder factory.
+ * Factory of username token builders.
  *
- * @copyright {copyright}
+ * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Security_UsernameTokenFactory
 {

@@ -1,21 +1,10 @@
 <?php
 /**
- * {license_notice}
+ * REST API request.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * REST API Request
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_RequestAbstract
+class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
 {
     /**
      * Character set which must be used in request
@@ -49,6 +38,8 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     protected $_interpreterFactory;
 
     /**
+     * Initialize dependencies.
+     *
      * @param Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param string|null $uri
@@ -58,8 +49,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         Mage_Core_Model_Factory_Helper $helperFactory,
         $uri = null
     ) {
-        $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_REST);
-        parent::__construct($uri);
+        parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_REST, $uri);
         $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_interpreterFactory = $interpreterFactory;
@@ -86,11 +76,11 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     public function getAcceptTypes()
     {
         $qualityToTypes = array();
-        $orderedTypes   = array();
+        $orderedTypes = array();
 
         foreach (preg_split('/,\s*/', $this->getHeader('Accept')) as $definition) {
             $typeWithQ = explode(';', $definition);
-            $mimeType  = trim(array_shift($typeWithQ));
+            $mimeType = trim(array_shift($typeWithQ));
 
             // check MIME type validity
             if (!preg_match('~^([0-9a-z*+\-]+)(?:/([0-9a-z*+\-\.]+))?$~i', $mimeType)) {
@@ -169,10 +159,10 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
-            'GET'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_GET,
-            'POST'   => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_CREATE,
-            'PUT'    => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_UPDATE,
-            'DELETE' => Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_DELETE
+            'GET' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_GET,
+            'POST' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_CREATE,
+            'PUT' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_UPDATE,
+            'DELETE' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_DELETE
         );
 
         return $operationByMethod[$this->getMethod()];

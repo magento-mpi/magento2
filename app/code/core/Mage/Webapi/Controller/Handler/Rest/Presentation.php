@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Front_Rest_Presentation
+class Mage_Webapi_Controller_Handler_Rest_Presentation
 {
     /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
@@ -95,7 +95,7 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                     $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 } else {
                     // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
-                    $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
+                    $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 }
                 if ($this->_response->getMessages()) {
                     $this->_render(array('messages' => $this->_response->getMessages()));
@@ -103,20 +103,20 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 break;
             case 'get':
                 // TODO: Implement fields filtration
-                $filteredData  = $outputData;
+                $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
             case 'list':
                 // TODO: Implement fields filtration
-                $filteredData  = $outputData;
+                $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
             case 'multiUpdate':
                 $this->_render(array('messages' => $this->_response->getMessages()));
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
+                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
             case 'multiDelete':
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS);
+                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
             case 'update':
                 // break intentionally omitted
@@ -134,8 +134,8 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     protected function _getCreatedItemLocation($createdItem)
     {
         $apiTypeRoute = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_ApiType',
-            Mage_Webapi_Controller_Router_Route_ApiType::getApiRoute()
+            'Mage_Webapi_Controller_Router_Route_Webapi',
+            Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute()
         );
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',

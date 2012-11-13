@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
+ * Layout of Webapi module for Magento admin panel.
  *
- * @category    design
- * @package     default_default
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 -->
 <layout>
@@ -73,28 +70,28 @@
     <adminhtml_webapi_user_index>
         <update handle="adminhtml_webapi_user_grid_block"/>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_User" name="webapi_user.grid.container" />
+            <block type="Mage_Webapi_Block_Adminhtml_User" name="webapi_user.grid.container"/>
         </reference>
     </adminhtml_webapi_user_index>
 
     <adminhtml_webapi_user_grid>
         <update handle="formkey"/>
         <update handle="adminhtml_webapi_user_grid_block"/>
-        <container name="webapi_user.grid.container" label="API Users Grid Container" output="1" />
+        <container name="webapi_user.grid.container" label="API Users Grid Container" output="1"/>
     </adminhtml_webapi_user_grid>
 
     <adminhtml_webapi_user_rolesgrid>
-        <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml" />
+        <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml"/>
     </adminhtml_webapi_user_rolesgrid>
 
     <adminhtml_webapi_user_edit>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit" />
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit"/>
         </reference>
         <reference name="left">
             <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
-                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main" />
-                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="webapi.user.edit.tab.roles" />
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main"/>
+                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="webapi.user.edit.tab.roles"/>
             </block>
         </reference>
     </adminhtml_webapi_user_edit>
@@ -147,35 +144,37 @@
     <adminhtml_webapi_role_index>
         <update handle="adminhtml_webapi_role_grid_block"/>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_Role" name="webapi_role.grid.container" />
+            <block type="Mage_Webapi_Block_Adminhtml_Role" name="webapi_role.grid.container"/>
         </reference>
     </adminhtml_webapi_role_index>
 
     <adminhtml_webapi_role_rolegrid>
         <update handle="formkey"/>
         <update handle="adminhtml_webapi_role_grid_block"/>
-        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1" />
+        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1"/>
     </adminhtml_webapi_role_rolegrid>
 
     <adminhtml_webapi_role_edit>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit" />
+            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
         </reference>
         <reference name="left">
             <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
-                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main" />
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource"
-                    template="Mage_Webapi::rolesedit.phtml" />
+                       template="Mage_Webapi::rolesedit.phtml"/>
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user"
-                    template="Mage_Webapi::rolesusers.phtml" />
+                       template="Mage_Webapi::rolesusers.phtml"/>
             </block>
         </reference>
         <reference name="head">
-            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
         </reference>
         <reference name="js">
             <block type="Mage_Core_Block_Template" name="roles-users-grid-js"
-                template="Mage_Webapi::rolesusersgridjs.phtml" />
+                   template="Mage_Webapi::rolesusersgridjs.phtml"/>
         </reference>
     </adminhtml_webapi_role_edit>
 </layout>

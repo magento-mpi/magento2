@@ -262,10 +262,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Invalid request method'),
-            array('GET', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_CREATE),
-            array('PUT', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_UPDATE),
-            array('DELETE', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_DELETE)
+            array('GET', Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_GET),
+            array('POST', Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_CREATE),
+            array('PUT', Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_UPDATE),
+            array('DELETE', Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_DELETE)
         );
     }
 }

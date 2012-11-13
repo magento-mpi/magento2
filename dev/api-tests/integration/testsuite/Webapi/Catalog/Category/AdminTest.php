@@ -58,7 +58,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $category->getData();
@@ -83,7 +83,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId(), $store->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $inequalFields = array('custom_design_apply', 'path_ids');
@@ -116,7 +116,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /** @var $parentCategory Mage_Catalog_Model_Category */
         $parentCategory = reset($categoryTree);
         $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 
@@ -677,7 +677,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
     protected function _deleteCategoryViaRest($categoryId)
     {
         $restResponse = $this->callDelete($this->_getResourcePath($categoryId));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
         $deletedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
         $this->assertNull($deletedCategory->getId(), "Category was not deleted.");
     }
@@ -1084,7 +1084,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
     protected function _createCategoryWithPost($categoryData, $storeId = null)
     {
         $restResponse = $this->callPost($this->_getResourcePath(null, $storeId), $categoryData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
         /** @var $createdCategory Mage_Catalog_Model_Category */
         $createdCategory = Mage::getModel('Mage_Catalog_Model_Category');
         if (!is_null($storeId)) {
@@ -1107,7 +1107,7 @@ class Webapi_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Adm
     protected function _updateCategoryWithPut($categoryId, $categoryData, $storeId = null)
     {
         $restResponse = $this->callPut($this->_getResourcePath($categoryId, $storeId), $categoryData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(), "Invalid response code");
     }
 
     /**

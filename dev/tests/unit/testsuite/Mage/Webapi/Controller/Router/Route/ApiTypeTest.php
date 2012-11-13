@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-class Mage_Webapi_Controller_Router_Route_ApiTypeTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Router_Route_WebapiTest extends PHPUnit_Framework_TestCase
 {
     public function testMatch()
     {
-        $route = new Mage_Webapi_Controller_Router_Route_ApiType(
-            Mage_Webapi_Controller_Router_Route_ApiType::getApiRoute());
+        $route = new Mage_Webapi_Controller_Router_Route_Webapi(
+            Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute());
 
         $testApiType = 'test_api';
-        $testUri = str_replace(':api_type', $testApiType, Mage_Webapi_Controller_Router_Route_ApiType::getApiRoute());
+        $testUri = str_replace(':api_type', $testApiType, Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute());
         $request = new Zend_Controller_Request_Http();
         $request->setRequestUri($testUri);
 

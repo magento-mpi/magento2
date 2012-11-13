@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Interface of REST response renderers.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webapi renderer adapter interface.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 interface Mage_Webapi_Controller_Response_Rest_RendererInterface
 {

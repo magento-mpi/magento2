@@ -1,11 +1,10 @@
 <?php
 /**
- * Front controller for REST API
+ * Handler for REST API calls.
  *
  * @copyright {}
  */
-// TODO: Add profiler calls
-class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbstract
+class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_HandlerAbstract
 {
     /**#@+
      * Success HTTP response codes.
@@ -68,10 +67,10 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      */
     protected $_renderer;
 
-    /** @var Mage_Webapi_Controller_Front_Rest_Presentation */
+    /** @var Mage_Webapi_Controller_Handler_Rest_Presentation */
     protected $_restPresentation;
 
-    /** @var Mage_Webapi_Controller_Front_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
@@ -93,8 +92,8 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
-        Mage_Webapi_Controller_Front_Rest_Presentation $restPresentation,
-        Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor,
+        Mage_Webapi_Controller_Handler_Rest_Presentation $restPresentation,
+        Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
@@ -133,7 +132,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /**
      * Server errors processing mechanism initialization.
      *
-     * @return Mage_Webapi_Controller_Front_Rest|Mage_Core_Controller_FrontInterface
+     * @return Mage_Webapi_Controller_Handler_Rest|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
@@ -177,10 +176,12 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         } catch (Exception $e) {
             if (!Mage::getIsDeveloperMode()) {
                 $this->_logger->logException($e);
-                $this->_addException(new Mage_Webapi_Exception(
-                    $this->_helper->__("Internal Error. Details are available in Magento log file."),
-                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
-                ));
+                $this->_addException(
+                    new Mage_Webapi_Exception(
+                        $this->_helper->__("Internal Error. Details are available in Magento log file."),
+                        Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                    )
+                );
             } else {
                 $this->_addException($e);
             }
@@ -208,7 +209,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             }
         }
         throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
-                    Mage_Webapi_Exception::HTTP_NOT_FOUND);
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
     }
 
     /**
@@ -277,7 +278,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
      * Redeclare custom shutdown function
      *
      * @param   string $handler
-     * @return  Mage_Webapi_Controller_Front_Rest
+     * @return  Mage_Webapi_Controller_Handler_Rest
      */
     public function registerShutdownFunction($handler)
     {

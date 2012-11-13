@@ -1,21 +1,10 @@
 <?php
 /**
- * {license_notice}
+ * Web API request.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * Abstract API request.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Request_Http
+class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
 {
     /**#@+
      * Name of query ($_GET) parameters to use in navigation and so on
@@ -30,6 +19,18 @@ abstract class Mage_Webapi_Controller_RequestAbstract extends Zend_Controller_Re
 
     /** @var string */
     protected $_apiType;
+
+    /**
+     * Set current API type.
+     *
+     * @param string $apiType
+     * @param null|string|Zend_Uri $uri
+     */
+    public function __construct($apiType, $uri = null)
+    {
+        $this->setApiType($apiType);
+        parent::__construct($uri);
+    }
 
     /**
      * Get current API type.

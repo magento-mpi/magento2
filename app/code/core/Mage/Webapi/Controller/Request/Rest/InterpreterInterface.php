@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Interface of REST request content interpreter.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Request content interpreter adapter interface
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 interface Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {

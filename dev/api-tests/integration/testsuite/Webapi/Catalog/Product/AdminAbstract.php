@@ -30,7 +30,7 @@ abstract class Webapi_Catalog_Product_AdminAbstract extends Webapi_Catalog_Produ
     protected function _createProductWithApi($productData)
     {
         $restResponse = $this->_tryToCreateProductWithApi($productData);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not create product.');
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not create product.');
 
         return $this->_getProductIdFromResponse($restResponse);
     }
@@ -71,7 +71,7 @@ abstract class Webapi_Catalog_Product_AdminAbstract extends Webapi_Catalog_Produ
     protected function _updateProductWithApi($productId, $productData, $store = null)
     {
         $restResponse = $this->_tryToUpdateProductWithApi($productId, $productData, $store);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not update product.');
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(), 'Could not update product.');
 
         return $restResponse;
     }
@@ -135,7 +135,7 @@ abstract class Webapi_Catalog_Product_AdminAbstract extends Webapi_Catalog_Produ
             'filter[0][gteq][0]' => $firstProductExpectedData['entity_id'],
         );
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeCode), $requestParams);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $resultProducts = $restResponse->getBody();
         $this->assertEquals(count($products), count($resultProducts), "Invalid products number in response");
 

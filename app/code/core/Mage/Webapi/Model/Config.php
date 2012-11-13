@@ -6,7 +6,10 @@ use Zend\Code\Scanner\DirectoryScanner,
     Zend\Server\Reflection\ReflectionMethod;
 
 /**
- * Magento API Resources config.
+ * Web API configuration.
+ *
+ * This class is responsible for collecting web API configuration using reflection
+ * as well as for implementing interface to provide access to collected configuration.
  *
  * @copyright {}
  */
@@ -136,7 +139,8 @@ class Mage_Webapi_Model_Config
      * @param string $typeName
      * @param array $data
      */
-    public function setTypeData($typeName, $data) {
+    public function setTypeData($typeName, $data)
+    {
 
         if (!isset($this->_data['types'][$typeName])) {
             $this->_data['types'][$typeName] = $data;
@@ -204,8 +208,11 @@ class Mage_Webapi_Model_Config
             throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
         }
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException($this->_helper->__('Unknown version "%s" for resource "%s".', $resourceVersion,
-                $resourceName));
+            throw new RuntimeException($this->_helper->__(
+                'Unknown version "%s" for resource "%s".',
+                $resourceVersion,
+                $resourceName
+            ));
         }
     }
 
@@ -304,8 +311,10 @@ class Mage_Webapi_Model_Config
             $result = array($resourceName, $methodName);
             return $result;
         }
-        throw new InvalidArgumentException(sprintf('The "%s" is not valid API resource operation name.',
-            $operationName));
+        throw new InvalidArgumentException(sprintf(
+            'The "%s" is not valid API resource operation name.',
+            $operationName
+        ));
     }
 
     /**
@@ -350,7 +359,10 @@ class Mage_Webapi_Model_Config
         if (!isset($resourceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
                 'Method "%s" does not exist in "%s" version of resource "%s".',
-                $method, $resourceVersion, $resourceName));
+                $method,
+                $resourceVersion,
+                $resourceName
+            ));
         }
         $methodData = $resourceData['methods'][$method];
         if (isset($methodData['deprecation_policy']) && is_array($methodData['deprecation_policy'])) {
@@ -371,7 +383,7 @@ class Mage_Webapi_Model_Config
         if (is_null($this->_data)) {
             $this->_populateClassMap();
 
-            if ($this->_cache->canUse(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_NAME)) {
+            if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
                 $cachedData = $this->_cache->load(self::CONFIG_CACHE_ID);
                 if ($cachedData !== false) {
                     $this->_data = unserialize($cachedData);
@@ -413,9 +425,12 @@ class Mage_Webapi_Model_Config
                 throw new LogicException('Can not populate config - no action controllers were found.');
             }
 
-            if ($this->_cache->canUse(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_NAME)) {
-                $this->_cache->save(serialize($this->_data), self::CONFIG_CACHE_ID,
-                    array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG));
+            if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
+                $this->_cache->save(
+                    serialize($this->_data),
+                    self::CONFIG_CACHE_ID,
+                    array(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_TAG)
+                );
             }
         }
     }
@@ -522,9 +537,9 @@ class Mage_Webapi_Model_Config
      */
     public function getActionTypeByMethod($methodName)
     {
-        // TODO: Remove dependency on Mage_Webapi_Controller_Front_Rest
-        $collection = Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_COLLECTION;
-        $item = Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_ITEM;
+        // TODO: Remove dependency on Mage_Webapi_Controller_Handler_Rest
+        $collection = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION;
+        $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
         $methodToActionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE => $item,
@@ -564,8 +579,13 @@ class Mage_Webapi_Model_Config
             $optionalParamsWithoutCurrent = $optionalParams;
             unset($optionalParamsWithoutCurrent[$key]);
             $currentPath = "$basePath/$paramName/:$paramName";
-            $pathCombinations = array_merge($pathCombinations, $this->_getPathCombinations(
-                $optionalParamsWithoutCurrent, $currentPath));
+            $pathCombinations = array_merge(
+                $pathCombinations,
+                $this->_getPathCombinations(
+                    $optionalParamsWithoutCurrent,
+                    $currentPath
+                )
+            );
         }
         return $pathCombinations;
     }
@@ -660,13 +680,16 @@ class Mage_Webapi_Model_Config
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams) || (count($methodParams) < $bodyParamPosition)) {
-                throw new LogicException(sprintf('Method "%s" must have parameter for passing request body. '
-                    . 'Its position must be "%s" in method interface.', $methodReflection->getName(),
-                    $bodyParamPosition));
+                throw new LogicException(sprintf(
+                    'Method "%s" must have parameter for passing request body. '
+                        . 'Its position must be "%s" in method interface.',
+                    $methodReflection->getName(),
+                    $bodyParamPosition
+                ));
             }
             /** @var $bodyParamReflection \Zend\Code\Reflection\ParameterReflection */
             /** Param position in the array should be counted from 0. */
-            $bodyParamReflection = $methodParams[$bodyParamPosition-1];
+            $bodyParamReflection = $methodParams[$bodyParamPosition - 1];
             $bodyParamName = $bodyParamReflection->getName();
         }
         return $bodyParamName;
@@ -709,8 +732,10 @@ class Mage_Webapi_Model_Config
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
-                throw new LogicException(sprintf('Method "%s" must have at least one parameter: resource ID.',
-                    $methodReflection->getName()));
+                throw new LogicException(sprintf(
+                    'Method "%s" must have at least one parameter: resource ID.',
+                    $methodReflection->getName()
+                ));
             }
             /** @var ReflectionParameter $idParam */
             $idParam = reset($methodParams);
@@ -797,7 +822,10 @@ class Mage_Webapi_Model_Config
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
             throw new InvalidArgumentException(sprintf(
                 '"%s" method of "%s" resource in version "%s" is not registered.',
-                $methodName, $resourceName, $resourceVersion));
+                $methodName,
+                $resourceName,
+                $resourceVersion
+            ));
         }
         return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
     }
@@ -827,8 +855,8 @@ class Mage_Webapi_Model_Config
      */
     protected function _createRoute($routePath, $resourceName, $actionType)
     {
-        $apiTypeRoutePath = Mage_Webapi_Controller_Router_Route_ApiType::API_AREA_NAME
-            . '/:' . Mage_Webapi_Controller_Front_Base::API_TYPE_REST;
+        $apiTypeRoutePath = Mage_Webapi_Controller_Router_Route_Webapi::API_AREA_NAME
+            . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
@@ -937,10 +965,12 @@ class Mage_Webapi_Model_Config
             }
 
             if (isset($useMethod) && is_string($useMethod) && !empty($useMethod)) {
-                $invalidFormatMessage = sprintf('"%s" method has invalid format of Deprecation policy. '
+                $invalidFormatMessage = sprintf(
+                    '"%s" method has invalid format of Deprecation policy. '
                         . 'Accepted formats are createV1, catalogProduct::createV1 '
                         . 'and Mage_Catalog_Webapi_ProductController::createV1.',
-                    $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName());
+                    $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName()
+                );
                 /** Add information about what method should be used instead of deprecated/removed one. */
                 /**
                  * Description is expected in one of the following formats:
@@ -949,7 +979,7 @@ class Mage_Webapi_Model_Config
                  * - createV1
                  */
                 $useMethodParts = explode('::', $useMethod);
-                switch(count($useMethodParts)) {
+                switch (count($useMethodParts)) {
                     case 2:
                         try {
                             /** Support of: Mage_Catalog_Webapi_ProductController::createV1 */
@@ -965,7 +995,8 @@ class Mage_Webapi_Model_Config
                         $methodName = $useMethodParts[0];
                         /** If resource was not specified, current one should be used. */
                         $deprecationPolicy['use_resource'] = $this->translateResourceName(
-                            $methodReflection->getDeclaringClass()->getName());
+                            $methodReflection->getDeclaringClass()->getName()
+                        );
                         break;
                     default:
                         throw new LogicException($invalidFormatMessage);
@@ -1279,7 +1310,7 @@ class Mage_Webapi_Model_Config
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_ITEM
+            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;

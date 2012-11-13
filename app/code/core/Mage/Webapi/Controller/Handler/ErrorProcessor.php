@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Front_ErrorProcessor
+class Mage_Webapi_Controller_Handler_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
@@ -47,7 +47,7 @@ class Mage_Webapi_Controller_Front_ErrorProcessor
      * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Controller_Front_ErrorProcessor
+     * @return Mage_Webapi_Controller_Handler_ErrorProcessor
      */
     public function saveReport($reportData)
     {
@@ -101,7 +101,10 @@ class Mage_Webapi_Controller_Front_ErrorProcessor
      * @param int $httpCode
      * @return array
      */
-    protected function _formatError($errorMessage, $trace, $httpCode = self::DEFAULT_ERROR_HTTP_CODE,
+    protected function _formatError(
+        $errorMessage,
+        $trace,
+        $httpCode = self::DEFAULT_ERROR_HTTP_CODE,
         $format = self::DATA_FORMAT_ARRAY
     ) {
         $errorData = array();

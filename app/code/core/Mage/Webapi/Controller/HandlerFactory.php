@@ -1,10 +1,10 @@
 <?php
 /**
- * Front controller factory.
+ * Factory of web API handlers.
  *
- * @copyright {copyright}
+ * @copyright {}
  */
-class Mage_Webapi_Controller_FrontFactory
+class Mage_Webapi_Controller_HandlerFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -23,10 +23,10 @@ class Mage_Webapi_Controller_FrontFactory
      * Create front controller instance.
      *
      * @param string $className
-     * @return Mage_Webapi_Controller_FrontAbstract
+     * @return Mage_Webapi_Controller_HandlerAbstract
      * @throws InvalidArgumentException
      */
-    public function createFrontController($className)
+    public function create($className)
     {
         $frontController = $this->_objectManager->create($className);
         if (!$frontController instanceof Mage_Core_Controller_FrontInterface) {

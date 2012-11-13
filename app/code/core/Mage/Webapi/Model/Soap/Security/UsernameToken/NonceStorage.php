@@ -1,19 +1,9 @@
 <?php
 /**
- * {license_notice}
+ * Temporary storage of SOAP WS-Security username token nonce & timestamp.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * SOAP WS-Security UsernameToken nonce & timestamp temporary storage model.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @see http://docs.oasis-open.org/wss-m/wss/v1.1.1/os/wss-UsernameTokenProfile-v1.1.1-os.html
+ * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
 {
@@ -58,7 +48,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
      */
     public function validateNonce($nonce, $timestamp)
     {
-        $timestamp = (int) $timestamp;
+        $timestamp = (int)$timestamp;
         $isNonceUsed = $timestamp <= (time() - self::NONCE_TTL);
         $isNonceFromFuture = $timestamp > (time() + self::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
         if ($timestamp <= 0 || $isNonceUsed || $isNonceFromFuture) {
@@ -70,8 +60,12 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
         }
 
         $nonceCacheTtl = self::NONCE_TTL + self::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE;
-        $this->_cacheInstance->save($timestamp, $this->getNonceCacheId($nonce),
-            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG), $nonceCacheTtl);
+        $this->_cacheInstance->save(
+            $timestamp,
+            $this->getNonceCacheId($nonce),
+            array(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_TAG),
+            $nonceCacheTtl
+        );
     }
 
     /**

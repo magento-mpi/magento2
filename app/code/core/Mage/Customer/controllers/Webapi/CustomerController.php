@@ -18,7 +18,7 @@
 class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_ActionAbstract
 {
     public function __construct(
-        Mage_Webapi_Controller_RequestAbstract $request,
+        Mage_Webapi_Controller_Request $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {

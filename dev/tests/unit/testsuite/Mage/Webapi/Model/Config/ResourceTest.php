@@ -632,10 +632,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-                Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_COLLECTION),
+                Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION),
             array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
-                Mage_Webapi_Controller_Front_Rest::ACTION_TYPE_ITEM
+                Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM
             ),
         );
     }

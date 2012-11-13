@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Webapi module helper.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webservice Webapi data helper
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright  {}
  */
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -35,7 +24,10 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @return array Array of prepared method arguments
      * @throws Mage_Webapi_Exception
      */
-    public function prepareMethodParams($classOrObject, $methodName, $requestData,
+    public function prepareMethodParams(
+        $classOrObject,
+        $methodName,
+        $requestData,
         Mage_Webapi_Model_Config $apiConfig
     ) {
         $methodReflection = $this->createMethodReflection($classOrObject, $methodName);
@@ -46,8 +38,11 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         ) {
             foreach ($methodData['interface']['in']['parameters'] as $paramName => $paramData) {
                 if (isset($requestData[$paramName])) {
-                    $methodArguments[$paramName] = $this->_formatParamData($requestData[$paramName],
-                        $paramData['type'], $apiConfig);
+                    $methodArguments[$paramName] = $this->_formatParamData(
+                        $requestData[$paramName],
+                        $paramData['type'],
+                        $apiConfig
+                    );
                 } elseif (!$paramData['required']) {
                     $methodArguments[$paramName] = $paramData['default'];
                 } else {
@@ -71,7 +66,8 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
      */
-    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig) {
+    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig)
+    {
         if ($apiConfig->isTypeSimple($dataType) || is_null($data)) {
             return $data;
         } elseif ($apiConfig->isArrayType($dataType)) {
@@ -102,8 +98,11 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
                     throw new Mage_Webapi_Exception($this->__('Value of "%s" attribute is required.', $fieldName),
                         Mage_Webapi_Exception::HTTP_BAD_REQUEST);
                 }
-                $complexDataObject->$fieldName = $this->_formatParamData($fieldValue, $fieldMetadata['type'],
-                    $apiConfig);
+                $complexDataObject->$fieldName = $this->_formatParamData(
+                    $fieldValue,
+                    $fieldMetadata['type'],
+                    $apiConfig
+                );
             }
             return $complexDataObject;
         }

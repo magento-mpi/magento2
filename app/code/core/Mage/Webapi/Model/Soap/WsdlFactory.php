@@ -1,8 +1,8 @@
 <?php
 /**
- * WSDL builder factory.
+ * Factory of WSDL builders.
  *
- * @copyright {copyright}
+ * @copyright {}
  */
 class Mage_Webapi_Model_Soap_WsdlFactory
 {
@@ -29,10 +29,12 @@ class Mage_Webapi_Model_Soap_WsdlFactory
     public function createWsdl($wsdlName, $endpointUrl)
     {
         // TODO: Temporary solution because of MAGETWO-4956
-        $complexTypeStrategy = $this->_objectManager->create('Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased');
+        $complexTypeStrategy = $this->_objectManager->create(
+            'Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased'
+        );
 
         return $this->_objectManager->create(
-        'Mage_Webapi_Model_Soap_Wsdl',
+            'Mage_Webapi_Model_Soap_Wsdl',
             array(
                 'name' => $wsdlName,
                 'uri' => $endpointUrl,

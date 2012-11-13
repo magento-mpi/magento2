@@ -59,7 +59,7 @@ class Webapi_Catalog_Product_Category_GuestTest extends Magento_Test_Webservice_
         self::setFixture('product_simple', $product);
 
         $restResponse = $this->callGet($this->_getResourcePath($product->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $product->getCategoryIds();
@@ -105,7 +105,7 @@ class Webapi_Catalog_Product_Category_GuestTest extends Magento_Test_Webservice_
 
         $category->setStoreId(0)->setData('is_active', 1)->save();
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 

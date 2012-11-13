@@ -12,12 +12,12 @@
 /**
  * Test Webapi Request model
  */
-class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Request object
      *
-     * @var Mage_Webapi_Controller_RequestAbstract
+     * @var Mage_Webapi_Controller_Request
      */
     protected $_request;
 
@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
     {
         parent::setUp();
 
-        $this->_request = new Mage_Webapi_Controller_RequestStub();
+        $this->_request = new Mage_Webapi_Controller_RequestStub(Mage_Webapi_Controller_Front::API_TYPE_REST);
     }
 
     /**
@@ -33,12 +33,12 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetFilter()
     {
-        $_POST[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_FILTER] = 'filter_exists';
-        $this->_request->setParam(Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_FILTER, 'filter_exists');
+        $_POST[Mage_Webapi_Controller_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $this->_request->setParam(Mage_Webapi_Controller_Request::QUERY_PARAM_FILTER, 'filter_exists');
 
         $this->assertNull($this->_request->getFilter());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_FILTER] = 'filter_exists';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_FILTER] = 'filter_exists';
 
         $this->assertEquals('filter_exists', $this->_request->getFilter());
     }
@@ -48,12 +48,12 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetOrderDirection()
     {
-        $_POST[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_DIR] = 'asc';
-        $this->_request->setParam(Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_DIR, 'asc');
+        $_POST[Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $this->_request->setParam(Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR, 'asc');
 
         $this->assertNull($this->_request->getOrderDirection());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
 
         $this->assertEquals('asc', $this->_request->getOrderDirection());
     }
@@ -63,12 +63,12 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetOrderField()
     {
-        $_POST[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
-        $this->_request->setParam(Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_FIELD, 'order_exists');
+        $_POST[Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $this->_request->setParam(Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
 
         $this->assertNull($this->_request->getOrderField());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
 
         $this->assertEquals('order_exists', $this->_request->getOrderField());
     }
@@ -78,12 +78,12 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetPageNumber()
     {
-        $_POST[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_NUM] = 5;
-        $this->_request->setParam(Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_NUM, 5);
+        $_POST[Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $this->_request->setParam(Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM, 5);
 
         $this->assertNull($this->_request->getPageNumber());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_NUM] = 5;
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM] = 5;
 
         $this->assertEquals(5, $this->_request->getPageNumber());
     }
@@ -93,11 +93,11 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetPageSize()
     {
-        $_POST[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_SIZE] = 5;
-        $this->_request->setParam(Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_SIZE, 5);
+        $_POST[Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $this->_request->setParam(Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE, 5);
         $this->assertNull($this->_request->getPageSize());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_PAGE_SIZE] = 5;
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE] = 5;
         $this->assertEquals(5, $this->_request->getPageSize());
     }
 
@@ -106,20 +106,20 @@ class Mage_Webapi_Controller_RequestAbstractTest extends PHPUnit_Framework_TestC
      */
     public function testGetRequestedAttributes()
     {
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
 
-        $_GET[Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
+        $_GET[Mage_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
     }
 }
 
-class Mage_Webapi_Controller_RequestStub extends Mage_Webapi_Controller_RequestAbstract
+class Mage_Webapi_Controller_RequestStub extends Mage_Webapi_Controller_Request
 {
     public function getRequestedResources()
     {

@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Controller for web API users management in Magento admin panel.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API User controller
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controller_ActionAbstract
 {
@@ -27,11 +16,13 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $this->loadLayout()
             ->_setActiveMenu('Mage_Webapi::system_api_webapi_users')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'))
+            Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'),
+            Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services')
+        )
             ->_addBreadcrumb(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
+            Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'),
+            Mage::helper('Mage_Webapi_Helper_Data')->__('API Users')
+        );
 
         return $this;
     }
@@ -43,8 +34,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     {
         $this->_initAction();
         $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
+            ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'))
+            ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
 
         $this->renderLayout();
     }
@@ -65,8 +56,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     {
         $this->_initAction();
         $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
+            ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Services'))
+            ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
         $user = $this->_loadApiUser($userId);
@@ -160,7 +151,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been deleted.'));
+                    Mage::helper('Mage_Webapi_Helper_Data')->__('The API user has been deleted.')
+                );
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
@@ -170,7 +162,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             }
         }
         $this->_getSession()->addError(
-            Mage::helper('Mage_Webapi_Helper_Data')->__('Unable to find a user to delete.'));
+            Mage::helper('Mage_Webapi_Helper_Data')->__('Unable to find a user to delete.')
+        );
         $this->_redirect('*/*/');
     }
 
@@ -244,7 +237,8 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.'));
+                Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.')
+            );
             $this->_redirect('*/*/');
             return false;
         }

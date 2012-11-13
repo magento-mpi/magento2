@@ -1,8 +1,9 @@
 <?php
 use Zend\Soap\Wsdl,
     Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+
 /**
- * WSDL Generation class.
+ * Magneto-specific WSDL builder.
  *
  * @copyright {}
  */

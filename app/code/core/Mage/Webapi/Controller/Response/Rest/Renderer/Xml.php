@@ -1,140 +1,38 @@
 <?php
 /**
- * {license_notice}
+ *  XML Renderer allows to format array or object as valid XML document.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * Webapi renderer for XML format.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements Mage_Webapi_Controller_Response_Rest_RendererInterface
+class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
+    Mage_Webapi_Controller_Response_Rest_RendererInterface
 {
     /**
-     * Adapter mime type.
+     * Renderer mime type.
      */
     const MIME_TYPE = 'application/xml';
 
     /**
-     * Default name for item in indexed array.
+     * Root node in XML output.
      */
-    const DEFAULT_INDEXED_ARRAY_ITEM_NAME = 'data_item';
+    const XML_ROOT_NODE = 'response';
 
     /**
-     * Characters for replacement in the tag name.
-     *
-     * @var array
+     * This value is used to replace numeric keys while formatting data for xml output.
      */
-    protected $_tagNameReplacementCharMap = array(
-        '!' => '', '"' => '', '#' => '', '$' => '', '%' => '', '&' => '', '\'' => '',
-        '(' => '', ')' => '', '*' => '', '+' => '', ',' => '', '/' => '', ';' => '',
-        '<' => '', '=' => '', '>' => '', '?' => '', '@' => '', '[' => '', '\\' => '',
-        ']' => '', '^' => '', '`' => '', '{' => '', '|' => '', '}' => '', '~' => '',
-        ' ' => '_', ':' => '_'
-    );
+    const DEFAULT_ENTITY_ITEM_NAME = 'item';
+
+    /** @var Mage_Xml_Generator */
+    protected $_xmlGenerator;
 
     /**
-     * Characters for replacement in the tag value.
+     * Initialize dependencies.
      *
-     * @var array
+     * @param Mage_Xml_Generator $xmlGenerator
      */
-    protected $_tagValueReplacementCharMap = array(
-        '&' => '&amp;' // replace "&" with HTML entity, because it is not replaced by default
-    );
-
-    /**
-     * Protected pattern for check chars in the begin of tag name.
-     *
-     * @var string
-     */
-    // TODO: What a strange name? What does 'protected' mean?
-    protected $_protectedTagNamePattern = '/^[0-9,.-]/';
-
-    /**
-     * Convert Array to XML.
-     *
-     * @param mixed $data
-     * @return string
-     */
-    public function render($data)
+    function __construct(Mage_Xml_Generator $xmlGenerator)
     {
-        // TODO: Consider removing Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer
-        /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer $writer */
-        $writer = Mage::getModel('Mage_Webapi_Controller_Response_Rest_Renderer_Xml_Writer', array(
-            'config' => new Zend_Config($this->_prepareData($data, true))
-        ));
-        return $writer->render();
-    }
-
-    /**
-     * Prepare convert data.
-     *
-     * @param array|Varien_Object $data
-     * @param bool $root
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function _prepareData($data, $root = false)
-    {
-        if (!is_array($data) && !is_object($data)) {
-            if ($root) {
-                $data = array($data);
-            } else {
-                throw new InvalidArgumentException('Data must be an object or an array.');
-            }
-        }
-        $data = $data instanceof Varien_Object ? $data->toArray() : (array)$data;
-        $isAssoc = !preg_match('/^\d+$/', implode(array_keys($data), ''));
-
-        $preparedData = array();
-        foreach ($data as $key => $value) {
-            $value = is_array($value) || is_object($value) ? $this->_prepareData($value) : $this->_prepareValue($value);
-            if ($isAssoc) {
-                $preparedData[$this->_prepareKey($key)] = $value;
-            } else {
-                $preparedData[self::DEFAULT_INDEXED_ARRAY_ITEM_NAME][] = $value;
-            }
-        }
-        return $preparedData;
-    }
-
-    /**
-     * Prepare value.
-     *
-     * @param string $value
-     * @return string
-     */
-    protected function _prepareValue($value)
-    {
-        return str_replace(
-            array_keys($this->_tagValueReplacementCharMap),
-            array_values($this->_tagValueReplacementCharMap),
-            $value
-        );
-    }
-
-    /**
-     * Prepare key and replace unavailable chars.
-     *
-     * @param string $key
-     * @return string
-     */
-    protected function _prepareKey($key)
-    {
-        $key = str_replace(array_keys($this->_tagNameReplacementCharMap),
-            array_values($this->_tagNameReplacementCharMap), $key);
-        $key = trim($key, '_');
-        if (preg_match($this->_protectedTagNamePattern, $key)) {
-            $key = self::DEFAULT_INDEXED_ARRAY_ITEM_NAME . '_' . $key;
-        }
-        return $key;
+        $this->_xmlGenerator = $xmlGenerator;
     }
 
     /**
@@ -145,5 +43,92 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements Mage_Webapi_C
     public function getMimeType()
     {
         return self::MIME_TYPE;
+    }
+
+    /**
+     * Format object|array to valid XML.
+     *
+     * @param array|Varien_Object $data
+     * @return string
+     */
+    public function render($data)
+    {
+        $formattedData = $this->_formatData($data, true);
+        /** Wrap response in a single node. */
+        $formattedData = array(self::XML_ROOT_NODE => $formattedData);
+        $this->_xmlGenerator->arrayToXml($formattedData);
+        return $this->_xmlGenerator->getDom()->saveXML();
+    }
+
+    /**
+     * Reformat mixed data to multidimensional array.
+     *
+     * This method is recursive.
+     *
+     * @param array|Varien_Object $data
+     * @param bool $isRoot
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _formatData($data, $isRoot = false)
+    {
+        if (!is_array($data) && !is_object($data)) {
+            if ($isRoot) {
+                $data = array($data);
+            } else {
+                throw new InvalidArgumentException('Data must be an object or an array.');
+            }
+        }
+        $data = $data instanceof Varien_Object ? $data->toArray() : (array)$data;
+        $isAssoc = !preg_match('/^\d+$/', implode(array_keys($data), ''));
+
+        $formattedData = array();
+        foreach ($data as $key => $value) {
+            $value = is_array($value) || is_object($value) ? $this->_formatData($value) : $this->_formatValue($value);
+            if ($isAssoc) {
+                $formattedData[$this->_prepareKey($key)] = $value;
+            } else {
+                $formattedData[self::DEFAULT_ENTITY_ITEM_NAME][] = $value;
+            }
+        }
+        return $formattedData;
+    }
+
+    /**
+     * Prepare value in contrast with key.
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _formatValue($value)
+    {
+        $replacementMap = array('&' => '&amp;');
+        return str_replace(array_keys($replacementMap), array_values($replacementMap), $value);
+    }
+
+    /**
+     * Format array key or field name to be valid array key name.
+     *
+     * Replaces characters that are invalid in array key names.
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function _prepareKey($key)
+    {
+        $replacementMap = array(
+            '!' => '', '"' => '', '#' => '', '$' => '', '%' => '', '&' => '', '\'' => '',
+            '(' => '', ')' => '', '*' => '', '+' => '', ',' => '', '/' => '', ';' => '',
+            '<' => '', '=' => '', '>' => '', '?' => '', '@' => '', '[' => '', '\\' => '',
+            ']' => '', '^' => '', '`' => '', '{' => '', '|' => '', '}' => '', '~' => '',
+            ' ' => '_', ':' => '_'
+        );
+        $key = str_replace(array_keys($replacementMap), array_values($replacementMap), $key);
+        $key = trim($key, '_');
+        $prohibitedTagNamePattern = '/^[0-9,.-]/';
+        if (preg_match($prohibitedTagNamePattern, $key)) {
+            $key = self::DEFAULT_ENTITY_ITEM_NAME . '_' . $key;
+        }
+        return $key;
     }
 }

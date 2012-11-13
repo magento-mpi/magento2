@@ -1,21 +1,11 @@
 <?php
 /**
- * {license_notice}
+ * JSON interpreter of REST request content.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * JSON interpreter of Request content.
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements Mage_Webapi_Controller_Request_Rest_InterpreterInterface
+class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
+    Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
@@ -44,8 +34,10 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements Mage_Webap
     public function interpret($encodedBody)
     {
         if (!is_string($encodedBody)) {
-            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.',
-                gettype($encodedBody)));
+            throw new InvalidArgumentException(sprintf(
+                'Invalid data type "%s". String expected.',
+                gettype($encodedBody)
+            ));
         }
         try {
             /** @var Mage_Core_Helper_Data $jsonHelper */

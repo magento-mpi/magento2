@@ -62,7 +62,7 @@ class Webapi_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         /* @var $fixtureOrder Mage_Sales_Model_Order */
         $fixtureOrder = $this->getFixture('customer_order');
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -113,7 +113,7 @@ class Webapi_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custo
         $customer->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail(TESTS_CUSTOMER_EMAIL);
 
         $restResponse = $this->callGet('orders', array('order' => 'entity_id', 'dir' => Zend_Db_Select::SQL_DESC));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $orders = $restResponse->getBody();
         $this->assertNotEmpty($orders);

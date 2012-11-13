@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Web API response.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Abstract API response.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
 {

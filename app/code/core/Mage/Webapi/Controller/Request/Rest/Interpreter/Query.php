@@ -1,21 +1,11 @@
 <?php
 /**
- * {license_notice}
+ * Interpreter of REST request content encoded in query string.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * URL-encoded query string interpreter of Request content.
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Request_Rest_Interpreter_Query implements Mage_Webapi_Controller_Request_Rest_InterpreterInterface
+class Mage_Webapi_Controller_Request_Rest_Interpreter_Query implements
+    Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
     const URI_VALIDATION_PATTERN = "/^(?:%[[:xdigit:]]{2}|[A-Za-z0-9-_.!~*'()\[\];\/?:@&=+$,])*$/";
 

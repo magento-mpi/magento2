@@ -1,21 +1,15 @@
 <?php
 /**
- * {license_notice}
+ * Abstract handler for web API requests.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
-/**
- * Abstract front controller for concrete API type.
- */
-abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Controller_FrontInterface
+// TODO: Think about changing interface implemented
+abstract class Mage_Webapi_Controller_HandlerAbstract implements Mage_Core_Controller_FrontInterface
 {
     const VERSION_MIN = 1;
 
-    /** @var Mage_Webapi_Controller_RequestAbstract */
+    /** @var Mage_Webapi_Controller_Request */
     protected $_request;
 
     /** @var Mage_Webapi_Controller_Response */
@@ -71,10 +65,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Set response.
      *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
-     * @return Mage_Webapi_Controller_FrontAbstract
+     * @param Mage_Webapi_Controller_Request $request
+     * @return Mage_Webapi_Controller_HandlerAbstract
      */
-    public function setRequest(Mage_Webapi_Controller_RequestAbstract $request)
+    public function setRequest(Mage_Webapi_Controller_Request $request)
     {
         $this->_request = $request;
         return $this;
@@ -83,7 +77,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /**
      * Retrieve request object.
      *
-     * @return Mage_Webapi_Controller_RequestAbstract
+     * @return Mage_Webapi_Controller_Request
      */
     // TODO: Do we need this abstract?
     abstract public function getRequest();
@@ -103,7 +97,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Set resource config.
      *
      * @param Mage_Webapi_Model_Config $config
-     * @return Mage_Webapi_Controller_FrontAbstract
+     * @return Mage_Webapi_Controller_HandlerAbstract
      */
     public function setResourceConfig(Mage_Webapi_Model_Config $config)
     {
@@ -124,7 +118,8 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             /** @var Mage_Core_Model_Authorization $authorization */
             $authorization = $this->_objectManager->create('Mage_Core_Model_Authorization');
             if (!$authorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
-                && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)) {
+                && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)
+            ) {
                 throw new Mage_Webapi_Exception(
                     $this->_helper->__('Access to resource forbidden.'),
                     Mage_Webapi_Exception::HTTP_FORBIDDEN
@@ -152,7 +147,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
      * Add exception to response.
      *
      * @param Exception $exception
-     * @return Mage_Webapi_Controller_FrontAbstract
+     * @return Mage_Webapi_Controller_HandlerAbstract
      */
     protected function _addException(Exception $exception)
     {
@@ -171,8 +166,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     {
         // TODO: Remove dependency on Magento_Autoload by moving API controllers to 'Controller' folder
         Magento_Autoload::getInstance()->addFilesMap(array($className => $this->_getControllerFileName($className)));
-        $controllerInstance = $this->_actionControllerFactory->createActionController($className,
-            $this->getRequest());
+        $controllerInstance = $this->_actionControllerFactory->createActionController(
+            $className,
+            $this->getRequest()
+        );
 
         return $controllerInstance;
     }
@@ -249,8 +246,10 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             ) {
                 $messageUseMethod = $this->getHelper()
                     ->__('Please, use version "%s" of "%s" method in "%s" resource instead.',
-                    $deprecationPolicy['use_version'], $deprecationPolicy['use_method'],
-                    $deprecationPolicy['use_resource']);
+                    $deprecationPolicy['use_version'],
+                    $deprecationPolicy['use_method'],
+                    $deprecationPolicy['use_resource']
+                );
             } else {
                 $messageUseMethod = '';
             }
@@ -258,14 +257,20 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
                 $messageMethodRemoved = $this->getHelper()
-                    ->__('Version "%s" of "%s" method in "%s" resource was removed.', $resourceVersion, $method,
-                    $resourceName);
+                    ->__('Version "%s" of "%s" method in "%s" resource was removed.',
+                    $resourceVersion,
+                    $method,
+                    $resourceName
+                );
                 throw new Mage_Webapi_Exception($messageMethodRemoved . ' ' . $messageUseMethod, $badRequestCode);
                 // TODO: Replace static call after MAGETWO-4961 implementation
             } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
                 $messageMethodDeprecated = $this->getHelper()
-                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.', $resourceVersion, $method,
-                    $resourceName);
+                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
+                    $resourceVersion,
+                    $method,
+                    $resourceName
+                );
                 throw new Mage_Webapi_Exception($messageMethodDeprecated . ' ' . $messageUseMethod, $badRequestCode);
             }
         }
