@@ -73,7 +73,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     /**
      * Forward request for a graph image to the web-service
      *
-     * This is done in order to be to include the image to a HTTPS-page regardless of web-service settings
+     * This is done in order to include the image to a HTTPS-page regardless of web-service settings
      */
     public function tunnelAction()
     {
