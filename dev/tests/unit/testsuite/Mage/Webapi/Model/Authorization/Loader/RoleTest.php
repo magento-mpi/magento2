@@ -25,14 +25,9 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var Mage_Webapi_Model_Acl_RoleFactory
+     * @var Mage_Webapi_Model_Authorization_RoleFactory
      */
     protected $_roleFactory;
-
-    /**
-     * @var Mage_Webapi_Model_Acl_Role
-     */
-    protected $_role;
 
     /**
      * @var Magento_Acl
@@ -48,8 +43,6 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
 
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Role',
             array('getRolesIds'), array(), '', false);
-
-        $this->_role = new Mage_Webapi_Model_Authorization_Role(5);
 
         $this->_roleFactory = $this->getMock('Mage_Webapi_Model_Authorization_RoleFactory',
             array('createRole'), array(), '', false);
@@ -70,24 +63,31 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     public function testPopulateAclWithRoles()
     {
-        $roleIds = array(2, 4);
+        $roleOne = new Mage_Webapi_Model_Authorization_Role(3);
+        $roleTwo = new Mage_Webapi_Model_Authorization_Role(4);
+        $roles = array($roleOne, $roleTwo);
+        $roleIds = array(3, 4);
+        $createRoleMap = array(
+            array(array(3), $roleOne),
+            array(array(4), $roleTwo),
+        );
+        $this->_resourceModelMock->expects($this->once())
+            ->method('getRolesIds')
+            ->will($this->returnValue($roleIds));
 
-        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue($roleIds));
+        $this->_roleFactory->expects($this->exactly(count($roleIds)))
+            ->method('createRole')
+            ->will($this->returnValueMap($createRoleMap));
 
-        $this->_roleFactory->expects($this->any())->method('createRole')->will($this->returnValue($this->_role));
-
-        $this->_acl->expects($this->exactly(2))
+        $this->_acl->expects($this->exactly(count($roleIds)))
             ->method('addRole')
-            ->with($this->_role)
-            ->will($this->returnValue(null));
+            ->with(call_user_func_array(array($this, 'logicalOr'), $roles));
 
-        $this->_acl->expects($this->exactly(2))
+        $this->_acl->expects($this->exactly(count($roleIds)))
             ->method('deny')
-            ->with($this->_role)
-            ->will($this->returnValue(null));
+            ->with(call_user_func_array(array($this, 'logicalOr'), $roles));
 
         $this->_model->populateAcl($this->_acl);
-
     }
 
     /**
@@ -97,9 +97,19 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     public function testPopulateAclWithNoRoles()
     {
-        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue(array()));
-        $this->_model->populateAcl($this->_acl);
+        $this->_resourceModelMock->expects($this->once())
+            ->method('getRolesIds')
+            ->will($this->returnValue(array()));
+
+        $this->_roleFactory->expects($this->never())
+            ->method('createRole');
+
         $this->_acl->expects($this->never())
             ->method('addRole');
+
+        $this->_acl->expects($this->never())
+            ->method('deny');
+
+        $this->_model->populateAcl($this->_acl);
     }
 }

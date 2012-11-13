@@ -72,9 +72,6 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        if (!($this->_config instanceof Mage_Webapi_Model_Authorization_Config)) {
-            throw new Mage_Core_Exception('Config loader is not correct for the resource loader');
-        }
         parent::populateAcl($acl);
         $this->_denyResources($acl);
         $this->_loadVirtualResources($acl);
