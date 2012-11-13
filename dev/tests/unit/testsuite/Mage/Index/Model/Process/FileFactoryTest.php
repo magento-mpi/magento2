@@ -28,26 +28,10 @@ class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCas
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())
             ->method('create')
-            ->will($this->returnCallback(array($this, 'verifyCreate')));
+            ->with(self::EXPECTED_CLASS_NAME, $this->_arguments, false)
+            ->will($this->returnValue(self::CREATE_RESULT));
 
         $factory = new Mage_Index_Model_Process_FileFactory($objectManagerMock);
         $this->assertEquals(self::CREATE_RESULT, $factory->createFromArray($this->_arguments));
-    }
-
-    /**
-     * Verify arguments passed to object manager's create() method
-     *
-     * @param string $className
-     * @param array $arguments
-     * @param boolean $isShared
-     * @return string
-     */
-    public function verifyCreate($className, array $arguments, $isShared)
-    {
-        $this->assertEquals('Mage_Index_Model_Process_File', $className);
-        $this->assertEquals($this->_arguments, $arguments);
-        $this->assertFalse($isShared);
-
-        return self::CREATE_RESULT;
     }
 }
