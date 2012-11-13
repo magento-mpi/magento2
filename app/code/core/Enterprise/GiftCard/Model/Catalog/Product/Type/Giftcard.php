@@ -468,14 +468,4 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         return $options;
     }
-
-    /**
-     * Check that product of this type has weight
-     *
-     * @return bool
-     */
-    public function hasWeight()
-    {
-        return true;
-    }
 }

@@ -17,13 +17,4 @@
  */
 class Mage_Catalog_Model_Product_Type_Simple extends Mage_Catalog_Model_Product_Type_Abstract
 {
-    /**
-     * Check that product of this type has weight
-     *
-     * @return bool
-     */
-    public function hasWeight()
-    {
-        return true;
-    }
 }
