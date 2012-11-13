@@ -11,6 +11,63 @@
 #*********************************************
 #*      Order address Data                   *
 #*********************************************
+#<------------Billing Address with Different VAT Number------------>
+billing_address_vat_valid_intraunion: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'United Kingdom'
+    billing_state: %noValue%
+    billing_zip_code: '12345'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 584451913
+
+billing_address_vat_valid_domestic: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'Germany'
+    billing_state: Berlin
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 111607872
+
+billing_address_vat_invalid: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'Germany'
+    billing_state: Berlin
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 111111111111
 
 #<------------Billing Address Required------------>
 billing_address_req:

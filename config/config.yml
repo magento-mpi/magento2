@@ -72,10 +72,10 @@ framework:
 #                                                                              #
 ################################################################################
 applications:
-    mage: &mage
+    magento2community: &m2ce
         fallbackOrderFixture: 'default'
-        fallbackOrderHelper: 'Core'
-        design_theme: base/default
+        fallbackOrderHelper: 'Community2, Community17, Core'
+        design_theme: Default/Magento Demo
         ftp: &ftp
             url: 'localhost'
             base_dir: ''
@@ -83,13 +83,13 @@ applications:
             password: '123123q'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento/admin/'
+                url: 'http://www.localhost.com/magento2_community/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento/'
+                url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
@@ -104,96 +104,6 @@ applications:
                 uimap_path: 'paypal_developer'
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'
-    community17: &ce17
-         fallbackOrderFixture: 'community17, default'
-         fallbackOrderHelper: 'Community17, Core'
-         design_theme: base/default
-         ftp: *ftp
-         areas:
-            admin:
-                url: 'http://www.localhost.com/magento17_community/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento17_community/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    community1701: &ce1701
-        fallbackOrderFixture: 'community1701, community17, default'
-        fallbackOrderHelper: 'Community1701, Community17, Core'
-        design_theme: base/default
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_community1701/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_community1701/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    enterprise112: &ee112
-        fallbackOrderFixture: 'enterprise, default'
-        fallbackOrderHelper: 'Enterprise, Core'
-        design_theme: enterprise/default
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_enterprise1200/admin/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_enterprise1200/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    enterprise11201: &ee11201
-        fallbackOrderFixture: 'enterprise11201, enterprise, default'
-        fallbackOrderHelper: 'Enterprise11201, Enterprise, Core'
-        design_theme: enterprise/default
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_enterprise1201/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_enterprise1201/control/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    magento2community: &m2ce
-        fallbackOrderFixture: 'community2, community17, default'
-        fallbackOrderHelper: 'Community2, Community17, Core'
-        design_theme: Default/Magento Demo
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento2_community/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento2_community/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
     magento2enterprise: &m2ee
         fallbackOrderFixture: 'enterprise2, enterprise, default'
         fallbackOrderHelper: 'Enterprise2, Enterprise, Core'

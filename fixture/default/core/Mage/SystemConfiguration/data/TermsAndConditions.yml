@@ -9,6 +9,21 @@
 # @license     {license_link}
 #
 ---
+terms_and_conditions_frontend_allow:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_checkout
+        configuration:
+            checkout_options:
+                enable_terms_and_conditions: Yes
+
+terms_and_conditions_frontend_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_checkout
+        configuration:
+            checkout_options:
+                enable_terms_and_conditions: No
 
 enable_terms_and_conditions:
     configuration_scope: Default Config

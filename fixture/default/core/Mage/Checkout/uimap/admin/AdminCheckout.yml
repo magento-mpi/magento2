@@ -28,12 +28,11 @@ manage_sales_orders:
                             submit: //button[span='Submit']
                         dropdowns:
                             filter_massaction: //select[@id='sales_order_grid_massaction-select']
-                            filter_massaction: //select[@id='filter_massaction']
-                            filter_status: //select[@id='filter_status']
+                            filter_status: //*[@id='sales_order_grid_filter_status']
                             view_per_page: //select[@name='limit']
                         fields:
                             page: //input[@name='page']
-                            filter_order_id: //input[@id='filter_real_order_id']
+                            filter_order_id: //*[@id='sales_order_grid_filter_real_order_id']
                             filter_purchased_from: //input[@name='store_id']
                             filter_created_from: //input[@name='created_at[from]']
                             filter_created_to: //input[@name='filter_created_at[to]']
@@ -52,6 +51,10 @@ manage_sales_orders:
                             base_grand_total: //a[@name='base_grand_total']
                             grand_total: //a[@name='grand_total']
                             status: //a[@name='status']
+                            select_visible: //a[text()='Select Visible']
+                        pageelements:
+                            sales_order_grid_table: //table[@id='sales_order_grid_table']
+                            linkcable_orders_ingrid: "//tbody//tr[contains(@title, 'http:')]"
         buttons:
             create_new_order: //button[span='Create New Order']
         messages: &orderMessages
@@ -114,6 +117,9 @@ manage_sales_orders:
             failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             zero_payment: //dt[contains(label,'No Payment Information Required')]
+            the_same_group: The VAT ID is valid. The current Customer Group will be used.
+            valid_domestic_group_message: "Based on the VAT ID, the customer would belong to the Customer Group %newCustomerGroup%.\nThe customer is currently assigned to Customer Group %currentCustomerGroup%. Would you like to change the Customer Group for this order?"
+            invalid_vat_id_message: "The VAT ID entered (%vatNumber%) is not a valid VAT ID. The customer would belong to Customer Group %newCustomerGroup%.\nThe customer is currently assigned to Customer Group %currentCustomerGroup%. Would you like to change the Customer Group for this order?"
 
 # 'New Order' page
 create_order_for_new_customer:
@@ -202,6 +208,8 @@ create_order_for_new_customer:
                 -
                     order_billing_address: &orderBillingAddress
                         xpath: //div[@id='order-billing_address']
+                        buttons:
+                            billing_validate_vat_number: //button[@title='Validate VAT Number']
                         checkboxes:
                             billing_save_in_address_book: //input[@id='order-billing_address_save_in_address_book']
                         dropdowns:
@@ -209,6 +217,7 @@ create_order_for_new_customer:
                             billing_country: //select[@id='order-billing_address_country_id']
                             billing_state: //select[@id='order-billing_address_region_id']
                         fields:
+                            billing_vat_number: //input[@id='order-billing_address_vat_id']
                             billing_prefix: //input[@id='order-billing_address_prefix']
                             billing_first_name: //input[@id='order-billing_address_firstname']
                             billing_middle_name: //input[@id='order-billing_address_middlename']
@@ -267,6 +276,7 @@ create_order_for_new_customer:
                             card_number: //input[@id='%paymentId%_cc_number']
                             card_verification_number: //input[@id='%paymentId%_cc_cid']
                             issue_number: //*[@id='%paymentId%_cc_issue']
+                            purchase_order_number: //input[@id='po_number']
                         dropdowns:
                             card_type: //select[@id='%paymentId%_cc_type']
                             expiration_month: //select[@id='%paymentId%_expiration']
