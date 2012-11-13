@@ -74,7 +74,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $attributes = $this->getRequest()->getParam('attributes');
         if (!empty($attributes)) {
             $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
-            $product->getTypeInstance()->setUsedProductAttributeIds(
+            $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
                 $attributes,
                 $product
             );
@@ -104,7 +104,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             /* @var $configProduct Mage_Catalog_Model_Product */
             $data = array();
             foreach ($configProduct->getTypeInstance()->getEditableAttributes($configProduct) as $attribute) {
-
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if(!$attribute->getIsUnique()
                     && $attribute->getFrontend()->getInputType()!='gallery'
@@ -239,8 +238,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $_additionalLayoutPart = '';
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-            && !($product->getTypeInstance()->getUsedProductAttributeIds($product)))
-        {
+           && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
+        ) {
             $_additionalLayoutPart = '_new';
         }
 
@@ -764,12 +763,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _transitionProductType($product, $data)
     {
-        if (isset($data['configurable_products_data'])) {
-            $configurableData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['configurable_products_data']);
-            if (!empty($configurableData)) {
-                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
-                return;
-            }
+        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+        $configurableType = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable');
+        $attributes = $configurableType->getUsedProductAttributeIds($product);
+        if (!empty($attributes)) {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+            return;
         }
 
         if (isset($data['product']['is_virtual'])) {

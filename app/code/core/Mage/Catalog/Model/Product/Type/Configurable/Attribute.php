@@ -81,4 +81,18 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
         $this->_getResource()->savePrices($this);
         return $this;
     }
+
+    /**
+     * Load Counfigurable Attribute by Product and Product's Attribute
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Eav_Model_Attribute  $attribute
+     */
+    public function loadByProductAndAttribute($product, $attribute)
+    {
+        $id = $this->_getResource()->getIdByProductIdAndAttributeId($this, $product->getId(), $attribute->getId());
+        if ($id) {
+            $this->load($id);
+        }
+
+    }
 }

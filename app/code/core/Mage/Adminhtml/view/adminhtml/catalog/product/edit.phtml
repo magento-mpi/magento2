@@ -72,10 +72,6 @@
         setLocation(template.evaluate({attribute_set:$F(setElement),type:$F(typeElement)}));
     }
 
-    function setSuperSettings(urlTemplate, attributesClass, validateField) {
-        jQuery('#product_edit_form').attr('action', urlTemplate).submit();
-    }
-
     function checkMaxLength(Object, MaxLen)
     {
         if (Object.value.length > MaxLen-1) {

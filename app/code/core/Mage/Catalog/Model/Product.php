@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         Mage_Catalog_Model_Resource_Product $resource,
         Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
-    ) {  
+    ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 

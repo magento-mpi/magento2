@@ -261,4 +261,20 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
 
         return $adapter->fetchCol($select, $bind);
     }
+
+    /**
+     * Get Configurable Attribute Id by Product id and Attribute id
+     *
+     * @param Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute
+     * @param $productId
+     * @param $attributeId
+     */
+    public function getIdByProductIdAndAttributeId($attribute, $productId, $attributeId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), $this->getIdFieldName())
+            ->where('product_id = ?', $productId)
+            ->where('attribute_id = ?', $attributeId);
+        return  $this->_getReadAdapter()->fetchOne($select);
+    }
 }

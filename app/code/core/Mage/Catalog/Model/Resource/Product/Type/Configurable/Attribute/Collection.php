@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      *
      * @return Mage_Catalog_Model_Product_Type_Configurable
      */
-    public function getProductType()
+    private function getProductType()
     {
         return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
     }

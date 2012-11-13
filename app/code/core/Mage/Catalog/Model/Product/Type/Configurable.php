@@ -230,6 +230,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $res = array();
         foreach ($this->getConfigurableAttributes($product) as $attribute) {
+            /* @var $attribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
             $res[] = array(
                 'id'             => $attribute->getId(),
                 'label'          => $attribute->getLabel(),
@@ -384,10 +385,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
          */
         if ($data = $product->getConfigurableAttributesData()) {
             foreach ($data as $attributeData) {
-                $id = isset($attributeData['id']) ? $attributeData['id'] : null;
-                Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute')
-                   ->setData($attributeData)
-                   ->setId($id)
+                /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
+                $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
+                if (isset($attributeData['id'])) {
+                    $configurableAttribute->load($attributeData['id']);
+                } else {
+                    $configurableAttribute->loadByProductAndAttribute(
+                        $product,
+                        $product->getTypeInstance()->getAttributeById($attributeData['attribute_id'], $product)
+                    );
+                }
+                unset($attributeData['id']);
+                $configurableAttribute
+                   ->addData($attributeData)
                    ->setStoreId($product->getStoreId())
                    ->setProductId($product->getId())
                    ->save();
