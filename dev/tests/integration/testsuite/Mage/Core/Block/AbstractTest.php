@@ -86,7 +86,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testAddChild()
     {
         $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', 'Mage_Core_Block_Text');
-        $child = $parentBlock->addChild('testAddChildAlias', 'Mage_Core_Block_Text',  array('content' => 'content'));
+        $child = $parentBlock->addChild('testAddChildAlias', 'Mage_Core_Block_Text', array('content' => 'content'));
         $this->assertInstanceOf('Mage_Core_Block_Text', $child);
         $this->assertEquals('testAddChild.testAddChildAlias', $child->getNameInLayout());
         $this->assertEquals($child, $parentBlock->getChildBlock('testAddChildAlias'));
