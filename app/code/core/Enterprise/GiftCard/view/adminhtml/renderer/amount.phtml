@@ -13,7 +13,7 @@
 <?php $_htmlName    = $this->getElement()->getName() ?>
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
-<tr>
+<tr id="attribute-<?php echo $_htmlId?>-container">
     <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
     <td colspan="10" class="grid giftcard-amounts">
     <table cellspacing="0" class="data border" id="<?php echo $_htmlId; ?>_table">

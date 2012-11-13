@@ -254,4 +254,22 @@ class Mage_Catalog_Model_Observer
         $categoryPathIds = explode(',', $currentCategory->getPathInStore());
         return in_array($category->getId(), $categoryPathIds);
     }
+
+    /**
+     * Change product type on the fly depending on selected options
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function transitionProductType(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getProduct();
+        $isTransitionalType = $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            || $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL;
+        if ($isTransitionalType) {
+            $product->setTypeId($product->hasIsVirtual()
+                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            );
+        }
+    }
 }
