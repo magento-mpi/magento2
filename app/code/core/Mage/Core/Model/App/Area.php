@@ -75,17 +75,15 @@ class Mage_Core_Model_App_Area
      */
     public function detectDesign($request = null)
     {
+        $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();
+
         if ($this->_code == self::AREA_FRONTEND) {
-            $areaDesign = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
-            $this->_getDesign()->setDesignTheme($areaDesign, self::AREA_FRONTEND);
             $designExceptionApplied = ($request && $this->_applyUserAgentDesignException($request));
             if (!$designExceptionApplied) {
                 $this->_getDesignChange()
                     ->loadChange(Mage::app()->getStore()->getId())
                     ->changeDesign($this->_getDesign());
             }
-        } else {
-            $this->_getDesign()->setArea($this->_code);
         }
     }
 
@@ -174,7 +172,6 @@ class Mage_Core_Model_App_Area
     protected function _initEvents()
     {
         Mage::app()->addEventArea($this->_code);
-        #Mage::app()->getConfig()->loadEventObservers($this->_code);
         return $this;
     }
 
@@ -189,6 +186,6 @@ class Mage_Core_Model_App_Area
         if (Mage::app()->getRequest()->isStraight()) {
             return;
         }
-        $this->_getDesign()->setArea($this->_code);
+        $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();
     }
 }

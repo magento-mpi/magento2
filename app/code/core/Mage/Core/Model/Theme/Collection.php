@@ -174,6 +174,23 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     }
 
     /**
+     * Get default theme by area
+     *
+     * @param string $area
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    public function getAreaDefaultTheme($area = 'frontend')
+    {
+        $themePath = (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name");
+        foreach ($this as $theme) {
+            if ($theme->getThemePath() == $themePath) {
+                return $theme;
+            }
+        }
+        return $this->getNewEmptyItem();
+    }
+
+    /**
      * Save theme recursively
      *
      * @throws Mage_Core_Exception

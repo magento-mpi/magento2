@@ -181,58 +181,69 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Set default theme and package which were loaded from configuration file
+     * Set design theme
      *
+     * @param mixed $theme
+     * @param string|null $area
      * @return Mage_Core_Model_Design_Package
      */
-    protected function setDefaultDesignTheme()
+    public function setDesignTheme($theme, $area = null)
     {
-        list($this->_name, $this->_theme) = $this->getDefaultDesignTheme($this->getArea());
+        switch ($theme) {
+            case ($theme instanceof Mage_Core_Model_Theme):
+                $this->_setThemePath($theme->getThemePath(), $area);
+                break;
+            case (is_numeric($theme)):
+                /** @var $themeModel Mage_Core_Model_Theme */
+                $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+                $themeModel->load($theme);
+                $this->_setThemePath($themeModel->getThemePath(), $area);
+                break;
+            case (is_string($theme)):
+                $this->_setThemePath($theme, $area);
+                break;
+        }
         return $this;
     }
 
     /**
-     * Get default theme and package which were loaded from configuration file
-     *
-     * @param string $area
-     * @return Mage_Core_Model_Design_Package
-     * @throws Mage_Core_Exception
-     */
-    protected function getDefaultDesignTheme($area)
-    {
-        $themeParts = explode('/', (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name"));
-        if (2 !== count($themeParts)) {
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Default Theme not exists for current area')
-            );
-        }
-        return $themeParts;
-    }
-
-    /**
-     * Set package and theme for current area
-     *
-     * $themePath name must contain package and theme names separated by "/"
+     * Set theme path
      *
      * @param string $themePath
      * @param string $area
      * @return Mage_Core_Model_Design_Package
      */
-    public function setDesignTheme($themePath, $area = null)
+    protected function _setThemePath($themePath, $area)
     {
         $parts = explode('/', $themePath);
         if (2 !== count($parts)) {
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Invalid fully qualified design name: "%s".', $themePath)
-            );
+            return $this;
         }
-        list($package, $theme) = $parts;
+
         if ($area) {
             $this->setArea($area);
         }
 
-        $this->_name = $package;
-        $this->_theme = $theme;
+        list($this->_name, $this->_theme) = $parts;
+        return $this;
+    }
+
+    /**
+     * Set default design theme
+     *
+     * @return Mage_Core_Model_Design_Package
+     */
+    public function setDefaultDesignTheme()
+    {
+        $area = $this->getArea();
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+
+        $theme = ($area == Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ? Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME)
+            : $themeCollection->addDefaultPattern($area)->getAreaDefaultTheme($area);
+        $this->setDesignTheme($theme, $area);
+
         return $this;
     }
 
@@ -259,7 +270,7 @@ class Mage_Core_Model_Design_Package
         if (!empty($params['area']) && $params['area'] !== $this->getArea()
             && (empty($params['package']) || !array_key_exists('theme', $params))
         ) {
-            list($params['package'], $params['theme']) = $this->getDefaultDesignTheme($params['area']);
+            list($params['package'], $params['theme']) = $this->setArea($params['area'])->setDefaultDesignTheme();
         } else {
             if (empty($params['area'])) {
                 $params['area'] = $this->getArea();
