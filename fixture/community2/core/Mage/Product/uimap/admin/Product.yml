@@ -284,4 +284,3 @@ updating_products:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
-        messages:
