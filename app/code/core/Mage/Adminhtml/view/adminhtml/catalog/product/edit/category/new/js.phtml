@@ -87,10 +87,11 @@
                 }
             })
             .focus(function () {
-                if (!$(this).data('focus-emulated') && this.value === '') {
-                    $(this).autocomplete('search');
+                var $this = $(this);
+                if (!$this.data('focus-emulated') && $this.val() === '') {
+                    $this.autocomplete('search');
                 }
-                $(this).data('focus-emulated', false);
+                $this.data('focus-emulated', false);
             })
             .data('autocomplete')._renderItem = function(ul, item) {
                 var level = window.parseInt(item.level),
