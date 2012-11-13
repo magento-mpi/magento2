@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Magento_Acl_ResourceFactory
+ *
+ * @copyright {}
  */
 class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
 {

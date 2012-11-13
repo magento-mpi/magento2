@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Mage_Webapi_Model_Authorization_RoleFactory
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framework_TestCase
 {

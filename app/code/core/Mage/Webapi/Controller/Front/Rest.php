@@ -86,7 +86,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /** @var Mage_Webapi_Model_Rest_Oauth_Server */
     protected $_oauthServer;
 
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
@@ -98,6 +98,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
+        Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator,
         Mage_Webapi_Model_Rest_Oauth_Server $oauthServer
     ) {
@@ -108,6 +109,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $response,
             $actionControllerFactory,
             $logger,
+            $objectManager,
             $roleLocator
         );
         $this->_restPresentation = $restPresentation;

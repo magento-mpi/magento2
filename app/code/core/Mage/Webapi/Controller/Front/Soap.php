@@ -45,7 +45,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     protected $_usernameTokenRequest;
 
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
@@ -58,6 +58,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         Mage_Core_Model_Cache $cache,
         Magento_DomDocument_Factory $domDocumentFactory,
         Mage_Webapi_Model_Soap_Security_UsernameTokenFactory $usernameTokenFactory,
+        Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
         parent::__construct(
@@ -67,6 +68,7 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $response,
             $actionControllerFactory,
             $logger,
+            $objectManager,
             $roleLocator
         );
         $this->_autoDiscover = $autoDiscover;

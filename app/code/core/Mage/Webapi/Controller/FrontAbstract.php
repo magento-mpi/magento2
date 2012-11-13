@@ -42,13 +42,19 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Webapi_Model_Authorization_RoleLocator */
     protected $_roleLocator;
 
-    function __construct(
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
+        Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
         $this->_helperFactory = $helperFactory;
@@ -59,6 +65,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         $this->_response = $response;
         $this->_logger = $logger;
         $this->_roleLocator = $roleLocator;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -115,7 +122,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     {
         try {
             /** @var Mage_Core_Model_Authorization $authorization */
-            $authorization = Mage::getSingleton('Mage_Core_Model_Authorization');
+            $authorization = $this->_objectManager->create('Mage_Core_Model_Authorization');
             if (!$authorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
                 && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)) {
                 throw new Mage_Webapi_Exception(

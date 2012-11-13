@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Factory for Mage_Webapi_Model_Authorization_Role
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_RoleFactory
 {
