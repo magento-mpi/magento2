@@ -319,7 +319,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Process product configuaration
+     * Process product configuration
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
@@ -938,5 +938,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _helper($name)
     {
         return isset($this->_helpers[$name]) ? $this->_helpers[$name] : Mage::helper($name);
+    }
+
+    /**
+     *
+     * @return bool|Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function hasWeight()
+    {
+        return true;
     }
 }
