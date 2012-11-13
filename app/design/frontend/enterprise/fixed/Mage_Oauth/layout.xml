@@ -25,7 +25,7 @@
             <action method="removeItem"><type>js</type><name>scriptaculous/slider.js</name></action>
             <action method="removeItem"><type>js</type><name>varien/js.js</name></action>
             <action method="removeItem"><type>js</type><name>varien/menu.js</name></action>
-            <action method="removeItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
+            <action method="removeItem"><type>js</type><name>js/enterprise/catalogevent.js</name></action>
         </reference>
         <remove name="account.links"/>
         <remove name="top.links"/>
