@@ -11,7 +11,7 @@
 class Mage_Adminhtml_Block_Catalog_Category_TreeTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Adminhtml_Block_Catalog_Category_Tree */
-    public $_block;
+    protected $_block;
 
     protected function setUp()
     {
