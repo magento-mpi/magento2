@@ -52,18 +52,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     }
 
     /**
-     * Get html for element
+     * Get html of element
      *
      * @return string
      */
     public function getElementHtml()
     {
+        /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        return parent::getElementHtml()
-            . "\n<script>//<![CDATA[\njQuery("
-            . $coreHelper->jsonEncode('#' . $this->getHtmlId())
-            . ").categorySelector(" . $coreHelper->jsonEncode($this->_getSelectorOptions()) . ");
-            \n//]]></script>";
+        return parent::getElementHtml() . "\n"
+            . '<script>//<![CDATA[' . "\n"
+            . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId()) . ').categorySelector('
+            . $coreHelper->jsonEncode($this->_getSelectorOptions()) . ')' . "\n"
+            . '//]]></script>';
     }
 
     /**

@@ -217,6 +217,9 @@
             <content>
                 <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>
             </content>
+            <suggested_categories>
+                <limit>10</limit>
+            </suggested_categories>
         </catalog>
         <eav_attributes>
             <catalog_product>

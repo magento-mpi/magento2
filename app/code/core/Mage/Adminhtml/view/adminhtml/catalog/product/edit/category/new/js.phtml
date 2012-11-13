@@ -132,13 +132,15 @@
                         type: 'POST',
                         url: '<?php echo $this->getSaveCategoryUrl()?>',
                         data: {
-                            'general[name]': $('#new_category_name').val(),
-                            'parent': $('#new_category_parent_id').val(),
-                            'use_config': ['available_sort_by', 'default_sort_by'],
-                            'general[is_active]': 1,
-                            'general[include_in_menu]': 0,
-                            'return_session_messages_only': 1,
-                            'form_key': '<?php echo $this->getFormKey()?>'
+                            general: {
+                                name: $('#new_category_name').val(),
+                                is_active: 1,
+                                include_in_menu: 0
+                            },
+                            parent: $('#new_category_parent_id').val(),
+                            use_config: ['available_sort_by', 'default_sort_by'],
+                            form_key: '<?php echo $this->getFormKey()?>',
+                            return_session_messages_only: 1
                         },
                         dataType: 'json',
                         context: $('body')

@@ -8,6 +8,7 @@ app/code/core/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Adminhtml/Block/Urlrewrite
 app/code/core/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
+app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
