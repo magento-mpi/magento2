@@ -24,8 +24,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
+require_once __DIR__ . '/../../../../lib/Magento/Autoload.php';
+Magento_Autoload::getInstance();
 
 require_once 'functions.php';
 

@@ -25,6 +25,5 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once 'functions.php';
-require_once SELENIUM_TESTS_LIBDIR . DIRECTORY_SEPARATOR . 'Mage'
-             . DIRECTORY_SEPARATOR . 'Selenium' . DIRECTORY_SEPARATOR . 'Autoloader.php';
-Mage_Selenium_Autoloader::register();
+require_once __DIR__ . '/../../../../../../lib/Magento/Autoload.php';
+Magento_Autoload::getInstance();

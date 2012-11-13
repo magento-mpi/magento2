@@ -99,7 +99,7 @@ class Magento_Autoload
         } else {
             $classFile = $this->_getClassFile($class);
         }
-        require $classFile;
+        @include $classFile;
     }
 
     /**

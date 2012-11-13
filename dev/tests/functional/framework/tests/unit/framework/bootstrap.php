@@ -22,5 +22,5 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once SELENIUM_TESTS_FWDIR . '/functions.php';
-require_once 'Mage/Autoloader.php';
-Mage_Autoloader::register();
+require_once __DIR__ . '/../../../../../../../lib/Magento/Autoload.php';
+Magento_Autoload::getInstance();

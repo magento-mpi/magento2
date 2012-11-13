@@ -15,10 +15,7 @@ $includePath = array(
     get_include_path()
 );
 set_include_path(implode(PATH_SEPARATOR, $includePath));
-
-spl_autoload_register(function ($class) {
-    $file = str_replace('_', '/', $class) . '.php';
-    require_once $file;
-});
+require __DIR__ . '/../../../../lib/Magento/Autoload.php';
+Magento_Autoload::getInstance();
 
 Utility_Files::init(new Utility_Files(realpath(__DIR__ . '/../../../..')));

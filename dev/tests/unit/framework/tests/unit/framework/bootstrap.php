@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$rootDir = realpath(__DIR__ . '/../../../../../../../');
+$rootDir = realpath(__DIR__ . '/../../../../../../..');
 
 $codeDirs = array(
     $rootDir . '/lib/',
@@ -18,7 +18,5 @@ $codeDirs = array(
 );
 
 set_include_path(implode(PATH_SEPARATOR, $codeDirs) . PATH_SEPARATOR . get_include_path());
-spl_autoload_register(function ($class) {
-    $file = str_replace('_', '/', $class) . '.php';
-    require_once $file;
-});
+require "{$rootDir}/lib/Magento/Autoload.php";
+Magento_Autoload::getInstance();
