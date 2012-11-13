@@ -30,11 +30,18 @@ manage_sales_checkout_terms_conditions:
                             page: //input[@name='page']
                             filter_agreement_id: //input[@name='agreement_id']
                             filter_condition_name: //input[@name='name']
+                            agreement_id: //input[@id='agreementGrid_filter_agreement_id']
+                        pageelements:
+                            select_terms_in_grid: //table[@id='agreementGrid_table']//td[%columnId%]
         buttons:
-            create_new_checkout_agreement: //button[span='Add New']
+            create_new_terms_and_conditions: //button[span='Add New Condition']
+            save_condition: // p[@class='form-buttons']//button[span='Save Condition']
         messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            condition_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been deleted')]
+            confirmation_for_delete: Are you sure you want to do this?
+            content_height: //div[@id='advice-validate-css-length-content_height']
 
 # Create new condition agreement
 create_condition:
@@ -57,9 +64,20 @@ create_condition:
                         multiselect:
                             store_view: //select[@name='stores[]']
                         required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
-
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
+            save_condition: //p[@class='form-buttons']//button[span='Save Condition']
+        messages: *conditionMessages
+
+edit_condition:
+    mca: checkout_agreement/edit/id/%id%/
+    title: %elementTitle% / Terms and Conditions / Sales / Magento Admin
+    uimap:
+        form: *salesNewCondition
+        buttons:
+            back: //p[@class='form-buttons']//button[span='Back']
+            reset: //p[@class='form-buttons']//button[span='Reset']
+            delete_condition: //p[@class='form-buttons']//button[span='Delete Condition']
             save_condition: //p[@class='form-buttons']//button[span='Save Condition']
         messages: *conditionMessages

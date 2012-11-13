@@ -12,8 +12,8 @@
 
 # 'Users' page
 manage_admin_users:
-    mca: permissions_user/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'permissions_user')]
+    mca: user/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/user/')]
     title: Users / Permissions / System / Magento Admin
     uimap:
         form: &permissionsUserForm
@@ -50,10 +50,11 @@ manage_admin_users:
             success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
             success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']
             success_saved_role: //div[@id='messages']//li[span='The role has been successfully saved.']
+            delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]
 
 # 'New User' page
 new_admin_user:
-    mca: permissions_user/new/
+    mca: user/new/
     title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: &adminUserForm
@@ -101,7 +102,7 @@ new_admin_user:
 
 # 'Edit User' page
 edit_admin_user:
-    mca: permissions_user/edit/user_id/%id%/
+    mca: user/edit/user_id/%id%/
     title: %elementTitle% / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
@@ -113,7 +114,7 @@ edit_admin_user:
         messages: *adminUserMessages
 
 new_admin_user_with_error:
-    mca: permissions_user/edit/
+    mca: user/edit/
     title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
@@ -125,8 +126,8 @@ new_admin_user_with_error:
 
 # 'Roles' page
 manage_roles:
-    mca: permissions_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'permissions_role')]
+    mca: user_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'user_role')]
     title: Roles / Permissions / System / Magento Admin
     uimap:
         form: &manageRolesForm
@@ -168,18 +169,24 @@ new_role:
                         fieldsets:
                             -
                                 role_scopes:
-                                    xpath: //input[@id='role_resources']
+                                    xpath: //div[./div/h4[contains(text(), 'Role Scopes')]]//fieldset
                                     checkboxes:
-                                        #need to implement for "custom" selection
+                                        websites: //div[@id='gws_container']/ul/li[.//label[contains(.,'%websiteName%')]]/input[@type='checkbox']
                                     dropdowns:
                                         role_scopes: //select[@id='gws_is_all']
                             -
                                 role_resources:
                                     xpath: //fieldset[@id='role_resources']
-                                    checkboxes:
-                                        #need to implement for "custom" selection
                                     dropdowns:
                                         resource_access: //select[@id='all']
+                                    links: &role_resources_links
+                                        role_resources_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        role_resources_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        role_resources_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements: &role_resources_pageelements
+                                        role_resources_category_text: %categoryXpath%/div/a/span
+                                        role_resources_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        role_resources_category_index_link: %categoryXpath%[%index%]/div/a
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -188,7 +195,7 @@ new_role:
 
 # 'Edit Role' page
 edit_role:
-    mca: permissions_role/editrole/rid/%role_id%/
+    mca: user_role/editrole/rid/%id%/
     title: %elementTitle% / Roles / Permissions / System / Magento Admin
     uimap:
         form: &editRoleForm
@@ -215,11 +222,8 @@ edit_role:
                                         role_scopes: //select[@id='gws_is_all']
                             -
                                 role_resources:
-                                    xpath: //fieldset[@id='role_resources']
-                                    checkboxes:
-                                        #need to implement for "custom" selection
-                                    dropdowns:
-                                        resource_access: //select[@id='all']
+                                    links: *role_resources_links
+                                    pageelements: *role_resources_pageelements
                 -
                     role_users:
                         xpath: //a[@id='role_info_tabs_roles']

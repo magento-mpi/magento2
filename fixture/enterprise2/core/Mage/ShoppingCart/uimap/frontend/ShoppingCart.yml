@@ -15,13 +15,6 @@ shopping_cart:
         form:
             fieldsets:
                 -
-                    products_in_cart:
-                        links:
-                            edit: //tr['%productName%']//a[@title='Edit item parameters']
-                        pageelements:
-                            product_name: //h2[@class='product-name' and contains(., '%productName%')]
-                            item_options: //*[@class ='item-options']//dd[contains(.,'%itemName%')]
-                -
                     products_requiring_attention:
                         xpath: //div[@class='failed-products']
                         fields:

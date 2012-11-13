@@ -18,10 +18,13 @@ product_page:
                 -
                     product_info: &product_info
                         xpath: //div[@class='product-essential']
+                        buttons:
+                            close: //a[@id='map-popup-close']
                         fields:
                             product_qty: //input[@id='qty']
                             grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
                         links:
+                            what_is_this: //a[contains(., concat("What", "'s this?"))]
                             downloadable_sample: //dl[@class='item-options']/dd/a[normalize-space(text())='%samplesTitle%']
                             add_to_wishlist: //a[text()='Add to Wishlist']
                             add_to_compare: //a[text()='Add to Compare']
@@ -73,6 +76,8 @@ product_page:
                             ex_price_special_excluding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
                             ex_price_special_inlcuding_tax: //div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
                             ex_as_low_as: //div[@class='product-shop']//a[@class='minimal-price-link']/span[@class='price']
+                            price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
+                            map_popup: //div[@id='map-popup']
                 -
                     product_custom_option_head: &product_custom_option_head
                         xpath: //dt[contains(label,'%title%')]

@@ -46,6 +46,7 @@ manage_sales_credit_memos:
             success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'The credit memo has been created.')]
             failed_authorize_online_refund: "//li[normalize-space(@class)='error-msg' and contains(.,'Gateway error: The referenced transaction does not meet the criteria for issuing a credit. If the invoice was created offline, try creating an offline creditmemo.')]"
             order_id: "//*[contains(@class,'head-sales-order')][contains(text(), 'Order #')]"
+            failed_authorizedp_online_refund: //li[normalize-space(@class)='error-msg' and contains(.,'Gateway error: The referenced transaction does not meet the criteria for issuing a credit.')]
 
 create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/

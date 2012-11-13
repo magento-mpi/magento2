@@ -9,7 +9,6 @@
 # @license     {license_link}
 #
 ---
-
 generic_terms_default:
     condition_name: test_%randomize%
     store_view: All Store Views
@@ -61,11 +60,34 @@ generic_terms_long_values:
     checkbox_text: %longValue255%
     content: %longValue255%
     content_height: %noValue%
-    
-    
+
 generic_terms_special_symbols:
     condition_name: %longValue25%
     store_view: All Store Views
     checkbox_text: %longValue25%
     content: %longValue25%
     content_height: %noValue%
+
+generic_terms_all:
+    condition_name: Terms and Conditions %randomize%
+    status: Disabled
+    show_content_as: Text
+    store_view: All Store Views
+    checkbox_text: %randomize%_checkbox_tex
+    content: %randomize%_content_text
+    content_height: 100px
+
+generic_terms_required:
+    condition_name: Terms and Conditions %randomize%
+    status: Disabled
+    show_content_as: Text
+    store_view: Default Store View
+    checkbox_text: %randomize%_checkbox_tex
+    content: %randomize%_content_text
+    content_height: %noValue%
+
+search_terms_and_conditions:
+    filter_id: %noValue%
+    filter_condition_name: %noValue%
+    filter_store_view: %noValue%
+    filter_active: %noValue%
