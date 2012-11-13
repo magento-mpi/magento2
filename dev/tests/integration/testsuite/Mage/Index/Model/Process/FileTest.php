@@ -12,18 +12,19 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     const FILE_NAME = 'index_test.lock';
 
     /**
-     * Test file directory
-     *
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var string
      */
     protected $_fileDirectory;
 
     /**
-     * Full test file name
-     *
-     * @var string
+     * @var resource
      */
-    protected $_fullFileName;
+    protected $_testFileHandler;
 
     /**
      * @var Mage_Index_Model_Process_File
@@ -32,16 +33,22 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model         = new Mage_Index_Model_Process_File();
-        $this->_fileDirectory = TESTS_TEMP_DIR;
-        $this->_fullFileName  = $this->_fileDirectory . DIRECTORY_SEPARATOR . self::FILE_NAME;
+        $this->_objectManager   = Mage::getObjectManager();
+        $this->_model           = $this->_objectManager->create('Mage_Index_Model_Process_File');
+        /** @var $configuration Mage_Core_Model_Config */
+        $configuration          = $this->_objectManager->get('Mage_Core_Model_Config');
+        $this->_fileDirectory   = $configuration->getVarDir('locks');
+        $fullFileName           = $this->_fileDirectory . DIRECTORY_SEPARATOR . self::FILE_NAME;
+        $this->_testFileHandler = fopen($fullFileName, 'w');
     }
 
     protected function tearDown()
     {
+        unset($this->_objectManager);
         unset($this->_model);
         unset($this->_fileDirectory);
-        unset($this->_fullFileName);
+        fclose($this->_testFileHandler);
+        unset($this->_testFileHandler);
     }
 
     /**
@@ -54,34 +61,21 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get test file handler - file is the same as in $this->_model, but returns another handler
+     * Get shared lock for test file handler
      *
-     * @return resource
-     */
-    protected function _getTestFileHandler()
-    {
-        return fopen($this->_fullFileName, 'w');
-    }
-
-    /**
-     * Get shared lock for specified file handler
-     *
-     * @param resource $fileHandler
      * @return bool
      */
-    protected function _tryGetSharedLock($fileHandler)
+    protected function _tryGetSharedLock()
     {
-        return flock($fileHandler, LOCK_SH | LOCK_NB);
+        return flock($this->_testFileHandler, LOCK_SH | LOCK_NB);
     }
 
     /**
-     * Unlock specified file handler
-     *
-     * @param resource $fileHandler
+     * Unlock test file handler
      */
-    protected function _unlock($fileHandler)
+    protected function _unlock()
     {
-        flock($fileHandler, LOCK_UN);
+        flock($this->_testFileHandler, LOCK_UN);
     }
 
     public function testProcessLockNoStream()
@@ -95,31 +89,27 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     public function testProcessLockSuccessfulLock()
     {
         $this->_openFile();
-        $testFileHandler = $this->_getTestFileHandler();
 
         // can't take shared lock if file has exclusive lock
         $this->assertTrue($this->_model->processLock());
-        $this->assertFalse($this->_tryGetSharedLock($testFileHandler), 'File must be locked');
+        $this->assertFalse($this->_tryGetSharedLock(), 'File must be locked');
         $this->assertAttributeSame(true, '_streamLocked', $this->_model);
         $this->assertAttributeSame(false, '_processLocked', $this->_model);
 
         $this->_model->processUnlock();
-        fclose($testFileHandler);
     }
 
     public function testProcessFailedLock()
     {
         $this->_openFile();
-        $testFileHandler = $this->_getTestFileHandler();
 
         // can't take exclusive lock if file has shared lock
-        $this->assertTrue($this->_tryGetSharedLock($testFileHandler), 'File must not be locked');
+        $this->assertTrue($this->_tryGetSharedLock(), 'File must not be locked');
         $this->assertFalse($this->_model->processLock());
         $this->assertAttributeSame(true, '_streamLocked', $this->_model);
         $this->assertAttributeSame(true, '_processLocked', $this->_model);
 
-        $this->_unlock($testFileHandler);
-        fclose($testFileHandler);
+        $this->_unlock();
     }
 
     public function testProcessUnlock()
@@ -148,33 +138,30 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     public function testIsProcessLockedTrue()
     {
         $this->_openFile();
-        $testFileHandler = $this->_getTestFileHandler();
 
-        $this->assertTrue($this->_tryGetSharedLock($testFileHandler), 'File must not be locked');
+        $this->assertTrue($this->_tryGetSharedLock(), 'File must not be locked');
         $this->assertTrue($this->_model->isProcessLocked());
 
-        $this->_unlock($testFileHandler);
+        $this->_unlock();
     }
 
     public function testIsProcessLockedFalseWithUnlock()
     {
         $this->_openFile();
-        $testFileHandler = $this->_getTestFileHandler();
 
         $this->assertFalse($this->_model->isProcessLocked(true));
-        $this->assertTrue($this->_tryGetSharedLock($testFileHandler), 'File must not be locked');
+        $this->assertTrue($this->_tryGetSharedLock(), 'File must not be locked');
         $this->assertAttributeSame(false, '_streamLocked', $this->_model);
 
-        $this->_unlock($testFileHandler);
+        $this->_unlock();
     }
 
     public function testIsProcessLockedFalseWithoutUnlock()
     {
         $this->_openFile();
-        $testFileHandler = $this->_getTestFileHandler();
 
         $this->assertFalse($this->_model->isProcessLocked());
-        $this->assertFalse($this->_tryGetSharedLock($testFileHandler), 'File must be locked');
+        $this->assertFalse($this->_tryGetSharedLock(), 'File must be locked');
         $this->assertAttributeSame(true, '_streamLocked', $this->_model);
 
         $this->_model->processUnlock();

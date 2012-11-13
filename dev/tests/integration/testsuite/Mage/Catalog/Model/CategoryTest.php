@@ -19,14 +19,16 @@
 class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Default root category ID
+     * Default flat category indexer mode
+     *
+     * @var string
      */
-    const ROOT_CATEGORY_ID = 2;
+    protected static $_indexerMode;
 
     /**
      * @var Magento_Test_ObjectManager
      */
-    protected $_objectManager;
+    protected static $_objectManager;
 
     /**
      * @var Mage_Core_Model_Store
@@ -40,26 +42,52 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        self::$_objectManager = Mage::getObjectManager();
+
         // create flat tables
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
         /** @var $indexer Mage_Catalog_Model_Category_Indexer_Flat */
-        $indexer = $objectManager->create('Mage_Catalog_Model_Category_Indexer_Flat');
+        $indexer = self::$_objectManager->create('Mage_Catalog_Model_Category_Indexer_Flat');
         $indexer->reindexAll();
+
+        // set real time indexer mode
+        $process = self::_getCategoryIndexerProcess();
+        self::$_indexerMode = $process->getMode();
+        $process->setMode(Mage_Index_Model_Process::MODE_REAL_TIME);
+        $process->save();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        // revert default indexer mode
+        $process = self::_getCategoryIndexerProcess();
+        $process->setMode(self::$_indexerMode);
+        $process->save();
+
+        self::$_objectManager = null;
+    }
+
+    /**
+     * @static
+     * @return Mage_Index_Model_Process
+     */
+    protected static function _getCategoryIndexerProcess()
+    {
+        /** @var $process Mage_Index_Model_Process */
+        $process = self::$_objectManager->create('Mage_Index_Model_Process');
+        $process->load(Mage_Catalog_Helper_Category_Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE, 'indexer_code');
+        return $process;
     }
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
         /** @var $application Mage_Core_Model_App */
-        $application  = $this->_objectManager->get('Mage_Core_Model_App');
+        $application  = self::$_objectManager->get('Mage_Core_Model_App');
         $this->_store = $application->getStore();
-        $this->_model = $this->_objectManager->create('Mage_Catalog_Model_Category');
+        $this->_model = self::$_objectManager->create('Mage_Catalog_Model_Category');
     }
 
     protected function tearDown()
     {
-        unset($this->_objectManager);
         unset($this->_store);
         unset($this->_model);
     }
@@ -270,16 +298,16 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $categoryName = 'Indexer Category Name ' . uniqid();
 
         /** @var $parentCategory Mage_Catalog_Model_Category */
-        $parentCategory = $this->_objectManager->create('Mage_Catalog_Model_Category');
-        $parentCategory->load(self::ROOT_CATEGORY_ID);
+        $parentCategory = self::$_objectManager->create('Mage_Catalog_Model_Category');
+        $parentCategory->load($this->_store->getRootCategoryId());
 
         // init category model with EAV entity resource model
-        $resourceModel = $this->_objectManager->create('Mage_Catalog_Model_Resource_Category');
-        $this->_model  = $this->_objectManager->create('Mage_Catalog_Model_Category',
+        $resourceModel = self::$_objectManager->create('Mage_Catalog_Model_Resource_Category');
+        $this->_model  = self::$_objectManager->create('Mage_Catalog_Model_Category',
             array('resource' => $resourceModel)
         );
         $this->_model->setName($categoryName)
-            ->setParentId(self::ROOT_CATEGORY_ID)
+            ->setParentId($parentCategory->getId())
             ->setPath($parentCategory->getPath())
             ->setLevel(2)
             ->setPosition(1)
@@ -290,7 +318,7 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
         // check if category record exists in flat table
         /** @var $collection Mage_Catalog_Model_Resource_Category_Flat_Collection */
-        $collection = $this->_objectManager->create('Mage_Catalog_Model_Resource_Category_Flat_Collection');
+        $collection = self::$_objectManager->create('Mage_Catalog_Model_Resource_Category_Flat_Collection');
         $collection->addFieldToFilter('name', $categoryName);
         $this->assertCount(1, $collection->getItems());
     }

@@ -9,7 +9,7 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     /**
      * Process ID for tests
      */
-    const PROCESS_ID ='testProcessId';
+    const PROCESS_ID = 'testProcessId';
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject|Mage_Index_Model_Process_File
@@ -48,12 +48,12 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
         $this->_processFile = $this->getMock('Mage_Index_Model_Process_File');
         $this->_prepareIndexProcess();
 
-        // assert that process file is stored in process instance
+        // assert that process file is stored in process entity instance and isn't changed after several invocations
         // lock method is used as invocation of _getProcessFile
-        $this->_indexProcess->lock();
-        $this->assertAttributeEquals($this->_processFile, '_processFile', $this->_indexProcess);
-        $this->_indexProcess->lock();
-        $this->assertAttributeEquals($this->_processFile, '_processFile', $this->_indexProcess);
+        for ($i = 1; $i <= 2; $i++) {
+            $this->_indexProcess->lock();
+            $this->assertAttributeEquals($this->_processFile, '_processFile', $this->_indexProcess);
+        }
     }
 
     /**
