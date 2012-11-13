@@ -270,6 +270,7 @@ class Mage_Core_Model_App
         $logger = $this->_initLogger();
         $this->_initCache();
         $this->_config->init($options);
+        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         $this->_objectManager->loadAreaConfiguration();
         Magento_Profiler::stop('init_config');
 
@@ -520,6 +521,7 @@ class Mage_Core_Model_App
         }
         $this->_useSessionInUrl = $this->getStore()->getConfig(
             Mage_Core_Model_Session_Abstract::XML_PATH_USE_FRONTEND_SID);
+        Mage::dispatchEvent('core_app_init_current_store_after');
         return $this;
     }
 

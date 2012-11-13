@@ -27,7 +27,6 @@ app/code/core/Enterprise/Reward/etc/system.xml
 app/code/core/Enterprise/Rma/etc/system.xml
 app/code/core/Enterprise/SalesArchive/etc/system.xml
 app/code/core/Enterprise/Search/etc/system.xml
-app/code/core/Enterprise/Staging/etc/system.xml
 app/code/core/Enterprise/Tag/etc/system.xml
 app/code/core/Enterprise/TargetRule/etc/system.xml
 app/code/core/Enterprise/WebsiteRestriction/etc/system.xml

@@ -53,4 +53,3 @@ app/code/core/Mage/Tax/etc/system.xml
 app/code/core/Mage/Usa/etc/system.xml
 app/code/core/Mage/Weee/etc/system.xml
 app/code/core/Mage/Wishlist/etc/system.xml
-app/code/core/Mage/XmlConnect/etc/system.xml
