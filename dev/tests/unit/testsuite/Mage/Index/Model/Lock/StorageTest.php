@@ -1,21 +1,15 @@
 <?php
 /**
- * {license_notice}
+ * Test for Mage_Index_Model_Lock_Storage
  *
- * @category    Magento
- * @package     Mage_Index
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test var directory
-     *
-     * @var string
-     */
-    protected $_testVarDirectory = 'test';
+    * Test var directory
+    */
+    const VAR_DIRECTORY = 'test';
 
     /**
      * Locks storage model
@@ -43,7 +37,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
         $config = $this->getMock('Mage_Core_Model_Config', array('getVarDir'), array(), '', false);
         $config->expects($this->exactly(2))
             ->method('getVarDir')
-            ->will($this->returnValue($this->_testVarDirectory));
+            ->will($this->returnValue(self::VAR_DIRECTORY));
 
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',
             array(
@@ -57,19 +51,20 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
         $fileModel->expects($this->exactly(2))
             ->method('fileExists')
+            ->with(self::VAR_DIRECTORY)
             ->will($this->returnCallback(array($this, 'isFileExistsCallback')));
         $fileModel->expects($this->once())
             ->method('mkdir')
-            ->will($this->returnCallback(array($this, 'checkVarDirectoryCallback')));
+            ->with(self::VAR_DIRECTORY);
         $fileModel->expects($this->exactly(2))
             ->method('cd')
-            ->will($this->returnCallback(array($this, 'checkVarDirectoryCallback')));
+            ->with(self::VAR_DIRECTORY);
         $fileModel->expects($this->exactly(2))
             ->method('streamOpen')
             ->will($this->returnCallback(array($this, 'checkFilenameCallback')));
         $fileModel->expects($this->exactly(2))
             ->method('streamWrite')
-            ->will($this->returnCallback(array($this, 'checkStreamContentCallback')));
+            ->with($this->isType('string'));
 
         $fileFactory = $this->getMock('Mage_Index_Model_Process_FileFactory', array('createFromArray'), array(), '',
             false
@@ -83,42 +78,32 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
+        /**
+         * List if test process IDs.
+         * We need to test cases when new ID and existed ID passed into tested method.
+         */
         $processIdList = array(1, 2, 2);
         foreach ($processIdList as $processId) {
             $this->_currentProcessId = $processId;
             $this->assertInstanceOf('Mage_Index_Model_Process_File', $this->_storage->getFile($processId));
         }
+        $this->assertAttributeCount(2, '_fileHandlers', $this->_storage);
     }
 
     /**
      * First time this method will return false, all other times true
      * In this way we check two cases of fileExists behavior
      *
-     * @param string $directory
      * @return bool
      */
-    public function isFileExistsCallback($directory)
+    public function isFileExistsCallback()
     {
-        $this->checkVarDirectoryCallback($directory);
-
         if ($this->_isFileExistsCalled) {
             return true;
         } else {
             $this->_isFileExistsCalled = true;
             return false;
         }
-    }
-
-    /**
-     * Check path to var directory
-     * First time this method will return false, all other times true
-     * In this way we check two cases of fileExists behavior
-     *
-     * @param string $directory
-     */
-    public function checkVarDirectoryCallback($directory)
-    {
-        $this->assertEquals($this->_testVarDirectory, $directory);
     }
 
     /**
@@ -130,15 +115,5 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
     {
         $expected = 'index_process_' . $this->_currentProcessId . '.lock';
         $this->assertEquals($expected, $filename);
-    }
-
-    /**
-     * Check stream content data
-     *
-     * @param string $data
-     */
-    public function checkStreamContentCallback($data)
-    {
-        $this->assertEquals(date('r'), $data);
     }
 }
