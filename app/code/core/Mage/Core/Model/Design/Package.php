@@ -176,15 +176,10 @@ class Mage_Core_Model_Design_Package
         if (is_numeric($theme)) {
             $themeModel->load($theme);
         } elseif (is_string($theme) && !$themeModel->load($theme, 'theme_path')->getId()) {
-            /** @todo Will updated with filter functionality for filesystem collection  */
             $themeModel = $themeModel->getCollectionFromFilesystem()
                 ->addDefaultPattern($area)
                 ->addFilter('theme_path', $theme)
                 ->getFirstItem();
-        }
-
-        if (!$themeModel->getId()) {
-            $themeModel = null;
         }
 
         $this->_setDesignTheme($themeModel, $area);

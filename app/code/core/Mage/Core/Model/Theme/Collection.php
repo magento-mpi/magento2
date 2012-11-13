@@ -85,17 +85,6 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     }
 
     /**
-     * Retrieve collection first theme item
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    public function getFirstItem()
-    {
-        $themeItems = $this->getItems();
-        return reset($themeItems);
-    }
-
-    /**
      * Fill collection with theme model loaded from filesystem
      *
      * @param bool $printQuery
