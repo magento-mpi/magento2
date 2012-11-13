@@ -90,6 +90,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Text', $child);
         $this->assertEquals('testAddChild.testAddChildAlias', $child->getNameInLayout());
         $this->assertEquals($child, $parentBlock->getChildBlock('testAddChildAlias'));
+        $this->assertEquals('content', $child->getContent());
     }
 
     public function testSetGetNameInLayout()
