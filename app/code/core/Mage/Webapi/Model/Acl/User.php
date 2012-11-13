@@ -15,7 +15,6 @@
  * @method int getRoleId()
  * @method Mage_Webapi_Model_Acl_User setApiKey(string $apiKey)
  * @method string getApiKey()
- * @method string getSecret()
  * @method Mage_Webapi_Model_Acl_User setContactEmail(string $contactEmail)
  * @method string getContactEmail()
  * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)
@@ -26,7 +25,7 @@
  * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract
+class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Prefix of model events names
@@ -52,5 +51,36 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract
     public function getRoleUsers($roleId)
     {
         return $this->getResource()->getRoleUsers($roleId);
+    }
+
+    /**
+     * Load user by key.
+     *
+     * @param string $key
+     * @return Mage_Webapi_Model_Acl_User
+     */
+    public function loadByKey($key)
+    {
+        return $this->load($key, 'api_key');
+    }
+
+    /**
+     * Get consumer key.
+     *
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->getData('secret');
+    }
+
+    /**
+     * Get consumer callback URL.
+     *
+     * @return string
+     */
+    public function getCallBackUrl()
+    {
+         return '';
     }
 }

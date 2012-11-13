@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->getMock();
         $this->_userFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_UserFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('createFromArray'))
+            ->setMethods(array('create'))
             ->getMock();
     }
 
@@ -76,7 +76,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->method('validateNonce')
             ->with($tokenNonce, strtotime($validDateTime));
         $this->_userFactoryMock->expects($this->once())
-            ->method('createFromArray')
+            ->method('create')
             ->with()
             ->will($this->returnValue($this->_userMock));
         $this->_userMock->expects($this->once())
@@ -170,7 +170,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->method('validateNonce')
             ->with($tokenNonce, strtotime($created));
         $this->_userFactoryMock->expects($this->once())
-            ->method('createFromArray')
+            ->method('create')
             ->with()
             ->will($this->returnValue($this->_userMock));
         $this->_userMock->expects($this->once())
@@ -205,7 +205,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->method('validateNonce')
             ->with($tokenNonce, strtotime($created));
         $this->_userFactoryMock->expects($this->once())
-            ->method('createFromArray')
+            ->method('create')
             ->with()
             ->will($this->returnValue($this->_userMock));
         $this->_userMock->expects($this->once())

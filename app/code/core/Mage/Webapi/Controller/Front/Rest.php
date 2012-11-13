@@ -83,6 +83,9 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_router;
 
+    /** @var Mage_Webapi_Model_Rest_Oauth_Server */
+    protected $_oauthServer;
+
     function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
@@ -94,7 +97,9 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
         Mage_Webapi_Controller_Front_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Webapi_Controller_Router_Rest $router
+        Mage_Webapi_Controller_Router_Rest $router,
+        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator,
+        Mage_Webapi_Model_Rest_Oauth_Server $oauthServer
     ) {
         parent::__construct(
             $helperFactory,
@@ -102,13 +107,15 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $apiConfig,
             $response,
             $actionControllerFactory,
-            $logger
+            $logger,
+            $roleLocator
         );
         $this->_restPresentation = $restPresentation;
         $this->_errorProcessor = $errorProcessor;
         $this->_rendererFactory = $rendererFactory;
         $this->_eventManager = $eventManager;
         $this->_router = $router;
+        $this->_oauthServer = $oauthServer;
     }
 
     /**
@@ -139,8 +146,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
     public function dispatch()
     {
         try {
-            // TODO: Introduce Authentication
-            $this->_authenticate($this->getRequest());
+            $this->_authenticate();
             $route = $this->_matchRoute($this->getRequest());
 
             $operation = $this->_getOperationName();
@@ -158,7 +164,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
-//            $this->_checkResourceAcl($route->getResourceName(), $method);
+            $this->_checkResourceAcl($route->getResourceName(), $method);
 
             // TODO: Think about passing parameters if they will be available and valid in the resource action
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
@@ -251,21 +257,17 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
 
     /**
      * Authenticate user
-     * @todo remove fake authentication code
      *
      * @throws Mage_Webapi_Exception
-     * @param Mage_Webapi_Controller_RequestAbstract $request
      */
-    protected function _authenticate(Mage_Webapi_Controller_RequestAbstract $request)
+    protected function _authenticate()
     {
-
         try {
-            /** @var $oauthServer Mage_Oauth_Model_Server */
-            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
-            $consumer = $oauthServer->authenticateTwoLegged();
-            Mage::getSingleton('Mage_Webapi_Model_Authorization_RoleLocator')->setRoleId($consumer->getRoleId());
+            $consumer = $this->_oauthServer->authenticateTwoLegged();
+            $this->_roleLocator->setRoleId($consumer->getRoleId());
         } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($oauthServer->reportProblem($e), Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
+            throw new Mage_Webapi_Exception($this->_oauthServer->reportProblem($e),
+                Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
         }
     }
 

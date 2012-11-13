@@ -38,9 +38,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /** @var Mage_Webapi_Model_Soap_Security_UsernameTokenFactory */
     protected $_usernameTokenFactory;
 
-    /** @var Mage_Webapi_Model_Authorization_RoleLocator */
-    protected $_roleLocator;
-
     /**
      * WS-Security UsernameToken object from request
      *
@@ -69,7 +66,8 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
             $apiConfig,
             $response,
             $actionControllerFactory,
-            $logger
+            $logger,
+            $roleLocator
         );
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
@@ -77,7 +75,6 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
         $this->_application = $application;
         $this->_domDocumentFactory = $domDocumentFactory;
         $this->_usernameTokenFactory = $usernameTokenFactory;
-        $this->_roleLocator = $roleLocator;
     }
 
     /**

@@ -39,13 +39,17 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     /** @var Mage_Core_Model_Logger */
     protected $_logger;
 
+    /** @var Mage_Webapi_Model_Authorization_RoleLocator */
+    protected $_roleLocator;
+
     function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
-        Mage_Core_Model_Logger $logger
+        Mage_Core_Model_Logger $logger,
+        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
@@ -54,6 +58,7 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
         $this->_actionControllerFactory = $actionControllerFactory;
         $this->_response = $response;
         $this->_logger = $logger;
+        $this->_roleLocator = $roleLocator;
     }
 
     /**

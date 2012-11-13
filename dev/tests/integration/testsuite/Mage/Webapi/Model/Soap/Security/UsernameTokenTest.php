@@ -45,7 +45,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testAuthenticatePasswordText()
     {
-        $user = $this->_userFactory->createFromArray();
+        $user = $this->_userFactory->create();
         $user->load('test_username', 'api_key');
         /** @var Mage_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
         $usernameToken = $this->_objectManager->create('Mage_Webapi_Model_Soap_Security_UsernameToken', array(
@@ -63,7 +63,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testAuthenticatePasswordDigest()
     {
-        $user = $this->_userFactory->createFromArray();
+        $user = $this->_userFactory->create();
         $user->load('test_username', 'api_key');
         /** @var Mage_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
         $usernameToken = $this->_objectManager->create('Mage_Webapi_Model_Soap_Security_UsernameToken');
@@ -83,7 +83,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testAuthenticateWithNonceUsed()
     {
-        $user = $this->_userFactory->createFromArray();
+        $user = $this->_userFactory->create();
         $user->load('test_username', 'api_key');
         /** @var Mage_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
         $usernameToken = $this->_objectManager->create('Mage_Webapi_Model_Soap_Security_UsernameToken');

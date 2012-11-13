@@ -84,7 +84,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
         }
         $this->_nonceStorage->validateNonce($nonce, $createdTimestamp);
 
-        $user = $this->_userFactory->createFromArray();
+        $user = $this->_userFactory->create();
         if (!$user->load($username, 'api_key')->getId()) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }

@@ -33,7 +33,7 @@
  * @method string getRejectedCallbackUrl()
  * @method Mage_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Key hash length
@@ -112,5 +112,16 @@ class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract
             Mage::throwException(array_shift($messages));
         }
         return true;
+    }
+
+    /**
+     * Load consumer by key.
+     *
+     * @param string $key
+     * @return Mage_Oauth_Model_Consumer
+     */
+    public function loadByKey($key)
+    {
+        return $this->load($key, 'key');
     }
 }
