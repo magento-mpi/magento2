@@ -85,6 +85,17 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     }
 
     /**
+     * Retrieve collection first theme item
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getFirstItem()
+    {
+        $themeItems = $this->getItems();
+        return reset($themeItems);
+    }
+
+    /**
      * Fill collection with theme model loaded from filesystem
      *
      * @param bool $printQuery
@@ -103,6 +114,8 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         }
 
         $this->_loadFromFilesystem($pathsToThemeConfig);
+        $this->_renderFilters();
+
         return $this;
     }
 
@@ -119,6 +132,29 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
             $this->addItem($theme);
         }
         $this->_setIsLoaded();
+        return $this;
+    }
+
+    /**
+     * Apply set field filters
+     *
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    protected function _renderFilters()
+    {
+        $filters = $this->getFilter(array());
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($this->getItems() as $itemKey => $theme) {
+            $removeItem = false;
+            foreach($filters as $filter) {
+                if ($filter['type'] == 'and' && $theme->getDataUsingMethod($filter['field']) != $filter['value']) {
+                    $removeItem = true;
+                }
+            }
+            if ($removeItem) {
+                $this->removeItemByKey($itemKey);
+            }
+        }
         return $this;
     }
 
