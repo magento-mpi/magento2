@@ -14,36 +14,84 @@ reports_sales_sales:
     mca: report_sales/sales/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/sales/')]
     title: Sales / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Order Taxes Report Grouped by Tax Rate page
 report_sales_tax:
     mca: report_sales/tax/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/tax/')]
     title: Tax / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Invoiced vs. Paid Report page
 report_sales_invoiced:
     mca: report_sales/invoiced/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/invoiced/')]
     title: Total Invoiced / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Shipped Report page
 report_sales_shipping:
     mca: report_sales/shipping/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/shipping/')]
     title: Shipping / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Refunded Report page
 report_sales_refunded:
     mca: report_sales/refunded/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/refunded/')]
     title: Total Refunded / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Coupons Usage Report page
 report_sales_coupons:
     mca: report_sales/coupons/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/coupons/')]
     title: Coupons / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: PayPal Settlement Reports page
 paypal_reports:
@@ -62,54 +110,126 @@ report_shopcart_abandoned:
     mca: report_shopcart/abandoned/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
     title: Abandoned Carts / Shopping Cart / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products:
 report_sales_bestsellers:
     mca: report_sales/bestsellers/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/bestsellers/')]
     title: Bestsellers / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Products Ordered page
 report_product_sold:
     mca: report_product/sold/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/report_product/sold/')]
     title: Products Ordered / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Most Viewed page
 report_product_viewed:
     mca: report_product/viewed/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/viewed/')]
     title: Most Viewed / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Low stock page
 report_product_lowstock:
     mca: report_product/lowstock/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
     title: Low Stock / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Downloads page
 report_product_downloads:
     mca: report_product/downloads/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/downloads/')]
     title: Downloads / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Customers: New Accounts page
 report_customer_accounts:
     mca: report_customer/accounts/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/accounts/')]
     title: New Accounts / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Customers: Customers by Orders Total page
 report_customer_totals:
     mca: report_customer/totals/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/report_customer/totals/')]
     title: Customers by Orders Total / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Customers: Customers by number of orders page
 report_customer_orders:
     mca: report_customer/orders/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
     title: Customers by Number of Orders / Customers / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Tags: Customers Tags page
 report_tag_customer:
@@ -192,6 +312,11 @@ report_tag_popular:
     uimap:
         form:
             fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
                 -
                     report_tag_grid:
                         xpath: //div[@id='grid']

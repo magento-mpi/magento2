@@ -131,6 +131,7 @@ create_customer:
                                         company: //input[@id='_item%address_number%company']
                                         street_address_line_1: //input[@id='_item%address_number%street0']
                                         street_address_line_2: //input[@id='_item%address_number%street1']
+                                        state: //input[@id='_item%address_number%region'][@type='text']
                                         city: //input[@id='_item%address_number%city']
                                         region: //input[@id='_item%address_number%region' and not(@type='hidden')]
                                         zip_code: //input[@id='_item%address_number%postcode']

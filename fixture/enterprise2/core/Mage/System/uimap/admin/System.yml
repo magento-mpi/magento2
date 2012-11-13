@@ -141,18 +141,72 @@ system_design:
     mca: system_design/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design/')]
     title: Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    design_grid:
+                        xpath: //div[@id='designGrid']
+                        dropdowns:
+                            store: //select[@name='store_id']
+        buttons:
+            add_design_change: //button[span='Add Design Change']
+
+# Add Design Change
+new_system_design:
+    mca: system_design/new/
+    title: New Design Change / Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_settings:
+                        xpath: //div[@id='general']
+                        dropdowns:
+                            store: //select[@name='design[store_id]']
 
 # Design: Visual Design Editor page
 system_design_editor:
     mca: system_design_editor/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
     title: Editor / Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    context_information:
+                        xpath: //div[@id='base_fieldset']
+                        dropdowns:
+                            store_view: //select[@name='store_id']
 
 # Import/Export: Profiles page
 system_convert_gui:
     mca: system_convert_gui/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
     title: Profiles / Import and Export / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    convert_profile_grid:
+                        xpath: //div[@id='convertProfileGrid']
+                        dropdowns:
+                            store: //select[@name='store_id']
+        buttons:
+            add_new_profile: //button[span='Add New Profile']
+
+# Add New Profile page
+new_system_convert_gui:
+    mca: system_convert_gui/new/
+    title: New Profile / Profiles / Import and Export / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    profile_information:
+                        xpath: //div[@id='profile-generator']/fieldset[1]
+                        dropdowns:
+                            store: //select[@name='store_id']
 
 # Import/Export: Advanced Profiles page
 system_convert_profile:
