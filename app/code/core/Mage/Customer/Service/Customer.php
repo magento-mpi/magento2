@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Customer service is responsible for customer business workflow encapsulation
  *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Customer service is responsible for customer business workflows encapsulation
- *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 {

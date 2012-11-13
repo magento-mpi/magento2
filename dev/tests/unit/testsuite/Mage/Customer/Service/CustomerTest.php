@@ -1,14 +1,9 @@
 <?php
 /**
- * {license_notice}
+ * Unit test for customer service layer Mage_Customer_Service_Customer
  *
- * @category    Magento
- * @package     Mage_Customer
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
 class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
+ * Customer address factory
  *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
 class Mage_Customer_Model_AddressFactory
 {
     /**

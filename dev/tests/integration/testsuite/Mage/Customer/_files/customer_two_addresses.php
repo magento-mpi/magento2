@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Customer address fixture with entity_id = 2, this fixture also creates address with entity_id = 1
  *
- * @category    Magento
- * @package     Mage_Customer
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 
 require 'customer_address.php';

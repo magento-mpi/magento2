@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Unit Test for Magento_Validator_Config
  *
- * @category    Magento
- * @package     Magento_Validator
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test for Magento_Validator_Config
+ * @copyright {}
  */
 class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 {

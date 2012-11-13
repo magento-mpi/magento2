@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Customer admin controller
  *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 {

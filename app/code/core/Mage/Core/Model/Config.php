@@ -1,20 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Core configuration class
  *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {

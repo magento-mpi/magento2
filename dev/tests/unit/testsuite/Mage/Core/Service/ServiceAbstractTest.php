@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Unit test for abstract service layer Mage_Core_Service_ServiceAbstract
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test class for Mage_Core_Service_ServiceAbstract
+ * @copyright {}
  */
 class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
 {

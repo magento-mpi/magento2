@@ -1,20 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Customer entity resource model
  *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {

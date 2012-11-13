@@ -1,14 +1,9 @@
 <?php
 /**
- * {license_notice}
+ * Integration test for Mage_Core_Model_ValidatorFactory
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
 class Mage_Core_Model_ValidatorFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**

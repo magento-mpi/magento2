@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Abstract Service Layer
+ *
+ * @copyright {}
  */
 abstract class Mage_Core_Service_ServiceAbstract
 {

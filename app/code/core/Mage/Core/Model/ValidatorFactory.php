@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
+ * Magento validator config factory
  *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
-
 class Mage_Core_Model_ValidatorFactory
 {
     /**

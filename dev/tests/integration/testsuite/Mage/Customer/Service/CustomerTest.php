@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Integration test for service layer Mage_Customer_Service_Customer
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test service layer Mage_Customer_Service_Customer
+ * @copyright {}
  */
 class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
