@@ -71,13 +71,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setAttributeSetId($setId);
         }
 
-        $attributes = $this->getRequest()->getParam('attributes');
-        if (!empty($attributes)) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
-            $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
-                $attributes,
-                $product
-            );
+        if ($this->getRequest()->has('attributes')) {
+            $attributes = $this->getRequest()->getParam('attributes');
+            if (!empty($attributes)) {
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+                $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
+                    $attributes,
+                    $product
+                );
+            } else {
+                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+            }
         }
 
         // Required attributes of simple product for configurable creation
@@ -627,21 +631,32 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         /**
          * Initialize data for configurable product
          */
-        if (($data = $this->getRequest()->getPost('configurable_products_data'))
-            && !$product->getConfigurableReadonly()
-        ) {
-            $product->setConfigurableProductsData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
-        }
-        if (($data = $this->getRequest()->getPost('configurable_attributes_data'))
-            && !$product->getConfigurableReadonly()
-        ) {
-            $product->setConfigurableAttributesData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
-        }
 
-        $product->setCanSaveConfigurableAttributes(
-            (bool) $this->getRequest()->getPost('affect_configurable_product_attributes')
+        $attributes = $this->getRequest()->getParam('attributes');
+        if (!empty($attributes)) {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+            $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
+                $attributes,
+                $product
+            );
+            if (($data = $this->getRequest()->getPost('configurable_products_data'))
                 && !$product->getConfigurableReadonly()
-        );
+            ) {
+                $product->setConfigurableProductsData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
+            }
+            if (($data = $this->getRequest()->getPost('configurable_attributes_data'))
+                && !$product->getConfigurableReadonly()
+            ) {
+                $product->setConfigurableAttributesData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
+            }
+
+            $product->setCanSaveConfigurableAttributes(
+                (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
+                    && !$product->getConfigurableReadonly()
+            );
+        } else {
+            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        }
 
         /**
          * Initialize product options

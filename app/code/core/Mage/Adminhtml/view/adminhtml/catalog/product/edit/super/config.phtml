@@ -18,11 +18,7 @@
     <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?>
 </label>
 
-<div id="<?php echo $this->getId()?>" class="entry-edit" style="display: none">
-<div class="entry-edit-head">
-    <h4 class="icon-head head-edit-form fieldset-legend">
-    </h4>
-</div>
+<div id="<?php echo $this->getId()?>" class="entry-edit">
 <fieldset>
 <?php
 /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
@@ -140,12 +136,12 @@ Validation.add(
 <script type="text/javascript">
 jQuery(function($) {
     $("#<?php echo $this->getId()?>-checkbox").bind('click change', function() {
-        var $fieldset = $("#<?php echo $this->getId()?>");
+        var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).attr('checked')) {
             $fieldset.show();
+            $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('disabled');
         } else {
-            $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('checked');
-            $("#<?php echo $this->getHtmlId() ?>_save_links, #<?php echo $this->getHtmlId() ?>_save_attributes").val('');
+            $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', 'disabled');
             $fieldset.hide();
         }
     }).trigger('change');
