@@ -34,16 +34,19 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     public function fromSimpleToVirtualDuringCreation($changedProduct, $changedType)
     {
         //Data
-        $simpleProduct = array('product_attribute_set' => 'Default');
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         //Steps
-        $this->productHelper()->selectTypeProduct($simpleProduct, 'simple');
+        $this->productHelper()->selectTypeProduct('simple');
         $this->fillCheckbox('weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => $changedType, 'sku' => $productData['general_sku']));
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'), 'Weight field is editable');
         $this->assertTrue($this->controlIsVisible('tab', 'downloadable_information'),
             'Downloadable Information is absent');
@@ -76,10 +79,9 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
     public function fromVirtualDownloadableDuringCreation($initialProduct, $changedProduct, $changedType)
     {
         //Data
-        $initialProductData = array('product_attribute_set' => 'Default');
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         //Steps
-        $this->productHelper()->selectTypeProduct($initialProductData, $initialProduct);
+        $this->productHelper()->selectTypeProduct($initialProduct);
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'), 'Weight field is editable');
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'weight_and_type_switcher')),
             'Weight checkbox is not selected');
@@ -90,7 +92,11 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => $changedType, 'sku' => $productData['general_sku']));
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         if ($changedProduct == 'simple') {
             $this->assertTrue($this->controlIsVisible('field', 'general_weight'), 'Weight field is not editable');
             $this->assertFalse($this->controlIsVisible('tab', 'downloadable_information'),
@@ -135,13 +141,17 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         //Steps
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => 'Simple Product', 'sku' => $simpleProduct['general_sku']));
+        $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
         $this->fillCheckbox('weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => $changedType, 'sku' => $productData['general_sku']));
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'), 'Weight field is editable');
         $this->assertTrue($this->controlIsVisible('tab', 'downloadable_information'),
             'Downloadable Information is absent');
@@ -167,15 +177,25 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         //Steps
         $this->productHelper()->createProduct($initialProductData, $initialProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => $initialType, 'sku' => $initialProductData['general_sku']));
+        $this->productHelper()->openProduct(array('sku' => $initialProductData['general_sku']));
         if ($changedProduct == 'simple') {
             $this->fillCheckbox('weight_and_type_switcher', 'no');
+        } else {
+            if ($changedProduct == 'virtual') {
+                $this->productHelper()->deleteDownloadableInformation('sample');
+                $this->productHelper()->deleteDownloadableInformation('link');
+                $changedType = $initialType;
+            }
         }
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('type' => $changedType, 'sku' => $productData['general_sku']));
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         if ($changedProduct == 'simple') {
             $this->assertTrue($this->controlIsVisible('field', 'general_weight'), 'Weight field is not editable');
             $this->assertFalse($this->controlIsVisible('tab', 'downloadable_information'),
@@ -234,5 +254,248 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
             array('configurable', null),
             array('bundle', false),
         );
+    }
+
+    /**
+     * <p>Create attribute, attribute set and simple product to use while creating configurable product</p>
+     *
+     * @return array
+     *
+     * @test
+     */
+    public function prepareConfigurableData()
+    {
+        //Data
+        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
+        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('General' => $attributeData['attribute_code']));
+        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
+            array('product_attribute_set' => $attributeSet['set_name']));
+        $simpleProduct['general_user_attr']['dropdown'][$attributeData['attribute_code']] =
+            $attributeData['option_1']['admin_option_name'];
+        //Create attribute
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attributeData);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Create attribute set
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->createAttributeSet($attributeSet);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->attributeSetHelper()->openAttributeSet($attributeSet['set_name']);
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        //Create simple product for configurable product
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simpleProduct);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        return array(
+            'attributeSet' => $attributeSet['set_name'],
+            'attributeName' => $attributeData['admin_title'],
+            'productSku' => $simpleProduct['general_sku']
+        );
+    }
+
+    /**
+     * <p>Configurable Product from Simple/Virtual/Downloadable Product During Creation</p>
+     *
+     * @param string $initialType
+     * @param array $data
+     *
+     * @test
+     * @dataProvider toConfigurableDataProvider
+     * @depends prepareConfigurableData
+     * @TestlinkId TL-MAGE-6462, TL-MAGE-6463, TL-MAGE-6464
+     */
+    public function toConfigurableDuringCreation($initialType, $data)
+    {
+        //Data
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'product_attribute_set' => $data['attributeSet'],
+            'configurable_attribute_title' => $data['attributeName'],
+            'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                array('associated_search_sku' => $data['productSku'])))
+        );
+        //Steps and Verifying
+        $this->productHelper()->selectTypeProduct($initialType);
+        $this->productHelper()->changeAttributeSet($data['attributeSet']);
+        if ($initialType != 'simple') {
+            $this->fillCheckbox('weight_and_type_switcher', 'no');
+        }
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
+        $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->fillCheckbox('is_configurable', 'yes');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->productHelper()->fillConfigurableSettings($configurableProduct);
+        $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $configurableProduct['general_sku']));
+        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+    }
+
+    public function toConfigurableDataProvider()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable')
+        );
+    }
+
+    /**
+     * <p>Simple Product from Configurable Product During Creation</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6465
+     */
+    public function fromConfigurableToSimpleDuringCreation()
+    {
+        //Data
+        $simpleProduct =  $this->loadDataSet('Product', 'simple_product_visible');
+        //Steps
+        $this->productHelper()->selectTypeProduct('configurable');
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->fillCheckbox('is_configurable', 'no');
+        $this->assertFalse($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->productHelper()->fillProductInfo($simpleProduct);
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $simpleProduct['general_sku']));
+        $this->assertEquals('Simple Product', trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
+        $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'variation_fieldset'));
+    }
+
+    /**
+     * <p>Simple Product from Configurable Product with Selecting Configurable Attribute During Creation</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends prepareConfigurableData
+     * @TestlinkId TL-MAGE-6466
+     */
+    public function fromConfigurableWithAttributesToSimpleDuringCreation($data)
+    {
+        //Data
+        $simpleProduct =  $this->loadDataSet('Product', 'simple_product_visible');
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'product_attribute_set' => $data['attributeSet'],
+            'configurable_attribute_title' => $data['attributeName'],
+            'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                array('associated_search_sku' => $data['productSku'])))
+        );
+        //Steps
+        $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
+        $this->openTab('general');
+        $this->fillCheckbox('is_configurable', 'no');
+        $this->assertFalse($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->productHelper()->fillProductInfo($simpleProduct, 'simple');
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $simpleProduct['general_sku']));
+        $this->assertEquals('Simple Product', trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
+        $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'variation_fieldset'));
+    }
+
+    /**
+     * <p>Configurable Product from Simple/Virtual/Downloadable Product During Editing</p>
+     *
+     * @param string $initialType
+     * @param array $data
+     *
+     * @test
+     * @dataProvider toConfigurableDataProvider
+     * @depends prepareConfigurableData
+     * @TestlinkId TL-MAGE-6467, TL-MAGE-6468, TL-MAGE-6469
+     */
+    public function toConfigurableDuringEditing($initialType, $data)
+    {
+        //Data
+        $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'product_attribute_set' => $data['attributeSet'],
+            'configurable_attribute_title' => $data['attributeName'],
+            'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                array('associated_search_sku' => $data['productSku'])))
+        );
+        //Steps
+        $this->productHelper()->createProduct($initialProduct, $initialType);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
+        if ($initialType != 'simple') {
+            $this->fillCheckbox('weight_and_type_switcher', 'no');
+        }
+        $this->fillCheckbox('is_configurable', 'yes');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->productHelper()->fillConfigurableSettings($configurableProduct);
+        $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $initialProduct['general_sku']));
+        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+    }
+
+    /**
+     * <p>Simple Product from Configurable Product During Editing</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends prepareConfigurableData
+     * @TestlinkId TL-MAGE-6470
+     */
+    public function editingConfigurable($data)
+    {
+        //Data
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'product_attribute_set' => $data['attributeSet'],
+            'configurable_attribute_title' => $data['attributeName'],
+            'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                array('associated_search_sku' => $data['productSku'])))
+        );
+        //Steps
+        $this->productHelper()->createProduct($configurableProduct, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
+        $this->productHelper()->unassignAssociatedProducts();
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $configurableProduct['general_sku']));
+        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'variation_fieldset'));
     }
 }

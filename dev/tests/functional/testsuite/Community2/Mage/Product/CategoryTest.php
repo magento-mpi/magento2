@@ -347,7 +347,7 @@ class Community2_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
         $selectedCategory = $this->generate('string', 20, ':alnum:');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->selectTypeProduct($productData, 'simple');
+        $this->productHelper()->selectTypeProduct('simple');
         $this->fillField('categories', $selectedCategory);
         $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
         $this->waitForAjax();

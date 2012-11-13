@@ -46,6 +46,17 @@ new_product:
                                         delete_category: //*[@class='category-selector-search-choice-close']
                                     pageelements:
                                         category_name: //*[contains(., '%categoryName%')]
+                            -
+                                product_variations:
+                                    xpath: //*[@id='config_super_product']
+                                    checkboxes:
+                                        is_configurable: //*[@id='config_super_product-checkbox']
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
+                                    buttons:
+                                        continue: //*[@data-ui-id='product-type-tabs-schedule-block-super-settings-continue-button']
+                                    pageelements:
+                                        variation_fieldset: /fieldset
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span
@@ -131,14 +142,7 @@ new_product:
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
                 -
                     associated:
-                        fieldsets:
-                            -
-                                select_configurable_attributes:
-                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
-                                    buttons:
-                                        continue: //button[span='Continue']
-                                    checkboxes:
-                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                        xpath: //a[@title='General']/span
             fieldsets:
                 -
                     product_information:
