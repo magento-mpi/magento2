@@ -1,6 +1,0 @@
-// Files that are not published with Magento EE
-// ---------------------------------------------------
-LICENSE_PRO.html
-LICENSE_PRO.txt
-pub/errors/pro
-dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update.csv

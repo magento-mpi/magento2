@@ -20,17 +20,17 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTe
         Mage::register('current_giftcardaccount', $model);
     }
 
-    public static function tearDownAfterClass()
-    {
-        Mage::unregister('current_giftcardaccount');
-    }
-
     public function setUp()
     {
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout
             ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');
+    }
+
+    public function tearDown()
+    {
+        $this->_block = null;
     }
 
     /**

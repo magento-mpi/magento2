@@ -23,6 +23,11 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_GridTest extends PHPUnit_Fra
         );
     }
 
+    public function tearDown()
+    {
+        $this->_block = null;
+    }
+
     /**
      * Test Prepare Columns for Single Store mode
      *
