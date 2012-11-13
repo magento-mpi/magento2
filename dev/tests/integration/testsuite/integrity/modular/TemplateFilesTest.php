@@ -19,11 +19,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      * @param string $template
      * @param string $class
      * @param string $area
-     * dataProvider allTemplatesDataProvider
+     * @dataProvider allTemplatesDataProvider
      */
-    public function testAllTemplates(/*$module, $template, $class, $area*/)
+    public function testAllTemplates($module, $template, $class, $area)
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
         $params = array(
             'area'    => $area,
             'package' => false, // intentionally to make sure the module files will be requested
@@ -39,8 +38,15 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function allTemplatesDataProvider()
     {
+        $configShare = $this->getMock('Mage_Customer_Model_Config_Share', array('isWebsiteScope'), array(), '', false);
+        $configShare->expects($this->any())
+            ->method('isWebsiteScope')
+            ->will($this->returnValue(0));
+        Mage::unregister('_singleton/Mage_Customer_Model_Config_Share');
+        Mage::register('_singleton/Mage_Customer_Model_Config_Share', $configShare);
+
         $templates = array();
-        /*foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
+        foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
             if (!in_array($module, $this->_getEnabledModules())) {
                 continue;
             }
@@ -61,12 +67,12 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
 
             Mage::getConfig()->setCurrentAreaCode($area);
 
-            $block = new $blockClass;
+            $block = Mage::getModel($blockClass);
             $template = $block->getTemplate();
             if ($template) {
                 $templates[] = array($module, $template, $blockClass, $area);
             }
-        }*/
+        }
         return $templates;
     }
 
