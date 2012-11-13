@@ -64,7 +64,7 @@ TranslateInlineTest.prototype.testTranslationFormTemplate = function() {
     translateInline.translateInline('destroy');
 };
 // @TODO Need to be fixed to avoid errors on the bamboo server in context of MAGETWO-5085 ticket
-TranslateInlineTest.prototype._testTranslateFormSubmit = function() {
+/*TranslateInlineTest.prototype._testTranslateFormSubmit = function() {
     FORM_KEY = 'form_key';
     var options = {
             ajaxUrl: 'www.test.com',
@@ -94,7 +94,7 @@ TranslateInlineTest.prototype._testTranslateFormSubmit = function() {
         dialogHiddenAfterAjaxComplete = false;
     jQuery(document)
         .on('ajaxSend', function(e, jqXHR, settings){
-            jqXHR && jqXHR.abort();
+            jqXHR.abort();
             dialogVisibleOnAjaxSend = dialog.is(':visible');
             ajaxParametersCorrect = settings.data.indexOf(parameters) >= 0;
             jQuery(this).trigger('ajaxComplete');
@@ -104,7 +104,7 @@ TranslateInlineTest.prototype._testTranslateFormSubmit = function() {
     assertEquals(true, ajaxParametersCorrect);
     assertEquals(true, dialog.is(':hidden'));
     translateInline.translateInline('destroy');
-};
+};*/
 TranslateInlineTest.prototype.testDestroy = function() {
     var options = {
             translateForm: {
