@@ -697,7 +697,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data) {
             $this->_filterStockData($data['product']['stock_data']);
 
-            $product = $this->_initProduct();
+            $product = $this->_initProductSave($this->_initProduct());
+            Mage::dispatchEvent(
+                'catalog_product_transition_product_type',
+                array('product' => $product, 'request' => $this->getRequest())
+            );
 
             $this->_transitionProductType($product, $data);
             $product = $this->_initProductSave($product);

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.20</version>
+            <version>1.6.0.0.21</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
@@ -72,6 +72,14 @@
                     </catalog_add_topmenu_items>
                 </observers>
             </page_block_html_topmenu_gethtml_before>
+            <catalog_product_transition_product_type>
+                <observers>
+                    <type_transition>
+                        <class>Mage_Catalog_Model_Observer</class>
+                        <method>transitionProductType</method>
+                    </type_transition>
+                </observers>
+            </catalog_product_transition_product_type>
         </events>
         <catalog>
             <product>

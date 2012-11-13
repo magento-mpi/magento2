@@ -199,11 +199,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (!$product->hasData($cacheKey)) {
             $editableAttributes = array();
             foreach ($this->getSetAttributes($product) as $attributeCode => $attribute) {
-                if (!is_array($attribute->getApplyTo())
-                    || count($attribute->getApplyTo())==0
-                    || in_array($product->getTypeId(), $attribute->getApplyTo())) {
-                    $editableAttributes[$attributeCode] = $attribute;
-                }
+                $editableAttributes[$attributeCode] = $attribute;
             }
             $product->setData($cacheKey, $editableAttributes);
         }

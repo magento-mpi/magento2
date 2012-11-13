@@ -38,23 +38,37 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
     public function preconditionsForTests()
     {
         //Data
-        $testData = $this->loadDataSet('AttributeSet', 'attribute_set');
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
+        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
-        $setName = $testData['set_name'];
-        //Steps
+            array('General' => $attributeData['attribute_code']));
+        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
+            array('product_attribute_set' => $attributeSet['set_name']));
+        $simpleProduct['general_user_attr']['dropdown'][$attributeData['attribute_code']] =
+            $attributeData['option_1']['admin_option_name'];
+        //Create attribute
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attributeData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Create attribute set
         $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->createAttributeSet($testData);
+        $this->attributeSetHelper()->createAttributeSet($attributeSet);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->attributeSetHelper()->openAttributeSet($attributeSet['set_name']);
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        //Create simple product for configurable product
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simpleProduct);
+        $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('product_attribute_set' => $setName, 'assigned_attribute' => $attrData['attribute_code']);
+        return array(
+            'product_attribute_set' => $attributeSet['set_name'],
+            'assigned_attribute' => $attributeData['attribute_code'],
+            'attributeName' => $attributeData['admin_title'],
+            'productSku' => $simpleProduct['general_sku']
+        );
     }
 
     // @codingStandardsIgnoreStart
@@ -277,5 +291,37 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
             array('downloadable'),
             array('grouped'),
             array('bundle'));
+    }
+
+    /**
+     * <p>Change attribute set for Configurable product during creation</p>
+     *
+     * @param array $customSetData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @testlinkId TL-MAGE-6471
+     */
+    public function forConfigurableDuringCreation($customSetData)
+    {
+        //Data
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'product_attribute_set' => $customSetData['product_attribute_set'],
+            'configurable_attribute_title' => $customSetData['attributeName'],
+            'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                array('associated_search_sku' => $customSetData['productSku'])))
+        );
+        $newAttributeSet = $customSetData['product_attribute_set'];
+        //Steps
+        $this->productHelper()->selectTypeProduct('configurable');
+        $this->productHelper()->changeAttributeSet($newAttributeSet);
+        $this->productHelper()->fillConfigurableSettings($configurableProduct);
+        $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
+        //Verifying
+        $this->assertFalse($this->controlIsVisible('button', 'change_attribute_set'));
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->productHelper()->verifyProductInfo($configurableProduct);
     }
 }
