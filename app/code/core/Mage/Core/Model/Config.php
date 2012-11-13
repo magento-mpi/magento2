@@ -201,13 +201,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_objectManager;
 
     /**
-     * Validator config files
-     *
-     * @var array
-     */
-    protected $_validatorConfigFiles = null;
-
-    /**
      * Class construct
      *
      * @param Magento_ObjectManager $objectManager
@@ -1661,39 +1654,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_currentAreaCode = $areaCode;
         return $this;
-    }
-
-    /**
-     * Get validator config object.
-     *
-     * Will instantiate Magento_Validator_Config
-     *
-     * @return Magento_Validator_Config
-     */
-    public function getValidatorConfig()
-    {
-        if (is_null($this->_validatorConfigFiles)) {
-            $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
-
-            $translateAdapter = Mage::app()->getTranslator();
-            $objectManager = $this->_objectManager;
-            $translatorCallback = function () use ($translateAdapter, $objectManager) {
-                /** @var Mage_Core_Model_Translate $translateAdapter */
-                $args = func_get_args();
-                /** @var Mage_Core_Model_Translate_Expr $expr */
-                $expr = $objectManager->create('Mage_Core_Model_Translate_Expr', array('text' => $args[0]));
-                array_unshift($args, $expr);
-                return $translateAdapter->translate($args);
-            };
-            $adapterOptions = array('translator' => $translatorCallback);
-            /** @var Magento_Translate_Adapter $translator */
-            $translator = $this->_objectManager
-                ->create('Magento_Translate_Adapter', array('options' => $adapterOptions));
-            Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
-        }
-
-        return $this->_objectManager
-            ->create('Magento_Validator_Config', array('configFiles' => $this->_validatorConfigFiles));
     }
 
     /**

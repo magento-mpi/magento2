@@ -483,24 +483,4 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router2'], 'Test router is not loaded correctly');
     }
-
-    /**
-     * Test getValidatorConfig
-     *
-     * @magentoAppIsolation enabled
-     */
-    public function testGetValidatorConfig()
-    {
-        $this->assertInstanceOf('Magento_Validator_Config', $this->_createModel(true)->getValidatorConfig());
-        // Check that default translator was set
-        $translator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
-        $this->assertInstanceOf('Magento_Translate_AdapterInterface', $translator);
-        $this->assertEquals('Message', $translator->__('Message'));
-        $this->assertEquals('Message', $translator->translate('Message'));
-        $this->assertEquals(
-            'Message with "placeholder one" and "placeholder two"',
-            $translator->__('Message with "%s" and "%s"', 'placeholder one', 'placeholder two')
-        );
-
-    }
 }

@@ -107,8 +107,8 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * @param string $entityName
      * @param string $groupName
      * @param mixed $value
-     * @param $expectedResult
-     * @param $expectedMessages
+     * @param bool $expectedResult
+     * @param array $expectedMessages
      */
     public function testCreateValidator($entityName, $groupName, $value, $expectedResult, $expectedMessages)
     {

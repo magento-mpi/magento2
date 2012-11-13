@@ -19,19 +19,19 @@
 class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_ValidatorFactory
      */
-    protected $_config;
+    protected $_validatorFactory;
 
     /**
      * Initialize object dependencies
      *
-     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_ValidatorFactory $validatorFactory
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_Config $config, $data = array())
+    public function __construct(Mage_Core_Model_ValidatorFactory $validatorFactory, $data = array())
     {
-        $this->_config = $config;
+        $this->_validatorFactory = $validatorFactory;
         parent::__construct($data);
     }
 
@@ -96,7 +96,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
      */
     protected function _validate($address)
     {
-        $validatorConfig = $this->_config->getValidatorConfig();
+        $validatorConfig = $this->_validatorFactory->createValidatorConfig();
         $validator = $validatorConfig
             ->getValidatorBuilder('customer_address', 'save')
             ->createValidator();
