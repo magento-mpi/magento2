@@ -14,7 +14,7 @@
 /**
  * Category assignment on general tab
  */
-class Community2_Mage_Product_Create_CategoriesSelectorTest extends Mage_Selenium_TestCase
+class Community2_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -194,18 +194,18 @@ class Community2_Mage_Product_Create_CategoriesSelectorTest extends Mage_Seleniu
      * @author Dmytro_Aponasenko
      */
     public function selectTwoCategoriesWithSameNameInDifferentRootCategories($categories)
-   {
-       //Data
-       $productData = $this->loadDataSet('Product', 'simple_product_required');
-       $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
-        . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
-       //Steps
-       $this->navigate('manage_products');
-       $this->productHelper()->createProduct($productData);
-       //Verifying
-       $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-       $this->productHelper()->verifyProductInfo($productData);
-   }
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
+            . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->verifyProductInfo($productData);
+    }
 
     /**
      * @test
@@ -398,14 +398,8 @@ class Community2_Mage_Product_Create_CategoriesSelectorTest extends Mage_Seleniu
         );
 
         $this->fillField('name', $newCategoryName);
-        $this->fillField('parent_category', $parentCategory);
-        // choose parent category from suggestions list
-        $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category'), "\b");
-        $this->addParameter('categoryName', $parentCategory);
-        $parentCategoryInDropdown = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_category_name');
-        $this->assertTrue($this->waitForElementVisible($parentCategoryInDropdown));
-        $this->mouseOver($parentCategoryInDropdown);
-        $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_category_name', false);
+        $this->_chooseParentCategory($parentCategory);
+
         $this->clickButton('new_category_save', false);
         // wait for new category to appear in selected categories list
         $this->addParameter('categoryName', $expectedCategoryNameAfterSave);
@@ -446,6 +440,22 @@ class Community2_Mage_Product_Create_CategoriesSelectorTest extends Mage_Seleniu
             ),
             array('<img src=example.com?nonexistent.jpg onerror=alert("xss")>'),
         );
+    }
+
+    /**
+     * Choose parent category from suggestions list
+     *
+     * @param string $parentCategory
+     */
+    protected function _chooseParentCategory($parentCategory)
+    {
+        $this->fillField('parent_category', $parentCategory);
+        $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category'), "\b");
+        $this->addParameter('categoryName', $parentCategory);
+        $parentCategoryInDropdown = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_category_name');
+        $this->assertTrue($this->waitForElementVisible($parentCategoryInDropdown));
+        $this->mouseOver($parentCategoryInDropdown);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_category_name', false);
     }
 
     /**
