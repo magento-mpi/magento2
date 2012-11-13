@@ -941,8 +941,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Set presence of weight for product type
      *
-     * @return bool|Mage_Catalog_Model_Product_Type_Abstract
+     * @return bool
      */
     public function hasWeight()
     {

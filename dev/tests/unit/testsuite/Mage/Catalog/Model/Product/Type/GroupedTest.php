@@ -23,6 +23,6 @@ class Mage_Catalog_Model_Product_Type_GroupedTest extends PHPUnit_Framework_Test
 
     public function testHasWeightFalse()
     {
-        $this->assertFalse($this->_model->hasWeight(), 'This product has weight, but should not');
+        $this->assertFalse($this->_model->hasWeight(), 'This product has weight, but it should not');
     }
 }

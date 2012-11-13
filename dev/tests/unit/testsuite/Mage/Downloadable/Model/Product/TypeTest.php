@@ -9,20 +9,20 @@
      * @license     {license_link}
      */
 
-    class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var Mage_Downloadable_Model_Product_Type
+     */
+    protected $_model;
+
+    protected function setUp()
     {
-        /**
-         * @var Mage_Downloadable_Model_Product_Type
-         */
-        protected $_model;
-
-        protected function setUp()
-        {
-            $this-> _model = new Mage_Downloadable_Model_Product_Type();
-        }
-
-        public function testHasWeightFalse()
-        {
-            $this->assertFalse($this->_model->hasWeight(), 'This product has weight, but should not');
-        }
+        $this-> _model = new Mage_Downloadable_Model_Product_Type();
     }
+
+    public function testHasWeightFalse()
+    {
+        $this->assertFalse($this->_model->hasWeight(), 'This product has weight, but it should not');
+    }
+}
