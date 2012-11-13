@@ -14,10 +14,10 @@
 <project name="Core Deployment Builds" basedir="../../../" default="publication_ce">
     <import file="../core_dev/unit/build.xml"/>
     <import file="../core_dev/static/build.xml"/>
-    <!--<import file="../core_dev/integration/build.xml"/>-->
+    <import file="../core_dev/integration/build.xml"/>
 
     <target name="publication_ce" description="Community Edition source code population to the public repository">
-        <!--<property name="publication_target_dir" location="${basedir}/dev/build/publication/_tmp_target"/>
+        <property name="publication_target_dir" location="${basedir}/dev/build/publication/_tmp_target"/>
         <fail message="Bamboo variable 'source_repository' must be defined.">
             <condition><equals arg1="${env.bamboo_source_repository}" arg2="" trim="true"/></condition>
         </fail>
@@ -32,28 +32,28 @@
         </condition>
         <delete dir="${publication_target_dir}" failonerror="true"/>
         <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/publish.php - -
-                - -source=${env.bamboo_source_repository} - -source-point=${env.bamboo_source_point}
-                - -target=${env.bamboo_target_repository} - -target-branch=${env.bamboo_target_branch}
-                - -target-dir=${publication_target_dir}
-                - -changelog-file=CHANGELOG.markdown
-                - -no-push
+            <arg line="-f ${basedir}/dev/build/publication/publish.php --
+                --source=${env.bamboo_source_repository} --source-point=${env.bamboo_source_point}
+                --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
+                --target-dir=${publication_target_dir}
+                --changelog-file=CHANGELOG.markdown
+                --no-push
                 "/>
-        </exec>-->
+        </exec>
         <antcall>
-            <!--<param name="product_root_dir" value="${publication_target_dir}"/>
-            <param name="product_edition_code" value="ce"/>-->
-            <target name="static_tests_js"/>
+            <param name="product_root_dir" value="${publication_target_dir}"/>
+            <param name="product_edition_code" value="ce"/>
             <target name="unit_tests_js"/>
-            <!--<target name="_unit_tests_all"/>
+            <target name="static_tests_js"/>
+            <target name="_unit_tests_all"/>
             <target name="_sanity_check"/>
             <target name="_static_tests_no_js"/>
             <target name="_integration_tests_magento"/>
-            <target name="_integration_integrity_tests_magento"/>-->
+            <target name="_integration_integrity_tests_magento"/>
         </antcall>
-        <!--<exec dir="${publication_target_dir}" executable="git" failonerror="true">
+        <exec dir="${publication_target_dir}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch}"/>
-        </exec>-->
+        </exec>
     </target>
 
 </project>
