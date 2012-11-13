@@ -210,8 +210,8 @@ class Inspection_WordsFinder
 
         $foundWords = array();
         foreach ($this->_words as $word) {
-            if ((mb_stripos($contents, $word, null, 'UTF-8') !== false)
-                || (mb_stripos($relPath, $word, null, 'UTF-8') !== false)) {
+            if ((mb_stripos($relPath, $word, null, 'UTF-8') !== false)
+                || (mb_stripos($contents, $word, null, 'UTF-8') !== false)) {
                 $foundWords[] = $word;
             }
         }
@@ -226,8 +226,7 @@ class Inspection_WordsFinder
      */
     protected function _isBinaryFile($file)
     {
-        $regexp = '/\\.'  .  implode('|', $this->_binaryExtensions) . '$/';
-        return preg_match($regexp, $file);
+        return in_array(pathinfo($file, PATHINFO_EXTENSION), $this->_binaryExtensions);
     }
 
     /**
