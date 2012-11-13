@@ -83,7 +83,7 @@ class Inspection_WordsFinder
     /**
      * Load configuration from file, adding words and whitelisted entries to main config
      *
-     * @param $configFile
+     * @param string $configFile
      * @throws Inspection_Exception
      */
     protected function _loadConfig($configFile)

@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_User
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+
+$tableName = $installer->getTable('admin_rule');
+/** @var Varien_Db_Adapter_Interface $connection */
+$connection = $installer->getConnection();
+$condition = $connection->prepareSqlCondition('resource_id', array(
+    array('like' => '%content_staging%'),
+    array('like' => '%enterprise_staging%'),
+));
+$connection->delete($tableName, $condition);

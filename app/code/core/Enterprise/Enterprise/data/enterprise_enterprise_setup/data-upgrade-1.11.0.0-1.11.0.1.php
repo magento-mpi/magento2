@@ -70,6 +70,11 @@ $map = array(
     'admin/sales/archive/orders' => 'Enterprise_SalesArchive::orders',
     'admin/sales/archive/orders/remove' => 'Enterprise_SalesArchive::remove',
     'admin/sales/archive/shipments' => 'Enterprise_SalesArchive::shipments',
+    'admin/system/config/content_staging' => 'Enterprise_Staging::content_staging',
+    'admin/system/enterprise_staging' => 'Enterprise_Staging::enterprise_staging',
+    'admin/system/enterprise_staging/staging_backup' => 'Enterprise_Staging::staging_backup',
+    'admin/system/enterprise_staging/staging_grid' => 'Enterprise_Staging::staging_grid',
+    'admin/system/enterprise_staging/staging_log' => 'Enterprise_Staging::staging_log',
     'admin/catalog/targetrule' => 'Enterprise_TargetRule::targetrule',
     'admin/report/customers/wishlist' => 'Enterprise_Wishlist::wishlist',
 );
