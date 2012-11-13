@@ -27,7 +27,7 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
     {
         try {
             if ($area) {
-                Mage::getDesign()->setArea($area)->setDefaultDesignTheme();
+                Mage::getDesign()->setArea($area);
             }
             Mage::getModel('Mage_Core_Model_Translate_Inline')->processAjaxPost($translate);
             return $returnType == 'json' ? "{success:true}" : true;

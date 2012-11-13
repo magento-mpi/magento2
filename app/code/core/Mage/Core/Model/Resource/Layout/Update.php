@@ -33,8 +33,8 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
         $bind = array(
             'store_id'  => Mage::app()->getStore()->getId(),
             'area'      => Mage::getSingleton('Mage_Core_Model_Design_Package')->getArea(),
-            'package'   => Mage::getSingleton('Mage_Core_Model_Design_Package')->getPackageName(),
-            'theme'     => Mage::getSingleton('Mage_Core_Model_Design_Package')->getTheme()
+            'package'   => Mage::getSingleton('Mage_Core_Model_Design_Package')->getDesignTheme()->getPackageCode(),
+            'theme'     => Mage::getSingleton('Mage_Core_Model_Design_Package')->getDesignTheme()->getThemeCode(),
         );
 
         foreach ($params as $key => $value) {

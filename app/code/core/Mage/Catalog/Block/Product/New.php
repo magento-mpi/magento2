@@ -58,8 +58,8 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
         return array(
            'CATALOG_PRODUCT_NEW',
            Mage::app()->getStore()->getId(),
-           Mage::getDesign()->getPackageName(),
-           Mage::getDesign()->getTheme(),
+           Mage::getDesign()->getDesignTheme()->getPackageCode(),
+           Mage::getDesign()->getDesignTheme()->getThemeCode(),
            Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
            'template' => $this->getTemplate(),
            $this->getProductsCount()

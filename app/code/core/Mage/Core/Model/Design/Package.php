@@ -75,16 +75,9 @@ class Mage_Core_Model_Design_Package
     protected $_area;
 
     /**
-     * Package name
-     *
-     * @var string
-     */
-    protected $_name;
-
-    /**
      * Package theme
      *
-     * @var string
+     * @var null|Mage_Core_Model_Theme
      */
     protected $_theme;
 
@@ -137,13 +130,18 @@ class Mage_Core_Model_Design_Package
      * Set package area
      *
      * @param  string $area
+     * @param bool $setDefaultTheme
      * @return Mage_Core_Model_Design_Package
      */
-    public function setArea($area)
+    public function setArea($area, $setDefaultTheme = true)
     {
         $this->_area = $area;
-        $this->_name = null;
         $this->_theme = null;
+
+        if ($setDefaultTheme) {
+            $this->setDefaultDesignTheme();
+        }
+
         return $this;
     }
 
@@ -161,70 +159,52 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Retrieve package name
-     *
-     * @return string
-     */
-    public function getPackageName()
-    {
-        return $this->_name;
-    }
-
-    /**
-     * Package theme getter
-     *
-     * @return string
-     */
-    public function getTheme()
-    {
-        return $this->_theme;
-    }
-
-    /**
      * Set design theme
      *
      * @param mixed $theme
      * @param string|null $area
      * @return Mage_Core_Model_Design_Package
      */
-    public function setDesignTheme($theme, $area = null)
+    public function setDesignTheme($theme, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        switch ($theme) {
-            case ($theme instanceof Mage_Core_Model_Theme):
-                $this->_setThemePath($theme->getThemePath(), $area);
-                break;
-            case (is_numeric($theme)):
-                /** @var $themeModel Mage_Core_Model_Theme */
-                $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-                $themeModel->load($theme);
-                $this->_setThemePath($themeModel->getThemePath(), $area);
-                break;
-            case (is_string($theme)):
-                $this->_setThemePath($theme, $area);
-                break;
+        if ($theme instanceof Mage_Core_Model_Theme) {
+            return $this->_setDesignTheme($theme, $area);
         }
+
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        if (is_numeric($theme)) {
+            $themeModel->load($theme);
+        } elseif (is_string($theme) && !$themeModel->load($theme, 'theme_path')->getId()) {
+            /** @todo Will updated with filter functionality for filesystem collection  */
+            $themeModel = $themeModel->getCollectionFromFilesystem()
+                ->addDefaultPattern($area)
+                ->addFilter('theme_path', $theme)
+                ->getFirstItem();
+        }
+
+        if (!$themeModel->getId()) {
+            $themeModel = null;
+        }
+
+        $this->_setDesignTheme($themeModel, $area);
         return $this;
     }
 
     /**
      * Set theme path
      *
-     * @param string $themePath
+     * @param Mage_Core_Model_Theme|null $theme
      * @param string $area
      * @return Mage_Core_Model_Design_Package
      */
-    protected function _setThemePath($themePath, $area)
+    protected function _setDesignTheme($theme, $area)
     {
-        $parts = explode('/', $themePath);
-        if (2 !== count($parts)) {
-            return $this;
-        }
-
         if ($area) {
-            $this->setArea($area);
+            $this->setArea($area, false);
         }
 
-        list($this->_name, $this->_theme) = $parts;
+        $this->_theme = $theme;
         return $this;
     }
 
@@ -236,12 +216,12 @@ class Mage_Core_Model_Design_Package
     public function setDefaultDesignTheme()
     {
         $area = $this->getArea();
-        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
 
         $theme = ($area == Mage_Core_Model_App_Area::AREA_FRONTEND)
             ? Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME)
-            : $themeCollection->addDefaultPattern($area)->getAreaDefaultTheme($area);
+            : $theme->getAreaDefaultTheme($area);
         $this->setDesignTheme($theme, $area);
 
         return $this;
@@ -250,13 +230,11 @@ class Mage_Core_Model_Design_Package
     /**
      * Design theme full name getter
      *
-     * @return string
+     * @return Mage_Core_Model_Theme
      */
     public function getDesignTheme()
     {
-        $package = $this->getPackageName();
-        $theme = $this->getTheme();
-        return $package && $theme ? $package . '/' . $theme : null;
+        return $this->_theme;
     }
 
     /**
@@ -270,16 +248,16 @@ class Mage_Core_Model_Design_Package
         if (!empty($params['area']) && $params['area'] !== $this->getArea()
             && (empty($params['package']) || !array_key_exists('theme', $params))
         ) {
-            list($params['package'], $params['theme']) = $this->setArea($params['area'])->setDefaultDesignTheme();
+            list($params['package'], $params['theme']) = $this->setArea($params['area']);
         } else {
             if (empty($params['area'])) {
                 $params['area'] = $this->getArea();
             }
             if (empty($params['package'])) {
-                $params['package'] = $this->getPackageName();
+                $params['package'] = $this->getDesignTheme()->getPackageCode();
             }
             if (!array_key_exists('theme', $params)) {
-                $params['theme'] = $this->getTheme();
+                $params['theme'] = $this->getDesignTheme()->getThemeCode();
             }
         }
 

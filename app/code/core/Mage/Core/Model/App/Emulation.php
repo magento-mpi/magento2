@@ -110,7 +110,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         $design = Mage::getDesign();
         $initialDesign = array(
             'area' => $design->getArea(),
-            'theme' => $design->getDesignTheme(),
+            'theme' => $design->getDesignTheme()->getThemeCode(),
             'store' => Mage::app()->getStore()
         );
 

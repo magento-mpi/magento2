@@ -52,6 +52,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_ioFile;
 
     /**
+     * Package code
+     *
+     * @var string|null
+     */
+    protected $_packageCode;
+
+    /**
      * Theme model initialization
      */
     protected function _construct()
@@ -441,5 +448,42 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->getCollection()->checkParentInThemes();
 
         return $this;
+    }
+
+    /**
+     * Get default theme by area
+     *
+     * @todo Move this method to service object
+     *
+     * @param string $area
+     * @return Mage_Core_Model_Theme
+     */
+    public function getAreaDefaultTheme($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
+    {
+        $themePath = (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name");
+        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern($area);
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($collection as $theme) {
+            if ($theme->getThemePath() == $themePath) {
+                return $theme;
+            }
+        }
+        return $collection->getNewEmptyItem();
+    }
+
+    /**
+     * Get package code
+     *
+     * @return string|null
+     */
+    public function getPackageCode()
+    {
+        if ((null === $this->_packageCode) && $this->getThemePath()) {
+            $parts = explode('/', $this->getThemePath());
+            if (2 == count($parts)) {
+                $this->_packageCode = $parts[0];
+            }
+        }
+        return $this->_packageCode;
     }
 }

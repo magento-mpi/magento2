@@ -36,7 +36,7 @@ class Mage_DesignEditor_Block_Toolbar_Theme extends Mage_Core_Block_Template
      */
     public function isThemeSelected($theme)
     {
-        $currentTheme = Mage::getDesign()->getDesignTheme();
+        $currentTheme = Mage::getDesign()->getDesignTheme()->getThemeCode();
         return $currentTheme == $theme;
     }
 

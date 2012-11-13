@@ -97,8 +97,8 @@ class Mage_Core_Model_Layout_Merge
         /* Default values */
         $arguments += array(
             'area'    => Mage::getDesign()->getArea(),
-            'package' => Mage::getDesign()->getPackageName(),
-            'theme'   => Mage::getDesign()->getTheme(),
+            'package' => Mage::getDesign()->getDesignTheme()->getPackageCode(),
+            'theme'   => Mage::getDesign()->getDesignTheme()->getThemeCode(),
             'store'   => null,
         );
         $this->_area    = $arguments['area'];
