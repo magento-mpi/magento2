@@ -106,7 +106,6 @@ directPost.prototype = {
                             this.returnQuote();
                         } else {
                             this.changeInputOptions('disabled', false);
-                            toggleSelectsUnderBlock($('loading-mask'), true);
                             $('loading-mask').hide();
                             enableElements('save');
                         }
@@ -157,7 +156,6 @@ directPost.prototype = {
                     case 'sales_order_edit':
                     case 'sales_order_create':
                         this.changeInputOptions('disabled', false);
-                        toggleSelectsUnderBlock($('loading-mask'), true);
                         $('loading-mask').hide();
                         enableElements('save');
                         break;
@@ -241,29 +239,30 @@ directPost.prototype = {
     },
 
     submitAdminOrder : function() {
-        if (editForm.validate()) {
-            var paymentMethodEl = $(editForm.formId).getInputs('radio','payment[method]').find(function(radio) {
-                return radio.checked;
-            });
+        // Temporary solution will be removed after refactoring Authorize.Net (sales) functionality
+        var editForm = jQuery('#edit_form');
+        if (editForm.valid()) {
+            // Temporary solution will be removed after refactoring Authorize.Net (sales) functionality
+            paymentMethodEl = editForm.find(':radio[name="payment[method]"]:checked');
             this.hasError = false;
-            if (paymentMethodEl.value == this.code) {
-                toggleSelectsUnderBlock($('loading-mask'), false);
+            if (paymentMethodEl.val() == this.code) {
                 $('loading-mask').show();
                 setLoaderPosition();
                 this.changeInputOptions('disabled', 'disabled');
                 this.paymentRequestSent = true;
                 this.orderRequestSent = true;
-                $(editForm.formId).writeAttribute('action', this.orderSaveUrl);
-                $(editForm.formId).writeAttribute('target',
-                        $('order-' + this.iframeId).readAttribute('name'));
-                $(editForm.formId).appendChild(this.createHiddenElement('controller', this.controller));
+                // Temporary solutions will be removed after refactoring Authorize.Net (sales) functionality
+                editForm.attr('action', this.orderSaveUrl);
+                editForm.attr('target',
+                        jQuery('#order-' + this.iframeId).attr('name'));
+                editForm.append(this.createHiddenElement('controller', this.controller));
                 disableElements('save');
-                $(editForm.formId).submit();
+                editForm.submit();
             } else {
-                $(editForm.formId).writeAttribute('action', this.nativeAction);
-                $(editForm.formId).writeAttribute('target', '_top');
+                editForm.attr('action', this.nativeAction);
+                editForm.attr('target', '_top');
                 disableElements('save');
-                $(editForm.formId).submit();
+                editForm.submit();
             }
         }
     },
@@ -289,7 +288,7 @@ directPost.prototype = {
             parameters : data,
             loaderArea : 'html-body',
             onSuccess : function(transport) {
-                $(editForm.formId).submit();
+                jQuery('#edit_form').submit();
             }.bind(this)
         });
 
@@ -388,8 +387,8 @@ directPost.prototype = {
             var name = $(this.iframeId).readAttribute('name');
             $(this.iframeId).stopObserving();
             $(this.iframeId).remove();
-            var iframe = '<iframe id="' + this.iframeId + 
-                '" allowtransparency="true" frameborder="0"  name="' + name + 
+            var iframe = '<iframe id="' + this.iframeId +
+                '" allowtransparency="true" frameborder="0"  name="' + name +
                 '" style="display:none;width:100%;background-color:transparent" src="' + src + '" />';
             Element.insert(nextElement, {'before':iframe});
             $(this.iframeId).observe('load', this.onLoadIframe);
