@@ -7,6 +7,26 @@
 class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translateAdapter;
+
+    /**
+     * @var Magento_Validator_Config
+     */
+    protected $_validatorConfig;
+
+    /**
      * @var Magento_Translate_AdapterInterface|null
      */
     protected $_defaultTranslator = null;
@@ -17,6 +37,41 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_defaultTranslator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
+        $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager_Zend')
+            ->setMethods(array('create', 'get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_validatorConfig = $this->getMockBuilder('Magento_Validator_Config')
+            ->setMethods(array('createValidatorBuilder', 'createValidator'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_objectManager->expects($this->once())
+            ->method('get')
+            ->with('Magento_Validator_Config', array('configFiles' => array('/tmp/moduleOne/etc/validation.xml')))
+            ->will($this->returnValue($this->_validatorConfig));
+        $this->_objectManager->expects($this->at(0))
+            ->method('create')
+            ->with('Magento_Translate_Adapter')
+            ->will($this->returnValue(new Magento_Translate_Adapter()));
+
+        // Config mock
+        $this->_config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->setMethods(array('getModuleConfigurationFiles'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_config->expects($this->once())
+            ->method('getModuleConfigurationFiles')
+            ->with('validation.xml')
+            ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
+
+        // Translate adapter mock
+        $this->_translateAdapter = $this->getMockBuilder('Mage_Core_Model_Translate')
+            ->setConstructorArgs(array())
+            ->setMethods(array('_getTranslatedString'))
+            ->getMock();
+        $this->_translateAdapter->expects($this->any())
+            ->method('_getTranslatedString')
+            ->will($this->returnArgument(0));
     }
 
     /**
@@ -33,49 +88,13 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidatorConfig()
     {
-        // Object manager mock
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager_Zend')
-            ->setMethods(array('create', 'get'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $validatorConfigMock = $this->getMockBuilder('Magento_Validator_Config')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Magento_Validator_Config', array('configFiles' => array('/tmp/moduleOne/etc/validation.xml')))
-            ->will($this->returnValue($validatorConfigMock));
-
-        $objectManagerMock->expects($this->at(0))
-            ->method('create')
-            ->with('Magento_Translate_Adapter')
-            ->will($this->returnValue(new Magento_Translate_Adapter()));
-
-        $objectManagerMock->expects($this->at(2))
+        $this->_objectManager->expects($this->at(2))
             ->method('create')
             ->with('Mage_Core_Model_Translate_Expr')
             ->will($this->returnValue(new Mage_Core_Model_Translate_Expr()));
 
-        // Config mock
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')
-            ->setMethods(array('getModuleConfigurationFiles'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $configMock->expects($this->once())
-            ->method('getModuleConfigurationFiles')
-            ->with('validation.xml')
-            ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
-
-        // Translate adapter mock
-        $translateAdapter = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->setConstructorArgs(array())
-            ->setMethods(array('_getTranslatedString'))
-            ->getMock();
-        $translateAdapter->expects($this->once())
-            ->method('_getTranslatedString')
-            ->will($this->returnArgument(0));
-        $factory = new Mage_Core_Model_Validator_Factory($objectManagerMock, $configMock, $translateAdapter);
+        $factory = new Mage_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
+            $this->_translateAdapter);
         $actualConfig = $factory->getValidatorConfig();
         $this->assertInstanceOf('Magento_Validator_Config', $actualConfig,
             'Object of incorrect type was created');
@@ -90,50 +109,33 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
             'Translator callback function was not initialized');
     }
 
+    /**
+     * Test createValidatorBuilder call
+     */
     public function testCreateValidatorBuilder()
     {
-        $this->markTestIncomplete('Test is incomplete');
-        // Object manager mock
-        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager_Zend')
-            ->setMethods(array('create', 'get'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_validatorConfig->expects($this->once())
+            ->method('createValidatorBuilder')
+            ->with('test', 'class', array())
+            ->will($this->returnValue(new Magento_Validator_Builder(array())));
+        $factory = new Mage_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
+            $this->_translateAdapter);
+        $this->assertInstanceOf('Magento_Validator_Builder',
+            $factory->createValidatorBuilder('test', 'class', array()));
+    }
 
-        $validatorConfigMock = $this->getMockBuilder('Magento_Validator_Config')
-            ->setMethods(array('createValidatorBuilder', 'createValidator'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Magento_Validator_Config', array('configFiles' => array('/tmp/moduleOne/etc/validation.xml')))
-            ->will($this->returnValue($validatorConfigMock));
-
-        $objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with('Magento_Translate_Adapter')
-            ->will($this->returnValue(new Magento_Translate_Adapter()));
-
-        // Config mock
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')
-            ->setMethods(array('getModuleConfigurationFiles'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $configMock->expects($this->once())
-            ->method('getModuleConfigurationFiles')
-            ->with('validation.xml')
-            ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
-
-        // Translate adapter mock
-        $translateAdapter = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->setConstructorArgs(array())
-            ->setMethods(array('_getTranslatedString'))
-            ->getMock();
-        $translateAdapter->expects($this->once())
-            ->method('_getTranslatedString')
-            ->will($this->returnArgument(0));
-        $factory = new Mage_Core_Model_Validator_Factory($objectManagerMock, $configMock, $translateAdapter);
-        $actualConfig = $factory->getValidatorConfig();
-        $this->assertInstanceOf('Magento_Validator_Config', $actualConfig,
-            'Object of incorrect type was created');
+    /**
+     * Test createValidatorBuilder call
+     */
+    public function testcreateValidator()
+    {
+        $this->_validatorConfig->expects($this->once())
+            ->method('createValidator')
+            ->with('test', 'class', array())
+            ->will($this->returnValue(new Magento_Validator()));
+        $factory = new Mage_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
+            $this->_translateAdapter);
+        $this->assertInstanceOf('Magento_Validator',
+            $factory->createValidator('test', 'class', array()));
     }
 }
