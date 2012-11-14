@@ -75,7 +75,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name'   => $data['simple'],
                   'email_address'  => $userData['email']));
         //Steps

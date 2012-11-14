@@ -86,10 +86,10 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'billing_country') {
-            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
+            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req_usa',
                 array($emptyField => ''));
         } else {
-            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req',
+            $orderData['billing_addr_data'] = $this->loadDataSet('SalesOrder', 'billing_address_req_usa',
                 array($emptyField => '', 'billing_state' => '%noValue%'));
         }
         //Steps
@@ -158,10 +158,10 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
         if ($emptyField != 'shipping_country') {
-            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
+            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req_usa',
                 array($emptyField => ''));
         } else {
-            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req',
+            $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_req_usa',
                 array($emptyField => '', 'shipping_state' => '%noValue%'));
         }
         //Steps

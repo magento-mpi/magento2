@@ -85,7 +85,7 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_S
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name'  => $testData['sku'],
                   'email_address' => $testData['email'],
                   'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));

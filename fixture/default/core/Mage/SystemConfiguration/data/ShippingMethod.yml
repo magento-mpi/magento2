@@ -216,7 +216,7 @@ dhl_am_enable:
                 dhl_access_id: EvgeniyUSA
                 dhl_password: okG43dHy7
 
-dhl_ea_enable:
+dhl_enable:
     configuration_scope: Default Config
     tab_1: &dhl_ea
         tab_name: sales_shipping_methods
@@ -234,10 +234,6 @@ dhl_ea_enable:
                 dhl_debug: Yes
                 dhl_access_id: EvgeniyDE
                 dhl_password: aplNb6Rop
-
-dhl_enable:
-    configuration_scope: Default Config
-    tab_1: *dhl_ea
 
 flatrate_zerosubtotal_enable:
     configuration_scope: Default Config

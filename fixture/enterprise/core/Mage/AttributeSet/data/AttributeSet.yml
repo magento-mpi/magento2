@@ -10,10 +10,6 @@
 #
 ---
 #Test data for Attribute Set
-mini_attribute_set:
-    set_name: mini_attribute_set_%randomize%
-    based_on: Minimal
-
 system_attributes_general_minimal:
     name: name
     description: description

@@ -99,7 +99,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
@@ -169,7 +169,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');

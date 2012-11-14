@@ -86,7 +86,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
@@ -156,7 +156,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');

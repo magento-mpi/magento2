@@ -80,7 +80,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function enableRMA($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
         $this->addParameter('param', '0');
         //Preconditions
@@ -146,7 +146,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function returnSimpleProduct($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
         $rmaData = $this->loadDataSet('RMA', 'rma_request', array('item' => $testData['products']['simple1']['name']));
         //Preconditions
@@ -196,7 +196,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function returnWrongQuantity($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
         $rmaData = $this->loadDataSet('RMA', 'rma_request',
             array('item' => $testData['products']['simple1']['name'], 'quantity' => '2'));
@@ -250,7 +250,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function severalProducts($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa');
         $checkoutData['products_to_add']['product_1']['general_name'] = $testData['products']['simple1']['name'];
         $checkoutData['products_to_add']['product_2']['general_name'] = $testData['products']['simple2']['name'];
         $rmaData = $this->loadDataSet('RMA', 'return_two_products');
@@ -304,7 +304,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function severalReturnForOneOrder($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa');
         $checkoutData['products_to_add']['product_1']['general_name'] = $testData['products']['simple1']['name'];
         $checkoutData['products_to_add']['product_2']['general_name'] = $testData['products']['simple2']['name'];
         $rmaData1 = $this->loadDataSet('RMA', 'rma_request');
@@ -364,7 +364,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function returnAfterPartialShipment($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa');
         $rmaData1 = $this->loadDataSet('RMA', 'rma_request',
             array('item' => $testData['products']['simple1']['name'], 'quantity' => '5'));
         $rmaData2 = $this->loadDataSet('RMA', 'rma_request',
@@ -421,7 +421,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function withoutShipment($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -462,7 +462,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_
     public function disableRMA($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
         //Preconditions
         $this->loginAdminUser();

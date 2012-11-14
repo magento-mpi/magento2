@@ -581,7 +581,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'gift_options_address2' => $forProduct2));
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_yes');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');

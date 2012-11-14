@@ -75,7 +75,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
                                            array('general_name' => $data['simple']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['user']);

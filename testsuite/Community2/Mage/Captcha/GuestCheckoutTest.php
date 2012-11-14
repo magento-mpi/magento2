@@ -158,7 +158,7 @@ class Community2_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function emptyCaptcha($productName)
     {
         //Data
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
                                           array('general_name' => $productName));
         $message = '"Please type the letters below": This is a required field.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
@@ -188,7 +188,7 @@ class Community2_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function wrongCaptcha($productName)
     {
         //Data
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
                                             array('general_name' => $productName));
         $checkoutData['billing_address_data']['captcha_guest_checkout'] = '1234';
         $message = 'Incorrect CAPTCHA.';
@@ -219,7 +219,7 @@ class Community2_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
     public function correctCaptcha($productName)
     {
         //Data
-        $userInfo = $this->loadDataSet('OnePageCheckout', 'billing_guest_req_physical_withshipping');
+        $userInfo = $this->loadDataSet('OnePageCheckout', 'billing_guest_withshipping_usa');
         $userInfo['captcha_guest_checkout'] = '1111';
         unset ($userInfo['billing_address_choice']);
         $checkout = array('checkout_method' => 'guest');

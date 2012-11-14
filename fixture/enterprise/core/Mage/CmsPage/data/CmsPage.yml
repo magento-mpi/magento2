@@ -105,14 +105,3 @@ new_cms_page_req:
                 template: CMS Page Link Block Template
                 chosen_option:
                     filter_url_key: about-magento-demo-store
-
-search_cms_page:
-    filter_title: %noValue%
-    filter_url_key: %noValue%
-    filter_layout: %noValue%
-    filter_store_view: %noValue%
-    filter_status: %noValue%
-    filter_created_from: %noValue%
-    filter_created_to: %noValue%
-    filter_last_modified_from: %noValue%
-    filter_last_modified_to: %noValue%

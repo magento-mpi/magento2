@@ -43,7 +43,7 @@ class Enterprise2_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Selen
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $user = array('email' => $userData['email'], 'password' => $userData['password']);
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $simple['general_name']));
         //Steps
         $this->loginAdminUser();

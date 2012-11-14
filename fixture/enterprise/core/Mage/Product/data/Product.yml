@@ -10,240 +10,6 @@
 #
 ---
 # Test Datasets for Add New Product for each types for minimal attribute set
-simple_product_minimal:
-    product_attribute_set: Minimal
-    general_name: Simple Product Required(%randomize%)
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
-    general_sku: simple_sku_req_%randomize%
-    general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price: 9.99
-    general_min_tax_class: None
-    websites: Main Website
-    categories: Default Category
-    custom_options_data:
-        custom_options_field: %noValue%
-
-virtual_product_minimal:
-    product_attribute_set: Minimal
-    general_name: Virtual Product Required(%randomize%)
-    general_description: Description for Virtual Product Required
-    general_short_description: Short Description for Virtual Product Required
-    general_sku: virtual_sku_req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price: 99.99
-    general_min_tax_class: None
-    websites: Main Website
-    categories: Default Category
-
-configurable_product_minimal:
-    product_attribute_set: Minimal
-    configurable_attribute_title: %noValue%
-    general_name: Configurable Product Required(%randomize%)
-    general_description: Description for Configurable Product Required
-    general_short_description: Short Description for Configurable Product Required
-    general_sku: configurable_sku_req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price: 14.95
-    general_min_tax_class: None
-    categories: Default Category
-    associated_configurable_data:
-        associated_configurable_1:
-            associated_search_sku: %associated_1%
-
-downloadable_product_minimal:
-    product_attribute_set: Minimal
-    general_name: Downloadable Product Required(%randomize%)
-    general_description: Description for Downloadable Product Required
-    general_short_description: Short Description for Downloadable Product Required
-    general_sku: downloadable_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price: 99.99
-    general_min_tax_class: None
-    websites: Main Website
-    categories: Default Category
-    downloadable_information_data:
-        downloadable_link_1: %noValue%
-
-grouped_product_minimal:
-    product_attribute_set: Minimal
-    general_name: Grouped Product Visible(%randomize%)
-    general_description: Description for Grouped Product Visible
-    general_short_description: Short Description for Grouped Product Visible
-    general_sku: grouped_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    categories: Default Category
-    associated_grouped_data:
-        associated_grouped_1:
-            associated_search_sku: %associated_1%
-
-fixed_bundle_minimal:
-    product_attribute_set: Minimal
-    general_name: Bundle(Fixed) Product Visible(%randomize%)
-    general_description: Description for Bundle(Fixed) Product Visible
-    general_short_description: Short Description for Bundle(Fixed) Product Product Visible
-    general_sku_type: Fixed
-    general_sku: bundle_fixed_visible_sku_%randomize%
-    general_weight_type: Fixed
-    general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price_type: Fixed
-    general_min_price: 12.55
-    general_min_tax_class: None
-    websites: Main Website
-    categories: Default Category
-    bundle_items_data:
-        item_1: %noValue%
-
-dynamic_bundle_minimal:
-    product_attribute_set: Minimal
-    general_name: Bundle(Dynamic) Product Visible(%randomize%)
-    general_description: Description for Bundle(Dynamic) Product Visible
-    general_short_description: Short Description for Bundle(Dynamic) Product Visible
-    general_sku_type: Dynamic
-    general_sku: bundle_dynamic_visible_sku.req_%randomize%
-    general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_min_price_type: Dynamic
-    websites: Main Website
-    categories: Default Category
-    bundle_items_data:
-        item_1: %noValue%
-#*********************************************
-#*         Custom Options Data               *
-#*********************************************
-
-custom_options_field: &field
-    custom_options_general_title: Custom Option Field
-    custom_options_general_input_type: Field
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 1
-    custom_options_price: 15
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_field
-    custom_options_max_characters: 25
-
-custom_options_area: &area
-    custom_options_general_title: Custom Option Area
-    custom_options_general_input_type: Area
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 2
-    custom_options_price: 18
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_area
-    custom_options_max_characters: 80
-
-custom_options_file: &file
-    custom_options_general_title: Custom Option File
-    custom_options_general_input_type: File
-    custom_options_general_is_required: No
-    custom_options_general_sort_order: 3
-    custom_options_price: 180
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_file
-    custom_options_allowed_file_extension: gif,bmp
-    custom_options_image_size_x: 320
-    custom_options_image_size_y: 240
-
-custom_options_date: &date
-    custom_options_general_title: Custom Option Date
-    custom_options_general_input_type: Date
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 4
-    custom_options_price: 5
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_date
-
-custom_options_date_time: &dateTime
-    custom_options_general_title: Custom Options Date & Time
-    custom_options_general_input_type: Date & Time
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 5
-    custom_options_price: 99.99
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_data_time
-
-custom_options_time: &time
-    custom_options_general_title: Custom Option Time
-    custom_options_general_input_type: Time
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 6
-    custom_options_price: 8.99
-    custom_options_price_type: Fixed
-    custom_options_sku: sku_time
-
-custom_options_dropdown: &dropdown
-    custom_options_general_title: Custom Option Drop-down
-    custom_options_general_input_type: Drop-down
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 7
-    custom_option_row_1:
-        custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_drop_down_row_1
-        custom_options_sort_order: 1
-
-custom_options_radiobutton:  &radiobutton
-    custom_options_general_title: Custom Option Radio Buttons
-    custom_options_general_input_type: Radio Buttons
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 8
-    custom_option_row_1:
-        custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_radio_row_1
-        custom_options_sort_order: 1
-
-custom_options_checkbox: &checkbox
-    custom_options_general_title: Custom Option Checkbox
-    custom_options_general_input_type: Checkbox
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 9
-    custom_option_row_1:
-        custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_checkbox_row_1
-        custom_options_sort_order: 1
-
-custom_options_multipleselect: &multipleselect
-    custom_options_general_title: Custom Option Multiple Select
-    custom_options_general_input_type: Multiple Select
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 10
-    custom_option_row_1:
-        custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Fixed
-        custom_options_sku: sku_multipleselect_row_1
-        custom_options_sort_order: 1
-
-custom_options_data: &customOptionsData
-    custom_options_field: *field
-    custom_options_area: *area
-    custom_options_file: *file
-    custom_options_date: *date
-    custom_options_date_time: *dateTime
-    custom_options_time: *time
-    custom_options_dropdown: *dropdown
-    custom_options_radiobutton:  *radiobutton
-    custom_options_checkbox: *checkbox
-    custom_options_multipleselect: *multipleselect
-
-custom_options_empty:
-    custom_options_general_title: Custom Option Title
-    custom_options_general_input_type: Area
-
 #*********************************************
 #*         Gift Card Price Data              *
 #*********************************************
@@ -297,7 +63,104 @@ frontend_gift_card_validation:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    custom_options_data: *customOptionsData
+    custom_options_data: &customOptionsData
+        custom_options_field: &field
+            custom_options_general_title: Custom Option Field
+            custom_options_general_input_type: Field
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 1
+            custom_options_price: 15
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_field
+            custom_options_max_characters: 25
+        custom_options_area: &area
+            custom_options_general_title: Custom Option Area
+            custom_options_general_input_type: Area
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 2
+            custom_options_price: 18
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_area
+            custom_options_max_characters: 80
+        custom_options_file: &file
+            custom_options_general_title: Custom Option File
+            custom_options_general_input_type: File
+            custom_options_general_is_required: No
+            custom_options_general_sort_order: 3
+            custom_options_price: 180
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_file
+            custom_options_allowed_file_extension: gif,bmp
+            custom_options_image_size_x: 320
+            custom_options_image_size_y: 240
+        custom_options_date: &date
+            custom_options_general_title: Custom Option Date
+            custom_options_general_input_type: Date
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 4
+            custom_options_price: 5
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_date
+        custom_options_date_time: &dateTime
+            custom_options_general_title: Custom Options Date & Time
+            custom_options_general_input_type: Date & Time
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 5
+            custom_options_price: 99.99
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_data_time
+        custom_options_time: &time
+            custom_options_general_title: Custom Option Time
+            custom_options_general_input_type: Time
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 6
+            custom_options_price: 8.99
+            custom_options_price_type: Fixed
+            custom_options_sku: sku_time
+        custom_options_dropdown: &dropdown
+            custom_options_general_title: Custom Option Drop-down
+            custom_options_general_input_type: Drop-down
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 7
+            custom_option_row_1:
+                custom_options_title: Title 1
+                custom_options_price: 2.56
+                custom_options_price_type: Fixed
+                custom_options_sku: sku_drop_down_row_1
+                custom_options_sort_order: 1
+        custom_options_radiobutton:  &radiobutton
+            custom_options_general_title: Custom Option Radio Buttons
+            custom_options_general_input_type: Radio Buttons
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 8
+            custom_option_row_1:
+                custom_options_title: Title 1
+                custom_options_price: 2.56
+                custom_options_price_type: Fixed
+                custom_options_sku: sku_radio_row_1
+                custom_options_sort_order: 1
+        custom_options_checkbox: &checkbox
+            custom_options_general_title: Custom Option Checkbox
+            custom_options_general_input_type: Checkbox
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 9
+            custom_option_row_1:
+                custom_options_title: Title 1
+                custom_options_price: 2.56
+                custom_options_price_type: Fixed
+                custom_options_sku: sku_checkbox_row_1
+                custom_options_sort_order: 1
+        custom_options_multipleselect: &multipleselect
+            custom_options_general_title: Custom Option Multiple Select
+            custom_options_general_input_type: Multiple Select
+            custom_options_general_is_required: Yes
+            custom_options_general_sort_order: 10
+            custom_option_row_1:
+                custom_options_title: Title 1
+                custom_options_price: 2.56
+                custom_options_price_type: Fixed
+                custom_options_sku: sku_multipleselect_row_1
+                custom_options_sort_order: 1
 
 gift_card:
     product_attribute_set: Default
@@ -372,24 +235,6 @@ simple_product_website:
     inventory_stock_availability: In Stock
     websites: Main Website
     custom_options_data: %noValue%
-    
-simple_product_zero_price:
-    product_attribute_set: Default
-    general_name: Simple Product Zero(%randomize%)
-    general_description: Description for Simple Product Zero
-    general_short_description: Short Description for Simple Product Zero
-    general_sku: simple_zero_sku_%randomize%
-    general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: '0.00'
-    prices_tax_class: None
-    inventory_qty: 999
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    custom_options_data: %noValue%
-
 #*********************************************
 #*         Virtual Product Data              *
 #*********************************************
@@ -429,30 +274,6 @@ bundle_product_website:
     websites: Main Website
     bundle_items_data:
         item_1: %noValue%
-
-#************************************************
-#* Associated Products Data for Grouped Product *
-#************************************************
-
-associated_grouped: &groupedAssociatedProduct1
-    # Data to search
-    associated_search_id: %noValue%
-    associated_search_name: %noValue%
-    associated_search_sku: %noValue%
-    associated_search_price_from: %noValue%
-    associated_search_price_to: %noValue%
-    associated_search_default_qty_from: %noValue%
-    associated_search_default_qty_to: %noValue%
-    associated_search_position_from: %noValue%
-    associated_search_position_to: %noValue%
-    # Data to fill in
-    associated_product_position: %noValue%
-    associated_product_default_qty: %noValue%
-
-associated_grouped_data: &associatedProductsGroupedData
-    associated_grouped_1: *groupedAssociatedProduct1
-    associated_grouped_2: %noValue%
-
 #*********************************************
 #*         Grouped Product Data              *
 #*********************************************
@@ -468,38 +289,23 @@ grouped_product_website:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    associated_grouped_data: *associatedProductsGroupedData
+    associated_grouped_data:
+        associated_grouped_1:
+            # Data to search
+            associated_search_id: %noValue%
+            associated_search_name: %noValue%
+            associated_search_sku: %noValue%
+            associated_search_price_from: %noValue%
+            associated_search_price_to: %noValue%
+            associated_search_default_qty_from: %noValue%
+            associated_search_default_qty_to: %noValue%
+            associated_search_position_from: %noValue%
+            associated_search_position_to: %noValue%
+            # Data to fill in
+            associated_product_position: %noValue%
+            associated_product_default_qty: %noValue%
+        associated_grouped_2: %noValue%
 
-#*********************************************
-#*         Downloadable Information Data      *
-#*********************************************
-
-downloadable_samples: &samplesDownloadable
-    downloadable_sample_row_title: Sample Row Title
-    downloadable_sample_row_url_radiobutton: Yes
-    downloadable_sample_row_url: www.localhost.com
-    downloadable_sample_row_sort_order: 1
-
-downloadable_links: &linksDownloadable
-    downloadable_link_row_title: Link Row Title
-    downloadable_link_row_price: 12
-    downloadable_link_row_unlimited_downloads: No
-    downloadable_link_max_downloads: 100
-    downloadable_link_shareable: No
-    downloadable_link_row_sample_url_radiobutton: Yes
-    downloadable_link_row_sample_url: www.sample.com
-    downloadable_link_row_url_radiobutton: Yes
-    downloadable_link_row_file_url: www.file.com
-    downloadable_link_row_sort_order: 1
-
-downloadable_information_data: &downloadableData
-    downloadable_samples_title: Samples Title
-    downloadable_links_title: Links Title
-    downloadable_links_purchased_separately: Yes
-    downloadable_sample_1: *samplesDownloadable
-    downloadable_sample_2: %noValue%
-    downloadable_link_1: *linksDownloadable
-    downloadable_link_2: %noValue%
 #*********************************************
 #*         Downloadable Product Data         *
 #*********************************************
@@ -518,7 +324,28 @@ downloadable_product_website:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    downloadable_information_data: *downloadableData
+    downloadable_information_data: &downloadableData
+        downloadable_samples_title: Samples Title
+        downloadable_links_title: Links Title
+        downloadable_links_purchased_separately: Yes
+        downloadable_sample_1:
+            downloadable_sample_row_title: Sample Row Title
+            downloadable_sample_row_url_radiobutton: Yes
+            downloadable_sample_row_url: www.localhost.com
+            downloadable_sample_row_sort_order: 1
+        downloadable_sample_2: %noValue%
+        downloadable_link_1:
+            downloadable_link_row_title: Link Row Title
+            downloadable_link_row_price: 12
+            downloadable_link_row_unlimited_downloads: No
+            downloadable_link_max_downloads: 100
+            downloadable_link_shareable: No
+            downloadable_link_row_sample_url_radiobutton: Yes
+            downloadable_link_row_sample_url: www.sample.com
+            downloadable_link_row_url_radiobutton: Yes
+            downloadable_link_row_file_url: www.file.com
+            downloadable_link_row_sort_order: 1
+        downloadable_link_2: %noValue%
 
 # Product that has all needed fields without price.
 simple_product_price:

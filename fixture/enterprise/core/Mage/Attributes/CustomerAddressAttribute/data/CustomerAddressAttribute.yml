@@ -12,7 +12,7 @@
 # Test Datasets for Add New Customer Address Attribute for each types
 
 # Test Datasets  for searching Customer Address Attribute
-attribute_search_data:
+customer_address_attribute_search_data:
     attribute_code: %noValue%
     attribute_label: %noValue%
     required: %noValue%

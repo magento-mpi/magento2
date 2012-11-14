@@ -93,7 +93,7 @@ class Community2_Mage_CheckoutOnePage_Guest_PaymentMethodZeroSubtotalTest extend
     public function zeroSubtotalCheckout($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         //Steps
@@ -138,7 +138,7 @@ class Community2_Mage_CheckoutOnePage_Guest_PaymentMethodZeroSubtotalTest extend
     public function zeroSubtotalCheckoutCapture($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable',

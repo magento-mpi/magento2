@@ -219,7 +219,7 @@ class Community2_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_T
     public function correctCaptcha($productName)
     {
         //Data
-        $userInfo = $this->loadDataSet('OnePageCheckout', 'billing_with_register_req_physical_withshipping');
+        $userInfo = $this->loadDataSet('OnePageCheckout', 'billing_with_register_withshipping_usa');
         $userInfo['captcha_register_during_checkout'] = '1111';
         unset ($userInfo['billing_address_choice']);
         $checkout = array('checkout_method' => 'register');

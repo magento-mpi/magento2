@@ -149,7 +149,7 @@ manage_roles:
 
 # 'New Role' page
 new_role:
-    mca: permissions_role/editrole/
+    mca: user_role/editrole/
     title: New Role / Roles / Permissions / System / Magento Admin
     uimap:
         form: &newRoleForm

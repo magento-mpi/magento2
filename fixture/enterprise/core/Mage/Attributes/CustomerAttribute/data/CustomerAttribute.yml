@@ -12,7 +12,7 @@
 # Test Datasets for Add New Customer Attribute for each types
 
 # Test Datasets for searching Customer Attribute
-attribute_search_data:
+customer_attribute_search_data:
     attribute_code: %noValue%
     attribute_label: %noValue%
     required: %noValue%

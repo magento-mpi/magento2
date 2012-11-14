@@ -2126,31 +2126,6 @@ dynamic_bundle_multi_checkout_options:
     custom_options_data: *customOptionsData
     bundle_items_data: *bundleDataMultiCheckout
 
-#*****************************************************
-#* Associated Products Data for Configurable Product *
-#*****************************************************
-
-associated_configurable_multi: &configurableAssociatedProductMulti
-    # Data to search
-    associated_search_id: %noValue%
-    associated_search_name: %noValue%
-    associated_search_attribute_set: %noValue%
-    associated_search_sku: %noValue%
-    associated_search_price_from: %noValue%
-    associated_search_price_to: %noValue%
-    associated_search_inventory: %noValue%
-    associated_search_by_attribute_value: %noValue%
-    # Data to fill in
-    associated_product_price: %noValue%
-    associated_product_price_type: %noValue%
-
-#associated_configurable_data: &associatedProductsConfigurableDataMulti
-#    associated_products_attribute_name_default: %noValue%
-#    associated_products_attribute_name: %noValue%
-#    associated_configurable_1: *configurableAssociatedProduct1Multi
-#    associated_configurable_2: *configurableAssociatedProduct1Multi
-#    associated_configurable_3: *configurableAssociatedProduct1Multi
-
 ###############################################
 #           Configurable Product Data         #
 ###############################################
@@ -2172,9 +2147,9 @@ configurable_multi_checkout:
     associated_configurable_data:
         associated_products_attribute_name_default: %noValue%
         associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProductMulti
-        associated_configurable_2: *configurableAssociatedProductMulti
-        associated_configurable_3: *configurableAssociatedProductMulti
+        associated_configurable_1: *configurableAssociatedProduct1
+        associated_configurable_2: *configurableAssociatedProduct1
+        associated_configurable_3: *configurableAssociatedProduct1
 
 configurable_multi_checkout_options:
     product_attribute_set: Default
@@ -2194,9 +2169,9 @@ configurable_multi_checkout_options:
     associated_configurable_data:
         associated_products_attribute_name_default: %noValue%
         associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProductMulti
-        associated_configurable_2: *configurableAssociatedProductMulti
-        associated_configurable_3: *configurableAssociatedProductMulti
+        associated_configurable_1: *configurableAssociatedProduct1
+        associated_configurable_2: *configurableAssociatedProduct1
+        associated_configurable_3: *configurableAssociatedProduct1
 #*********************************************
 #*         Product Updating Data              *
 #*********************************************

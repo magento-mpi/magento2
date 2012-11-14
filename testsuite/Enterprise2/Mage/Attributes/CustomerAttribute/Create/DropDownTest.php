@@ -208,7 +208,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_DropDownTest extends 
             array('admin_title' => $this->generate('string', 32, ':punct:')));
         $attrData['manage_labels_options']['admin_title'] = preg_replace('/<|>/', '',
             $attrData['manage_labels_options']['admin_title']);
-        $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
@@ -241,7 +241,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_DropDownTest extends 
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_dropdown',
             array('attribute_code' => $this->generate('string', 21, ':lower:'),
                   'admin_title'    => $this->generate('string', 255, ':alnum:')));
-        $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code'  => $attrData['properties']['attribute_code'],
                   'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps

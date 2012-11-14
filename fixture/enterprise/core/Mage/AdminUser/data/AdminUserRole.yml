@@ -40,13 +40,9 @@ generic_admin_user_role_custom:
             resource_access : Custom
             resource_1: Sales/Archive/Orders/Move to Archive
 
-role_users_template: &roleUsersTemplate
-    user_id: %noValue%
-    user_name: admin
-    first_name: %noValue%
-    last_name: %noValue%
-    email: %noValue%
-    status: Active
+search__locked_user:
+    search_user:
+        username: %userName%
 
 edit_admin_user_role_custom:
     search_role:
@@ -57,26 +53,15 @@ edit_admin_user_role_custom:
     role_resources_tab:
         role_scopes:
             scopes: All
-#            website_1: Main Website Store
         role_resources:
             resource_access : Custom
             resource_1: Sales/Archive/Orders/Move to Archive
     role_users_tab:
-        role_users_1: *roleUsersTemplate
+        role_users_1:
+            user_id: %noValue%
+            user_name: admin
+            first_name: %noValue%
+            last_name: %noValue%
+            email: %noValue%
+            status: Active
         role_users_2: %noValue%
-
-edit_admin_user_role_name:
-    search_role:
-        id: %noValue%
-        role_name: %roleName%
-    role_info_tab:
-        role_name: %newRoleName%
-
-delete_admin_user_role:
-    search_role:
-        id: %noValue%
-        role_name: %roleName%
-
-search__locked_user:
-    search_user:
-        username: %userName%

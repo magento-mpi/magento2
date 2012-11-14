@@ -88,7 +88,7 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest exten
     public function authorizeDirectPost($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
         //Steps

@@ -95,7 +95,7 @@ class Community2_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest ext
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         //Steps
@@ -146,7 +146,7 @@ class Community2_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest ext
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable',

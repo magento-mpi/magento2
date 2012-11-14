@@ -260,7 +260,7 @@ class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_login_form');
         $user = array('email'    => $userData['email'], 'password' => $userData['password']);
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name'  => $simple['general_name'], 'email_address'  => $user['email']));
         //Preconditions
         $this->systemConfigurationHelper()->configure($config);

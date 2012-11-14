@@ -50,7 +50,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
     {
         //Data
         $attrData = $this->loadDataSet('CustomerAddressAttribute', $dataName);
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
@@ -96,7 +96,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
     public function deletedSystemAttribute($attributeCode, $attributeName)
     {
         //Data
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
             array('attribute_code'  => $attributeCode));
         //Steps
         $this->addParameter('elementTitle', $attributeName);
