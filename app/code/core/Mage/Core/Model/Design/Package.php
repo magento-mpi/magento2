@@ -1124,26 +1124,6 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Check if the theme from the specified area is compatible with specific Magento version
-     *
-     * @param string $area
-     * @param string $package
-     * @param string $theme
-     * @param string $version
-     * @return bool
-     */
-    public function isThemeCompatible($area, $package, $theme, $version)
-    {
-        $versions = $this->getThemeConfig($area)->getCompatibleVersions($package, $theme);
-        if (version_compare($version, $versions['from'], '>=')) {
-            if ($versions['to'] == '*' || version_compare($version, $versions['from'], '<=')) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Render view config object for current package and theme
      *
      * @return Magento_Config_View

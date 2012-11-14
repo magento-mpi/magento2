@@ -108,7 +108,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => true,
-            'values'   => $this->getPackageThemeOptionsArray()
+            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray()
         ));
         $continueButton = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
@@ -165,17 +165,5 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     protected function _sortWidgets($a, $b)
     {
         return strcmp($a["label"], $b["label"]);
-    }
-
-    /**
-     * Retrieve package/theme options array
-     *
-     * @return array
-     */
-    public function getPackageThemeOptionsArray()
-    {
-        $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getThemeOptions();
-        array_unshift($options, array('value' => '', 'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('-- Please Select --')));
-        return $options;
     }
 }

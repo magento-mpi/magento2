@@ -47,8 +47,8 @@ class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))
                 ->setHtmlId($this->_getCellInputElementId('#{_id}', $columnName))
-                ->setValues(Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false));
-            return str_replace("\n", '' , $element->getElementHtml());
+                ->setValues(Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(false));
+            return str_replace("\n", '', $element->getElementHtml());
         }
 
         return parent::_renderCellTemplate($columnName);

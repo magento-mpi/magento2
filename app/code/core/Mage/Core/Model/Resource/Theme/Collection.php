@@ -43,7 +43,17 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      */
     public function toOptionArray()
     {
-        return array('' => '') + $this->_toOptionArray('theme_id', 'theme_title');
+        return$this->_toOptionArray('theme_id', 'theme_title');
+    }
+
+    /**
+     * Return array for grid column
+     *
+     * @return array
+     */
+    public function toOptionHash()
+    {
+        return $this->_toOptionHash('theme_id', 'theme_title');
     }
 
     /**

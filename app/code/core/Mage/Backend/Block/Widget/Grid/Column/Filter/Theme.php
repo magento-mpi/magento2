@@ -32,7 +32,9 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Theme
                 'label' => ''
             ));
         }
-        $html = sprintf('<select name="%s" id="%s" class="no-changes"'  . $this->getUiId('filter', $this->_getHtmlName()) .  '>', $this->_getHtmlName(), $this->_getHtmlId())
+        $htmlSelect = '<select name="%s" id="%s" class="no-changes"' . $this->getUiId('filter', $this->_getHtmlName())
+            . '>';
+        $html = sprintf($htmlSelect, $this->_getHtmlName(), $this->_getHtmlId())
             . $this->_drawOptions($options)
             . '</select>';
         return $html;
@@ -48,7 +50,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Theme
     {
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
-            $options = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getThemeOptions(false);
+            $options = Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(false);
         }
         return $options;
     }

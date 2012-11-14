@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
         $fieldset->addField('design', 'select', array(
             'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
             'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
-            'values'   => Mage::getSingleton('Mage_Core_Model_Design_Source_Design')->getAllOptions(),
+            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(),
             'name'     => 'design',
             'required' => true,
         ));

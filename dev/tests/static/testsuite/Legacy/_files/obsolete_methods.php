@@ -393,4 +393,9 @@ return array(
     $this->_getRule('_getUploadMaxFilesize', 'Mage_Catalog_Model_Product_Option_Type_File'),
     $this->_getRule('_bytesToMbytes', 'Mage_Catalog_Model_Product_Option_Type_File'),
     $this->_getRule('getMaxUploadSize', 'Mage_ImportExport_Helper_Data', 'getMaxUploadSizeMessage'),
+    $this->_getRule('getOptions', 'Mage_Core_Model_Design_Source_Design',
+        'Mage_Core_Model_Theme::getThemeCollectionOptionArray'),
+    $this->_getRule('getThemeOptions', 'Mage_Core_Model_Design_Source_Design',
+        'Mage_Core_Model_Theme::getThemeCollectionOptionArray'),
+    $this->_getRule('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
 );

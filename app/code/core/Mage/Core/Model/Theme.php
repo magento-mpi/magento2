@@ -47,6 +47,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PREVIEW_IMAGE_HEIGHT = 200;
 
     /**
+     * Theme collection array for select field
+     *
+     * @var array
+     */
+    protected $_themeCollectionOptions = null;
+
+    /**
      * @var Varien_Io_File
      */
     protected $_ioFile;
@@ -488,5 +495,62 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         list($packageCode, $themeCode) = explode('/', $this->getThemePath());
         $this->setPackageCode($packageCode)->setThemeCode($themeCode);
         return $this;
+    }
+
+    /**
+     * Check if the theme is compatible with Magento version
+     *
+     * @return bool
+     */
+    public function isThemeCompatible()
+    {
+        $magentoVersion = Mage::getVersion();
+        if (version_compare($magentoVersion, $this->getMagentoVersionFrom(), '>=')) {
+            if ($this->getMagentoVersionTo() == '*'
+                || version_compare($magentoVersion, $this->getMagentoVersionFrom(), '<=')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the theme is compatible with Magento version and mark theme label if not compatible
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function checkThemeCompatible()
+    {
+        if (!$this->isThemeCompatible()) {
+            $this->setThemeTitle(
+                Mage::helper('Mage_Core_Helper_Data')->__('%s (incompatible version)', $this->getThemeTitle())
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * Return collection array for select field
+     *
+     * @param bool $withEmpty add empty (please select) values to result
+     * @return array
+     */
+    public function getThemeCollectionOptionArray($withEmpty = true)
+    {
+        if (!$this->_themeCollectionOptions) {
+            /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+            $themeCollection = $this->getCollection();
+            $themeCollection->setOrder('theme_title', Mage_Core_Model_Resource_Theme_Collection::SORT_ORDER_ASC)
+                ->walk('checkThemeCompatible');
+            $this->_themeCollectionOptions = $themeCollection->toOptionArray();
+        }
+        $options = $this->_themeCollectionOptions;
+        if ($withEmpty) {
+            array_unshift($options, array(
+                'value' => '',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'))
+            );
+        }
+        return $options;
     }
 }

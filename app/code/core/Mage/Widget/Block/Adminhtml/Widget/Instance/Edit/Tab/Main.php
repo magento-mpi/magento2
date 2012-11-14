@@ -114,11 +114,12 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        $fieldset->addField('package_theme', 'text', array(
+        $fieldset->addField('package_theme', 'select', array(
             'name'  => 'package_theme',
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => false,
+            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(),
             'disabled' => true
         ));
 
@@ -138,7 +139,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'required'  => true,
                 'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
