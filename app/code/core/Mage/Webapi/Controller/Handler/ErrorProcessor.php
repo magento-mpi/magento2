@@ -51,7 +51,6 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      */
     public function saveReport($reportData)
     {
-        // TODO: Is it safe to use '@' here?
         if (!file_exists($this->_reportDir)) {
             @mkdir($this->_reportDir, 0777, true);
         }

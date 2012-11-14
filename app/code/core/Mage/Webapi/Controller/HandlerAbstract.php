@@ -4,8 +4,7 @@
  *
  * @copyright {}
  */
-// TODO: Think about changing interface implemented
-abstract class Mage_Webapi_Controller_HandlerAbstract implements Mage_Core_Controller_FrontInterface
+abstract class Mage_Webapi_Controller_HandlerAbstract
 {
     const VERSION_MIN = 1;
 
@@ -45,6 +44,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract implements Mage_Core_Contr
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
@@ -57,30 +57,35 @@ abstract class Mage_Webapi_Controller_HandlerAbstract implements Mage_Core_Contr
         $this->_apiConfig = $apiConfig;
         $this->_actionControllerFactory = $actionControllerFactory;
         $this->_response = $response;
+        $this->_request = $requestFactory->get();
         $this->_logger = $logger;
         $this->_roleLocator = $roleLocator;
         $this->_objectManager = $objectManager;
     }
 
     /**
-     * Set response.
+     * Handle request.
      *
-     * @param Mage_Webapi_Controller_Request $request
      * @return Mage_Webapi_Controller_HandlerAbstract
      */
-    public function setRequest(Mage_Webapi_Controller_Request $request)
-    {
-        $this->_request = $request;
-        return $this;
-    }
+    abstract public function handle();
 
     /**
-     * Retrieve request object.
+     * Initialize handler.
+     *
+     * @return Mage_Webapi_Controller_HandlerAbstract
+     */
+    abstract public function init();
+
+    /**
+     * Get REST request.
      *
      * @return Mage_Webapi_Controller_Request
      */
-    // TODO: Do we need this abstract?
-    abstract public function getRequest();
+    public function getRequest()
+    {
+        return $this->_request;
+    }
 
     /**
      * Retrieve config describing resources available in all APIs

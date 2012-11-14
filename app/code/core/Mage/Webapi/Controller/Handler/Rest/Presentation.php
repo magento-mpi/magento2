@@ -30,10 +30,20 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
     /** @var Mage_Webapi_Controller_Response_Rest_RendererInterface */
     protected $_renderer;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Controller_RequestFactory $requestFactory
+     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
+     * @param Magento_Controller_Router_Route_Factory $routeFactory
+     */
     function __construct(
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Webapi_Controller_Request_Rest $request,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Magento_Controller_Router_Route_Factory $routeFactory
@@ -41,7 +51,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
         $this->_apiConfig = $apiConfig;
         $this->_helperFactory = $helperFactory;
         $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
-        $this->_request = $request;
+        $this->_request = $requestFactory->get();
         $this->_response = $response;
         $this->_rendererFactory = $rendererFactory;
         $this->_routeFactory = $routeFactory;

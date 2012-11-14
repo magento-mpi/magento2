@@ -38,18 +38,20 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     protected $_helperFactory;
 
     /**
-     * @param Mage_Webapi_Controller_Request $request
+     * Initialize dependencies.
+     *
+     * @param Mage_Webapi_Controller_RequestFactory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Mage_Webapi_Controller_Request $request,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_translationHelper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
-        $this->_request = $request;
+        $this->_request = $requestFactory->get();
         $this->_response = $response;
     }
 

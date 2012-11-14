@@ -89,6 +89,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
@@ -105,6 +106,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $helperFactory,
             $applicationConfig,
             $apiConfig,
+            $requestFactory,
             $response,
             $actionControllerFactory,
             $logger,
@@ -120,16 +122,6 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Get REST request.
-     *
-     * @return Mage_Webapi_Controller_Request_Rest
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
      * Server errors processing mechanism initialization.
      *
      * @return Mage_Webapi_Controller_Handler_Rest|Mage_Core_Controller_FrontInterface
@@ -142,9 +134,11 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Dispatch REST request
+     * Handle REST request.
+     *
+     * @return Mage_Webapi_Controller_Handler_Rest
      */
-    public function dispatch()
+    public function handle()
     {
         try {
             $this->_authenticate();
@@ -190,6 +184,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
         $this->_sendResponse();
         $this->_eventManager->dispatch('controller_front_send_response_after', array('front' => $this));
+        return $this;
     }
 
     /**

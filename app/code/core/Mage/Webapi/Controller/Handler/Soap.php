@@ -49,6 +49,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
@@ -65,6 +66,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             $helperFactory,
             $applicationConfig,
             $apiConfig,
+            $requestFactory,
             $response,
             $actionControllerFactory,
             $logger,
@@ -214,16 +216,6 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Get SOAP request.
-     *
-     * @return Mage_Webapi_Controller_Request
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
      * Implementation of abstract method.
      *
      * @return Mage_Webapi_Controller_Handler_Soap|Mage_Core_Controller_FrontInterface
@@ -239,7 +231,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      *
      * @return Mage_Webapi_Controller_Handler_Soap
      */
-    public function dispatch()
+    public function handle()
     {
         try {
             if ($this->getRequest()->getParam(self::REQUEST_PARAM_WSDL) !== null) {

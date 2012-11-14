@@ -17,12 +17,19 @@
  */
 class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_ActionAbstract
 {
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Webapi_Controller_RequestFactory $requestFactory
+     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     */
     public function __construct(
-        Mage_Webapi_Controller_Request $request,
+        Mage_Webapi_Controller_RequestFactory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
-        parent::__construct($request, $response, $helperFactory);
+        parent::__construct($requestFactory, $response, $helperFactory);
         $this->_translationHelper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
     }
 

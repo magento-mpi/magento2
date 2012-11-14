@@ -7,43 +7,50 @@
 class Mage_Webapi_Controller_RequestFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * List of request classes corresponding to API types.
+     *
+     * @var array
      */
+    protected $_apiTypeToRequestMap = array(
+        Mage_Webapi_Controller_Front::API_TYPE_REST => 'Mage_Webapi_Controller_Request_Rest',
+        Mage_Webapi_Controller_Front::API_TYPE_SOAP => 'Mage_Webapi_Controller_Request',
+    );
+
+    /** @var Magento_ObjectManager */
     protected $_objectManager;
 
+    /** @var Mage_Webapi_Controller_Front */
+    protected $_webApiFrontController;
+
     /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Webapi_Controller_Front $webApiFrontController
      * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
+    public function __construct(
+        Mage_Webapi_Controller_Front $webApiFrontController,
+        Magento_ObjectManager $objectManager
+    ) {
+        $this->_webApiFrontController = $webApiFrontController;
         $this->_objectManager = $objectManager;
     }
 
     /**
      * Create request object.
      *
-     * @param string $apiType
+     * Use current API type to define proper request class.
+     *
      * @return Mage_Webapi_Controller_Request
-     * @throws InvalidArgumentException If API type is not defined in Mage_Webapi_Controller_Front
+     * @throws LogicException If there is no corresponding request class for current API type.
      */
-    public function get($apiType)
+    public function get()
     {
-        switch ($apiType) {
-            case Mage_Webapi_Controller_Front::API_TYPE_REST:
-                return $this->_objectManager->get(
-                    'Mage_Webapi_Controller_Request_Rest',
-                    array('apiType' => $apiType)
-                );
-                break;
-            case Mage_Webapi_Controller_Front::API_TYPE_SOAP:
-                return $this->_objectManager->get(
-                    'Mage_Webapi_Controller_Request',
-                    array('apiType' => $apiType)
-                );
-                break;
-            default:
-                throw new InvalidArgumentException('The "%s" API type is not valid.', $apiType);
-                break;
+        $apiType = $this->_webApiFrontController->determineApiType();
+        if (!isset($this->_apiTypeToRequestMap[$apiType])) {
+            throw new LogicException('There is no corresponding request class for the "%s" API type.', $apiType);
         }
+        $requestClass = $this->_apiTypeToRequestMap[$apiType];
+        return $this->_objectManager->get($requestClass, array('apiType' => $apiType));
     }
 }
