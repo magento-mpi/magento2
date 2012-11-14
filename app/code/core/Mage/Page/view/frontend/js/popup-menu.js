@@ -10,11 +10,15 @@
 (function($) {
     $.widget('mage.popUpMenu', {
         options: {
-            fadeDuration: 'slow',
-            hideOnClick: true,
-            openedClass: 'list-opened',
-            switcher: 'span.switcher',
-            timeoutDuration: 2000
+            eventClass: 'faded', // Class applied to popUpMenu with mouseleave/mouseenter events.
+            fadeDuration: 'slow', // Duration for the fade effect when popUpMenu is shown/hidden.
+            hideOnClick: true, // Hides the popUpMenu when click anywhere in the document body.
+            menu: '', // Selector for the popUpMenu (e.g. <ul>).
+            onMouseEnter: null, // Function called when mouseenter event is triggered on popUpMenu.
+            onMouseLeave: null, // Function called when mouseleave event is triggered on popUpMenu.
+            openedClass: 'list-opened', // Class applied to switcher when popUpMenu is shown/hidden.
+            switcher: 'span.switcher', // Selector for the popUpMenu switcher.
+            timeoutDuration: 2000 // Duration before popUpMenu is hidden after mouseleave event.
         },
 
         /**
@@ -25,11 +29,13 @@
         _create: function() {
             this.switcher = this.element.find(this.options.switcher)
                 .on('click', $.proxy(this._toggleMenu, this));
-            var eventMap = this.options.hideOnClick ? {'blur': $.proxy(this._hide, this)} : {};
-            $.extend(eventMap, {
+            var eventMap = {
                 'mouseenter': $.proxy(this.options.onMouseEnter, this),
                 'mouseleave': $.proxy(this.options.onMouseLeave, this)
-            });
+            };
+            if (this.options.hideOnClick) {
+                eventMap.blur = $.proxy(this._hide, this);
+            }
             this.element.on(eventMap);
             $(this.options.menu).find('a').on('click', $.proxy(this._hide, this));
         },
@@ -37,8 +43,8 @@
         /**
          * Custom method for defining options during instantiation. User-provided options
          * override the options returned by this method which override the default options.
-         * @return {Object} Object containing options for mouseenter/mouseleave events.
          * @private
+         * @return {Object} Object containing options for mouseenter/mouseleave events.
          */
         _getCreateOptions: function() {
             return {onMouseEnter: this._onMouseEnter, onMouseLeave: this._onMouseLeave};
@@ -59,7 +65,8 @@
          * @private
          */
         _show: function() {
-            $(this.options.menu).removeClass('faded').fadeIn(this.options.fadeDuration);
+            $(this.options.menu)
+                .removeClass(this.options.eventClass).fadeIn(this.options.fadeDuration);
             this.switcher.addClass(this.options.openedClass);
             if (this.options.hideOnClick) {
                 this.element.focus();
@@ -76,8 +83,8 @@
 
         /**
          * Determines whether the popup menu is open (show) or closed (hide).
-         * @return boolean Returns true if open, false otherwise.
          * @private
+         * @return boolean Returns true if open, false otherwise.
          */
         _isOpened: function() {
             return this.switcher.hasClass(this.options.openedClass);
@@ -89,7 +96,7 @@
          */
         _onMouseLeave: function() {
             if (this._isOpened()) {
-                $(this.options.menu).addClass('faded');
+                $(this.options.menu).addClass(this.options.eventClass);
                 this._stopTimer();
                 this.timer = setTimeout($.proxy(this._hide, this), this.options.timeoutDuration);
             }
@@ -102,14 +109,14 @@
         _onMouseEnter: function() {
             if (this._isOpened()) {
                 this._stopTimer();
-                $(this.options.menu).removeClass('faded');
+                $(this.options.menu).removeClass(this.options.eventClass);
             }
         },
 
         /**
          * Toggle the state of the popup menu. Open it (show) or close it (hide).
-         * @return {*}
          * @private
+         * @return {*}
          */
         _toggleMenu: function() {
             return this[this._isOpened() ? '_hide' : '_show']();
