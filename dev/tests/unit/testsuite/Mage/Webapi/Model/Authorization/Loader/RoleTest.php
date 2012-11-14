@@ -57,7 +57,6 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     {
         $roleOne = new Mage_Webapi_Model_Authorization_Role(3);
         $roleTwo = new Mage_Webapi_Model_Authorization_Role(4);
-        $roles = array($roleOne, $roleTwo);
         $roleIds = array(3, 4);
         $createRoleMap = array(
             array(array(3), $roleOne),
@@ -73,11 +72,11 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
 
         $this->_acl->expects($this->exactly(count($roleIds)))
             ->method('addRole')
-            ->with(call_user_func_array(array($this, 'logicalOr'), $roles));
+            ->with($this->logicalOr($roleOne, $roleTwo));
 
         $this->_acl->expects($this->exactly(count($roleIds)))
             ->method('deny')
-            ->with(call_user_func_array(array($this, 'logicalOr'), $roles));
+            ->with($this->logicalOr($roleOne, $roleTwo));
 
         $this->_model->populateAcl($this->_acl);
     }

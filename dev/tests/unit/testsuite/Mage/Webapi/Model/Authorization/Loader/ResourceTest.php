@@ -57,30 +57,27 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
             false);
     }
 
-
     /**
      * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl
      */
     public function testPopulateAcl()
     {
-        $resources = array('customer/get', 'customer/list');
-
         $this->_config->expects($this->once())
             ->method('getAclVirtualResources')
             ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
 
         $this->_acl->expects($this->once())
             ->method('getResources')
-            ->will($this->returnValue($resources));
+            ->will($this->returnValue(array('customer/get', 'customer/create')));
         $this->_acl->expects($this->exactly(2))
             ->method('deny')
-            ->with(null, call_user_func_array(array($this, 'logicalOr'), $resources));
+            ->with(null, $this->logicalOr('customer/get', 'customer/create'));
         $this->_acl->expects($this->exactly(2))
             ->method('has')
-            ->with(call_user_func_array(array($this, 'logicalOr'), $resources))
+            ->with($this->logicalOr('customer/get', 'customer/list'))
             ->will($this->returnValueMap(array(
-                array($resources[0], true),
-                array($resources[1], false)
+                array('customer/get', true),
+                array('customer/list', false)
             )));
         $this->_acl->expects($this->exactly(7))
             ->method('addResource');
@@ -93,18 +90,16 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
      */
     public function testPopulateAclWithInvalidDOM()
     {
-        $resources = array('customer/get', 'customer/list');
-
         $this->_config->expects($this->once())
             ->method('getAclVirtualResources')
             ->will($this->returnValue(array(3)));
 
         $this->_acl->expects($this->once())
             ->method('getResources')
-            ->will($this->returnValue($resources));
+            ->will($this->returnValue(array('customer/get', 'customer/list')));
         $this->_acl->expects($this->exactly(2))
             ->method('deny')
-            ->with(null, call_user_func_array(array($this, 'logicalOr'), $resources));
+            ->with(null, $this->logicalOr('customer/get', 'customer/list'));
 
         $this->_model->populateAcl($this->_acl);
     }

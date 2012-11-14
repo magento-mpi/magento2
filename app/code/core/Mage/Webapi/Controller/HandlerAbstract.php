@@ -116,7 +116,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract implements Mage_Core_Contr
     {
         try {
             /** @var Mage_Core_Model_Authorization $authorization */
-            $authorization = $this->_objectManager->create('Mage_Core_Model_Authorization');
+            $authorization = $this->_objectManager->get('Mage_Core_Model_Authorization');
             if (!$authorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
                 && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)
             ) {

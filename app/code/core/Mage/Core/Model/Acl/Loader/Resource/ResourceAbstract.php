@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Abstraction of ACL Resource Loader
+ *
+ * @copyright {}
  */
 abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements Magento_Acl_Loader
 {

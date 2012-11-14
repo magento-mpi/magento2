@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Framework
- * @subpackage  Acl
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Factory for Acl resource
+ *
+ * @copyright {}
  */
 class Magento_Acl_ResourceFactory
 {
