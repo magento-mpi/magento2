@@ -22,14 +22,14 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_createdCustomer;
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var Mage_Customer_Model_Customer_Factory
      */
     protected $_customerFactory = null;
 
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_customerFactory = new Mage_Customer_Model_CustomerFactory($this->_objectManager);
+        $this->_customerFactory = new Mage_Customer_Model_Customer_Factory($this->_objectManager);
         $this->_model = $this->_objectManager->create('Mage_Customer_Service_Customer');
     }
 
@@ -512,13 +512,13 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $storeId
+     * @param bool $isAdminStore
      * @param boolean $isConfirmed
      * @dataProvider forceConfirmedDataProvider
      */
-    public function testCustomerSetForceConfirmed($storeId, $isConfirmed)
+    public function testCustomerSetForceConfirmed($isAdminStore, $isConfirmed)
     {
-        $this->_model->setStoreId($storeId);
+        $this->_model->setIsAdminStore($isAdminStore);
         $customerData = array(
             'firstname' => 'SomeName',
             'lastname' => 'SomeSurname',
@@ -535,8 +535,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function forceConfirmedDataProvider()
     {
         return array(
-            'admin store' => array(Mage_Core_Model_App::ADMIN_STORE_ID, true),
-            'distro store' => array(Mage_Core_Model_App::DISTRO_STORE_ID, false),
+            'admin store' => array(true, true),
+            'distro store' => array(false, false),
         );
     }
 }

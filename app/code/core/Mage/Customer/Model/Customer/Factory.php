@@ -1,11 +1,13 @@
 <?php
 /**
- * Customer address factory
+ * Customer factory
  *
  * @copyright {}
  */
-class Mage_Customer_Model_AddressFactory
+class Mage_Customer_Model_Customer_Factory
 {
+    const CUSTOMER_CLASS_NAME = 'Mage_Customer_Model_Customer';
+
     /**
      * @var Magento_ObjectManager
      */
@@ -20,13 +22,13 @@ class Mage_Customer_Model_AddressFactory
     }
 
     /**
-     * Create customer address model instance.
+     * Create customer model instance.
      *
      * @param array $arguments
-     * @return Mage_Customer_Model_Address
+     * @return Mage_Customer_Model_Customer
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Customer_Model_Address', $arguments, false);
+        return $this->_objectManager->create(self::CUSTOMER_CLASS_NAME, $arguments, false);
     }
 }

@@ -12,12 +12,12 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_service;
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var Mage_Customer_Model_Customer_Factory
      */
     protected $_customerFactory;
 
     /**
-     * @var Mage_Customer_Model_AddressFactory
+     * @var Mage_Customer_Model_Address_Factory
      */
     protected $_addressFactory;
 
@@ -28,11 +28,11 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $helper->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        $this->_customerFactory = $this->getMockBuilder('Mage_Customer_Model_CustomerFactory')
+        $this->_customerFactory = $this->getMockBuilder('Mage_Customer_Model_Customer_Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
-        $this->_addressFactory = $this->getMockBuilder('Mage_Customer_Model_AddressFactory')
+        $this->_addressFactory = $this->getMockBuilder('Mage_Customer_Model_Address_Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

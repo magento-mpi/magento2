@@ -22,48 +22,50 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     protected $_translateHelper = null;
 
     /**
-     * @var Mage_Customer_Model_CustomerFactory
+     * @var Mage_Customer_Model_Customer_Factory
      */
     protected $_customerFactory = null;
 
     /**
-     * @var Mage_Customer_Model_AddressFactory
+     * @var Mage_Customer_Model_Address_Factory
      */
     protected $_addressFactory = null;
 
     /**
-     * @var int
+     * @var bool
      */
-    protected $_storeId = null;
+    protected $_isAdminStore = true;
 
     /**
      * Constructor
      *
      * @param Mage_Customer_Helper_Data $helper
-     * @param Mage_Customer_Model_CustomerFactory $customerFactory
-     * @param Mage_Customer_Model_AddressFactory $addressFactory
-     * @param int $storeId
+     * @param Mage_Customer_Model_Customer_Factory $customerFactory
+     * @param Mage_Customer_Model_Address_Factory $addressFactory
+     * @param bool $isAdminStore
      */
     public function __construct(
         Mage_Customer_Helper_Data $helper,
-        Mage_Customer_Model_CustomerFactory $customerFactory,
-        Mage_Customer_Model_AddressFactory $addressFactory,
-        $storeId = Mage_Core_Model_App::ADMIN_STORE_ID
+        Mage_Customer_Model_Customer_Factory $customerFactory,
+        Mage_Customer_Model_Address_Factory $addressFactory,
+        $isAdminStore = true
     ) {
         $this->_translateHelper = $helper;
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
-        $this->_storeId = $storeId;
+        $this->_isAdminStore = $isAdminStore;
     }
 
     /**
-     * Set store id.
+     * Set is admin store flag.
      *
-     * @param int $storeId
+     * @param bool $isAdminStore
+     * @return Mage_Customer_Service_Customer
      */
-    public function setStoreId($storeId)
+    public function setIsAdminStore($isAdminStore)
     {
-        $this->_storeId = $storeId;
+        $this->_isAdminStore = $isAdminStore;
+        return $this;
     }
 
     /**
@@ -195,7 +197,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         $password = $this->_getCustomerPassword($customer, $customerData);
         if (!is_null($password)) {
             // 'force_confirmed' should be set in admin area only
-            if ($this->_storeId == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if ($this->_isAdminStore) {
                 $customer->setForceConfirmed(true);
             }
             $customer->setPassword($password);

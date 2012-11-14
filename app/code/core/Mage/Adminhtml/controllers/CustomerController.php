@@ -198,9 +198,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 };
 
                 /** @var Mage_Customer_Service_Customer $customerService */
-                $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer', array(
-                    'storeId' => Mage::app()->getStore()->getId())
-                );
+                $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
+                $customerService->setIsAdminStore(true);
                 $customerService->setBeforeSaveCallback($beforeSaveCallback);
                 $customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
@@ -277,7 +276,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 'password', 'new_password', 'default_billing', 'default_shipping', 'confirmation');
 
             /** @var Mage_Customer_Model_Customer $customerEntity */
-            $customerEntity = $this->_objectManager->create('Mage_Customer_Model_Customer');
+            $customerEntity = $this->_objectManager
+                ->get('Mage_Customer_Model_Customer_Factory')
+                ->create();
             /** @var Mage_Customer_Helper_Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
             $customerData = $customerHelper->extractCustomerData(
@@ -316,7 +317,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             /** @var Mage_Customer_Model_Address_Form $eavForm */
             $eavForm = $this->_objectManager->create('Mage_Customer_Model_Address_Form');
             /** @var Mage_Customer_Model_Address $addressEntity */
-            $addressEntity = $this->_objectManager->create('Mage_Customer_Model_Address');
+            $addressEntity = $this->_objectManager
+                ->get('Mage_Customer_Model_Address_Factory')
+                ->create();
 
             $addressIdList = array_keys($addresses);
             /** @var Mage_Customer_Helper_Data $customerHelper */
