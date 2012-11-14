@@ -40,15 +40,15 @@ $entityBehavior = $operation->getBehavior();
 
     if ('<?php echo $operationType ?>' == 'import') {
         // hide all behavior fields
-        editForm.handleEntityTypeSelector();
+        varienImportExportScheduled.handleEntityTypeSelector();
         // set current behavior
         if ($('entity') && $F('entity')) {
-            var requiredBehavior = editForm.entityBehaviors[$F('entity')];
+            var requiredBehavior = varienImportExportScheduled.entityBehaviors[$F('entity')];
             $(requiredBehavior).value = '<?php echo $entityBehavior ?>';
         }
     }
     if ('<?php echo $operationType ?>' == 'export') {
         // show/hide checkboxes depending on current export entity (edit scheduled export page)
-        editForm.modifyFilterGrid();
+        varienImportExportScheduled.modifyFilterGrid();
     }
 </script>
