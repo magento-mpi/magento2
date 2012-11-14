@@ -6,18 +6,6 @@
  */
 class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract
 {
-
-    /**
-     * @param Mage_Webapi_Model_Authorization_Config $config
-     * @param Magento_Acl_ResourceFactory $resourceFactory
-     */
-    public function __construct(Mage_Webapi_Model_Authorization_Config $config,
-        Magento_Acl_ResourceFactory $resourceFactory
-    ) {
-        $this->_config = $config;
-        $this->_resourceFactory = $resourceFactory;
-    }
-
     /**
      * Deny each resource for all roles
      *

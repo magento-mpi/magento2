@@ -21,6 +21,17 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
     protected $_resourceFactory;
 
     /**
+     * @param Mage_Core_Model_Acl_Config_ConfigInterface $config
+     * @param Magento_Acl_ResourceFactory $resourceFactory
+     */
+    public function __construct(Mage_Core_Model_Acl_Config_ConfigInterface $config,
+        Magento_Acl_ResourceFactory $resourceFactory
+    ) {
+        $this->_config = $config;
+        $this->_resourceFactory = $resourceFactory;
+    }
+
+    /**
      * Populate ACL with resources from external storage
      *
      * @param Magento_Acl $acl
@@ -28,12 +39,6 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        if (!($this->_config instanceof Mage_Core_Model_Acl_Config_ConfigInterface)) {
-            throw new Mage_Core_Exception('Config loader is not defined');
-        }
-        if (!($this->_resourceFactory instanceof Magento_Acl_ResourceFactory)) {
-            throw new Mage_Core_Exception('Resource Factory is not defined');
-        }
         $this->_addResourceTree($acl, $this->_config->getAclResources(), null);
     }
 
