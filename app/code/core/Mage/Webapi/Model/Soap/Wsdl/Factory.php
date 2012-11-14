@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Soap_WsdlFactory
+class Mage_Webapi_Model_Soap_Wsdl_Factory
 {
     /**
      * @var Magento_ObjectManager

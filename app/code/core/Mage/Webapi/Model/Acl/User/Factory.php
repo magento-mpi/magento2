@@ -4,7 +4,7 @@
  *
  * @copyright {copyright}
  */
-class Mage_Webapi_Model_Acl_UserFactory extends Mage_Oauth_Model_Consumer_Factory
+class Mage_Webapi_Model_Acl_User_Factory extends Mage_Oauth_Model_Consumer_Factory
 {
     /**
      * Create user model.

@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
     /**
      * Webapi users factory.
      *
-     * @var Mage_Webapi_Model_Acl_UserFactory
+     * @var Mage_Webapi_Model_Acl_User_Factory
      */
     protected $_userFactory;
 
@@ -39,13 +39,13 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
      * Constructor.
      *
      * @param Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage
-     * @param Mage_Webapi_Model_Acl_UserFactory $userFactory
+     * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
      * @param string $passwordType
      * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
      */
     public function __construct(
         Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage,
-        Mage_Webapi_Model_Acl_UserFactory $userFactory,
+        Mage_Webapi_Model_Acl_User_Factory $userFactory,
         $passwordType = self::PASSWORD_TYPE_DIGEST
     ) {
         if (!in_array($passwordType, array(self::PASSWORD_TYPE_DIGEST, self::PASSWORD_TYPE_TEXT))) {

@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_RequestFactory
+class Mage_Webapi_Controller_Request_Factory
 {
     /**
      * List of request classes corresponding to API types.

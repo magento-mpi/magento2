@@ -21,7 +21,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * WSDL factory instance.
      *
-     * @var Mage_Webapi_Model_Soap_WsdlFactory
+     * @var Mage_Webapi_Model_Soap_Wsdl_Factory
      */
     protected $_wsdlFactory;
 
@@ -29,11 +29,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Construct auto discover with resource config and list of requested resources.
      *
      * Mage_Webapi_Model_Config $apiConfig
-     * Mage_Webapi_Model_Soap_WsdlFactory $wsdlFactory
+     * Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Webapi_Model_Config $apiConfig, Mage_Webapi_Model_Soap_WsdlFactory $wsdlFactory)
+    public function __construct(Mage_Webapi_Model_Config $apiConfig, Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory)
     {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;

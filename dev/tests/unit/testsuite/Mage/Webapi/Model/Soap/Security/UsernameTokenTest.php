@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getId', 'getSecret'))
             ->getMock();
-        $this->_userFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_UserFactory')
+        $this->_userFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_User_Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

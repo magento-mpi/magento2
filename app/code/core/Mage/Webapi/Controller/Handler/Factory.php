@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_HandlerFactory
+class Mage_Webapi_Controller_Handler_Factory
 {
     /**
      * List of available web API handlers.

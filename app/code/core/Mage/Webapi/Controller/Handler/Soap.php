@@ -35,7 +35,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
-    /** @var Mage_Webapi_Model_Soap_Security_UsernameTokenFactory */
+    /** @var Mage_Webapi_Model_Soap_Security_UsernameToken_Factory */
     protected $_usernameTokenFactory;
 
     /**
@@ -49,16 +49,16 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_RequestFactory $requestFactory,
+        Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Webapi_Controller_Action_Factory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Zend\Soap\Server $soapServer,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
         Magento_DomDocument_Factory $domDocumentFactory,
-        Mage_Webapi_Model_Soap_Security_UsernameTokenFactory $usernameTokenFactory,
+        Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
     ) {

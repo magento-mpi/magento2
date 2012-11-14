@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     protected $_configReader;
 
     /**
-     * @var Mage_Webapi_Model_Authorization_Config_ReaderFactory
+     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory
      */
     protected $_readerFactory;
 
@@ -36,7 +36,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $this->_config = $this->getMock('Mage_Core_Model_Config',
             array('getModuleConfigurationFiles'), array(), '', false);
 
-        $this->_readerFactory = $this->getMock('Mage_Webapi_Model_Authorization_Config_ReaderFactory',
+        $this->_readerFactory = $this->getMock('Mage_Webapi_Model_Authorization_Config_Reader_Factory',
             array('createReader'), array(), '', false);
 
         $this->_configReader = $this->getMock('Magento_Acl_Config_Reader',

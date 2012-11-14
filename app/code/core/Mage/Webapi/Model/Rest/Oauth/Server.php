@@ -11,13 +11,13 @@ class Mage_Webapi_Model_Rest_Oauth_Server extends Mage_Oauth_Model_Server
      *
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Oauth_Model_Token_Factory $tokenFactory
-     * @param Mage_Webapi_Model_Acl_UserFactory $consumerFactory
+     * @param Mage_Webapi_Model_Acl_User_Factory $consumerFactory
      * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Oauth_Model_Token_Factory $tokenFactory,
-        Mage_Webapi_Model_Acl_UserFactory $consumerFactory,
+        Mage_Webapi_Model_Acl_User_Factory $consumerFactory,
         Mage_Oauth_Model_Nonce_Factory $nonceFactory
     ) {
         parent::__construct($request, $tokenFactory, $consumerFactory, $nonceFactory);

@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Webapi_Model_Authorization_RoleFactory
+ * Test class for Mage_Webapi_Model_Authorization_Role_Factory
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Authorization_RoleFactory
+     * @var Mage_Webapi_Model_Authorization_Role_Factory
      */
     protected $_model;
 
@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Authorization_RoleFactoryTest extends PHPUnit_Framework_
 
         $this->_expectedObject = $this->getMock('Mage_Webapi_Model_Authorization_Role', array(), array(), '', false);
 
-        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_RoleFactory', array(
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Role_Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

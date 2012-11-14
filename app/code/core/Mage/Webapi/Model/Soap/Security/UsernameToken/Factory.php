@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Soap_Security_UsernameTokenFactory
+class Mage_Webapi_Model_Soap_Security_UsernameToken_Factory
 {
     /**
      * @var Magento_ObjectManager

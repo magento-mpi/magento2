@@ -26,7 +26,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /** @var Mage_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Mage_Webapi_Controller_ActionFactory */
+    /** @var Mage_Webapi_Controller_Action_Factory */
     protected $_actionControllerFactory;
 
     /** @var Mage_Core_Model_Logger */
@@ -44,9 +44,9 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_RequestFactory $requestFactory,
+        Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_ActionFactory $actionControllerFactory,
+        Mage_Webapi_Controller_Action_Factory $actionControllerFactory,
         Mage_Core_Model_Logger $logger,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator

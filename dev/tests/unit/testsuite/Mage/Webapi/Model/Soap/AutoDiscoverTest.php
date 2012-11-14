@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 'addElement', 'addComplexType', 'addMessage', 'addPortOperation', 'addBindingOperation',
                 'addSoapOperation', 'toXML'))
             ->getMock();
-        $wsdlFactory = $this->getMock('Mage_Webapi_Model_Soap_WsdlFactory',
+        $wsdlFactory = $this->getMock('Mage_Webapi_Model_Soap_Wsdl_Factory',
             array('createWsdl'), array(new Magento_ObjectManager_Zend()));
         $wsdlFactory->expects($this->any())->method('createWsdl')->will($this->returnValue($wsdlMock));
 

@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_ActionFactory
+class Mage_Webapi_Controller_Action_Factory
 {
     /**
      * @var Magento_ObjectManager

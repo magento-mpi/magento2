@@ -19,7 +19,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Model_Acl_UserFactory */
+    /** @var Mage_Webapi_Model_Acl_User_Factory */
     protected $_userFactory;
 
     /**
@@ -28,7 +28,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_objectManager = new Magento_Test_ObjectManager();
-        $this->_userFactory = new Mage_Webapi_Model_Acl_UserFactory($this->_objectManager);
+        $this->_userFactory = new Mage_Webapi_Model_Acl_User_Factory($this->_objectManager);
     }
 
     /**

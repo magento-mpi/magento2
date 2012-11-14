@@ -1,13 +1,13 @@
 <?php
 /**
- * Test class for Mage_Webapi_Model_Authorization_Config_ReaderFactory
+ * Test class for Mage_Webapi_Model_Authorization_Config_Reader_Factory
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Authorization_Config_ReaderFactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Authorization_Config_Reader_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Authorization_Config_ReaderFactory
+     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory
      */
     protected $_model;
 
@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Authorization_Config_ReaderFactoryTest extends PHPUnit_F
         $this->_expectedObject = $this->getMock('Mage_Webapi_Model_Authorization_Config_Reader', array(), array(), '',
             false);
 
-        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config_ReaderFactory', array(
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config_Reader_Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

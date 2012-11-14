@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var Mage_Webapi_Model_Authorization_RoleFactory
+     * @var Mage_Webapi_Model_Authorization_Role_Factory
      */
     protected $_roleFactory;
 
@@ -36,7 +36,7 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Role',
             array('getRolesIds'), array(), '', false);
 
-        $this->_roleFactory = $this->getMock('Mage_Webapi_Model_Authorization_RoleFactory',
+        $this->_roleFactory = $this->getMock('Mage_Webapi_Model_Authorization_Role_Factory',
             array('createRole'), array(), '', false);
 
         $this->_acl = $this->getMock('Magento_Acl', array('addRole', 'deny'), array(), '',

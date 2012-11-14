@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
     protected $_roleResource;
 
     /**
-     * @var Mage_Webapi_Model_Authorization_RoleFactory
+     * @var Mage_Webapi_Model_Authorization_Role_Factory
      */
     protected $_roleFactory;
 
@@ -23,10 +23,10 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
 
     /**
      * @param Mage_Webapi_Model_Resource_Acl_Role $roleResource
-     * @param Mage_Webapi_Model_Authorization_RoleFactory $roleFactory
+     * @param Mage_Webapi_Model_Authorization_Role_Factory $roleFactory
      */
     public function __construct(Mage_Webapi_Model_Resource_Acl_Role $roleResource,
-        Mage_Webapi_Model_Authorization_RoleFactory $roleFactory
+        Mage_Webapi_Model_Authorization_Role_Factory $roleFactory
     ) {
         $this->_roleResource = $roleResource;
         $this->_roleFactory = $roleFactory;

@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Authorization_Config_ReaderFactory
+class Mage_Webapi_Model_Authorization_Config_Reader_Factory
 {
     const READER_CLASS_NAME = 'Mage_Webapi_Model_Authorization_Config_Reader';
 

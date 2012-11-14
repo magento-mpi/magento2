@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Authorization_RoleFactory
+class Mage_Webapi_Model_Authorization_Role_Factory
 {
     const ROLE_CLASS_NAME = 'Mage_Webapi_Model_Authorization_Role';
 
