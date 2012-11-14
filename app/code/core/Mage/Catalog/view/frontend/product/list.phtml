@@ -81,7 +81,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
     </ol>
     <script type="text/javascript">
         jQuery('#products-list').decorate('list');
-        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php else: ?>
 
@@ -137,7 +137,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         <?php endforeach ?>
     <script type="text/javascript">
         jQuery('ul.products-grid > li').decorate('generic', ['odd', 'even', 'first', 'last']);
-        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php endif; ?>
 

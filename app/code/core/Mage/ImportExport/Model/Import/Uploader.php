@@ -148,7 +148,7 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
     /**
      * Set TMP file path prefix
      *
-     * @param type $path
+     * @param string $path
      * @return bool
      */
     public function setTmpDir($path)
@@ -173,7 +173,7 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
     /**
      * Set destination file path prefix
      *
-     * @param type $path
+     * @param string $path
      * @return bool
      */
     public function setDestDir($path)

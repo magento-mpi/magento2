@@ -119,12 +119,12 @@
 <div class="buttons-set">
     <button id="window-close" type="button" title="<?php echo $this->__('Close Window') ?>" class="button"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
         <span class="please-wait" id="compare-list-please-wait" style="display:none;">
-            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
+            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
         </span>
 </div>
 <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/list.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/list.js')?>", function() {
             $('#product_comparison').compareList({
                 productRemoveSelector: 'a.btn-remove',
                 ajaxSpinner: '#compare-list-please-wait',

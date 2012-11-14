@@ -65,7 +65,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Expected: validation and success messages are correct
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1108
      */
     public function validationResultBlock()
@@ -123,7 +123,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Verify that all Customer information was imported
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @dataProvider importWithRequiredColumnsData
      * @TestlinkId TL-MAGE-1167
      */
@@ -213,7 +213,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Expected: customer information is updated for existing customer, new customer with address is added
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @dataProvider addressData
      * @TestlinkId TL-MAGE-1168
      */

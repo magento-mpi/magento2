@@ -19,7 +19,7 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getSkinUrl('jquery/jquery.cookie.js') ?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.cookie.js') ?>", function() {
             $.extend($.cookie.defaults, {
                 expires: null,
                 path: '<?php echo $this->getPath()?>',

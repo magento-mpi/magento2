@@ -20,12 +20,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit
         'Mage_Core_Controller_Request_Http',
         'Mage_Core_Model_Layout',
         'Mage_Core_Model_Event_Manager',
+        'Mage_Backend_Model_Url',
         'Mage_Core_Model_Translate',
         'Mage_Core_Model_Cache',
         'Mage_Core_Model_Design_Package',
         'Mage_Core_Model_Session',
         'Mage_Core_Model_Store_Config',
-        'Mage_Core_Controller_Varien_Front'
+        'Mage_Core_Controller_Varien_Front',
+        'Mage_Core_Model_Factory_Helper'
     );
 
     /** @var Mage_Core_Model_Layout */

@@ -40,9 +40,9 @@
     <script type="text/javascript">
         // <![CDATA[
         (function($) {
-            head.js("<?php echo $this->getSkinUrl('jquery/jquery.cookie.js')?>",
-                "<?php echo $this->getSkinUrl('mage/cookies.js')?>",
-                "<?php echo $this->getSkinUrl('Mage_Page::js/notices.js')?>", function() {
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.cookie.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/cookies.js')?>",
+                "<?php echo $this->getViewFileUrl('Mage_Page::js/notices.js')?>", function() {
                     $('#notice-cookie-block').cookieBlock({
                         cookieAllowButtonSelector: '#btn-cookie-allow',
                         cookieName: '<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',

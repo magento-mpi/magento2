@@ -105,7 +105,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'name'   => 'from_date',
             'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('From Date'),
             'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('From Date'),
-            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'date_format'  => $dateFormat
         ));
@@ -113,7 +113,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'name'   => 'to_date',
             'label'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('To Date'),
             'title'  => Mage::helper('Enterprise_Reminder_Helper_Data')->__('To Date'),
-            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));

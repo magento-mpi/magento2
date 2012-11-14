@@ -81,7 +81,7 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
     </ol>
     <script type="text/javascript">
         jQuery('#products-list').decorate('list');
-        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php else: ?>
 
@@ -136,7 +136,7 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
         <?php endforeach ?>
     <script type="text/javascript">
         jQuery('ul.products-grid > li').decorate('generic', ['odd', 'even', 'first', 'last']);
-        head.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php endif; ?>
 

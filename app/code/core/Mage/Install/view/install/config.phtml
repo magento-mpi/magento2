@@ -140,11 +140,11 @@
 </form>
 <script type="text/javascript">
     (function ($) {
-        head.js("<?php echo $this->getSkinUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
-            "<?php echo $this->getSkinUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getSkinUrl('Mage_Install::js/install.js') ?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('Mage_Install::js/install.js') ?>", function() {
                 $.mage.install.configureForm('#form-validate', '#use_secure', '#use_secure_options');
             });
     })(jQuery);
@@ -156,7 +156,7 @@
         <span><?php echo $this->__('Continue') ?></span></button>
     <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getSkinUrl('Mage_Install::js/install.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Install::js/install.js')?>", function() {
             $.mage.install.configureContinue(
                 '#btn-continue', '<?php echo $this->getUrl('*/*/*', array('_current' => true)) ?>'
             );

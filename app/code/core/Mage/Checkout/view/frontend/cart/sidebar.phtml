@@ -62,7 +62,7 @@
         </ol>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getSkinUrl('Mage_Checkout::js/sidebar.js') ?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>", function() {
                     $('#cart-sidebar').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
                         checkoutButton: '#sidebar-btn-checkout',

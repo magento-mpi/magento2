@@ -17,7 +17,7 @@
     <h2><?php echo $this->__('Gift Cards') ?></h2>
     <div id="giftcard_balance_lookup"></div>
     <span id="gc-please-wait" class="please-wait" style="display:none;">
-        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
     </span>
     <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/cart/add') ?>" method="post">
         <fieldset>
@@ -30,11 +30,11 @@
 
     <script type="text/javascript">
         (function($) {
-            head.js("<?php echo $this->getSkinUrl('jquery/jquery.validate.js')?>",
-                "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js')?>",
-                "<?php echo $this->getSkinUrl('jquery/jquery.hook.js')?>",
-                "<?php echo $this->getSkinUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getSkinUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function() {
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function() {
                     $('#giftcard-form').giftCard({
                         giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.check-gc-status',

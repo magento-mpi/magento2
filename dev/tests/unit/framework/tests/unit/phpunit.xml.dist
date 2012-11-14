@@ -3,15 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <phpunit bootstrap="./framework/bootstrap.php">
-    <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Unit Tests for Unit Tests Framework">
             <directory suffix="Test.php">testsuite</directory>

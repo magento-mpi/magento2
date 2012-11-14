@@ -12,72 +12,56 @@
 class Magento_Test_Db_OracleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_varDir;
+    protected $_shell;
 
     /**
-     * @var Magento_Test_Db_Oracle
+     * @var Magento_Test_Db_Oracle|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
-    /**
-     * @var string
-     */
-    protected $_accessParams;
-
     protected function setUp()
     {
-        $this->_varDir  = sys_get_temp_dir();
+        $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_model = $this->getMock(
             'Magento_Test_Db_Oracle',
-            array('_exec', '_createScript'),
-            array('host', 'user', 'pass', 'schema/sid', $this->_varDir)
+            array('_createScript'),
+            array('host', 'user', 'pass', 'schema/sid', __DIR__, $this->_shell)
         );
-        $this->_accessParams = escapeshellarg('user') . '/' . escapeshellarg('pass')
-            . '@' . escapeshellarg('schema') . '/' . escapeshellarg('sid');
+    }
+
+    protected function tearDown()
+    {
+        $this->_shell = null;
+        $this->_model = null;
     }
 
     /**
      * @expectedException Magento_Exception
+     * @expectedExceptionMessage Oracle DB schema must be specified in the following format: "<host>/<SID>".
      */
-    public function test__construct()
+    public function testConstructorException()
     {
-        new Magento_Test_Db_Oracle('host', 'user', 'pass', 'schema', $this->_varDir);
+        new Magento_Test_Db_Oracle('host', 'user', 'pass', 'schema', __DIR__, $this->_shell);
     }
 
     public function testCleanup()
     {
-        $dir = realpath(dirname(__FILE__) . '/../../../../../../Magento/Test/Db');
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with('sqlplus ' . $this->_accessParams . ' @' . escapeshellarg($dir . '/cleanup_database.oracle.sql'));
+        $expectedSqlFile = realpath(__DIR__ . '/../../../../../../Magento/Test/Db/cleanup_database.oracle.sql');
+        $this->_model
+            ->expects($this->never())
+            ->method('_createScript')
+        ;
+        $this->_shell
+            ->expects($this->once())
+            ->method('execute')
+            ->with(
+                'sqlplus %s/%s@%s/%s @%s',
+                array('user', 'pass', 'schema', 'sid', $expectedSqlFile)
+            )
+        ;
         $this->_model->cleanup();
-    }
-
-    public function testCreateBackup ()
-    {
-        $cmd = 'expdp ' . $this->_accessParams . ' SCHEMAS=' . escapeshellarg('user')
-            . ' DIRECTORY=' . escapeshellarg('user_bak') . ' DUMPFILE=' . escapeshellarg('test.dmp')
-            . ' NOLOGFILE=Y REUSE_DUMPFILES=Y';
-        $this->_model->expects($this->once())
-            ->method('_exec')
-            ->with($cmd);
-        $this->_model->createBackup('test');
-    }
-
-    public function testRestoreBackup ()
-    {
-        $dir = realpath(dirname(__FILE__) . '/../../../../../../Magento/Test/Db');
-        $this->_model->expects($this->at(0))
-            ->method('_exec')
-            ->with('sqlplus ' . $this->_accessParams . ' @' . escapeshellarg($dir . '/cleanup_database.oracle.sql'));
-        $command = 'impdp ' . $this->_accessParams . ' DIRECTORY=' . escapeshellarg('user_bak')
-            . ' DUMPFILE=' . escapeshellarg('test.dmp') . ' SCHEMAS=' . escapeshellarg('user');
-        $this->_model->expects($this->at(1))
-            ->method('_exec')
-            ->with($command);
-        $this->_model->restoreBackup('test');
     }
 }
 

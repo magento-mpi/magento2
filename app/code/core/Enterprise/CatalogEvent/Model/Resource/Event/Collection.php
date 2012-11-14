@@ -33,6 +33,23 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     protected $_skipClosed         = false;
 
     /**
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * Collection constructor
+     *
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(Mage_Core_Model_App $application, Mage_Core_Model_Resource_Db_Abstract $resource = null)
+    {
+        parent::__construct($resource);
+        $this->_application = $application;
+    }
+
+    /**
      * Intialize collection
      *
      */
@@ -114,18 +131,18 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
         if (!$this->_categoryDataAdded) {
              $this->getSelect()
                 ->joinLeft(array(
-                    'category' => $this->getTable('catalog_category_entity')), 
-                    'category.entity_id = main_table.category_id', 
+                    'category' => $this->getTable('catalog_category_entity')),
+                    'category.entity_id = main_table.category_id',
                     array('category_position' => 'position')
                  )
                 ->joinLeft(array(
-                    'category_name_attribute' => $this->getTable('eav_attribute')), 
+                    'category_name_attribute' => $this->getTable('eav_attribute')),
                     'category_name_attribute.entity_type_id = category.entity_type_id
                     AND category_name_attribute.attribute_code = \'name\'',
                     array()
                 )
                 ->joinLeft(array(
-                    'category_varchar' => $this->getTable('catalog_category_entity_varchar')), 
+                    'category_varchar' => $this->getTable('catalog_category_entity_varchar')),
                     'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0',
@@ -172,7 +189,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             array('event_image' => $this->getTable('enterprise_catalogevent_event_image')),
             implode(' AND ', array(
                 'event_image.event_id = main_table.event_id',
-                $adapter->quoteInto('event_image.store_id = ?', Mage::app()->getStore()->getId())
+                $adapter->quoteInto('event_image.store_id = ?', $this->_application->getStore()->getId())
             )),
             array('image' =>
                 $adapter->getCheckSql('event_image.image IS NULL', 'event_image_default.image', 'event_image.image')
@@ -180,12 +197,11 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
         )
         ->joinLeft(
             array('event_image_default' => $this->getTable('enterprise_catalogevent_event_image')),
-            'event_image_default.event_id = main_table.event_id
-            AND event_image_default.store_id = 0',
-            array())
-        ->group('main_table.event_id');
+            'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = 0',
+            array()
+        );
 
-//        $this->_useAnalyticFunction = true;
+        //$this->_useAnalyticFunction = true;
 
         return $this;
     }

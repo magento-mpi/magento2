@@ -74,10 +74,10 @@
     <script type="text/javascript">
         (function($) {
             head.js(
-                "<?php echo $this->getSkinUrl('jquery/jquery.validate.js') ?>",
-                "<?php echo $this->getSkinUrl('jquery/jquery.metadata.js') ?>",
-                "<?php echo $this->getSkinUrl('jquery/jquery.hook.js') ?>",
-                "<?php echo $this->getSkinUrl('mage/validation/validation.js') ?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js') ?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 function() {
                     $('#login-form .new-users button').on('click', function() {window.location='<?php echo Mage::helper('Mage_Persistent_Helper_Data')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';});
                     $('#login-form').validation();

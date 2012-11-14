@@ -12,7 +12,7 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getSkinUrl('mage/cookies.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('mage/cookies.js')?>", function() {
             $.mage.cookies.set(
                 '<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE ?>',
                 1,
