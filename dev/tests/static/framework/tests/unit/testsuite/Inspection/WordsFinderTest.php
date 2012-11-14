@@ -112,11 +112,6 @@ class Inspection_WordsFinderTest extends PHPUnit_Framework_TestCase
                 $basePath . 'twilight/newmoon.php',
                 array('demon')
             ),
-            'case-insensitive search for multibyte words' => array(
-                $mainConfig,
-                $basePath . 'buffy_ua.php',
-                array('кровосіс')
-            ),
             'config must be whitelisted automatically' => array(
                 $basePath . 'self_tested_config.xml',
                 $basePath . 'self_tested_config.xml',

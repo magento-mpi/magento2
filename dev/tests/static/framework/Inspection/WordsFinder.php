@@ -210,8 +210,8 @@ class Inspection_WordsFinder
 
         $foundWords = array();
         foreach ($this->_words as $word) {
-            if ((mb_stripos($relPath, $word, null, 'UTF-8') !== false)
-                || (mb_stripos($contents, $word, null, 'UTF-8') !== false)) {
+            if ((stripos($relPath, $word) !== false)
+                || (stripos($contents, $word) !== false)) {
                 $foundWords[] = $word;
             }
         }
