@@ -1,22 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API User edit form
  *
- * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser(Mage_Webapi_Model_Acl_User $user)
- * @method Mage_Webapi_Model_Acl_User getApiUser()
+ * @copyright {}
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Mage_Webapi_Model_Acl_User $user)
+ * @method Mage_Webapi_Model_Acl_User getApiUser() getApiUser()
  */
 class Mage_Webapi_Block_Adminhtml_User_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
