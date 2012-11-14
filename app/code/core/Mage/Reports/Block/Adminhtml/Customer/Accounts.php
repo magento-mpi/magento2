@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml new accounts report page content block
+ * Backend new accounts report page content block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Reports
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Reports_Block_Adminhtml_Customer_Accounts extends Mage_Backend_Block_Widget_Grid_Container

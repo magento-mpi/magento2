@@ -26,7 +26,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     public function _initAction()
     {
         parent::_initAction();
-        $this->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products'), Mage::helper('Mage_Reports_Helper_Data')->__('Products'));
+        $this->_addBreadcrumb(
+            Mage::helper('Mage_Reports_Helper_Data')->__('Products'),
+            Mage::helper('Mage_Reports_Helper_Data')->__('Products')
+        );
         return $this;
     }
 
@@ -41,7 +44,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
              ->_title($this->__('Products Ordered'));
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_products_sold')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'),
+                Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered')
+            )
             ->renderLayout();
     }
 
@@ -53,6 +59,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.csv';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -65,6 +72,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.xml';
+        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -81,7 +89,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_products_viewed')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report'));
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report'),
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Products Most Viewed Report')
+            );
 
         $gridBlock = $this->getLayout()->getBlock('report_product_viewed.grid');
         $filterFormBlock = $this->getLayout()->getBlock('grid.filter.form');
@@ -130,7 +141,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_products_lowstock')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'), Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'),
+                Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock')
+            )
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Lowstock'))
             ->renderLayout();
     }
@@ -175,7 +189,10 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Downloadable::report_products_downloads')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'), Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'),
+                Mage::helper('Mage_Reports_Helper_Data')->__('Downloads')
+            )
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Product_Downloads'))
             ->renderLayout();
     }

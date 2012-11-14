@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Adminhtml Report Sold Product Content Block
+ * Backend Report Sold Product Content Block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Block_Adminhtml_Product_Sold extends Mage_Backend_Block_Widget_Grid_Container

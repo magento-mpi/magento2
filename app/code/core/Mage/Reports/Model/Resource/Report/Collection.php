@@ -72,7 +72,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      *
      * @var string
      */
-    protected $_reportCollectionClass = null;
+    protected $_reportCollection = null;
 
     /**
      * Set period

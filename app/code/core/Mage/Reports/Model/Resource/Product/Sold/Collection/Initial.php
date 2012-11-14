@@ -18,5 +18,5 @@
  */
 class Mage_Reports_Model_Resource_Product_Sold_Collection_Initial extends Mage_Reports_Model_Resource_Report_Collection
 {
-    protected $_reportCollectionClass = 'Mage_Reports_Model_Resource_Product_Sold_Collection';
+    protected $_reportCollection = 'Mage_Reports_Model_Resource_Product_Sold_Collection';
 }

@@ -26,7 +26,6 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection
      */
     protected function _joinFields()
     {
-;
         $acceptedExpr = 'SUM('
             . $this->getConnection()->getCheckSql(
                 'main_table.status = '
@@ -97,6 +96,6 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection
             ->joinRight(array('o' => $this->getTable('sales_flat_order')),
                 'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
                 array('cnt' => 'COUNT(main_table.invitation_id)'));
-       return $this->getConnection()->fetchOne($select);
+        return $this->getConnection()->fetchOne($select);
     }
 }

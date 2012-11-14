@@ -21,12 +21,19 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
-        if(!$act)
+        if (!$act) {
             $act = 'default';
+        }
 
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers'));
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Reports_Helper_Data')->__('Reports'),
+                Mage::helper('Mage_Reports_Helper_Data')->__('Reports')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Reports_Helper_Data')->__('Customers'),
+                Mage::helper('Mage_Reports_Helper_Data')->__('Customers')
+            );
         return $this;
     }
 
@@ -38,7 +45,10 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_customers_accounts')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts'),
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Accounts')
+            )
             ->renderLayout();
     }
 

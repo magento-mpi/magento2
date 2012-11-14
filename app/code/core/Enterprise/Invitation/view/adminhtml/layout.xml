@@ -120,7 +120,7 @@
         <reference name="adminhtml.report.grid">
             <arguments>
                 <id>report_invitation_customer</id>
-                <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Initial</dataSource>
+                <dataSource type="object">Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection_Initial</dataSource>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">

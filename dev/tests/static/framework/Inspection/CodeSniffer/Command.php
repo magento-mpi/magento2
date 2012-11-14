@@ -78,6 +78,14 @@ class Inspection_CodeSniffer_Command extends Inspection_CommandAbstract
             $blackListStr = '--ignore=' . escapeshellarg($blackListStr);
         }
 
+//        echo 'phpcs'
+//            . ($blackListStr ? ' ' . $blackListStr : '')
+//            . ' --standard=' . escapeshellarg($this->_rulesetDir)
+//            . ' --report=checkstyle'
+//            . ($this->_extensions ? ' --extensions=' . implode(',', $this->_extensions) : '')
+//            . ' --report-file=' . escapeshellarg($this->_reportFile)
+//            . ' -n'
+//            . ' ' . $whiteList; exit();
         return 'phpcs'
             . ($blackListStr ? ' ' . $blackListStr : '')
             . ' --standard=' . escapeshellarg($this->_rulesetDir)

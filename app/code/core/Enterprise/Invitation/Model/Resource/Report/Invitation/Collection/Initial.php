@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Reports
+ * @category    Enterprise
+ * @package     Enterprise_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +12,8 @@
 /**
  * Report Reviews collection
  *
- * @category    Mage
- * @package     Mage_Reports
+ * @category    Enterprise
+ * @package     Enterprise_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -21,9 +21,9 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection_Initial
         extends Mage_Reports_Model_Resource_Report_Collection
 {
     /**
-     *  Report subcollection class name
+     *  Report sub-collection class name
      *
-     * @var Enterprise_Invitation_Model_Resource_Report_Invitation_Collection $_reportCollectionClass
+     * @var string
      */
-    protected $_reportCollectionClass = 'Enterprise_Invitation_Model_Resource_Report_Invitation_Collection';
+    protected $_reportCollection = 'Enterprise_Invitation_Model_Resource_Report_Invitation_Collection';
 }

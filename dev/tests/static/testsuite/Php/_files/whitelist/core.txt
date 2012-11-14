@@ -10,6 +10,8 @@ app/code/core/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
+app/code/core/Mage/Adminhtml/controllers/Report/CustomerController.php
+app/code/core/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/core/Mage/Backend/Model/Acl/Config.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
@@ -53,6 +55,10 @@ app/code/core/Mage/Index/Model/Shell.php
 app/code/core/Mage/Log/Model/Resource/Helper
 app/code/core/Mage/Log/Model/Resource/Shell.php
 app/code/core/Mage/Log/Model/Shell.php
+app/code/core/Mage/Reports/Block/Adminhtml/Customer
+app/code/core/Mage/Reports/Block/Adminhtml/Product
+app/code/core/Mage/Reports/Model/Resource/Accounts
+app/code/core/Mage/Reports/Model/Resource/Customer
 app/code/core/Mage/Rss/Controller/AdminhtmlAbstract.php
 app/code/core/Mage/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
 app/code/core/Mage/Tag/Block/Catalog/Product/Rss/Link.php
