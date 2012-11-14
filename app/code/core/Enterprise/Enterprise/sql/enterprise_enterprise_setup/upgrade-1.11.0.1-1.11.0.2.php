@@ -2,11 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_User
+ * @category    Enterprise
+ * @package     Enterprise_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
