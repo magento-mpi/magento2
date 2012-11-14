@@ -13,7 +13,7 @@
  *
  * @method Mage_Core_Model_Theme save()
  * @method string getThemeCode()
- * @method string getParentTheme()
+ * @method string getPackageCode()
  * @method string getThemePath()
  * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
  * @method setPreviewImage(string $previewImage)
@@ -247,7 +247,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Get parent theme model
      *
-     * @return Mage_Core_Model_Theme
+     * @return Mage_Core_Model_Theme|null
      */
     public function getParentTheme()
     {

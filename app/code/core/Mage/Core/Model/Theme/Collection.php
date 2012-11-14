@@ -50,7 +50,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      * @param string $area
      * @return Mage_Core_Model_Theme_Collection
      */
-    public function addDefaultPattern($area = 'frontend')
+    public function addDefaultPattern($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
         $this->addTargetPattern(implode(DS, array(Mage::getBaseDir('design'), $area, '*', '*', 'theme.xml')));
         return $this;
@@ -281,7 +281,8 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     {
         if (in_array($themePath, $this->_themeList)) {
             Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Invalid parent theme (сross-references) leads to an infinite loop.')
+                Mage::helper('Mage_Core_Helper_Data')
+                    ->__('Invalid parent theme (сross-references) leads to an infinite loop.')
             );
         }
         array_push($this->_themeList, $themePath);

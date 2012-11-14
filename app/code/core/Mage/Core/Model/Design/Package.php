@@ -507,16 +507,16 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_THEME  => Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'theme',
+            Mage_Core_Model_Store::URL_TYPE_THEME  => Mage::getBaseDir('media') . DS . 'theme',
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
-            $publicDir .= DIRECTORY_SEPARATOR;
+            $publicDir .= DS;
             if (strpos($file, $publicDir) !== 0) {
                 continue;
             }
             $url = str_replace($publicDir, '', $file);
-            $url = str_replace(DIRECTORY_SEPARATOR, '/' , $url);
+            $url = str_replace(DS, '/' , $url);
             $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
             return $url;
         }
@@ -668,7 +668,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = Mage::getBaseDir('js') . DIRECTORY_SEPARATOR;
+        $jsPath = Mage::getBaseDir('js') . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -678,7 +678,7 @@ class Mage_Core_Model_Design_Package
             return false;
         }
 
-        $themePath = $this->getPublicDir() . DIRECTORY_SEPARATOR;
+        $themePath = $this->getPublicDir() . DS;
         if (strncmp($filePath, $themePath, strlen($themePath)) !== 0) {
             return true;
         }
@@ -706,7 +706,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewFilename($file)
     {
-        return $this->getPublicDir() . DIRECTORY_SEPARATOR . $file;
+        return $this->getPublicDir() . DS . $file;
     }
 
     /**
@@ -716,7 +716,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media')  . DIRECTORY_SEPARATOR . 'theme';
+        return Mage::getBaseDir('media')  . DS . 'theme';
     }
 
     /**
@@ -729,14 +729,14 @@ class Mage_Core_Model_Design_Package
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
         $designPath = $params['themeModel']->getThemePath()
-            ? $params['themeModel']->getPackageCode() . DIRECTORY_SEPARATOR . $params['themeModel']->getThemeCode()
+            ? $params['themeModel']->getPackageCode() . DS . $params['themeModel']->getThemeCode()
             : self::PUBLIC_VIEW_DIR;
 
         $publicFile = $params['area']
-            . DIRECTORY_SEPARATOR . $designPath
-            . DIRECTORY_SEPARATOR . $params['locale']
-            . ($params['module'] ? DIRECTORY_SEPARATOR . $params['module'] : '')
-            . DIRECTORY_SEPARATOR . $file;
+            . DS . $designPath
+            . DS . $params['locale']
+            . ($params['module'] ? DS . $params['module'] : '')
+            . DS . $file;
 
         return $publicFile;
     }
@@ -750,16 +750,16 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR;
+        $designDir = Mage::getBaseDir('design') . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = Mage::getModuleDir('theme', $module) . DIRECTORY_SEPARATOR;
+            $moduleDir = Mage::getModuleDir('theme', $module) . DS;
             $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = self::PUBLIC_MODULE_DIR . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $publicFile;
+            $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
         }
         return $publicFile;
     }
@@ -822,8 +822,8 @@ class Mage_Core_Model_Design_Package
             /* Check if module file overridden on theme level based on _module property and file path */
             if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir('design')) === 0) {
                 /* Add module directory to relative URL for canonization */
-                $relativeThemeFile = dirname($params['module'] . DIRECTORY_SEPARATOR . $parentFileName)
-                    . DIRECTORY_SEPARATOR . $fileUrl;
+                $relativeThemeFile = dirname($params['module'] . DS . $parentFileName)
+                    . DS . $fileUrl;
                 $relativeThemeFile   = $this->_canonize($relativeThemeFile);
                 if (strpos($relativeThemeFile, $params['module']) === 0) {
                     $relativeThemeFile = str_replace($params['module'], '', $relativeThemeFile);
@@ -831,7 +831,7 @@ class Mage_Core_Model_Design_Package
                     $params['module'] = false;
                 }
             } else {
-                $relativeThemeFile = $this->_canonize(dirname($parentFileName) . DIRECTORY_SEPARATOR . $fileUrl);
+                $relativeThemeFile = $this->_canonize(dirname($parentFileName) . DS . $fileUrl);
             }
         }
         return $this->_publishViewFile($relativeThemeFile, $params);
@@ -895,7 +895,7 @@ class Mage_Core_Model_Design_Package
             $filesToMerge[$file] = $this->_publishViewFile($file, $params);
             $mergedFile[] = str_replace('\\', '/', str_replace(array($jsDir, $publicDir), '', $filesToMerge[$file]));
         }
-        $mergedFile = self::PUBLIC_MERGE_DIR . DIRECTORY_SEPARATOR . md5(implode('|', $mergedFile)) . ".{$contentType}";
+        $mergedFile = self::PUBLIC_MERGE_DIR . DS . md5(implode('|', $mergedFile)) . ".{$contentType}";
         $mergedFile = $this->_buildPublicViewFilename($mergedFile);
         $mergedMTimeFile  = $mergedFile . '.dat';
         $filesMTimeData = '';
@@ -985,7 +985,7 @@ class Mage_Core_Model_Design_Package
         }
         $suffix = str_replace($relocationDir, '', dirname($originalFile));
         $offset = rtrim($offset . ltrim($suffix, '\/'), '\/');
-        $offset = str_replace(DIRECTORY_SEPARATOR, '/', $offset);
+        $offset = str_replace(DS, '/', $offset);
         return $offset;
     }
 

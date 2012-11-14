@@ -135,7 +135,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      *
      * @param string $file relative file name
      * @param array $themeDirs theme directories (absolute paths) - must not be empty
-     * @param string|false $module module context
+     * @param string|bool $module module context
      * @param array $moduleDirs module directories (absolute paths, makes sense with previous parameter only)
      * @param array $extraDirs additional lookup directories (absolute paths)
      * @return string

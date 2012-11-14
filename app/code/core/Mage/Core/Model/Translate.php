@@ -366,7 +366,6 @@ class Mage_Core_Model_Translate
     {
         if (is_null($this->_data)) {
             return array();
-            //Mage::throwException('Translation data is not initialized. Please contact developers.');
         }
         return $this->_data;
     }
@@ -444,9 +443,6 @@ class Mage_Core_Model_Translate
             $code = $module.self::SCOPE_SEPARATOR.$text;
             $translated = $this->_getTranslatedString($text, $code);
         }
-
-        //array_unshift($args, $translated);
-        //$result = @call_user_func_array('sprintf', $args);
 
         $result = @vsprintf($translated, $args);
         if ($result === false) {
