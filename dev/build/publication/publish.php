@@ -66,13 +66,14 @@ try {
     }
 
     // remove files that must not be published
-    $extruderDir = __DIR__ . '/extruder';
+    $listsDir = __DIR__ . '/extruder';
     execVerbose(
         'php -f %s -- -w %s -l %s -l %s -v',
-        "$extruderDir/extruder.php",
+        __DIR__ . '/../extruder.php',
         $targetDir,
-        "$extruderDir/common.txt",
-        "$extruderDir/ce.txt"
+        "$listsDir/common.txt",
+        "$listsDir/ce.txt",
+        "$listsDir/dev_build.txt"
     );
 
     // compare if changelog is different from the published one, compose the commit message
