@@ -27,7 +27,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     /**
      * Retrieve string helper instance
      *
-     * @return Mage_Core_Helper_Abstract|Mage_Core_Helper_String
+     * @return Mage_Core_Helper_String
      */
     protected function _getStringHelper()
     {
