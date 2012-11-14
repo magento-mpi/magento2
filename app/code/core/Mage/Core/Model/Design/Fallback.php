@@ -19,12 +19,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_area;
 
     /**
-     * @var string
-     */
-    protected $_package;
-
-    /**
-     * @var string
+     * @var Mage_Core_Model_Theme
      */
     protected $_theme;
 
@@ -54,9 +49,8 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     public function __construct($data)
     {
         $this->_area = $data['area'];
-        $this->_package = $data['package'];
-        $this->_theme = $data['theme'];
         $this->_locale = $data['locale'];
+        $this->_theme = $data['themeModel'];
         $this->_appConfig = isset($data['appConfig']) ? $data['appConfig'] : Mage::getConfig();
         $this->_themeConfig = isset($data['themeConfig']) ? $data['themeConfig']
             : Mage::getDesign()->getThemeConfig($this->_area);
@@ -73,11 +67,11 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     {
         $dir = $this->_appConfig->getOptions()->getDesignDir();
         $dirs = array();
-        $theme = $this->_theme;
-        $package = $this->_package;
-        while ($theme) {
+        $themeModel = $this->_theme;
+        while ($themeModel) {
+            list($package, $theme) = $this->_getInheritedTheme($themeModel);
             $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}";
-            list($package, $theme) = $this->_getInheritedTheme($package, $theme);
+            $themeModel = $themeModel->getParentTheme();
         }
 
         $moduleDir = $module ? array($this->_appConfig->getModuleDir('view', $module) . "/{$this->_area}") : array();
@@ -94,11 +88,11 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     {
         $dir = $this->_appConfig->getOptions()->getDesignDir();
         $dirs = array();
-        $package = $this->_package;
-        $theme = $this->_theme;
-        while ($theme) {
+        $themeModel = $this->_theme;
+        while ($themeModel) {
+            list($package, $theme) = $this->_getInheritedTheme($themeModel);
             $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
-            list($package, $theme) = $this->_getInheritedTheme($package, $theme);
+            $themeModel = $themeModel->getParentTheme();
         }
 
         return $this->_fallback($file, $dirs);
@@ -117,12 +111,12 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
 
         $dirs = array();
-        $theme = $this->_theme;
-        $package = $this->_package;
-        while ($theme) {
+        $themeModel = $this->_theme;
+        while ($themeModel) {
+            list($package, $theme) = $this->_getInheritedTheme($themeModel);
             $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
             $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}";
-            list($package, $theme) = $this->_getInheritedTheme($package, $theme);
+            $themeModel = $themeModel->getParentTheme();
         }
 
         return $this->_fallback(
@@ -174,13 +168,13 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      * If the specified theme inherits other theme the result is the name of inherited theme.
      * If the specified theme does not inherit other theme the result is null.
      *
-     * @param string $package
-     * @param string $theme
+     * @param Mage_Core_Model_Theme $themeModel
      * @return string|null
      */
-    protected function _getInheritedTheme($package, $theme)
+    protected function _getInheritedTheme($themeModel)
     {
-        return $this->_themeConfig ? $this->_themeConfig->getParentTheme($package, $theme) : null;
+        $themePath = $themeModel->getThemePath();
+        return $themePath ? explode('/', $themePath) : null;
     }
 
     /**

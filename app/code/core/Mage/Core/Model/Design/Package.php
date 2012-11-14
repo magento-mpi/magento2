@@ -159,16 +159,16 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Set design theme
+     * Load design theme
      *
      * @param mixed $theme
      * @param string|null $area
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_Theme
      */
-    public function setDesignTheme($theme, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
+    protected function _getLoadDesignTheme($theme, $area)
     {
         if ($theme instanceof Mage_Core_Model_Theme) {
-            return $this->_setDesignTheme($theme, $area);
+            return $theme;
         }
 
         /** @var $themeModel Mage_Core_Model_Theme */
@@ -182,8 +182,7 @@ class Mage_Core_Model_Design_Package
                 ->getFirstItem();
         }
 
-        $this->_setDesignTheme($themeModel, $area);
-        return $this;
+        return $themeModel;
     }
 
     /**
@@ -193,14 +192,28 @@ class Mage_Core_Model_Design_Package
      * @param string $area
      * @return Mage_Core_Model_Design_Package
      */
-    protected function _setDesignTheme($theme, $area)
+    public function setDesignTheme($theme, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
         if ($area) {
             $this->setArea($area, false);
         }
-
-        $this->_theme = $theme;
+        $this->_theme = $this->_getLoadDesignTheme($theme, $area);
         return $this;
+    }
+
+    /**
+     * Get default theme which declared in configuration
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getConfigurationDesignTheme()
+    {
+        $area = $this->getArea();
+        $designTheme = $area == self::DEFAULT_AREA
+            ? (string)Mage::getStoreConfig(self::XML_PATH_THEME)
+            : (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name");
+
+        return $this->_getLoadDesignTheme($designTheme, $area);
     }
 
     /**
@@ -210,15 +223,7 @@ class Mage_Core_Model_Design_Package
      */
     public function setDefaultDesignTheme()
     {
-        $area = $this->getArea();
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = Mage::getModel('Mage_Core_Model_Theme');
-
-        $theme = ($area == Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ? Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME)
-            : $theme->getAreaDefaultTheme($area);
-        $this->setDesignTheme($theme, $area);
-
+        $this->setDesignTheme($this->getConfigurationDesignTheme(), $this->getArea());
         return $this;
     }
 
@@ -243,16 +248,16 @@ class Mage_Core_Model_Design_Package
         if (!empty($params['area']) && $params['area'] !== $this->getArea()
             && (empty($params['package']) || !array_key_exists('theme', $params))
         ) {
-            list($params['package'], $params['theme']) = $this->setArea($params['area']);
+            $params['themeModel'] = $this->getConfigurationDesignTheme();
         } else {
             if (empty($params['area'])) {
                 $params['area'] = $this->getArea();
             }
-            if (empty($params['package'])) {
-                $params['package'] = $this->getDesignTheme()->getPackageCode();
-            }
-            if (!array_key_exists('theme', $params)) {
-                $params['theme'] = $this->getDesignTheme()->getThemeCode();
+            if (empty($params['package']) || !array_key_exists('theme', $params)) {
+                $params['themeModel'] = $this->getDesignTheme();
+            } else {
+                $themePath = $params['package'] . '/' . $params['theme'];
+                $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
             }
         }
 
@@ -338,7 +343,8 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getFallback($params)
     {
-        $cacheKey = "{$params['area']}|{$params['package']}|{$params['theme']}|{$params['locale']}";
+        $themePart = $params['themeModel'] ? $params['themeModel']->getThemePath() : null;
+        $cacheKey = "{$params['area']}|{$themePart}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
             $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
                 ->getNode('global/dev/design_fallback/allow_map_update');
@@ -722,8 +728,8 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
-        $designPath = $params['package'] && $params['theme']
-            ? $params['package'] . DIRECTORY_SEPARATOR . $params['theme']
+        $designPath = $params['themeModel']->getThemePath()
+            ? $params['themeModel']->getPackageCode() . DIRECTORY_SEPARATOR . $params['themeModel']->getThemeCode()
             : self::PUBLIC_VIEW_DIR;
 
         $publicFile = $params['area']

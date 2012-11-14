@@ -52,13 +52,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_ioFile;
 
     /**
-     * Package code
-     *
-     * @var string|null
-     */
-    protected $_packageCode;
-
-    /**
      * Theme model initialization
      */
     protected function _construct()
@@ -107,7 +100,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
         $media = $themeConfig->getMedia($packageCode, $themeCode);
         $this->setData(array(
-            'theme_code'           => $themeCode,
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
             'parent_theme'         => $themeConfig->getParentTheme($packageCode, $themeCode),
@@ -118,7 +110,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
             'theme_directory'      => dirname($configPath),
         ));
+        $this->_updateDefaultParams();
         return $this;
+    }
+
+    /**
+     * Processing object after load data
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _afterLoad()
+    {
+        if ($this->getId()) {
+            $this->_updateDefaultParams();
+        }
+        return parent::_afterLoad();
     }
 
     /**
@@ -236,6 +242,28 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $this->_updateChildRelations();
         return parent::_afterDelete();
+    }
+
+    /**
+     * Get parent theme model
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getParentTheme()
+    {
+        if ($this->hasData('parent_theme')) {
+            return $this->getData('parent_theme');
+        }
+
+        if ($this->getParentId()) {
+            /** @var $theme Mage_Core_Model_Theme */
+            $theme = Mage::getModel('Mage_Core_Model_Theme');
+            $this->setDataUsingMethod('parent_theme', $theme->load($this->getParentId()));
+            return $theme;
+        } else {
+            $this->setDataUsingMethod('parent_theme', null);
+            return null;
+        }
     }
 
     /**
@@ -451,39 +479,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get default theme by area
+     * Update default params (package_code and theme_code)
      *
-     * @todo Move this method to service object
-     *
-     * @param string $area
      * @return Mage_Core_Model_Theme
      */
-    public function getAreaDefaultTheme($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
+    protected function _updateDefaultParams()
     {
-        $themePath = (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name");
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern($area);
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($collection as $theme) {
-            if ($theme->getThemePath() == $themePath) {
-                return $theme;
-            }
-        }
-        return $collection->getNewEmptyItem();
-    }
-
-    /**
-     * Get package code
-     *
-     * @return string|null
-     */
-    public function getPackageCode()
-    {
-        if ((null === $this->_packageCode) && $this->getThemePath()) {
-            $parts = explode('/', $this->getThemePath());
-            if (2 == count($parts)) {
-                $this->_packageCode = $parts[0];
-            }
-        }
-        return $this->_packageCode;
+        list($packageCode, $themeCode) = explode('/', $this->getThemePath());
+        $this->setPackageCode($packageCode)->setThemeCode($themeCode);
+        return $this;
     }
 }

@@ -103,8 +103,27 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         }
 
         $this->_loadFromFilesystem($pathsToThemeConfig);
-        $this->_renderFilters();
+        $this->_updateRelations()->_renderFilters();
 
+        return $this;
+    }
+
+    /**
+     * Set all parent themes
+     *
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    protected function _updateRelations()
+    {
+        $themeItems = $this->getItems();
+        foreach ($themeItems as $theme) {
+            if ($theme->getParentTheme()) {
+                $parentThemePath = implode('/', $theme->getParentTheme());
+                if (isset($themeItems[$parentThemePath])) {
+                    $theme->setParentTheme($themeItems[$parentThemePath]);
+                }
+            }
+        }
         return $this;
     }
 

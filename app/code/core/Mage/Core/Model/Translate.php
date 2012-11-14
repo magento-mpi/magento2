@@ -191,11 +191,14 @@ class Mage_Core_Model_Translate
         if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
-        if (!isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = Mage::getDesign()->getDesignTheme()->getPackageCode();
-        }
-        if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = Mage::getDesign()->getDesignTheme()->getThemeCode();
+        $designTheme = Mage::getDesign()->getDesignTheme();
+        if ($designTheme) {
+            if (!isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
+                $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = $designTheme->getPackageCode();
+            }
+            if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
+                $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $designTheme->getThemeCode();
+            }
         }
         return $this;
     }
