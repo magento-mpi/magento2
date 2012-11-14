@@ -2155,21 +2155,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         $updateArray = array();
-        foreach ($fields as $fieldKey => $fieldValue) {
-            $field = $value = null;
-            if (!is_numeric($fieldKey)) {
-                $field = $this->quoteIdentifier($fieldKey);
-            } elseif (is_string($fieldValue)) {
-                $field = $this->quoteIdentifier($fieldValue);
-            }
-            if ($fieldValue instanceof Zend_Db_Expr) {
-                $value = $fieldValue->__toString();
-            } else {
-                $value = $this->quoteIdentifier($fieldValue);
-            }
-            if ($field && $value) {
-                $updateArray[] = sprintf('t1.%s = t2.%s', $field, $value);
-            }
+        foreach ($fields as $field) {
+            $updateArray[] = sprintf('t1.%s = t2.%s', $this->quoteIdentifier($field), $this->quoteIdentifier($field));
         }
 
         $insertCols = array_map(array($this, 'quoteIdentifier'), $cols);

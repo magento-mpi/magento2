@@ -34,7 +34,7 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
             )
         );
         $this->getRequest()->setPost($post);
-        $this->dispatch('backend/admin');
+        $this->dispatch('/admin');
         $this->assertContains(Mage::helper('Mage_Captcha')->__('Incorrect CAPTCHA.'), $this->getResponse()->getBody());
     }
 
@@ -43,8 +43,8 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
      * @magentoConfigFixture current_store admin/captcha/forms backend_login
      * @magentoConfigFixture current_store admin/captcha/mode after_fail
      * @magentoConfigFixture current_store admin/captcha/failed_attempts_login 1
-     * magentoDbIsolation enabled
-     * magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
