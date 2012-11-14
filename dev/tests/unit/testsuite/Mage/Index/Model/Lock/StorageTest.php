@@ -25,13 +25,6 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected $_currentProcessId;
 
-    /**
-     * Is fileExists method called flag
-     *
-     * @var bool
-     */
-    protected $_isFileExistsCalled = false;
-
     protected function setUp()
     {
         $config = $this->getMock('Mage_Core_Model_Config', array('getVarDir'), array(), '', false);
@@ -41,24 +34,19 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',
             array(
-                'fileExists',
-                'mkdir',
-                'cd',
+                'setAllowCreateFolders',
+                'open',
                 'streamOpen',
                 'streamWrite',
             )
         );
 
         $fileModel->expects($this->exactly(2))
-            ->method('fileExists')
-            ->with(self::VAR_DIRECTORY)
-            ->will($this->returnCallback(array($this, 'isFileExistsCallback')));
-        $fileModel->expects($this->once())
-            ->method('mkdir')
-            ->with(self::VAR_DIRECTORY);
+            ->method('setAllowCreateFolders')
+            ->with(true);
         $fileModel->expects($this->exactly(2))
-            ->method('cd')
-            ->with(self::VAR_DIRECTORY);
+            ->method('open')
+            ->with(array('path' => self::VAR_DIRECTORY));
         $fileModel->expects($this->exactly(2))
             ->method('streamOpen')
             ->will($this->returnCallback(array($this, 'checkFilenameCallback')));
@@ -88,22 +76,6 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Mage_Index_Model_Process_File', $this->_storage->getFile($processId));
         }
         $this->assertAttributeCount(2, '_fileHandlers', $this->_storage);
-    }
-
-    /**
-     * First time this method will return false, all other times true
-     * In this way we check two cases of fileExists behavior
-     *
-     * @return bool
-     */
-    public function isFileExistsCallback()
-    {
-        if ($this->_isFileExistsCalled) {
-            return true;
-        } else {
-            $this->_isFileExistsCalled = true;
-            return false;
-        }
     }
 
     /**

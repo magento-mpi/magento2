@@ -46,10 +46,8 @@ class Mage_Index_Model_Lock_Storage
         if (!isset($this->_fileHandlers[$processId])) {
             $file = $this->_fileFactory->createFromArray();
             $varDirectory = $this->_configuration->getVarDir('locks');
-            if (!$file->fileExists($varDirectory)) {
-                $file->mkdir($varDirectory);
-            }
-            $file->cd($varDirectory);
+            $file->setAllowCreateFolders(true);
+            $file->open(array('path' => $varDirectory));
             $fileName = 'index_process_' . $processId . '.lock';
             $file->streamOpen($fileName);
             $file->streamWrite(date('r'));
