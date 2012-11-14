@@ -43,4 +43,36 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_init('Mage_Launcher_Model_Resource_Tile');
     }
+
+    /**
+     * Load landing page tile by its code
+     *
+     * @param $code
+     * @return Mage_Launcher_Model_Tile
+     */
+    public function loadByCode($code)
+    {
+        $this->_getResource()->loadByCode($this, $code);
+        return $this;
+    }
+
+    /**
+     * Check if tile can be skipped
+     *
+     * @return bool
+     */
+    public function isSkippable()
+    {
+        return true;
+    }
+
+    /**
+     * Check if tile can be dismissed
+     *
+     * @return bool
+     */
+    public function isDismissible()
+    {
+        return true;
+    }
 }

@@ -25,6 +25,13 @@ class Mage_Launcher_Model_Page extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'launcher_page';
 
     /**
+     * List of tiles associated with page
+     *
+     * @var Mage_Launcher_Model_Resource_Tile_Collection|null
+     */
+    protected $_tiles;
+
+    /**
      * Class constructor
      *
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
@@ -42,5 +49,39 @@ class Mage_Launcher_Model_Page extends Mage_Core_Model_Abstract
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_init('Mage_Launcher_Model_Resource_Page');
+    }
+
+    /**
+     * Retrieve collection of tiles associated with this page
+     *
+     * @return Mage_Launcher_Model_Resource_Tile_Collection|null
+     */
+    public function getTiles()
+    {
+        return $this->_tiles;
+    }
+
+    /**
+     * Set collection of related tiles
+     *
+     * @param Mage_Launcher_Model_Resource_Tile_Collection|null $tiles
+     * @return Mage_Launcher_Model_Page
+     */
+    public function setTiles(Mage_Launcher_Model_Resource_Tile_Collection $tiles)
+    {
+        $this->_tiles = $tiles;
+        return $this;
+    }
+
+    /**
+     * Load landing page by its code
+     *
+     * @param $code
+     * @return Mage_Launcher_Model_Page
+     */
+    public function loadByCode($code)
+    {
+        $this->_getResource()->loadByCode($this, $code);
+        return $this;
     }
 }
