@@ -31,6 +31,9 @@
                     <ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>
                     <roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>
                 </acl>
+                <Mage_Webapi_Model_Authorization_Loader_Resource>
+                    <parameters>Mage_Webapi_Model_Authorization_Config</parameters>
+                </Mage_Webapi_Model_Authorization_Loader_Resource>
             </webapi>
         </areas>
         <resources>
@@ -123,9 +126,6 @@
             <Mage_Xml_Generator>
                 <shared>0</shared>
             </Mage_Xml_Generator>
-            <Mage_Webapi_Model_Authorization_Loader_Resource>
-                <parameters>Mage_Webapi_Model_Authorization_Config</parameters>
-            </Mage_Webapi_Model_Authorization_Loader_Resource>
         </di>
     </global>
     <admin>
