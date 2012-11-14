@@ -44,6 +44,7 @@ class Mage_Core_Model_Validator_Factory
         $this->_config = $config;
         $this->_translator = $translator;
 
+        $this->_configFiles = $this->_config->getModuleConfigurationFiles('validation.xml');
         $this->_initializeDefaultTranslator();
     }
 
@@ -52,8 +53,6 @@ class Mage_Core_Model_Validator_Factory
      */
     protected function _initializeDefaultTranslator()
     {
-        $this->_configFiles = $this->_config->getModuleConfigurationFiles('validation.xml');
-
         $translateAdapter = $this->_translator;
         $objectManager = $this->_objectManager;
         // Pass translations to Mage_Core_Model_Translate from validators
@@ -72,15 +71,40 @@ class Mage_Core_Model_Validator_Factory
     }
 
     /**
-     * Create validator config object.
+     * Get validator config object.
      *
      * Will instantiate Magento_Validator_Config
      *
      * @return Magento_Validator_Config
      */
-    public function createValidatorConfig()
+    public function getValidatorConfig()
     {
-        return $this->_objectManager
-            ->create('Magento_Validator_Config', array('configFiles' => $this->_configFiles));
+        return $this->_objectManager->get('Magento_Validator_Config', array('configFiles' => $this->_configFiles));
+    }
+
+    /**
+     * Create validator builder instance based on entity and group.
+     *
+     * @param string $entityName
+     * @param string $groupName
+     * @param array|null $builderConfig
+     * @return Magento_Validator_Builder
+     */
+    public function createValidatorBuilder($entityName, $groupName, array $builderConfig = null)
+    {
+        return $this->getValidatorConfig()->createValidatorBuilder($entityName, $groupName, $builderConfig);
+    }
+
+    /**
+     * Create validator based on entity and group.
+     *
+     * @param string $entityName
+     * @param string $groupName
+     * @param array|null $builderConfig
+     * @return Magento_Validator
+     */
+    public function createValidator($entityName, $groupName, array $builderConfig = null)
+    {
+        return $this->getValidatorConfig()->createValidator($entityName, $groupName, $builderConfig);
     }
 }

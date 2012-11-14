@@ -84,10 +84,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
      */
     protected function _validate($address)
     {
-        $validatorConfig = $this->_validatorFactory->createValidatorConfig();
-        $validator = $validatorConfig
-            ->getValidatorBuilder('customer_address', 'save')
-            ->createValidator();
+        $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
             throw new Magento_Validator_Exception($validator->getMessages());

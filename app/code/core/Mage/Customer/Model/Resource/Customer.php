@@ -107,10 +107,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     protected function _validate($customer)
     {
-        $validatorConfig = $this->_validatorFactory->createValidatorConfig();
-        $validator = $validatorConfig
-            ->getValidatorBuilder('customer', 'save')
-            ->createValidator();
+        $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
             throw new Magento_Validator_Exception($validator->getMessages());

@@ -11,12 +11,12 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
      *
      * @magentoAppIsolation enabled
      */
-    public function testCreateValidatorConfig()
+    public function testGetValidatorConfig()
     {
         $objectManager = Mage::getObjectManager();
         /** @var Mage_Core_Model_Validator_Factory $factory */
         $factory = $objectManager->get('Mage_Core_Model_Validator_Factory');
-        $this->assertInstanceOf('Magento_Validator_Config', $factory->createValidatorConfig());
+        $this->assertInstanceOf('Magento_Validator_Config', $factory->getValidatorConfig());
         // Check that default translator was set
         $translator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
         $this->assertInstanceOf('Magento_Translate_AdapterInterface', $translator);

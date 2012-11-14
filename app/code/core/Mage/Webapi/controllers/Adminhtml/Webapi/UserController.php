@@ -206,8 +206,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
         $validator = $this->_objectManager->get('Mage_Core_Model_Validator_Factory')
-            ->createValidatorConfig('api_user', $group)
-            ->createValidator();
+            ->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }

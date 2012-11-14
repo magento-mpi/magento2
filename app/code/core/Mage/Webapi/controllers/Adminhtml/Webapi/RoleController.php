@@ -181,8 +181,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     {
         $group = $role->isObjectNew() ? 'create' : 'update';
         $validator = $this->_objectManager->get('Mage_Core_Model_Validator_Factory')
-            ->createValidatorConfig('api_role', $group)
-            ->createValidator();
+            ->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }
