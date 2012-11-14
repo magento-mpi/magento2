@@ -83,7 +83,7 @@ applications:
             password: '123123q'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_community/control/'
+                url: 'http://www.localhost.com/magento2_community/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
@@ -105,14 +105,13 @@ applications:
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'
     magento2enterprise: &m2ee
-        fallbackOrderFixture: 'enterprise2, enterprise, default'
+        fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_enterprise/control/'
-                url: 'http://www.localhost.com/magento_2enterprise/control/'
+                url: 'http://www.localhost.com/magento2_enterprise/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
