@@ -1,3 +1,7 @@
+# Files or directories that are excluded from static code analysis for any reason
+# Glob patterns are supported
+# Overrides the white list
+#
 app/code/core/Mage/DesignEditor/view
 app/code/core/Mage/Core/data/core_setup/data-upgrade-1.6.0.4-1.6.0.5.php
 app/code/core/Mage/Theme/Helper/Data.php
@@ -11,11 +15,9 @@ lib/Magento/Data/Graph.php
 lib/Magento/Data/Structure.php
 lib/Magento/Shell.php
 lib/Magento/Validator.php
-dev/tests/functional/testsuite
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Mage/Core/Block/_files
 dev/tests/integration/tmp
 dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input
 dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input
-dev/tools/translate
