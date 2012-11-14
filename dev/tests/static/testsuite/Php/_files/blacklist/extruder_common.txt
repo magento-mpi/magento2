@@ -1,0 +1,7 @@
+# A list similar to "common.txt", but these items are mentioned in "extruder" configuration of publication build
+# See dev/build/publication/extruder/common.txt
+# This file will not be published
+#
+dev/build/core_dev/performance/config*.php
+dev/tests/functional/testsuite
+dev/tools/translate

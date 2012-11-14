@@ -1,1 +1,0 @@
-dev/build/core_dev/performance/config*.php

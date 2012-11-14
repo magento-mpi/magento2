@@ -87,6 +87,9 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         $baseDir = realpath(__DIR__ . '/../../../../..');
         $result = array();
         foreach ($patterns as $pattern) {
+            if (0 === strpos($pattern, '#')) {
+                continue;
+            }
             /**
              * Note that glob() for directories will be returned as is,
              * but passing directory is supported by the tools (phpcpd, phpmd, phpcs)
