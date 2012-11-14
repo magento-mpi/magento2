@@ -184,14 +184,16 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $addressesData = $this->_extractCustomerAddressData();
 
                 $request = $this->getRequest();
-                $beforeSaveCallback = function ($customer) use ($request) {
-                    Mage::dispatchEvent('adminhtml_customer_prepare_save', array(
+                /** @var Mage_Core_Model_Event_Manager $eventManager */
+                $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+                $beforeSaveCallback = function ($customer) use ($request, $eventManager) {
+                    $eventManager->dispatch('adminhtml_customer_prepare_save', array(
                         'customer'  => $customer,
                         'request'   => $request
                     ));
                 };
-                $afterSaveCallback = function ($customer) use ($request) {
-                    Mage::dispatchEvent('adminhtml_customer_save_after', array(
+                $afterSaveCallback = function ($customer) use ($request, $eventManager) {
+                    $eventManager->dispatch('adminhtml_customer_save_after', array(
                         'customer' => $customer,
                         'request'  => $request
                     ));
