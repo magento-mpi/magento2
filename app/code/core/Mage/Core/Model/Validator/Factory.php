@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Core_Model_ValidatorFactory
+class Mage_Core_Model_Validator_Factory
 {
     /**
      * @var Magento_ObjectManager
@@ -57,7 +57,7 @@ class Mage_Core_Model_ValidatorFactory
         $translateAdapter = $this->_translator;
         $objectManager = $this->_objectManager;
         // Pass translations to Mage_Core_Model_Translate from validators
-        $translatorCallback = function() use ($translateAdapter, $objectManager) {
+        $translatorCallback = function () use ($translateAdapter, $objectManager) {
             /** @var Mage_Core_Model_Translate $translateAdapter */
             $args = func_get_args();
             $expr = $objectManager->create('Mage_Core_Model_Translate_Expr');

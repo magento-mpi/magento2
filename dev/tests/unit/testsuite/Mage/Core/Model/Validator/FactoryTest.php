@@ -1,10 +1,10 @@
 <?php
 /**
- * Unit test for Mage_Core_Model_ValidatorFactory
+ * Unit test for Mage_Core_Model_Validator_Factory
  *
  * @copyright {}
  */
-class Mage_Core_Model_ValidatorFactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Translate_AdapterInterface|null
@@ -75,7 +75,7 @@ class Mage_Core_Model_ValidatorFactoryTest extends PHPUnit_Framework_TestCase
         $translateAdapter->expects($this->once())
             ->method('_getTranslatedString')
             ->will($this->returnArgument(0));
-        $factory = new Mage_Core_Model_ValidatorFactory($objectManagerMock, $configMock, $translateAdapter);
+        $factory = new Mage_Core_Model_Validator_Factory($objectManagerMock, $configMock, $translateAdapter);
         $actualConfig = $factory->createValidatorConfig();
         $this->assertInstanceOf('Magento_Validator_Config', $actualConfig,
             'Object of incorrect type was created');

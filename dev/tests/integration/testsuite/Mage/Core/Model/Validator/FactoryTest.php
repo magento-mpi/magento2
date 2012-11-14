@@ -1,10 +1,10 @@
 <?php
 /**
- * Integration test for Mage_Core_Model_ValidatorFactory
+ * Integration test for Mage_Core_Model_Validator_Factory
  *
  * @copyright {}
  */
-class Mage_Core_Model_ValidatorFactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test creation of validator config
@@ -14,8 +14,8 @@ class Mage_Core_Model_ValidatorFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreateValidatorConfig()
     {
         $objectManager = Mage::getObjectManager();
-        /** @var Mage_Core_Model_ValidatorFactory $factory */
-        $factory = $objectManager->get('Mage_Core_Model_ValidatorFactory');
+        /** @var Mage_Core_Model_Validator_Factory $factory */
+        $factory = $objectManager->get('Mage_Core_Model_Validator_Factory');
         $this->assertInstanceOf('Magento_Validator_Config', $factory->createValidatorConfig());
         // Check that default translator was set
         $translator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();

@@ -7,16 +7,16 @@
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * @var Mage_Core_Model_ValidatorFactory
+     * @var Mage_Core_Model_Validator_Factory
      */
     protected $_validatorFactory;
 
     /**
      * Resource initialization
      *
-     * @param Mage_Core_Model_ValidatorFactory $validatorFactory
+     * @param Mage_Core_Model_Validator_Factory $validatorFactory
      */
-    public function __construct(Mage_Core_Model_ValidatorFactory $validatorFactory)
+    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory)
     {
         $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
