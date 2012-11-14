@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API Role edit form
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Form extends Mage_Backend_Block_Widget_Form
 {

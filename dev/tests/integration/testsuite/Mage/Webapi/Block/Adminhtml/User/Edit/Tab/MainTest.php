@@ -1,20 +1,15 @@
 <?php
 /**
- * Test for Mage_Webapi_Block_Adminhtml_User_Edit_Form block
+ * Test for Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main block
  *
  * @copyright {}
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Test_ObjectManager
      */
     protected $_objectManager;
-
-    /**
-     * @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_urlBuilder;
 
     /**
      * @var Mage_Core_Model_Layout
@@ -27,20 +22,16 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_FormTest extends PHPUnit_Framework_T
     protected $_blockFactory;
 
     /**
-     * @var Mage_Webapi_Block_Adminhtml_User_Edit_Form
+     * @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
-            ->getMock();
         $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Form', array(
-            'urlBuilder' => $this->_urlBuilder
-        ));
+        $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main');
         $this->_layout->addBlock($this->_block);
     }
 
@@ -52,23 +43,78 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_FormTest extends PHPUnit_Framework_T
 
     /**
      * Test _prepareForm method
+     *
+     * @dataProvider prepareFormDataProvider
      */
-    public function testPrepareForm()
+    public function testPrepareForm($apiUser, array $filledElements)
     {
         // TODO Move to unit tests after MAGETWO-4015 complete
         $this->assertEmpty($this->_block->getForm());
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('*/*/save', array())
-            ->will($this->returnValue('action_url'));
+        $this->_block->setApiUser($apiUser);
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
         $this->assertInstanceOf('Varien_Data_Form', $form);
-        $this->assertTrue($form->getUseContainer());
-        $this->assertEquals('edit_form', $form->getId());
-        $this->assertEquals('post', $form->getMethod());
-        $this->assertEquals('action_url', $form->getAction());
+        $this->assertEquals('user_', $form->getHtmlIdPrefix());
+        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        $fieldset = $form->getElement('base_fieldset');
+        $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $fieldset);
+        $elements = $fieldset->getElements();
+        foreach ($filledElements as $elementId) {
+            $element = $elements->searchById($elementId);
+            $this->assertNotEmpty($element, "Element '$elementId' not found in form fieldset");
+            $this->assertEquals($apiUser->getData($elementId), $element->getValue());
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function prepareFormDataProvider()
+    {
+        return array(
+            'Empty API User' => array(
+                new Varien_Object(),
+                array(
+                    'company_name',
+                    'contact_email',
+                    'api_key',
+                    'secret'
+                )
+            ),
+            'New API User' => array(
+                new Varien_Object(array(
+                    'company_name' => 'Company',
+                    'contact_email' => 'mail@example.com',
+                    'api_key' => 'API Key',
+                    'secret' => 'API Secret',
+                    'role_id' => 1
+                )),
+                array(
+                    'company_name',
+                    'contact_email',
+                    'api_key',
+                    'secret'
+                )
+            ),
+            'Existed API User' => array(
+                new Varien_Object(array(
+                    'id' => 1,
+                    'company_name' => 'Company',
+                    'contact_email' => 'mail@example.com',
+                    'api_key' => 'API Key',
+                    'secret' => 'API Secret',
+                    'role_id' => 1
+                )),
+                array(
+                    'user_id',
+                    'company_name',
+                    'contact_email',
+                    'api_key',
+                    'secret'
+                )
+            )
+        );
     }
 }

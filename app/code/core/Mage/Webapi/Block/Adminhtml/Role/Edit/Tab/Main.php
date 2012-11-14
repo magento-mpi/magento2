@@ -1,22 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API Role tab with main information
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Mage_Webapi_Model_Acl_Role $role)
- * @method Mage_Webapi_Model_Acl_Role getApiRole()
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {

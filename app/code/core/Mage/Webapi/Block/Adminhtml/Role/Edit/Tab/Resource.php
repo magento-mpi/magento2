@@ -1,24 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API role resource tab
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole(Mage_Webapi_Model_Acl_Role $role)
- * @method Mage_Webapi_Model_Acl_Role getApiRole()
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources(array $selrids)
- * @method array getSelectedResources()
+ * @copyright {}
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
+ * @method array getSelectedResources() getSelectedResources()
+
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {

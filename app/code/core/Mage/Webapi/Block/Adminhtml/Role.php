@@ -1,34 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API Adminhtml role block
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
-
 class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Container
 {
     /**
-     * Constructor
+     * Internal constructor
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Mage_Webapi';
         $this->_controller = 'adminhtml_role';
-        $this->_headerText = Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles');
-        $this->_addButtonLabel = Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role');
-
-        parent::__construct();
+        $this->_headerText = $this->__('API Roles');
+        $this->_addButtonLabel = $this->__('Add New API Role');
+        parent::_construct();
     }
 
     /**

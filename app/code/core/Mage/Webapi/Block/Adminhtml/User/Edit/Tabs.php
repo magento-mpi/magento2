@@ -1,34 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API User page left menu
  *
- * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser(Mage_Webapi_Model_Acl_User $user)
- * @method Mage_Webapi_Model_Acl_User getApiUser()
+ * @copyright {}
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Varien_Object getApiUser() getApiUser()
+ * @method Mage_Webapi_Block_Adminhtml_User_Edit_Tabs setApiUser() setApiUser(Varien_Object $apiUser)
  */
 class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
     /**
-     * Constructor
+     * Internal constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Webapi_Helper_Data')->__('User Information'));
+        $this->setTitle($this->__('User Information'));
+        parent::_construct();
     }
 
     /**
@@ -38,23 +27,25 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
      */
     protected function _beforeToHtml()
     {
-        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainBlock */
-        $mainBlock = $this->getLayout()->getBlock('webapi.user.edit.tab.main');
-        $mainBlock->setApiUser($this->getApiUser());
+        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainTab */
+        $mainTab = $this->getLayout()->getBlock('webapi.user.edit.tab.main');
+        $mainTab->setApiUser($this->getApiUser());
         $this->addTab('main_section', array(
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Info'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Info'),
-            'content' => $mainBlock->toHtml(),
+            'label' => $this->__('User Info'),
+            'title' => $this->__('User Info'),
+            'content' => $mainTab->toHtml(),
             'active' => true
         ));
 
-        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles $roleBlock */
-        $roleBlock = $this->getLayout()->getBlock('webapi.user.edit.tab.roles');
-        $roleBlock->setApiUser($this->getApiUser());
+        /** @var Mage_Backend_Block_Widget_Grid $rolesGrid */
+        $rolesGridContainer = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid.container');
+        /** @var Mage_Backend_Block_Widget_Grid_Column $roleIdColumn */
+        $roleIdColumn = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid.columnSet.role_id');
+        $roleIdColumn->setValue($this->getApiUser()->getRoleId());
         $this->addTab('roles_section', array(
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Role'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('User Role'),
-            'content' => $roleBlock->toHtml(),
+            'label' => $this->__('User Role'),
+            'title' => $this->__('User Role'),
+            'content' => $rolesGridContainer->toHtml(),
         ));
         return parent::_beforeToHtml();
     }

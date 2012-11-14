@@ -1,31 +1,34 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Block_Adminhtml_User_Edit block
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @var Mage_Webapi_Block_Adminhtml_User_Edit
      */
-    protected $_block = null;
+    protected $_block;
 
     /**
      * Initialize block
      */
     protected function setUp()
     {
-        $layout = new Mage_Core_Model_Layout(array('area' => 'adminhtml'));
-        $this->_block = $layout->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit');
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_layout = Mage::getObjectManager()->get('Mage_Core_Model_Layout');
+        $this->_block = $this->_layout->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit');
     }
 
     /**
@@ -33,44 +36,18 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
      */
     protected function tearDown()
     {
-        $this->_block = null;
+        unset($this->_objectManager, $this->_layout, $this->_block);
     }
 
     /**
-     * Test setApiUser existing user
-     *
-     * @dataProvider apiUserDataProvider
-     *
-     * @param Varien_Object $apiUser
-     * @param string $expectedHeader
+     * Test _beforeToHtml method
      */
-    public function testSetApiUser($apiUser, $expectedHeader)
+    public function testBeforeToHtml()
     {
+        // TODO Move to unit tests after MAGETWO-4015 complete
+        $apiUser = new Varien_Object();
         $this->_block->setApiUser($apiUser);
-
-        $this->assertEquals($expectedHeader, $this->_block->getHeaderText());
-        $this->assertEquals($apiUser, $this->_block->getApiUser());
         $this->_block->toHtml();
-        $this->assertEquals($apiUser, $this->_block->getChildBlock('form')->getApiUser());
-    }
-
-    /**
-     * Data provider for testSetApiUser
-     *
-     * @return array
-     */
-    public function apiUserDataProvider()
-    {
-        return array(
-            'new user' => array(
-                new Varien_Object(),
-                "New API User"
-            ),
-            'existing user'  => array(
-                new Varien_Object(array('id' => 1, 'api_key' => 'test_key',
-                    'contact_email' => 'test@email.com', 'role_id' => 1)),
-                "Edit API User 'test_key'"
-            ),
-        );
+        $this->assertSame($apiUser, $this->_block->getChildBlock('form')->getApiUser());
     }
 }

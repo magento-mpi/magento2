@@ -181,19 +181,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     public function rolesgridAction()
     {
-        $userId = (int)$this->getRequest()->getParam('user_id');
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
-        if ($userId) {
-            $user->load($userId);
-        }
-
-        $this->loadLayout();
-        /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles $gridBlock */
-        $gridBlock = $this->getLayout()->getBlock('root');
-        if ($gridBlock) {
-            $gridBlock->setApiUser($user);
-        }
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 

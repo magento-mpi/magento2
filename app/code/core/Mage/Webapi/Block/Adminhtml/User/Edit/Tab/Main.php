@@ -1,22 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API user edit form
  *
- * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser(Mage_Webapi_Model_Acl_User $user)
- * @method Mage_Webapi_Model_Acl_User getApiUser()
+ * @copyright {}
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Mage_Webapi_Model_Acl_User $user)
+ * @method Mage_Webapi_Model_Acl_User getApiUser() getApiUser()
  */
 class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {
@@ -31,7 +20,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
         $form->setHtmlIdPrefix('user_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-                'legend'=>Mage::helper('Mage_Webapi_Helper_Data')->__('Account Information'))
+            'legend' => $this->__('Account Information'))
         );
 
         $user = $this->getApiUser();
@@ -46,8 +35,8 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
             'name' => 'company_name',
             'id' => 'company_name',
             'required' => false,
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Company Name'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Company Name'),
+            'label' => $this->__('Company Name'),
+            'title' => $this->__('Company Name'),
         ));
 
         $fieldset->addField('contact_email', 'text', array(
@@ -55,24 +44,24 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
             'id' => 'contact_email',
             'class' => 'validate-email',
             'required' => true,
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email'),
+            'label' => $this->__('Contact Email'),
+            'title' => $this->__('Contact Email'),
         ));
 
         $fieldset->addField('api_key', 'text', array(
             'name' => 'api_key',
             'id' => 'api_key',
             'required' => true,
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key'),
+            'label' => $this->__('API Key'),
+            'title' => $this->__('API Key'),
         ));
 
         $fieldset->addField('secret', 'text', array(
             'name' => 'secret',
             'id' => 'secret',
             'required' => true,
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Secret'),
+            'label' => $this->__('API Secret'),
+            'title' => $this->__('API Secret'),
         ));
 
         $form->setValues($user->getData());
