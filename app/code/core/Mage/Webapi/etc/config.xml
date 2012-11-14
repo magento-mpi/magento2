@@ -31,9 +31,11 @@
                     <ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>
                     <roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>
                 </acl>
-                <Mage_Webapi_Model_Authorization_Loader_Resource>
-                    <parameters>Mage_Webapi_Model_Authorization_Config</parameters>
-                </Mage_Webapi_Model_Authorization_Loader_Resource>
+                <di>
+                    <Mage_Webapi_Model_Authorization_Loader_Resource>
+                        <parameters>Mage_Webapi_Model_Authorization_Config</parameters>
+                    </Mage_Webapi_Model_Authorization_Loader_Resource>
+                </di>
             </webapi>
         </areas>
         <resources>
