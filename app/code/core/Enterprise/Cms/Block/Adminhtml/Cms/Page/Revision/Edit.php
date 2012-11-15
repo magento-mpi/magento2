@@ -77,7 +77,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                 $this->_addButton('save_publish', array(
                     'id'        => 'save_publish_button',
                     'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Publish'),
-                    'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
                     'class'     => 'publish no-display',
                     'data_attr'  => array(
                         'widget-button' => array('event' => 'saveAndPublish', 'related' => '#edit_form')
