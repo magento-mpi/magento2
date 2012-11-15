@@ -127,7 +127,7 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * Test createValidatorBuilder call
      */
-    public function testcreateValidator()
+    public function testCreateValidator()
     {
         $this->_validatorConfig->expects($this->once())
             ->method('createValidator')
