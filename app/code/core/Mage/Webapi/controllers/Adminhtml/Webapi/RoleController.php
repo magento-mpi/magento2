@@ -48,6 +48,15 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
+     * Grid in edit role form
+     */
+    public function usersgridAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
      * Edit Web API role
      */
     public function editAction()
@@ -269,16 +278,6 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         }
 
         return array();
-    }
-
-    /**
-     * Grid in edit role form
-     */
-    public function editrolegridAction()
-    {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Webapi_Block_Adminhtml_Role_Grid_User')->toHtml()
-        );
     }
 
     /**

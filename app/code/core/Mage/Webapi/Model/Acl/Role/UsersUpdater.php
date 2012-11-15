@@ -1,6 +1,6 @@
 <?php
 /**
- * Role users orders grid items updater
+ * Users in role grid items updater
  *
  * @copyright {}
  */
@@ -61,7 +61,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     }
 
     /**
-     * Remove massaction items in case they disallowed for user
+     * Add filtering users by role
      *
      * @param Mage_Webapi_Model_Resource_Acl_User_Collection $collection
      * @return Mage_Webapi_Model_Resource_Acl_User_Collection
