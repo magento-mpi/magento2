@@ -37,8 +37,8 @@ class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
     public function getResourcesArray()
     {
         /** @var $acl Magento_Acl */
-        $acl = Mage::getModel('Magento_Acl');
-        Mage::getModel('Mage_Webapi_Model_Authorization_Loader_Resource')->populateAcl($acl);
+        $acl = Mage::getObjectManager()->create('Magento_Acl');
+        Mage::getObjectManager()->get('Mage_Webapi_Model_Authorization_Loader_Resource')->populateAcl($acl);
         return $acl->getResources();
     }
 
@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
     public function getResourcesList()
     {
         /** @var $config Mage_Webapi_Model_Authorization_Config */
-        $config = Mage::getSingleton('Mage_Webapi_Model_Authorization_Config');
+        $config = Mage::getObjectManager()->get('Mage_Webapi_Model_Authorization_Config');
         return $config->getAclResources();
     }
 }

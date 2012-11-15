@@ -23,9 +23,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $role = $this->getApiRole();
 
         if ($role->getRoleId()) {
-            $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
+            $resources = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
             /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId());
+            $rulesSet = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId());
 
             $selectedRoleIds = array();
             /** @var $item Mage_Webapi_Model_Acl_Rule */
@@ -62,7 +62,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     public function getResourceTreeJson()
     {
         /** @var $resources DOMNodeList */
-        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
+        $resources = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_Role')->getResourcesList();
 
         if ($resources && $resources->length == 1
             && (string)$resources->item(0)->getAttribute('id')
@@ -71,7 +71,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
             $resourceArray = $this->_getNodeJson($resources->item(0));
             if (!empty($resourceArray['children'])) {
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($resourceArray['children']);
+                return Mage::getObjectManager()->get('Mage_Core_Helper_Data')->jsonEncode($resourceArray['children']);
             }
         }
 

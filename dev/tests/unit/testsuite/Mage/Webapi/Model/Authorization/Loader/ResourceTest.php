@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
 
         $this->_model = $this->_helper->getModel('Mage_Webapi_Model_Authorization_Loader_Resource', array(
             'resourceFactory' => $resourceFactory,
-            'config' => $this->_config,
+            'configuration' => $this->_config,
         ));
 
         $this->_acl = $this->getMock('Magento_Acl', array('has', 'addResource', 'deny', 'getResources'), array(), '',

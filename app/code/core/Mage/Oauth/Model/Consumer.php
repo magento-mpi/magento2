@@ -33,7 +33,7 @@
  * @method string getRejectedCallbackUrl()
  * @method Mage_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
+abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Key hash length

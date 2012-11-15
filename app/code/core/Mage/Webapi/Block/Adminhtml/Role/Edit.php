@@ -10,27 +10,27 @@
 class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Form_Container
 {
     /**
-     * Initialize form container
+     * Internal Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Mage_Webapi';
         $this->_objectId = 'role_id';
         $this->_controller = 'adminhtml_role';
 
-        parent::__construct();
-
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
 
         $this->_addButton('save_and_continue', array(
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
+            'label' => $this->__('Save and Continue Edit'),
             'onclick' => "saveAndContinueEdit('" . $this->getSaveAndContinueUrl() . "')",
             'class' => 'save'
         ), 100);
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API Role'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API Role'));
+        $this->_updateButton('save', 'label', $this->__('Save API Role'));
+        $this->_updateButton('delete', 'label', $this->__('Delete API Role'));
+
+        parent::_construct();
     }
 
     /**
@@ -51,10 +51,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     public function getHeaderText()
     {
         if ($this->getApiRole()->getId()) {
-            return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+            return $this->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
-            return Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role');
+            return $this->__('New API Role');
         }
     }
 }

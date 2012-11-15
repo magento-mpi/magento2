@@ -7,16 +7,16 @@
 class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widget_Grid_Extended
 {
     /**
-     * Constructor
+     * Internal Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
         $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
         $this->setDefaultFilter(array('in_role_users' => 1));
         $this->setUseAjax(true);
+        parent::_construct();
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
-        $collection = Mage::getModel('Mage_Webapi_Model_Acl_User')->getCollection();
+        $collection = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -74,7 +74,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('User ID'),
+            'header'    => $this->__('User ID'),
             'width'     => 20,
             'align'     => 'left',
             'sortable'  => true,
@@ -82,13 +82,13 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
         ));
 
         $this->addColumn('role_user_contactemail', array(
-            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('Contact Email'),
+            'header'    => $this->__('Contact Email'),
             'align'     => 'left',
             'index'     => 'contact_email'
         ));
 
         $this->addColumn('role_user_apikey', array(
-            'header'    => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key'),
+            'header'    => $this->__('API Key'),
             'align'     => 'left',
             'index'     => 'api_key'
         ));
@@ -120,14 +120,14 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
         }
 
         $roleId = (int)$this->getRequest()->getParam('role_id');
-        $users = Mage::getModel('Mage_Webapi_Model_Acl_User')->getRoleUsers($roleId);
+        $users = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')->getRoleUsers($roleId);
         if (count($users) > 0) {
             if ($json) {
                 $jsonUsers = array();
                 foreach ($users as $userId) {
                     $jsonUsers[$userId] = 0;
                 }
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return Mage::getObjectManager()->get('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

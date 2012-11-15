@@ -21,13 +21,13 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
     protected $_resourceFactory;
 
     /**
-     * @param Mage_Core_Model_Acl_Config_ConfigInterface $config
+     * @param Mage_Core_Model_Acl_Config_ConfigInterface $configuration
      * @param Magento_Acl_ResourceFactory $resourceFactory
      */
-    public function __construct(Mage_Core_Model_Acl_Config_ConfigInterface $config,
+    public function __construct(Mage_Core_Model_Acl_Config_ConfigInterface $configuration,
         Magento_Acl_ResourceFactory $resourceFactory
     ) {
-        $this->_config = $config;
+        $this->_config = $configuration;
         $this->_resourceFactory = $resourceFactory;
     }
 
