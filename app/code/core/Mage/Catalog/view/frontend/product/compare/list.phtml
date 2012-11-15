@@ -15,7 +15,7 @@
 </div>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
-<table class="data-table compare-table" id="product_comparison">
+<table class="data-table compare-table" id="product-comparison">
     <?php $_i=0 ?>
     <?php foreach($this->getItems() as $_item): ?>
     <?php if($_i++%10==0): ?>
@@ -125,7 +125,7 @@
 <script type="text/javascript">
     (function($) {
         head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/list.js')?>", function() {
-            $('#product_comparison').compareList({
+            $('#product-comparison').compareList({
                 productRemoveSelector: 'a.btn-remove',
                 ajaxSpinner: '#compare-list-please-wait',
                 windowCloseSelector: '#window-close',
