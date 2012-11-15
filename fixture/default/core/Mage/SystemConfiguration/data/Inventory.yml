@@ -24,3 +24,11 @@ not_display_out_of_stock_products:
         configuration:
             stock_options:
                 display_out_of_stock_products: No
+
+manage_stock_options:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_inventory
+        configuration:
+            stock_options:
+                manage_stock: Yes

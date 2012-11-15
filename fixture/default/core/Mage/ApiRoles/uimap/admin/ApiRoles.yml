@@ -64,7 +64,7 @@ new_role:
             tabs:
                 -
                     role_info:
-                        xpath: //a[@title='Role Info']/span
+                        xpath: //a[@title='Role Info']
                         fieldsets:
                             -
                                 role_information:
@@ -73,7 +73,7 @@ new_role:
                                         role_name: //input[@name='role_name']
                 -
                     resources:
-                        xpath: //a[@title='Resources']/span
+                        xpath: //a[@title='Resources']
                         fieldsets:
                             -
                                 roles_resources:
@@ -99,7 +99,7 @@ edit_role:
             tabs:
                 -
                     role_info:
-                        xpath: //a[@title='Role Info']/span
+                        xpath: //a[@title='Role Info']
                         fieldsets:
                             -
                                 role_information:
@@ -108,7 +108,7 @@ edit_role:
                                         role_name: //input[@name='role_name']
                 -
                     resources:
-                        xpath: //a[@title='Resources']/span
+                        xpath: //a[@title='Resources']
                         fieldsets:
                             -
                                 roles_resources:
@@ -120,7 +120,7 @@ edit_role:
                                         sub_root: //li[@class='x-tree-node']/ul/li/div[contains(a/span,'%subName%')]
                 -
                     users:
-                        xpath: //a[@title='Users']/span
+                        xpath: //a[@title='Users']
                         fieldsets:
                             -
                                 role_users:

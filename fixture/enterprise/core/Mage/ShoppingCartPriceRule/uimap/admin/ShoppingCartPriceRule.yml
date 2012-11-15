@@ -39,7 +39,7 @@ create_shopping_cart_price_rule:
                                         weight_attribute: //option[contains(@value, 'Model_Rule_Condition_Product|weight')]
                 -
                     rule_related_banners:
-                        xpath: //a[@title='Related Banners']/span
+                        xpath: //a[@title='Related Banners']
                         fieldsets:
                             -
                                 rule_search_grid:

@@ -246,6 +246,12 @@ edit_shopping_cart_price_rule:
                                         code_format: //select[@id='coupons_format']
                                     buttons:
                                         generate: //button[span='Generate']
+                                    pageelements:
+                                        default_code_length: //input[@id='coupons_length' and @value='%defaultValue%']
+                                        default_code_format: //select[@id='coupons_format']//option[@selected='selected' and @value='%defaultValue%']
+                                        default_code_prefix: //input[@id='coupons_prefix' and @value='%defaultValue%']
+                                        default_code_suffix: //input[@id='coupons_suffix' and @value='%defaultValue%']
+                                        default_dash_every_x_characters: //input[@id='coupons_dash' and @value='%defaultValue%']
                             -
                                 manage_coupons_grid:
                                     xpath: //div[@id='couponCodesGrid']

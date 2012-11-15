@@ -102,7 +102,7 @@ edit_customer:
                                         filter_visible_in: //select[@name='visible_in']
                 -
                     store_credit:
-                        xpath: //a[@id='customer_info_tabs_customerbalance']/span
+                        xpath: //a[@id='customer_info_tabs_customerbalance']
                         fieldsets:
                             -
                                 update_store_balance:
@@ -129,7 +129,7 @@ edit_customer:
                                        filter_website: //select[@id='historyGrid_filter_website_id']
                 -
                     gift_regystry:
-                        xpath: //a[@id='customer_info_tabs_giftregistry']/span
+                        xpath: //a[@id='customer_info_tabs_giftregistry']
                         fieldsets:
                             -
                                 gift_registry_grid:
@@ -138,7 +138,7 @@ edit_customer:
                                         filter_website: //select[@id='customerGrid_filter_website_id']
                 -
                     reward_points:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']
                         links:
                             reward_points_history_link: //a[contains(.,'Reward Points History')]
                         fieldsets:
@@ -243,14 +243,14 @@ edit_invitations:
             tabs:
                 -
                     general:
-                        xpath: //a[@name='general']/span
+                        xpath: //a[@name='general']
                         fieldsets:
-                        -
-                            invitations_informations:
-                                xpath: //div[@class='fieldset']
-                            fields:
-                                email: //input[@name='email']
-                                message: //textarea[@name='message']
+                            -
+                                invitations_informations:
+                                    xpath: //div[@class='fieldset']
+                                fields:
+                                    email: //input[@name='email']
+                                    message: //textarea[@name='message']
         buttons:
             back: //button[span='Back']
             discard_invitation: //button[span='Discard Invitation']
@@ -310,7 +310,7 @@ new_gift_card_account:
             tabs:
                 -
                     informations:
-                        xpath: //a[@id='giftcardaccount_info_tabs_info']/span
+                        xpath: //a[@id='giftcardaccount_info_tabs_info']
                         fieldsets:
                             -
                                 gift_card_information:
@@ -325,7 +325,7 @@ new_gift_card_account:
                                         website: //select[@id='_infowebsite_id']
                 -
                     send_gift_card:
-                        xpath: //a[@id='giftcardaccount_info_tabs_send']/span
+                        xpath: //a[@id='giftcardaccount_info_tabs_send']
                         fieldsets:
                             -
                                 send_gift_card:
