@@ -136,7 +136,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Timeout in seconds
      * @var int
      */
-    protected $_browserTimeoutPeriod = 60;
+    protected $_browserTimeoutPeriod = 45;
 
     /**
      * Name of the first page after logging into the back-end
@@ -215,6 +215,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->_screenshotPath = $this->getDefaultScreenshotPath();
         $this->_saveScreenshotOnFailure = $this->frameworkConfig['saveScreenshotOnFailure'];
         $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
+        $this->_browserTimeoutPeriod = (isset($this->frameworkConfig['browserTimeoutPeriod']))
+            ? $this->frameworkConfig['browserTimeoutPeriod']
+            : $this->_browserTimeoutPeriod;
     }
 
     /**
@@ -274,7 +277,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $browsers = $this->_configHelper->getConfigBrowsers();
             $this->setupSpecificBrowser($browsers['default']);
         }
-        $this->_browserTimeoutPeriod = $this->getSeleniumServerRequestsTimeout();
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
         $this->prepareSession();
     }

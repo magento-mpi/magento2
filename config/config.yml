@@ -19,7 +19,7 @@ browsers:
          browserName: 'chrome'
          host: 'localhost'
          port: 4444
-         seleniumServerRequestsTimeout: 60
+         seleniumServerRequestsTimeout: 90
          sessionStrategy: shared
          desiredCapabilities:
             platform: ANY
@@ -28,7 +28,7 @@ browsers:
          browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         seleniumServerRequestsTimeout: 60
+         seleniumServerRequestsTimeout: 90
          sessionStrategy: shared
          desiredCapabilities:
             platform: ANY
@@ -37,7 +37,7 @@ browsers:
          browserName: 'iexplore'
          host: 'localhost'
          port: 4444
-         seleniumServerRequestsTimeout: 60
+         seleniumServerRequestsTimeout: 90
          sessionStrategy: shared
          desiredCapabilities:
             platform: ANY
@@ -55,6 +55,7 @@ framework:
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
+    browserTimeoutPeriod: 40
     cache:
         frontend:
             name: 'core'
