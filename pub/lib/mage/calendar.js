@@ -90,7 +90,6 @@
          */
         _destroy: function(){
             this.element[this._picker()]('destroy');
-            $.Widget.prototype.destroy.call(this);
         }
     });
 
