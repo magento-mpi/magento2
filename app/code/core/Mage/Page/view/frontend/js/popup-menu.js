@@ -30,8 +30,8 @@
             this.switcher = this.element.find(this.options.switcher)
                 .on('click', $.proxy(this._toggleMenu, this));
             var eventMap = {
-                'mouseenter': $.proxy(this.options.onMouseEnter, this),
-                'mouseleave': $.proxy(this.options.onMouseLeave, this)
+                mouseenter: $.proxy(this.options.onMouseEnter, this),
+                mouseleave: $.proxy(this.options.onMouseLeave, this)
             };
             if (this.options.hideOnClick) {
                 eventMap.blur = $.proxy(this._hide, this);
