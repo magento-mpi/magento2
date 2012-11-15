@@ -96,7 +96,7 @@
         <delete dir="${dir.build_directory}" />
 
         <copy todir="${dir.build_directory}" failonerror="true">
-            <fileset dir="${basedir}"/>
+            <fileset dir="${basedir}" defaultexcludes="no"/>
         </copy>
 
         <copy todir="${dir.build_directory}" failonerror="true" overwrite="true">
@@ -146,7 +146,7 @@
         <delete dir="${dir.build_directory}"/>
 
         <copy todir="${dir.build_directory}" failonerror="true">
-            <fileset dir="${basedir}"/>
+            <fileset dir="${basedir}" defaultexcludes="no"/>
         </copy>
         <property name="build.deployed" value="1" />
     </target>
