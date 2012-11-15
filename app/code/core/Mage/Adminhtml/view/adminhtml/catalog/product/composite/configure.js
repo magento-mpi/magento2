@@ -510,7 +510,7 @@ ProductConfigure.prototype = {
             case 'current':
                 listInfo = this.listTypes[this.current.listType];
                 listTypes = [this.current.listType];
-                if (listInfo.complexTypes) {
+                if (listInfo && listInfo.complexTypes) {
                     listTypes = listTypes.concat(listInfo.complexTypes);
                 }
                 removeConfirmed(listTypes);

@@ -76,11 +76,14 @@ directPost.prototype = {
                     break;
                 case 'sales_order_create':
                 case 'sales_order_edit':
-                    var buttons = document.getElementsByClassName('scalable save');
-                    for ( var i = 0; i < buttons.length; i++) {
-                        buttons[i].writeAttribute('onclick', '');
-                        buttons[i].observe('click', this.onSubmitAdminOrder);
-                    }
+                    // Temporary solution will be removed after refactoring Authorize.Net (sales) functionality
+                    jQuery('.scalable.save:not(disabled)').removeAttr('onclick');
+                    jQuery(document).on(
+                        'click.directPost',
+                        '.scalable.save:not(disabled)',
+                        jQuery.proxy(this.onSubmitAdminOrder, this)
+                    );
+
                     $('order-' + this.iframeId).observe('load', this.onLoadOrderIframe);
                     break;
             }
@@ -257,12 +260,14 @@ directPost.prototype = {
                         jQuery('#order-' + this.iframeId).attr('name'));
                 editForm.append(this.createHiddenElement('controller', this.controller));
                 disableElements('save');
-                editForm.submit();
+                // Temporary solutions will be removed after refactoring Authorize.Net (sales) functionality
+                order.submit();
             } else {
                 editForm.attr('action', this.nativeAction);
                 editForm.attr('target', '_top');
                 disableElements('save');
-                editForm.submit();
+                // Temporary solutions will be removed after refactoring Authorize.Net (sales) functionality
+                order.submit();
             }
         }
     },
