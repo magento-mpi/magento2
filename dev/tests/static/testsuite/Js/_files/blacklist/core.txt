@@ -1,4 +1,5 @@
 pub/lib/mage/adminhtml
+pub/lib/mage/backend/editablemultiselect.js
 pub/lib/mage/captcha.js
 pub/lib/mage/directpost.js
 pub/lib/mage/jquery-no-conflict.js
