@@ -1,4 +1,5 @@
-# Files that are not published with Magento CE
+# Files or directories that are not published with Magento CE
+# See also common.txt and dev_build.txt for items that are not published as well
 #
 LICENSE_EE.html
 LICENSE_EE.txt
@@ -26,7 +27,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Legacy/_files/sanity_ee.xml
 dev/tests/static/testsuite/Legacy/Enterprise
-dev/tests/static/testsuite/Php/_files/whitelist/core-ee.txt
+dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/extruder_ce.txt
 dev/tests/unit/testsuite/Enterprise
 dev/tools/migration/factory_table_names/replace_ee.php
 dev/tools/migration/aliases_map/composite_modules_ee.php

@@ -15,7 +15,9 @@
     'bootstrap time (ms)' =>                 array('bootstrap'),
     'modules initialization time (ms)' =>    array('init_modules'),
     'request initialization time (ms)' =>    array('init_request'),
-    'routing time (ms)' =>                   array('routing_init', 'db_url_rewrite', 'config_url_rewrite', 'routing_match_router'),
+    'routing time (ms)' =>                   array(
+        'routing_init', 'db_url_rewrite', 'config_url_rewrite', 'routing_match_router'
+    ),
     'pre dispatching time (ms)' =>           array('predispatch'),
     'layout overhead time (ms)' =>           array('layout_load', 'layout_generate_xml', 'layout_generate_blocks'),
     'response rendering time (ms)' =>        array('layout_render'),

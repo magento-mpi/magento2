@@ -9,10 +9,10 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../../../../lib/Magento/Shell.php';
+require __DIR__ . '/../../lib/Magento/Shell.php';
 
 define('USAGE', <<<USAGE
-$>./extruder.php -w <working_dir> -l /path/to/common.txt [[-l /path/to/extra.txt] parameters]
+$>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]
     additional parameters:
     -w dir  directory with working copy to edit with the extruder
     -l      one or many files with lists that refer to files and directories to be deleted
@@ -21,8 +21,7 @@ $>./extruder.php -w <working_dir> -l /path/to/common.txt [[-l /path/to/extra.txt
 USAGE
 );
 
-$shortOpts = 'l:w:gdvi';
-$options = getopt($shortOpts);
+$options = getopt('w:l:v');
 
 try {
     // working dir argument
