@@ -7,23 +7,23 @@
 class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
-    /**
-     * Default name for item of non-associative array.
-     */
-    const DEFAULT_INDEXED_ARRAY_ITEM_NAME = 'data_item';
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
+    /** @var Mage_Xml_Parser */
+    protected $_xmlParser;
+
     /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Xml_Parser $xmlParser
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory
-    ) {
+    public function __construct(Mage_Xml_Parser $xmlParser, Mage_Core_Model_Factory_Helper $helperFactory) {
+        $this->_xmlParser = $xmlParser;
         $this->_helperFactory = $helperFactory;
         $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
     }
@@ -35,110 +35,60 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
      *
      * @var string
      */
-    protected $_loadErrorStr = null;
+    protected $_errorMessage = null;
 
     /**
-     * Parse Request body into array of params.
+     * Convert XML document into array.
      *
-     * @param string $body  Posted content from request
-     * @return array
-     * @throws InvalidArgumentException
+     * @param string $xmlRequestBody Xml document
+     * @return array Data converted from XML document to array. Root node is excluded from response.
+     * @throws InvalidArgumentException In case of invalid argument type.
      * @throws Mage_Webapi_Exception If decoding error occurs.
      */
-    public function interpret($body)
+    public function interpret($xmlRequestBody)
     {
-        // TODO: Try to utilize Mage_Xml_Parser
-        if (!is_string($body)) {
-            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
+        if (!is_string($xmlRequestBody)) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid data type "%s". String is expected.', gettype($xmlRequestBody))
+            );
         }
-        $body = false !== strpos($body, '<?xml') ? $body : '<?xml version="1.0"?>' . PHP_EOL . $body;
-        // disable external entity loading to prevent possible vulnerability
-        libxml_disable_entity_loader(true);
-        set_error_handler(array($this, '_loadErrorHandler')); // Warnings and errors are suppressed
-        $config = simplexml_load_string($body);
+        /** Disable external entity loading to prevent possible vulnerability */
+        $previousEntityLoaderState = libxml_disable_entity_loader(true);
+        set_error_handler(array($this, 'handleErrors'));
+
+        $this->_xmlParser->loadXML($xmlRequestBody);
+
         restore_error_handler();
-        // restore default behavior to make possible to load external entities
-        libxml_disable_entity_loader(false);
-        // Check if there was a error while loading file
-        if ($this->_loadErrorStr !== null) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Decoding error.'),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+        libxml_disable_entity_loader($previousEntityLoaderState);
+
+        /** Process errors during XML parsing. */
+        if ($this->_errorMessage !== null) {
+            if (!Mage::getIsDeveloperMode()) {
+                $exceptionMessage = $this->_helper->__('Decoding error.');
+            } else {
+                $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
+            }
+            throw new Mage_Webapi_Exception($exceptionMessage, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
-        $xml = $this->_toArray($config);
-        return $xml;
+        $data = $this->_xmlParser->xmlToArray();
+        /** Data will always have exactly one element so it is safe to call reset here. */
+        return reset($data);
     }
 
     /**
-     * Convert SimpleXMLElement to associative array.
+     * Handle any errors during xml loading.
      *
-     * @param  SimpleXMLElement $xmlObject Convert a SimpleXMLElement into an array
-     * @return array
+     * @param integer $errorNumber
+     * @param string $errorMessage
+     * @param string $errorFile
+     * @param integer $errorLine
      */
-    protected function _toArray(SimpleXMLElement $xmlObject)
+    public function handleErrors($errorNumber, $errorMessage, $errorFile, $errorLine)
     {
-        $config = array();
-        // Search for parent node values
-        if (count($xmlObject->attributes()) > 0) {
-            foreach ($xmlObject->attributes() as $key => $value) {
-                $value = (string)$value;
-                if (array_key_exists($key, $config)) {
-                    if (!is_array($config[$key])) {
-                        $config[$key] = array($config[$key]);
-                    }
-                    $config[$key][] = $value;
-                } else {
-                    $config[$key] = $value;
-                }
-            }
-        }
-
-        // Search for children
-        if (count($xmlObject->children()) > 0) {
-            foreach ($xmlObject->children() as $key => $value) {
-                if (count($value->children()) > 0) {
-                    $value = $this->_toArray($value);
-                } else if (count($value->attributes()) > 0) {
-                    $attributes = $value->attributes();
-                    if (isset($attributes['value'])) {
-                        $value = (string)$attributes['value'];
-                    } else {
-                        $value = $this->_toArray($value);
-                    }
-                } else {
-                    $value = (string)$value;
-                }
-                if (array_key_exists($key, $config)) {
-                    if (!is_array($config[$key]) || !array_key_exists(0, $config[$key])) {
-                        $config[$key] = array($config[$key]);
-                    }
-                    $config[$key][] = $value;
-                } else {
-                    if (self::DEFAULT_INDEXED_ARRAY_ITEM_NAME != $key) {
-                        $config[$key] = $value;
-                    } else {
-                        $config[] = $value;
-                    }
-                }
-            }
-        }
-
-        return $config;
-    }
-
-    /**
-     * Handle any errors from load xml
-     *
-     * @param integer $errno
-     * @param string $errstr
-     * @param string $errfile
-     * @param integer $errline
-     */
-    protected function _loadErrorHandler($errno, $errstr, $errfile, $errline)
-    {
-        if ($this->_loadErrorStr === null) {
-            $this->_loadErrorStr = $errstr;
+        if (is_null($this->_errorMessage)) {
+            $this->_errorMessage = $errorMessage;
         } else {
-            $this->_loadErrorStr .= (PHP_EOL . $errstr);
+            $this->_errorMessage .= $errorMessage;
         }
     }
 }

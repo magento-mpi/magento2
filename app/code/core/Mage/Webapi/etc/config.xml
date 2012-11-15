@@ -128,6 +128,9 @@
                     <configuration>Mage_Webapi_Model_Authorization_Config</configuration>
                 </parameters>
             </Mage_Webapi_Model_Authorization_Loader_Resource>
+            <Mage_Xml_Parser>
+                <shared>0</shared>
+            </Mage_Xml_Parser>
         </di>
     </global>
     <admin>

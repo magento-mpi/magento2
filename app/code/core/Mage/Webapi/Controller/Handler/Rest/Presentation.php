@@ -147,15 +147,15 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
             'Mage_Webapi_Controller_Router_Route_Webapi',
             Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute()
         );
+        $resourceName = $this->_request->getResourceName();
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',
-            $this->_apiConfig->getRestRouteToItem($this->_request->getResourceName())
+            $this->_apiConfig->getRestRouteToItem($resourceName)
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(
-            'api_type' => $this->_request->getApiType(),
-            // TODO: ID param can be named differently
-            'id' => $createdItem->getId(),
+            Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE => $this->_request->getApiType(),
+            Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID => $createdItem->getId(),
             Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getResourceVersion()
         );
         $uri = $chain->assemble($params);

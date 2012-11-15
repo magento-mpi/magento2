@@ -17,7 +17,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * Allowed API resource methods.
      */
     const METHOD_CREATE = 'create';
-    const METHOD_RETRIEVE = 'get';
+    const METHOD_GET = 'get';
     const METHOD_LIST = 'list';
     const METHOD_UPDATE = 'update';
     const METHOD_DELETE = 'delete';

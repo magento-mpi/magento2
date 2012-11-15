@@ -216,7 +216,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         $methodName = $this->getApiConfig()->getMethodNameByOperation($operationName, $requestedVersion);
         $methodVersion = $requestedVersion;
         while ($methodVersion >= self::VERSION_MIN) {
-            $versionSuffix = 'V' . $methodVersion;
+            $versionSuffix = Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $methodVersion;
             if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
                 return $versionSuffix;
             }
