@@ -59,11 +59,17 @@ new_product:
                                     buttons:
                                         add_gift_card_amount: //button[span='Add Amount']
                                         delete_gift_card_amount: //button[span='Delete']
+                                        prices_group_add_group_price: //button[span='Add Group Price']
                                     dropdowns:
                                         prices_gift_card_allow_open_amount: //select[@id='allow_open_amount']
                                     fields:
                                         prices_gift_card_open_amount_min: //input[@id='open_amount_min']
                                         prices_gift_card_open_amount_max: //input[@id='open_amount_max']
+                                    pageelements:
+                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
+                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
+                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
+                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
                             -
                                 prices_gift_card_amounts:
                                     xpath: //*[@id='giftcard_amounts_container']/tr
