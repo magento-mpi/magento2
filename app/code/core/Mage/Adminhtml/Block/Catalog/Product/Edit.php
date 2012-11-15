@@ -257,37 +257,4 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         return $this->helper('Mage_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
     }
-
-    /**
-     * Get data for JS (product type transition)
-     *
-     * @return string
-     */
-    public function getTypeSwitcherData()
-    {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-            'tab_id' => 'product_info_tabs_downloadable_items',
-            'is_virtual_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
-            'weight_id' => 'weight',
-            'current_type' => $this->getProduct()->getTypeId(),
-            'attributes' => $this->_getAttributes(),
-        ));
-    }
-
-    /**
-     * Get formed array with attribute codes and Apply To property
-     *
-     * @return array
-     */
-    protected function _getAttributes()
-    {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getProduct();
-        $attributes = array();
-
-        foreach ($product->getAttributes() as $key => $attribute) {
-            $attributes[$key] = $attribute->getApplyTo();
-        }
-        return $attributes;
-    }
 }
