@@ -16,20 +16,6 @@
         </reference>
     </checkout_cart_index>
 
-    <enterprise_giftcardaccount_cart_check translate="label" module="Enterprise_GiftCardAccount" type="page" parent="checkout_cart_index">
-        <label>Gift Card Balance Check Form</label>
-        <remove name="right"/>
-        <remove name="left"/>
-        <reference name="root">
-            <action method="setTemplate"><template>1column.phtml</template></action>
-        </reference>
-        <reference name="content">
-            <block type="Enterprise_GiftCardAccount_Block_Check" template="cart/check.phtml" name="check">
-                <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml" name="check.result" as="check_result"/>
-            </block>
-        </reference>
-    </enterprise_giftcardaccount_cart_check>
-
     <enterprise_giftcardaccount_cart_quickcheck translate="label" type="fragment" owner="enterprise_giftcardaccount_cart_check">
         <label>Gift Card Balance Quick Check Form</label>
         <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
