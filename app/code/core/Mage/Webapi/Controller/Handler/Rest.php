@@ -2,6 +2,7 @@
 /**
  * Handler for REST API calls.
  *
+ * @method Mage_Webapi_Controller_Request_Rest getRequest() getRequest()
  * @copyright {}
  */
 class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_HandlerAbstract
@@ -161,7 +162,6 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
 
             $this->_checkResourceAcl($route->getResourceName(), $method);
 
-            // TODO: Think about passing parameters if they will be available and valid in the resource action
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_restPresentation->prepareResponse($method, $outputData);
@@ -232,7 +232,6 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     protected function _getOperationName()
     {
-        // TODO: Add xsd validation of operations in resource.xml according to the following methods
         $restMethodsMap = array(
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',

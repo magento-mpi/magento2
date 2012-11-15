@@ -516,8 +516,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetAllResourcesVersions()
     {
         $expectedResult = array(
-            'vendorModuleResource' =>array('v1', 'v2', 'v3', 'v4', 'v5'),
-            'vendorModuleResourceSubresource' => array('v1', 'v2', 'v4')
+            'vendorModuleResource' =>array('V1', 'V2', 'V3', 'V4', 'V5'),
+            'vendorModuleResourceSubresource' => array('V1', 'V2', 'V4')
         );
         $allResourcesVersions = $this->_getModel()->getAllResourcesVersions();
         $this->assertEquals($expectedResult, $allResourcesVersions, "The list of all resources versions is incorrect.");
@@ -526,7 +526,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetMethodMetadataDataNotAvailable()
     {
         $this->setExpectedException('InvalidArgumentException',
-            '"update" method of "vendorModuleResourceInvalid" resource in version "v2" is not registered.');
+            '"update" method of "vendorModuleResourceInvalid" resource in version "V2" is not registered.');
         $this->_getModel()->getMethodMetadata($this->_createMethodReflection(
             'Vendor_Module_Webapi_Resource_InvalidController', 'updateV2'));
     }
@@ -728,17 +728,17 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                     'deprecated' => true,
                     'use_resource' => 'vendorModuleResource',
                     'use_method' => 'list',
-                    'use_version' => 'v3'
+                    'use_version' => 'V3'
                 ),
                 '@apiDeprecated vendorModuleResource::listV3'
             ),
             array('vendorModuleResource', 'list', 3, false, 'No policy defined.'),
-            array('vendorModuleResource', 'delete', 'v1',
+            array('vendorModuleResource', 'delete', 'V1',
                 array(
                     'removed' => true,
                     'use_resource' => 'vendorModuleResource',
                     'use_method' => 'delete',
-                    'use_version' => 'v3'
+                    'use_version' => 'V3'
                 ),
                 '@apiRemoved deleteV3'
             ),
@@ -748,7 +748,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                     'deprecated' => true,
                     'use_resource' => 'vendorModuleResourceSubresource',
                     'use_method' => 'delete',
-                    'use_version' => 'v3'
+                    'use_version' => 'V3'
                 ),
                 '@apiDeprecated Vendor_Module_Webapi_Resource_SubresourceController::deleteV3'
             ),

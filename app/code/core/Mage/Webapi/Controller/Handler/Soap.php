@@ -88,12 +88,12 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      * @param array $arguments
      * @return stdClass
      */
-    // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
         if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
+            $this->_authenticate();
             $resourceVersion = $this->_getOperationVersion($operation);
             $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
@@ -103,8 +103,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
             $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
-                // TODO: Uncomment after DI refactoring
-//                $this->_checkResourceAcl($resourceName, $method);
+                $this->_checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
@@ -121,10 +120,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
                     $arguments,
                     $this->getApiConfig()
                 );
-//            $inputData = $this->_presentation->fetchRequestData($operation, $controllerInstance, $action);
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
-                // TODO: Implement response preparation according to current presentation
-//            $this->_presentation->prepareResponse($operation, $outputData);
                 return (object)array('result' => $outputData);
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
