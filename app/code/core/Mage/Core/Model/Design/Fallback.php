@@ -34,11 +34,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_appConfig;
 
     /**
-     * @var Magento_Config_Theme
-     */
-    protected $_themeConfig;
-
-    /**
      * Constructor.
      * Following entries in $params are required: 'area', 'package', 'theme', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
@@ -52,8 +47,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $this->_locale = $data['locale'];
         $this->_theme = $data['themeModel'];
         $this->_appConfig = isset($data['appConfig']) ? $data['appConfig'] : Mage::getConfig();
-        $this->_themeConfig = isset($data['themeConfig']) ? $data['themeConfig']
-            : Mage::getDesign()->getThemeConfig($this->_area);
     }
 
     /**
