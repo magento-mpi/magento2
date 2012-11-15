@@ -18,6 +18,8 @@
 
     <enterprise_giftcardaccount_cart_check translate="label" module="Enterprise_GiftCardAccount" type="page" parent="checkout_cart_index">
         <label>Gift Card Balance Check Form</label>
+        <remove name="right"/>
+        <remove name="left"/>
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
