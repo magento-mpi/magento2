@@ -47,8 +47,8 @@
         <exec executable="php" failonerror="true">
             <arg line="-f ${dir.extruder}/extruder.php --
                 -w ${dir.build_directory}
-                -l ${dir.extruder}/common.txt
-                -l ${dir.extruder}/ce.txt
+                -l ${dir.extruder}/publication/extruder/common.txt
+                -l ${dir.extruder}/publication/extruder/ce.txt
                 -v
                 "/>
         </exec>
