@@ -54,6 +54,8 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
         $filter = $backendHelper->prepareFilterString($request->getParam('filter', ''));
         if (isset($filter[self::IN_ROLE_USERS_PARAMETER])) {
             $result = $filter[self::IN_ROLE_USERS_PARAMETER] ? self::IN_ROLE_USERS_YES : self::IN_ROLE_USERS_NO;
+        } elseif (!$request->isAjax()) {
+            $result = self::IN_ROLE_USERS_YES;
         }
         return $result;
     }
