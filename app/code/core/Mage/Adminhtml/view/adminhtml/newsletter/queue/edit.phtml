@@ -45,19 +45,15 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-var queueForm = new varienForm('queue_edit_form');
-var newsletterPreviewForm = new varienForm('newsletter_queue_preview_form');
+jQuery('#queue_edit_form').form().validation();
+jQuery('#newsletter_queue_preview_form').form().validation();
 
 var queueControl = {
     id: 'text',
-    save: function() {
-        $('_resume_flag').value = '';
-        queueForm.submit();
-    },
     preview: function() {
         if (this.isEditor() && tinyMCE.get(this.id)) {
             tinyMCE.triggerSave();
-            $('preview_text').value = $(this.id).value;
+            $('preview_text').value = tinyMCE.get(this.id).getContent();
             tinyMCE.triggerSave();
         } else {
             $('preview_text').value = $(this.id).value;
@@ -68,15 +64,12 @@ var queueControl = {
         if ($('id') != undefined) {
             $('preview_id').value = $('id').value;
         }
-        newsletterPreviewForm.submit();
+        // Temporary solution will be replaced after refactoring of newsletter queue functionality
+        jQuery('#newsletter_queue_preview_form').trigger('save');
         return false;
     },
     isEditor: function() {
         return (typeof tinyMceEditors != 'undefined' && tinyMceEditors.get(this.id) != undefined)
-    },
-    resume: function() {
-        $('_resume_flag').value = '1';
-        queueForm.submit();
     }
 };
 //]]>
