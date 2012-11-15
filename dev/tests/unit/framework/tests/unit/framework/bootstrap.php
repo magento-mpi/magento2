@@ -10,13 +10,9 @@
  */
 
 $rootDir = realpath(__DIR__ . '/../../../../../../..');
-
-$codeDirs = array(
+require __DIR__ . '/../../../../../autoload.php';
+$loader->addIncludePath(array(
     $rootDir . '/lib/',
     $rootDir . '/dev/tests/unit/framework/',
     $rootDir . '/app/code/core/',
-);
-
-set_include_path(implode(PATH_SEPARATOR, $codeDirs) . PATH_SEPARATOR . get_include_path());
-require "{$rootDir}/lib/Magento/Autoload.php";
-Magento_Autoload::getInstance();
+));

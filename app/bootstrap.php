@@ -53,25 +53,30 @@ umask(0);
 /**
  * Require necessary files
  */
-require_once BP . '/lib/Magento/Autoload.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
 }
+
 Mage::register('original_include_path', get_include_path());
-
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
-$paths[] = BP . DS . 'lib';
-Magento_Autoload::getInstance()->addIncludePath($paths);
-
 $classMapPath = BP . DS . 'var/classmap.ser';
 if (file_exists($classMapPath)) {
-    Magento_Autoload::getInstance()->addFilesMap($classMapPath);
+    require_once BP . '/lib/Magento/Autoload/ClassMap.php';
+    $loader = new Magento_Autoload_ClassMap(BP);
+    $loader->addMap(unserialize(file_get_contents($classMapPath)));
+} else {
+    require_once BP . '/lib/Magento/Autoload/IncludePath.php';
+    $loader = new Magento_Autoload_IncludePath();
+    $loader->addIncludePath(array(
+        BP . DS . 'app' . DS . 'code' . DS . 'local',
+        BP . DS . 'app' . DS . 'code' . DS . 'community',
+        BP . DS . 'app' . DS . 'code' . DS . 'core',
+        BP . DS . 'lib',
+    ));
 }
+spl_autoload_register(array($loader, 'autoload'));
 
 $definitionsFile = BP . DS . 'var/di/definitions.php';
 if (file_exists($definitionsFile)) {

@@ -9,10 +9,10 @@
  */
 
 $rootDir = realpath(__DIR__ . '/../../../..');
-require_once $rootDir . '/lib/Magento/Autoload.php';
-$paths[] = $rootDir . '/lib';
-$paths[] = $rootDir . '/dev';
-Magento_Autoload::getInstance()->addIncludePath($paths);
+require_once $rootDir . '/lib/Magento/Autoload/IncludePath.php';
+$loader = new Magento_Autoload_IncludePath;
+$loader->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
+spl_autoload_register(array($loader, 'autoload'));
 $defaultReportFile = 'report.log';
 
 try {
