@@ -21,8 +21,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
     protected $_dateFilterVisibility = true;
 
-    protected $_subtotalVisibility = false;
-
     protected $_filters = array();
 
     protected $_defaultFilters = array(
@@ -112,7 +110,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
-//            $collection->initReport($this->getSourceCollection());
         }
 
         return $this;
@@ -152,9 +149,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     protected function _setFilterValues($data)
     {
         foreach ($data as $name => $value) {
-            //if (isset($data[$name])) {
-                $this->setFilter($name, $data[$name]);
-            //}
+            $this->setFilter($name, $data[$name]);
         }
         return $this;
     }
@@ -277,127 +272,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->_locale;
     }
 
-//    /**
-//     * Retrieve grid as CSV
-//     *
-//     * @return unknown
-//     */
-//    public function getCsv()
-//    {
-//        $csv = '';
-//        $this->_prepareGrid();
-//
-//        $data = array('"'.$this->__('Period').'"');
-//        foreach ($this->_columns as $column) {
-//            if (!$column->getIsSystem()) {
-//                $data[] = '"'.$column->getHeader().'"';
-//            }
-//        }
-//        $csv.= implode(',', $data)."\n";
-//
-//        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
-//            $report = $this->getReport($_item['start'], $_item['end']);
-//            foreach ($report as $_subIndex=>$_subItem) {
-//                $data = array('"'.$_index.'"');
-//                foreach ($this->_columns as $column) {
-//                    if (!$column->getIsSystem()) {
-//                        $data[] = '"' . str_replace(
-//                            array('"', '\\'),
-//                            array('""', '\\\\'),
-//                            $column->getRowField($_subItem)
-//                        ) . '"';
-//                    }
-//                }
-//                $csv.= implode(',', $data)."\n";
-//            }
-//            if ($this->getCountTotals() && $this->getSubtotalVisibility())
-//            {
-//                $data = array('"'.$_index.'"');
-//                $j = 0;
-//                foreach ($this->_columns as $column) {
-//                    $j++;
-//                    if (!$column->getIsSystem()) {
-//                        $data[] = ($j == 1) ?
-//                                '"' . $this->__('Subtotal') . '"' :
-//                                '"'.str_replace('"', '""', $column->getRowField($this->getTotals())).'"';
-//                    }
-//                }
-//                $csv.= implode(',', $data)."\n";
-//            }
-//        }
-//
-//        if ($this->getCountTotals())
-//        {
-//            $data = array('"'.$this->__('Total').'"');
-//            foreach ($this->_columns as $column) {
-//                if (!$column->getIsSystem()) {
-//                    $data[] = '"'.str_replace('"', '""', $column->getRowField($this->getGrandTotals())).'"';
-//                }
-//            }
-//            $csv.= implode(',', $data)."\n";
-//        }
-//
-//        return $csv;
-//    }
-
-    /**
-     * Retrieve grid as Excel Xml
-     *
-     * @return unknown
-     */
-//    public function getExcel($filename = '')
-//    {
-//        $this->_prepareGrid();
-//
-//        $data = array();
-//        $row = array($this->__('Period'));
-//        foreach ($this->_columns as $column) {
-//            if (!$column->getIsSystem()) {
-//                $row[] = $column->getHeader();
-//            }
-//        }
-//        $data[] = $row;
-//
-//        foreach ($this->getCollection()->getIntervals() as $_index=>$_item) {
-//            $report = $this->getReport($_item['start'], $_item['end']);
-//            foreach ($report as $_subIndex=>$_subItem) {
-//                $row = array($_index);
-//                foreach ($this->_columns as $column) {
-//                    if (!$column->getIsSystem()) {
-//                        $row[] = $column->getRowField($_subItem);
-//                    }
-//                }
-//                $data[] = $row;
-//            }
-//            if ($this->getCountTotals() && $this->getSubtotalVisibility())
-//            {
-//                $row = array($_index);
-//                $j = 0;
-//                foreach ($this->_columns as $column) {
-//                    $j++;
-//                    if (!$column->getIsSystem()) {
-//                        $row[] = ($j==1)?$this->__('Subtotal'):$column->getRowField($this->getTotals());
-//                    }
-//                }
-//                $data[] = $row;
-//            }
-//        }
-//
-//        if ($this->getCountTotals())
-//        {
-//            $row = array($this->__('Total'));
-//            foreach ($this->_columns as $column) {
-//                if (!$column->getIsSystem()) {
-//                    $row[] = $column->getRowField($this->getGrandTotals());
-//                }
-//            }
-//            $data[] = $row;
-//        }
-//
-//        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
-//        return $convert->convert('single_sheet');
-//    }
-
     /**
      * Retrieve errors
      *
@@ -407,18 +281,6 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     {
         return $this->_errors;
     }
-
-    /**
-     * Get currency rate (base to given currency)
-     *
-     * @param string|Mage_Directory_Model_Currency $currencyCode
-     * @return double
-     */
-    public function getRate($toCurrency)
-    {
-        return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
-    }
-
 
     /**
      * Prepare grid filter buttons

@@ -11,6 +11,8 @@
 class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget_Grid_Totals_Abstract
 {
     /**
+     * Count collection column sum based on column index
+     *
      * @param $index
      * @param $collection
      * @return mixed
@@ -25,6 +27,8 @@ class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget
     }
 
     /**
+     * Count collection column average based on column index
+     *
      * @param $index
      * @param $collection
      * @return mixed

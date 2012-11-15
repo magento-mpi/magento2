@@ -36,11 +36,6 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     {
         if ($data = (string)$row->getData($this->getColumn()->getIndex())) {
             $currency_code = $this->_getCurrencyCode($row);
-
-            if (!$currency_code) {
-                return $data;
-            }
-
             $data = floatval($data) * $this->_getRate($row);
             $sign = (bool)(int)$this->getColumn()->getShowNumberSign() && ($data > 0) ? '+' : '';
             $data = sprintf("%f", $data);
@@ -54,7 +49,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
      * Returns currency code, false on error
      *
      * @param $row
-     * @return string|false
+     * @return string
      */
     protected function _getCurrencyCode($row)
     {

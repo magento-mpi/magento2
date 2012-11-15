@@ -10,6 +10,13 @@
 
 class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Grid_Totals_Abstract
 {
+    /**
+     * Count collection column sum based on column index
+     *
+     * @param $index
+     * @param $collection
+     * @return mixed
+     */
     protected function _countSum($index, $collection)
     {
         $sum = 0;
@@ -24,6 +31,13 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
         return $sum;
     }
 
+    /**
+     * Count collection column average based on column index
+     *
+     * @param $index
+     * @param $collection
+     * @return mixed
+     */
     protected function _countAverage($index, $collection)
     {
         $numRows = 0;

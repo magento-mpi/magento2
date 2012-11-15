@@ -55,6 +55,12 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
         $this->_columns[$index] = $totalExpr;
     }
 
+    /**
+     * Count totals for all columns set
+     *
+     * @param $collection Varien_Data_Collection
+     * @return Varien_Object
+     */
     public function countTotals($collection)
     {
         foreach ($this->_columns as $index => $expr) {
@@ -65,6 +71,8 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
     }
 
     /**
+     * Count collection column sum based on column index and expression
+     *
      * @param $index
      * @param $expr
      * @param $collection
@@ -88,10 +96,33 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
         return $result;
     }
 
+    /**
+     * Count collection column sum based on column index
+     *
+     * @abstract
+     * @param $index
+     * @param $collection
+     * @return mixed
+     */
     abstract protected function _countSum($index, $collection);
 
+    /**
+     * Count collection column average based on column index
+     *
+     * @abstract
+     * @param $index
+     * @param $collection
+     * @return mixed
+     */
     abstract protected function _countAverage($index, $collection);
 
+    /**
+     * Return counted expression accorded parsed string
+     *
+     * @param $expr
+     * @param $collection Varien_Data_Collection
+     * @return float|int|mixed
+     */
     protected function _countExpr($expr, $collection)
     {
         list ($t1, $t2, $t3) = $this->_parser->parseExpression($expr);
@@ -122,6 +153,13 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
         return $result;
     }
 
+    /**
+     * Check operand is numeric or has already counted
+     *
+     * @param $operand
+     * @param $collection
+     * @return mixed
+     */
     protected function _checkOperand($operand, $collection)
     {
         if (!is_numeric($operand)) {
@@ -134,6 +172,11 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
         return $operand;
     }
 
+    /**
+     * Reset totals and columns set
+     *
+     * @param bool $isFullReset
+     */
     public function reset($isFullReset = false)
     {
         if ($isFullReset) {
@@ -143,6 +186,11 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
         $this->_totals = array();
     }
 
+    /**
+     * Return columns set
+     *
+     * @return array
+     */
     public function getColumns()
     {
         return $this->_columns;

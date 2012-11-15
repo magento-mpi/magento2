@@ -59,13 +59,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_pagerVisibility = true;
 
     /**
-     * Pager visibility
-     *
-     * @var boolean
-     */
-    protected $_filterVisibility = true;
-
-    /**
      * Massage block visibility
      *
      * @var boolean
@@ -126,9 +119,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->setSaveParametersInSession($this->getData('save_parameters_in_session'));
         }
 
-        $this->setPagerVisibility($this->hasData('pager_visibility')? (bool) $this->getData('pager_visibility') : true)
-            ->setCountTotals($this->hasData('count_totals') ? (bool)  $this->getData('count_totals') : false);
-
+        $this->setPagerVisibility($this->hasData('pager_visibility')? (bool) $this->getData('pager_visibility') : true);
 
         $this->setData(
             'use_ajax',
@@ -527,6 +518,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      * Set visibility of pager
      *
      * @param boolean $visible
+     * @return Mage_Backend_Block_Widget_Grid
      */
     public function setPagerVisibility($visible = true)
     {

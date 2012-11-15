@@ -261,10 +261,10 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      */
     protected function _getReport($from, $to)
     {
-        if ($this->_reportCollectionClass === null) {
+        if ($this->_reportCollection === null) {
             return array();
         }
-        $collectionClass = $this->_reportCollectionClass;
+        $collectionClass = $this->_reportCollection;
         $reportResource = new $collectionClass();
         $reportResource
             ->setDateRange($this->timeShift($from), $this->timeShift($to))

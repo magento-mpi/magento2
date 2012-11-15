@@ -10,8 +10,19 @@
 
 class Mage_Backend_Model_Widget_Grid_Parser
 {
+    /**
+     * List of allowed operations
+     *
+     * @var array
+     */
     protected $_operations = array('+', '-', '*', '/');
 
+    /**
+     * Parse expression
+     *
+     * @param $expression
+     * @return array
+     */
     public function parseExpression($expression)
     {
         $stack = array();
@@ -19,9 +30,7 @@ class Mage_Backend_Model_Widget_Grid_Parser
         foreach ($this->_operations as $operation) {
             if (strpos($expression, $operation) !== false) {
                 list($operand1, $operand2) = explode($operation, $expression);
-                array_push($stack, $operand1);
-                array_push($stack, $operand2);
-                array_push($stack, $operation);
+                $stack = array($operand1, $operand2, $operation);
                 break;
             }
         }

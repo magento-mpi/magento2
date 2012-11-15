@@ -220,20 +220,19 @@ class Mage_Backend_Block_Widget_Grid_Export
         $break = false;
 
         while ($break !== true) {
-            $collection = $originalCollection;
-            $collection->setPageSize($this->getExportPageSize());
-            $collection->setCurPage($page);
-            $collection->load();
+            $originalCollection->setPageSize($this->getExportPageSize());
+            $originalCollection->setCurPage($page);
+            $originalCollection->load();
             if (is_null($count)) {
-                $count = $collection->getSize();
-                $lPage = $collection->getLastPageNumber();
+                $count = $originalCollection->getSize();
+                $lPage = $originalCollection->getLastPageNumber();
             }
             if ($lPage == $page) {
                 $break = true;
             }
             $page ++;
 
-            $collection = $this->_getRowCollection($collection);
+            $collection = $this->_getRowCollection($originalCollection);
             foreach ($collection as $item) {
                 call_user_func_array(array($this, $callback), array_merge(array($item), $args));
             }

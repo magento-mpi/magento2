@@ -76,13 +76,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected $_countTotals = false;
 
     /**
-     * SubTotals
-     *
-     * @var array
-     */
-    protected $_subtotals = array();
-
-    /**
      * Columns to group by
      *
      * @var array
@@ -104,12 +97,12 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     /**
      * @var Mage_Backend_Model_Widget_Grid_SubTotals
      */
-    protected $_subTotalObj = null;
+    protected $_subTotals = null;
 
     /**
      * @var Mage_Backend_Model_Widget_Grid_Totals
      */
-    protected $_totalObj = null;
+    protected $_totals = null;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -143,6 +136,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Helper_Data $helper,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
+        Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
+        Mage_Backend_Model_Widget_Grid_Totals $totals,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -172,15 +167,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
             isset($data['empty_cell_label'])? $data['empty_cell_label'] : 'No records found.'
         ));
 
-        $this->setCountSubTotals(isset($data['count_sub_totals'])? (bool) $data['count_sub_totals'] : false);
-        if ($this->getCountSubTotals()) {
-            $this->_subTotalObj = new Mage_Backend_Model_Widget_Grid_SubTotals();
-        }
+        $this->setCountSubTotals(isset($data['count_subtotals'])? (bool) $data['count_subtotals'] : false);
+        $this->_subTotals = $subtotals;
 
         $this->setCountTotals(isset($data['count_totals'])? (bool) $data['count_totals'] : false);
-        if ($this->getCountTotals()) {
-            $this->_totalObj = new Mage_Backend_Model_Widget_Grid_Totals();
-        }
+        $this->_totals = $totals;
     }
 
     /**
@@ -606,32 +597,31 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * Retrieve subtotal for item
      *
      * @param $item Varien_Object
-     * @return array
+     * @return Varien_Object
      */
     public function getSubTotals($item)
     {
         $this->_prepareSubTotals();
-        $this->_subTotalObj->reset();
-        return $this->_subTotalObj->countTotals($item->getChildren());
+        $this->_subTotals->reset();
+        return $this->_subTotals->countTotals($item->getChildren());
     }
 
     /**
      * Retrieve subtotal items
      *
-     * @return array
+     * @return Varien_Object
      */
     public function getTotals()
     {
         $this->_prepareTotals();
-        $this->_totalObj->reset();
-        return $this->_totalObj->countTotals($this->getCollection());
+        $this->_totals->reset();
+        return $this->_totals->countTotals($this->getCollection());
     }
 
     /**
      * Update item with first sub-item data
      *
      * @param $item Varien_Object
-     * @return Varien_Object
      */
     public function updateItemByFirstMultiRow(Varien_Object $item)
     {
@@ -643,22 +633,18 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
             $firstItem = $multiRows[0];
             $item->addData($firstItem);
         }
-
-        return $item;
     }
 
     /**
      * Prepare sub-total object for counting sub-totals
-     *
-     * @return null
      */
     public function _prepareSubTotals()
     {
-        $columns = $this->_subTotalObj->getColumns();
+        $columns = $this->_subTotals->getColumns();
         if (empty($columns)) {
             foreach ($this->getMultipleRowColumns() as $column) {
                 if ($column->getTotal()) {
-                    $this->_subTotalObj->setColumn($column->getIndex(), $column->getTotal());
+                    $this->_subTotals->setColumn($column->getIndex(), $column->getTotal());
                 }
             }
         }
@@ -666,16 +652,14 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
     /**
      * Prepare total object for counting totals
-     *
-     * @return null
      */
     public function _prepareTotals()
     {
-        $columns = $this->_totalObj->getColumns();
+        $columns = $this->_totals->getColumns();
         if (empty($columns)) {
             foreach ($this->getColumns() as $column) {
                 if ($column->getTotal()) {
-                    $this->_totalObj->setColumn($column->getIndex(), $column->getTotal());
+                    $this->_totals->setColumn($column->getIndex(), $column->getTotal());
                 }
             }
         }
