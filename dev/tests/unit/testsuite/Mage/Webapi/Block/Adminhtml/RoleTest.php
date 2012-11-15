@@ -29,6 +29,18 @@ class Mage_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test _construct method
+     */
+    public function testConstruct()
+    {
+        $this->assertAttributeEquals('Mage_Webapi', '_blockGroup', $this->_block);
+        $this->assertAttributeEquals('adminhtml_role', '_controller', $this->_block);
+        $this->assertAttributeEquals('API Roles', '_headerText', $this->_block);
+        $this->assertAttributeEquals('Add New API Role', '_addButtonLabel', $this->_block);
+        $this->assertAttributeEquals('Back', '_backButtonLabel', $this->_block);
+    }
+
+    /**
      * Test getCreateUrl method
      */
     public function testGetCreateUrl()

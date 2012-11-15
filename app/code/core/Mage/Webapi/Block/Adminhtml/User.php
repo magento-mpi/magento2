@@ -17,15 +17,4 @@ class Mage_Webapi_Block_Adminhtml_User extends Mage_Backend_Block_Widget_Grid_Co
         $this->_addButtonLabel = $this->__('Add New API User');
         parent::_construct();
     }
-
-    /**
-     * Prepare output HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $this->_eventManager->dispatch('webapi_user_html_before', array('block' => $this));
-        return parent::_toHtml();
-    }
 }

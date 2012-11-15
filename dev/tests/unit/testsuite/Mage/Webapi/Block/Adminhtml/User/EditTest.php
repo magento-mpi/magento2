@@ -34,6 +34,16 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     }
 
     /**
+     * Test _construct method
+     */
+    public function testConstruct()
+    {
+        $this->assertAttributeEquals('Mage_Webapi', '_blockGroup', $this->_block);
+        $this->assertAttributeEquals('adminhtml_user', '_controller', $this->_block);
+        $this->assertAttributeEquals('user_id', '_objectId', $this->_block);
+    }
+
+    /**
      * Test getHeaderText method
      */
     public function testGetHeaderText()
