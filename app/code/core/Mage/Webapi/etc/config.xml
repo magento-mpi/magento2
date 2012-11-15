@@ -123,14 +123,20 @@
             <Mage_Xml_Generator>
                 <shared>0</shared>
             </Mage_Xml_Generator>
+            <Mage_Xml_Parser>
+                <shared>0</shared>
+            </Mage_Xml_Parser>
+            <Magento_Code_Scanner_DirectoryScanner>
+                <shared>0</shared>
+            </Magento_Code_Scanner_DirectoryScanner>
+            <Magento_Server_Reflection>
+                <shared>0</shared>
+            </Magento_Server_Reflection>
             <Mage_Webapi_Model_Authorization_Loader_Resource>
                 <parameters>
                     <configuration>Mage_Webapi_Model_Authorization_Config</configuration>
                 </parameters>
             </Mage_Webapi_Model_Authorization_Loader_Resource>
-            <Mage_Xml_Parser>
-                <shared>0</shared>
-            </Mage_Xml_Parser>
         </di>
     </global>
     <admin>

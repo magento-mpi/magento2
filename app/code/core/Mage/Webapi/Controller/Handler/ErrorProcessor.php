@@ -7,8 +7,7 @@
 class Mage_Webapi_Controller_Handler_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
-    const DEFAULT_ERROR_MESSAGE = 'Resource internal error.';
-    const DEFAULT_RESPONSE_CHARSET = 'utf-8';
+    const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
 
     /**#@+
      * Error data representation formats.

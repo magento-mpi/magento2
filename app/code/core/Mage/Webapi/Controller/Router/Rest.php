@@ -60,7 +60,6 @@ class Mage_Webapi_Controller_Router_Rest
         foreach ($this->getRoutes() as $route) {
             $params = $route->match($request);
             if ($params !== false) {
-                // TODO: Try to remove params set to $request
                 $request->setParams($params);
                 return $route;
             }

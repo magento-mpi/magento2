@@ -818,11 +818,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
         /** Initialize SUT. */
         $apiConfig = new Mage_Webapi_Model_Config(
-            new \Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources),
+            new Magento_Code_Scanner_DirectoryScanner($pathToDirectoryWithResources),
             $helperFactory,
             $appConfig,
             $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
-            new \Zend\Server\Reflection(),
+            new Magento_Server_Reflection(),
             $routeFactory
         );
         return $apiConfig;

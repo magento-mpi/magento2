@@ -1,8 +1,6 @@
 <?php
-use Zend\Code\Scanner\DirectoryScanner,
-    Zend\Code\Reflection\ClassReflection,
+use Zend\Code\Reflection\ClassReflection,
     Zend\Code\Reflection\DocBlockReflection,
-    Zend\Server\Reflection,
     Zend\Server\Reflection\ReflectionMethod;
 
 /**
@@ -23,7 +21,7 @@ class Mage_Webapi_Model_Config
     const VERSION_NUMBER_PREFIX = 'V';
 
     /**
-     * @var DirectoryScanner
+     * @var Magento_Code_Scanner_DirectoryScanner
      */
     protected $_directoryScanner;
 
@@ -43,7 +41,7 @@ class Mage_Webapi_Model_Config
     protected $_cache;
 
     /**
-     * @var Reflection
+     * @var Magento_Server_Reflection
      */
     protected $_serverReflection;
 
@@ -72,20 +70,19 @@ class Mage_Webapi_Model_Config
     protected $_routeFactory;
 
     /**
-     * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
+     * @param Magento_Code_Scanner_DirectoryScanner $directoryScanner
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_Cache $cache
-     * @param Zend\Server\Reflection $serverReflection
+     * @param Magento_Server_Reflection $serverReflection
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
-        DirectoryScanner $directoryScanner,
-//        Magento_Autoload $autoLoader,
+        Magento_Code_Scanner_DirectoryScanner $directoryScanner,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_Cache $cache,
-        Reflection $serverReflection,
+        Magento_Server_Reflection $serverReflection,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         $this->_autoloader = Magento_Autoload::getInstance();
@@ -94,12 +91,8 @@ class Mage_Webapi_Model_Config
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
         $this->_routeFactory = $routeFactory;
-
-        // TODO: Introduce directory scanner factory
         $this->_directoryScanner = $directoryScanner;
         $this->_initDirectoryScanner();
-
-        // TODO: Introduce factory
         $this->_serverReflection = $serverReflection;
         $this->_extractData();
     }
@@ -501,7 +494,6 @@ class Mage_Webapi_Model_Config
      */
     public function generateRestRoutes(ReflectionMethod $methodReflection)
     {
-        // TODO: Implement @restRoute annotations processing for adding custom routes
         $routes = array();
         $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         $routeParts = $this->getResourceNameParts($methodReflection->getDeclaringClass()->getName());

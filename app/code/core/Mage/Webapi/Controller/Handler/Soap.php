@@ -20,6 +20,15 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     const REQUEST_PARAM_RESOURCES = 'resources';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
+    const SOAP_DEFAULT_ENCODING = 'UTF-8';
+
+    /**#@+
+     * Path in config to Webapi settings.
+     */
+    const CONFIG_PATH_WSDL_CACHE_ENABLED = 'webapi/soap/wsdl_cache_enabled';
+    const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
+    /**#@-*/
+
     /** @var Zend\Soap\Server */
     protected $_soapServer;
 
@@ -45,6 +54,25 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected $_usernameTokenRequest;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Action_Factory $actionControllerFactory
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
+     * @param Zend\Soap\Server $soapServer
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_Cache $cache
+     * @param Magento_DomDocument_Factory $domDocumentFactory
+     * @param Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+     */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
@@ -394,8 +422,8 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected function _getApiCharset()
     {
-        // TODO: What do we need this charset for?
-        return $this->_application->getStore()->getConfig('api/config/charset');
+        $charset = $this->_application->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
+        return $charset ? $charset : self::SOAP_DEFAULT_ENCODING;
     }
 
     /**
@@ -403,7 +431,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected function _initWsdlCache()
     {
-        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig('api/config/wsdl_cache_enabled');
+        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');
         } else {

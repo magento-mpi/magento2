@@ -125,26 +125,6 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Convert objects and arrays to array recursively.
-     *
-     * @param  array|object $data
-     */
-    // TODO: Remove if not used anymore
-    public function toArray(&$data)
-    {
-        if (is_object($data)) {
-            $data = get_object_vars($data);
-        }
-        if (is_array($data)) {
-            foreach ($data as &$value) {
-                if (is_array($value) or is_object($value)) {
-                    $this->toArray($value);
-                }
-            }
-        }
-    }
-
-    /**
      * Convert singular form of word to plural.
      *
      * @param string $singular
