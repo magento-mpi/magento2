@@ -70,7 +70,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     public function exportAccountsExcelAction()
     {
         $this->loadLayout();
-        $fileName = 'accounts.xml';
+        $fileName = 'new_accounts.xml';
         /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
