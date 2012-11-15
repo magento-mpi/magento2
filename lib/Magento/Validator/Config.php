@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Validation configuration files handler
+ *
+ * @copyright {}
  */
 class Magento_Validator_Config extends Magento_Config_XmlAbstract
 {

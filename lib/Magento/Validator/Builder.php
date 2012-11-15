@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Magento Validator Builder
+ *
+ * @copyright {}
  */
 class Magento_Validator_Builder
 {
