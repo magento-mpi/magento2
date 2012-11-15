@@ -142,6 +142,52 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($links['number_of_downloads'], $newDownloadableData['link'][0]['number_of_downloads']);
     }
 
+    public function testTransitionProductTypeDeletesDownloadableData()
+    {
+        $typeInstance = $this->getMock('Mage_Downloadable_Product_Type', array('save'));
+        $typeInstance->expects($this->once())->method('save')->with($this->isInstanceOf('Mage_Catalog_Model_Product'));
+        $product = $this->getMock('Mage_Catalog_Model_Product',
+            array('getTypeId', 'getTypeInstance', 'getDownloadableData', 'setDownloadableData'), array(), '', false);
+        $product->expects($this->once())->method('getTypeInstance')->will($this->returnValue($typeInstance));
+        $product->expects($this->once())->method('getDownloadableData')
+            ->will($this->returnValue($this->_getDownloadableData()));
+        $product->expects($this->once())->method('setDownloadableData')->with($this->_getDownloadableDataForDelete());
+        $product->expects($this->exactly(3))->method('getTypeId')->will($this->returnValue('downloadable'));
+        $this->_observer = new Varien_Event_Observer(array(
+            'event' => new Varien_Object(array(
+                'product' => $product,
+                'request' =>  new Varien_Object(array('post' => array()))))
+            )
+        );
+        $this->_model->transitionProductType($this->_observer);
+    }
+
+    /**
+     * Get downloadable data without is_delete flag
+     *
+     * @return array
+     */
+    protected function _getDownloadableData()
+    {
+        return array(
+            'sample' => array(array('id' => 1, 'is_delete' => '')),
+            'link' => array(array('id' => 2, 'is_delete' => ''))
+        );
+    }
+
+    /**
+     * Get downloadable data with set is_delete flag
+     *
+     * @return array
+     */
+    protected function _getDownloadableDataForDelete()
+    {
+        return array(
+            'sample' => array(array('id' => 1, 'is_delete' => '1')),
+            'link' => array(array('id' => 2, 'is_delete' => '1'))
+        );
+    }
+
     /**
      * Set products to observer
      *
