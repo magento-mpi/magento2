@@ -83,7 +83,9 @@ class Enterprise2_Mage_AttributeSet_UnassignSystemAttributeTest
             array('status'),
             array('tax_class_id'),
             array('visibility'),
-            array('weight')
+            array('weight'),
+            array('quantity_and_stock_status'),
+            array('category_ids')
         );
     }
 }

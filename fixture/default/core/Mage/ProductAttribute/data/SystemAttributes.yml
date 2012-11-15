@@ -664,3 +664,12 @@ country_of_manufacture:
     option_247:
         admin_option_name: Zimbabwe
     default_value: Afghanistan
+
+quantity_and_stock_status:
+    attribute_code: quantity_and_stock_status
+    admin_title: Quantity
+    option_1:
+        admin_option_name: In Stock
+    option_2:
+        admin_option_name: Out of Stock
+    default_value: In Stock

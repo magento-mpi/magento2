@@ -1,0 +1,27 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+admin_header:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    global_header:
+                        fields:
+                            global_record_search: //*[@id='global_search']
+                -
+                    general_elements:
+                        pageelements:
+                            navigation_menu_items: //ul[@id='nav']/li
+                            navigation_children_menu_items: //*[@id='nav']/li/ul/li
+                            general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
+                            active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
+                            menu_element_customer_segments: //ul[@id='nav']//a[span='Customer Segments']

@@ -9,9 +9,23 @@
 # @license     {license_link}
 #
 ---
+# 'New Customer' Page
+create_customer:
+    uimap:
+        form:
+            tabs:
+                -
+                    account_information:
+                        fieldsets:
+                            -
+                                account_info:
+                                    fields:
+                                        custom_attribute: //input[@id='_account%attribute_name%']
+                                    dropdowns:
+                                        send_from: //select[@id='_accountsendemail_store_id']
 # 'Edit Customer' Page
 edit_customer:
-    uimap: &edit_customer-uimap
+    uimap:
         form:
             tabs:
                 -
@@ -19,13 +33,76 @@ edit_customer:
                         fieldsets:
                             -
                                 sales_statistics:
+                                    xpath:
                                     pageelements:
                                         sales_statistics_head: //div/div[div/h4[@class='icon-head head-customer-sales-statistics']]/div[@class='grid']/table/thead
                                         reward_points_head: //div[@id='customer_info_tabs_customer_edit_tab_view_content']//div[@id='rewardPointsBalanceGrid']/div[@class='grid']//thead
                                         store_credit_head: //div[@id='balanceGrid']/div[@class='grid']//thead
+                            -
+                                content_customer_view:
+                                    xpath: //*[@id='tab_content_customerViewAccordion']
+                                    links:
+                                        view_recent_orders: //*[@id='dt-lastOrders']/a
+                                        view_shopping_cart: //*[@id='dt-shopingCart%websiteId%']/a
+                                        view_wishlist: //*[@id='dt-wishlist']/a
+                                    pageelements:
+                                        products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
+                -
+                    orders:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_orders_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_bought_from: //select[@name='store_id']
+                -
+                    recuring_profiles:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_edit_tab_recurring_profile']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_store: //select[@name='store_id']
+                -
+                    wishlist:
+                        fieldsets:
+                            -
+                                wishlist_grid:
+                                    xpath: //div[@id='wishlistGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        filter_product_name: //input[@id='wishlistGrid_filter_product_name']
+                                        filter_description: //input[@id='wishlistGrid_filter_description']
+                                        filter_qty_from: //input[@id='wishlistGrid_filter_qty_from']
+                                        filter_qty_to: //input[@id='wishlistGrid_filter_qty_to']
+                                        filter_date_from: //input[@name='added_at[from]']
+                                        filter_date_to: //input[@name='added_at[to]']
+                                        filter_days_from: //input[@id='wishlistGrid_filter_days_from']
+                                        filter_days_to: //input[@id='wishlistGrid_filter_days_to']
+                                    dropdowns:
+                                        filter_added_from: //select[@name='store']
+                -
+                    product_review:
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='reviwGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_visible_in: //select[@name='visible_in']
                 -
                     store_credit:
-                        xpath: //a[@id='customer_info_tabs_customerbalance']
+                        xpath: //a[@id='customer_info_tabs_customerbalance']/span
                         fieldsets:
                             -
                                 update_store_balance:
@@ -61,7 +138,7 @@ edit_customer:
                                         filter_website: //select[@id='customerGrid_filter_website_id']
                 -
                     reward_points:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
                         links:
                             reward_points_history_link: //a[contains(.,'Reward Points History')]
                         fieldsets:
@@ -91,8 +168,10 @@ edit_customer:
         buttons:
             manage_shopping_cart: //button[span='Manage Shopping Cart']
 
-edit_customer_save_and_continue:
-    uimap: *edit_customer-uimap
+#edit_customer_save_and_continue:
+#    mca: customer/edit/id/%id%/back/edit/tab/%tab%/
+#    title: %customer_first_last_name% / Manage Customers / Customers / Magento Admin
+#    uimap: *editCustomerForm
 
 #Manage Invitations page
 manage_invitations:
@@ -132,26 +211,30 @@ manage_invitations:
             success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
 
 # New invitations page
+
 new_invitations:
     mca: invitation/new/
     title: Magento Admin
     uimap:
         form: &newInvitationsForm
-            fieldsets:
+            tabs:
                 -
-                    invitations_properties:
-                        xpath: //div[@id='base_fieldset']
-                        dropdowns:
-                            invitee_group: //select[@id='group_id']
-                        fields:
-                            email_on_new_line: //textarea[@id='email']
-                            message: //textarea[@id='message']
+                    fieldsets:
+                        -
+                            invitations_properties:
+                            xpath: //div[@id='base_fieldset']
+                            dropdowns:
+                                invitee_group: //select[@id='group_id']
+                            fields:
+                                email_on_new_line: //textarea[@id='email']
+                                message: //textarea[@id='message']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
 
 #Edit Customer Invitations page
+
 edit_invitations:
     mca: invitation/view/id/%id%/
     title: Invitations / Customers / Magento Admin
@@ -160,14 +243,14 @@ edit_invitations:
             tabs:
                 -
                     general:
-                        xpath: //a[@name='general']
+                        xpath: //a[@name='general']/span
                         fieldsets:
-                            -
-                                invitations_informations:
-                                    xpath: //div[@class='fieldset']
-                                fields:
-                                    email: //input[@name='email']
-                                    message: //textarea[@name='message']
+                        -
+                            invitations_informations:
+                                xpath: //div[@class='fieldset']
+                            fields:
+                                email: //input[@name='email']
+                                message: //textarea[@name='message']
         buttons:
             back: //button[span='Back']
             discard_invitation: //button[span='Discard Invitation']
@@ -291,17 +374,19 @@ new_reward_rate:
     title: New Rate / Reward Exchange Rates / Customers / Magento Admin
     uimap: &newRateUimap
         form:
-            fieldsets:
+            tabs:
                 -
-                    reward_rate_properties:
-                        xpath: //div[@id='base_fieldset']
-                        dropdowns:
-                            website: //select[@id='website_id']
-                            customer_groups: //select[@id='customer_group_id']
-                            direction: //select[@id='direction']
-                        fields:
-                            rate_value: //input[@name='rate[value]']
-                            rate_equal_value: //input[@name='rate[equal_value]']
+                    fieldsets:
+                        -
+                            reward_rate_properties:
+                            xpath: //div[@id='base_fieldset']
+                            dropdowns:
+                                website: //select[@id='website_id']
+                                customer_groups: //select[@id='customer_group_id']
+                                direction: //select[@id='direction']
+                            fields:
+                                rate_value: //input[@name='rate[value]']
+                                rate_equal_value: //input[@name='rate[equal_value]']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -314,5 +399,11 @@ new_reward_rate:
 #Edit Reward page
 edit_reward_rate:
     mca: reward_rate/edit/rate_id/%id%/
-    title: '%elementTitle% / Reward Exchange Rates / Customers / Magento Admin'
+    title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
     uimap: *newRateUimap
+
+#'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin
