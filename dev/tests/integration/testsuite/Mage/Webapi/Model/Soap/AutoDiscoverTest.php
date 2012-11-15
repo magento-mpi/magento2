@@ -70,8 +70,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_config = new Mage_Webapi_Model_Config($directoryScanner, $helperFactory, $appConfig, $cache,
-            $serverReflection, $routeFactory);
+        $this->_config = new Mage_Webapi_Model_Config($helperFactory, $appConfig, $cache, $routeFactory);
+        $this->_config->setDirectoryScanner($directoryScanner);
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
         $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($this->_config, $wsdlFactory);

@@ -37,8 +37,8 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_config = new Mage_Webapi_Model_Config($directoryScanner, $helperFactory, $appConfig, $cache,
-            $serverReflection, $routeFactory);
+        $this->_config = new Mage_Webapi_Model_Config($helperFactory, $appConfig, $cache, $routeFactory);
+        $this->_config->setDirectoryScanner($directoryScanner);
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
     }
 

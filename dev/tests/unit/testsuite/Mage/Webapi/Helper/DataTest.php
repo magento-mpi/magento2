@@ -213,10 +213,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         /** Prepare arguments for SUT constructor. */
         $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
         $objectManager = new Magento_ObjectManager_Zend();
-        /** @var $appConfig Mage_Core_Model_Config */
-        $appConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array($objectManager));
-        $appConfig->expects($this->once())->method('getNode')
-            ->will($this->returnValue(new Mage_Core_Model_Config_Element("<empty_node></empty_node>")));
+        $appConfig = new Mage_Core_Model_Config($objectManager);
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
         /** Prepare mocks for SUT constructor. */
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
@@ -227,13 +224,13 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         /** Initialize SUT. */
         $apiConfig = new Mage_Webapi_Model_Config(
-            new Magento_Code_Scanner_DirectoryScanner($directoryWithFixturesForConfig),
             $helperFactory,
             $appConfig,
             $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
-            new Magento_Server_Reflection(),
             $routeFactory
         );
+        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig));
+        $apiConfig->init();
         return $apiConfig;
     }
 }

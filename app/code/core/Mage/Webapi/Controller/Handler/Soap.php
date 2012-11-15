@@ -247,7 +247,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     public function init()
     {
         $this->_initSoapServer();
-        return $this;
+        return parent::init();
     }
 
     /**

@@ -15,7 +15,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     protected $_response;
 
     /** @var Mage_Webapi_Model_Config */
-    protected $_resourceConfig;
+    protected $_apiConfig;
 
     /** @var Mage_Core_Model_Factory_Helper */
     protected $_helperFactory;
@@ -71,11 +71,15 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     abstract public function handle();
 
     /**
-     * Initialize handler.
+     * Initialize API configuration.
      *
      * @return Mage_Webapi_Controller_HandlerAbstract
      */
-    abstract public function init();
+    public function init()
+    {
+        $this->_apiConfig->init();
+        return $this;
+    }
 
     /**
      * Get REST request.
@@ -96,18 +100,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     public function getApiConfig()
     {
         return $this->_apiConfig;
-    }
-
-    /**
-     * Set resource config.
-     *
-     * @param Mage_Webapi_Model_Config $config
-     * @return Mage_Webapi_Controller_HandlerAbstract
-     */
-    public function setResourceConfig(Mage_Webapi_Model_Config $config)
-    {
-        $this->_resourceConfig = $config;
-        return $this;
     }
 
     /**
