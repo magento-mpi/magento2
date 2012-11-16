@@ -11,6 +11,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Prepare form tab configuration
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -18,6 +21,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     }
 
     /**
+     * Initialise form fields
+     *
      * @return Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
      */
     protected function _prepareForm()

@@ -36,35 +36,35 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
     {
         return array(
             array(
-                'value' => '5',
+                'value' => '%d',
                 'label' => 'Magento Blank'
             ),
             array(
-                'value' => '2',
+                'value' => '%d',
                 'label' => 'Magento Demo'
             ),
             array(
-                'value' => '6',
+                'value' => '%d',
                 'label' => 'Magento Demo Blue'
             ),
             array(
-                'value' => '7',
+                'value' => '%d',
                 'label' => 'Magento Fixed Design'
             ),
             array(
-                'value' => '1',
+                'value' => '%d',
                 'label' => 'Magento Fluid Design  (incompatible version)'
             ),
             array(
-                'value' => '4',
+                'value' => '%d',
                 'label' => 'Magento Iphone'
             ),
             array(
-                'value' => '8',
+                'value' => '%d',
                 'label' => 'Magento Iphone (HTML5)'
             ),
             array(
-                'value' => '3',
+                'value' => '%d',
                 'label' => 'Magento Modern'
             )
         );

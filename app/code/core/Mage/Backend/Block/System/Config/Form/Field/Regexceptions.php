@@ -18,6 +18,9 @@
 class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
     extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
 {
+    /**
+     * Initialise form fields
+     */
     protected function _construct()
     {
         $this->addColumn('search', array(
