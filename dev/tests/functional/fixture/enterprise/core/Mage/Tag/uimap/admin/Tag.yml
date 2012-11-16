@@ -3,7 +3,7 @@
 #
 # @category    Magento
 # @package     Mage_Tag
-# @subpackage  functional_tests
+# @subpackage  uimap
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -18,13 +18,3 @@ edit_tag_more_options:
                         xpath: //dl[@id='tab_content_tag_assigned_grid']
                         links:
                             prod_tag_admin_expand: //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
-
-dashboard:
-    mca: dashboard
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'dashboard')]
-    title: "Dashboard / Magento Admin"
-    uimap:
-        form:
-        buttons:
-        messages:
-

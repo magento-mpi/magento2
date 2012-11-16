@@ -17,16 +17,25 @@
 class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Webapi_Model_Acl_Role_Factory
+     */
+    protected $_roleFactory;
+
+    /**
      * @var Mage_Webapi_Model_Acl_Rule
      */
     protected $_model;
 
-    /**
-     * Initialize model
-     */
     protected function setUp()
     {
-        $this->_model = new Mage_Webapi_Model_Acl_Rule();
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_roleFactory = $this->_objectManager->get('Mage_Webapi_Model_Acl_Role_Factory');
+        $this->_model = $this->_objectManager->create('Mage_Webapi_Model_Acl_Rule');
     }
 
     /**
@@ -34,7 +43,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        $this->_model = null;
+        unset($this->_objectManager, $this->_model);
     }
 
     /**
@@ -44,7 +53,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('test_role', 'role_name');
+        $role = $this->_roleFactory->create()->load('test_role', 'role_name');
         $allowResourceId = 'customer/multiGet';
 
         $this->_model->setRoleId($role->getId())
@@ -61,7 +70,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveResources()
     {
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('test_role', 'role_name');
+        $role = $this->_roleFactory->create()->load('test_role', 'role_name');
         $resources = array('customer/create', 'customer/update');
 
         $this->_model
@@ -70,22 +79,8 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->saveResources();
 
         /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-        $rulesSet = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
+        $rulesSet = $this->_objectManager->get('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
             ->getByRole($role->getRoleId())->load();
         $this->assertCount(2, $rulesSet);
-    }
-
-    /**
-     * Test method Mage_Webapi_Model_Acl_Rule::getByRole()
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
-     */
-    public function testGetByRole()
-    {
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
-
-        /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-        $rulesSet = $this->_model->getByRole($role->getRoleId())->load();
-        $this->assertCount(1, $rulesSet);
     }
 }

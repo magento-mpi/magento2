@@ -1,8 +1,6 @@
 <?php
-use Zend\Code\Scanner\DirectoryScanner,
-    Zend\Code\Reflection\ClassReflection,
+use Zend\Code\Reflection\ClassReflection,
     Zend\Code\Reflection\DocBlockReflection,
-    Zend\Server\Reflection,
     Zend\Server\Reflection\ReflectionMethod;
 
 /**
@@ -20,8 +18,10 @@ class Mage_Webapi_Model_Config
      */
     const CONFIG_CACHE_ID = 'API-RESOURCE-CACHE';
 
+    const VERSION_NUMBER_PREFIX = 'V';
+
     /**
-     * @var DirectoryScanner
+     * @var Zend\Code\Scanner\DirectoryScanner
      */
     protected $_directoryScanner;
 
@@ -39,12 +39,6 @@ class Mage_Webapi_Model_Config
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
-
-    /**
-     * @var Reflection
-     */
-    protected $_serverReflection;
-
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
@@ -70,20 +64,15 @@ class Mage_Webapi_Model_Config
     protected $_routeFactory;
 
     /**
-     * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_Cache $cache
-     * @param Zend\Server\Reflection $serverReflection
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
-        DirectoryScanner $directoryScanner,
-//        Magento_Autoload $autoLoader,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_Cache $cache,
-        Reflection $serverReflection,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         $this->_autoloader = Magento_Autoload::getInstance();
@@ -92,30 +81,17 @@ class Mage_Webapi_Model_Config
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
         $this->_routeFactory = $routeFactory;
-
-        // TODO: Introduce directory scanner factory
-        $this->_directoryScanner = $directoryScanner;
-        $this->_initDirectoryScanner();
-
-        // TODO: Introduce factory
-        $this->_serverReflection = $serverReflection;
-        $this->_extractData();
     }
 
     /**
-     * Initialize directory scanner with API controller directories.
+     * Initialize config data.
+     *
+     * @return Mage_Webapi_Model_Config
      */
-    protected function _initDirectoryScanner()
+    public function init()
     {
-        /** @var Mage_Core_Model_Config_Element $module */
-        foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
-            if ($module->is('active')) {
-                $directory = $this->_applicationConfig->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
-                if (is_dir($directory)) {
-                    $this->_directoryScanner->addDirectory($directory);
-                }
-            }
-        }
+        $this->_extractData();
+        return $this;
     }
 
     /**
@@ -161,8 +137,10 @@ class Mage_Webapi_Model_Config
      */
     public function getResourceDataMerged($resourceName, $resourceVersion)
     {
-        /** Allow to take resource version in two formats: with 'v' prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : lcfirst($resourceVersion);
+        /** Allow to take resource version in two formats: with prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
+            : ucfirst($resourceVersion);
         $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
         $resource = array();
         foreach ($this->_data['resources'][$resourceName]['versions'] as $version => $data) {
@@ -185,8 +163,10 @@ class Mage_Webapi_Model_Config
      */
     protected function _getResourceData($resourceName, $resourceVersion)
     {
-        /** Allow to take resource version in two formats: with 'v' prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : lcfirst($resourceVersion);
+        /** Allow to take resource version in two formats: with prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
+            : ucfirst($resourceVersion);
         try {
             $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
         } catch (RuntimeException $e) {
@@ -230,7 +210,7 @@ class Mage_Webapi_Model_Config
         }
         $resourceVersions = array_keys($this->_data['resources'][$resourceName]['versions']);
         foreach ($resourceVersions as &$version) {
-            $version = str_replace('v', '', $version);
+            $version = str_replace(self::VERSION_NUMBER_PREFIX, '', $version);
         }
         $maxVersion = max($resourceVersions);
         return (int)$maxVersion;
@@ -256,9 +236,10 @@ class Mage_Webapi_Model_Config
         $resourceData = $this->_data['resources'][$resourceName];
         $versionCheckRequired = is_string($resourceVersion);
         if ($versionCheckRequired) {
-            /** Allow to take resource version in two formats: with 'v' prefix and without it */
-            $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
-            $resourceVersion = lcfirst($resourceVersion);
+            /** Allow to take resource version in two formats: with prefix and without it */
+            $resourceVersion = is_numeric($resourceVersion)
+                ? self::VERSION_NUMBER_PREFIX . $resourceVersion
+                : ucfirst($resourceVersion);
             $operationIsValid = isset($resourceData['versions'][$resourceVersion]['methods'][$methodName]);
             if (!$operationIsValid) {
                 return false;
@@ -281,9 +262,10 @@ class Mage_Webapi_Model_Config
         if (!$versionCheckRequired) {
             return $methodName;
         }
-        /** Allow to take resource version in two formats: with 'v' prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion) ? 'v' . $resourceVersion : $resourceVersion;
-        $resourceVersion = lcfirst($resourceVersion);
+        /** Allow to take resource version in two formats: with prefix and without it */
+        $resourceVersion = is_numeric($resourceVersion)
+            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
+            : ucfirst($resourceVersion);
         return isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])
             ? $methodName : false;
     }
@@ -318,7 +300,7 @@ class Mage_Webapi_Model_Config
     }
 
     /**
-     * Identify controller class by operation name and its version.
+     * Identify controller class by operation name.
      *
      * @param string $operationName
      * @return string Resource name on success
@@ -392,13 +374,14 @@ class Mage_Webapi_Model_Config
             }
 
             $allRestRoutes = array();
+            $serverReflection = new Zend\Server\Reflection;
             foreach ($this->_autoLoaderClassMap as $className => $filename) {
                 if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
                     $data = array();
                     $data['controller'] = $className;
                     $data['versions'] = array();
                     /** @var ReflectionMethod $methodReflection */
-                    foreach ($this->_serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
+                    foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
                         try {
                             $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
                         } catch (InvalidArgumentException $e) {
@@ -439,7 +422,7 @@ class Mage_Webapi_Model_Config
      * Identify API method version by its reflection.
      *
      * @param ReflectionMethod $methodReflection
-     * @return string|bool Method version with 'v' prefix on success.
+     * @return string|bool Method version with prefix on success.
      *      false is returned in case when method should not be exposed via API.
      */
     protected function _getMethodVersion(ReflectionMethod $methodReflection)
@@ -448,7 +431,7 @@ class Mage_Webapi_Model_Config
         $methodNameWithSuffix = $methodReflection->getName();
         $regularExpression = $this->_getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $methodVersion = lcfirst($methodMatches[2]);
+            $methodVersion = ucfirst($methodMatches[2]);
         }
         return $methodVersion;
     }
@@ -493,7 +476,6 @@ class Mage_Webapi_Model_Config
      */
     public function generateRestRoutes(ReflectionMethod $methodReflection)
     {
-        // TODO: Implement @restRoute annotations processing for adding custom routes
         $routes = array();
         $routePath = "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         $routeParts = $this->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
@@ -542,7 +524,7 @@ class Mage_Webapi_Model_Config
         $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
         $methodToActionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE => $item,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_GET => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $collection,
@@ -709,7 +691,7 @@ class Mage_Webapi_Model_Config
         if (!$this->_isSubresource($methodReflection)) {
             /** Top level resource, not subresource */
             $methodsWithIdExpected = array(
-                Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             );
@@ -778,7 +760,7 @@ class Mage_Webapi_Model_Config
     {
         $isIdFieldExpected = false;
         $methodsWithIdExpected = array(
-            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
@@ -873,7 +855,7 @@ class Mage_Webapi_Model_Config
     {
         $classMap = array();
         /** @var \Zend\Code\Scanner\FileScanner $file */
-        foreach ($this->_directoryScanner->getFiles(true) as $file) {
+        foreach ($this->getDirectoryScanner()->getFiles(true) as $file) {
             $filename = $file->getFile();
             $classes = $file->getClasses();
             if (count($classes) > 1) {
@@ -1009,7 +991,7 @@ class Mage_Webapi_Model_Config
                 }
                 $deprecationPolicy['use_method'] = $methodNameWithoutVersionSuffix;
                 $methodVersion = str_replace($methodNameWithoutVersionSuffix, '', $methodName);
-                $deprecationPolicy['use_version'] = lcfirst($methodVersion);
+                $deprecationPolicy['use_version'] = ucfirst($methodVersion);
             }
         }
         return $deprecationPolicy;
@@ -1288,7 +1270,7 @@ class Mage_Webapi_Model_Config
     {
         return array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_RETRIEVE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
             Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
@@ -1355,5 +1337,37 @@ class Mage_Webapi_Model_Config
             $routes[] = $this->_createRoute($routePath, $resourceName, $this->getActionTypeByMethod($methodName));
         }
         return $routes;
+    }
+
+    /**
+     * Get current directory scanner. Initialize if it was not initialized previously.
+     *
+     * @return Zend\Code\Scanner\DirectoryScanner
+     */
+    public function getDirectoryScanner()
+    {
+        if (!$this->_directoryScanner) {
+            $this->_directoryScanner = new Zend\Code\Scanner\DirectoryScanner();
+            /** @var Mage_Core_Model_Config_Element $module */
+            foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
+                if ($module->is('active')) {
+                    $directory = $this->_applicationConfig->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
+                    if (is_dir($directory)) {
+                        $this->_directoryScanner->addDirectory($directory);
+                    }
+                }
+            }
+        }
+        return $this->_directoryScanner;
+    }
+
+    /**
+     * Set directory scanner object.
+     *
+     * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
+     */
+    public function setDirectoryScanner(Zend\Code\Scanner\DirectoryScanner $directoryScanner)
+    {
+        $this->_directoryScanner = $directoryScanner;
     }
 }

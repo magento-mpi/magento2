@@ -15,8 +15,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     protected function _construct()
     {
         $this->_blockGroup = 'Mage_Webapi';
-        $this->_objectId = 'role_id';
         $this->_controller = 'adminhtml_role';
+        $this->_objectId = 'role_id';
 
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";

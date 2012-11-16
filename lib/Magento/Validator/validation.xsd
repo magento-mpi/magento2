@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
+ * Structure definition of validation.xml Validation files
  *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">

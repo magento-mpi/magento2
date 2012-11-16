@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Validates properties of entity (Varien_Object).
+ *
+ * @copyright {}
  */
 class Magento_Validator_Entity_Properties extends Magento_Validator_ValidatorAbstract
 {

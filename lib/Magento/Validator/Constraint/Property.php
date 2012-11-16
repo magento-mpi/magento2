@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Validator constraint delegates validation of value's property to wrapped validator.
+ *
+ * @copyright {}
  */
 class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
 {

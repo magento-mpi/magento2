@@ -48,6 +48,15 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
+     * Grid in edit role form
+     */
+    public function usersgridAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
      * Edit Web API role
      */
     public function editAction()
@@ -210,16 +219,11 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $saveResourcesFlag = true;
         if (!$isNewRole) {
             // Check changes
-            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($roleId)->load();
-            if ($rulesSet->count() == count($resources)) {
+            /** @var Mage_Webapi_Model_Resource_Acl_Rule $ruleResource */
+            $ruleResource = $this->_objectManager->get('Mage_Webapi_Model_Resource_Acl_Rule');
+            $oldResources = $ruleResource->getResourceIdsByRole($roleId);
+            if (count($oldResources) == count($resources) && !array_diff($oldResources, $resources)) {
                 $saveResourcesFlag = false;
-                /** @var Mage_Webapi_Model_Acl_Rule $rule */
-                foreach ($rulesSet as $rule) {
-                    if (!in_array($rule->getResourceId(), $resources)) {
-                        $saveResourcesFlag = true;
-                        break;
-                    }
-                }
             }
         }
 
@@ -269,16 +273,6 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         }
 
         return array();
-    }
-
-    /**
-     * Grid in edit role form
-     */
-    public function editrolegridAction()
-    {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Webapi_Block_Adminhtml_Role_Grid_User')->toHtml()
-        );
     }
 
     /**

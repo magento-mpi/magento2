@@ -81,9 +81,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => 'Prefix',
-                'firstname' => 'SomeName',
+                'firstname' => 'Service',
                 'middlename' => 'Middlename',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'CreateValid',
                 'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
@@ -96,7 +96,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             )),
             'Mandatory data' => array(array(
                 'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'CreateMandatory',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
             )),
         );
@@ -126,7 +126,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
                 'firstname' => null,
-                'lastname' => 'SomeSurname',
+                'lastname' => 'ServiceTestCreateExceptionFNR',
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
@@ -137,8 +137,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
-                'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'firstname' => 'ServiceTestCreate',
+                'lastname' => 'ExceptionInvalidEmail',
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
@@ -149,8 +149,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
-                'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'firstname' => 'ServiceTestCreate',
+                'lastname' => 'ExceptionPassword',
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
@@ -166,8 +166,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreateWithAddresses($addressesData)
     {
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'CreateWithAddress',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
         );
 
@@ -264,8 +264,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreateWithInvalidAddressId()
     {
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'InvalidAddress',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
         );
 
@@ -322,9 +322,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Multiple properties' => array(array(
                 'disable_auto_group_change' => 0,
                 'prefix' => 'Prefix',
-                'firstname' => 'SomeName',
+                'firstname' => 'ServiceTest',
                 'middlename' => 'Middlename',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'UpdateMultiple',
                 'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
@@ -520,13 +520,13 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setIsAdminStore($isAdminStore);
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'ForceConfirmed',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
             'password' => '123123q'
         );
-        $customer = $this->_model->create($customerData);
-        $this->assertEquals($isConfirmed, $customer->getForceConfirmed());
+        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->assertEquals($isConfirmed, $this->_createdCustomer->getForceConfirmed());
     }
 
     /**

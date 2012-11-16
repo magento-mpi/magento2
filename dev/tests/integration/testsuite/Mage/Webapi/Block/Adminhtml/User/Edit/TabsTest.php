@@ -50,14 +50,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
 
         $this->_layout->addBlock(
             'Mage_Core_Block_Text',
-            'webapi.user.edit.tab.roles.grid.container',
+            'webapi.user.edit.tab.roles.grid',
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');
-
-        $roleIdColumnBlock = $this->_layout->addBlock(
-            'Mage_Backend_Block_Widget_Grid_Column',
-            'webapi.user.edit.tab.roles.grid.columnSet.role_id'
-        );
 
         $apiUser = new Varien_Object(array(
             'role_id' => 1
@@ -66,7 +61,6 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
         $this->_block->toHtml();
 
         $this->assertSame($apiUser, $mainTabBlock->getApiUser());
-        $this->assertSame($apiUser->getRoleId(), $roleIdColumnBlock->getValue());
 
         $tabs = $this->_getProtectedTabsValue($this->_block);
         $this->assertArrayHasKey('main_section', $tabs);

@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Constraint option
+ *
+ * @copyright {}
  */
 class Magento_Validator_Constraint_Option implements  Magento_Validator_Constraint_OptionInterface
 {

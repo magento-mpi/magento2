@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API Role tabs
+ * Web API Role edit page tabs
  *
  * @copyright {}
  *
@@ -47,18 +47,12 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widg
         ));
 
         if ($this->getApiRole() && $this->getApiRole()->getRoleId() > 0) {
-            /** @var Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User $userBlock */
-            $userBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.user');
-            $userBlock->setApiRole($this->getApiRole());
+            $usersGrid = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid');
             $this->addTab('user_section', array(
                 'label' => $this->__('Users'),
                 'title' => $this->__('Users'),
-                'content' => $userBlock->toHtml()
+                'content' => $usersGrid->toHtml()
             ));
-        } else {
-            /** @var Mage_Core_Block_Template $usersJsBlock */
-            $usersJsBlock = $this->getLayout()->getBlock('roles-users-grid-js');
-            $usersJsBlock->setTemplate('');
         }
 
         return parent::_beforeToHtml();

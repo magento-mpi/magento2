@@ -56,43 +56,6 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForTestToArray
-     * @param $objectToBeConverted
-     * @param $expectedResult
-     */
-    public function testToArray($objectToBeConverted, $expectedResult)
-    {
-        self::$_helper->toArray($objectToBeConverted);
-        $this->assertSame($expectedResult, $objectToBeConverted, "Object to array conversion failed.");
-    }
-
-    public static function dataProviderForTestToArray()
-    {
-        return array(
-            // Test case without need in conversion
-            array(
-                array('key1' => 1, 'key2' => 'value2', 'key3' => array(3)),
-                array('key1' => 1, 'key2' => 'value2', 'key3' => array(3))
-            ),
-            // Test case with indexed array
-            array(
-                (object)array('key1' => 1, 'key2' => 'value2', 'key3' => array(3, 'value3')),
-                array('key1' => 1, 'key2' => 'value2', 'key3' => array(3, 'value3'))
-            ),
-            // Test mixed values in array
-            array(
-                array('key1' => 1, 'key2' => 'value2', 'key3' => (object)array('key3-1' => 'value3-1', 'key3-2' => 32)),
-                array('key1' => 1, 'key2' => 'value2', 'key3' => array('key3-1' => 'value3-1', 'key3-2' => 32))
-            ),
-            // Test recursive converting capabilities
-            array(
-                (object)array('key1' => array('key2' => (object)array('key3' => array('key4' => 'value4')))),
-                array('key1' => array('key2' => array('key3' => array('key4' => 'value4'))))
-            ),
-        );
-    }
-
-    /**
      * @dataProvider dataProviderForTestPrepareMethodParamsPositive
      * @param string|object $class
      * @param string $methodName
@@ -250,10 +213,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         /** Prepare arguments for SUT constructor. */
         $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
         $objectManager = new Magento_ObjectManager_Zend();
-        /** @var $appConfig Mage_Core_Model_Config */
-        $appConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array($objectManager));
-        $appConfig->expects($this->once())->method('getNode')
-            ->will($this->returnValue(new Mage_Core_Model_Config_Element("<empty_node></empty_node>")));
+        $appConfig = new Mage_Core_Model_Config($objectManager);
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
         /** Prepare mocks for SUT constructor. */
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
@@ -264,13 +224,13 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         /** Initialize SUT. */
         $apiConfig = new Mage_Webapi_Model_Config(
-            new \Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig),
             $helperFactory,
             $appConfig,
             $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
-            new \Zend\Server\Reflection(),
             $routeFactory
         );
+        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig));
+        $apiConfig->init();
         return $apiConfig;
     }
 }

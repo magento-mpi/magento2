@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API User page left menu
+ * Web API User edit page tabs
  *
  * @copyright {}
  *
@@ -37,15 +37,11 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
             'active' => true
         ));
 
-        /** @var Mage_Backend_Block_Widget_Grid $rolesGrid */
-        $rolesGridContainer = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid.container');
-        /** @var Mage_Backend_Block_Widget_Grid_Column $roleIdColumn */
-        $roleIdColumn = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid.columnSet.role_id');
-        $roleIdColumn->setValue($this->getApiUser()->getRoleId());
+        $rolesGrid = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid');
         $this->addTab('roles_section', array(
             'label' => $this->__('User Role'),
             'title' => $this->__('User Role'),
-            'content' => $rolesGridContainer->toHtml(),
+            'content' => $rolesGrid->toHtml(),
         ));
         return parent::_beforeToHtml();
     }

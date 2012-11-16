@@ -17,7 +17,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * Allowed API resource methods.
      */
     const METHOD_CREATE = 'create';
-    const METHOD_RETRIEVE = 'get';
+    const METHOD_GET = 'get';
     const METHOD_LIST = 'list';
     const METHOD_UPDATE = 'update';
     const METHOD_DELETE = 'delete';
@@ -82,7 +82,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * @return Varien_Data_Collection_Db
      * @throws Mage_Webapi_Exception
      */
-    // TODO: Check and finish this method
+    // TODO: Check and finish this method (the implementation was migrated from Magento 1)
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
