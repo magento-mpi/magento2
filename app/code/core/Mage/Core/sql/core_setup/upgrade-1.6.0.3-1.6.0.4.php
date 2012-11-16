@@ -39,6 +39,7 @@ $table = $installer->getConnection()
         'nullable' => false,
         'default'  => 0
     ), 'Is Theme Featured')
+    ->addColumn('area', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Area')
     ->setComment('Core theme');
 
 $installer->getConnection()->createTable($table);
