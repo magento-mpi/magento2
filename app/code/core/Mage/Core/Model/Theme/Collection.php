@@ -59,13 +59,26 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Target directory setter. Adds directory to be scanned
      *
-     * @throws Exception
      * @param string $value
      * @return Mage_Core_Model_Theme_Collection
      */
     public function addTargetPattern($value)
     {
+        if ($this->isLoaded()) {
+            $this->clear();
+        }
         $this->_targetDirs[] = $value;
+        return $this;
+    }
+
+    /**
+     * Clear target patterns
+     *
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    public function clearTargetPatterns()
+    {
+        $this->_targetDirs = array();
         return $this;
     }
 
@@ -102,8 +115,11 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
             $pathsToThemeConfig = array_merge($pathsToThemeConfig, glob($directoryPath, GLOB_NOSORT));
         }
 
-        $this->_loadFromFilesystem($pathsToThemeConfig);
-        $this->_updateRelations()->_renderFilters();
+        $this->_loadFromFilesystem($pathsToThemeConfig)
+            ->clearTargetPatterns()
+            ->_updateRelations()
+            ->_renderFilters()
+            ->_clearFilters();
 
         return $this;
     }
@@ -117,8 +133,8 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     {
         $themeItems = $this->getItems();
         foreach ($themeItems as $theme) {
-            if ($theme->getParentTheme()) {
-                $parentThemePath = implode('/', $theme->getParentTheme());
+            $parentThemePath = $theme->getParentThemePath();
+            if ($parentThemePath) {
                 if (isset($themeItems[$parentThemePath])) {
                     $theme->setParentTheme($themeItems[$parentThemePath]);
                 }
@@ -136,7 +152,9 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _loadFromFilesystem(array $themeConfigPaths)
     {
         foreach ($themeConfigPaths as $themeConfigPath) {
-            $theme = $this->getNewEmptyItem()->loadFromConfiguration($themeConfigPath);
+            $theme = $this->getNewEmptyItem()
+                ->loadFromConfiguration($themeConfigPath)
+                ->setIdFieldName('theme_path');
             $this->addItem($theme);
         }
         $this->_setIsLoaded();
@@ -163,6 +181,17 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
                 $this->removeItemByKey($itemKey);
             }
         }
+        return $this;
+    }
+
+    /**
+     * Clear all added filters
+     *
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    protected function _clearFilters()
+    {
+        $this->_filters = array();
         return $this;
     }
 
@@ -211,6 +240,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function themeRegistration()
     {
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($this as $theme) {
             $this->_saveThemeRecursively($theme);
         }
@@ -232,7 +262,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         }
 
         $this->_addThemeToList($theme->getThemePath());
-        if ($theme->getParentTheme()) {
+        if ($theme->getParentThemePath()) {
             $parentTheme = $this->_prepareParentTheme($theme);
             if (!$parentTheme->getId()) {
                 Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid parent theme path'));
@@ -253,7 +283,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     protected function _prepareParentTheme($theme)
     {
-        $parentThemePath = implode('/', $theme->getParentTheme());
+        $parentThemePath = $theme->getParentThemePath();
         $themeModel = $this->_loadThemeByPath($parentThemePath);
 
         if (!$themeModel->getId()) {

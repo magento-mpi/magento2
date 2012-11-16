@@ -106,10 +106,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
         $media = $themeConfig->getMedia($packageCode, $themeCode);
+        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
         $this->setData(array(
             'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
-            'parent_theme'         => $themeConfig->getParentTheme($packageCode, $themeCode),
+            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null,
             'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
@@ -221,7 +222,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->_validate();
+        $this->_validate()->setIdFieldName('id');
         return parent::_beforeSave();
     }
 

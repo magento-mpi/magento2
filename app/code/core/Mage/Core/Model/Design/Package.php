@@ -161,7 +161,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Load design theme
      *
-     * @param mixed $theme
+     * @param Mage_Core_Model_Theme|int|string $theme
      * @param string|null $area
      * @return Mage_Core_Model_Theme
      */
@@ -188,7 +188,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Set theme path
      *
-     * @param Mage_Core_Model_Theme|null $theme
+     * @param Mage_Core_Model_Theme|int|string $theme
      * @param string $area
      * @return Mage_Core_Model_Design_Package
      */
@@ -234,6 +234,9 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignTheme()
     {
+        if (!$this->_theme) {
+            $this->_theme = Mage::getModel('Mage_Core_Model_Theme');
+        }
         return $this->_theme;
     }
 
@@ -1130,7 +1133,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getViewConfig()
     {
-        $key = "{$this->_name}/{$this->_theme}";
+        $key = $this->getDesignTheme()->getId();
         if (isset($this->_viewConfigs[$key])) {
             return $this->_viewConfigs[$key];
         }
