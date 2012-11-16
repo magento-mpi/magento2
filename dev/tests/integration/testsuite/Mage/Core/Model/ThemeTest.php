@@ -148,4 +148,88 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(array(true), array(false));
     }
+
+    public function testIsThemeCompatible()
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+
+        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*');
+        $this->assertFalse($themeModel->isThemeCompatible());
+
+        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
+        $this->assertTrue($themeModel->isThemeCompatible());
+    }
+
+    public function testCheckThemeCompatible()
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+
+        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*')->setThemeTitle('Title');
+        $themeModel->checkThemeCompatible();
+        $this->assertEquals('Title (incompatible version)', $themeModel->getThemeTitle());
+
+        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*')->setThemeTitle('Title');
+        $themeModel->checkThemeCompatible();
+        $this->assertEquals('Title', $themeModel->getThemeTitle());
+    }
+
+    public function testGetLabelsCollection()
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        $labelCollection = $this->_getLabelCollection();
+
+        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection(false));
+
+        array_unshift($labelCollection, array(
+            'value' => '',
+            'label' => '-- Please Select --'
+        ));
+        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection());
+    }
+
+    /**
+     * Return sorted by title themes
+     *
+     * @return array
+     */
+    protected function _getLabelCollection()
+    {
+        return array(
+            array(
+                'value' => '5',
+                'label' => 'Magento Blank'
+            ),
+            array(
+                'value' => '2',
+                'label' => 'Magento Demo'
+            ),
+            array(
+                'value' => '6',
+                'label' => 'Magento Demo Blue'
+            ),
+            array(
+                'value' => '7',
+                'label' => 'Magento Fixed Design'
+            ),
+            array(
+                'value' => '1',
+                'label' => 'Magento Fluid Design  (incompatible version)'
+            ),
+            array(
+                'value' => '4',
+                'label' => 'Magento Iphone'
+            ),
+            array(
+                'value' => '8',
+                'label' => 'Magento Iphone (HTML5)'
+            ),
+            array(
+                'value' => '3',
+                'label' => 'Magento Modern'
+            )
+        );
+    }
 }

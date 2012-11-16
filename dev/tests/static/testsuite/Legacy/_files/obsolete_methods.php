@@ -398,4 +398,9 @@ return array(
     $this->_getRule('getThemeOptions', 'Mage_Core_Model_Design_Source_Design',
         'Mage_Core_Model_Theme::getThemeCollectionOptionArray'),
     $this->_getRule('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
+    $this->_getRule('setPackageTheme', 'Mage_Widget_Model_Widget_Instance', 'setThemeId'),
+    $this->_getRule('getPackageTheme', 'Mage_Widget_Model_Widget_Instance', 'getThemeId'),
+    $this->_getRule('getPackage', 'Mage_Widget_Model_Widget_Instance'),
+    $this->_getRule('getTheme', 'Mage_Widget_Model_Widget_Instance'),
+    $this->_getRule('_parsePackageTheme', 'Mage_Widget_Model_Widget_Instance'),
 );

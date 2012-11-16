@@ -103,18 +103,18 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $this->getTypesOptionsArray()
         ));
 
-        $fieldset->addField('package_theme', 'select', array(
-            'name'     => 'package_theme',
-            'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
-            'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
+        $fieldset->addField('theme_id', 'select', array(
+            'name'     => 'theme_id',
+            'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
+            'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
             'required' => true,
-            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray()
+            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection()
         ));
         $continueButton = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
                 'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Continue'),
-                'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'package_theme')",
+                'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",
                 'class'     => 'save'
             ));
         $fieldset->addField('continue_button', 'note', array(
@@ -135,8 +135,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     {
         return $this->getUrl('*/*/*', array(
             '_current' => true,
-            'type' => '{{type}}',
-            'package_theme' => '{{package_theme}}'
+            'type'     => '{{type}}',
+            'theme_id' => '{{theme_id}}'
         ));
     }
 

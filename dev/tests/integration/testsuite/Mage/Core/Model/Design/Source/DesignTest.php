@@ -11,104 +11,62 @@
 
 class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCase
 {
+
+    public function testGetAllOptions()
+    {
+        /** @var $model Mage_Core_Model_Design_Source_Design */
+        $model = Mage::getModel('Mage_Core_Model_Design_Source_Design');
+        $labelCollection = $this->_getLabelCollection();
+
+        $this->assertEquals($labelCollection, $model->getAllOptions(false));
+
+        array_unshift($labelCollection, array(
+             'value' => '',
+             'label' => '-- Please Select --'
+        ));
+        $this->assertEquals($labelCollection, $model->getAllOptions());
+    }
+
     /**
-     * @var Mage_Core_Model_Design_Source_Design
+     * Return sorted by title themes
+     *
+     * @return array
      */
-    protected $_model = null;
-
-    public static function setUpBeforeClass()
+    protected function _getLabelCollection()
     {
-        Mage::getConfig()->getOptions()->setDesignDir(__DIR__ . '/_files/design');
-    }
-
-    protected function setUp()
-    {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_Source_Design');
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
-    public function testGetAllOptionsSorting()
-    {
-        $fixture = array(
+        return array(
             array(
-                'label' => 'Default',
-                'value' => array(
-                    array(
-                        'label' => 'Default (incompatible version)',
-                        'value' => 'default/default',
-                    ),
-                    array(
-                        'label' => 'Theme G (incompatible version)',
-                        'value' => 'default/g',
-                    ),
-                ),
+                'value' => '5',
+                'label' => 'Magento Blank'
             ),
             array(
-                'label' => 'Package A',
-                'value' => array(
-                    array(
-                        'label' => 'Theme D (incompatible version)',
-                        'value' => 'a/d',
-                    ),
-                ),
+                'value' => '2',
+                'label' => 'Magento Demo'
             ),
             array(
-                'label' => 'Package B',
-                'value' => array(
-                    array(
-                        'label' => 'Theme E (incompatible version)',
-                        'value' => 'b/e',
-                    ),
-                ),
+                'value' => '6',
+                'label' => 'Magento Demo Blue'
             ),
+            array(
+                'value' => '7',
+                'label' => 'Magento Fixed Design'
+            ),
+            array(
+                'value' => '1',
+                'label' => 'Magento Fluid Design  (incompatible version)'
+            ),
+            array(
+                'value' => '4',
+                'label' => 'Magento Iphone'
+            ),
+            array(
+                'value' => '8',
+                'label' => 'Magento Iphone (HTML5)'
+            ),
+            array(
+                'value' => '3',
+                'label' => 'Magento Modern'
+            )
         );
-        $this->assertSame($fixture, $this->_model->getAllOptions(false));
-    }
-
-    public function testGetThemeOptionsSorting()
-    {
-        $fixture = array(
-            array(
-                'label' => 'Default',
-                'value' => array(
-                    array(
-                        'label' => 'Default (incompatible version)',
-                        'value' => 'default/default',
-                    ),
-                    array(
-                        'label' => 'Theme G (incompatible version)',
-                        'value' => 'default/g',
-                    ),
-                ),
-            ),
-            array(
-                'label' => 'Package A',
-                'value' => array(
-                    array(
-                        'label' => 'Theme D (incompatible version)',
-                        'value' => 'a/d',
-                    ),
-                ),
-            ),
-            array(
-                'label' => 'Package B',
-                'value' => array(
-                    array(
-                        'label' => 'Theme E (incompatible version)',
-                        'value' => 'b/e',
-                    ),
-                ),
-            ),
-        );
-        $this->assertSame($fixture, $this->_model->getThemeOptions());
-    }
-
-    public function testGetOptions()
-    {
-        $this->assertSame($this->_model->getAllOptions(false), $this->_model->getOptions());
     }
 }

@@ -114,12 +114,12 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        $fieldset->addField('package_theme', 'select', array(
-            'name'  => 'package_theme',
+        $fieldset->addField('theme_id', 'select', array(
+            'name'  => 'theme_id',
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => false,
-            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(),
+            'values'   => Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection(),
             'disabled' => true
         ));
 

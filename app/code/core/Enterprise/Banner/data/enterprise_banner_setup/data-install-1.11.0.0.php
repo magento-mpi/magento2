@@ -59,8 +59,8 @@ foreach ($banners as $sortOrder => $bannerData) {
             'unique_id'    => Mage::helper('Mage_Core_Helper_Data')->uniqHash()
         ))
         ->addData(array(
-            'instance_type'          => 'Enterprise_Banner_Block_Widget_Banner',
-            'package_theme' => $theme->getId(),
+            'instance_type' => 'Enterprise_Banner_Block_Widget_Banner',
+            'theme_id'      => $theme->getId(),
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder
         ))

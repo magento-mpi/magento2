@@ -33,7 +33,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
     /**
      * Prepare form before rendering HTML
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid_Tab_General
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      */
     protected function _prepareForm()
     {
@@ -76,7 +76,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'value'     => $model->getLabel()
         ));
 
-        $options = Mage::getModel('Mage_Core_Model_Theme')->getThemeCollectionOptionArray(false);
+        $options = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(false);
         array_unshift($options, array(
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
             'value' => ''

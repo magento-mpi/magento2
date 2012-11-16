@@ -256,7 +256,9 @@ class Mage_Core_Model_Design_Package
             if (empty($params['area'])) {
                 $params['area'] = $this->getArea();
             }
-            if (empty($params['package']) || !array_key_exists('theme', $params)) {
+            if (isset($params['themeId'])) {
+                $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId'], $params['area']);
+            } elseif (empty($params['package']) || !array_key_exists('theme', $params)) {
                 $params['themeModel'] = $this->getDesignTheme();
             } else {
                 $themePath = $params['package'] . '/' . $params['theme'];
