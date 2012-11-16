@@ -38,6 +38,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $previousStoreId = Mage::app()->getStore();
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
+            $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
         Mage::app()->setCurrentStore($previousStoreId);
