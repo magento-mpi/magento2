@@ -10,10 +10,9 @@
 #
 ---
 #XML Sitemap pages
-
-google_sitemap:
+xml_sitemap:
     mca: sitemap/
-    click_xpath: //div[@class='nav-bar']//a[span='XML Sitemap']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sitemap/')]
     title: XML Sitemaps / Catalog / Magento Admin
     uimap:
         form:

@@ -41,6 +41,9 @@ admin_action_log_report:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
+                            action_username: //select[@name='user']
+                            action_status: //select[@name='status']
+                            action_group: //select[@name='event']
                             view_per_page: //select[@name='limit']
                             export_to: //select[@name='loggingLogGrid_export']
                             action: //*[@id='loggingLogGrid_filter_action']
@@ -48,8 +51,14 @@ admin_action_log_report:
                             page: //input[@name='page']
                             short_details: //input[@id='loggingLogGrid_filter_info']
                             action_name: //input[@id='loggingLogGrid_filter_fullaction']
+                            action_ip: //input[@name='ip']
+                            action_time_from: //input[@name='time[from]']
+                            action_time_to: //input[@name='time[to]']
+                            action_full_name: //input[@name='fullaction']
+                            action_short_details: //input[@name='info']
                         pageelements:
-                            page_grid_head: //*[@id='loggingLogGrid_table']//thead/tr[@class='headings']
+                            action_grid_head: //table[@id='loggingLogGrid_table']//thead/tr[@class='headings']
+                            action_grid: //table[@id='loggingLogGrid_table']
 
 admin_action_log_view:
     mca: logging/details/event_id/%id%/

@@ -257,12 +257,6 @@ edit_invitations:
             save_invitation: //button[span='Save Invitation']
             send_invitation: //button[span='Send Invitation']
 
-#Manage Gift Registry Types page
-manage_gift_registry:
-    mca: giftregistry/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry/')]
-    title: Manage Gift Registry Types / Customers / Magento Admin
-
 #Manage Gift Card Accounts page
 manage_gift_card_account:
     mca: giftcardaccount/
@@ -401,9 +395,3 @@ edit_reward_rate:
     mca: reward_rate/edit/rate_id/%id%/
     title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
     uimap: *newRateUimap
-
-#'Online Customers' Page
-online_customers:
-    mca: customer_online/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
-    title: Online Customers / Customers / Magento Admin

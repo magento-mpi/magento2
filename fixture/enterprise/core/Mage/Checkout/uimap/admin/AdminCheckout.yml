@@ -39,8 +39,6 @@ view_order:
 
 # 'New Order' page
 create_order_for_new_customer:
-    mca: sales_order_create/
-    title: New Order / Orders / Sales / Magento Admin
     uimap:
         form:
             fieldsets: &newOrderForNewCustomerFieldsets

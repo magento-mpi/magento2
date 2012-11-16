@@ -56,7 +56,7 @@ api_roles_management:
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
-new_role:
+new_api_role:
     mca: webapi_role/edit/
     title: New API Role / API Roles / Web Api / System / Magento Admin
     uimap:
@@ -91,7 +91,7 @@ new_role:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *pageMessages
 
-edit_role:
+edit_api_role:
     mca: webapi_role/edit/role_id/%id%/
     title: Edit API Role / API Roles / Web Api / System / Magento Admin
     uimap:

@@ -10,33 +10,8 @@
 #
 ---
 #Manage Users and related pages
-
-# 'Users' page
-manage_admin_users:
-    mca: user/
-    click_xpath: //ul[@id='nav']//a[span='Users']
-    title: Users / Permissions / System / Magento Admin
-
-# 'Roles' page
-manage_roles:
-    mca: user_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'user_role')]
-    title: Roles / Permissions / System / Magento Admin
-
-# 'New User' page
-new_admin_user:
-    mca: user/new/
-
-# 'Edit User' page
-edit_admin_user:
-    mca: user/edit/user_id/%id%/
-
-new_admin_user_with_error:
-    mca: user/edit/
-
 # 'New Role' page
 new_role:
-    mca: user_role/editrole/
     uimap:
         form:
              tabs:
@@ -63,7 +38,6 @@ new_role:
 
 # 'Edit Role' page
 edit_role:
-    mca: user_role/editrole/rid/%id%/
     uimap:
         form:
             tabs:

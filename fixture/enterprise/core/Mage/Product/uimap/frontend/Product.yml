@@ -63,10 +63,6 @@ product_review:
                         links:
                             review_summary: //dt[contains(.,'%reviewerName%')]/a
 
-product_review_details:
-    mca: review/product/view/id/%id%/
-    title: Magento Enterprise Edition
-
 products_failed:
     mca: checkout/cart/configureFailed/id/%id%/qty/%qty%/sku/%sku%/
     title: %elementTitle%
