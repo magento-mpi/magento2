@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = new Mage_Webapi_Model_Acl_User();
+        $this->_model = Mage::getModel('Mage_Webapi_Model_Acl_User');
     }
 
     /**
@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $role = new Mage_Webapi_Model_Acl_Role();
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
         $role->load('test_role', 'role_name');
         $this->_model
             ->setApiKey('Test User Name')

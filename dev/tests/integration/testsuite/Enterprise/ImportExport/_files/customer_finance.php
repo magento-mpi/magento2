@@ -20,6 +20,10 @@ Mage::app()->reinitStores();
 // create test customer
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->addData(array(
+    'firstname' => 'Test',
+    'lastname' => 'User'
+));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 Mage::unregister($registerKey);

@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = new Mage_Webapi_Model_Acl_Role();
+        $this->_model = Mage::getModel('Mage_Webapi_Model_Acl_Role');
     }
 
     /**
