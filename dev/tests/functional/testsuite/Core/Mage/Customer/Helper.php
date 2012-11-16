@@ -200,4 +200,39 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
         $this->setCurrentPage($this->_findCurrentPageFromUrl());
     }
+
+    /**
+     * Check if customer is present in customers grid
+     *
+     * @param array $userData
+     *
+     * @return bool
+     */
+    public function isCustomerPresentInGrid($userData)
+    {
+        $data = array('email' => $userData['email']);
+        $this->_prepareDataForSearch($data);
+        $xpathTR = $this->search($data, 'customers_grid');
+        if (!is_null($xpathTR)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Two Step Password Reset
+     *
+     * @param array $emailData
+     */
+    public function frontForgotPassword($emailData)
+    {
+        $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'));
+        $this->assertTrue($this->checkCurrentPage('forgot_customer_password'), $this->getParsedMessages());
+        $this->fillFieldset($emailData, 'forgot_password');
+        $this->clickButton('submit', false);
+        $this->waitForElement($waitCondition);
+        $this->validatePage();
+    }
 }

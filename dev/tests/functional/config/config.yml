@@ -75,7 +75,7 @@ framework:
 applications:
     magento2community: &m2ce
         fallbackOrderFixture: 'default'
-        fallbackOrderHelper: 'Community2, Community17, Core'
+        fallbackOrderHelper: 'Core'
         design_theme: Default/Magento Demo
         ftp: &ftp
             url: 'localhost'
@@ -107,7 +107,7 @@ applications:
                 password: 'paypal_developer_password'
     magento2enterprise: &m2ee
         fallbackOrderFixture: 'enterprise, default'
-        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
+        fallbackOrderHelper: 'Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
