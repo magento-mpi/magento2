@@ -24,6 +24,7 @@ return array(
     $this->_getRule('_avoidDoubleTransactionProcessing'),
     $this->_getRule('_beforeChildToHtml'),
     $this->_getRule('_calculatePrice', 'Mage_Sales_Model_Quote_Item_Abstract'),
+    $this->_getRule('_canUseLocalModules'),
     $this->_getRule('_checkUrlSettings', 'Mage_Adminhtml_Controller_Action'),
     $this->_getRule('_collectOrigData', 'Mage_Catalog_Model_Resource_Abstract'),
     $this->_getRule('_decodeInput', 'Mage_Adminhtml_Catalog_ProductController'),

@@ -19,6 +19,7 @@ return array(
     $this->_getRule('_children', 'Mage_Core_Block_Abstract'),
     $this->_getRule('_childrenHtmlCache', 'Mage_Core_Block_Abstract'),
     $this->_getRule('_childGroups', 'Mage_Core_Block_Abstract'),
+    $this->_getRule('_canUseLocalModules'),
     $this->_getRule('_currencyNameTable'),
     $this->_getRule('_combineHistory'),
     $this->_getRule('_searchTextFields'),
