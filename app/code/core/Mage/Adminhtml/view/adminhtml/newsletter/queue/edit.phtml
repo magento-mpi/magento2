@@ -29,9 +29,6 @@
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="queue_edit_form">
     <?php echo $this->getBlockHtml('formkey')?>
-    <div class="no-display">
-        <input type="hidden" name="_resume" id="_resume_flag" value="" />
-    </div>
     <?php echo $this->getChildHtml('form') ?>
 </form>
 <form action="<?php echo $this->getPreviewUrl() ?>" method="post" id="newsletter_queue_preview_form" target="_blank">
