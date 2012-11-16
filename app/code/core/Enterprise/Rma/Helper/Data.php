@@ -40,6 +40,54 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Store config model
+     *
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * Country factory
+     *
+     * @var Mage_Directory_Model_CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * Region factory
+     *
+     * @var Mage_Directory_Model_RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * Class constructor
+     *
+     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Directory_Model_CountryFactory $countryFactory
+     * @param Mage_Directory_Model_RegionFactory $regionFactory
+     */
+    public function __construct(
+        Mage_Core_Model_App $app,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Directory_Model_CountryFactory $countryFactory,
+        Mage_Directory_Model_RegionFactory $regionFactory
+    ) {
+        $this->_app = $app;
+        $this->_storeConfig = $storeConfig;
+        $this->_countryFactory = $countryFactory;
+        $this->_regionFactory = $regionFactory;
+    }
+
+    /**
      * Checks whether RMA module is enabled for frontend in system config
      *
      * @return bool
@@ -128,7 +176,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     public function getReturnAddress($formatCode = 'html', $data = array(), $storeId = null)
     {
         if (empty($data)) {
-            $data = $this->_getAddressData($storeId);
+            $data = $this->getReturnAddressData($storeId);
         }
 
         $format = null;
@@ -180,7 +228,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     public function getReturnAddressModel($storeId = null)
     {
         $addressModel = Mage::getModel('Mage_Sales_Model_Quote_Address');
-        $addressModel->setData($this->_getAddressData($storeId));
+        $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
 
@@ -193,38 +241,52 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Model_Store|null|int $store
      * @return array
      */
-    protected function _getAddressData($store = null)
+    public function getReturnAddressData($store = null)
     {
         if (!$store) {
-            $store = Mage::app()->getStore();
+            $store = $this->_app->getStore();
         }
 
-        if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
+        if ($this->_storeConfig->getConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
             $data = array(
-                'city'      => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $store),
-                'countryId' => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
-                'postcode'  => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $store),
-                'region_id' => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, $store),
-                'street2'   => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $store),
-                'street1'   => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, $store)
+                'city' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $store),
+                'countryId' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
+                'postcode' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $store),
+                'region_id' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, $store),
+                'street2' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $store),
+                'street1' => $this->_storeConfig
+                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, $store),
             );
         } else {
             $data = array(
-                'city'      => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_CITY, $store),
-                'countryId' => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_COUNTRY_ID, $store),
-                'postcode'  => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ZIP, $store),
-                'region_id' => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_REGION_ID, $store),
-                'street2'   => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS2, $store),
-                'street1'   => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS1, $store)
+                'city' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_CITY, $store),
+                'countryId' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_COUNTRY_ID, $store),
+                'postcode' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ZIP, $store),
+                'region_id' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_REGION_ID, $store),
+                'street2' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS2, $store),
+                'street1' => $this->_storeConfig
+                    ->getConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS1, $store),
             );
         }
 
-        $data['country']    = $this->_getCountryModel()->loadByCode($data['countryId'])->getName();
-        $region             = Mage::getModel('Mage_Directory_Model_Region')->load($data['region_id']);
-        $data['region_id']  = $region->getCode();
-        $data['region']     = $region->getName();
-        $data['company']    = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
-        $data['telephone']  = Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_PHONE, $store);
+        $data['country'] = (!empty($data['countryId']))
+            ? $this->_countryFactory->create()->loadByCode($data['countryId'])->getName()
+            : '';
+        $region = $this->_regionFactory->create()->load($data['region_id']);
+        $data['region_id'] = $region->getCode();
+        $data['region'] = $region->getName();
+        $data['company'] = $this->_storeConfig->getConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
+        $data['telephone']  = $this->_storeConfig->getConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_PHONE, $store);
 
         return $data;
     }

@@ -63,13 +63,11 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
          * Check that customer data were set to session
          */
         $this->assertEquals($post, Mage::getSingleton('Mage_Backend_Model_Session')->getCustomerData());
-        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit/key'));
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key'));
     }
 
     public function testSaveActionWithInvalidCustomerAddressData()
     {
-        $this->markTestIncomplete('Before the implementation of address service layer');
-
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -92,7 +90,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
          * Check that customer data were set to session
          */
         $this->assertEquals($post, Mage::getSingleton('Mage_Backend_Model_Session')->getCustomerData());
-        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit/key'));
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key'));
     }
 
     /**
@@ -100,8 +98,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
      */
     public function testSaveActionWithValidCustomerDataAndValidAddressData()
     {
-        $this->markTestIncomplete('Before the implementation of address service layer');
-
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',

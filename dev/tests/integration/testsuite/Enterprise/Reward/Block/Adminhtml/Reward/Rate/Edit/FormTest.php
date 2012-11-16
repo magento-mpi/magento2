@@ -20,17 +20,17 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
         Mage::register('current_reward_rate', $rate);
     }
 
-    public static function tearDownAfterClass()
-    {
-        Mage::unregister('current_reward_rate');
-    }
-
     public function setUp()
     {
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form');
+    }
+
+    public function tearDown()
+    {
+        $this->_block = null;
     }
 
     /**
