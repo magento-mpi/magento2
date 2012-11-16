@@ -16,6 +16,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_MainTest
     extends PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()

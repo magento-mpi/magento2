@@ -175,11 +175,14 @@ class Mage_Core_Model_Design_Package
         $themeModel = Mage::getModel('Mage_Core_Model_Theme');
         if (is_numeric($theme)) {
             $themeModel->load($theme);
-        } elseif (is_string($theme) && !$themeModel->load($theme, 'theme_path')->getId()) {
-            $themeModel = $themeModel->getCollectionFromFilesystem()
-                ->addDefaultPattern($area)
-                ->addFilter('theme_path', $theme)
-                ->getFirstItem();
+        } else {
+            $themeModel->loadByTempId($area . '/' . $theme);
+            if (is_string($theme) && !$themeModel->getId()) {
+                $themeModel = $themeModel->getCollectionFromFilesystem()
+                        ->addDefaultPattern($area)
+                        ->addFilter('theme_path', $theme)
+                        ->getFirstItem();
+            }
         }
 
         return $themeModel;

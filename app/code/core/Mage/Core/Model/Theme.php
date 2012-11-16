@@ -15,9 +15,15 @@
  * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
- * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
- * @method setPreviewImage(string $previewImage)
  * @method string getPreviewImage()
+ * @method string getThemeDirectory()
+ * @method string getParentId()
+ * @method array|null getParentThemeData()
+ * @method Mage_Core_Model_Theme setParentId(int $id)
+ * @method Mage_Core_Model_Theme setParentTheme(array $parentTheme)
+ * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
+ * @method Mage_Core_Model_Theme setThemeCode(string $themeCode)
+ * @method Mage_Core_Model_Theme setPreviewImage(string $previewImage)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
@@ -101,24 +107,28 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $packageCodes = $themeConfig->getPackageCodes();
         $packageCode = reset($packageCodes);
+
         $themeCodes = $themeConfig->getPackageThemeCodes($packageCode);
         $themeCode = reset($themeCodes);
 
         $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
         $media = $themeConfig->getMedia($packageCode, $themeCode);
-        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
+
         $this->setData(array(
-            'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
+            'parent_id'            => null,
+            'theme_path'           => $packageCode . '/' . $themeCode,
             'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
-            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null,
-            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
+            'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
+            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
-            'theme_path'           => $packageCode . '/' . $themeCode,
-            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
+            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
             'theme_directory'      => dirname($configPath),
+            'parent_theme_data'    => $themeConfig->getParentTheme($packageCode, $themeCode)
         ));
+        $this->getArea();
         $this->_updateDefaultParams();
+
         return $this;
     }
 
@@ -180,8 +190,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isVirtual()
     {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern()->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getThemePath()]));
+        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
+        return !($this->getThemePath() && isset($collection[$this->getTempId()]));
     }
 
     /**
@@ -222,7 +232,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->_validate()->setIdFieldName('id');
+        $this->_validate();
         return parent::_beforeSave();
     }
 
@@ -263,15 +273,15 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             return $this->getData('parent_theme');
         }
 
+        $theme = null;
         if ($this->getParentId()) {
             /** @var $theme Mage_Core_Model_Theme */
             $theme = Mage::getModel('Mage_Core_Model_Theme');
-            $this->setDataUsingMethod('parent_theme', $theme->load($this->getParentId()));
-            return $theme;
-        } else {
-            $this->setDataUsingMethod('parent_theme', null);
-            return null;
+            $theme->load($this->getParentId());
         }
+        $this->setParentTheme($theme);
+
+        return $theme;
     }
 
     /**
@@ -468,24 +478,44 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Theme registration
+     * Get theme area by theme path
      *
-     * @param string $pathPattern
-     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     * @return string
      */
-    public function themeRegistration($pathPattern)
+    public function getArea()
     {
-        if ($pathPattern) {
-            $this->getCollectionFromFilesystem()->addTargetPattern($pathPattern);
-        } else {
-            $this->getCollectionFromFilesystem()->addDefaultPattern();
+        if (!$this->getData('area')) {
+            $themeDirectory = $this->getThemeDirectory();
+            $baseDesignDirectory = Mage::getBaseDir('design');
+            if (substr($themeDirectory, 0, strlen($baseDesignDirectory)) != $baseDesignDirectory) {
+                Mage::throwException(
+                    Mage::helper('Mage_Core_Helper_Data')->__('Invalid theme directory "%s"', $themeDirectory)
+                );
+            }
+            $themeDirectory = substr($themeDirectory, strlen($baseDesignDirectory));
+            if (substr($themeDirectory, 0, 1) == DS) {
+                $themeDirectory = substr($themeDirectory, 1);
+            }
+            list($area,) = explode(DS, $themeDirectory, 2);
+            $this->setData('area', $area);
         }
-        $this->getCollectionFromFilesystem()->themeRegistration();
-        $this->getCollection()->checkParentInThemes();
 
-        return $this;
+        return $this->getData('area');
     }
 
+    /**
+     * Retrieve alternative id which is used to distinguis themes if they are not in DB yet
+     * Looks like "<area>/<package_code>/<theme_code>".
+     * Used as id in file-system theme collection
+     *
+     * @return string
+     */
+    public function getTempId()
+    {
+        return $this->getArea() . '/' . $this->getThemePath();
+    }
+    
     /**
      * Update default params (package_code and theme_code)
      *
@@ -493,8 +523,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _updateDefaultParams()
     {
+        //TODO We need to remove usage of getPackageCode() and getThemeCode() so we also don't need the function
         list($packageCode, $themeCode) = explode('/', $this->getThemePath());
         $this->setPackageCode($packageCode)->setThemeCode($themeCode);
+
         return $this;
     }
 
@@ -553,5 +585,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             );
         }
         return $options;
+    }
+
+    /**
+     * Load object data by alternative "id"
+     *
+     * @param string $tempId
+     * @return Mage_Core_Model_Theme
+     */
+    public function loadByTempId($tempId)
+    {
+        $this->_beforeLoad($tempId, 'area_theme_path');
+        $this->_getResource()->loadByTempId($this, $tempId);
+        $this->_afterLoad();
+        $this->setOrigData();
+        $this->_hasDataChanges = false;
+        return $this;
     }
 }

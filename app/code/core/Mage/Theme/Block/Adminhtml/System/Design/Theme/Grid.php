@@ -82,6 +82,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml
             'filter_index' => 'main_table.magento_version_to'
         ));
 
+        $this->addColumn('area', array(
+            'header'       => $this->__('Theme Area'),
+            'index'        => 'area',
+            'filter_index' => 'main_table.area'
+        ));
+
         return parent::_prepareColumns();
     }
 
