@@ -16,6 +16,9 @@
         <reference name="product_tabs">
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
         </reference>
+        <reference name="product-type-tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+        </reference>
     </adminhtml_catalog_product_downloadable>
 
     <adminhtml_sales_order_view>

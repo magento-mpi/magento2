@@ -51,7 +51,6 @@
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
                 <container name="product-type-tabs" label="Tabs" as="">
-                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
                 </container>
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
@@ -89,7 +88,6 @@
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
                 <container name="product-type-tabs" label="Tabs">
-                    <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
                 </container>
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
@@ -217,6 +215,9 @@ Layout handle for simple products
         <reference name="product_tabs">
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
         </reference>
+        <reference name="product-type-tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+        </reference>
     </adminhtml_catalog_product_simple>
 <!--
 Layout handle for virtual products
@@ -224,6 +225,9 @@ Layout handle for virtual products
     <adminhtml_catalog_product_virtual>
         <reference name="product_tabs">
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
+        </reference>
+        <reference name="product-type-tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
         </reference>
     </adminhtml_catalog_product_virtual>
 
@@ -266,9 +270,15 @@ Layout handle for configurable products
 -->
 
     <adminhtml_catalog_product_configurable_new>
+        <reference name="product-type-tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+        </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
+        <reference name="product-type-tabs">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+        </reference>
     </adminhtml_catalog_product_configurable>
 
     <adminhtml_catalog_product_action_attribute_edit>
