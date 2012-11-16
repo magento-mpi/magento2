@@ -1,8 +1,16 @@
 <?php
 /**
- * Unit test for Mage_Index_Model_Process_FileFactory
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Magento
+ * @package     Mage_Index
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Unit test for Mage_Index_Model_Process_FileFactory
  */
 class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCase
 {

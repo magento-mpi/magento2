@@ -1,8 +1,16 @@
 <?php
 /**
- * Test class for Mage_Index_Model_Process
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Magento
+ * @package     Mage_Index
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test class for Mage_Index_Model_Process
  */
 class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
 {

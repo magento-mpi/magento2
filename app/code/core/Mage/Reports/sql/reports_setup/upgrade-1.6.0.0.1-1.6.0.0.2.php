@@ -1,6 +1,11 @@
 <?php
 /**
- * @copyright {}
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Reports
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /** @var $installer Mage_Core_Model_Resource_Setup */

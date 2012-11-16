@@ -1,8 +1,15 @@
 <?php
 /**
- * Process file entity
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Mage
+ * @package     Mage_Index
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Process file entity
  */
 class Mage_Index_Model_Process_File extends Varien_Io_File
 {

@@ -1,8 +1,15 @@
 <?php
 /**
- * Lock file storage for index processes
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Mage
+ * @package     Mage_Index
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Lock file storage for index processes
  */
 class Mage_Index_Model_Lock_Storage
 {

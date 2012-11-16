@@ -1,8 +1,16 @@
 <?php
 /**
- * Test for Mage_Index_Model_Lock_Storage
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Magento
+ * @package     Mage_Index
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test for Mage_Index_Model_Lock_Storage
  */
 class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 {

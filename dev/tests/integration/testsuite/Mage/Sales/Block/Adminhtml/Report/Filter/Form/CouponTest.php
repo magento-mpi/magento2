@@ -1,8 +1,16 @@
 <?php
 /**
- * Test for Mage_Index_Model_Lock_Storage
+ * {license_notice}
  *
- * @copyright {}
+ * @category    Magento
+ * @package     Mage_Sales
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test for Mage_Index_Model_Lock_Storage
  */
 class Mage_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_Framework_TestCase
 {
