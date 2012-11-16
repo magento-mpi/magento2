@@ -114,7 +114,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_ConfigTest::getAclVirtualResources
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclVirtualResources
      */
     public function testGetAclVirtualResources()
     {
@@ -148,11 +148,12 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for getAclResourcesAsArray method
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclResourcesAsArray
      *
      * @dataProvider aclResourcesDataProvider
      * @param string $actualXmlFile
-     * @param array $expectedResult
+     * @param bool $includeRoot
+     * @param array $expectedResources
      */
     public function testGetAclResourcesAsArray($actualXmlFile, $includeRoot, $expectedResources)
     {
@@ -182,6 +183,12 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
                     'sortOrder' => 20,
                     'children' => array(
                         array(
+                            'id' => 'customer/update',
+                            'text' => 'Edit Customer',
+                            'sortOrder' => 10,
+                            'children' => array(),
+                        ),
+                        array(
                             'id' => 'customer/get',
                             'text' => 'Get Customer',
                             'sortOrder' => 20,
@@ -191,12 +198,6 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
                             'id' => 'customer/create',
                             'text' => 'Create Customer',
                             'sortOrder' => 30,
-                            'children' => array(),
-                        ),
-                        array(
-                            'id' => 'customer/update',
-                            'text' => 'Edit Customer',
-                            'sortOrder' => 10,
                             'children' => array(),
                         ),
                         array(
