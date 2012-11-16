@@ -51,7 +51,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @var array
      */
-    protected $_labelsCollectionArray = null;
+    protected $_labelsCollection = null;
 
     /**
      * @var Varien_Io_File
@@ -538,14 +538,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getLabelsCollection($withEmpty = true)
     {
-        if (!$this->_labelsCollectionArray) {
+        if (!$this->_labelsCollection) {
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
             $themeCollection = $this->getCollection();
             $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
                 ->walk('checkThemeCompatible');
-            $this->_labelsCollectionArray = $themeCollection->toOptionArray();
+            $this->_labelsCollection = $themeCollection->toOptionArray();
         }
-        $options = $this->_labelsCollectionArray;
+        $options = $this->_labelsCollection;
         if ($withEmpty) {
             array_unshift($options, array(
                 'value' => '',
