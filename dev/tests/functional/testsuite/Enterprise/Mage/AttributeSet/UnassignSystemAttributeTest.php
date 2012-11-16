@@ -15,7 +15,7 @@
  * Verifying the ability to unassign system attributes from attribute set
  */
 class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
-    extends Community2_Mage_AttributeSet_UnassignSystemAttributeTest
+    extends Core_Mage_AttributeSet_UnassignSystemAttributeTest
 {
     /**
      * <p>DataProvider with list of not required system attributes</p>

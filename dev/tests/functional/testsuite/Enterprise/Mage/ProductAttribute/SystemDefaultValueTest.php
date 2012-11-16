@@ -14,7 +14,7 @@
  * Check the possibility to set default value to system attributes with dropdown type
  */
 class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest
-    extends Community2_Mage_ProductAttribute_SystemDefaultValueTest
+    extends Core_Mage_ProductAttribute_SystemDefaultValueTest
 {
     /**
      * <p>Preconditions:</p>

@@ -402,25 +402,27 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
-//    /**
-//     * Create Product
-//     *
-//     * @param array $productData
-//     * @param string $productType
-//     * @param bool $isSave
-//     */
-//    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
-//    {
-//        $this->clickButton('add_new_product');
-//        $this->fillProductSettings($productData, $productType);
-//        if ($productType == 'configurable') {
-//            $this->fillConfigurableSettings($productData);
-//        }
-//        $this->fillProductInfo($productData, $productType);
-//        if ($isSave) {
-//            $this->saveForm('save');
-//        }
-//    }
+    /**
+     * Create Product method using "Add Product" split button
+     *
+     * @param array $productData
+     * @param string $productType
+     * @param bool $isSave
+     */
+    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
+    {
+        $this->selectTypeProduct($productData, $productType);
+        if ($productData['product_attribute_set'] != 'Default') {
+            $this->changeAttributeSet($productData['product_attribute_set']);
+        }
+        if ($productType == 'configurable') {
+            $this->fillConfigurableSettings($productData);
+        }
+        $this->fillProductInfo($productData, $productType);
+        if ($isSave) {
+            $this->saveForm('save');
+        }
+    }
 
     /**
      * Fill Product info
@@ -735,43 +737,34 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
-//    /**
-//     * Verify Custom Options
-//     *
-//     * @param array $customOptionData
-//     *
-//     * @return boolean
-//     */
-//    public function verifyCustomOption(array $customOptionData)
-//    {
-//        $this->openTab('custom_options');
-//        $optionsQty = $this->getControlCount('fieldset', 'custom_option_set');
-//        $needCount = count($customOptionData);
-//        if ($needCount != $optionsQty) {
-//            $this->addVerificationMessage(
-//                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
-//            return false;
-//        }
-//        $optionId = '';
-//        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'custom_option_set'));
-//        $this->addParameter('index', 1);
-//        $id = $this->getControlAttribute('pageelement', 'element_index', 'id');
-//        $id = explode('_', $id);
-//        foreach ($id as $value) {
-//            if (is_numeric($value)) {
-//                $optionId = $value;
-//            }
-//        }
-//        // @TODO Need implement full verification for custom options with type = select (not tested rows)
-//        foreach ($customOptionData as $value) {
-//            if (is_array($value)) {
-//                $this->addParameter('optionId', $optionId);
-//                $this->verifyForm($value, 'custom_options');
-//                $optionId--;
-//            }
-//        }
-//        return true;
-//    }
+    /**
+     * Verify Custom Options
+     *
+     * @param array $customOptionData
+     *
+     * @return boolean
+     */
+    public function verifyCustomOption(array $customOptionData)
+    {
+        $this->openTab('custom_options');
+        $optionsQty = $this->getControlCount('fieldset', 'custom_option_set');
+        $needCount = count($customOptionData);
+        if ($needCount != $optionsQty) {
+            $this->addVerificationMessage(
+                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+            return false;
+        }
+        $numRow = 1;
+        foreach ($customOptionData as $value) {
+            if (is_array($value)) {
+                $optionId = $this->getOptionId($numRow);
+                $this->addParameter('optionId', $optionId);
+                $this->verifyForm($value, 'custom_options');
+                $numRow++;
+            }
+        }
+        return true;
+    }
 
     /**
      * verify Bundle Options
@@ -1445,8 +1438,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('manage_products');
         $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        return array('virtual'  => array('product_name' => $virtual['general_name'],
-                                         'product_sku'  => $virtual['general_sku']), 'category' => $returnCategory);
+        return array('virtual' => array('product_name' => $virtual['general_name'],
+                                        'product_sku'  => $virtual['general_sku']), 'category' => $returnCategory);
     }
 
     /**
@@ -1495,38 +1488,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         while ($this->controlIsPresent('fieldset', 'custom_option_set')) {
             $this->assertTrue($this->buttonIsPresent('button', 'delete_custom_option'),
                 $this->locationToString() . "Problem with 'Delete Option' button.\n"
-                    . 'Control is not present on the page');
+                . 'Control is not present on the page');
             $this->clickButton('delete_custom_option', false);
         }
-    }
-
-    /**
-     * Verify Custom Options
-     *
-     * @param array $customOptionData
-     *
-     * @return boolean
-     */
-    public function verifyCustomOption(array $customOptionData)
-    {
-        $this->openTab('custom_options');
-        $optionsQty = $this->getControlCount('fieldset', 'custom_option_set');
-        $needCount = count($customOptionData);
-        if ($needCount != $optionsQty) {
-            $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
-            return false;
-        }
-        $numRow = 1;
-        foreach ($customOptionData as $value) {
-            if (is_array($value)) {
-                $optionId = $this->getOptionId($numRow);
-                $this->addParameter('optionId', $optionId);
-                $this->verifyForm($value, 'custom_options');
-                $numRow++;
-            }
-        }
-        return true;
     }
 
     /**
@@ -1549,28 +1513,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         return '';
-    }
-
-    /**
-     * Create Product method using "Add Product" split button
-     *
-     * @param array $productData
-     * @param string $productType
-     * @param bool $isSave
-     */
-    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
-    {
-        $this->selectTypeProduct($productData, $productType);
-        if ($productData['product_attribute_set'] != 'Default') {
-            $this->changeAttributeSet($productData['product_attribute_set']);
-        }
-        if ($productType == 'configurable') {
-            $this->fillConfigurableSettings($productData);
-        }
-        $this->fillProductInfo($productData, $productType);
-        if ($isSave) {
-            $this->saveForm('save');
-        }
     }
 
     /**

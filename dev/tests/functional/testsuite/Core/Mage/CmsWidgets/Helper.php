@@ -52,28 +52,33 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $this->saveForm('save');
     }
 
-//    /**
-//     * Fills settings for creating widget
-//     *
-//     * @param array $settings
-//     */
-//    public function fillWidgetSettings(array $settings)
-//    {
-//        if ($settings) {
-//            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'type'));
-//            $this->addParameter('optionText', $settings['type']);
-//            $type = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
-//            $this->addParameter('type', str_replace('/', '-', $type));
-//            $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
-//            $this->addParameter('package', $packageTheme[0]);
-//            $this->addParameter('theme', $packageTheme[1]);
-//            $this->fillFieldset($settings, 'settings_fieldset');
-//        }
-//        $this->clickButton('continue', false);
-//        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
-//        $this->waitForPageToLoad();
-//        $this->validatePage('add_widget_options');
-//    }
+    /**
+     * Fills settings for creating widget
+     *
+     * @param array $settings
+     */
+    public function fillWidgetSettings(array $settings)
+    {
+        if ($settings) {
+            $this->fillDropdown('type', $settings['type']);
+            $type = $this->getControlAttribute('dropdown', 'type', 'selectedValue');
+            $this->addParameter('type', $type);
+
+            list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
+            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'design_package_theme'));
+            $this->addParameter('optionGroup', $package);
+            $this->addParameter('optionText', $theme);
+            $value = $this->getControlAttribute('pageelement', 'dropdown_group_option_text', 'value');
+            $this->addParameter('package_theme', str_replace('/', '-', $value));
+            $this->fillDropdown('design_package_theme', $value);
+        }
+        $waitCondition = array($this->_getMessageXpath('general_validation'),
+                               $this->_getControlXpath('fieldset', 'layout_updates_header',
+                                   $this->getUimapPage('admin', 'add_widget_options')));
+        $this->clickButton('continue', false);
+        $this->waitForElement($waitCondition);
+        $this->validatePage('add_widget_options');
+    }
 
     /**
      * Fills data for layout updates
@@ -172,33 +177,5 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
-    }
-
-    /**
-     * Fills settings for creating widget
-     *
-     * @param array $settings
-     */
-    public function fillWidgetSettings(array $settings)
-    {
-        if ($settings) {
-            $this->fillDropdown('type', $settings['type']);
-            $type = $this->getControlAttribute('dropdown', 'type', 'selectedValue');
-            $this->addParameter('type', $type);
-
-            list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
-            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'design_package_theme'));
-            $this->addParameter('optionGroup', $package);
-            $this->addParameter('optionText', $theme);
-            $value = $this->getControlAttribute('pageelement', 'dropdown_group_option_text', 'value');
-            $this->addParameter('package_theme', str_replace('/', '-', $value));
-            $this->fillDropdown('design_package_theme', $value);
-        }
-        $waitCondition = array($this->_getMessageXpath('general_validation'),
-            $this->_getControlXpath('fieldset', 'layout_updates_header',
-                $this->getUimapPage('admin', 'add_widget_options')));
-        $this->clickButton('continue', false);
-        $this->waitForElement($waitCondition);
-        $this->validatePage('add_widget_options');
     }
 }

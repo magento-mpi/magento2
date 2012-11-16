@@ -104,7 +104,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
                   'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && $payment != 'checkmoney') {
+        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {
@@ -126,6 +126,9 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
+            array('purchaseorder'),
+            array('banktransfer'),
+            array('cashondelivery'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),

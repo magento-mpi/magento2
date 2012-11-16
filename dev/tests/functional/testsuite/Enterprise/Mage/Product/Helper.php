@@ -141,7 +141,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                             if (!$this->elementIsPresent($y)) {
                                 $this->addVerificationMessage(
                                     'Could not find element type "' . $optionData['type'] . '" and title "'
-                                        . $optionData['title'] . '"');
+                                    . $optionData['title'] . '"');
                             }
                         }
                     }
@@ -219,7 +219,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_select');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons'
-                || $value['custom_options_general_input_type'] == 'Checkbox'
+                      || $value['custom_options_general_input_type'] == 'Checkbox'
             ) {
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_check');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
@@ -231,165 +231,4 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
         return $xpathArray;
     }
-
-//    /**
-//     * Change attribute set
-//     *
-//     * @param array $newAttributeSet
-//     */
-//    public function changeAttributeSet($newAttributeSet)
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->changeAttributeSet($newAttributeSet);
-//    }
-//
-//    /**
-//     * Import custom options from existent product
-//     *
-//     * @param array $productData
-//     */
-//    public function importCustomOptions(array $productData)
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->importCustomOptions($productData);
-//    }
-//
-//    /**
-//     * Delete all custom options
-//     */
-//    public function deleteAllCustomOptions()
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->deleteAllCustomOptions();
-//    }
-//
-//    /**
-//     * Verify Custom Options
-//     *
-//     * @param array $customOptionData
-//     *
-//     * @return boolean
-//     */
-//    public function verifyCustomOption(array $customOptionData)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->verifyCustomOption($customOptionData);
-//    }
-//
-//    /**
-//     * Get option id for selected row
-//     *
-//     * @param int $rowNum
-//     *
-//     * @return int
-//     */
-//    public function getOptionId($rowNum)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->getOptionId($rowNum);
-//    }
-//
-//    /**
-//     * Create Product method using "Add Product" split button
-//     *
-//     * @param array $productData
-//     * @param string $productType
-//     * @param bool $isSave
-//     */
-//    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->createProduct($productData, $productType, $isSave);
-//    }
-//
-//    /**
-//     * Select product type
-//     *
-//     * @param array $productData
-//     * @param string $productType
-//     */
-//    public function selectTypeProduct(array $productData, $productType)
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->selectTypeProduct($productData, $productType);
-//    }
-//
-//    /**
-//     * Get auto-incremented SKU
-//     *
-//     * @param string $productSku
-//     *
-//     * @return string
-//     */
-//    public function getGeneratedSku($productSku)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->getGeneratedSku($productSku);
-//    }
-//
-//    /**
-//     * Creating product using fields autogeneration with variables on General tab
-//     *
-//     * @param array $productData
-//     * @param bool $isSave
-//     * @param array $skipFieldFillIn
-//     * @param string $productType
-//     */
-//    public function createProductWithAutoGeneration(array $productData, $isSave = false, $skipFieldFillIn = array(), $productType = 'simple')
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')
-//            ->createProductWithAutoGeneration($productData, $isSave, $skipFieldFillIn, $productType);
-//    }
-//
-//    /**
-//     * Form mask's value replacing variable in mask with variable field's value on General tab
-//     *
-//     * @param string $mask
-//     * @param array $placeholders
-//     *
-//     * @return string
-//     */
-//    public function formFieldValueFromMask($mask, array $placeholders)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->formFieldValueFromMask($mask, $placeholders);
-//    }
-//
-//    /**
-//     * Delete all Custom Options
-//     *
-//     * @return void
-//     */
-//    public function deleteCustomOptions()
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')->deleteCustomOptions();
-//    }
-//
-//    /**
-//     * Get Custom Option Id By Title
-//     *
-//     * @param string
-//     *
-//     * @return integer
-//     */
-//    public function getCustomOptionId($optionTitle)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->getCustomOptionId($optionTitle);
-//    }
-//
-//    /**
-//     * Check if product is present in products grid
-//     *
-//     * @param array $productData
-//     *
-//     * @return bool
-//     */
-//    public function isProductPresentInGrid($productData)
-//    {
-//        return $this->helper('Community2/Mage/Product/Helper')->isProductPresentInGrid($productData);
-//    }
-//
-//    /**
-//     * Fill in Product Settings tab
-//     *
-//     * @param array $dataForAttributesTab
-//     * @param array $dataForInventoryTab
-//     * @param array $dataForWebsitesTab
-//     */
-//    public function updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab)
-//    {
-//        $this->helper('Community2/Mage/Product/Helper')
-//            ->updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab, $dataForWebsitesTab);
-//    }
 }

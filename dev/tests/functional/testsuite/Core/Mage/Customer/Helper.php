@@ -228,7 +228,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
     public function frontForgotPassword($emailData)
     {
         $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
-            $this->_getMessageXpath('general_validation'));
+                               $this->_getMessageXpath('general_validation'));
         $this->assertTrue($this->checkCurrentPage('forgot_customer_password'), $this->getParsedMessages());
         $this->fillFieldset($emailData, 'forgot_password');
         $this->clickButton('submit', false);

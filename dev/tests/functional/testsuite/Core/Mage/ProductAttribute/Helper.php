@@ -257,7 +257,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             if ($isCheck) {
                 if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
                     $this->addVerificationMessage('Admin Option Name for option with index ' . $key
-                        . ' is not set. Exist more options than specified.');
+                                                  . ' is not set. Exist more options than specified.');
                     continue;
                 }
                 $expectedValue = $options[$key]['admin_option_name'];
@@ -265,7 +265,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                     if ($expectedValue != $currentValue) {
                         $this->addVerificationMessage(
                             "Admin value attribute label is wrong.\nExpected: " . $options[$key]['admin_option_name']
-                                . "\nActual: " . $currentValue);
+                            . "\nActual: " . $currentValue);
                     }
                 } else {
                     $this->addVerificationMessage('Admin value attribute in ' . $key . ' row is not disabled');
@@ -299,8 +299,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     protected function _hasOptions($key, $value, $option)
     {
         return preg_match('/^option_/', $key) && is_array($value)
-            && $this->controlIsPresent('fieldset', 'manage_options')
-            && $option > 0;
+               && $this->controlIsPresent('fieldset', 'manage_options')
+               && $option > 0;
     }
 
     /**

@@ -15,7 +15,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Community2_Mage_Customer_Helper helper(string $className)
  */
 class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
 {
@@ -120,40 +119,5 @@ class Enterprise_Mage_Customer_Helper extends Core_Mage_Customer_Helper
             }
         }
         return null;
-    }
-
-    /**
-     * Check if customer is present in customers grid
-     *
-     * @param array $userData
-     *
-     * @return bool
-     */
-    public function isCustomerPresentInGrid($userData)
-    {
-        return $this->helper('Community2/Mage/Customer/Helper')->isCustomerPresentInGrid($userData);
-    }
-
-    /**
-     * Verify that address is present.
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     *
-     * @param array $addressData
-     *
-     * @return int|mixed|string
-     */
-    public function isAddressPresent(array $addressData)
-    {
-        return $this->helper('Community2/Mage/Customer/Helper')->isAddressPresent($addressData);
-    }
-
-    /**
-     * Two Step Password Reset
-     *
-     * @param array $emailData
-     */
-    public function frontForgotPassword($emailData)
-    {
-        $this->helper('Community2/Mage/Customer/Helper')->frontForgotPassword($emailData);
     }
 }

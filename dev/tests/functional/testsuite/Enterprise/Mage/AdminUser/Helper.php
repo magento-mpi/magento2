@@ -15,74 +15,9 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Community2_Mage_AdminUser_Helper helper(string $className)
  */
 class Enterprise_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
 {
-    /**
-     * Create New Role.
-     *
-     * @param array $roleData
-     * @param string $separator
-     */
-    public function createRole(array $roleData, $separator = '/')
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->createRole($roleData, $separator);
-    }
-
-    /**
-     * Fill Roles Resources Tab
-     *
-     * @param array $roleResources
-     * @param string $separator
-     */
-    public function fillRolesResources(array $roleResources, $separator = '/')
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->fillRolesResources($roleResources, $separator);
-    }
-
-    /**
-     * Fill Roles Scopes Fieldset on Roles Resources Tab
-     *
-     * @param array $roleWebsites
-     */
-    public function fillRoleScopes(array $roleWebsites)
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->fillRolesResources($roleWebsites);
-    }
-
-    /**
-     * Fill Roles Access on Roles Resources Tab
-     *
-     * @param array $roleAccess
-     * @param string $separator
-     */
-    public function fillRoleAccess(array $roleAccess, $separator = '/')
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->fillRoleAccess($roleAccess, $separator);
-    }
-
-    /**
-     * Edit Role
-     *
-     * @param array $roleData
-     * @param string $separator
-     */
-    public function editRole(array $roleData, $separator = '/')
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->editRole($roleData, $separator);
-    }
-
-    /**
-     * Deletes role
-     *
-     * @param array $roleData
-     */
-    public function deleteRole(array $roleData)
-    {
-        $this->helper('Community2/Mage/AdminUser/Helper')->deleteRole($roleData);
-    }
-
     /**
      *
      * Create New Restricted Role.

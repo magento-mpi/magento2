@@ -342,22 +342,12 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Moves products to the wishlist from Shopping Cart
      *
-     * @param string|array $productNameSet Name or array of product names to move
+     * @param string $productName
      */
-    public function frontMoveToWishlist($productNameSet)
+    public function frontMoveToWishlist($productName)
     {
-        if (is_string($productNameSet)) {
-            $productNameSet = array($productNameSet);
-        }
-        foreach ($productNameSet as $productName) {
-            $this->addParameter('productName', $productName);
-            if ($this->controlIsPresent('checkbox', 'move_to_wishlist')) {
-                $this->fillCheckbox('move_to_wishlist', 'Yes');
-            } else {
-                $this->fail('Product ' . $productName . ' is not in the shopping cart.');
-            }
-        }
-        $this->clickButton('update_shopping_cart');
+        $this->addParameter('productName', $productName);
+        $this->clickControl('link', 'move_to_wishlist');
     }
 
     /**
