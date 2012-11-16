@@ -2,10 +2,10 @@
 /**
  * Web API Role tab with main information
  *
+ * @copyright {}
+ *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
- *
- * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {
@@ -46,9 +46,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
             )
         );
 
-        $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));
+        $fieldset->addField('in_role_user_old', 'hidden',
+            array(
+                'name' => 'in_role_user_old'
+            )
+        );
 
-        $form->setValues($role->getData());
+        if ($role) {
+            $form->setValues($role->getData());
+        }
         $this->setForm($form);
 
         return parent::_prepareForm();
