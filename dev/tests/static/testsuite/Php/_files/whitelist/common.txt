@@ -17,7 +17,6 @@ app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Backend/controllers/Adminhtml/SystemController.php
-app/code/core/Mage/Backend/controllers/Adminhtml/System/SystemController.php
 app/code/core/Mage/Adminhtml/controllers/UrlrewriteController.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/data
