@@ -26,7 +26,8 @@ class Mage_Webapi_Controller_Handler_Factory
      *
      * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager) {
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
         $this->_objectManager = $objectManager;
     }
 

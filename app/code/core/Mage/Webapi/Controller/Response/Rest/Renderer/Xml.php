@@ -30,7 +30,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
      *
      * @param Mage_Xml_Generator $xmlGenerator
      */
-    function __construct(Mage_Xml_Generator $xmlGenerator)
+    public function __construct(Mage_Xml_Generator $xmlGenerator)
     {
         $this->_xmlGenerator = $xmlGenerator;
     }

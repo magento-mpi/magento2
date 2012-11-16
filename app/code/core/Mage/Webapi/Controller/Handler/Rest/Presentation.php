@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
-    function __construct(
+    public function __construct(
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Request_Factory $requestFactory,

@@ -519,7 +519,6 @@ class Mage_Webapi_Model_Config
      */
     public function getActionTypeByMethod($methodName)
     {
-        // TODO: Remove dependency on Mage_Webapi_Controller_Handler_Rest
         $collection = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION;
         $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
         $methodToActionTypeMap = array(
@@ -537,7 +536,6 @@ class Mage_Webapi_Model_Config
         return $methodToActionTypeMap[$methodName];
     }
 
-
     /**
      * Generate list of possible routes taking into account optional params.
      *
@@ -549,7 +547,7 @@ class Mage_Webapi_Model_Config
      */
     /**
      * TODO: Assure that performance is not heavily impacted during routes match process.
-     * TODO: It can happen due creation of routes with optional parameters. HTTP get parameters can be used for that.
+     * It can happen due creation of routes with optional parameters. HTTP get parameters can be used for that.
      */
     protected function _getPathCombinations($optionalParams, $basePath)
     {
@@ -1030,7 +1028,6 @@ class Mage_Webapi_Model_Config
     protected function _processComplexType($class)
     {
         $typeName = $this->translateTypeName($class);
-        // TODO: Think if array data type should be present here, currently it is added with empty metadata
         $this->_data['types'][$typeName] = array();
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
