@@ -30,4 +30,4 @@ $theme->setData(array(
     'is_featured'          => '0'
 ));
 $theme->save();
-$session->setThemeId($theme->getThemeId());
+$session->setThemeId($theme->getId());
