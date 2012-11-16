@@ -26,12 +26,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
      */
     protected $_virtual;
 
+    /**
+     * Catalog helper
+     *
+     * @var Mage_Catalog_Helper_Data
+     */
+    protected $_helper;
+
     public function __construct(array $data = array())
     {
+        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Mage_Catalog_Helper_Data');
         $this->_virtual = isset($data['element'])
             ? $data['element']
             : Mage::getModel('Varien_Data_Form_Element_Checkbox');
-        $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual');
+        $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
+            ->setLabel($this->_helper->__('Virtual / Downloadable'));
         parent::__construct($data);
     }
 
@@ -45,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         if (!$this->getForm()->getDataObject()->getTypeInstance()->hasWeight()) {
             $this->_virtual->setChecked('checked');
         }
-        return $this->_virtual->getElementHtml() . parent::getElementHtml();
+        return parent::getElementHtml() . $this->_virtual->getElementHtml() . $this->_virtual->getLabelHtml();
     }
 
     /**
