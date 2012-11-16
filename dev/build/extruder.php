@@ -9,7 +9,8 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../../lib/Magento/Shell.php';
+require_once __DIR__ . '/../../lib/Magento/Shell.php';
+require_once __DIR__ . '/../../lib/Magento/Exception.php'; // used by Magento_Shell (autoload is not present here)
 
 define('USAGE', <<<USAGE
 $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]

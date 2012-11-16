@@ -154,7 +154,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '30',
+            'number'    => '31',
         );
     }
 
