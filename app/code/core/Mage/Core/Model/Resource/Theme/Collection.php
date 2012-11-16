@@ -37,6 +37,18 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
+     * Add area filter
+     *
+     * @param string $area
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function addAreaFilter($area)
+    {
+        $this->getSelect()->where('main_table.area=?', $area);
+        return $this;
+    }
+
+    /**
      * Return array for select field
      *
      * @return array

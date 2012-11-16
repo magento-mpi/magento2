@@ -574,6 +574,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
             $themeCollection = $this->getCollection();
             $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
+                ->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->walk('checkThemeCompatible');
             $this->_labelsCollectionArray = $themeCollection->toOptionArray();
         }
