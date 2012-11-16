@@ -33,7 +33,7 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
             ->with($testTableName, $this->isInstanceOf('Zend_Db_Expr'))
             ->will($this->returnValue($select));
 
-        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mssql', array('select', 'fetchAll'), array(), '', false);
+        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'fetchAll'), array(), '', false);
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($select));
