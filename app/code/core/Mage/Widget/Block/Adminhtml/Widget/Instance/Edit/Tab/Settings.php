@@ -108,7 +108,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'label'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
             'title'    => Mage::helper('Mage_Widget_Helper_Data')->__('Design Theme'),
             'required' => true,
-            'values'   => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection()
+            'values'   => Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection()
         ));
         $continueButton = $this->getLayout()
             ->createBlock('Mage_Adminhtml_Block_Widget_Button')

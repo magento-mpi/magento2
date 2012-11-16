@@ -32,7 +32,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     /**
      * Prepare grid collection object
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid
      */
     protected function _prepareCollection()
     {
@@ -46,7 +46,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     /**
      * Prepare Grid columns
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid
      */
     protected function _prepareColumns()
     {

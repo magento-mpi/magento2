@@ -21,6 +21,7 @@ class Mage_Core_Model_Design_Package
     const PUBLIC_MERGE_DIR  = '_merged';
     const PUBLIC_MODULE_DIR = '_module';
     const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
     /**#@-*/
 
     /**#@+
@@ -77,7 +78,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Package theme
      *
-     * @var null|Mage_Core_Model_Theme
+     * @var Mage_Core_Model_Theme
      */
     protected $_theme;
 
@@ -176,12 +177,14 @@ class Mage_Core_Model_Design_Package
         if (is_numeric($theme)) {
             $themeModel->load($theme);
         } else {
-            $themeModel->loadByTempId($area . '/' . $theme);
+            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+            $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+            $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
             if (is_string($theme) && !$themeModel->getId()) {
                 $themeModel = $themeModel->getCollectionFromFilesystem()
-                        ->addDefaultPattern($area)
-                        ->addFilter('theme_path', $theme)
-                        ->getFirstItem();
+                    ->addDefaultPattern($area)
+                    ->addFilter('theme_path', $theme)
+                    ->getFirstItem();
             }
         }
 
@@ -351,8 +354,8 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getFallback($params)
     {
-        $themePart = $params['themeModel'] ? $params['themeModel']->getThemePath() : null;
-        $cacheKey = "{$params['area']}|{$themePart}|{$params['locale']}";
+        $themeId = $params['themeModel'] ? $params['themeModel']->getId() : null;
+        $cacheKey = "{$params['area']}|{$themeId}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
             $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
                 ->getNode('global/dev/design_fallback/allow_map_update');
@@ -736,9 +739,13 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
-        $designPath = $params['themeModel']->getThemePath()
-            ? $params['themeModel']->getPackageCode() . DS . $params['themeModel']->getThemeCode()
-            : self::PUBLIC_VIEW_DIR;
+        if ($params['themeModel']->getThemePath()) {
+            $designPath = $params['themeModel']->getPackageCode() . DS . $params['themeModel']->getThemeCode();
+        } elseif($params['themeModel']->getId()) {
+            $designPath = self::PUBLIC_THEME_DIR . $params['themeModel']->getId();
+        } else {
+            $designPath = self::PUBLIC_VIEW_DIR;
+        }
 
         $publicFile = $params['area']
             . DS . $designPath
@@ -1036,7 +1043,7 @@ class Mage_Core_Model_Design_Package
     protected function _getRequestedFileKey($file, $params)
     {
         ksort($params);
-        return md5(implode('_', $params) . '_' . $file);
+        return md5($this->_getRequestedFileCacheKey($params) . '|' . $file);
     }
 
     /**
@@ -1047,7 +1054,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getRequestedFileCacheKey($params)
     {
-        return $params['area'] . '/' . $params['package'] . '/' . $params['theme'] . '/' . $params['locale'];
+        return implode('|', array($params['area'], $params['themeModel']->getId(), $params['locale']));
     }
 
     /**
@@ -1112,23 +1119,6 @@ class Mage_Core_Model_Design_Package
             $areaStructure[$package][] = $theme;
         }
         return $areaStructure;
-    }
-
-    /**
-     * Get theme configuration for specified area
-     *
-     * @param string $area
-     * @return Magento_Config_Theme
-     */
-    public function getThemeConfig($area)
-    {
-        if (isset($this->_themeConfigs[$area])) {
-            return $this->_themeConfigs[$area];
-        }
-        $configFiles = glob(Mage::getBaseDir('design') . "/{$area}/*/*/theme.xml", GLOB_NOSORT);
-        $config = empty($configFiles) ? null : new Magento_Config_Theme($configFiles);
-        $this->_themeConfigs[$area] = $config;
-        return $config;
     }
 
     /**

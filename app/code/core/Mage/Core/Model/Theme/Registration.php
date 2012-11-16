@@ -62,7 +62,7 @@ class Mage_Core_Model_Theme_Registration
         if ($theme->getId()) {
             return $this;
         }
-        $themeModel = $this->getThemeFromDb($theme->getArea(), $theme->getThemePath());
+        $themeModel = $this->getThemeFromDb($theme->getTempId());
         if ($themeModel->getId()) {
             $theme = $themeModel;
             return $this;
@@ -70,10 +70,11 @@ class Mage_Core_Model_Theme_Registration
 
         $tempId = $theme->getTempId();
         if (in_array($tempId, $inheritanceChain)) {
+            // @codingStandardsIgnoreStart
             Mage::throwException(
-                //TODO fix line length
                 Mage::helper('Mage_Core_Helper_Data')->__('Circular-reference in theme inheritance detected for "%s"', $tempId)
             );
+            // @codingStandardsIgnoreEnd
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();
@@ -114,14 +115,15 @@ class Mage_Core_Model_Theme_Registration
     }
 
     /**
-     * Get theme from DB
+     * Get theme from DB by full path
      *
-     * @param string $area
-     * @param string $themePath
+     * @param string $fullPath
      * @return Mage_Core_Model_Theme
      */
-    public function getThemeFromDb($area, $themePath)
+    public function getThemeFromDb($fullPath)
     {
-        return Mage::getModel('Mage_Core_Model_Theme')->loadByTempId($area . '/' . $themePath);
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        return $collection->getThemeByFullPath($fullPath);
     }
 }

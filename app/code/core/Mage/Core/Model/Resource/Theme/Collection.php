@@ -102,4 +102,21 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
         }
         return $parentId;
     }
+
+    /**
+     * Get theme from DB by area and theme_path
+     *
+     * @param string $fullPath
+     * @return Mage_Core_Model_Theme
+     */
+    public function getThemeByFullPath($fullPath)
+    {
+        list($area, $themePath) = explode('/', $fullPath, 2);
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        $collection->addFieldToFilter('area', $area);
+        $collection->addFieldToFilter('theme_path', $themePath);
+
+        return $collection->getFirstItem();
+    }
 }

@@ -10,6 +10,11 @@
 class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
 {
 
+    /**
+     * Initialise form fields
+     *
+     * @return Mage_Adminhtml_Block_System_Design_Edit_Tab_General
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
