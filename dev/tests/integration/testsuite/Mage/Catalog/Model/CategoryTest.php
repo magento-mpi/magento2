@@ -330,6 +330,7 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category 1
+     * @magentoDbIsolation enabled
      */
     public function testSaveWithFlatIndexer()
     {
