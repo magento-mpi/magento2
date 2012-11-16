@@ -108,7 +108,7 @@ class Magento_Test_Annotation_ConfigFixtureTest extends PHPUnit_Framework_TestCa
     /**
      * @magentoConfigFixture some/config/path some_config_value
      */
-    public function testReassignOnInitOfScope()
+    public function testInitStoreAfterOfScope()
     {
         $this->_object
             ->expects($this->never())
@@ -118,13 +118,13 @@ class Magento_Test_Annotation_ConfigFixtureTest extends PHPUnit_Framework_TestCa
             ->expects($this->never())
             ->method('_setConfigValue')
         ;
-        $this->_object->reassignOnInit();
+        $this->_object->initStoreAfter();
     }
 
     /**
      * @magentoConfigFixture web/unsecure/base_url http://example.com/
      */
-    public function testReassignOnInit()
+    public function testInitStoreAfter()
     {
         $this->_object->startTest($this);
         $this->_object
@@ -138,6 +138,6 @@ class Magento_Test_Annotation_ConfigFixtureTest extends PHPUnit_Framework_TestCa
             ->method('_setConfigValue')
             ->with('web/unsecure/base_url', 'http://example.com/')
         ;
-        $this->_object->reassignOnInit();
+        $this->_object->initStoreAfter();
     }
 }

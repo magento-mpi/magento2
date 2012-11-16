@@ -65,7 +65,7 @@ class Magento_Test_Event_MagentoTest extends PHPUnit_Framework_TestCase
         $this->_eventManager
             ->expects($this->once())
             ->method('fireEvent')
-            ->with('reassignOnInit')
+            ->with('initStoreAfter')
         ;
         $this->_object->initStoreAfter();
     }

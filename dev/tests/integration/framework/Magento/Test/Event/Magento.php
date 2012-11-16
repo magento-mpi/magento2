@@ -51,10 +51,10 @@ class Magento_Test_Event_Magento
     }
 
     /**
-     * Handler for 'core_app_init_current_store_after' event, that converts it into 'reassignOnInit'
+     * Handler for 'core_app_init_current_store_after' event, that converts it into 'initStoreAfter'
      */
     public function initStoreAfter()
     {
-        $this->_eventManager->fireEvent('reassignOnInit');
+        $this->_eventManager->fireEvent('initStoreAfter');
     }
 }

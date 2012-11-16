@@ -665,7 +665,6 @@ final class Mage
             Magento_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
             Magento_Profiler::stop('self::app::init');
-            self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
     }

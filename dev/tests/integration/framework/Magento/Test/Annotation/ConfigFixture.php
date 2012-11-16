@@ -152,7 +152,7 @@ class Magento_Test_Annotation_ConfigFixture
     /**
      * Reassign configuration data whenever application is reset
      */
-    public function reassignOnInit()
+    public function initStoreAfter()
     {
         /* process events triggered from within a test only */
         if ($this->_currentTest) {
