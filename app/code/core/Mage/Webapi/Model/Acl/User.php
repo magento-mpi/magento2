@@ -19,7 +19,6 @@
  * @method string getContactEmail()
  * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)
  * @method string getCompanyName()
- * @method Mage_Webapi_Model_Resource_Acl_User getResource()
  *
  * @category   Mage
  * @package    Mage_Webapi

@@ -18,6 +18,7 @@
  * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection()
  * @method Mage_Webapi_Model_Acl_Rule setResourceId(string $value)
  * @method Mage_Webapi_Model_Acl_Rule setResources(array $resources)
+ * @method array getResources()
  *
  * @category    Mage
  * @package     Mage_Webapi

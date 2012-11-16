@@ -35,7 +35,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
         $this->_uniqueFields = array(
             array(
                 'field' => 'role_name',
-                'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name')
+                'title' => $this->__('Role Name')
             ),
         );
         return $this;

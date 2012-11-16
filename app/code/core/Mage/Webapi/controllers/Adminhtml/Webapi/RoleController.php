@@ -60,7 +60,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $roleId = $this->getRequest()->getParam('role_id');
 
         /** @var Mage_Webapi_Model_Acl_Role $role */
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
+        $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role');
         if ($roleId) {
             $role->load($roleId);
             if (!$role->getId()) {

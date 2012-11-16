@@ -7,16 +7,53 @@
 class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widget_Grid_Extended
 {
     /**
-     * Internal Constructor
+     * @var Mage_Webapi_Model_Acl_User
      */
-    protected function _construct()
-    {
+    protected $_userModel;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Model_Acl_User $userModel
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Webapi_Model_Acl_User $userModel,
+        array $data = array()
+    ) {
+        $this->_userModel = $userModel;
+
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+
         $this->setDefaultSort('role_user_id');
         $this->setDefaultDir('asc');
         $this->setId('roleUserGrid');
         $this->setDefaultFilter(array('in_role_users' => 1));
         $this->setUseAjax(true);
-        parent::_construct();
     }
 
     /**
@@ -52,7 +89,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Webapi_Model_Resource_Acl_User_Collection */
-        $collection = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')->getCollection();
+        $collection = $this->_userModel->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -120,14 +157,14 @@ class Mage_Webapi_Block_Adminhtml_Role_Grid_User extends Mage_Backend_Block_Widg
         }
 
         $roleId = (int)$this->getRequest()->getParam('role_id');
-        $users = Mage::getObjectManager()->create('Mage_Webapi_Model_Acl_User')->getRoleUsers($roleId);
+        $users = $this->_userModel->getRoleUsers($roleId);
         if (count($users) > 0) {
             if ($json) {
                 $jsonUsers = array();
                 foreach ($users as $userId) {
                     $jsonUsers[$userId] = 0;
                 }
-                return Mage::getObjectManager()->get('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

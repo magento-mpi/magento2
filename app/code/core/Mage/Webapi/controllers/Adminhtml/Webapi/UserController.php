@@ -221,7 +221,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     protected function _loadApiUser($userId)
     {
         /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
+        $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
                 Mage::helper('Mage_Webapi_Helper_Data')->__('This user no longer exists.')
