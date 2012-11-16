@@ -12,9 +12,17 @@
 <!--
     var checkBoxes = $H({});
     var warning = false;
-    var inRoleUsers = $H(<?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>);
+    var inRoleUsers = $H(arrayToObject(<?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>));
     if (inRoleUsers.size() > 0) warning = true;
     $('in_role_user').value = inRoleUsers.toQueryString();
+
+    function arrayToObject(array) {
+        var result = {};
+        for (var i = 0; i < array.length; ++i) {
+            result[array[i]] = 1;
+        }
+        return result;
+    }
 
     function registerUserRole(grid, element, checked) {
         if (checked) {
@@ -33,7 +41,7 @@
             var checkbox = Element.getElementsBySelector(trElement, 'input');
             if (checkbox[0]) {
                 var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                if (warning && checkBoxes.size() > 0) {
+                if (inRoleUsers.get(checkbox[0].value) && !checked && warning && checkBoxes.size() > 0) {
                     if (!confirm("<?php echo $this->__('Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?') ?>")) {
                         checkbox[0].checked = false;
                         checkBoxes.each(function(elem) {
@@ -80,7 +88,9 @@
 <?php echo $usersGridBlock->getJsObjectName() ?>.checkboxCheckCallback = registerUserRole;
 <?php echo $usersGridBlock->getJsObjectName() ?>.checkCheckboxes = checkCheckboxesHandler;
 <?php echo $usersGridBlock->getJsObjectName() ?>.rows.each(
-    function(row){roleUsersRowInit(<?php echo $usersGridBlock->getJsObjectName() ?>, row)});
+    function(row) {
+        roleUsersRowInit(<?php echo $usersGridBlock->getJsObjectName() ?>, row)}
+    );
     $('in_role_user_old').value = $('in_role_user').value;
 //-->
 </script>
