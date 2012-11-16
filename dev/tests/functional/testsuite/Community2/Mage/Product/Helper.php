@@ -634,7 +634,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Unassign all associated products in configurable product
      */
-    public function unassignAssociatedProducts()
+    public function unassignAllAssociatedProducts()
     {
         $this->openTab('general');
         if ($this->controlIsVisible('fieldset', 'associated')) {

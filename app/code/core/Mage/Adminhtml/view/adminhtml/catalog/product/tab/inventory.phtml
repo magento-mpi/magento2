@@ -38,12 +38,12 @@
 
 <?php if(!$this->getProduct()->isComposite()): ?>
         <tr>
-            <td class="label"><label for="inventory_qty"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Qty') ?><span class="required">*</span></label></td>
+            <td class="label"><label for="inventory_qty"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Qty') ?></label></td>
             <td class="value">
                 <?php if (!$_readonly):?>
                 <input type="hidden" id="original_inventory_qty" name="<?php echo $this->getFieldSuffix() ?>[stock_data][original_inventory_qty]" value="<?php echo $this->getFieldValue('qty')*1 ?>"/>
                 <?php endif;?>
-                <input type="text" class="input-text required-entry validate-number" id="inventory_qty" name="<?php echo $this->getFieldSuffix() ?>[stock_data][qty]" value="<?php echo $this->getFieldValue('qty')*1 ?>" <?php echo $_readonly;?>/>
+                <input type="text" class="input-text validate-number" id="inventory_qty" name="<?php echo $this->getFieldSuffix() ?>[stock_data][qty]" value="<?php echo $this->getFieldValue('qty')*1 ?>" <?php echo $_readonly;?>/>
             </td>
             <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
         </tr>

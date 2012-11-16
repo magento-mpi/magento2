@@ -48,15 +48,14 @@ new_product:
                                         category_name: //*[contains(., '%categoryName%')]
                             -
                                 product_variations:
-                                    xpath: //*[@id='config_super_product']
+                                    xpath: //*[@id='config_super_product']/fieldset
                                     checkboxes:
-                                        is_configurable: //*[@id='config_super_product-checkbox']
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                         associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
                                     buttons:
                                         continue: //*[@data-ui-id='product-type-tabs-schedule-block-super-settings-continue-button']
-                                    pageelements:
-                                        variation_fieldset: /fieldset
+                        checkboxes:
+                            is_configurable: //*[@id='config_super_product-checkbox']
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span
