@@ -223,12 +223,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->assertSame($frontend, $this->_model->getThemeConfig('frontend'));
     }
 
-    public function testIsThemeCompatible()
-    {
-        $this->assertFalse($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '1.0.0.0'));
-        $this->assertTrue($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '2.0.0.0'));
-    }
-
     public function testGetViewConfig()
     {
         $config = $this->_model->getViewConfig();

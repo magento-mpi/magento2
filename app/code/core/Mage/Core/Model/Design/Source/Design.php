@@ -19,18 +19,6 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
      */
     public function getAllOptions($withEmpty = true)
     {
-        return $this->_options = Mage::getSingleton('Mage_Core_Model_Theme')->getThemeCollectionOptionArray($withEmpty);
-    }
-
-    /**
-     * Get a text for option value
-     *
-     * @param string|integer $value
-     * @return string
-     */
-    public function getOptionText($value)
-    {
-        $this->getAllOptions(false);
-        return $value;
+        return $this->_options = Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection($withEmpty);
     }
 }

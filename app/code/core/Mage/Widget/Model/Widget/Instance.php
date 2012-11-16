@@ -160,7 +160,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function isCompleteToCreate()
     {
-        return (bool)($this->getType() && $this->getPackageTheme());
+        return (bool)($this->getType() && $this->getThemeId());
     }
 
     /**
@@ -189,26 +189,24 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Setter
-     * Prepare widget package theme
      *
-     * @param string $packageTheme
+     * @param int $themeId
      * @return Mage_Widget_Model_Widget_Instance
      */
-    public function setPackageTheme($packageTheme)
+    public function setThemeId($themeId)
     {
-        $this->setData('package_theme', $packageTheme);
+        $this->setData('theme_id', $themeId);
         return $this;
     }
 
     /**
      * Getter
-     * Prepare widget package theme
      *
      * @return string
      */
-    public function getPackageTheme()
+    public function getThemeId()
     {
-        return $this->_getData('package_theme');
+        return $this->_getData('theme_id');
     }
 
     /**
@@ -223,50 +221,6 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             return Mage_Core_Model_Design_Package::DEFAULT_AREA;
         }
         return $this->_getData('area');
-    }
-
-    /**
-     * Getter
-     *
-     * @return string
-     */
-    public function getPackage()
-    {
-        if (!$this->_getData('package')) {
-            $this->_parsePackageTheme();
-        }
-        return $this->_getData('package');
-    }
-
-    /**
-     * Getter
-     *
-     * @return string
-     */
-    public function getTheme()
-    {
-        if (!$this->_getData('theme')) {
-            $this->_parsePackageTheme();
-        }
-        return $this->_getData('theme');
-    }
-
-    /**
-     * Parse packageTheme and set parsed package and theme
-     *
-     * @return Mage_Widget_Model_Widget_Instance
-     */
-    protected function _parsePackageTheme()
-    {
-        if ($this->getPackageTheme() && strpos($this->getPackageTheme(), '/')) {
-            list($package, $theme) = explode('/', $this->getPackageTheme());
-            $this->setData('package', $package);
-            $this->setData('theme', $theme);
-        } else {
-            $this->setData('package', Mage_Core_Model_Design_Package::DEFAULT_PACKAGE);
-            $this->setData('theme', Mage_Core_Model_Design_Package::DEFAULT_THEME);
-        }
-        return $this;
     }
 
     /**
@@ -329,10 +283,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = Mage::getDesign()->getFilename('widget.xml', array(
-                    'area'    => $this->getArea(),
-                    'package' => $this->getPackage(),
-                    'theme'   => $this->getTheme(),
-                    'module'  => Mage::getConfig()->determineOmittedNamespace(
+                    'area'   => $this->getArea(),
+                    'theme'  => $this->getThemeId(),
+                    'module' => Mage::getConfig()->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));
@@ -340,7 +293,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 if (is_readable($configFile)) {
                     $themeWidgetsConfig = new Varien_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);
-                    if ($themeWidgetTypeConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName())) {
+                    $themeWidgetTypeConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    if ($themeWidgetTypeConfig) {
                         $this->_widgetConfigXml->extend($themeWidgetTypeConfig);
                     }
                 }
@@ -360,7 +314,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
             if ($configTemplates->values && $configTemplates->values->children()) {
                 foreach ($configTemplates->values->children() as $name => $template) {
-                    $helper = $template->getAttribute('module') ? $template->getAttribute('module') : 'Mage_Widget_Helper_Data';
+                    $helper = $template->getAttribute('module')
+                        ? $template->getAttribute('module')
+                        : 'Mage_Widget_Helper_Data';
                     $templates[(string)$name] = array(
                         'value' => (string)$template->value,
                         'label' => Mage::helper($helper)->__((string)$template->label)
@@ -436,13 +392,10 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_Package')->getFilename($templatePath, array(
             'area'    => $this->getArea(),
-            'package' => $this->getPackage(),
-            'theme'   => $this->getTheme(),
+            'themeId' => $this->getThemeId(),
             'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
         ));
-        if (!$this->getId() && !$this->isCompleteToCreate()
-            || ($templatePath && !is_readable($templateFilename)))
-        {
+        if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
         }
         $parameters = $this->getWidgetParameters();

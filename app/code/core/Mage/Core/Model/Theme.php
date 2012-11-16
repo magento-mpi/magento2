@@ -47,11 +47,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PREVIEW_IMAGE_HEIGHT = 200;
 
     /**
-     * Theme collection array for select field
+     * Labels collection array
      *
      * @var array
      */
-    protected $_themeCollectionOptions = null;
+    protected $_labelsCollectionArray = null;
 
     /**
      * @var Varien_Io_File
@@ -531,21 +531,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return collection array for select field
+     * Return labels collection array
      *
      * @param bool $withEmpty add empty (please select) values to result
      * @return array
      */
-    public function getThemeCollectionOptionArray($withEmpty = true)
+    public function getLabelsCollection($withEmpty = true)
     {
-        if (!$this->_themeCollectionOptions) {
+        if (!$this->_labelsCollectionArray) {
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
             $themeCollection = $this->getCollection();
-            $themeCollection->setOrder('theme_title', Mage_Core_Model_Resource_Theme_Collection::SORT_ORDER_ASC)
+            $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
                 ->walk('checkThemeCompatible');
-            $this->_themeCollectionOptions = $themeCollection->toOptionArray();
+            $this->_labelsCollectionArray = $themeCollection->toOptionArray();
         }
-        $options = $this->_themeCollectionOptions;
+        $options = $this->_labelsCollectionArray;
         if ($withEmpty) {
             array_unshift($options, array(
                 'value' => '',

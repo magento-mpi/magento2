@@ -10,16 +10,16 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-function setSettings(urlTemplate, typeElement, packageThemeElement) {
+function setSettings(urlTemplate, typeElement, themeElement) {
     if (!editForm.validate()) {
         return false;
     }
     typeElement = $F(typeElement);
-    packageThemeElement = $F(packageThemeElement).replace(/\//g, "-");
+    themeElement = $F(themeElement);
 
     setLocation(new Template(urlTemplate, /(^|.|\r|\n)({{(\w+)}})/).evaluate({
         'type': typeElement,
-        'package_theme': packageThemeElement
+        'theme_id': themeElement
     }));
 }
 function saveAndContinueEdit(){
