@@ -42,10 +42,10 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
-            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"/>
@@ -77,10 +77,10 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
-            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"/>
