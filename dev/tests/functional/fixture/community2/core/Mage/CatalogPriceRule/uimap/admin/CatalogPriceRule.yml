@@ -12,6 +12,12 @@
 # ' Catalog Price Rules' page
 manage_catalog_price_rules:
     uimap:
+        form:
+            fieldsets:
+                -
+                    rule_search_grid:
+                        dropdowns:
+                            filter_website: //select[@name='rule_website']
         pageelements:
             access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
 

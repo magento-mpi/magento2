@@ -81,7 +81,7 @@
                 {
                     action: 'load',
                     fileTypes: /^image\/(gif|jpeg|png)$/,
-                    maxFileSize: <?php echo $this->getDataMaxSizeInBytes() ?> * 10
+                    maxFileSize: <?php echo Mage::helper('Mage_Core_Helper_File_Storage')->getMaxFileSize() ?> * 10
                 },
                 {
                     action: 'resize',

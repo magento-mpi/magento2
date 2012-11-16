@@ -3,8 +3,8 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_Product
-# @subpackage  functional_tests
+# @package     Mage_AdminUser
+# @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -46,6 +46,18 @@ new_product:
                                         delete_category: //*[@class='category-selector-search-choice-close']
                                     pageelements:
                                         category_name: //*[contains(., '%categoryName%')]
+                -
+                    prices:
+                        fieldsets:
+                            -
+                                product_prices:
+                                    buttons:
+                                        prices_group_add_group_price: //button[span='Add Group Price']
+                                    pageelements:
+                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
+                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
+                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
+                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span
@@ -303,3 +315,4 @@ updating_products:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
+        messages:

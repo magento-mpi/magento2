@@ -11,10 +11,10 @@
 require __DIR__ . '/SanityRoutine.php';
 
 define('USAGE', <<<USAGE
-php -f sanity.php -c <config_file> [-w <dir>]
+php -f sanity.php -c <config_file> [-w <dir>] [-v]
     -c <config_file> path to configuration file with rules and white list
     [-w <dir>]       use specified working dir instead of current
-
+    [-v]             verbose mode
 USAGE
 );
 

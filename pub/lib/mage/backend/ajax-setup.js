@@ -19,18 +19,24 @@
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {Object}
          */
-        beforeSend: function(jqXHR, settings) {
-            if (!settings.url.match(new RegExp('[?&]isAjax=true', ''))) {
-                settings.url += (settings.url.match(new RegExp('\\?',"g")) ? '&' : '?') + 'isAjax=true';
+        beforeSend: function(jqXHR, settings){
+            if (!settings.url.match(new RegExp('[?&]isAjax=true',''))) {
+                settings.url = settings.url.match(
+                    new RegExp('\\?',"g")) ?
+                    settings.url + '&isAjax=true' :
+                    settings.url + '?isAjax=true';
             }
-            if ($.type(settings.data) === "string" && settings.data.indexOf('form_key=') === -1) {
-                settings.data += '&' + $.param({form_key: FORM_KEY});
+            if ($.type(settings.data) === "string" && settings.data.indexOf('form_key=') === -1
+                ) {
+                settings.data += '&' + $.param({
+                    form_key: FORM_KEY
+                });
             } else {
                 if (!settings.data) {
-                    this.options = this.options || {};
-                    this.options.data = {form_key: FORM_KEY};
+                    settings.data = {
+                        form_key: FORM_KEY
+                    };
                 }
-                settings.data = settings.data || {};
                 if (!settings.data.form_key) {
                     settings.data.form_key = FORM_KEY;
                 }
