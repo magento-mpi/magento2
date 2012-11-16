@@ -38,7 +38,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
     protected function tearDown()
     {
         $this->_objectManager->removeSharedInstance('Mage_Core_Model_Layout');
-        unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
+        unset($this->_objectManager, $this->_layout, $this->_blockFactory, $this->_block);
     }
 
     /**

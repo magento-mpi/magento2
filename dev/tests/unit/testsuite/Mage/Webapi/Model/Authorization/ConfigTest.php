@@ -12,17 +12,17 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Magento_Acl_Config_Reader
+     * @var Magento_Acl_Config_Reader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configReader;
 
     /**
-     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory
+     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerFactory;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
@@ -33,14 +33,20 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
-        $this->_config = $this->getMock('Mage_Core_Model_Config',
-            array('getModuleConfigurationFiles'), array(), '', false);
+        $this->_config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getModuleConfigurationFiles'))
+            ->getMock();
 
-        $this->_readerFactory = $this->getMock('Mage_Webapi_Model_Authorization_Config_Reader_Factory',
-            array('createReader'), array(), '', false);
+        $this->_readerFactory = $this->getMockBuilder('Mage_Webapi_Model_Authorization_Config_Reader_Factory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('createReader'))
+            ->getMock();
 
-        $this->_configReader = $this->getMock('Magento_Acl_Config_Reader',
-            array('getAclResources'), array(), '', false);
+        $this->_configReader = $this->getMockBuilder('Magento_Acl_Config_Reader')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getAclResources'))
+            ->getMock();
 
         $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config', array(
             'config' => $this->_config,
@@ -50,6 +56,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $this->_config->expects($this->once())
             ->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array()));
+
         $this->_readerFactory->expects($this->once())
             ->method('createReader')
             ->will($this->returnValue($this->_configReader));
@@ -107,7 +114,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * test for Mage_Webapi_Model_Authorization_ConfigTest::getAclVirtualResources
+     * Test for Mage_Webapi_Model_Authorization_ConfigTest::getAclVirtualResources
      */
     public function testGetAclVirtualResources()
     {
@@ -138,5 +145,83 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         sort($expectedResources);
         sort($actualResources);
         $this->assertEquals($expectedResources, $actualResources);
+    }
+
+    /**
+     * Test for getAclResourcesAsArray method
+     *
+     * @dataProvider aclResourcesDataProvider
+     * @param string $actualXmlFile
+     * @param array $expectedResult
+     */
+    public function testGetAclResourcesAsArray($actualXmlFile, $includeRoot, $expectedResources)
+    {
+        $actualAclResources = new DOMDocument();
+        $actualAclResources->load($actualXmlFile);
+
+        $this->_configReader->expects($this->once())
+            ->method('getAclResources')
+            ->will($this->returnValue($actualAclResources));
+
+        $this->assertEquals($expectedResources, $this->_model->getAclResourcesAsArray($includeRoot));
+    }
+
+    /**
+     * @return array
+     */
+    public function aclResourcesDataProvider()
+    {
+        $aclResourcesArray = array (
+            'id' => 'Mage_Webapi',
+            'text' => '',
+            'sortOrder' => 0,
+            'children' => array(
+                array(
+                    'id' => 'customer',
+                    'text' => 'Manage Customers',
+                    'sortOrder' => 20,
+                    'children' => array(
+                        array(
+                            'id' => 'customer/get',
+                            'text' => 'Get Customer',
+                            'sortOrder' => 20,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/create',
+                            'text' => 'Create Customer',
+                            'sortOrder' => 30,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/update',
+                            'text' => 'Edit Customer',
+                            'sortOrder' => 10,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/delete',
+                            'text' => 'Delete Customer',
+                            'sortOrder' => 40,
+                            'children' => array(),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        return array(
+            array(
+                'actualXmlFile' => __DIR__ . DIRECTORY_SEPARATOR .  '..'
+                    . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml',
+                'includeRoot' => true,
+                'expectedResources' => $aclResourcesArray
+            ),
+            array(
+                'actualXmlFile' =>__DIR__ . DIRECTORY_SEPARATOR .  '..'
+                    . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml',
+                'includeRoot' => false,
+                'expectedResources' => $aclResourcesArray['children'],
+            )
+        );
     }
 }
