@@ -1,6 +1,0 @@
-# A list similar to "common.txt", but lists files that must not be part of Magento CE
-# This file will not be published in Magento CE, but can be published in Magento EE
-#
-app/code/core/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
-app/code/core/Enterprise/SalesArchive/Model/Order
-dev/tests/functional/testsuite/Enterprise2/Mage/Pbridge/Payment/ProfileTest.php

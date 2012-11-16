@@ -19,20 +19,22 @@ $includePaths = array(
     get_include_path(),
 );
 set_include_path(implode(PATH_SEPARATOR, $includePaths));
-spl_autoload_register(function($class) {
-    $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
-    foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
-        $fileName = $path . DIRECTORY_SEPARATOR . $file;
-        if (file_exists($fileName)) {
-            include $file;
-            if (class_exists($class, false) || interface_exists($class, false)) {
-                return true;
+spl_autoload_register(
+    function($class) {
+        $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
+        foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
+            $fileName = $path . DIRECTORY_SEPARATOR . $file;
+            if (file_exists($fileName)) {
+                include $file;
+                if (class_exists($class, false) || interface_exists($class, false)) {
+                    return true;
+                }
             }
-        }
 
+        }
+        return false;
     }
-    return false;
-});
+);
 
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 if (is_dir(TESTS_TEMP_DIR)) {
