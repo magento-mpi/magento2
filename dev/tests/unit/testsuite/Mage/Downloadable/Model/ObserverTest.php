@@ -144,7 +144,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testTransitionProductTypeDeletesDownloadableData()
     {
-        $typeInstance = $this->getMock('Mage_Downloadable_Product_Type', array('save'));
+        $typeInstance = $this->getMock('Mage_Downloadable_Model_Product_Type', array('save'));
         $typeInstance->expects($this->once())->method('save')->with($this->isInstanceOf('Mage_Catalog_Model_Product'));
         $product = $this->getMock('Mage_Catalog_Model_Product',
             array('getTypeId', 'getTypeInstance', 'getDownloadableData', 'setDownloadableData'), array(), '', false);
