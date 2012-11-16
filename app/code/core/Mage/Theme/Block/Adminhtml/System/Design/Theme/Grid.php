@@ -33,7 +33,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid extends Mage_Adminhtml
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
-        $collection->addParentTitle();
+        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)->addParentTitle();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
