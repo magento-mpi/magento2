@@ -63,7 +63,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
             'title' => $this->__('API Secret'),
         ));
 
-        $form->setValues($user->getData());
+        if ($user) {
+            $form->setValues($user->getData());
+        }
         $this->setForm($form);
 
         return parent::_prepareForm();

@@ -1,10 +1,10 @@
 <?php
 /**
- * Test for Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main block
+ * Test for Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main block
  *
  * @copyright {}
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Test_ObjectManager
@@ -22,7 +22,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
     protected $_blockFactory;
 
     /**
-     * @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main
+     * @var Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main
      */
     protected $_block;
 
@@ -31,7 +31,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
         $this->_objectManager = Mage::getObjectManager();
         $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main');
+        $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main');
         $this->_layout->addBlock($this->_block);
     }
 
@@ -45,15 +45,15 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
      * Test _prepareForm method
      *
      * @dataProvider prepareFormDataProvider
-     * @param Varien_Object $apiUser
+     * @param Varien_Object $apiRole
      * @param array $formElements
      */
-    public function testPrepareForm($apiUser, array $formElements)
+    public function testPrepareForm($apiRole, array $formElements)
     {
         // TODO Move to unit tests after MAGETWO-4015 complete
         $this->assertEmpty($this->_block->getForm());
 
-        $this->_block->setApiUser($apiUser);
+        $this->_block->setApiRole($apiRole);
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
@@ -65,7 +65,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);
             $this->assertNotEmpty($element, "Element '$elementId' not found in form fieldset");
-            $this->assertEquals($apiUser->getData($elementId), $element->getValue());
+            $this->assertEquals($apiRole->getData($elementId), $element->getValue());
         }
     }
 
@@ -75,45 +75,34 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
     public function prepareFormDataProvider()
     {
         return array(
-            'Empty API User' => array(
+            'Empty API Role' => array(
                 new Varien_Object(),
                 array(
-                    'company_name',
-                    'contact_email',
-                    'api_key',
-                    'secret'
+                    'role_name',
+                    'in_role_user',
+                    'in_role_user_old'
                 )
             ),
-            'New API User' => array(
+            'New API Role' => array(
                 new Varien_Object(array(
-                    'company_name' => 'Company',
-                    'contact_email' => 'mail@example.com',
-                    'api_key' => 'API Key',
-                    'secret' => 'API Secret',
-                    'role_id' => 1
+                    'role_name' => 'Role'
                 )),
                 array(
-                    'company_name',
-                    'contact_email',
-                    'api_key',
-                    'secret'
+                    'role_name',
+                    'in_role_user',
+                    'in_role_user_old'
                 )
             ),
-            'Existed API User' => array(
+            'Existed API Role' => array(
                 new Varien_Object(array(
                     'id' => 1,
-                    'company_name' => 'Company',
-                    'contact_email' => 'mail@example.com',
-                    'api_key' => 'API Key',
-                    'secret' => 'API Secret',
-                    'role_id' => 1
+                    'role_name' => 'Role'
                 )),
                 array(
-                    'user_id',
-                    'company_name',
-                    'contact_email',
-                    'api_key',
-                    'secret'
+                    'role_id',
+                    'role_name',
+                    'in_role_user',
+                    'in_role_user_old'
                 )
             )
         );

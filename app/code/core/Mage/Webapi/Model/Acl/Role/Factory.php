@@ -1,10 +1,10 @@
 <?php
 /**
- * Acl User factory
+ * Acl Role factory
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Acl_User_Factory
+class Mage_Webapi_Model_Acl_Role_Factory
 {
     /**
      * @var Magento_ObjectManager
@@ -20,13 +20,13 @@ class Mage_Webapi_Model_Acl_User_Factory
     }
 
     /**
-     * Create ACL user model
+     * Create ACL role model
      *
      * @param array $arguments
-     * @return Mage_Webapi_Model_Acl_User
+     * @return Mage_Webapi_Model_Acl_Role
      */
     public function create($arguments = array())
     {
-        return $this->_objectManager->create('Mage_Webapi_Model_Acl_User', $arguments);
+        return $this->_objectManager->create('Mage_Webapi_Model_Acl_Role', $arguments);
     }
 }

@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Web API ACL Rules
+ *
+ * @copyright {}
  *
  * @method int getRoleId()
  * @method Mage_Webapi_Model_Acl_Rule setRoleId(int $value)
@@ -18,10 +11,6 @@
  * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection()
  * @method Mage_Webapi_Model_Acl_Rule setResourceId(string $value)
  * @method Mage_Webapi_Model_Acl_Rule setResources(array $resources)
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
 {
@@ -52,16 +41,5 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
     {
         $this->getResource()->saveResources($this);
         return $this;
-    }
-
-    /**
-     * Retrieve rules by role
-     *
-     * @param int $roleId
-     * @return Mage_Webapi_Model_Resource_Acl_Rule_Collection
-     */
-    public function getByRole($roleId)
-    {
-        return $this->getCollection()->getByRole($roleId);
     }
 }
