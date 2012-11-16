@@ -79,22 +79,25 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Bl
      */
     protected function _afterToHtml($html)
     {
-        $form = $this->getForm();
-        $htmlIdPrefix = $form->getHtmlIdPrefix();
+        if ($this->_renderDependenceElement) {
+            $form = $this->getForm();
+            $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /**
-         * Form template has possibility to render child block 'form_after', but we can not use this because parent form
-         * already create appropriate child block and used this alias. In this case we can not use same alias without
-         * changing of core logic, that's why bottom code placed inside method '_afterToHtml'.
-         */
-        /** @var $formAfterBlock Mage_Adminhtml_Block_Widget_Form_Element_Dependence */
-        $formAfterBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence',
-            'adminhtml.block.widget.form.element.dependence'
-        );
-        $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')
-            ->addFieldMap($htmlIdPrefix . 'rules_list', 'rules_list')
-            ->addFieldDependence('rules_list', 'price_rule_type', '1');
+            /**
+             * Form template has possibility to render child block 'form_after', but we can't use it because parent
+             * form creates appropriate child block and uses this alias. In this case we can't use the same alias
+             * without core logic changes, that's why the code below was moved inside method '_afterToHtml'.
+             */
+            /** @var $formAfterBlock Mage_Adminhtml_Block_Widget_Form_Element_Dependence */
+            $formAfterBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence',
+                'adminhtml.block.widget.form.element.dependence'
+            );
+            $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')
+                ->addFieldMap($htmlIdPrefix . 'rules_list', 'rules_list')
+                ->addFieldDependence('rules_list', 'price_rule_type', '1');
+            $html = $html . $formAfterBlock->toHtml();
+        }
 
-        return $html . $formAfterBlock->toHtml();
+        return $html;
     }
 }
