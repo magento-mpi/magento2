@@ -176,7 +176,9 @@ class Mage_Core_Model_Design_Package
         if (is_numeric($theme)) {
             $themeModel->load($theme);
         } else {
-            $themeModel->loadByTempId($area . '/' . $theme);
+            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+            $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+            $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
             if (is_string($theme) && !$themeModel->getId()) {
                 $themeModel = $themeModel->getCollectionFromFilesystem()
                         ->addDefaultPattern($area)
