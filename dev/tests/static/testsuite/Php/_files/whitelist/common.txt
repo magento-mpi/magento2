@@ -9,9 +9,9 @@ app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Adminhtml/Block/Urlrewrite
 app/code/core/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
+app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
-capp/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
 app/code/core/Mage/Backend/Model/Acl/Config.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
