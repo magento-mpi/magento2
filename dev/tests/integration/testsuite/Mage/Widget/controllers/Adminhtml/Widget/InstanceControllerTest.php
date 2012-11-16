@@ -15,8 +15,10 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml
     {
         parent::setUp();
 
+        $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
+
         $this->getRequest()->setParam('type', 'Mage_Cms_Block_Widget_Page_Link');
-        $this->getRequest()->setParam('package_theme', 'default-demo');
+        $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
     public function testEditAction()
