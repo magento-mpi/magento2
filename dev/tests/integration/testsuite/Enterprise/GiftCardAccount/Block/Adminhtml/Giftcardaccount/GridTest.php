@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoAppIsolation enabled
- */
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extends PHPUnit_Framework_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid */
@@ -25,6 +22,11 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extend
             'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid',
             'giftcardaccount.grid'
         );
+    }
+
+    public function tearDown()
+    {
+        $this->_block = null;
     }
 
     /**

@@ -27,7 +27,9 @@
                 <input type="checkbox" id="<?php echo $this->getFieldName('position_limit'); ?>_default" name="product[<?php echo $this->getFieldName('position_limit'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('position_limit'); ?>');" class="checkbox" <?php echo $_readonly ?><?php echo $this->isDefault('position_limit') ? 'checked' : ''; ?>/>
                 <label for="<?php echo $this->getFieldName('position_limit'); ?>_default" class="normal"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Use Config Settings') ?></label>
             </td>
+            <?php if (!Mage::app()->isSingleStoreMode()): ?>
             <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
+            <?php endif; ?>
         </tr>
         <tr>
             <td class="label"><label for="<?php echo $this->getFieldName('position_behavior'); ?>"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Position Behavior') ?></label></td>
@@ -42,7 +44,10 @@
             </select>
             <input type="checkbox" id="<?php echo $this->getFieldName('position_behavior'); ?>_default" name="product[<?php echo $this->getFieldName('position_behavior'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('position_behavior'); ?>');" class="checkbox" <?php echo $_readonly?><?php echo $this->isDefault('position_behavior') ? 'checked' : ''; ?>/>
             <label for="<?php echo $this->getFieldName('position_behavior'); ?>_default" class="normal"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Use Config Settings') ?></label>
+            </td>
+            <?php if (!Mage::app()->isSingleStoreMode()): ?>
             <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
+            <?php endif; ?>
         </tr>
         </table>
         </div>
@@ -52,6 +57,6 @@
 //<![CDATA[
 targetruleSetDefault = function (check, elementId) {
     var el = $(elementId).disabled = check.checked;
-}
+};
 //]]>
 </script>

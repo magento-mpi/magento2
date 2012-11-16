@@ -214,7 +214,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
         $this->assertTrue((!isset($storeCreditGrid['website'])), "Sales Statistics table contain 'website' column");
         $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
         $this->assertTrue((!isset($salesGrid['website']) && !isset($salesGrid['store'])
-                           && !isset($salesGrid['store_view'])), "Sales Statistics table contain unnecessary columns");
+            && !isset($salesGrid['store_view'])), "Sales Statistics table contain unnecessary columns");
         $this->openTab('account_information');
         $this->assertFalse($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is present on page");

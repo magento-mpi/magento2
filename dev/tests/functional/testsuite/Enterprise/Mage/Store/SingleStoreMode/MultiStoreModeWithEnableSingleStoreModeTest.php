@@ -224,7 +224,7 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         $this->assertTrue((isset($storeCreditGrid['website'])), "Sales Statistics table not contain 'website' column");
         $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
         $this->assertTrue((isset($salesGrid['website']) && isset($salesGrid['store'])
-                           && isset($salesGrid['store_view'])), "Sales Statistics table not contain all columns");
+            && isset($salesGrid['store_view'])), "Sales Statistics table not contain all columns");
         $this->openTab('account_information');
         $this->assertTrue($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is not present on page");

@@ -594,7 +594,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
         $this->assertTrue((!isset($columnsName['website']) && !isset($columnsName['store'])
-                           && !isset($columnsName['store_view'])), "Sales Statistics table contain unnecessary column");
+            && !isset($columnsName['store_view'])), "Sales Statistics table contain unnecessary column");
         $this->openTab('account_information');
         $this->assertFalse($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website present on page");

@@ -310,18 +310,18 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @author Dmytro_Aponasenko
      */
     public function withSameNameInDifferentRootCategory($categories)
-   {
-       //Data
-       $productData = $this->loadDataSet('Product', 'simple_product_required');
-       $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
-        . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
-       //Steps
-       $this->navigate('manage_products');
-       $this->productHelper()->createProduct($productData);
-       //Verifying
-       $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-       $this->productHelper()->verifyProductInfo($productData);
-   }
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
+            . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->verifyProductInfo($productData);
+    }
 
     /**
      * <p>Search for nonexistent category</p>
