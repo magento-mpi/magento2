@@ -172,8 +172,20 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
                 function() {
-                    $('#form-validate').validation();
+                    var dataForm = $('#form-validate').validation();
+                    <?php if($this->getShowAddressFields()): ?>
+                    $('#country').regionUpdater({
+                        regionListId: '#region_id',
+                        regionInputId: '#region',
+                        postcodeId: '#zip',
+                        form: dataForm,
+                        regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                        defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
+                        countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                    });
+                    <?php endif; ?>
                 });
         })(jQuery);
     </script>
