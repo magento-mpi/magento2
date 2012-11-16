@@ -287,7 +287,11 @@ AddBySku.prototype = {
             }
             if (sku != '') { // SKU field processed before qty, so if it is empty - nothing has been entered there
                 var paramKey = 'add_by_sku[' + sku + '][qty]';
-                requestParams[paramKey] = qty;
+                if (paramKey in requestParams) {
+                    requestParams[paramKey] = parseNumber(requestParams[paramKey]) + parseNumber(qty);
+                } else {
+                    requestParams[paramKey] = qty;
+                }
             }
         });
         if (!Object.keys(requestParams).length && !$file.value) {
