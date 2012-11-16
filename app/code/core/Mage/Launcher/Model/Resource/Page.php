@@ -55,9 +55,10 @@ class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         parent::_afterLoad($object);
-        // Add tiles collection to page (load it lazily)
+        // Add tiles collection to page (load it lazily) sorted by sort_order
         $tileCollection = clone $this->_tileCollectionPrototype;
-        $tiles = $tileCollection->addFieldToFilter('page_id', array('eq' => $object->getId()));
+        $tiles = $tileCollection->addFieldToFilter('page_id', array('eq' => $object->getId()))
+            ->setOrder('sort_order', Varien_Data_Collection::SORT_ORDER_ASC);
         $object->setTiles($tiles);
         return $this;
     }

@@ -18,6 +18,14 @@
 class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
 {
     /**
+     * Possible tile states
+     */
+    const STATE_TODO = 0;
+    const STATE_COMPLETE = 1;
+    const STATE_DISMISSED = 2;
+    const STATE_SKIPPED = 3;
+
+    /**
      * Prefix for model event names
      *
      * @var string
@@ -63,7 +71,7 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      */
     public function isSkippable()
     {
-        return true;
+        return (bool)$this->getData('is_skippable');
     }
 
     /**
@@ -73,6 +81,16 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      */
     public function isDismissible()
     {
-        return true;
+        return (bool)$this->getData('is_dismissible');
+    }
+
+    /**
+     * Check if the tile is complete
+     *
+     * @return bool
+     */
+    public function isComplete()
+    {
+        return $this->getState() == self::STATE_COMPLETE;
     }
 }

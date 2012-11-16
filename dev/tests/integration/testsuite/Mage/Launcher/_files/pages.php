@@ -23,11 +23,13 @@ $pageId = $page->getId();
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
 $tile->setPageId($pageId)
     ->setCode('tile_1')
-    ->setState(1)
+    ->setState(Mage_Launcher_Model_Tile::STATE_TODO)
+    ->setSortOrder(20)
     ->save();
 
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
 $tile->setPageId($pageId)
     ->setCode('tile_2')
-    ->setState(1)
+    ->setState(Mage_Launcher_Model_Tile::STATE_TODO)
+    ->setSortOrder(10)
     ->save();

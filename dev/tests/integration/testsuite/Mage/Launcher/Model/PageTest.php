@@ -38,4 +38,22 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
         // 2 tiles were provided by fixture
         $this->assertEquals(2, $this->_page->getTiles()->getSize());
     }
+
+    public function testGetTilesReturnsTilesSortedBySortOrder()
+    {
+        $this->_page->loadByCode('landing_page_1');
+        // tile_2 is defined with lower sort order (see fixture declaration)
+        $this->assertEquals('tile_2', $this->_page->getTiles()->getFirstItem()->getCode());
+    }
+
+    /**
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testSaveCannotPersistTwoPagesWithTheSameCode()
+    {
+        // page landing_page_1 has been already created by fixture
+        $page = Mage::getModel('Mage_Launcher_Model_Page');
+        $page->setCode('landing_page_1')
+            ->save();
+    }
 }
