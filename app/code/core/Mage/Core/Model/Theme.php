@@ -15,10 +15,12 @@
  * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
+ * @method string getParentThemePath()
+ * @method Mage_Core_Model_Theme setParentTheme(string $parentTheme)
+ * @method setPreviewImage(string $previewImage)
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
  * @method string getParentId()
- * @method array|null getParentThemeData()
  * @method Mage_Core_Model_Theme setParentId(int $id)
  * @method Mage_Core_Model_Theme setParentTheme(array $parentTheme)
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
@@ -113,7 +115,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
         $media = $themeConfig->getMedia($packageCode, $themeCode);
-
+        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
         $this->setData(array(
             'parent_id'            => null,
             'theme_path'           => $packageCode . '/' . $themeCode,
@@ -124,7 +126,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'magento_version_to'   => $themeVersions['to'],
             'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
             'theme_directory'      => dirname($configPath),
-            'parent_theme_data'    => $themeConfig->getParentTheme($packageCode, $themeCode)
+            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
         ));
         $this->getArea();
         $this->_updateDefaultParams();
@@ -515,7 +517,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         return $this->getArea() . '/' . $this->getThemePath();
     }
-    
+
     /**
      * Update default params (package_code and theme_code)
      *
@@ -523,10 +525,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _updateDefaultParams()
     {
-        //TODO We need to remove usage of getPackageCode() and getThemeCode() so we also don't need the function
-        list($packageCode, $themeCode) = explode('/', $this->getThemePath());
+        list($packageCode, $themeCode) = $this->getThemePath() ? explode('/', $this->getThemePath()) : null;
         $this->setPackageCode($packageCode)->setThemeCode($themeCode);
-
         return $this;
     }
 

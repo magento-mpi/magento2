@@ -127,9 +127,9 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $themeItems = $this->getItems();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeItems as $theme) {
-            $parentData = $theme->getParentThemeData();
-            if ($parentData) {
-                $id = $theme->getArea() . '/' . join('/', $parentData);
+            $parentThemePath = $theme->getParentThemePath();
+            if ($parentThemePath) {
+                $id = $theme->getArea() . '/' . $parentThemePath;
                 if (isset($themeItems[$id])) {
                     $theme->setParentTheme($themeItems[$id]);
                 }
