@@ -73,15 +73,13 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
         $mainBlock = $this->_helper->getBlock('Mage_Core_Block_Text');
         $resourceBlock = $this->_helper->getBlock('Mage_Core_Block_Text');
         $userBlock = $this->_helper->getBlock('Mage_Core_Block_Text');
-        $jsBlock = $this->_helper->getBlock('Mage_Core_Block_Text');
 
         $this->_layout->expects($this->any())
             ->method('getBlock')
             ->will($this->returnValueMap(array(
             array('webapi.role.edit.tab.main', $mainBlock),
             array('webapi.role.edit.tab.resource', $resourceBlock),
-            array('webapi.role.edit.tab.user', $userBlock),
-            array('roles-users-grid-js', $jsBlock)
+            array('webapi.role.edit.tab.users.grid', $userBlock),
         )));
 
         $this->_request->expects($this->any())->method('getParam')->will($this->returnValueMap(array(
@@ -96,12 +94,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
         $this->assertEquals($expectedTabIds, $this->_block->getTabsIds());
         $this->assertEquals($apiRole, $mainBlock->getApiRole());
         $this->assertEquals($apiRole, $resourceBlock->getApiRole());
-        if ($apiRole->getRoleId()) {
-            $this->assertEquals($apiRole, $userBlock->getApiRole());
-        } else {
-            $this->assertEquals('', $jsBlock->getTemplate());
-        }
-
     }
 
     /**
@@ -110,16 +102,12 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
     public function beforeToHtmlDataProvider()
     {
         return array(
-            'user_tab' => array(
+            array(
                 new Varien_Object(array(
                     'role_id' => 1,
                     'role_name' => 'some_role'
                 )),
                 array('main_section', 'resource_section', 'user_section'),
-            ),
-            'js_block' => array(
-                new Varien_Object(),
-                array('main_section', 'resource_section'),
             )
         );
     }

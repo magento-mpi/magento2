@@ -67,7 +67,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     }
 
     /**
-     * Determine concrete API front controller to use. Initialize it
+     * Prepare environment, Initialize handler.
      *
      * @return Mage_Core_Controller_Varien_Front
      */
@@ -76,8 +76,6 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
         try {
-            // TODO: Refactor static call below
-            Mage::register('isSecureArea', true, true);
             $this->_getHandler()->init();
         } catch (Mage_Webapi_Exception $e) {
             $this->_errorProcessor->render($e->getMessage(), $e->getTraceAsString(), $e->getCode());

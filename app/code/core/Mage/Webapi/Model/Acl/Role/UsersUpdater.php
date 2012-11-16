@@ -1,6 +1,6 @@
 <?php
 /**
- * Role users orders grid items updater
+ * Users in role grid items updater
  *
  * @copyright {}
  */
@@ -54,12 +54,14 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
         $filter = $backendHelper->prepareFilterString($request->getParam('filter', ''));
         if (isset($filter[self::IN_ROLE_USERS_PARAMETER])) {
             $result = $filter[self::IN_ROLE_USERS_PARAMETER] ? self::IN_ROLE_USERS_YES : self::IN_ROLE_USERS_NO;
+        } elseif (!$request->isAjax()) {
+            $result = self::IN_ROLE_USERS_YES;
         }
         return $result;
     }
 
     /**
-     * Remove massaction items in case they disallowed for user
+     * Add filtering users by role
      *
      * @param Mage_Webapi_Model_Resource_Acl_User_Collection $collection
      * @return Mage_Webapi_Model_Resource_Acl_User_Collection
