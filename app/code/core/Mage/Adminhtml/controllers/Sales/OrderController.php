@@ -663,6 +663,10 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             case 'reviewpayment':
                 $aclResource = 'Mage_Sales::review_payment';
                 break;
+            case 'address':
+            case 'addresssave':
+                $aclResource = 'Mage_Sales::actions_edit';
+                break;
             default:
                 $aclResource = 'Mage_Sales::sales_order';
                 break;
