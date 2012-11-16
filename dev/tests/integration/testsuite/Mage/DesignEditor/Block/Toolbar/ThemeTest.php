@@ -29,17 +29,17 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
         $this->_block = null;
     }
 
-    public function testIsThemeSelected()
+    /**
+     * @dataProvider getThemes
+     */
+    public function testIsThemeSelected($themeOld, $themeNew)
     {
-        $oldTheme = Mage::getDesign()->getDesignTheme();
-        Mage::getDesign()->setDesignTheme('a/b');
-        $isSelected = $this->_block->isThemeSelected('a/b');
-        Mage::getDesign()->setDesignTheme($oldTheme);
+        Mage::getDesign()->setDesignTheme($themeOld);
+        $isSelected = $this->_block->isThemeSelected('b');
         $this->assertTrue($isSelected);
 
-        Mage::getDesign()->setDesignTheme('a/b');
-        $isSelected = $this->_block->isThemeSelected('c/b');
-        Mage::getDesign()->setDesignTheme($oldTheme);
+        Mage::getDesign()->setDesignTheme($themeNew);
+        $isSelected = $this->_block->isThemeSelected('b');
         $this->assertFalse($isSelected);
     }
 
@@ -47,5 +47,52 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
     {
         $value = $this->_block->getSelectHtmlId();
         $this->assertNotEmpty($value);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThemes()
+    {
+        $oldTheme = $this->_getThemeModel()
+            ->setData($this->_getThemeSampleData())
+            ->setThemePath('a/b')
+            ->setThemeCode('b');
+
+        $newTheme = $this->_getThemeModel()
+            ->setData($this->_getThemeSampleData())
+            ->setThemePath('c/d')
+            ->setThemeCode('d');
+
+        return array(
+            array($oldTheme, $newTheme)
+        );
+    }
+
+    /**
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getThemeModel()
+    {
+        return Mage::getModel('Mage_Core_Model_Theme');
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getThemeSampleData()
+    {
+        return array(
+            'theme_title'          => 'Default',
+            'theme_version'        => '2.0.0.0',
+            'parent_theme'         => null,
+            'is_featured'          => true,
+            'magento_version_from' => '2.0.0.0-dev1',
+            'magento_version_to'   => '*',
+            'preview_image'        => '',
+            'theme_directory'      => implode(
+                DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')
+            )
+        );
     }
 }

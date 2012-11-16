@@ -190,28 +190,21 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($labelCollection, $themeModel->getLabelsCollection());
     }
 
+    /**
+     * Return sorted by title themes
+     *
+     * @return array
+     */
     protected function _getLabelCollection()
     {
         return array(
             array(
-                'value' => '1',
-                'label' => 'Magento Fluid Design  (incompatible version)'
+                'value' => '5',
+                'label' => 'Magento Blank'
             ),
             array(
                 'value' => '2',
                 'label' => 'Magento Demo'
-            ),
-            array(
-                'value' => '3',
-                'label' => 'Magento Modern'
-            ),
-            array(
-                'value' => '4',
-                'label' => 'Magento Iphone'
-            ),
-            array(
-                'value' => '5',
-                'label' => 'Magento Blank'
             ),
             array(
                 'value' => '6',
@@ -222,9 +215,21 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 'label' => 'Magento Fixed Design'
             ),
             array(
+                'value' => '1',
+                'label' => 'Magento Fluid Design  (incompatible version)'
+            ),
+            array(
+                'value' => '4',
+                'label' => 'Magento Iphone'
+            ),
+            array(
                 'value' => '8',
                 'label' => 'Magento Iphone (HTML5)'
             ),
+            array(
+                'value' => '3',
+                'label' => 'Magento Modern'
+            )
         );
     }
 }
