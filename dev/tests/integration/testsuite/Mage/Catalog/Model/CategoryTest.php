@@ -19,6 +19,11 @@
 class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected static $_objectManager;
+
+    /**
      * Default flat category indexer mode
      *
      * @var string
@@ -26,9 +31,11 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     protected static $_indexerMode;
 
     /**
-     * @var Magento_Test_ObjectManager
+     * List of index tables to create/delete
+     *
+     * @var array
      */
-    protected static $_objectManager;
+    protected static $_indexerTables = array();
 
     /**
      * @var Mage_Core_Model_Store
@@ -43,6 +50,24 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_objectManager = Mage::getObjectManager();
+
+        // get list of not existing tables
+        /** @var $application Mage_Core_Model_App */
+        $application = self::$_objectManager->get('Mage_Core_Model_App');
+        /** @var $categoryResource Mage_Catalog_Model_Resource_Category_Flat */
+        $categoryResource = self::$_objectManager->create('Mage_Catalog_Model_Resource_Category_Flat');
+        /** @var $setupModel Mage_Core_Model_Resource_Setup */
+        $setupModel = self::$_objectManager->create('Mage_Core_Model_Resource_Setup',
+            array('resourceName' => Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+        );
+        $stores = $application->getStores();
+        /** @var $store Mage_Core_Model_Store */
+        foreach ($stores as $store) {
+            $tableName = $categoryResource->getMainStoreTable($store->getId());
+            if (!$setupModel->getConnection()->isTableExists($tableName)) {
+                self::$_indexerTables[] = $tableName;
+            }
+        }
 
         // create flat tables
         /** @var $indexer Mage_Catalog_Model_Category_Indexer_Flat */
@@ -63,7 +88,20 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $process->setMode(self::$_indexerMode);
         $process->save();
 
+        // remove flat tables
+        /** @var $setupModel Mage_Core_Model_Resource_Setup */
+        $setupModel = self::$_objectManager->create('Mage_Core_Model_Resource_Setup',
+            array('resourceName' => Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+        );
+        foreach (self::$_indexerTables as $tableName) {
+            if ($setupModel->getConnection()->isTableExists($tableName)) {
+                $setupModel->getConnection()->dropTable($tableName);
+            }
+        }
+
         self::$_objectManager = null;
+        self::$_indexerMode   = null;
+        self::$_indexerTables = null;
     }
 
     /**
