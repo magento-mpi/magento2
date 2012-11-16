@@ -86,8 +86,8 @@ long_values_address:
     last_name: %longValue255%
     suffix: %longValue255%
     company: %longValue255%
-    street_address_line_1: %longValue255%
-    street_address_line_2: %longValue255%
+    street_address_line_1: %longValue127%
+    street_address_line_2: %longValue127%
     city: %longValue255%
     region: %longValue255%
     zip_code: %longValue255%
@@ -140,3 +140,63 @@ search_customer:
     country: %noValue%
     region: %noValue%
     website: Main Website
+
+generic_address_vat_valid_domestic:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Berlin
+    country: Germany
+    state: Berlin
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: %noValue%
+    billing_vat_number: 111607872
+    default_billing_address: Yes
+    default_shipping_address: %noValue%
+
+generic_address_vat_invalid:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Berlin
+    country: Germany
+    state: Berlin
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: %noValue%
+    billing_vat_number: 111111111
+    default_billing_address: Yes
+    default_shipping_address: %noValue%
+
+generic_address_vat_valid_intraunion:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: London
+    country: United Kingdom
+    state: %noValue%
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: %noValue%
+    billing_vat_number: 584451913
+    default_billing_address: Yes
+    default_shipping_address: %noValue%

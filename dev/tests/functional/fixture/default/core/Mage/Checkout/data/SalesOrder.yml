@@ -11,20 +11,65 @@
 #*********************************************
 #*      Order address Data                   *
 #*********************************************
+#<------------Billing Address with Different VAT Number------------>
+billing_address_vat_valid_intraunion: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'United Kingdom'
+    billing_state: %noValue%
+    billing_zip_code: '12345'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 584451913
+
+billing_address_vat_valid_domestic: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'Germany'
+    billing_state: Berlin
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 111607872
+
+billing_address_vat_invalid: &billingAll
+    address_choice: new
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'Germany'
+    billing_state: Berlin
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: Yes
+    billing_vat_number: 111111111111
 
 #<------------Billing Address Required------------>
-billing_address_req:
-    address_choice: new
-    billing_first_name: 'billing_Steven'
-    billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: '11832 W. Pico Blvd'
-    billing_city: 'Los Angeles'
-    billing_country: 'United States'
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: '90064'
-    billing_telephone: '(310) 954-8012'
-
 billing_address_req_usa: &billingReqUsa
     address_choice: new
     billing_first_name: 'billing_Steven'
@@ -50,18 +95,6 @@ billing_address_req_france: &billingReqFrance
     billing_telephone: 06 88 07 44 27
 
 #<------------Shipping Address Required------------>
-shipping_address_req:
-    address_choice: new
-    shipping_first_name: 'shipping_Steven'
-    shipping_last_name: 'shipping_Stevenson'
-    shipping_street_address_1: '11832 W. Pico Blvd'
-    shipping_city: 'Los Angeles'
-    shipping_country: 'United States'
-    shipping_state: California
-    shipping_region: %noValue%
-    shipping_zip_code: '90064'
-    shipping_telephone: '(310) 954-8012'
-
 shipping_address_req_usa: &shippingReqUsa
     address_choice: new
     shipping_first_name: 'shipping_Steven'
@@ -831,3 +864,29 @@ verification_3d_secure:
         EciFlag: "05"
         Xid: xid_value
         Cavv: cavv_value
+
+order_newcustomer_CashOnDelivery_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReqUsa
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data:
+        payment_method: Cash On Delivery
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages: %noValue%
+
+order_newcustomer_BankTransferPayment_flatrate_france:
+    <<: *orderNewCustomerCheckFlatrateUsa
+    billing_addr_data: *billingReqFrance

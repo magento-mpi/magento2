@@ -25,6 +25,7 @@ manage_catalog_price_rules:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_status: //select[@name='is_active']
+                            filter_website: //select[@name='rule_website']
                         fields:
                             page: //input[@name='page']
                             filter_rule_id: //input[@name='rule_id']
@@ -53,6 +54,7 @@ manage_catalog_price_rules:
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
             no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
+            access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
 
 add_new_rule:
     mca: promo_catalog/new/
@@ -78,6 +80,8 @@ add_new_rule:
                                     multiselects:
                                         customer_groups: //select[@name='customer_group_ids[]']
                                         websites: //select[@id='rule_website_ids']
+                                    pageelements:
+                                        weight_attribute: //option[contains(@value, 'Model_Rule_Condition_Product|weight')]
                 -
                     rule_conditions:
                         xpath: //a[@title='Conditions']

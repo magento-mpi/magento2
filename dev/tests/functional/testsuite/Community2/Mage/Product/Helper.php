@@ -10,6 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /**
  * Helper class
  */
@@ -304,4 +305,17 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->fail('data for websites tab is absent');
         }
     }
+
+    /**
+     * Add Group Price
+     *
+     * @param array $groupPriceData
+     */
+    public function addGroupPrice(array $groupPriceData)
+    {
+        $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'group_price_row'));
+        $this->addParameter('groupPriceId', $rowNumber);
+        $this->clickButton('add_group_price', false);
+        $this->fillForm($groupPriceData, 'prices');
+    }   
 }

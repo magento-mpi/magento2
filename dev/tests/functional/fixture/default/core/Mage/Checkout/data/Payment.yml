@@ -209,6 +209,25 @@ payflowpro_mastercard:
 #*********************************************
 #*              Payment Data                 *
 #*********************************************
+purchase_order: &OrderNumber
+    purchase_order_number: 11111
+
+payment_banktransfer:
+    payment_method: Bank Transfer Payment
+
+payment_cashondelivery:
+    payment_method: Cash On Delivery
+
+payment_purchaseorder:
+    payment_method: Purchase Order
+    payment_info: *OrderNumber
+
+payment_authorizenetdp:
+    payment_method: Credit Card Direct Post (Authorize.net)
+    payment_info: *visaElse
+
+payment_zerosubtotal:
+    payment_method: No Payment Information Required
 
 payment_checkmoney:
     payment_method: Check / Money order

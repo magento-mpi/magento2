@@ -1,0 +1,40 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Invitations General page
+invitations_general:
+    mca: report_invitation/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/') and (span='General')]
+    title: General / Invitations / Reports / Magento Admin
+
+#Invitations Customers page
+invitations_customers:
+    mca: report_invitation/customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
+    title: Customers / Invitations / Reports / Magento Admin
+
+# Invitations Order Conversion Rate page
+invitations_order_conversion_rate:
+    mca: report_invitation/order/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
+    title: Order Conversion Rate / Invitations / Reports / Magento Admin
+
+# Customer Segment Report page
+customer_segment_report:
+    mca: report_customer_customersegment/segment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_customersegment/segment/')]
+    title: Customer Segments / Customers / Reports / Magento Admin
+
+# Customer's Wishlist Report page
+customer_wishlist_report:
+    mca: report_customer_wishlist/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
+    title: Customer's wishlists / Customers / Reports / Magento Admin

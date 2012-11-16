@@ -72,19 +72,16 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest 
     }
 
     /**
-     * <p>Creating customers from back-end with VAT Number</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
+     * <p>Customer registration. With valid VAT Number for domestic country</p>
      * <p>Steps:</p>
-     * <p>1. Goto Manage Customer Page</p>
-     * <p>2. Click button "Add New Customer"</p>
-     * <p>3. Fill required fields and save customer</p>
-     * <p>4. Open your customer and goto tab "Addresses"</p>
-     * <p>5. Click button "Add New Address" and fill address fields</p>
-     * <p>6. Enter VAT Number</p>
-     * <p>7. Save customer</p>
+     * <p>1. Goto on front-end</p>
+     * <p>2. Create new customer</p>
+     * <p>3. Goto tab Address and enter the same country as country of your store</p>
+     * <p>4. Enter valid VAT Number</p>
+     * <p>4. Goto back-end and open "Manage Customers"</p>
+     * <p>5. Select your customer and verify value of Group</p>
      * <p>Expected result:</p>
-     * <p>customer should be saved. Customer should be assigned to corresponding group</p>
+     * <p>Customer should be assigned to group which was specified as "Group for Valid VAT ID - Domestic"</p>
      *
      * @param array $vatGroup
      * @param array|string $vatNumber
@@ -135,6 +132,52 @@ class Community2_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest 
                         'default_billing_address' => '%noValue%'),
                   'group_valid_vat_intraunion')
         );
+    }
+
+    /**
+     * <p>Customer registration. With invalid VAT Number for domestic country</p>
+     * <p>Steps:</p>
+     * <p>1. Goto on front-end</p>
+     * <p>2. Create new customer</p>
+     * <p>3. Goto tab Address and select some country from Europe Union (but not the same as store country)</p>
+     * <p>4. Enter valid VAT Number</p>
+     * <p>4. Goto back-end and open "Manage Customers"</p>
+     * <p>5. Select your customer and verify value of Group</p>
+     * <p>Expected result:</p>
+     * <p>Customer should be assigned to group which was specified as "Group for Valid VAT ID - Intra-Union"</p>
+     *
+     * @param array $processedGroupNames
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @return array
+     *
+     * @TestlinkId TL-MAGE-4041
+     * @author andrey.vergeles
+     */
+    public function customerWithValidVatIntraUnion($processedGroupNames)
+    {
+        //Data
+        $userRegisterData = $this->loadDataSet('Customers', 'customer_account_register');
+        $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+            array('country'    => 'United Kingdom',
+                  'billing_vat_number' => '584451913',
+                  'default_billing_address' => '%noValue%'));
+        $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
+        //Creating customer on front-end
+        $this->goToArea('frontend');
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userRegisterData);
+        $this->assertMessagePresent('success', 'vat_number_message');
+        //Filling Address Book and VAT Number
+        $this->navigate('adding_new_address_book');
+        $this->addParameter('VatNumber', $userAddressData['billing_vat_number']);
+        $this->fillFieldset($userAddressData, 'address_book');
+        $this->clickButton('save_address');
+        $this->assertMessagePresent('success', 'success_validate_intraunion_vat');
+        //Verifying Customer Group on back-end
+        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
+        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']),'account_information');
     }
 
     /**

@@ -32,17 +32,19 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
-                        checkboxes:
-                            move_to_wishlist: //tr[*//a[text()='%productName%']]//input[@title='Move to Wishlist']
                         links:
                             remove_item: /tbody/tr[%productNumber%]//a[@title='Remove item']
                             product_name: //h2[@class='product-name']/a[text()='%productName%']
+                            move_to_wishlist: //tr[td//a[text()='%productName%']]//a[text()='Move']
+                            edit: //tr['%productName%']//a[@title='Edit item parameters']
                         fields:
                             product_qty: /tbody/tr[%productNumber%]//input[@title='Qty']
                             product_qty_by_name: //tr[*//a[text()='%productName%']]//input[@title='Qty']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
                             product_line: //table[@id='shopping-cart-table']/tbody/tr
+                            product_name: //h2[@class='product-name' and contains(., '%productName%')]
+                            item_options: //*[@class ='item-options']//dd[contains(.,'%itemName%')]
                 -
                     product_price_totals:
                         xpath: //div[@class='totals']
@@ -113,3 +115,4 @@ shopping_cart:
             product_added_to_cart: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% was added to your shopping cart.')]
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
             success_applied_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'Coupon code "%couponCode%" was applied.')]
+            moved_to_wishlist: //li[normalize-space(@class)='success-msg' and contains(.,'%productName% has been moved to wishlist Wishlist')]

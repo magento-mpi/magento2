@@ -84,7 +84,7 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodDirectPostTe
     public function authorizeDirectPost($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
         //Steps

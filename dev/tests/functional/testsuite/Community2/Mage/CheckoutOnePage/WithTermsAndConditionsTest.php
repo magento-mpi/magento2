@@ -118,7 +118,7 @@ class Community2_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Se
     public function withDifferentPaymentMethods($payment, $testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
                 'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $checkoutData['agreement'] =

@@ -33,7 +33,7 @@ class Enterprise2_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Se
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney',
+        $checkoutData =$this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
                                           array('general_name' => $simple['general_name']));
         //Steps
         $this->loginAdminUser();

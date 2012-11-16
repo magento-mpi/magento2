@@ -67,4 +67,15 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelp
         $this->waitForPageToLoad();
         $this->validatePage();
     }
-}
+
+    /**
+     * Open Segment and delete
+     *
+     * @param array $segmentSearch
+     */
+    public function deleteSegment(array $segmentSearch)
+    {
+        $this->openSegment($segmentSearch);
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+    }
+ }

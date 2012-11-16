@@ -143,6 +143,7 @@ new_product:
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
+                                        general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
                                         general_status: //select[@id='status']
@@ -153,8 +154,9 @@ new_product:
                                         general_min_price_type: //select[@id='price_type']
                                         general_min_tax_class: //select[@id='tax_class_id']
                                         general_min_price_view_bundle: //select[@id='price_view']
-                                        general_user_attr_dropdown: //*[@id='%attributeCodeDropdown%']
                                     fields:
+                                        general_qty: //input[@name='product[quantity_and_stock_status][qty]']
+                                        categories: //*[@data-ui-id='category-selector-input']
                                         general_name: //input[@id='name']
                                         general_description: //textarea[@id='description']
                                         general_short_description: //textarea[@id='short_description']
@@ -167,6 +169,22 @@ new_product:
                                         general_min_price: //input[@id='price' and not(@disabled)]
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
+                            -
+                                category_search:
+                                    xpath: //*[@id='html-body']/ul
+                                    links:
+                                        category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
+                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                    pageelements:
+                                        category_list: //*[@class='ui-menu-item']
+                                        all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                            -
+                                chosen_category:
+                                    xpath: //*[@class='category-selector-search-choice button']
+                                    links:
+                                        delete_category: //*[@class='category-selector-search-choice-close']
+                                    pageelements:
+                                        category_name: //*[contains(., '%categoryName%')]
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -175,6 +193,7 @@ new_product:
                                 product_prices:
                                     xpath: //div[contains(div/div/h4,'Prices')]
                                     buttons:
+                                        prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[span='Create New Attribute']
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
@@ -191,6 +210,11 @@ new_product:
                                         prices_special_price_from: //input[@id='special_from_date']
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
+                                    pageelements:
+                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
+                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
+                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
+                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
                             -
                                 tier_price_row:
                                     xpath: //tbody[@id='tier_price_container']/tr

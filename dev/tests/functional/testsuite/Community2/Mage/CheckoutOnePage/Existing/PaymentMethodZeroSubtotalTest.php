@@ -99,7 +99,7 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodZeroSubtotalTest ext
     public function zeroSubtotalCheckout($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         //Steps
@@ -144,7 +144,7 @@ class Community2_Mage_CheckoutOnePage_Existing_PaymentMethodZeroSubtotalTest ext
     public function zeroSubtotalCheckoutCapture($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable',

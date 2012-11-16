@@ -106,7 +106,7 @@ class Community2_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistr
     {
         //Data
         $vatNumber = array_merge($vatNumber, array('general_name' => $vatGroup['simple']));
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney', $vatNumber);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', $vatNumber);
         $userDataParam = $checkoutData['billing_address_data']['billing_first_name'] . ' '
                          . $checkoutData['billing_address_data']['billing_last_name'];
         //Steps

@@ -208,7 +208,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -260,7 +260,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -536,7 +536,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => array('send_gift_receipt' => 'Yes')));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -752,7 +752,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');

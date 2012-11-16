@@ -50,7 +50,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Sele
     {
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', $dataName);
-        $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
@@ -94,7 +94,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Sele
     public function deletedSystemAttribute($attributeName)
     {
         //Data
-        $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
+        $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code'  => $attributeName));
         //Steps
         $this->attributesHelper()->openAttribute($searchData);

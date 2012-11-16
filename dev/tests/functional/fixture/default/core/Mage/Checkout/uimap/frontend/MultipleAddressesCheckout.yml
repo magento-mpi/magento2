@@ -266,6 +266,7 @@ checkout_multishipping_payment_methods:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
                             card_verification_number: //input[@id='%paymentId%_cc_cid']
+                            purchase_order_number: //input[@id='po_number']
                         dropdowns:
                             card_type: //select[@id='%paymentId%_cc_type']
                             expiration_month: //select[@id='%paymentId%_expiration']

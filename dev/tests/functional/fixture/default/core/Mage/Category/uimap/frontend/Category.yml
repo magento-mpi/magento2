@@ -29,6 +29,7 @@ category_page_before_reindex:
                             add_to_wishlist: //li[h2/a='%productName%']//a[@class='link-wishlist']
                             add_to_compare: //li[h2/a='%productName%']//a[@class='link-compare']
                             reviews: //a[contains(text(),'Review(s)')]
+                            click_for_price: //a[contains(text(),'Click for price')]
                         buttons:
                             add_to_cart: //li[h2/a='%productName%']//button[span='Add to Cart']
                         pageelements:
@@ -95,8 +96,23 @@ category_page_before_reindex:
                         links:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
+                -
+                    layered_navigation_anchor:
+                        xpath: //div[@class='block block-layered-nav']
+                        pageelements:
+                            currently_shopping_by: //div[@class='currently']
+                        links:
+                            category_name: //*[@id='narrow-by-list']//a[text()='%categoryName%']
+                            attribute_name: //*[@id='narrow-by-list']//a[text()='%attributeName%']
+                            price_attribute: //*[@id='narrow-by-list']//a[contains(@href,'%priceAttributeCode%')]
+                            clear_all: //div[@class='actions']/a
+                        buttons:
+                            remove_this_item: //*[@class='btn-remove']
+                -
+                    layered_navigation:
+                        xpath: //*[@id='narrow-by-list2']
         messages: &categoryPageMessages
-            newsletter_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            newsletter_invalid_email: "//li[@class='error-msg' and contains(.,'There was a problem with the subscription: Please enter a valid email address.')]"
             newsletter_required_field: //*[@id='advice-required-entry-newsletter']
             newsletter_success_subscription: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for your subscription.')]
             newsletter_email_used: "//li[normalize-space(@class)='error-msg' and contains(.,'There was a problem with the subscription: This email address is already assigned to another user.')]"

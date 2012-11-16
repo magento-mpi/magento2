@@ -92,7 +92,7 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotal
     public function zeroSubtotalCheckout($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         //Steps
@@ -138,7 +138,7 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotal
     public function zeroSubtotalCheckoutCapture($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
             array('general_name' => $testData['sku'],
                   'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
         //Steps

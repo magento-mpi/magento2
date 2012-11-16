@@ -28,6 +28,8 @@ admin_header:
                             log_out: //a[@class='link-logout']
                         pageelements:
                             admin_logo: //img[@class='logo' and contains(@src,'logo.gif')]
+                        fields:
+                            global_record_search: //*[@id='global_search']
                 -
                     notification_global:
                         xpath: //div[@class='notification-global']
@@ -75,6 +77,11 @@ admin_header:
                             store_view_hint: "/../../td[@class='scope-label'][contains(.,'[STORE VIEW]')]"
                             global_view_hint: "/../../td[@class='scope-label'][contains(.,'[GLOBAL]')]"
                             website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
+                            access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
+                            navigation_menu_items: //ul[@id='nav']/li
+                            navigation_children_menu_items: //*[@id='nav']/li/ul/li
+                            general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
+                            active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
         messages:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
