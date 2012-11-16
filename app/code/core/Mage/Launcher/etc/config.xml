@@ -25,15 +25,6 @@
                 </launcher>
             </updates>
         </layout>
-        <translate>
-            <modules>
-                <Mage_Launcher>
-                    <files>
-                        <default>Mage_Launcher.csv</default>
-                    </files>
-                </Mage_Launcher>
-            </modules>
-        </translate>
     </adminhtml>
     <admin>
         <routers>
