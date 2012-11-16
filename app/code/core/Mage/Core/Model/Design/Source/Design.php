@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * Source model for eav attribute custom_design
+ */
 class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
