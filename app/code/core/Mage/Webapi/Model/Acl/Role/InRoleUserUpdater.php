@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Mage_Core_Model_La
     }
 
     /**
-     * Remove massaction items in case they disallowed for user
+     * Init values with users assigned to role
      *
      * @param array|null $values
      * @return array|null

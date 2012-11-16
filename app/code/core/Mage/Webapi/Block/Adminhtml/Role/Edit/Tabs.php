@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API Role tabs
+ * Web API Role edit page tabs
  *
  * @copyright {}
  *

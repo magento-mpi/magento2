@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API User page left menu
+ * Web API User edit page tabs
  *
  * @copyright {}
  *
@@ -38,8 +38,6 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
         ));
 
         $rolesGrid = $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid');
-        $this->getLayout()->getBlock('webapi.user.edit.tab.roles.grid.columnSet.role_id')
-            ->setValue($this->getApiUser()->getRoleId());
         $this->addTab('roles_section', array(
             'label' => $this->__('User Role'),
             'title' => $this->__('User Role'),

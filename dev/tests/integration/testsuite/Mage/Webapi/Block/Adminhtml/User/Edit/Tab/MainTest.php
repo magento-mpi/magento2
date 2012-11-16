@@ -56,7 +56,6 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
 
         $form = $this->_block->getForm();
         $this->assertInstanceOf('Varien_Data_Form', $form);
-        $this->assertEquals('user_', $form->getHtmlIdPrefix());
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
         $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $fieldset);

@@ -17,7 +17,6 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('user_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => $this->__('Account Information'))

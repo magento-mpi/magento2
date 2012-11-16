@@ -126,6 +126,9 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <required>0</required>
+                            <value>
+                                <updater>Mage_Webapi_Model_Acl_User_RoleUpdater</updater>
+                            </value>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_name">
