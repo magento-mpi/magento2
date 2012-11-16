@@ -91,7 +91,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->delete();
         /** @var Mage_Webapi_Model_Acl_User $user */
         $user = Mage::getModel('Mage_Webapi_Model_Acl_User')
-            ->load('test_username','api_key');
+            ->load('test_username', 'api_key');
         $this->assertNotEmpty($user->getId());
     }
 }
