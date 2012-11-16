@@ -24,15 +24,13 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
         new Magento_Autoload_ClassMap(__FILE__);
     }
 
-    public function testAutoloadAddMap()
+    public function testGetFileAddMap()
     {
-        $loader = new Magento_Autoload_ClassMap(__DIR__);
-        $this->assertFalse(class_exists('TestMap', false));
-        $this->assertFalse(class_exists('Non_Existent_Class', false));
-        $this->assertSame($loader, $loader->addMap(array('TestMap' => 'TestMap.php')));
-        $loader->autoload('TestMap');
-        $loader->autoload('Non_Existent_Class');
-        $this->assertTrue(class_exists('TestMap', false));
-        $this->assertFalse(class_exists('Non_Existent_Class', false));
+        $locator = new Magento_Autoload_ClassMap(__DIR__ . '/_files');
+        $this->assertFalse($locator->getFile('TestMap'));
+        $this->assertFalse($locator->getFile('Non_Existent_Class'));
+        $this->assertSame($locator, $locator->addMap(array('TestMap' => 'TestMap.php')));
+        $this->assertFileExists($locator->getFile('TestMap'));
+        $this->assertFalse($locator->getFile('Non_Existent_Class'));
     }
 }

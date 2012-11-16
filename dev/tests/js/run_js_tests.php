@@ -11,8 +11,8 @@
  */
 
 define('RELATIVE_APP_ROOT', '../../..');
-$autoload = require __DIR__ . '/../autoload.php';
-$autoload->addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
+require __DIR__ . '/../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
 
 $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');

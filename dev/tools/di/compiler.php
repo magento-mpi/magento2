@@ -16,18 +16,16 @@ define('BP', realpath(__DIR__ . '/../../..'));
 /**
  * Require necessary files
  */
-require_once BP . '/lib/Magento/Autoload/IncludePath.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
-$loader = new Magento_Autoload_IncludePath;
-$loader->addIncludePath(array(
+require __DIR__ . '/../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(
     BP . DS . 'app' . DS . 'code' . DS . 'local',
     BP . DS . 'app' . DS . 'code' . DS . 'community',
     BP . DS . 'app' . DS . 'code' . DS . 'core',
     BP . DS . 'lib',
 ));
-spl_autoload_register(array($loader, 'autoload'));
 Mage::setRoot();
 $definitions = array();
 

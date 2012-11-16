@@ -15,5 +15,5 @@ define('SELENIUM_TESTS_SCREENSHOTDIR',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
 define('SELENIUM_TESTS_LOGS',
         realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
-$autoload = require __DIR__ . '/../../../../autoload.php';
-$autoload->addIncludePath(array(__DIR__, SELENIUM_TESTS_LIBDIR));
+require __DIR__ . '/../../../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(__DIR__, SELENIUM_TESTS_LIBDIR));

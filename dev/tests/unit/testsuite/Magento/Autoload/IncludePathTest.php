@@ -9,26 +9,18 @@
 class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Autoload_IncludePath
-     */
-    protected $_loader;
-
-    /**
      * @var string
      */
-    protected $_includePath;
+    protected static $_originalPath = '';
 
-    protected function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->_includePath = get_include_path();
-        $this->_loader = new Magento_Autoload_IncludePath;
-        $this->_loader->addIncludePath(__DIR__);
+        self::$_originalPath = get_include_path();
     }
 
     protected function tearDown()
     {
-        $this->_loader = null;
-        set_include_path($this->_includePath);
+        set_include_path(self::$_originalPath);
     }
 
     /**
@@ -36,11 +28,11 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
      * @param bool $expectedValue
      * @dataProvider autoloadDataProvider
      */
-    public function testAutoload($class, $expectedValue)
+    public function testGetFile($class, $expectedValue)
     {
-        $this->assertFalse(class_exists($class, false));
-        $this->_loader->autoload($class);
-        $this->assertEquals($expectedValue, class_exists($class, false));
+        $this->assertFalse(Magento_Autoload_IncludePath::getFile($class));
+        Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/_files');
+        $this->assertEquals($expectedValue, Magento_Autoload_IncludePath::getFile($class));
     }
 
     /**
@@ -49,20 +41,17 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
     public function autoloadDataProvider()
     {
         return array(
-            array('TestClass', true),
-            array('\Ns\TestClass', true),
+            array('TestClass', realpath(__DIR__ . '/_files/TestClass.php')),
+            array('\Ns\TestClass', realpath(__DIR__ . '/_files/Ns/TestClass.php')),
             array('Non_Existing_Class', false),
         );
     }
 
     public function testAddIncludePath()
     {
-        $this->assertNotContains('before', get_include_path());
-        $this->assertSame($this->_loader, $this->_loader->addIncludePath('before'));
-        $this->assertStringStartsWith('before' . PATH_SEPARATOR, get_include_path());
-
-        $this->assertNotContains('after', get_include_path());
-        $this->_loader->addIncludePath(array('after'), true);
-        $this->assertStringEndsWith(PATH_SEPARATOR . 'after', get_include_path());
+        $fixture = uniqid();
+        $this->assertNotContains($fixture, get_include_path());
+        Magento_Autoload_IncludePath::addIncludePath(array($fixture), true);
+        $this->assertStringEndsWith(PATH_SEPARATOR . $fixture, get_include_path());
     }
 }

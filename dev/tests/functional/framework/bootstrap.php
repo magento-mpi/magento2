@@ -18,8 +18,8 @@ realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARA
 define('SELENIUM_TESTS_LOGS',
 realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
-$loader = require __DIR__ . '/../../autoload.php';
-$loader->addIncludePath(array(
+require __DIR__ . '/../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(
     realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
     realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
 ));

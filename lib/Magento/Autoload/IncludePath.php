@@ -7,7 +7,7 @@
  */
 
 /**
- * An autoloader compliant with PSR-0 standard that uses include path
+ * A file locator for autoloader that uses include path. Compliant with PSR-0 standard
  */
 class Magento_Autoload_IncludePath
 {
@@ -17,40 +17,32 @@ class Magento_Autoload_IncludePath
     const NS_SEPARATOR = '\\';
 
     /**
-     * Auto load class file
+     * Find a file in include path
      *
-     * @param string $class class name
+     * @param string $class
+     * @return string|bool
      */
-    public function autoload($class)
+    public static function getFile($class)
     {
         if (strpos($class, self::NS_SEPARATOR) !== false) {
-            $class = str_replace(self::NS_SEPARATOR, '_', ltrim($class, self::NS_SEPARATOR));
+            $class = ltrim(str_replace(self::NS_SEPARATOR, '_', $class), '_');
         }
         $relativePath = str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
-        $absolutePath = stream_resolve_include_path($relativePath);
-        if ($absolutePath) {
-            include $absolutePath;
-        }
+        return stream_resolve_include_path($relativePath);
     }
 
     /**
-     * Add specified path(s) to include_path
+     * Append specified path(s) to include_path
      *
      * @param string|array $path
-     * @param bool $append
-     * @return Magento_Autoload_IncludePath
      */
-    public function addIncludePath($path, $append = false)
+    public static function addIncludePath($path)
     {
-        if (!is_array($path)) {
-            $path = array($path);
+        $result = implode(PATH_SEPARATOR, (array)$path);
+        $includePath = get_include_path();
+        if ($includePath) {
+            $result = $includePath . PATH_SEPARATOR . $result;
         }
-        if ($append) {
-            array_unshift($path, get_include_path());
-        } else {
-            $path[] = get_include_path();
-        }
-        set_include_path(implode(PATH_SEPARATOR, $path));
-        return $this;
+        set_include_path($result);
     }
 }

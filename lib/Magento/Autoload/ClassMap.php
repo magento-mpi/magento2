@@ -1,6 +1,6 @@
 <?php
 /**
- * An autoloader that uses a class map to load files
+ * A file locator for autoloader that uses a class map
  *
  * {license_notice}
  *
@@ -41,14 +41,18 @@ class Magento_Autoload_ClassMap
         }
     }
 
-    public function autoload($class)
+    /**
+     * Find an absolute path to a file to be included
+     *
+     * @param string $class
+     * @return string|bool
+     */
+    public function getFile($class)
     {
         if (isset($this->_map[$class])) {
-            $file = $this->_baseDir . DIRECTORY_SEPARATOR . $this->_map[$class];
-            if (file_exists($file)) {
-                include $file;
-            }
+            return $this->_baseDir . DIRECTORY_SEPARATOR . $this->_map[$class];
         }
+        return false;
     }
 
     /**

@@ -9,6 +9,6 @@
  * @license     {license_link}
  */
 
-$loader = require __DIR__ . '/../../autoload.php';
-$loader->addIncludePath(array(__DIR__, dirname(__DIR__) . '/testsuite'));
+require __DIR__ . '/../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(__DIR__, dirname(__DIR__) . '/testsuite'));
 Utility_Files::init(new Utility_Files(realpath(__DIR__ . '/../../../..')));

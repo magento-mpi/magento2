@@ -8,16 +8,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-$includePath = array(
+require __DIR__ . '/../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,
     realpath(__DIR__ . '/../../../tests/static/framework')
-);
-set_include_path(implode(PATH_SEPARATOR, $includePath));
-
-spl_autoload_register(function ($class) {
-    $file = str_replace('_', '/', $class) . '.php';
-    require_once $file;
-});
+));
 
 define('USAGE', <<<USAGE
 php -f sanity.php -c <config_file> [-w <dir>] [-v]
