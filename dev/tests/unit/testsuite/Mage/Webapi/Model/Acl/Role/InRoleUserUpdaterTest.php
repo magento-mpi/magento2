@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Acl_Role_InRoleUserUpdaterrTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framework_TestCase
 {
     public function testUpdate()
     {
