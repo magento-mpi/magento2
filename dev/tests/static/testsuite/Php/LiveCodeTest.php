@@ -84,7 +84,6 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         foreach (glob($globPattern) as $list) {
             $patterns = array_merge($patterns, file($list, FILE_IGNORE_NEW_LINES));
         }
-        $baseDir = realpath(__DIR__ . '/../../../../..');
         $result = array();
         foreach ($patterns as $pattern) {
             if (0 === strpos($pattern, '#')) {
@@ -94,9 +93,9 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
              * Note that glob() for directories will be returned as is,
              * but passing directory is supported by the tools (phpcpd, phpmd, phpcs)
              */
-            $files = glob($baseDir . '/' . $pattern, GLOB_BRACE);
+            $files = glob(Utility_Files::init()->getPathToSource() . '/' . $pattern, GLOB_BRACE);
             if (empty($files)) {
-                throw new Exception("Pattern '{$pattern}' didn't return any result.");
+                throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
             }
             $result = array_merge($result, $files);
         }
