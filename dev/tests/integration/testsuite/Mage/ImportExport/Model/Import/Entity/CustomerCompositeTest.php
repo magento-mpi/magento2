@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_ImportExport
+ * @package     Mage_ImportExport
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
