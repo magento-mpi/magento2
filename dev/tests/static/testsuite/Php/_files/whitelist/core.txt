@@ -2,6 +2,7 @@ app/bootstrap.php
 app/code/core/Mage/Adminhtml/controllers/System/ConfigController.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
+app/code/core/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/core/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Adminhtml/Block/Urlrewrite
@@ -11,7 +12,9 @@ app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field.php
 app/code/core/Mage/Backend/Model/Acl/Config.php
+app/code/core/Mage/Backend/Block/System/Config/Form/Field/Regexceptions.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
+app/code/core/Mage/Backend/Block/Widget/Grid/Column/Filter/Theme.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
 app/code/core/Mage/Backend/controllers/Adminhtml/SystemController.php
@@ -29,6 +32,7 @@ app/code/core/Mage/Core/data/core_setup/data-install-1.6.0.0.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php
+app/code/core/Mage/Core/Model/Design/Source/Design.php
 app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Core/Model/Layout.php
 app/code/core/Mage/Core/Model/Layout/Structure.php
