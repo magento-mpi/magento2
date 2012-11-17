@@ -52,7 +52,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
      */
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Handler_Factory $handlerFactory,
         Mage_Core_Model_App $application,
@@ -69,6 +69,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Prepare environment, Initialize handler.
      *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      * @return Mage_Core_Controller_Varien_Front
      */
     public function init()
@@ -77,8 +78,9 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
         ini_set('display_errors', 0);
         try {
             $this->_getHandler()->init();
-        } catch (Mage_Webapi_Exception $e) {
-            $this->_errorProcessor->render($e->getMessage(), $e->getTraceAsString(), $e->getCode());
+        } catch (Exception $e) {
+            $this->_errorProcessor->renderException($e);
+            /** Request processing must be stopped at this point to prevent output in unacceptable format. */
             die();
         }
         return $this;

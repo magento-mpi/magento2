@@ -22,7 +22,8 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
      * @param Mage_Xml_Parser $xmlParser
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(Mage_Xml_Parser $xmlParser, Mage_Core_Model_Factory_Helper $helperFactory) {
+    public function __construct(Mage_Xml_Parser $xmlParser, Mage_Core_Model_Factory_Helper $helperFactory)
+    {
         $this->_xmlParser = $xmlParser;
         $this->_helperFactory = $helperFactory;
         $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');

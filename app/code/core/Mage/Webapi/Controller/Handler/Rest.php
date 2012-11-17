@@ -129,9 +129,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     public function init()
     {
+        parent::init();
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
-        return parent::init();
+        return $this;
     }
 
     /**
@@ -180,10 +181,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
                 $this->_addException($e);
             }
         }
-
-        $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
         $this->_sendResponse();
-        $this->_eventManager->dispatch('controller_front_send_response_after', array('front' => $this));
         return $this;
     }
 
@@ -296,25 +294,9 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
                 ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
                 : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
 
-            //if error appeared in "error rendering" process then use error renderer
-            $this->_renderInternalError($e->getMessage(), $e->getTraceAsString(), $httpCode);
+            /** If error was encountered during "error rendering" process then use error renderer. */
+            $this->_errorProcessor->renderException($e, $httpCode);
         }
-    }
-
-    /**
-     * Process application error
-     * Create report if not in developer mode and render error to send correct api response
-     *
-     * @param string $errorMessage detailed error message
-     * @param string $trace exception trace
-     * @param int|null $httpCode
-     */
-    protected function _renderInternalError($errorMessage, $trace = 'Trace is not available.', $httpCode = null)
-    {
-        if (!Mage::getIsDeveloperMode()) {
-            $this->_errorProcessor->saveReport($errorMessage . $trace);
-        }
-        $this->_errorProcessor->render($errorMessage, $trace, $httpCode);
     }
 
     /**
@@ -381,11 +363,11 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     public function mageApiShutdownFunction()
     {
-        $E_FATAL = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
+        $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
 
         $error = error_get_last();
 
-        if ($error && ($error['type'] & $E_FATAL)) {
+        if ($error && ($error['type'] & $fatalErrorFlag)) {
             $errorMessage = '';
             switch ($error['type']) {
                 case E_ERROR:
@@ -417,8 +399,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             } catch (Exception $e) {
                 $errorMessage = $e->getMessage();
             }
-
-            $this->_renderInternalError($errorMessage);
+            if (!Mage::getIsDeveloperMode()) {
+                $this->_errorProcessor->saveReport($errorMessage);
+            }
+            $this->_errorProcessor->render($errorMessage);
         }
     }
 }

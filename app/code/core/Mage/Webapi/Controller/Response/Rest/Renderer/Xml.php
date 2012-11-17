@@ -30,7 +30,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
      *
      * @param Mage_Xml_Generator $xmlGenerator
      */
-    function __construct(Mage_Xml_Generator $xmlGenerator)
+    public function __construct(Mage_Xml_Generator $xmlGenerator)
     {
         $this->_xmlGenerator = $xmlGenerator;
     }
@@ -56,7 +56,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
         $formattedData = $this->_formatData($data, true);
         /** Wrap response in a single node. */
         $formattedData = array(self::XML_ROOT_NODE => $formattedData);
-        $this->_xmlGenerator->arrayToXml($formattedData);
+        $this->_xmlGenerator->setIndexedArrayItemName(self::DEFAULT_ENTITY_ITEM_NAME)->arrayToXml($formattedData);
         return $this->_xmlGenerator->getDom()->saveXML();
     }
 
@@ -88,7 +88,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
             if ($isAssoc) {
                 $formattedData[$this->_prepareKey($key)] = $value;
             } else {
-                $formattedData[self::DEFAULT_ENTITY_ITEM_NAME][] = $value;
+                $formattedData[] = $value;
             }
         }
         return $formattedData;

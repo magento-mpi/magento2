@@ -47,10 +47,6 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
             throw new Mage_Webapi_Exception($this->_helper->__('Decoding error.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
-        if ($encodedBody != 'null' && $decodedBody === null) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Decoding error.'),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
         return $decodedBody;
     }
 }

@@ -13,6 +13,11 @@
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * @var Mage_Webapi_Model_Authorization_Config
+     */
+    protected $_authorizationConfig;
+
+    /**
      * @var Mage_Webapi_Model_Resource_Acl_Rule
      */
     protected $_ruleResource;
@@ -63,8 +68,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
+        $this->_authorizationConfig = $authorizationConfig;
         $this->_ruleResource = $ruleResource;
-        $this->_aclResourcesTree = $authorizationConfig->getAclResourcesAsArray(false);
     }
 
     /**
@@ -74,6 +79,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      */
     protected function _prepareForm()
     {
+        $this->_aclResourcesTree = $this->_authorizationConfig->getAclResourcesAsArray(false);
         $selectedResources = $this->_getSelectedResourcesIds();
 
         if ($selectedResources) {
@@ -113,13 +119,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
 
     /**
      * Get selected ACL resources of given api role
+     *
+     * @return array
      */
     protected function _getSelectedResourcesIds()
     {
         $apiRole = $this->getApiRole();
-        if ($apiRole && $apiRole->getId()) {
+        if (null === $this->_selectedResourcesIds && $apiRole && $apiRole->getId()) {
             $this->_selectedResourcesIds = $this->_ruleResource->getResourceIdsByRole($apiRole->getRoleId());
         }
-        return $this->_selectedResourcesIds;
+        return (array)$this->_selectedResourcesIds;
     }
 }

@@ -61,13 +61,31 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     }
 
     /**
+     * Process API exception.
+     *
+     * Create report if not in developer mode and render error to send correct api response.
+     *
+     * @param Exception $e
+     * @param int $httpCode
+     */
+    public function renderException(Exception $e, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
+    {
+        if (Mage::getIsDeveloperMode() || $e instanceof Mage_Webapi_Exception) {
+            $this->render($e->getMessage(), $e->getTraceAsString(), $httpCode);
+        } else {
+            $this->saveReport($e->getMessage() . ' : ' . $e->getTraceAsString());
+            $this->render($this->_helper->__('Internal Error'), 'Trace is not available.', $httpCode);
+        }
+    }
+
+    /**
      * Render error according to mime type.
      *
      * @param string $errorMessage
      * @param string $trace
      * @param int $httpCode
      */
-    public function render($errorMessage, $trace, $httpCode = null)
+    public function render($errorMessage, $trace = 'Trace is not available.', $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
         if (strstr($_SERVER['HTTP_ACCEPT'], 'json')) {
             $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_JSON);

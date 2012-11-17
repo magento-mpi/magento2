@@ -136,7 +136,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
                 if ($firstItem['sortOrder'] == $secondItem['sortOrder']) {
                     return 0;
                 }
-                return ($secondItem['sortOrder'] < $secondItem['sortOrder']) ? -1 : 1;
+                return ($firstItem['sortOrder'] < $secondItem['sortOrder']) ? -1 : 1;
 
             };
             usort($result['children'], $sortCallback);

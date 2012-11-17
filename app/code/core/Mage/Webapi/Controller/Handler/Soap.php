@@ -174,9 +174,11 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         switch ($header) {
             case 'Security':
                 foreach ($arguments as $argument) {
+                    // @codingStandardsIgnoreStart
                     if (is_object($argument) && isset($argument->UsernameToken)) {
                         $this->_usernameTokenRequest = $argument->UsernameToken;
                     }
+                    // @codingStandardsIgnoreEnd
                 }
                 break;
         }
@@ -216,7 +218,9 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         try {
             $token = $this->_usernameTokenFactory->createFromArray();
             $request = $this->_usernameTokenRequest;
+            // @codingStandardsIgnoreStart
             $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);
+            // @codingStandardsIgnoreEnd
             $this->_roleLocator->setRoleId($user->getRoleId());
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
             $this->_soapFault(
@@ -246,8 +250,9 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     public function init()
     {
+        parent::init();
         $this->_initSoapServer();
-        return parent::init();
+        return $this;
     }
 
     /**

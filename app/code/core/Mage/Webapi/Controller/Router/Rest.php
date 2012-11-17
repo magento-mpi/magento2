@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Router_Rest
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    function __construct(Mage_Core_Model_Factory_Helper $helperFactory)
+    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory)
     {
         $this->_helperFactory = $helperFactory;
         $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
