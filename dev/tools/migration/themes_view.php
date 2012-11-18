@@ -36,12 +36,12 @@ try {
         'enterprise_banner_content' => 'banner_content',
         'cms_page' => 'content',
         'cms_block' => 'content',
-        'cms_block_asd' => 'content'
     );
     foreach ($config as $table => $field) {
         updateFieldForTable($table, $field);
     }
 } catch (Exception $e) {
+    echo "Make sure that you launch this script with Magento 2 configured sources. \n\n";
     echo $e->getMessage();
 }
 
