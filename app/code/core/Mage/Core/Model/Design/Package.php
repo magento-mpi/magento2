@@ -11,8 +11,14 @@
 
 class Mage_Core_Model_Design_Package
 {
-    const DEFAULT_AREA    = 'frontend';
+    /**
+     * Default design area
+     */
+    const DEFAULT_AREA = 'frontend';
 
+    /**
+     * Scope separator
+     */
     const SCOPE_SEPARATOR = '::';
 
     /**#@+
@@ -96,8 +102,6 @@ class Mage_Core_Model_Design_Package
      */
     protected $_callbackFileDir;
 
-    protected $_config = null;
-
     /**
      * List of theme configuration objects per area
      *
@@ -113,7 +117,7 @@ class Mage_Core_Model_Design_Package
     protected $_viewConfigs = array();
 
     /**
-     * Published file cache storages
+     * Published file cache storage
      *
      * @var array
      */
@@ -173,13 +177,15 @@ class Mage_Core_Model_Design_Package
         }
 
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        $themeModel = $this->getDesignTheme();
         if (is_numeric($theme)) {
             $themeModel->load($theme);
         } else {
-            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-            $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
+            if (Mage::isInstalled()) {
+                /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+                $collection = $themeModel->getCollection();
+                $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
+            }
             if (is_string($theme) && !$themeModel->getId()) {
                 $themeModel = $themeModel->getCollectionFromFilesystem()
                     ->addDefaultPattern($area)
@@ -234,7 +240,7 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Design theme full name getter
+     * Design theme model getter
      *
      * @return Mage_Core_Model_Theme
      */
@@ -418,7 +424,7 @@ class Mage_Core_Model_Design_Package
      * Directories lister utility method
      *
      * @param string $path
-     * @param string|false $fullPath
+     * @param bool|string $fullPath
      * @return array
      */
     private function _listDirectories($path, $fullPath = false)
@@ -447,6 +453,7 @@ class Mage_Core_Model_Design_Package
      *
      * @param array $rules - design exception rules
      * @param string $regexpsConfigPath
+     * @return bool|string
      */
     public static function getPackageByUserAgent(array $rules, $regexpsConfigPath = 'path_mock')
     {
@@ -471,7 +478,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Remove all merged js/css files
      *
-     * @return  bool
+     * @return bool
      */
     public function cleanMergedJsCss()
     {
@@ -860,8 +867,8 @@ class Mage_Core_Model_Design_Package
      *
      * @param string $filename
      * @param bool $isRelative flag that identify that filename is relative
+     * @return string
      * @throws Magento_Exception if file can't be canonized
-     * @return string|false
      */
     protected function _canonize($filename, $isRelative = false)
     {
@@ -895,8 +902,8 @@ class Mage_Core_Model_Design_Package
      *
      * @param array $files list of names relative to the same folder
      * @param string $contentType
-     * @throws Magento_Exception if not existing file requested for merge
      * @return string
+     * @throws Magento_Exception if not existing file requested for merge
      */
     protected function _mergeFiles($files, $contentType)
     {
@@ -982,10 +989,10 @@ class Mage_Core_Model_Design_Package
      *  pub/theme/frontend/default/default/default/style.css -> img/empty.gif
      *  pub/theme/_merged/hash.css -> ../frontend/default/default/default/img/empty.gif
      *
-     * @throws Magento_Exception
      * @param string $originalFile path to original file
      * @param string $relocationDir path to directory where content will be relocated
      * @return string
+     * @throws Magento_Exception
      */
     protected function _getFilesOffset($originalFile, $relocationDir)
     {
@@ -1025,7 +1032,7 @@ class Mage_Core_Model_Design_Package
 
         $result = implode($css);
         if ($imports) {
-            $result = implode("\n", $imports). "\n"
+            $result = implode("\n", $imports) . "\n"
                 . "/* Import directives above popped up. */\n"
                 . $result
             ;
@@ -1063,7 +1070,6 @@ class Mage_Core_Model_Design_Package
      * @param string $file
      * @param array $params
      * @param string $publicFile
-     * @return void
      */
     protected function _setPublicFileIntoCache($file, $params, $publicFile)
     {
@@ -1078,7 +1084,6 @@ class Mage_Core_Model_Design_Package
      * Load published file cache storage from cache
      *
      * @param string $cacheKey
-     * @return void
      */
     protected function _loadPublicCache($cacheKey)
     {
@@ -1110,7 +1115,7 @@ class Mage_Core_Model_Design_Package
         $areaStructure = array();
 
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeCollection = $this->getDesignTheme()->getCollectionFromFilesystem();
         $themeCollection->addDefaultPattern($area);
 
         /** @var $theme Mage_Core_Model_Theme */
