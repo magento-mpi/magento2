@@ -292,9 +292,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $this->unsetChild($alias);
         }
         if ($block instanceof self) {
-            if ($block->getIsAnonymous()) {
-                $block->setNameInLayout($this->getNameInLayout() . '.' . $alias);
-            }
             $block = $block->getNameInLayout();
         }
         $layout->setChild($thisName, $block, $alias);
@@ -303,10 +300,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Create block and set as child
+     * Create block with name: {parent}.{alias} and set as child
      *
      * @param string $alias
-     * @param Mage_Core_Block_Abstract $block
+     * @param string $block
      * @param array $data
      * @return Mage_Core_Block_Abstract new block
      */
