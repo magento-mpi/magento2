@@ -112,11 +112,9 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     public function getThemeByFullPath($fullPath)
     {
         list($area, $themePath) = explode('/', $fullPath, 2);
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $collection->addFieldToFilter('area', $area);
-        $collection->addFieldToFilter('theme_path', $themePath);
+        $this->addFieldToFilter('area', $area);
+        $this->addFieldToFilter('theme_path', $themePath);
 
-        return $collection->getFirstItem();
+        return $this->getFirstItem();
     }
 }

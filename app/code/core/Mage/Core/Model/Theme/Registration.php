@@ -22,6 +22,41 @@ class Mage_Core_Model_Theme_Registration
     protected $_collection;
 
     /**
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_theme;
+
+    /**
+     * Init theme model
+     */
+    public function __construct(Mage_Core_Model_Theme $model)
+    {
+        $this->setThemeModel($model);
+    }
+
+    /**
+     * Get theme model
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getThemeModel()
+    {
+        return $this->_theme;
+    }
+
+    /**
+     * Set theme model
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme_Registration
+     */
+    public function setThemeModel($theme)
+    {
+        $this->_theme = $theme;
+        return $this;
+    }
+
+    /**
      * Theme registration
      *
      * @param string $pathPattern
@@ -29,7 +64,7 @@ class Mage_Core_Model_Theme_Registration
      */
     public function register($pathPattern = '')
     {
-        $this->_collection = Mage::getSingleton('Mage_Core_Model_Theme_Collection');
+        $this->_collection = $this->getThemeModel()->getCollectionFromFilesystem();
 
         if ($pathPattern) {
             $this->_collection->addTargetPattern($pathPattern);
@@ -42,7 +77,7 @@ class Mage_Core_Model_Theme_Registration
         }
 
         /** @var $dbCollection Mage_Core_Model_Resource_Theme_Collection */
-        $dbCollection = Mage::getModel('Mage_Core_Model_Theme')->getResourceCollection();
+        $dbCollection = $this->getThemeModel()->getResourceCollection();
         $dbCollection->checkParentInThemes();
 
         return $this;
@@ -52,29 +87,26 @@ class Mage_Core_Model_Theme_Registration
      * Register theme and recursively all its ascendants
      * Second param is optional and is used to prevent circular references in inheritance chain
      *
-     * @throws Mage_Core_Exception
      * @param Mage_Core_Model_Theme $theme
      * @param array $inheritanceChain
      * @return Mage_Core_Model_Theme_Collection
+     * @throws Mage_Core_Exception
      */
     protected function _registerThemeRecursively($theme, $inheritanceChain = array())
     {
         if ($theme->getId()) {
             return $this;
         }
-        $themeModel = $this->getThemeFromDb($theme->getTempId());
+        $themeModel = $this->getThemeFromDb($theme->getFullPath());
         if ($themeModel->getId()) {
             $theme = $themeModel;
             return $this;
         }
 
-        $tempId = $theme->getTempId();
+        $tempId = $theme->getFullPath();
         if (in_array($tempId, $inheritanceChain)) {
-            // @codingStandardsIgnoreStart
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Circular-reference in theme inheritance detected for "%s"', $tempId)
-            );
-            // @codingStandardsIgnoreEnd
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')
+                    ->__('Circular-reference in theme inheritance detected for "%s"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();
@@ -89,32 +121,6 @@ class Mage_Core_Model_Theme_Registration
     }
 
     /**
-     * Find theme in file-system by theme path
-     *
-     * @throws Mage_Core_Exception
-     * @param string $area
-     * @param string $themePath
-     * @return Mage_Core_Model_Theme|null
-     */
-    protected function _findTheme($area, $themePath)
-    {
-        $theme = null;
-        /** @var $item Mage_Core_Model_Theme */
-        foreach ($this->_collection->getItemsByColumnValue('theme_path', $themePath) as $item) {
-            if ($item->getArea() == $area) {
-                $theme = $item;
-                break;
-            }
-        }
-        if ($theme === null) {
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Invalid parent theme "%s"', $themePath)
-            );
-        }
-        return $theme;
-    }
-
-    /**
      * Get theme from DB by full path
      *
      * @param string $fullPath
@@ -123,7 +129,7 @@ class Mage_Core_Model_Theme_Registration
     public function getThemeFromDb($fullPath)
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        $collection = $this->getThemeModel()->getCollection();
         return $collection->getThemeByFullPath($fullPath);
     }
 }
