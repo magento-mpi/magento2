@@ -498,6 +498,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return cache key for current theme
+     *
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        return $this->getId() . $this->getThemePath();
+    }
+
+    /**
      * Retrieve theme full path which is used to distinguish themes if they are not in DB yet
      *
      * Alternative id looks like "<area>/<package_code>/<theme_code>".

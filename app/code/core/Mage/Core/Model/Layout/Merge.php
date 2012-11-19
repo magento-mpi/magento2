@@ -534,7 +534,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme->getId()}{$suffix}";
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme->getCacheKey()}{$suffix}";
     }
 
     /**
