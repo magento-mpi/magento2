@@ -492,17 +492,15 @@ class Mage_Core_Model_Design_Package
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         unset($params['_secure']);
         $this->_updateParamDefaults($params);
-        try {
-            /* Identify public file */
-            $publicFile = $this->_publishViewFile($file, $params);
-            /* Build url to public file */
+        /* Identify public file */
+        $publicFile = $this->_publishViewFile($file, $params);
+        /* Build url to public file */
+        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+            $fileMTime = filemtime($publicFile);
             $url = $this->_getPublicFileUrl($publicFile, $isSecure);
-            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
-                $url .= '?' . filemtime($publicFile);
-            }
-        } catch (Exception $e) {
-            Mage::log($e->getMessage());
-            $url = '';
+            $url .= '?' . $fileMTime;
+        } else {
+            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
         }
         return $url;
     }
