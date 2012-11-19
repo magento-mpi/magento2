@@ -1,13 +1,11 @@
 <?php
 /**
+ * An autoloader that uses include path. Compliant with PSR-0 standard
+ *
  * {license_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
- */
-
-/**
- * A file locator for autoloader that uses include path. Compliant with PSR-0 standard
  */
 class Magento_Autoload_IncludePath
 {
@@ -54,7 +52,7 @@ class Magento_Autoload_IncludePath
     public static function load($class)
     {
         $file = self::getFile($class);
-        if (file_exists($file)) {
+        if ($file) {
             include $file;
         }
     }

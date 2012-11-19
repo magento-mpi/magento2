@@ -1,6 +1,6 @@
 <?php
 /**
- * A file locator for autoloader that uses a class map
+ * An autoloader that uses class map
  *
  * {license_notice}
  *
