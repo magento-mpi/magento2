@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint evil:true browser:true jquery:true*/
+/*jshint browser:true jquery:true*/
 (function($, window) {
 
     $.widget('mage.rmaTrackInfo', {
@@ -20,6 +20,7 @@
             trackingCarrierSelect: '#tracking_carrier_select',
             trackingNumberInput: '#tracking_number_input',
             rmaPleaseWait: '#rma-please-wait',
+            trackInfoTable:'#track-info-table',
             trackInfoTbody: '#track-info-tbody'
         },
 
@@ -29,6 +30,8 @@
          */
         _create: function() {
             var self = this;
+            self.element.trigger('mage.setUpRmaOptions', self);
+            $(this.options.trackInfoTable).decorate('table');
             $(this.options.addTrackNumberBtnId).on('click', $.proxy(self._addTrackNumber, self));
             $(this.options.trackInfoTbody).on('click', 'a[data-entityid]', function(e) {
                 e.preventDefault();
@@ -51,8 +54,8 @@
 
         /**
          * Delete RMA tracking row for a given tracking number
-         * @param number
          * @private
+         * @param number
          */
         _deleteTrackNumber: function(number) {
             if (window.confirm(this.options.deleteMsg)) {
@@ -64,13 +67,14 @@
         /**
          * Helper ajax method to post to a given url with the provided data
          * updating the markup with the return html response
+         * @private
          * @param url
          * @param data
-         * @private
          */
         _poster: function(url, data) {
             var rmaPleaseWait = $(this.options.rmaPleaseWait);
             var trackInfoTbody = $(this.options.trackInfoTbody);
+            var trackInfoTable = $(this.options.trackInfoTable);
             $.ajax({
                 url: url,
                 type: 'post',
@@ -85,8 +89,7 @@
                 },
                 complete: function() {
                     rmaPleaseWait.hide();
-                    //TODO:Need to be updated once the new decorator is finalized
-                    window.decorateTable('track-info-table');
+                    trackInfoTable.decorate('table');
                 }
             });
         }

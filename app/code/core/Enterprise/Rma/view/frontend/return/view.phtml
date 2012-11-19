@@ -92,7 +92,7 @@
                                 <tfoot>
                                     <tr>
                                         <td>
-                                            <select name="tracking_carrier_select" id="tracking_carrier_select" class="input-text required-entry f-fix" data-validate="{required:true}">
+                                            <select name="tracking_carrier_select" id="tracking_carrier_select" class="input-text f-fix" data-validate="{required:true}">
                                                 <option value = ""></option>
                                                 <?php foreach($this->getCarriers() as $key => $value): ?>
                                                     <option value="<?php echo $key ?>"><?php echo $this->escapeHtml($value) ?></option>
@@ -100,7 +100,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" class="input-text required-entry f-fix" value="" name="tracking_number_input" id="tracking_number_input" data-validate="{required:true}">
+                                            <input type="text" class="input-text f-fix" value="" name="tracking_number_input" id="tracking_number_input" data-validate="{required:true}">
                                         </td>
                                         <td>
                                             <button type="button" class="button" id="btn-add-track-number" title="<?php echo $this->__('Add') ?>"><span><span><?php echo $this->__('Add') ?></span></span></button>
@@ -115,22 +115,19 @@
         </div>
     </form>
     <script type="text/javascript">
-        jQuery(function() {
-            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.popupwindow.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/popup-window.js')?>",
-                "<?php echo $this->getViewFileUrl('Enterprise_Rma::rma-track-info.js') ?>", function() {
-                    var rmaTrackInfo = jQuery('#rma_track_info');
-                    rmaTrackInfo.rmaTrackInfo({addLabelUrl: '<?php echo $this->getAddLabelUrl() ?>'});
-                    rmaTrackInfo.trigger('mage.setUpRmaOptions', rmaTrackInfo.data('rmaTrackInfo'));
-                    rmaTrackInfo.validation();
-                    //TODO:Need to be updated once the new decorator is finalized
-                    decorateTable('track-info-table');
-                });
-        });
+        (function($) {
+            $(function() {
+                head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+                    "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jquery.popupwindow.js')?>",
+                    "<?php echo $this->getViewFileUrl('mage/popup-window.js')?>",
+                    "<?php echo $this->getViewFileUrl('Enterprise_Rma::rma-track-info.js') ?>", function() {
+                        $('#rma_track_info').rmaTrackInfo({addLabelUrl: '<?php echo $this->getAddLabelUrl() ?>'}).validation();
+                    });
+            });
+        })(jQuery);
     </script>
     <div class="wrapper"></div>
 <?php endif ?>
