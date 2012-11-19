@@ -11,7 +11,7 @@
  * @license     {license_link}
  */
 
-class Enterprise2_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Create customer and set necessary system configuration options</p>
