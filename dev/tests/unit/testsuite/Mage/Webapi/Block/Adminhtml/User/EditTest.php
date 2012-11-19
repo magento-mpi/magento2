@@ -94,21 +94,21 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
      * Asserts that block has button with id and attribute at level
      *
      * @param int $level
-     * @param string $id
+     * @param string $buttonId
      * @param string $attributeName
      * @param string $attributeValue
      */
-    protected function _assertBlockHasButton($level, $id, $attributeName, $attributeValue)
+    protected function _assertBlockHasButton($level, $buttonId, $attributeName, $attributeValue)
     {
         $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
         $buttonsProperty->setAccessible(true);
         $buttons = $buttonsProperty->getValue($this->_block);
         $this->assertInternalType('array', $buttons, 'Cannot get bloc buttons');
         $this->assertArrayHasKey($level, $buttons, "Block doesn't have buttons at level $level");
-        $this->assertArrayHasKey($id, $buttons[$level], "Block doesn't have '$id' button at level $level");
-        $this->assertArrayHasKey($attributeName, $buttons[$level][$id],
+        $this->assertArrayHasKey($buttonId, $buttons[$level], "Block doesn't have '$buttonId' button at level $level");
+        $this->assertArrayHasKey($attributeName, $buttons[$level][$buttonId],
             "Block button doesn't have attribute $attributeName");
-        $this->assertEquals($attributeValue, $buttons[$level][$id][$attributeName],
+        $this->assertEquals($attributeValue, $buttons[$level][$buttonId][$attributeName],
             "Block button $attributeName' has unexpected value");
     }
 }

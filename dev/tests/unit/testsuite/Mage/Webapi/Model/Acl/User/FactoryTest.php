@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Acl_User_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $arguments = array('5', '6');
+        $arguments = array('property' => 'value');
         $this->_objectManager->expects($this->once())
             ->method('create')
             ->with('Mage_Webapi_Model_Acl_User', $arguments)

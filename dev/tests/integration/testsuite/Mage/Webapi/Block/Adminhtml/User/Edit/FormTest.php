@@ -68,6 +68,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_FormTest extends PHPUnit_Framework_T
         $this->assertInstanceOf('Varien_Data_Form', $form);
         $this->assertTrue($form->getUseContainer());
         $this->assertEquals('edit_form', $form->getId());
+        $this->assertEquals('user_', $form->getHtmlIdPrefix());
         $this->assertEquals('post', $form->getMethod());
         $this->assertEquals('action_url', $form->getAction());
     }

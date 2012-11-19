@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Model_Acl_Rule model
+ *
+ * @copyright {}
  *
  * @magentoDataFixture Mage/Webapi/_files/role.php
  */
@@ -48,8 +40,6 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test Web API Rule CRUD
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role.php
      */
     public function testCRUD()
     {
@@ -65,8 +55,6 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test method Mage_Webapi_Model_Acl_Rule::saveResources()
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role.php
      */
     public function testSaveResources()
     {

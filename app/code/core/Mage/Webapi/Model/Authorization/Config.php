@@ -127,7 +127,6 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         if (!empty($sortOrder)) {
             $result['sortOrder']= $sortOrder;
         }
-        //$result['sortOrder']= !empty($sortOrder) ? (int)$sortOrder : null;
 
         if (empty($node->childNodes)) {
             return $result;
@@ -141,38 +140,40 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         }
 
         if (!empty($result['children'])) {
-            $this->_sortBySortOrder($result['children']);
+            usort($result['children'], array($this, 'compareBySortOrder'));
         }
 
         return $result;
     }
 
     /**
-     * @param $data
+     * Compare two arrays by "sortOrder" element
+     *
+     * @param array $firstItem
+     * @param array $secondItem
+     * @return int
      */
-    protected function _sortBySortOrder(&$data)
+    public function compareBySortOrder($firstItem, $secondItem)
     {
-        $sortCallback = function ($firstItem, $secondItem) {
-            if (!isset($firstItem['sortOrder']) && isset($secondItem['sortOrder'])) {
-                return 1;
-            }
+        if (!isset($firstItem['sortOrder']) && isset($secondItem['sortOrder'])) {
+            return 1;
+        }
 
-            if (isset($firstItem['sortOrder']) && !isset($secondItem['sortOrder'])) {
-                return -1;
-            }
+        if (isset($firstItem['sortOrder']) && !isset($secondItem['sortOrder'])) {
+            return -1;
+        }
 
-            if ((!isset($secondItem['sortOrder']) && !isset($firstItem['sortOrder']))
-                || ($firstItem['sortOrder'] == $secondItem['sortOrder'])
-            ) {
-                return 0;
-            } elseif ($firstItem['sortOrder'] < $secondItem['sortOrder']) {
-                return -1;
-            } else {
-                return 1;
-            }
+        if (!isset($secondItem['sortOrder']) && !isset($firstItem['sortOrder'])) {
+            return 1;
+        }
 
-        };
-        usort($data, $sortCallback);
+        if ($firstItem['sortOrder'] == $secondItem['sortOrder']) {
+            return 0;
+        } elseif ($firstItem['sortOrder'] < $secondItem['sortOrder']) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**
