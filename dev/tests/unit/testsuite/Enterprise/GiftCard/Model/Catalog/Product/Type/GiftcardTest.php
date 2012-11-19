@@ -321,6 +321,6 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but should');
+        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
 }

@@ -1,13 +1,13 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Magento_Adminhtml
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Adminhtml
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /**
  * Test class for Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer
  */

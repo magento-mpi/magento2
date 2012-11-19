@@ -18,11 +18,11 @@ class Mage_Catalog_Model_Product_Type_SimpleTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-    $this->_model = new Mage_Catalog_Model_Product_Type_Simple();
+        $this->_model = new Mage_Catalog_Model_Product_Type_Simple();
     }
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but should');
+        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
 }

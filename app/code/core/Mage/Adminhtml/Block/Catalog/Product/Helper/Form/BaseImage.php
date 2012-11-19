@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     /**
      * Model Url instance
      *
-     * @var Mage_Adminhtml_Model_Url
+     * @var Mage_Backend_Model_Url
      */
     protected $_url;
 

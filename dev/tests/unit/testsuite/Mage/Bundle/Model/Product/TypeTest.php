@@ -18,11 +18,11 @@ class Mage_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this-> _model = new Mage_Bundle_Model_Product_Type();
+        $this->_model = new Mage_Bundle_Model_Product_Type();
     }
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but should');
+        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
 }
