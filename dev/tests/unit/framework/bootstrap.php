@@ -19,7 +19,7 @@ $includePaths = array(
     get_include_path(),
 );
 set_include_path(implode(PATH_SEPARATOR, $includePaths));
-spl_autoload_register(function($class) {
+spl_autoload_register(function ($class) {
     $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
     foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
         $fileName = $path . DIRECTORY_SEPARATOR . $file;
@@ -34,6 +34,7 @@ spl_autoload_register(function($class) {
     return false;
 });
 
+define('DS', DIRECTORY_SEPARATOR);
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 if (is_dir(TESTS_TEMP_DIR)) {
     Varien_Io_File::rmdirRecursive(TESTS_TEMP_DIR);

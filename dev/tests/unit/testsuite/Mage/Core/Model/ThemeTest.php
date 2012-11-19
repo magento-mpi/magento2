@@ -21,7 +21,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
-        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme.xml'));
+        $themePath = implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone', 'theme.xml'));
+        $designDir = implode(DS, array(__DIR__, '_files'));
+        Mage::getConfig()->getOptions()->setData('design_dir', $designDir);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $themeMock Mage_Core_Model_Theme */
@@ -40,8 +42,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidConfiguration()
     {
-        $themePath = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme', 'theme_invalid.xml'));
+        $themePath = implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone', 'theme_invalid.xml'));
+        $designDir = implode(DS, array(__DIR__, '_files'));
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        Mage::getConfig()->getOptions()->setData('design_dir', $designDir);
 
         /** @var $themeMock Mage_Core_Model_Theme */
         $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
@@ -59,16 +63,19 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function _expectedThemeDataFromConfiguration()
     {
         return array(
-            'theme_code'           => 'iphone',
-            'theme_title'          => 'Iphone',
+            'parent_id'            => null,
+            'theme_path'           => 'default/iphone',
             'theme_version'        => '2.0.0.1',
-            'parent_theme'         => null,
-            'is_featured'          => true,
+            'theme_title'          => 'Iphone',
+            'preview_image'        => 'images/preview.png',
             'magento_version_from' => '2.0.0.1-dev1',
             'magento_version_to'   => '*',
-            'theme_path'           => 'default/iphone',
-            'preview_image'        => 'images/preview.png',
-            'theme_directory'      => implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'theme'))
+            'is_featured'          => '1',
+            'theme_directory'      => implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
+            'parent_theme_path'    => null,
+            'area'                 => 'frontend',
+            'package_code'         => 'default',
+            'theme_code'           => 'iphone',
         );
     }
 }
