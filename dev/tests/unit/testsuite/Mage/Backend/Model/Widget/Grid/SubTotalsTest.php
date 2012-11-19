@@ -29,15 +29,15 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
         );
         $this->_parserMock->expects($this->any())
             ->method('parseExpression')
-            ->with('test1+test2')
-            ->will($this->returnValue(array('test1', 'test2', '+')));
+            ->with('sub_test1+sub_test2')
+            ->will($this->returnValue(array('sub_test1', 'sub_test2', '+')));
         $this->_model = new Mage_Backend_Model_Widget_Grid_SubTotals($this->_parserMock);
 
         // setup columns
         $columns = array(
-            'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
+            'sub_test1' => 'sum',
+            'sub_test2' => 'avg',
+            'sub_test3' => 'sub_test1+sub_test2'
         );
         foreach ($columns as $index => $expression) {
             $this->_model->setColumn($index, $expression);
@@ -52,9 +52,9 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
     public function testColumns()
     {
         $expected = array(
-            'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
+            'sub_test1' => 'sum',
+            'sub_test2' => 'avg',
+            'sub_test3' => 'sub_test1+sub_test2'
         );
 
         $this->assertEquals($expected, $this->_model->getColumns());
@@ -65,15 +65,15 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
         // prepare collection
         $collection = new Varien_Data_Collection();
         $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2'))
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2'))
         );
         foreach ($items as $item) {
             $collection->addItem($item);
         }
 
-        $expected = new Varien_Object(array('test1' => 3, 'test2' => 2, 'test3' => 5));
+        $expected = new Varien_Object(array('sub_test1' => 3, 'sub_test2' => 2, 'sub_test3' => 5));
         $this->assertEquals($expected, $this->_model->countTotals($collection));
     }
 }
