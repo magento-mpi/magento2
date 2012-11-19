@@ -45,4 +45,17 @@ class Magento_Autoload_IncludePath
         }
         set_include_path($result);
     }
+
+    /**
+     * Resolve a class file and include it
+     *
+     * @param $class
+     */
+    public static function load($class)
+    {
+        $file = self::getFile($class);
+        if (file_exists($file)) {
+            include $file;
+        }
+    }
 }

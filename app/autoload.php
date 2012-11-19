@@ -7,7 +7,5 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once __DIR__ . '/../lib/Magento/Autoload/Loader.php';
 require_once __DIR__ . '/../lib/Magento/Autoload/IncludePath.php';
-$loader = new Magento_Autoload_Loader('Magento_Autoload_IncludePath::getFile');
-$loader->register();
+spl_autoload_register('Magento_Autoload_IncludePath::load');

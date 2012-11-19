@@ -72,8 +72,7 @@ if (file_exists($classMapPath)) {
     require_once BP . '/lib/Magento/Autoload/ClassMap.php';
     $classMap = new Magento_Autoload_ClassMap(BP);
     $classMap->addMap(unserialize(file_get_contents($classMapPath)));
-    $mapLoader = new Magento_Autoload_Loader($classMap);
-    $mapLoader->register();
+    spl_autoload_register(array($classMap, 'load'));
 }
 
 $definitionsFile = BP . DS . 'var/di/definitions.php';

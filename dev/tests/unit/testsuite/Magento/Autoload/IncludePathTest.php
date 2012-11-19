@@ -25,8 +25,8 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $class
-     * @param bool $expectedValue
-     * @dataProvider autoloadDataProvider
+     * @param bool string|$expectedValue
+     * @dataProvider getFileDataProvider
      */
     public function testGetFile($class, $expectedValue)
     {
@@ -38,7 +38,7 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function autoloadDataProvider()
+    public function getFileDataProvider()
     {
         return array(
             array('TestClass', realpath(__DIR__ . '/_files/TestClass.php')),
@@ -53,5 +53,22 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains($fixture, get_include_path());
         Magento_Autoload_IncludePath::addIncludePath(array($fixture), true);
         $this->assertStringEndsWith(PATH_SEPARATOR . $fixture, get_include_path());
+    }
+
+    /**
+     * @param string $class
+     * @param string|bool $expectedValue
+     * @dataProvider getFileDataProvider
+     */
+    public function testLoad($class, $expectedValue)
+    {
+        Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/_files');
+        $this->assertFalse(class_exists($class, false));
+        Magento_Autoload_IncludePath::load($class);
+        if ($expectedValue) {
+            $this->assertTrue(class_exists($class, false));
+        } else {
+            $this->assertFalse(class_exists($class, false));
+        }
     }
 }

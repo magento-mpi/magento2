@@ -66,4 +66,17 @@ class Magento_Autoload_ClassMap
         $this->_map = array_merge($this->_map, $map);
         return $this;
     }
+
+    /**
+     * Resolve a class file and include it
+     *
+     * @param string $class
+     */
+    public function load($class)
+    {
+        $file = $this->getFile($class);
+        if (file_exists($file)) {
+            include $file;
+        }
+    }
 }
