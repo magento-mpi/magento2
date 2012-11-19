@@ -70,11 +70,8 @@ class Mage_Core_Model_Theme_Registration
 
         $tempId = $theme->getTempId();
         if (in_array($tempId, $inheritanceChain)) {
-            // @codingStandardsIgnoreStart
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Circular-reference in theme inheritance detected for "%s"', $tempId)
-            );
-            // @codingStandardsIgnoreEnd
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')
+                ->__('Circular-reference in theme inheritance detected for "%s"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();

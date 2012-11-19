@@ -211,7 +211,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         $items = array();
         /** @var $item Mage_Core_Model_Theme */
         foreach ($this as $item) {
-            $items[$item->getThemeCode()] = $item->toArray();
+            $items[$item->getId()] = $item->toArray();
         }
         return $items;
     }
