@@ -9,7 +9,7 @@
  */
 
 use Zend\Di\Di,
-    Zend\Di\Configuration,
+    Zend\Di\Config,
     Zend\Di\Definition;
 
 /**
@@ -100,7 +100,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $magentoConfiguration = $this->get('Mage_Core_Model_Config');
         $node = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
         if ($node) {
-            $diConfiguration = new Configuration(array('instance' => $node->asArray()));
+            $diConfiguration = new Config(array('instance' => $node->asArray()));
             $diConfiguration->configure($this->_di);
         }
         return $this;

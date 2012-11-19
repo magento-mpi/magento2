@@ -66,14 +66,14 @@ try {
     }
 
     // remove files that must not be published
-    $extruderDir = __DIR__ . '/extruder';
+    $listsDir = __DIR__ . '/extruder';
     execVerbose(
-        'php -f %s -- -w %s -l %s -l %s -l %s -g -v',
-        "$extruderDir/extruder.php",
+        'php -f %s -- -w %s -l %s -l %s -v',
+        __DIR__ . '/../extruder.php',
         $targetDir,
-        "$extruderDir/common.txt",
-        "$extruderDir/common_tests.txt",
-        "$extruderDir/ce.txt"
+        "$listsDir/common.txt",
+        "$listsDir/ce.txt",
+        "$listsDir/dev_build.txt"
     );
 
     // compare if changelog is different from the published one, compose the commit message
@@ -82,8 +82,7 @@ try {
     }
     $sourceLog = file_get_contents($logFile);
     if (!empty($targetLog) && $sourceLog == $targetLog) {
-        throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated."
-        );
+        throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
     if (empty($commitMsg)) {
