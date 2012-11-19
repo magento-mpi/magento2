@@ -3,8 +3,8 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_Product
-# @subpackage  functional_tests
+# @package     Mage_AdminUser
+# @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -24,8 +24,37 @@ new_product:
                                         general_min_tax_class: //select[@id='tax_class_id']
                                         general_min_price_view_bundle: //select[@id='price_view']
                                         general_user_attr_dropdown: //*[@id='%attributeCodeDropdown%']
+                                        general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                     fields:
                                         general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_qty: //input[@name='product[quantity_and_stock_status][qty]']
+                                        categories: //*[@data-ui-id='category-selector-input']
+                                category_search:
+                                    xpath: //*[@id='html-body']/ul
+                                    links:
+                                        category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
+                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                    pageelements:
+                                        category_list: //*[@class='ui-menu-item']
+                                        all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                                chosen_category:
+                                    xpath: //*[@class='category-selector-search-choice button']
+                                    links:
+                                        delete_category: //*[@class='category-selector-search-choice-close']
+                                    pageelements:
+                                        category_name: //*[contains(., '%categoryName%')]
+                -
+                    prices:
+                        fieldsets:
+                            -
+                                product_prices:
+                                    buttons:
+                                        prices_group_add_group_price: //button[span='Add Group Price']
+                                    pageelements:
+                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
+                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
+                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
+                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
                 -
                     meta_information:
                         xpath: //a[@title='Meta Information']/span
@@ -71,6 +100,16 @@ new_product:
                                         product_price_to: //*[@id='productGrid_product_filter_price_to']
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
+                -
+                    associated:
+                        fieldsets:
+                            -
+                                select_configurable_attributes:
+                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
+                                    buttons:
+                                        continue: //button[span='Continue']
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
             fieldsets:
                 -
                     product_information:
@@ -91,6 +130,7 @@ new_product:
             save: //button[span='Save']
 
 new_configurable_product:
+    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:
@@ -272,3 +312,4 @@ updating_products:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
+        messages:
