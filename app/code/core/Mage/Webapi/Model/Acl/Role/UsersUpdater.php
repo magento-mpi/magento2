@@ -38,15 +38,17 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     public function __construct(Mage_Core_Controller_Request_Http $request, Mage_Backend_Helper_Data $backendHelper)
     {
         $this->_roleId = (int)$request->getParam('role_id');
-        $this->_inRoleUsersFilter = $this->_parseUserFilter($request, $backendHelper);
+        $this->_inRoleUsersFilter = $this->_parseInRoleUsersFilter($request, $backendHelper);
     }
 
     /**
+     * Parse $_inRoleUsersFilter value from request
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Backend_Helper_Data $backendHelper
      * @return int
      */
-    protected function _parseUserFilter(
+    protected function _parseInRoleUsersFilter(
         Mage_Core_Controller_Request_Http $request,
         Mage_Backend_Helper_Data $backendHelper
     ) {

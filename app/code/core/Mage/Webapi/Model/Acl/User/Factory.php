@@ -6,6 +6,8 @@
  */
 class Mage_Webapi_Model_Acl_User_Factory extends Mage_Oauth_Model_Consumer_Factory
 {
+    const CLASS_NAME = 'Mage_Webapi_Model_Acl_User';
+
     /**
      * @var Magento_ObjectManager
      */
@@ -25,8 +27,8 @@ class Mage_Webapi_Model_Acl_User_Factory extends Mage_Oauth_Model_Consumer_Facto
      * @param array $arguments
      * @return Mage_Webapi_Model_Acl_User
      */
-    public function create($arguments = array())
+    public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Webapi_Model_Acl_User', $arguments);
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

@@ -176,34 +176,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for isAssocArrayInRequestBody() method
-     */
-    public function testIsAssocArrayInRequestBody()
-    {
-        $rawBodyIsAssocArray = array('key' => 'field');
-        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
-            ->setMethods(array('getBodyParams'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $requestMock->expects($this->once())
-            ->method('getBodyParams')
-            ->will($this->returnValue($rawBodyIsAssocArray));
-        /** @var Mage_Webapi_Controller_Request_Rest $requestMock */
-        $this->assertTrue($requestMock->isAssocArrayInRequestBody());
-
-        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
-            ->setMethods(array('getBodyParams'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rawBodyIsNotAssocArray = array(0 => array('key' => 'field'));
-        $requestMock->expects($this->once())
-            ->method('getBodyParams')
-            ->will($this->returnValue($rawBodyIsNotAssocArray));
-
-        $this->assertFalse($requestMock->isAssocArrayInRequestBody());
-    }
-
-    /**
      * Data provider for testGetAcceptTypes()
      *
      * @return array

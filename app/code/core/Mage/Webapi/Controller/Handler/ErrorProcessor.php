@@ -65,15 +65,15 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      *
      * Create report if not in developer mode and render error to send correct api response.
      *
-     * @param Exception $e
+     * @param Exception $exception
      * @param int $httpCode
      */
-    public function renderException(Exception $e, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
+    public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
-        if (Mage::getIsDeveloperMode() || $e instanceof Mage_Webapi_Exception) {
-            $this->render($e->getMessage(), $e->getTraceAsString(), $httpCode);
+        if (Mage::getIsDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
+            $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
-            $this->saveReport($e->getMessage() . ' : ' . $e->getTraceAsString());
+            $this->saveReport($exception->getMessage() . ' : ' . $exception->getTraceAsString());
             $this->render($this->_helper->__('Internal Error'), 'Trace is not available.', $httpCode);
         }
     }

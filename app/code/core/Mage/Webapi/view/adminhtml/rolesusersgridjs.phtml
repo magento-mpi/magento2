@@ -3,6 +3,8 @@
  * Template contains JS that handles checkbox on users grid in role edit tab
  *
  * @copyright {}
+ *
+ * @var Mage_Core_Block_Template $this
  */
 ?>
 <?php $usersGridBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid'); ?>
@@ -12,8 +14,10 @@
 <!--
     var checkBoxes = $H({});
     var warning = false;
-    var inRoleUsers = $H(arrayToObject(<?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>));
-    if (inRoleUsers.size() > 0) warning = true;
+    var inRoleUsers = $H(arrayToObject(<?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>));
+    if (inRoleUsers.size() > 0) {
+        warning = true;
+    }
     $('in_role_user').value = inRoleUsers.toQueryString();
 
     function arrayToObject(array) {
@@ -36,7 +40,7 @@
 
     function roleUsersRowClick(grid, event) {
         var trElement = Event.findElement(event, 'tr');
-        var isInput   = Event.element(event).tagName == 'INPUT';
+        var isInput = Event.element(event).tagName == 'INPUT';
         if (trElement) {
             var checkbox = Element.getElementsBySelector(trElement, 'input');
             if (checkbox[0]) {

@@ -8,7 +8,8 @@
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
  * @method array getSelectedResources() getSelectedResources()
-
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {
@@ -30,7 +31,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     /**
      * @var array
      */
-    protected $_selectedResourcesIds;
+    protected $_selResourcesIds;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -44,7 +45,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Webapi_Model_Authorization_Config $authConfig
+     * @param Mage_Webapi_Model_Authorization_Config $authorizationConfig
+     * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -83,15 +85,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         $selectedResources = $this->_getSelectedResourcesIds();
 
         if ($selectedResources) {
-            $selectResourceCallback = function (&$resourceItem) use ($selectedResources, &$selectResourceCallback) {
+            $selResourcesCallback = function (&$resourceItem) use ($selectedResources, &$selResourcesCallback) {
                 if (in_array($resourceItem['id'], $selectedResources)) {
                     $resourceItem['checked'] = true;
                 }
                 if (!empty($resourceItem['children'])) {
-                    array_walk($resourceItem['children'], $selectResourceCallback);
+                    array_walk($resourceItem['children'], $selResourcesCallback);
                 }
             };
-            array_walk($this->_aclResourcesTree, $selectResourceCallback);
+            array_walk($this->_aclResourcesTree, $selResourcesCallback);
         }
 
         return parent::_prepareForm();
@@ -125,9 +127,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     protected function _getSelectedResourcesIds()
     {
         $apiRole = $this->getApiRole();
-        if (null === $this->_selectedResourcesIds && $apiRole && $apiRole->getId()) {
-            $this->_selectedResourcesIds = $this->_ruleResource->getResourceIdsByRole($apiRole->getRoleId());
+        if (null === $this->_selResourcesIds && $apiRole && $apiRole->getId()) {
+            $this->_selResourcesIds = $this->_ruleResource->getResourceIdsByRole($apiRole->getRoleId());
         }
-        return (array)$this->_selectedResourcesIds;
+        return (array)$this->_selResourcesIds;
     }
 }

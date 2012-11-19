@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Model_Resource_Acl_Role
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {

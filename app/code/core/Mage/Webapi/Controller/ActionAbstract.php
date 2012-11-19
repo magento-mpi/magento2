@@ -23,6 +23,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     const METHOD_DELETE = 'delete';
     const METHOD_MULTI_UPDATE = 'multiUpdate';
     const METHOD_MULTI_DELETE = 'multiDelete';
+    const METHOD_MULTI_CREATE = 'multiCreate';
     /**#@-*/
 
     /** @var Mage_Webapi_Controller_Request */

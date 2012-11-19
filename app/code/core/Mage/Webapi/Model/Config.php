@@ -523,6 +523,7 @@ class Mage_Webapi_Model_Config
         $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
         $methodToActionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_GET => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $item,
@@ -635,12 +636,14 @@ class Mage_Webapi_Model_Config
          * Body param position in case of top level resources.
          */
         $bodyPositionCreate = 1;
+        $bodyPositionMultiCreate = 1;
         $bodyPositionUpdate = 2;
         $bodyPositionMultiUpdate = 1;
         $bodyPositionMultiDelete = 1;
         /**#@-*/
         $bodyParamPositions = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPositionCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $bodyPositionMultiCreate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPositionUpdate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPositionMultiUpdate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPositionMultiDelete
@@ -739,6 +742,7 @@ class Mage_Webapi_Model_Config
                 Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE,
             );
             $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
             if (in_array($methodName, $methodsWithParentIdExpected)) {
@@ -1273,6 +1277,7 @@ class Mage_Webapi_Model_Config
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE,
         );
     }
 

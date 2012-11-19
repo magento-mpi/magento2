@@ -53,11 +53,11 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
             'readerFactory' => $this->_readerFactory
         ));
 
-        $this->_config->expects($this->once())
+        $this->_config->expects($this->any())
             ->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array()));
 
-        $this->_readerFactory->expects($this->once())
+        $this->_readerFactory->expects($this->any())
             ->method('createReader')
             ->will($this->returnValue($this->_configReader));
     }
@@ -175,7 +175,6 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $aclResourcesArray = array (
             'id' => 'Mage_Webapi',
             'text' => '',
-            'sortOrder' => 0,
             'children' => array(
                 array(
                     'id' => 'customer',
@@ -203,7 +202,6 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
                         array(
                             'id' => 'customer/delete',
                             'text' => 'Delete Customer',
-                            'sortOrder' => 40,
                             'children' => array(),
                         ),
                     ),
@@ -222,6 +220,52 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
                     . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml',
                 'includeRoot' => false,
                 'expectedResources' => $aclResourcesArray['children'],
+            )
+        );
+    }
+
+    /**
+     * Test for method compareBySortOrder
+     *
+     * @dataProvider compareBySortOrderDataProvider
+     * @param $originArray
+     * @param $sortedArray
+     */
+    public function testCompareBySortOrder($originArray, $sortedArray)
+    {
+        usort($originArray, array($this->_model, 'compareBySortOrder'));
+        $this->assertEquals($sortedArray, $originArray);
+    }
+
+    /**
+     * @return array
+     */
+    public function compareBySortOrderDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    array('name' => 'A', 'sortOrder' => 3),
+                    array('name' => 'B', 'sortOrder' => 2),
+                    array('name' => 'C', 'sortOrder' => 1)
+                ),
+                array(
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'B', 'sortOrder' => 2),
+                    array('name' => 'A', 'sortOrder' => 3)
+                )
+            ),
+            array(
+                array(
+                    array('name' => 'A'),
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'C')
+                ),
+                array(
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'A'),
+                    array('name' => 'C')
+                )
             )
         );
     }

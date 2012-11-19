@@ -25,7 +25,7 @@ class Mage_Oauth_Model_Consumer_Factory
      * @param array $arguments
      * @return Mage_Oauth_Model_Consumer
      */
-    public function create($arguments = array())
+    public function create(array $arguments = array())
     {
         return $this->_objectManager->create('Mage_Oauth_Model_Consumer', $arguments);
     }

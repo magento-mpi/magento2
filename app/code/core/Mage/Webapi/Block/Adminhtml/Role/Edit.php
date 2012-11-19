@@ -10,13 +10,26 @@
 class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Form_Container
 {
     /**
+     * @var string
+     */
+    protected $_blockGroup = 'Mage_Webapi';
+
+    /**
+     * @var string
+     */
+    protected $_controller = 'adminhtml_role';
+
+    /**
+     * @var string
+     */
+    protected $_objectId = 'role_id';
+
+    /**
      * Internal Constructor
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'Mage_Webapi';
-        $this->_controller = 'adminhtml_role';
-        $this->_objectId = 'role_id';
+        parent::_construct();
 
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
@@ -29,8 +42,6 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
 
         $this->_updateButton('save', 'label', $this->__('Save API Role'));
         $this->_updateButton('delete', 'label', $this->__('Delete API Role'));
-
-        parent::_construct();
     }
 
     /**

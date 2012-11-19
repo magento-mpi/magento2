@@ -1,16 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Model_Resource_Acl_Rule
+ *
+ * @copyright {}
+ *
+ * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
  */
 class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
@@ -37,8 +31,6 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds()
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
      */
     public function testGetRuleList()
     {
@@ -53,8 +45,6 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test for Mage_Webapi_Model_Resource_Acl_Role::getResourceIdsByRole()
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
      */
     public function testGetResourceIdsByRole()
     {

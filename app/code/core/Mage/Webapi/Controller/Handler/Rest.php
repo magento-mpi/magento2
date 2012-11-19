@@ -61,7 +61,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
     /**#@-*/
 
-    const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
+    const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
 
     /**
      * @var Mage_Webapi_Controller_Response_Rest_RendererInterface
@@ -92,7 +92,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_Action_Factory $actionControllerFactory,
+        Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Controller_Handler_Rest_Presentation $restPresentation,
         Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor,
@@ -109,7 +109,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $apiConfig,
             $requestFactory,
             $response,
-            $actionControllerFactory,
+            $controllerFactory,
             $logger,
             $objectManager,
             $roleLocator
@@ -223,7 +223,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Identify operation name according to HTTP request parameters
+     * Identify operation name according to HTTP request parameters.
      *
      * @return string
      * @throws Mage_Webapi_Exception
@@ -231,13 +231,17 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     protected function _getOperationName()
     {
         $restMethodsMap = array(
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET => 'list',
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => 'get',
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
         $httpMethod = $this->getRequest()->getHttpMethod();
         $resourceType = $this->getRequest()->getResourceType();
@@ -246,6 +250,16 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
                 Mage_Webapi_Exception::HTTP_NOT_FOUND);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
+        if ($methodName == self::HTTP_METHOD_CREATE) {
+            /** If request is numeric array, multi create operation must be used. */
+            $params = $this->getRequest()->getBodyParams();
+            if (count($params)) {
+                $keys = array_keys($params);
+                if (is_numeric($keys[0])) {
+                    $methodName = Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE;
+                }
+            }
+        }
         $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
         return $operationName;
     }
@@ -307,7 +321,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $response = $this->getResponse();
         $formattedMessages = array();
         $formattedMessages['messages'] = $response->getMessages();
-        $lastExceptionHttpCode = null;
+        $responseHttpCode = null;
         /** @var Exception $exception */
         foreach ($response->getException() as $exception) {
             $code = ($exception instanceof Mage_Webapi_Exception)
@@ -319,10 +333,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             }
             $formattedMessages['messages']['error'][] = $messageData;
             // keep HTTP code for response
-            $lastExceptionHttpCode = $code;
+            $responseHttpCode = $code;
         }
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
-        $response->setHttpResponseCode($lastExceptionHttpCode);
+        $response->setHttpResponseCode($responseHttpCode);
         $response->setMimeType($this->_getRenderer()->getMimeType());
         $response->setBody($this->_getRenderer()->render($formattedMessages));
         return $this;
@@ -359,14 +373,14 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Function to catch errors, not catched by the user error handler function
+     * Function to catch errors, that has not been caught by the user error handler function.
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function mageApiShutdownFunction()
+    public function apiShutdownFunction()
     {
         $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
-
         $error = error_get_last();
-
         if ($error && ($error['type'] & $fatalErrorFlag)) {
             $errorMessage = '';
             switch ($error['type']) {
@@ -395,7 +409,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $errorMessage .= ": {$error['message']}  in {$error['file']} on line {$error['line']}";
             try {
                 // call registered error handler
-                trigger_error("'" . $errorMessage . "'", E_USER_ERROR);
+                trigger_error("'$errorMessage'", E_USER_ERROR);
             } catch (Exception $e) {
                 $errorMessage = $e->getMessage();
             }

@@ -26,8 +26,12 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /** @var Mage_Core_Model_Config */
     protected $_applicationConfig;
 
-    /** @var Mage_Webapi_Controller_Action_Factory */
-    protected $_actionControllerFactory;
+    /**
+     * Action controller factory.
+     *
+     * @var Mage_Webapi_Controller_Action_Factory
+     */
+    protected $_controllerFactory;
 
     /** @var Mage_Core_Model_Logger */
     protected $_logger;
@@ -46,7 +50,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_Action_Factory $actionControllerFactory,
+        Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
         Magento_ObjectManager $objectManager,
         Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
@@ -55,7 +59,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_applicationConfig = $applicationConfig;
         $this->_apiConfig = $apiConfig;
-        $this->_actionControllerFactory = $actionControllerFactory;
+        $this->_controllerFactory = $controllerFactory;
         $this->_response = $response;
         $this->_request = $requestFactory->get();
         $this->_logger = $logger;
@@ -163,7 +167,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     {
         // TODO: Remove dependency on Magento_Autoload by moving API controllers to 'Controller' folder
         Magento_Autoload::getInstance()->addFilesMap(array($className => $this->_getControllerFileName($className)));
-        $controllerInstance = $this->_actionControllerFactory->createActionController(
+        $controllerInstance = $this->_controllerFactory->createActionController(
             $className,
             $this->getRequest()
         );
@@ -253,22 +257,22 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
 
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
-                $messageMethodRemoved = $this->getHelper()
+                $removalMessage = $this->getHelper()
                     ->__('Version "%s" of "%s" method in "%s" resource was removed.',
                     $resourceVersion,
                     $method,
                     $resourceName
                 );
-                throw new Mage_Webapi_Exception($messageMethodRemoved . ' ' . $messageUseMethod, $badRequestCode);
+                throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
                 // TODO: Replace static call after MAGETWO-4961 implementation
             } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
-                $messageMethodDeprecated = $this->getHelper()
+                $deprecationMessage = $this->getHelper()
                     ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
                     $resourceVersion,
                     $method,
                     $resourceName
                 );
-                throw new Mage_Webapi_Exception($messageMethodDeprecated . ' ' . $messageUseMethod, $badRequestCode);
+                throw new Mage_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
             }
         }
     }

@@ -20,6 +20,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Form extends Mage_Backend_Block_Widg
         ));
         $form->setUseContainer(true);
         $this->setForm($form);
+
         return parent::_prepareForm();
     }
 }

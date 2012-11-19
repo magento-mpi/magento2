@@ -248,9 +248,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
                 <arguments>
                     <id>roleUserGrid</id>
-                    <dataSource type="object">
-                        Mage_Webapi_Model_Resource_Acl_User_Collection
-                    </dataSource>
+                    <dataSource type="object">Mage_Webapi_Model_Resource_Acl_User_Collection</dataSource>
                     <use_ajax>true</use_ajax>
                     <default_sort>role_user_id</default_sort>
                     <default_dir>ASC</default_dir>
