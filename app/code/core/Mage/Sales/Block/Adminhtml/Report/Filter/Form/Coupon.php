@@ -18,11 +18,11 @@
 class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Block_Adminhtml_Report_Filter_Form
 {
     /**
-     * Flag that keep info should we renderer specific dependence element or not
+     * Flag that keep info should we render specific dependent element or not
      *
      * @var bool
      */
-    protected $_renderDependenceElement = false;
+    protected $_renderDependentElement = false;
 
     /**
      * Prepare form
@@ -65,7 +65,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Bl
                 'display'   => 'none'
             ), 'price_rule_type');
 
-            $this->_renderDependenceElement = true;
+            $this->_renderDependentElement = true;
         }
 
         return $this;
@@ -79,7 +79,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Bl
      */
     protected function _afterToHtml($html)
     {
-        if ($this->_renderDependenceElement) {
+        if ($this->_renderDependentElement) {
             $form = $this->getForm();
             $htmlIdPrefix = $form->getHtmlIdPrefix();
 

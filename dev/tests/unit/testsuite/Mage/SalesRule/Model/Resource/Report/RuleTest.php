@@ -67,17 +67,17 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
     /**
      * Check structure of sql query
      *
-     * @param Zend_Db_Select $select
+     * @param Varien_Db_Select $select
      * @return array
      */
-    public function fetchAllCallback(Zend_Db_Select $select)
+    public function fetchAllCallback(Varien_Db_Select $select)
     {
-        $whereParts = $select->getPart(Zend_Db_Select::WHERE);
+        $whereParts = $select->getPart(Varien_Db_Select::WHERE);
         $this->assertCount(2, $whereParts);
         $this->assertContains("rule_name IS NOT NULL", $whereParts[0]);
         $this->assertContains("rule_name <> ''", $whereParts[1]);
 
-        $orderParts = $select->getPart(Zend_Db_Select::ORDER);
+        $orderParts = $select->getPart(Varien_Db_Select::ORDER);
         $this->assertCount(1, $orderParts);
         $expectedOrderParts = array('rule_name', 'ASC');
         $this->assertEquals($expectedOrderParts, $orderParts[0]);
