@@ -10,7 +10,6 @@
 
 /**
  * Theme registration model class
- *
  */
 class Mage_Core_Model_Theme_Registration
 {

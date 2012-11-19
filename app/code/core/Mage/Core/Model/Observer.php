@@ -100,12 +100,10 @@ class Mage_Core_Model_Observer
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
-            Mage::getModel('Mage_Core_Model_Theme_Registration', Mage::getModel('Mage_Core_Model_Theme'))
-                ->register($pathPattern);
+            Mage::getModel('Mage_Core_Model_Theme_Registration')->register($pathPattern);
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
         }
-
         return $this;
     }
 }
