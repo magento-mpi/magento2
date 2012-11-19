@@ -137,6 +137,7 @@
                     <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element ref="field" />
                     <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="depends" />
                 </xs:choice>
             </xs:sequence>
 
@@ -309,13 +310,13 @@
                     <xs:complexType>
                         <xs:annotation>
                             <xs:documentation>
-                                Field resource. Recursive complex type. Define element is influence on current field
+                                Field resource. Recursive complex type. Define element is influence on current field/group
                             </xs:documentation>
                         </xs:annotation>
 
                         <xs:simpleContent>
                             <xs:extension base="xs:string">
-                                <xs:attribute name="id" type="typeId" use="required" />
+                                <xs:attribute name="id" type="typeElementPath" use="required" />
                                 <xs:attribute name="separator" type='xs:string' use='optional' />
                             </xs:extension>
                         </xs:simpleContent>
