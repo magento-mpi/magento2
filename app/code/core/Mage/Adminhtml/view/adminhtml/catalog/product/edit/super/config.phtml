@@ -20,7 +20,6 @@
 <label for="<?php echo $this->getId()?>-checkbox">
     <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?>
 </label>
-
 <fieldset>
 <?php
 /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
@@ -126,7 +125,7 @@ superProduct.createQuickUrl = '<?php echo $this->getQuickCreationUrl() ?>';
 
 Validation.add(
     'validate-configurable',
-    '<?php echo $this->escapeJs(Mage::helper('Mage_Catalog_Helper_Data')->__('Product with this combination of attributes already associated to configurable.')) ?>',
+    <?php echo $this->helper('Mage_Catalog_Helper_Data')->jsonEncode(Mage::helper('Mage_Core_Helper_Data')->__('Product with this combination of attributes already associated to configurable.')) ?>,
     superProduct.checkCreationUniqueAttributes.bind(superProduct)
 )
 </script>
