@@ -16,7 +16,7 @@
         </reference>
     </checkout_cart_index>
 
-    <enterprise_giftcardaccount_cart_quickcheck translate="label" type="fragment">
+    <enterprise_giftcardaccount_cart_quickcheck translate="label" type="page">
         <label>Gift Card Balance Quick Check Form</label>
         <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml"/>
@@ -28,6 +28,7 @@
             <block type="Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards" name="giftcards" template="order/giftcards.phtml" />
         </reference>
     </sales_order_view>
+
     <sales_order_print>
         <reference name="order_totals">
             <block type="Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards" name="giftcards" template="order/giftcards.phtml" after="-"/>
