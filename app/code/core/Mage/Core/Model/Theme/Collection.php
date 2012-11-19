@@ -198,7 +198,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     protected function _getItemId(Varien_Object $item)
     {
-        return $item->getTempId();
+        return $item->getFullPath();
     }
 
     /**

@@ -57,7 +57,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @var array
      */
-    protected $_labelsCollection = null;
+    protected $_labelsCollection;
 
     /**
      * @var Varien_Io_File
@@ -135,7 +135,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Processing object after load data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_Core_Model_Theme
      */
     protected function _afterLoad()
     {
@@ -191,7 +191,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function isVirtual()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getTempId()]));
+        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
     }
 
     /**
@@ -202,7 +202,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function hasChildThemes()
     {
         $childThemes = $this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->load();
-        return count($childThemes) > 0;
+        return (bool)count($childThemes);
     }
 
     /**
@@ -275,12 +275,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $theme = null;
         if ($this->getParentId()) {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = Mage::getModel('Mage_Core_Model_Theme');
-            $theme->load($this->getParentId());
+            $theme = Mage::getModel('Mage_Core_Model_Theme')->load($this->getParentId());
         }
         $this->setParentTheme($theme);
-
         return $theme;
     }
 
@@ -406,11 +403,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
-        $this->removePreviewImage();
-        $this->createPreviewImage($fileName);
-
+        $this->removePreviewImage()->createPreviewImage($fileName);
         $this->_getIoFile()->rm($fileName);
-
         return true;
     }
 
@@ -505,13 +499,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve alternative id which is used to distinguis themes if they are not in DB yet
-     * Looks like "<area>/<package_code>/<theme_code>".
+     * Retrieve theme full path which is used to distinguish themes if they are not in DB yet
+     *
+     * Alternative id looks like "<area>/<package_code>/<theme_code>".
      * Used as id in file-system theme collection
      *
      * @return string
      */
-    public function getTempId()
+    public function getFullPath()
     {
         return $this->getArea() . '/' . $this->getThemePath();
     }
@@ -538,7 +533,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $magentoVersion = Mage::getVersion();
         if (version_compare($magentoVersion, $this->getMagentoVersionFrom(), '>=')) {
             if ($this->getMagentoVersionTo() == '*'
-                || version_compare($magentoVersion, $this->getMagentoVersionFrom(), '<=')) {
+                || version_compare($magentoVersion, $this->getMagentoVersionFrom(), '<=')
+            ) {
                 return true;
             }
         }
@@ -580,25 +576,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if ($withEmpty) {
             array_unshift($options, array(
                 'value' => '',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'))
-            );
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --')
+            ));
         }
         return $options;
-    }
-
-    /**
-     * Load object data by alternative "id"
-     *
-     * @param string $tempId
-     * @return Mage_Core_Model_Theme
-     */
-    public function loadByTempId($tempId)
-    {
-        $this->_beforeLoad($tempId, 'area_theme_path');
-        $this->_getResource()->loadByTempId($this, $tempId);
-        $this->_afterLoad();
-        $this->setOrigData();
-        $this->_hasDataChanges = false;
-        return $this;
     }
 }
