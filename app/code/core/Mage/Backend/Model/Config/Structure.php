@@ -15,30 +15,61 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
 {
     /**
      *
+     *
      * @var array
      */
     protected $_data;
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
+     *
+     * @var Mage_Backend_Model_Config_Structure_Element_Iterator
      */
-    public function __construct(Mage_Backend_Model_Config_Structure_Reader $structureReader)
-    {
+    protected $_tabIterator;
+
+    /**
+     * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
+     * @param Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator
+     */
+    public function __construct(
+        Mage_Backend_Model_Config_Structure_Reader $structureReader,
+        Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator
+    ) {
         $this->_data = $structureReader->getData();
+        $this->_tabIterator = $tabIterator;
+    }
+
+    /**
+     * Retrieve tab iterator
+     *
+     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
+     */
+    public function getIterator()
+    {
+        $this->_tabIterator->setElements($this->_data['tabs']);
+        return $this->_tabIterator;
     }
 
     /**
      * Retrieve defined section
      *
      * @param string $sectionCode
-     * @param string $websiteCode
-     * @param string $storeCode
-     * @return array
+     * @return Mage_Backend_Model_Config_Structure_Section
      */
-    public function getSection($sectionCode=null, $websiteCode=null, $storeCode=null)
+    public function getSection($sectionCode)
     {
-        $key = $sectionCode ?: $websiteCode ?: $storeCode;
-        return isset($this->_data['sections'][$key]) ? $this->_data['sections'][$key] : null;
+        return isset($this->_data['sections'][$sectionCode]) ? $this->_data['sections'][$sectionCode] : null;
+    }
+
+    /**
+     * @param string $path
+     * @return Mage_Backend_Model_Config_Structure_Section
+     */
+    public function getElement($path)
+    {
+        $pathParts = explode('/', $path);
+        $sectionKey = array_shift($pathParts);
+        $section = $this->getSection($sectionKey);
+        return (count($pathParts) && $section) ? $sectionKey->getElementByPathParts($pathParts) : $section;
     }
 
     /**

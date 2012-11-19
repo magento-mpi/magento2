@@ -49,11 +49,34 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Retrieve arbitrary element attribute
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getAttribute($key)
+    {
+        return array_key_exists($key, $this->_data) ? $this->_data[$key] : null;
+    }
+
+    /**
      * Check whether element should be displayed
+     *
      * @return bool
      */
-    public function isDisplayed()
+    public function isVisible($scope)
     {
+        $showTab = false;
+        if ($storeCode) {
+            $showTab = (bool) $this->getAttribute('showInStore');
+        } elseif ($websiteCode) {
+            $showTab = (bool) $this->getAttribute('showInWebsite');
+        } elseif (isset($node['showInDefault']) && $node['showInDefault']) {
+            $showTab = true;
+        }
 
-    }
+        $showTab = $showTab || $this->_app->isSingleStoreMode();
+        $showTab = $showTab && !($this->_app->isSingleStoreMode()
+            && isset($node['hide_in_single_store_mode']) && $node['hide_in_single_store_mode']);
+        return $showTab;    }
 }

@@ -44,7 +44,7 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
-     * @return Mage_Backend_Model_Config_Structure_ElementAbstract
+     * @return Mage_Backend_Model_Config_Structure_ElementInterface
      */
     public function current()
     {
