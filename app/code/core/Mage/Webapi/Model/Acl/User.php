@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
  * Web API User model
+ *
+ * @copyright {}
  *
  * @method Mage_Webapi_Model_Acl_User setRoleId(int $id)
  * @method int getRoleId()
@@ -19,10 +12,6 @@
  * @method string getContactEmail()
  * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)
  * @method string getCompanyName()
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
@@ -44,7 +33,7 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mag
     /**
      * Get role users
      *
-     * @param int $roleId
+     * @param integer $roleId
      * @return array
      */
     public function getRoleUsers($roleId)
