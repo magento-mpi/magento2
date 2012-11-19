@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Structure_Group extends Mage_Backend_Model_Config_Structure_ElementAbstract
+class Mage_Backend_Model_Config_Structure_Group extends Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
 {
     /**
      * The name of children array identifier in data array

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Structure_Element_IteratorAbstract implements Iterator
+class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
 {
     /**
      * List of element data
@@ -20,7 +20,7 @@ class Mage_Backend_Model_Config_Structure_Element_IteratorAbstract implements It
     /**
      * @var Mage_Backend_Model_Config_Structure_ElementAbstract
      */
-    protected $_lyweight;
+    protected $_flyweight;
 
     /**
      * @param Mage_Backend_Model_Config_Structure_ElementAbstract $element

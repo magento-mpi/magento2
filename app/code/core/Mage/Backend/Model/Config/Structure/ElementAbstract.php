@@ -9,25 +9,50 @@
  */
 
 abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
+    implements Mage_Backend_Model_Config_Structure_ElementInterface
 {
+    /**
+     * Element data
+     *
+     * @var array
+     */
     protected $_data;
 
+    /**
+     * Set element data
+     *
+     * @param array $data
+     */
     public function setData(array $data)
     {
         $this->_data = $data;
     }
 
+    /**
+     * Retrieve element id
+     *
+     * @return string
+     */
     public function getId()
     {
         $this->_data['id'];
     }
 
+    /**
+     * Retrieve element label
+     *
+     * @return string
+     */
     public function getLabel()
     {
         return $this->_data['label'];
     }
 
-    public function isDisplayed($default, $website, $store)
+    /**
+     * Check whether element should be displayed
+     * @return bool
+     */
+    public function isDisplayed()
     {
 
     }
