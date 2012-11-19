@@ -277,20 +277,17 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Store Id')
-    ->addColumn('area', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        ), 'Area')
-    ->addColumn('package', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        ), 'Package')
-    ->addColumn('theme', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        ), 'Theme')
+    ->addColumn('theme_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
+        ), 'Theme id')
     ->addColumn('layout_update_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Layout Update Id')
-    ->addIndex($installer->getIdxName('core_layout_link', array('store_id', 'package', 'theme', 'layout_update_id'),
+    ->addIndex($installer->getIdxName('core_layout_link', array('store_id', 'theme_id', 'layout_update_id'),
         Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('store_id', 'package', 'theme', 'layout_update_id'),
+        array('store_id', 'theme_id', 'layout_update_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core_layout_link', array('layout_update_id')),
         array('layout_update_id'))
@@ -302,6 +299,9 @@ $table = $installer->getConnection()
         'layout_update_id', $installer->getTable('core_layout_update'), 'layout_update_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
+    ->addForeignKey($installer->getFkName('core_layout_link', 'theme_id', 'core_theme', 'theme_id'),
+        'theme_id', $installer->getTable('core_theme'), 'theme_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Layout Link');
 $installer->getConnection()->createTable($table);
 
