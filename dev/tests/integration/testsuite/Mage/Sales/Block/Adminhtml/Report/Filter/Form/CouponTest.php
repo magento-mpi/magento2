@@ -15,12 +15,29 @@
 class Mage_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Application object
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    protected function setUp()
+    {
+        $this->_application = Mage::getObjectManager()->get('Mage_Core_Model_App');
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_application);
+    }
+
+    /**
      * @covers Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon::_afterToHtml
      */
     public function testAfterToHtml()
     {
         /** @var $block Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon */
-        $block = Mage::app()->getLayout()->createBlock('Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
+        $block = $this->_application->getLayout()->createBlock('Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
         $block->setFilterData(new Varien_Object());
         $html = $block->toHtml();
 

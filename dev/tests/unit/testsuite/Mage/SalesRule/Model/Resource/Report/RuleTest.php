@@ -12,6 +12,11 @@
 class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test table name
+     */
+    const TABLE_NAME = 'test';
+
+    /**
      * List of test rules;
      *
      * @var array
@@ -24,13 +29,11 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
 
     public function testGetUniqRulesNamesList()
     {
-        $testTableName = 'test';
-
         $dbAdapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
-        $select = $this->getMock('Zend_Db_Select', array('from'), array($dbAdapterMock));
+        $select = $this->getMock('Varien_Db_Select', array('from'), array($dbAdapterMock));
         $select->expects($this->once())
             ->method('from')
-            ->with($testTableName, $this->isInstanceOf('Zend_Db_Expr'))
+            ->with(self::TABLE_NAME, $this->isInstanceOf('Zend_Db_Expr'))
             ->will($this->returnValue($select));
 
         $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'fetchAll'), array(), '', false);
@@ -50,7 +53,7 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($adapterMock));
         $resourceMock->expects($this->once())
             ->method('getTableName')
-            ->will($this->returnValue($testTableName));
+            ->will($this->returnValue(self::TABLE_NAME));
 
         $model = new Mage_SalesRule_Model_Resource_Report_Rule($resourceMock);
 
