@@ -252,6 +252,21 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedDom->saveXML($expectedDom->documentElement), $dom->saveXML($dom->documentElement));
     }
 
+    public function testGetResultDomDocument()
+    {
+        $expectedDocument = <<<TEMPLATE
+<config>
+  <acl>
+    <resources xpath="config/acl/resources"/>
+  </acl>
+</config>
+TEMPLATE;
+        $dom = $this->_model->getResultDomDocument();
+        $expectedDom = new DOMDocument();
+        $expectedDom->formatOutput = true;
+        $this->assertEquals($expectedDocument, $dom->saveXML($dom->documentElement));
+    }
+
     public function testParseAdminhtmlFiles()
     {
         $this->_model->parseAdminhtmlFiles();
