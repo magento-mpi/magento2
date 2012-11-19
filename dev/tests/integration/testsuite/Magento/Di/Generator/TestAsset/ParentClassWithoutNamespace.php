@@ -9,10 +9,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Di\Generator\TestAsset;
 use Zend\Code\Generator\DocBlockGenerator;
 
-class ParentClass
+class Magento_Di_Generator_TestAsset_ParentClassWithoutNamespace
 {
     /**
      * Public parent method

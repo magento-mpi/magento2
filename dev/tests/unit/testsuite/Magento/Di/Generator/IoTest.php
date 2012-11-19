@@ -77,8 +77,8 @@ class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultFileDirectory()
     {
-        $expectedFileDirectory = self::GENERATION_DIRECTORY . self::DIRECTORY_SEPARATOR . 'class|file|';
-        $this->assertEquals($expectedFileDirectory, $this->_object->getResultFileDirectory(self::CLASS_NAME));
+        $expectedDirectory = self::GENERATION_DIRECTORY . self::DIRECTORY_SEPARATOR . 'class|file|';
+        $this->assertEquals($expectedDirectory, $this->_object->getResultFileDirectory(self::CLASS_NAME));
     }
 
     public function testGetResultFileName()

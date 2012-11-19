@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_ProxyTest extends PHPUnit_Framework_TestCase
+class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbstract
 {
     /**#@+
      * Source and result class parameters
@@ -18,11 +18,6 @@ class Magento_Di_Generator_ProxyTest extends PHPUnit_Framework_TestCase
     const RESULT_CLASS = 'SourceClassProxy';
     const RESULT_FILE  = 'SourceClassProxy.php';
     /**#@-*/
-
-    /**
-     * Generated code
-     */
-    const CODE = "a = 1;";
 
     /**
      * Expected factory methods
@@ -74,7 +69,7 @@ class Magento_Di_Generator_ProxyTest extends PHPUnit_Framework_TestCase
                 array(
                     'name'              => 'param3',
                     'passedByReference' => false,
-                    'defaultValue'      => '\\\'',
+                    'defaultValue'      => '\'',
                 ),
                 array(
                     'name'              => 'array',
@@ -148,7 +143,7 @@ class Magento_Di_Generator_ProxyTest extends PHPUnit_Framework_TestCase
                 array(
                     'name'              => 'param3',
                     'passedByReference' => false,
-                    'defaultValue'      => '\\\'',
+                    'defaultValue'      => '\'',
                 ),
                 array(
                     'name'              => 'array',
@@ -185,63 +180,16 @@ class Magento_Di_Generator_ProxyTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $ioObjectMock = $this->getMock('Magento_Di_Generator_Io',
-            array('getResultFileName', 'makeGenerationDirectory', 'makeResultFileDirectory', 'fileExists',
-                'writeResultFile'
-            ), array(), '', false
-        );
-        $ioObjectMock->expects($this->any())
-            ->method('getResultFileName')
-            ->will($this->returnValue(self::RESULT_FILE));
-        $ioObjectMock->expects($this->any())
-            ->method('makeGenerationDirectory')
-            ->will($this->returnValue(true));
-        $ioObjectMock->expects($this->any())
-            ->method('makeResultFileDirectory')
-            ->will($this->returnValue(true));
-        $ioObjectMock->expects($this->any())
-            ->method('fileExists')
-            ->will($this->returnValue(false));
-        $ioObjectMock->expects($this->once())
-            ->method('writeResultFile')
-            ->with(self::RESULT_FILE, self::CODE);
+        $ioObjectMock = $this->_getIoObjectMock();
 
-        $codeGeneratorMock = $this->getMock('Magento_Di_Generator_CodeGenerator_Zend',
-            array('setExtendedClass', 'setName', 'addProperties', 'addMethods', 'setClassDocBlock', 'generate'),
-            array(), '', false
-        );
+        $methods = array('setExtendedClass', 'setName', 'addProperties', 'addMethods', 'setClassDocBlock', 'generate');
+        $codeGeneratorMock = $this->_getCodeGeneratorMock($methods);
         $codeGeneratorMock->expects($this->once())
             ->method('setExtendedClass')
             ->with('\\'. self::SOURCE_CLASS)
             ->will($this->returnSelf());
-        $codeGeneratorMock->expects($this->once())
-            ->method('setName')
-            ->with(self::RESULT_CLASS)
-            ->will($this->returnSelf());
-        $codeGeneratorMock->expects($this->once())
-            ->method('addProperties')
-            ->will($this->returnSelf());
-        $codeGeneratorMock->expects($this->once())
-            ->method('addMethods')
-            ->with(self::$_expectedMethods)
-            ->will($this->returnSelf());
-        $codeGeneratorMock->expects($this->once())
-            ->method('setClassDocBlock')
-            ->with($this->isType('array'))
-            ->will($this->returnSelf());
-        $codeGeneratorMock->expects($this->once())
-            ->method('generate')
-            ->will($this->returnValue(self::CODE));
 
-        $autoLoaderMock = $this->getMock('Magento_Autoload', array('classExists'), array(), '', false);
-        $autoLoaderMock->expects($this->at(0))
-            ->method('classExists')
-            ->with(self::SOURCE_CLASS)
-            ->will($this->returnValue(true));
-        $autoLoaderMock->expects($this->at(1))
-            ->method('classExists')
-            ->with(self::RESULT_CLASS)
-            ->will($this->returnValue(false));
+        $autoLoaderMock = $this->_getAutoloaderMock();
 
         /** @var $ioObjectMock Magento_Di_Generator_Io */
         /** @var $codeGeneratorMock Magento_Di_Generator_CodeGenerator_Zend */

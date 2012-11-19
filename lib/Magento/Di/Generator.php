@@ -21,6 +21,11 @@ class Magento_Di_Generator
     protected $_autoloader;
 
     /**
+     * @var Magento_Di_Generator_Io
+     */
+    protected $_ioObject;
+
+    /**
      * @var array
      */
     protected $_generatedEntities = array(
@@ -31,13 +36,16 @@ class Magento_Di_Generator
     /**
      * @param Magento_Di_Generator_EntityAbstract $generator
      * @param Magento_Autoload $autoloader
+     * @param Magento_Di_Generator_Io $ioObject
      */
     public function __construct(
         Magento_Di_Generator_EntityAbstract $generator = null,
-        Magento_Autoload $autoloader = null
+        Magento_Autoload $autoloader = null,
+        Magento_Di_Generator_Io $ioObject = null
     ) {
-        $this->_generator = $generator;
-        $this->_autoloader = $autoloader ?: Magento_Autoload::getInstance();
+        $this->_generator  = $generator;
+        $this->_autoloader = $autoloader ? : Magento_Autoload::getInstance();
+        $this->_ioObject   = $ioObject ? : new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
     }
 
     /**
@@ -77,9 +85,7 @@ class Magento_Di_Generator
         }
 
         // generate class file
-        $this->_initGenerator($entity);
-        $this->_generator->setSourceClassName($entityName);
-        $this->_generator->setResultClassName($className);
+        $this->_initGenerator($entity, $entityName, $className);
         if (!$this->_generator->generate()) {
             $errors = $this->_generator->getErrors();
             throw new Magento_Exception(implode(' ', $errors));
@@ -92,18 +98,24 @@ class Magento_Di_Generator
      * Get generator by entity type
      *
      * @param string $entity
+     * @param string $sourceClassName
+     * @param string $resultClassName
      * @return Magento_Di_Generator_EntityAbstract|Magento_Di_Generator_Factory|Magento_Di_Generator_Proxy
      * @throws InvalidArgumentException
      */
-    protected function _initGenerator($entity)
+    protected function _initGenerator($entity, $sourceClassName, $resultClassName)
     {
         if (!$this->_generator) {
             switch ($entity) {
                 case Magento_Di_Generator_Factory::ENTITY_TYPE:
-                    $this->_generator = new Magento_Di_Generator_Factory();
+                    $this->_generator = new Magento_Di_Generator_Factory($sourceClassName, $resultClassName,
+                        $this->_ioObject
+                    );
                     break;
                 case Magento_Di_Generator_Proxy::ENTITY_TYPE:
-                    $this->_generator = new Magento_Di_Generator_Proxy();
+                    $this->_generator = new Magento_Di_Generator_Proxy($sourceClassName, $resultClassName,
+                        $this->_ioObject
+                    );
                     break;
                 default:
                     throw new InvalidArgumentException('Unknown generation entity.');

@@ -50,8 +50,8 @@ interface Magento_Di_Generator_CodeGenerator_Interface
     /**
      * setImplementedInterfaces()
      *
-     * @param array $implementedInterfaces
+     * @param array $interfaces
      * @return Magento_Di_Generator_CodeGenerator_Interface
      */
-    public function setImplementedInterfaces(array $implementedInterfaces);
+    public function setImplementedInterfaces(array $interfaces);
 }

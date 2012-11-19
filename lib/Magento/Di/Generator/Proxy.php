@@ -111,8 +111,8 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
      */
     protected function _escapeDefaultValue($value)
     {
-        // escape single quotes quotes and slashes
-        return sprintf("%s", addcslashes($value, "'\\"));
+        // escape slashes
+        return str_replace('\\', '\\\\', $value);
     }
 
     /**

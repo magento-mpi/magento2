@@ -9,22 +9,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Di\Generator\TestAsset;
 use Zend\Code\Generator\ClassGenerator;
 
-class SourceClass extends ParentClass
+class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+    extends Magento_Di_Generator_TestAsset_ParentClassWithoutNamespace
 {
     /**
      * Public child constructor
      *
-     * @param \Zend\Code\Generator\ClassGenerator $classGenerator
      * @param string $param1
      * @param string $param2
      * @param string $param3
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'')
+    public function __construct($param1 = '', $param2 = '\\', $param3 = '\'')
     {
     }
 
@@ -54,7 +53,7 @@ class SourceClass extends ParentClass
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function publicMethodWithReference(ClassGenerator &$classGenerator, &$param1 = '', array &$array)
+    public function publicMethodWithReference(ClassGenerator &$classGenerator, &$param1 = "'", array &$array)
     {
     }
 

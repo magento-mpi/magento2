@@ -67,9 +67,21 @@ abstract class Magento_Di_Generator_EntityAbstract
         Magento_Di_Generator_CodeGenerator_Interface $classGenerator = null,
         Magento_Autoload $autoLoader = null
     ) {
-        $this->_autoloader      = $autoLoader ? : Magento_Autoload::getInstance();
-        $this->_ioObject        = $ioObject ? : new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
-        $this->_classGenerator  = $classGenerator ? : new Magento_Di_Generator_CodeGenerator_Zend();
+        if ($autoLoader) {
+            $this->_autoloader = $autoLoader;
+        } else {
+            $this->_autoloader = Magento_Autoload::getInstance();
+        }
+        if ($ioObject) {
+            $this->_ioObject = $ioObject;
+        } else {
+            $this->_ioObject = new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
+        }
+        if ($classGenerator) {
+            $this->_classGenerator = $classGenerator;
+        } else {
+            $this->_classGenerator = new Magento_Di_Generator_CodeGenerator_Zend();
+        }
 
         $this->_sourceClassName = ltrim($sourceClassName, Magento_Autoload::NS_SEPARATOR);
         if ($resultClassName) {
@@ -111,26 +123,6 @@ abstract class Magento_Di_Generator_EntityAbstract
     public function getErrors()
     {
         return $this->_errors;
-    }
-
-    /**
-     * @param string $className
-     * @return Magento_Di_Generator_EntityAbstract
-     */
-    public function setSourceClassName($className)
-    {
-        $this->_sourceClassName = ltrim($className, Magento_Autoload::NS_SEPARATOR);
-        return $this;
-    }
-
-    /**
-     * @param string $className
-     * @return Magento_Di_Generator_EntityAbstract
-     */
-    public function setResultClassName($className)
-    {
-        $this->_resultClassName = ltrim($className, Magento_Autoload::NS_SEPARATOR);
-        return $this;
     }
 
     /**
@@ -178,7 +170,7 @@ abstract class Magento_Di_Generator_EntityAbstract
         $className = array(
             'name'         => 'CLASS_NAME',
             'const'        => true,
-            'defaultValue' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()),
+            'defaultValue' => $this->_getSourceClassName(),
             'docblock'     => array('shortDescription' => 'Entity class name'),
         );
 

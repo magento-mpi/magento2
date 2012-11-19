@@ -299,18 +299,4 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
             'autoloader'     => $mocks['autoloader'],
         );
     }
-
-    public function testSetSourceClassName()
-    {
-        $this->assertAttributeEmpty('_sourceClassName', $this->_model);
-        $this->_model->setSourceClassName(self::SOURCE_CLASS);
-        $this->assertAttributeEquals(self::SOURCE_CLASS, '_sourceClassName', $this->_model);
-    }
-
-    public function testSetResultClassName()
-    {
-        $this->assertAttributeEmpty('_resultClassName', $this->_model);
-        $this->_model->setResultClassName(self::RESULT_CLASS);
-        $this->assertAttributeEquals(self::RESULT_CLASS, '_resultClassName', $this->_model);
-    }
 }
