@@ -134,3 +134,47 @@ zerosubtotal_disable:
             zsc_title: No Payment Information Required
             zsc_enabled: No
             zsc_new_order_status: Pending
+
+#<-------------Authorize.net (Payment Bridge only)------------------------>
+authorizenetpb_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            anpb_enabled: Yes
+            anpb_enable_cim: Yes
+
+authorizenetpb_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            anpb_enabled: No
+            anpb_enable_cim: No
+
+#<-------------Payment Bridge------------------------>
+payment_bridge_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            pb_merchant_code: 11111
+            pb_merchant_key: 11111111
+            pb_gateway_url: http://test.localhost
+            pb_data_transfer_key: 12345678
+            pb_unique_identifier: 87654321
+            pb_enabled: Yes
+            pb_debug: Yes
+
+payment_bridge_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            pb_merchant_code:
+            pb_merchant_key:
+            pb_gateway_url:
+            pb_data_transfer_key:
+            pb_unique_identifier:
+            pb_enabled: No
+            pb_debug: No
