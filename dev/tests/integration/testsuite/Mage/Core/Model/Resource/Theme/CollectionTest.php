@@ -12,14 +12,15 @@
 class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @dataProvider themeList
      * @magentoDbIsolation enabled
      */
-    public function testCollection()
+    public function testCollection($themeList)
     {
         $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $themeCollection->load();
         $oldTotalRecords = $themeCollection->getSize();
-        foreach ($this->_themeList() as $themeData) {
+        foreach ($themeList as $themeData) {
             $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
@@ -30,9 +31,32 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         $newThemeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $newThemes = $newThemeCollection->toArray();
 
-        $expectedTotalRecords = $oldTotalRecords + count($this->_themeList());
+        $expectedTotalRecords = $oldTotalRecords + count($themeList);
         $this->assertEquals($expectedTotalRecords, $newThemes['totalRecords']);
         $this->assertEquals($themes['items'], $newThemes['items']);
+    }
+
+    /**
+     * @dataProvider themeList
+     * @magentoDbIsolation enabled
+     */
+    public function testAddAreaFilter($themeList)
+    {
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->load();
+        foreach ($themeList as $themeData) {
+            $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+            $themeModel->setData($themeData);
+            $themeCollection->addItem($themeModel);
+        }
+        $themeCollection->save();
+
+        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollectionWithAreaFilter->addAreaFilter('custom_area');
+
+        $this->assertEquals(count($themeList), count($themeCollectionWithAreaFilter));
     }
 
     /**
@@ -40,9 +64,9 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
      *
      * @return array
      */
-    protected function _themeList()
+    public function themeList()
     {
-        return array(
+        return array(array(array(
             array(
                 'parent_id'            => '0',
                 'theme_path'           => 'test/default',
@@ -51,7 +75,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'preview_image'        => 'test_default.jpg',
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
-                'is_featured'          => '1'
+                'is_featured'          => '1',
+                'area'                 => 'custom_area',
             ),
             array(
                 'parent_id'            => '0',
@@ -61,8 +86,9 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'preview_image'        => 'test_default.jpg',
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
-                'is_featured'          => '1'
+                'is_featured'          => '1',
+                'area'                 => 'custom_area',
             ),
-        );
+        )));
     }
 }
