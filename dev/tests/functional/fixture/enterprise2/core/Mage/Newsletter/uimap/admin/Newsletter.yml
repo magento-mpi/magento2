@@ -128,6 +128,21 @@ newsletter_queue_edit:
             save_newsletter: //button[@title='Save Newsletter']
         messages: *newsTemplateMessages
 
+# Newsletter Subscribers page
+newsletter_subscribers:
+    mca: newsletter_subscriber/
+    title: Newsletter Subscribers / Newsletter / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    subscriber_grid:
+                        xpath: //div[@id='subscriberGrid']
+                        dropdowns:
+                            filter_website: //select[@name='website']
+                            filter_store: //select[@name='group']
+                            filter_store_view: //select[@name='store']
+
 # Newsletter Newsletter Queue page
 newsletter_problem_reports:
     mca: newsletter_problem/

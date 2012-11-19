@@ -1,0 +1,17 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+manage_stock_options:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_inventory
+        configuration:
+            manage_stock: Yes
