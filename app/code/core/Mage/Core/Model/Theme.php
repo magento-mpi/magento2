@@ -371,7 +371,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $this->uploadPreviewImage('preview_image');
-        $this->save();
+        $this->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
         return $this;
     }
 
