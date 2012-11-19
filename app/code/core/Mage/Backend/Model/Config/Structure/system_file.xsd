@@ -137,6 +137,7 @@
                     <xs:element name="comment" type="xs:string" />
                     <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element ref="field" />
+                    <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:choice>
             </xs:sequence>
 
