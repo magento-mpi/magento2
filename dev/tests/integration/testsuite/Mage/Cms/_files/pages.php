@@ -18,8 +18,7 @@ $page//->setId(100) // doesn't work: it triggers update
     ->setIsActive(1)
     ->setContent('<h1>Cms Page 100 Title</h1>')
     ->setRootTemplate('one_column')
-    ->save()
-;
+    ->save();
 
 $page = Mage::getModel('Mage_Cms_Model_Page');
 $page->setTitle('Cms Page Design Modern')
@@ -29,5 +28,4 @@ $page->setTitle('Cms Page Design Modern')
     ->setContent('<h1>Cms Page Design Modern Title</h1>')
     ->setRootTemplate('one_column')
     ->setCustomTheme('default/modern')
-    ->save()
-;
+    ->save();

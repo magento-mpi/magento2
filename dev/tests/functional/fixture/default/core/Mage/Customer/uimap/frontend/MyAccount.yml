@@ -227,4 +227,15 @@ adding_new_address_book:
                             default_shipping_address:  //input[@id='primary_shipping']
                         buttons:
                             save_address: //button[span='Save Address']
-        messages: *myAccountMessages
+        messages: *myAccountMessages        messages: *myAccountMessages
+
+my_credit_cards:
+    mca: enterprise_pbridge/payment_profile/
+    title: Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_elements:
+                        pageelements:
+                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
