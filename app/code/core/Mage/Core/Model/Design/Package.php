@@ -135,18 +135,12 @@ class Mage_Core_Model_Design_Package
      * Set package area
      *
      * @param string $area
-     * @param bool $setDefaultTheme
      * @return Mage_Core_Model_Design_Package
      */
-    public function setArea($area, $setDefaultTheme = true)
+    public function setArea($area)
     {
         $this->_area = $area;
         $this->_theme = null;
-
-        if ($setDefaultTheme) {
-            $this->setDefaultDesignTheme();
-        }
-
         return $this;
     }
 
@@ -190,16 +184,16 @@ class Mage_Core_Model_Design_Package
      * @param string $area
      * @return Mage_Core_Model_Design_Package
      */
-    public function setDesignTheme($theme, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
+    public function setDesignTheme($theme, $area = null)
     {
         if ($area) {
-            $this->setArea($area, false);
+            $this->setArea($area);
         }
 
         if ($theme instanceof Mage_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_getLoadDesignTheme($theme, $area);
+            $this->_theme = $this->_getLoadDesignTheme($theme, $this->getArea());
         }
 
         return $this;
@@ -208,16 +202,20 @@ class Mage_Core_Model_Design_Package
     /**
      * Get default theme which declared in configuration
      *
+     * @param string $area
      * @return Mage_Core_Model_Theme
      */
-    public function getConfigurationDesignTheme()
+    public function getConfigurationDesignTheme($area = null)
     {
-        $area = $this->getArea();
+        if (!$area) {
+            $area = $this->getArea();
+        }
+
         $designTheme = $area == self::DEFAULT_AREA
             ? (string)Mage::getStoreConfig(self::XML_PATH_THEME)
             : (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
 
-        return $this->_getLoadDesignTheme($designTheme, $area);
+        return $designTheme;
     }
 
     /**
@@ -227,7 +225,7 @@ class Mage_Core_Model_Design_Package
      */
     public function setDefaultDesignTheme()
     {
-        $this->setDesignTheme($this->getConfigurationDesignTheme(), $this->getArea());
+        $this->setDesignTheme($this->getConfigurationDesignTheme());
         return $this;
     }
 
@@ -255,7 +253,7 @@ class Mage_Core_Model_Design_Package
         if (!empty($params['area']) && $params['area'] !== $this->getArea()
             && (empty($params['package']) || !array_key_exists('theme', $params))
         ) {
-            $params['themeModel'] = $this->getConfigurationDesignTheme();
+            $params['themeModel'] = $this->_getLoadDesignTheme($this->getConfigurationDesignTheme(), $params['area']);
         } else {
             if (empty($params['area'])) {
                 $params['area'] = $this->getArea();
@@ -352,8 +350,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getFallback($params)
     {
-        $themeId = $params['themeModel'] ? $params['themeModel']->getId() : null;
-        $cacheKey = "{$params['area']}|{$themeId}|{$params['locale']}";
+        $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
             $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
                 ->getNode('global/dev/design_fallback/allow_map_update');

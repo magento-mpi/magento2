@@ -371,7 +371,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $this->uploadPreviewImage('preview_image');
-        $this->save();
+        $this->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
         return $this;
     }
 
@@ -495,6 +495,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this->getData('area');
+    }
+
+    /**
+     * Return cache key for current theme
+     *
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        return $this->getId() . $this->getThemePath();
     }
 
     /**

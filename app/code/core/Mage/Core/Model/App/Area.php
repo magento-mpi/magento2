@@ -75,8 +75,6 @@ class Mage_Core_Model_App_Area
      */
     public function detectDesign($request = null)
     {
-        $this->_getDesign()->setArea($this->_code);
-
         if ($this->_code == self::AREA_FRONTEND) {
             $designExceptionApplied = ($request && $this->_applyUserAgentDesignException($request));
             if (!$designExceptionApplied) {
