@@ -175,7 +175,6 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         $aclResourcesArray = array (
             'id' => 'Mage_Webapi',
             'text' => '',
-            'sortOrder' => 0,
             'children' => array(
                 array(
                     'id' => 'customer',
@@ -203,7 +202,6 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
                         array(
                             'id' => 'customer/delete',
                             'text' => 'Delete Customer',
-                            'sortOrder' => 40,
                             'children' => array(),
                         ),
                     ),

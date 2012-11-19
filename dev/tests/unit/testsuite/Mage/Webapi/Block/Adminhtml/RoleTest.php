@@ -36,8 +36,7 @@ class Mage_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals('Mage_Webapi', '_blockGroup', $this->_block);
         $this->assertAttributeEquals('adminhtml_role', '_controller', $this->_block);
         $this->assertAttributeEquals('API Roles', '_headerText', $this->_block);
-        $this->assertAttributeEquals('Add New API Role', '_addButtonLabel', $this->_block);
-        $this->assertAttributeEquals('Back', '_backButtonLabel', $this->_block);
+        $this->_assertBlockHasButton(0, 'add', 'Add New API Role');
     }
 
     /**
@@ -53,5 +52,24 @@ class Mage_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_block->getCreateUrl());
+    }
+
+    /**
+     * Asserts that block has button with id and label at level
+     *
+     * @param int $level
+     * @param string $id
+     * @param string $label
+     */
+    protected function _assertBlockHasButton($level, $id, $label)
+    {
+        $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
+        $buttonsProperty->setAccessible(true);
+        $buttons = $buttonsProperty->getValue($this->_block);
+        $this->assertInternalType('array', $buttons, 'Cannot get bloc buttons');
+        $this->assertArrayHasKey($level, $buttons, "Block doesn't have buttons at level $level");
+        $this->assertArrayHasKey($id, $buttons[$level], "Block doesn't have '$id' button at level $level");
+        $this->assertArrayHasKey('label', $buttons[$level][$id], "Block button doesn't have label");
+        $this->assertEquals($label, $buttons[$level][$id]['label'], "Block button label has unexpected value");
     }
 }

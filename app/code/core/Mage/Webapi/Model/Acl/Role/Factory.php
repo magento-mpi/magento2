@@ -6,6 +6,8 @@
  */
 class Mage_Webapi_Model_Acl_Role_Factory
 {
+    const CLASS_NAME = 'Mage_Webapi_Model_Acl_Role';
+
     /**
      * @var Magento_ObjectManager
      */
@@ -25,8 +27,8 @@ class Mage_Webapi_Model_Acl_Role_Factory
      * @param array $arguments
      * @return Mage_Webapi_Model_Acl_Role
      */
-    public function create($arguments = array())
+    public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Webapi_Model_Acl_Role', $arguments);
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

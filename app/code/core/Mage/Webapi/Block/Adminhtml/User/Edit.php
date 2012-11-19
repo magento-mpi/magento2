@@ -10,13 +10,26 @@
 class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Form_Container
 {
     /**
+     * @var string
+     */
+    protected $_blockGroup = 'Mage_Webapi';
+
+    /**
+     * @var string
+     */
+    protected $_controller = 'adminhtml_user';
+
+    /**
+     * @var string
+     */
+    protected $_objectId = 'user_id';
+
+    /**
      * Internal constructor
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'Mage_Webapi';
-        $this->_objectId = 'user_id';
-        $this->_controller = 'adminhtml_user';
+        parent::_construct();
 
         $this->_addButton('save_and_continue', array(
             'label' => $this->__('Save and Continue Edit'),
@@ -30,8 +43,6 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
         $this->_updateButton('save', 'label', $this->__('Save API User'));
         $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', $this->__('Delete API User'));
-
-        parent::_construct();
     }
 
     /**

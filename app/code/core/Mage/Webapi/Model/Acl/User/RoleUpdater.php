@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Acl_User_RoleUpdater implements Mage_Core_Model_Layout_A
     /**
      * Init value with role assigned to user
      *
-     * @param int|null $values
+     * @param int|null $value
      * @return int|null
      */
     public function update($value)

@@ -34,6 +34,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Get resource IDs assigned to role
      *
+     * @param int $roleId
      * @return array
      */
     public function getResourceIdsByRole($roleId)

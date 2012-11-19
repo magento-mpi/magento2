@@ -92,13 +92,19 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     public function getAclResourcesAsArray($includeRoot = true)
     {
         $result = array();
+        $rootResource = null;
         $resources = $this->getAclResources();
-        if ($resources && $resources->length == 1
-            && (string)$resources->item(0)->getAttribute('id') == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
-            && $resources->item(0)->childNodes
-        ) {
-            $result = $this->_parseAclResourceDOMElement($resources->item(0));
+
+        if ($resources && $resources->length == 1) {
+            $rootResource = $resources->item(0);
         }
+
+        if ($rootResource && $rootResource->childNodes
+            && (string)$rootResource->getAttribute('id') == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
+        ) {
+            $result = $this->_parseAclResourceDOMElement($rootResource);
+        }
+
         if (!$includeRoot) {
             $result = isset($result['children']) ? $result['children'] : array();
         }
@@ -118,7 +124,10 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         $result['id'] = (string)$node->getAttribute('id');
         $result['text'] = (string)$node->getAttribute('title');
         $sortOrder = (string)$node->getAttribute('sortOrder');
-        $result['sortOrder']= !empty($sortOrder) ? (int)$sortOrder : 0;
+        if (!empty($sortOrder)) {
+            $result['sortOrder']= $sortOrder;
+        }
+        //$result['sortOrder']= !empty($sortOrder) ? (int)$sortOrder : null;
 
         if (empty($node->childNodes)) {
             return $result;
@@ -132,17 +141,38 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         }
 
         if (!empty($result['children'])) {
-            $sortCallback = function ($firstItem, $secondItem) {
-                if ($firstItem['sortOrder'] == $secondItem['sortOrder']) {
-                    return 0;
-                }
-                return ($firstItem['sortOrder'] < $secondItem['sortOrder']) ? -1 : 1;
-
-            };
-            usort($result['children'], $sortCallback);
+            $this->_sortBySortOrder($result['children']);
         }
 
         return $result;
+    }
+
+    /**
+     * @param $data
+     */
+    protected function _sortBySortOrder(&$data)
+    {
+        $sortCallback = function ($firstItem, $secondItem) {
+            if (!isset($firstItem['sortOrder']) && isset($secondItem['sortOrder'])) {
+                return 1;
+            }
+
+            if (isset($firstItem['sortOrder']) && !isset($secondItem['sortOrder'])) {
+                return -1;
+            }
+
+            if ((!isset($secondItem['sortOrder']) && !isset($firstItem['sortOrder']))
+                || ($firstItem['sortOrder'] == $secondItem['sortOrder'])
+            ) {
+                return 0;
+            } elseif ($firstItem['sortOrder'] < $secondItem['sortOrder']) {
+                return -1;
+            } else {
+                return 1;
+            }
+
+        };
+        usort($data, $sortCallback);
     }
 
     /**
