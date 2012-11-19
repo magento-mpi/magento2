@@ -58,6 +58,28 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         $this->assertEquals($shouldExist, $hasFound, $message);
     }
 
+    /**
+     * @magentoDataFixture setThemeFixture
+     * @magentoDbIsolation enabled
+     */
+    public function testAddAreaFilter()
+    {
+        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollectionWithAreaFilter->addAreaFilter('test_area');
+        $this->assertEquals(1, count($themeCollectionWithAreaFilter));
+
+        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollectionWithAreaFilter->addAreaFilter('test_area2');
+        $this->assertEquals(1, count($themeCollectionWithAreaFilter));
+
+        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollectionWithAreaFilter->addAreaFilter('test_area3');
+        $this->assertEquals(0, count($themeCollectionWithAreaFilter));
+    }
+
     public function getThemeByFullPathDataProvider()
     {
         return array(
