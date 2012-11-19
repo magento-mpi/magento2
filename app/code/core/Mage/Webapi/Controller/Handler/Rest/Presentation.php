@@ -74,15 +74,15 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
             array($bodyParamName => $this->_getRequestBody($methodName))
         );
         /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-        $idParamName = $this->_apiConfig->getIdParamName($methodReflection);
-        $parentIdParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
-        $idParamNameInRoute = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
-        if (isset($requestParams[$parentIdParamNameInRoute]) && ($idParamName != $parentIdParamNameInRoute)) {
-            $requestParams[$idParamName] = $requestParams[$parentIdParamNameInRoute];
-            unset($requestParams[$parentIdParamNameInRoute]);
-        } elseif (isset($requestParams[$idParamNameInRoute]) && ($idParamName != $idParamNameInRoute)) {
-            $requestParams[$idParamName] = $requestParams[$idParamNameInRoute];
-            unset($requestParams[$idParamNameInRoute]);
+        $idArgumentName = $this->_apiConfig->getIdParamName($methodReflection);
+        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
+            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
+            unset($requestParams[$parentIdParamName]);
+        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
+            $requestParams[$idArgumentName] = $requestParams[$idParamName];
+            unset($requestParams[$idParamName]);
         }
 
         return $this->_apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $this->_apiConfig);
@@ -97,41 +97,37 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
     public function prepareResponse($method, $outputData = null)
     {
         switch ($method) {
-            case 'create':
-                // The create action has the dynamic type which depends on data in the request body
-                if ($this->_request->isAssocArrayInRequestBody()) {
-                    /** @var $createdItem Mage_Core_Model_Abstract */
-                    $createdItem = $outputData;
-                    $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
-                } else {
-                    // TODO: Consider multiCreate from SOAP (API coverage must be the same for all API types)
-                    $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
-                }
-                if ($this->_response->getMessages()) {
-                    $this->_render(array('messages' => $this->_response->getMessages()));
-                }
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
+                /** @var $createdItem Mage_Core_Model_Abstract */
+                $createdItem = $outputData;
+                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 break;
-            case 'get':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
-            case 'list':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
-            case 'multiUpdate':
-                $this->_render(array('messages' => $this->_response->getMessages()));
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
                 $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
-            case 'multiDelete':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
                 $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
-            case 'update':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
                 // break intentionally omitted
-            case 'delete':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
                 break;
+        }
+        if ($this->_response->getMessages()) {
+            $this->_render(array('messages' => $this->_response->getMessages()));
         }
     }
 
@@ -173,31 +169,28 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
     {
         $processedInputData = null;
         switch ($method) {
-            case 'create':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
                 $processedInputData = $this->_request->getBodyParams();
-                // request data must be checked before the create type identification
-                // The create action has the dynamic type which depends on data in the request body
-                if ($this->_request->isAssocArrayInRequestBody()) {
-                    // TODO: Implement data filtration of item
-                } else {
-                    // TODO: Implement fields filtration of collection
-                }
+                // TODO: Implement data filtration of item
                 break;
-            case 'update':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+                $processedInputData = $this->_request->getBodyParams();
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration
                 break;
-            case 'multiUpdate':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement fields filtration
                 break;
-            case 'multiDelete':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
                 // break is intentionally omitted
-            case 'get':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
                 // break is intentionally omitted
-            case 'delete':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
                 // break is intentionally omitted
-            case 'list':
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
                 break;
         }
         return $processedInputData;

@@ -242,21 +242,4 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         $this->_resourceVersion = $versionNumber;
         return $this;
     }
-
-    /**
-     * Check if the array in the request body is an associative one.
-     *
-     * It is required for definition of the dynamic action type (multi or single).
-     *
-     * @return bool
-     */
-    public function isAssocArrayInRequestBody()
-    {
-        $params = $this->getBodyParams();
-        if (count($params)) {
-            $keys = array_keys($params);
-            return !is_numeric($keys[0]);
-        }
-        return false;
-    }
 }

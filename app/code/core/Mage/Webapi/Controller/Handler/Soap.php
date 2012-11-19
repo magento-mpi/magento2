@@ -44,15 +44,19 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
-    /** @var Mage_Webapi_Model_Soap_Security_UsernameToken_Factory */
-    protected $_usernameTokenFactory;
+    /**
+     * Username token factory.
+     *
+     * @var Mage_Webapi_Model_Soap_Security_UsernameToken_Factory
+     */
+    protected $_tokenFactory;
 
     /**
-     * WS-Security UsernameToken object from request
+     * WS-Security UsernameToken object from request.
      *
      * @var stdClass
      */
-    protected $_usernameTokenRequest;
+    protected $_usernameToken;
 
     /**
      * Initialize dependencies.
@@ -62,7 +66,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
-     * @param Mage_Webapi_Controller_Action_Factory $actionControllerFactory
+     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
      * @param Zend\Soap\Server $soapServer
@@ -79,7 +83,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_Action_Factory $actionControllerFactory,
+        Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Zend\Soap\Server $soapServer,
@@ -96,7 +100,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             $apiConfig,
             $requestFactory,
             $response,
-            $actionControllerFactory,
+            $controllerFactory,
             $logger,
             $objectManager,
             $roleLocator
@@ -106,7 +110,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         $this->_cache = $cache;
         $this->_application = $application;
         $this->_domDocumentFactory = $domDocumentFactory;
-        $this->_usernameTokenFactory = $usernameTokenFactory;
+        $this->_tokenFactory = $usernameTokenFactory;
     }
 
     /**
@@ -176,7 +180,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
                 foreach ($arguments as $argument) {
                     // @codingStandardsIgnoreStart
                     if (is_object($argument) && isset($argument->UsernameToken)) {
-                        $this->_usernameTokenRequest = $argument->UsernameToken;
+                        $this->_usernameToken = $argument->UsernameToken;
                     }
                     // @codingStandardsIgnoreEnd
                 }
@@ -208,7 +212,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected function _authenticate()
     {
-        if (is_null($this->_usernameTokenRequest)) {
+        if (is_null($this->_usernameToken)) {
             $this->_soapFault(
                 $this->_helper->__('No WS-Security UsernameToken found in SOAP-request.'),
                 self::FAULT_CODE_SENDER
@@ -216,8 +220,8 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         }
 
         try {
-            $token = $this->_usernameTokenFactory->createFromArray();
-            $request = $this->_usernameTokenRequest;
+            $token = $this->_tokenFactory->createFromArray();
+            $request = $this->_usernameToken;
             // @codingStandardsIgnoreStart
             $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);
             // @codingStandardsIgnoreEnd
@@ -362,28 +366,25 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     protected function _initSoapServer()
     {
         $this->_initWsdlCache();
-        $soapSchemaImportTriesCount = 0;
+        $schemaImportTrials = 0;
         do {
-            $soapSchemaImportFailed = false;
+            $schemaImportFailed = false;
             try {
                 $this->_soapServer
                     ->setWSDL($this->_getWsdlUrl())
                     ->setEncoding($this->_getApiCharset())
                     ->setClassmap($this->getApiConfig()->getTypeToClassMap());
             } catch (SoapFault $e) {
-                if (false !== strpos(
-                        $e->getMessage(),
-                        "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'"
-                    )
-                ) {
-                    $soapSchemaImportFailed = true;
-                    $soapSchemaImportTriesCount++;
+                $importSchemaMessage = "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'";
+                if (false !== strpos($e->getMessage(), $importSchemaMessage)) {
+                    $schemaImportFailed = true;
+                    $schemaImportTrials++;
                     sleep(1);
                 } else {
                     throw $e;
                 }
             }
-        } while ($soapSchemaImportFailed && $soapSchemaImportTriesCount < 5);
+        } while ($schemaImportFailed && $schemaImportTrials < 5);
         use_soap_error_handler(false);
         // Front controller plays the role of SOAP handler
         $this->_soapServer->setReturnResponse(true)->setObject($this);
@@ -488,27 +489,30 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     /**
      * Generate SOAP fault
      *
+     *
      * @param string $reason Human-readable explanation of the fault
      * @param string $code SOAP fault code
-     * @param Exception $e Exception can be used to add information to Detail node of SOAP message
+     * @param Exception $exception Exception can be used to add information to Detail node of SOAP message
      * @throws SoapFault
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     protected function _soapFault(
         $reason = self::FAULT_REASON_INTERNAL,
         $code = self::FAULT_CODE_RECEIVER,
-        Exception $e = null
+        Exception $exception = null
     ) {
         header('Content-type: application/soap+xml; charset=UTF-8');
         if ($this->_isSoapExtensionLoaded()) {
             $details = null;
-            if (!is_null($e)) {
-                $details = array('ExceptionCode' => $e->getCode());
+            if (!is_null($exception)) {
+                $details = array('ExceptionCode' => $exception->getCode());
                 // add detailed message only if it differs from fault reason
-                if ($e->getMessage() != $reason) {
-                    $details['ExceptionMessage'] = $e->getMessage();
+                if ($exception->getMessage() != $reason) {
+                    $details['ExceptionMessage'] = $exception->getMessage();
                 }
                 if (Mage::getIsDeveloperMode()) {
-                    $details['ExceptionTrace'] = "<![CDATA[{$e->getTraceAsString()}]]>";
+                    $details['ExceptionTrace'] = "<![CDATA[{$exception->getTraceAsString()}]]>";
                 }
             }
             // TODO: Implement Current language definition
