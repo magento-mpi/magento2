@@ -134,7 +134,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Set package area
      *
-     * @param  string $area
+     * @param string $area
      * @param bool $setDefaultTheme
      * @return Mage_Core_Model_Design_Package
      */
@@ -166,34 +166,20 @@ class Mage_Core_Model_Design_Package
     /**
      * Load design theme
      *
-     * @param Mage_Core_Model_Theme|int|string $theme
+     * @param int|string $theme
      * @param string|null $area
      * @return Mage_Core_Model_Theme
      */
     protected function _getLoadDesignTheme($theme, $area)
     {
-        if ($theme instanceof Mage_Core_Model_Theme) {
-            return $theme;
-        }
-
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->getDesignTheme();
+        $themeModel = clone $this->getDesignTheme();
         if (is_numeric($theme)) {
             $themeModel->load($theme);
         } else {
-            if (Mage::isInstalled()) {
-                /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-                $collection = $themeModel->getCollection();
-                $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
-            }
-            if (is_string($theme) && !$themeModel->getId()) {
-                $themeModel = $themeModel->getCollectionFromFilesystem()
-                    ->addDefaultPattern($area)
-                    ->addFilter('theme_path', $theme)
-                    ->getFirstItem();
-            }
+            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+            $collection = $themeModel->getCollection();
+            $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
         }
-
         return $themeModel;
     }
 
@@ -209,7 +195,13 @@ class Mage_Core_Model_Design_Package
         if ($area) {
             $this->setArea($area, false);
         }
-        $this->_theme = $this->_getLoadDesignTheme($theme, $area);
+
+        if ($theme instanceof Mage_Core_Model_Theme) {
+            $this->_theme = $theme;
+        } else {
+            $this->_theme = $this->_getLoadDesignTheme($theme, $area);
+        }
+
         return $this;
     }
 
@@ -223,7 +215,7 @@ class Mage_Core_Model_Design_Package
         $area = $this->getArea();
         $designTheme = $area == self::DEFAULT_AREA
             ? (string)Mage::getStoreConfig(self::XML_PATH_THEME)
-            : (string)Mage::getConfig()->getNode("{$area}/design/theme/full_name");
+            : (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
 
         return $this->_getLoadDesignTheme($designTheme, $area);
     }
@@ -246,7 +238,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignTheme()
     {
-        if (!$this->_theme) {
+        if ($this->_theme === null) {
             $this->_theme = Mage::getModel('Mage_Core_Model_Theme');
         }
         return $this->_theme;
@@ -384,68 +376,6 @@ class Mage_Core_Model_Design_Package
     protected function _isDeveloperMode()
     {
         return Mage::getIsDeveloperMode();
-    }
-
-    /**
-     * Design packages list getter
-     *
-     * @return array
-     */
-    public function getPackageList()
-    {
-        $directory = Mage::getBaseDir('design') . DS . 'frontend';
-        return $this->_listDirectories($directory);
-    }
-
-    /**
-     * Retrieve the list of themes available in the system.
-     * Results are grouped by packages themes belong to, if the optional 'package' argument is omitted.
-     *
-     * @param string|null $package
-     * @return array
-     */
-    public function getThemeList($package = null)
-    {
-        $result = array();
-
-        if (is_null($package)){
-            foreach ($this->getPackageList() as $package){
-                $result[$package] = $this->getThemeList($package);
-            }
-        } else {
-            $directory = Mage::getBaseDir('design') . DS . 'frontend' . DS . $package;
-            $result = $this->_listDirectories($directory);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Directories lister utility method
-     *
-     * @param string $path
-     * @param bool|string $fullPath
-     * @return array
-     */
-    private function _listDirectories($path, $fullPath = false)
-    {
-        $result = array();
-        $dir = opendir($path);
-        if ($dir) {
-            while ($entry = readdir($dir)) {
-                if (substr($entry, 0, 1) == '.' || !is_dir($path . DS . $entry)){
-                    continue;
-                }
-                if ($fullPath) {
-                    $entry = $path . DS . $entry;
-                }
-                $result[] = $entry;
-            }
-            unset($entry);
-            closedir($dir);
-        }
-
-        return $result;
     }
 
     /**
@@ -747,7 +677,7 @@ class Mage_Core_Model_Design_Package
     protected function _buildPublicViewRedundantFilename($file, array $params)
     {
         if ($params['themeModel']->getThemePath()) {
-            $designPath = $params['themeModel']->getPackageCode() . DS . $params['themeModel']->getThemeCode();
+            $designPath = str_replace('/', DS, $params['themeModel']->getThemePath());
         } elseif($params['themeModel']->getId()) {
             $designPath = self::PUBLIC_THEME_DIR . $params['themeModel']->getId();
         } else {
@@ -1094,36 +1024,6 @@ class Mage_Core_Model_Design_Package
                 $this->_publicCache[$cacheKey] = array();
             }
         }
-    }
-
-    /**
-     * Get the structure for area with all possible design combinations
-     *
-     * The format of the result is a multidimensional array with following structure
-     * array (
-     *     'package_name' => array (
-     *         '0' => 'theme_name_1',
-     *         '1' => 'theme_name_2',
-     *     )
-     * )
-     *
-     * @param string $area
-     * @return array
-     */
-    public function getDesignEntitiesStructure($area)
-    {
-        $areaStructure = array();
-
-        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = $this->getDesignTheme()->getCollectionFromFilesystem();
-        $themeCollection->addDefaultPattern($area);
-
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($themeCollection as $theme) {
-            list($package, $theme) = explode('/', $theme->getThemePath());
-            $areaStructure[$package][] = $theme;
-        }
-        return $areaStructure;
     }
 
     /**

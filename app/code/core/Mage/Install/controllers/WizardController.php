@@ -26,6 +26,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         }
 
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
+        $this->_setTheme();
         return parent::preDispatch();
     }
 
@@ -57,6 +58,23 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             return false;
         }
         return true;
+    }
+
+    /**
+     * Set default design theme
+     *
+     * @return Mage_Install_WizardController
+     */
+    protected function _setTheme()
+    {
+        $design = Mage::getDesign();
+        /** @var $themesCollection Mage_Core_Model_Theme_Collection */
+        $themesCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeModel = $themesCollection->addDefaultPattern($design->getArea())
+            ->addFilter('theme_path', $design->getConfigurationDesignTheme())
+            ->getFirstItem();
+        $design->setDesignTheme($themeModel);
+        return $this;
     }
 
     /**
