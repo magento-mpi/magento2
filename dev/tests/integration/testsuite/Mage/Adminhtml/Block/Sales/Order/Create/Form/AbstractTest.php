@@ -15,6 +15,10 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
+     * @magentoAppIsolation enabled
+     */
     public function testAddAttributesToForm()
     {
         $arguments = array(

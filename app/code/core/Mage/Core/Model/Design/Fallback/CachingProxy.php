@@ -95,7 +95,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $this->_basePath = $data['baseDir'] ? $data['baseDir'] . DIRECTORY_SEPARATOR : '';
 
         $this->_mapFile =
-            "{$this->_mapDir}/{$this->_area}_{$this->_theme->getThemePath()}_{$this->_locale}.ser";
+            "{$this->_mapDir}/{$this->_area}_{$this->_theme->getId()}_{$this->_locale}.ser";
         $this->_map = file_exists($this->_mapFile) ? unserialize(file_get_contents($this->_mapFile)) : array();
     }
 
