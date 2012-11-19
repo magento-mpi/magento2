@@ -11,131 +11,20 @@
 /**
  * System configuration structure reader
  */
-class Mage_Backend_Model_Config_Structure extends Magento_Config_XmlAbstract
-    implements Mage_Backend_Model_Config_StructureInterface
+class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_StructureInterface
 {
     /**
-     * Main Application object
-     *
-     * @var Mage_Core_Model_App
-     */
-    protected $_app;
-
-    /**
-     * Config structure toArray converter
-     *
-     * @var Mage_Backend_Model_Config_Structure_Converter
-     */
-    protected $_converter;
-
-    /**
-     * List of encrypted paths
      *
      * @var array
      */
-    protected $_encryptedPaths = array();
+    protected $_data;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
      */
-    protected $_helperFactory;
-
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data = array())
+    public function __construct(Mage_Backend_Model_Config_Structure_Reader $structureReader)
     {
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
-        $this->_converter = isset($data['converter'])
-            ? $data['converter']
-            : Mage::getSingleton('Mage_Backend_Model_Config_Structure_Converter');
-        $this->_helperFactory = isset($data['helperFactory'])
-            ? $data['helperFactory']
-            : Mage::getSingleton('Mage_Core_Model_Factory_Helper');
-        parent::__construct($data['sourceFiles']);
-    }
-
-    public function __wakeUp()
-    {
-        $this->_app = Mage::app();
-        $this->_helperFactory = Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper');
-    }
-
-    /**
-     * Get absolute path to the XML-schema file
-     *
-     * @return string
-     */
-    public function getSchemaFile()
-    {
-        return __DIR__ . '/Structure/system.xsd';
-    }
-
-    /**
-     * Get absolute path to the XML-schema file
-     *
-     * @return string
-     */
-    public function getPerFileSchemaFile()
-    {
-        return __DIR__ . '/Structure/system_file.xsd';
-    }
-
-    /**
-     * Extract configuration data from the DOM structure
-     *
-     * @param DOMDocument $dom
-     * @return array|DOMNodeList
-     */
-    protected function _extractData(DOMDocument $dom)
-    {
-        $data = $this->_converter->convert($dom);
-        return $data['config']['system'];
-    }
-
-    /**
-     * Get XML-contents, initial for merging
-     *
-     * @return string
-     */
-    protected function _getInitialXml()
-    {
-        return '<?xml version="1.0" encoding="utf-8"?><config><system></system></config>';
-    }
-
-    /**
-     * Get list of paths to identifiable nodes
-     *
-     * @return array
-     */
-    protected function _getIdAttributes()
-    {
-        return array(
-            '/config/system/tab' => 'id',
-            '/config/system/section' => 'id',
-            '/config/system/section/group' => 'id',
-            '/config/system/section/group/field' => 'id',
-        );
-    }
-
-    /**
-     * Retrieve all sections system configuration layout
-     *
-     * @return array
-     */
-    public function getSections()
-    {
-        return $this->_data['sections'];
-    }
-
-    /**
-     * Retrieve list of tabs from
-     *
-     * @return array
-     */
-    public function getTabs()
-    {
-        return $this->_data['tabs'];
+        $this->_data = $structureReader->getData();
     }
 
     /**
