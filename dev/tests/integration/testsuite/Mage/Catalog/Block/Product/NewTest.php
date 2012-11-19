@@ -45,21 +45,19 @@ class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Mage::app()->getStore()->getId(), $info[1]);
 
         $this->assertSame(2, array_shift($keys));
-        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getPackageCode(), $info[2]);
-        $this->assertSame(3, array_shift($keys));
-        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getThemeCode(), $info[3]);
+        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getId(), $info[2]);
 
-        $this->assertSame(4, array_shift($keys));
-        $this->assertNotEquals('', $info[4]);
+        $this->assertSame(3, array_shift($keys));
+        $this->assertEquals(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(), $info[3]);
 
         $this->assertSame('template', array_shift($keys));
+
         /**
          * This block is implemented without template by default (invalid).
          * Having the cache key fragment with empty value can potentially lead to caching bugs
          */
-
-        $this->assertSame(5, array_shift($keys));
-        $this->assertNotEquals('', $info[5]);
+        $this->assertSame(4, array_shift($keys));
+        $this->assertNotEquals('', $info[4]);
     }
 
     public function testSetGetProductsCount()

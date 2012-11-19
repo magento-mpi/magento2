@@ -311,11 +311,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    protected static function _getPreviewImagePublishedRootDir()
+    protected function _getPreviewImagePublishedRootDir()
     {
-        $fileSystemHelper = new Varien_Io_File();
         $dirPath = Mage::getBaseDir('media') . DS . self::THEME_DIR;
-        $fileSystemHelper->checkAndCreateFolder($dirPath);
+        $this->_getIoFile()->checkAndCreateFolder($dirPath);
         return $dirPath;
     }
 
@@ -324,9 +323,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    public static function getImagePathOrigin()
+    public function getImagePathOrigin()
     {
-        return self::_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_ORIGIN;
+        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_ORIGIN;
     }
 
     /**
@@ -334,9 +333,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    protected static function _getImagePathPreview()
+    protected function _getImagePathPreview()
     {
-        return self::_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_PREVIEW;
+        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_PREVIEW;
     }
 
     /**
@@ -398,11 +397,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $upload->setAllowRenameFiles(true);
         $upload->setFilesDispersion(false);
 
-        if (!$upload->save(self::getImagePathOrigin())) {
+        if (!$upload->save($this->getImagePathOrigin())) {
             Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Image can not be saved.'));
         }
 
-        $fileName = self::getImagePathOrigin() . DS . $upload->getUploadedFileName();
+        $fileName = $this->getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->removePreviewImage()->createPreviewImage($fileName);
         $this->_getIoFile()->rm($fileName);
         return true;
@@ -426,7 +425,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
 
         $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());
-        $image->save(self::_getImagePathPreview(), $imageName);
+        $image->save($this->_getImagePathPreview(), $imageName);
 
         $this->setPreviewImage($imageName);
 
@@ -443,7 +442,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $previewImage = $this->getPreviewImage();
         $this->setPreviewImage('');
         if ($previewImage) {
-            $this->_getIoFile()->rm(self::_getImagePathPreview() . DS . $previewImage);
+            $this->_getIoFile()->rm($this->_getImagePathPreview() . DS . $previewImage);
         }
         return $this;
     }

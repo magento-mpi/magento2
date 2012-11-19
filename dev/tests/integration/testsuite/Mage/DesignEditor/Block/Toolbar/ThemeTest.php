@@ -31,15 +31,16 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
 
     /**
      * @dataProvider getThemes
+     * @magentoAppIsolation enabled
      */
     public function testIsThemeSelected($themeOld, $themeNew)
     {
         Mage::getDesign()->setDesignTheme($themeOld);
-        $isSelected = $this->_block->isThemeSelected('b');
+        $isSelected = $this->_block->isThemeSelected($themeOld->getId());
         $this->assertTrue($isSelected);
 
         Mage::getDesign()->setDesignTheme($themeNew);
-        $isSelected = $this->_block->isThemeSelected('b');
+        $isSelected = $this->_block->isThemeSelected($themeOld->getId());
         $this->assertFalse($isSelected);
     }
 
@@ -57,12 +58,14 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
         $oldTheme = $this->_getThemeModel()
             ->setData($this->_getThemeSampleData())
             ->setThemePath('a/b')
-            ->setThemeCode('b');
+            ->setThemeCode('b')
+            ->save();
 
         $newTheme = $this->_getThemeModel()
             ->setData($this->_getThemeSampleData())
             ->setThemePath('c/d')
-            ->setThemeCode('d');
+            ->setThemeCode('d')
+            ->save();
 
         return array(
             array($oldTheme, $newTheme)

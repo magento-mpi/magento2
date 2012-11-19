@@ -32,7 +32,7 @@ class Mage_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
         $block = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Footer');
         $storeId = Mage::app()->getStore()->getId();
         $this->assertEquals(
-            array('PAGE_FOOTER', $storeId, 0, $this->_theme->getPackageCode(), $this->_theme->getThemeCode(), null),
+            array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),
             $block->getCacheKeyInfo()
         );
     }
