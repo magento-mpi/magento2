@@ -67,6 +67,7 @@
         <xs:attribute name="showInDefault" type="xs:int" use="optional" />
         <xs:attribute name="showInStore" type="xs:int" use="optional" />
         <xs:attribute name="showInWebsite" type="xs:int" use="optional" />
+        <xs:attribute name="advanced" type="xs:boolean" use="optional" />
     </xs:attributeGroup>
 
     <xs:element name="tab">
