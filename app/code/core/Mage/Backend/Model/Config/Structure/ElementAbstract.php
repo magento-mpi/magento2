@@ -64,19 +64,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      *
      * @return bool
      */
-    public function isVisible($scope)
+    public function isVisible()
     {
-        $showTab = false;
-        if ($storeCode) {
-            $showTab = (bool) $this->getAttribute('showInStore');
-        } elseif ($websiteCode) {
-            $showTab = (bool) $this->getAttribute('showInWebsite');
-        } elseif (isset($node['showInDefault']) && $node['showInDefault']) {
-            $showTab = true;
-        }
-
-        $showTab = $showTab || $this->_app->isSingleStoreMode();
-        $showTab = $showTab && !($this->_app->isSingleStoreMode()
-            && isset($node['hide_in_single_store_mode']) && $node['hide_in_single_store_mode']);
-        return $showTab;    }
+    }
 }

@@ -8,12 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Structure_Group extends Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
+class Mage_Backend_Model_Config_Structure_Element_Group
+    extends Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
 {
-    /**
-     * The name of children array identifier in data array
-     *
-     * @var string
-     */
-    protected $_childrenKey = 'fields';
 }

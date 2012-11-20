@@ -10,15 +10,7 @@
 
 abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     extends Mage_Backend_Model_Config_Structure_ElementAbstract
-    implements IteratorAggregate
 {
-    /**
-     * The name of children array identifier in data array
-     *
-     * @var string
-     */
-    protected $_childrenKey;
-
     /**
      * Child elements iterator
      *
@@ -27,40 +19,11 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     protected $_childrenIterator;
 
     /**
-     * Retrieve element iterator
-     *
-     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
+     * @param Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
      */
-    public function getIterator()
+    function __construct(Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator)
     {
-        $this->_childrenIterator->setElements($this->_data[$this->_childrenKey]);
-        return $this->_childrenIterator;
-    }
-
-    /**
-     * Retrieve element by path
-     *
-     * @param string $path
-     * @return Mage_Backend_Model_Config_Structure_ElementInterface
-     */
-    public function getElement($path)
-    {
-        $pathParts = explode('/', $path);
-        return $this->getElement($pathParts);
-    }
-
-    /**
-     * Retrieve element by path parts
-     *
-     * @param array $pathParts
-     * @return Mage_Backend_Model_Config_Structure_ElementInterface
-     */
-    public function getElementByPathParts(array $pathParts)
-    {
-        $key = array_shift($pathParts);
-        /** @var $child Mage_Backend_Model_Config_Structure_Element_CompositeAbstract */
-        $child = isset($this->_data[$this->_childrenKey][$key]) ? $this->_data[$this->_childrenKey][$key] : null;
-        return (count($pathParts) && $child) ? $child->getElementByPathParts($pathParts) : $child;
+        $this->_childrenIterator = $childrenIterator;
     }
 
     /**
@@ -70,13 +33,21 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
      */
     public function hasChildren()
     {
-        $result = false;
-        foreach ($this->getIterator() as $child) {
-            if ($child->isVisible()) {
-                $result = true;
-                break;
-            }
-        }
-        return $result;
+        foreach ($this->getChildren() as $child) {
+            return (bool) $child;
+        };
+        return false;
+    }
+
+    /**
+     * Retrieve children iterator
+     *
+     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
+     */
+    public function getChildren()
+    {
+        $this->_childrenIterator->setElements($this->_data['children']);
+        return $this->_childrenIterator;
     }
 }
+

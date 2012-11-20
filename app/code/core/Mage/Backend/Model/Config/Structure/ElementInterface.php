@@ -18,18 +18,24 @@ interface Mage_Backend_Model_Config_Structure_ElementInterface
     public function setData(array $data);
 
     /**
+     * Retrieve element id
+     *
      * @return string
      */
     public function getId();
 
     /**
+     * Retrieve element label
+     *
      * @return string
      */
     public function getLabel();
 
     /**
+     * Check whether element is visible
+     *
      * @return bool
      */
-    public function isDisplayed();
+    public function isVisible();
 }
 

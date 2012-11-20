@@ -21,17 +21,20 @@ return array(
             ),
             'sections' => array(
                 'section_1' => array(
+                    '_elementType' => 'section',
                     'id' => 'section_1',
                     'type' => 'text',
                     'label' => 'Section 1 New',
                     'tab' => 'tab_1',
-                    'groups' => array(
+                    'children' => array(
                         'group_1' => array(
+                            '_elementType' => 'group',
                             'id' => 'group_1',
                             'type' => 'text',
                             'label' => 'Group 1 New',
-                            'fields' => array(
+                            'children' => array(
                                 'field_2' => array(
+                                    '_elementType' => 'field',
                                     'id' => 'field_2',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
@@ -42,11 +45,13 @@ return array(
                             ),
                         ),
                         'group_2' => array(
+                            '_elementType' => 'group',
                             'id' => 'group_2',
                             'type' => 'text',
                             'label' => 'Group 2',
-                            'fields' => array(
+                            'children' => array(
                                 'field_3' => array(
+                                    '_elementType' => 'field',
                                     'id' => 'field_3',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
@@ -58,18 +63,21 @@ return array(
                     ),
                 ),
                 'section_2' => array(
+                    '_elementType' => 'section',
                     'id' => 'section_2',
                     'type' => 'text',
                     'label' => 'Section 2',
                     'tab' => 'tab_2',
-                    'groups' => array(
+                    'children' => array(
                         'group_3' => array(
+                            '_elementType' => 'group',
                             'id' => 'group_3',
                             'type' => 'text',
                             'label' => 'Group 3',
                             'comment' => '<a href="test_url">test_link</a>',
-                            'fields' => array(
+                            'children' => array(
                                 'field_3' => array(
+                                    '_elementType' => 'field',
                                     'id' => 'field_3',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',
@@ -94,6 +102,7 @@ return array(
                                     )
                                 ),
                                 'field_4' => array(
+                                    '_elementType' => 'field',
                                     'id' => 'field_4',
                                     'translate' => 'label',
                                     'showInWebsite' => '1',

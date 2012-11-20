@@ -9,12 +9,12 @@
  */
 
 /**
- * System configuration structure reader
+ * System configuration structure
  */
-class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_StructureInterface
+class Mage_Backend_Model_Config_Structure
 {
     /**
-     *
+     * Configuration structure represented as tree
      *
      * @var array
      */
@@ -27,15 +27,23 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     protected $_tabIterator;
 
     /**
+     * @var Mage_Backend_Model_Config_Structure_Element_FlyweightPool
+     */
+    protected $_flyweightPool;
+
+    /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
-     * @param Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator
+     * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
+     * @param Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
      */
     public function __construct(
         Mage_Backend_Model_Config_Structure_Reader $structureReader,
-        Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator
+        Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
+        Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
     ) {
         $this->_data = $structureReader->getData();
         $this->_tabIterator = $tabIterator;
+        $this->_flyweightPool = $flyweightPool;
     }
 
     /**
@@ -50,26 +58,25 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     }
 
     /**
-     * Retrieve defined section
+     * Find element by path
      *
-     * @param string $sectionCode
-     * @return Mage_Backend_Model_Config_Structure_Section
-     */
-    public function getSection($sectionCode)
-    {
-        return isset($this->_data['sections'][$sectionCode]) ? $this->_data['sections'][$sectionCode] : null;
-    }
-
-    /**
      * @param string $path
-     * @return Mage_Backend_Model_Config_Structure_Section
+     * @return Mage_Backend_Model_Config_Structure_ElementInterface
      */
     public function getElement($path)
     {
         $pathParts = explode('/', $path);
-        $sectionKey = array_shift($pathParts);
-        $section = $this->getSection($sectionKey);
-        return (count($pathParts) && $section) ? $sectionKey->getElementByPathParts($pathParts) : $section;
+        $children = $this->_data['sections'];
+        $child = array();
+        foreach($pathParts as $id) {
+            if (array_key_exists($id, $children)) {
+                $child = $children[$id];
+                $children = array_key_exists('children', $child) ? $child['children'] : array();
+            } else {
+                return null;
+            }
+        }
+        return $this->_flyweightPool->getFlyweight($child);
     }
 
     /**
@@ -80,7 +87,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      * @param string $storeCode
      * @return boolean
      */
-    public function hasChildren($node, $websiteCode = null, $storeCode = null)
+/*    public function hasChildren($node, $websiteCode = null, $storeCode = null)
     {
         if (!$this->_canShowNode($node, $websiteCode, $storeCode)) {
             return false;
@@ -100,7 +107,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             }
         }
         return false;
-    }
+    }*/
 
     /**
      * Checks whether it is possible to show the node
@@ -110,7 +117,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      * @param string $storeCode
      * @return boolean
      */
-    protected function _canShowNode($node, $websiteCode = null, $storeCode = null)
+/*    protected function _canShowNode($node, $websiteCode = null, $storeCode = null)
     {
         $showTab = false;
         if ($storeCode) {
@@ -125,7 +132,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
         $showTab = $showTab && !($this->_app->isSingleStoreMode()
             && isset($node['hide_in_single_store_mode']) && $node['hide_in_single_store_mode']);
         return $showTab;
-    }
+    }*/
 
     /**
      * Get translate module name
@@ -135,7 +142,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      * @param array $fieldNode
      * @return string
      */
-    public function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
+/*    public function getAttributeModule($sectionNode = null, $groupNode = null, $fieldNode = null)
     {
         $moduleName = 'Mage_Backend';
         if (isset($sectionNode['module'])) {
@@ -148,7 +155,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             $moduleName = (string) $fieldNode['module'];
         }
         return $moduleName;
-    }
+    }*/
 
     /**
      * System configuration section, fieldset or field label getter
@@ -159,7 +166,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      * @throws InvalidArgumentException
      * @return string
      */
-    public function getSystemConfigNodeLabel($sectionName, $groupName = null, $fieldName = null)
+/*    public function getSystemConfigNodeLabel($sectionName, $groupName = null, $fieldName = null)
     {
         $sectionName = trim($sectionName, '/');
         $groupNode = $fieldNode = null;
@@ -200,7 +207,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
         return isset($currentNode['label'])
             ? $this->_helperFactory->get($moduleName)->__((string)$currentNode['label'])
             : '';
-    }
+    }*/
 
     /**
      * Look for encrypted node entries in all system.xml files and return them
@@ -208,7 +215,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      * @param bool $explodePathToEntities
      * @return array
      */
-    public function getEncryptedNodeEntriesPaths($explodePathToEntities = false)
+/*    public function getEncryptedNodeEntriesPaths($explodePathToEntities = false)
     {
         if (!$this->_encryptedPaths) {
             $this->_encryptedPaths = $this->getFieldsByAttribute(
@@ -216,9 +223,9 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             );
         }
         return $this->_encryptedPaths;
-    }
+    }*/
 
-    public function getFieldsByAttribute($attributeName, $attributeValue, $explodePathToEntities = false)
+/*    public function getFieldsByAttribute($attributeName, $attributeValue, $explodePathToEntities = false)
     {
         $result = array();
         foreach ($this->_data['sections'] as $section) {
@@ -245,5 +252,5 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             }
         }
         return $result;
-    }
+    }*/
 }

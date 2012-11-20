@@ -48,7 +48,6 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
      */
     public function current()
     {
-        $this->_flyweight->setData(current($this->_elements));
         return $this->_flyweight;
     }
 
@@ -61,6 +60,22 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     public function next()
     {
         next($this->_elements);
+        if (current($this->_elements)) {
+            $this->_initFlyweight(current($this->_elements));
+            if (!$this->current()->isVisible()) {
+                $this->next();
+            }
+        }
+    }
+
+    /**
+     * Initialize current flyweight
+     *
+     * @param array $element
+     */
+    protected function _initFlyweight(array $element)
+    {
+        $this->_flyweight->setData($element);
     }
 
     /**
@@ -95,6 +110,12 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     public function rewind()
     {
         reset($this->_elements);
+        if (current($this->_elements)) {
+            $this->_initFlyweight(current($this->_elements));
+            if (!$this->current()->isVisible()) {
+                $this->next();
+            }
+        }
     }
 
     /**

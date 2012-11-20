@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Structure_Field extends Mage_Backend_Model_Config_Structure_ElementAbstract
+class Mage_Backend_Model_Config_Structure_Element_Field
+    extends Mage_Backend_Model_Config_Structure_ElementAbstract
 {
 }
