@@ -157,11 +157,6 @@ system_configuration:
                                         display_prices_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price_groups']
                                         allow_adding_to_cart_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items_groups']
                             -
-                                states_options:
-                                    xpath: //fieldset[@id='general_region']
-                                    links:
-                                        states_options_link: //parent::div//a[@id='general_region-head']
-                            -
                                 catalog_catalog_event:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogevent']
                                     links:

@@ -763,6 +763,11 @@ system_configuration:
                                         use_javascript_calendar_use_default: //input[@name='groups[custom_options][fields][use_calendar][inherit]']
                                         date_fields_order_use_default: //input[@name='groups[custom_options][fields][date_fields_order][inherit]']
                                         time_format_use_default: //input[@name='groups[custom_options][fields][time_format][inherit]']
+                            -
+                                states_options:
+                                    xpath: //fieldset[@id='general_region']
+                                    links:
+                                        states_options_link: //parent::div//a[@id='general_region-head']
                 -
                     catalog_inventory:
                         xpath: //a[contains(@href, 'edit/section/cataloginventory/')]

@@ -69,6 +69,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function verifyScopeNewsletterResource($loginData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         // Verify that navigation menu has only 1 parent element
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
@@ -107,6 +108,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createNewsletterResourceOneRole($loginData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('newsletter_templates');
         $newsData = $this->loadDataSet('Newsletter', 'generic_newsletter_data');
@@ -144,6 +146,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editNewsletterResourceOneRole($loginData, $newsData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
@@ -182,6 +185,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function putNewsToQueueOneRole($loginData, $newNewsletterData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $newData = $this->loadDataSet('Newsletter', 'edit_newsletter_before_queue',
             array('newsletter_queue_data' => '12.12.12'));
@@ -219,6 +223,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function deleteNewsletterOneRole($loginData, $newNewsletterData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->newsletterHelper()->deleteNewsletter($newNewsletterData);
         $this->validatePage('newsletter_templates');
@@ -295,6 +300,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function actionsWithSubscribersOneRole($loginData, $subscriberEmail)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('newsletter_subscribers');
         //Verifying that subscriber is presented in grid and has status 'subscribed' (For Full newsletter ACL resources admin)

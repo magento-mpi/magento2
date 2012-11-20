@@ -78,6 +78,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function verifyScopeCmsStaticBlockOneRoleResource($loginData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
@@ -122,6 +123,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function createCmsStaticBlockOneRoleResource($loginData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
         $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets');
@@ -157,6 +159,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function editCmsStaticBlockOneRoleResource($loginData, $searchPageData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
         $randomTitleAndIdentifier = array('block_title'      => $this->generate('string', 15),
@@ -195,6 +198,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      */
     public function deleteCmsStaticBlockOneRoleResource($loginData, $searchPageData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
         $this->cmsStaticBlocksHelper()->deleteStaticBlock($searchPageData);

@@ -242,7 +242,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
         $this->assertNull($this->search(array('filter_queue_subject'=> $newNewsletterData['newsletter_template_subject']),
-            'newsletter_templates_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
+            'newsletter_queue_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
                                           . ') is presented in queue grid, should be deleted');
     }
 
@@ -256,7 +256,6 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     {
         //Create test category for subscribe from frontend
         $category = $this->loadDataSet('Category', 'sub_category_required');
-        $this->loginAdminUser();
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);

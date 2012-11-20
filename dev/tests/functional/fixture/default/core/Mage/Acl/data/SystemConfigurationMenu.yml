@@ -99,7 +99,7 @@ configuration_menu_default:
         name_and_address_options:
         login_options:
         address_templates:
-        captcha_customer:
+        customer_captcha:
         account_sharing_options:
         online_customer_options:
     customers_wishlist:
@@ -302,7 +302,7 @@ configuration_menu_website:
         name_and_address_options:
         login_options:
         address_templates:
-        captcha_customer:
+        customer_captcha:
         account_sharing_options:
         online_customer_options:
     customers_wishlist:

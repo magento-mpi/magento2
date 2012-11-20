@@ -70,6 +70,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function verifyScopeCmsWidgetOneRoleResource($loginData)
     {
         //Steps
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         // Verify that navigation menu has only 1 parent element

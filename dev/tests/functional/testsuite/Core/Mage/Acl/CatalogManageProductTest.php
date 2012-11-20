@@ -103,6 +103,7 @@ class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
      */
     public function deleteSingleProduct($type, $loginData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_products');
         //Data

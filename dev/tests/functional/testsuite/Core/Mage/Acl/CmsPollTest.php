@@ -73,6 +73,7 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
     public function verifyScopeCmsPollOneRoleResource($loginData)
     {
         // Verify that navigation menu has only 1 parent element
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('poll_manager');
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
@@ -157,6 +158,7 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      */
     public function  editPoll($loginData, $pollData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('poll_manager');
         $this->cmsPollsHelper()->closeAllPolls();
@@ -194,6 +196,7 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      */
     public function deleteNewPoll($loginData, $searchPollData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('poll_manager');
         //Steps

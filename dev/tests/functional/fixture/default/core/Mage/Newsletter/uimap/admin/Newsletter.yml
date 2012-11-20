@@ -141,7 +141,7 @@ newsletter_queue:
                         fields:
                             filter_queue_id: //input[@id='queueGrid_filter_queue_id']
                             filter_queue_subject: //input[@id='queueGrid_filter_newsletter_subject']
-        buttons: *gridButtons
+                        buttons: *gridButtons
         messages: *newsTemplateMessages
 
 # Newsletter Newsletter Queue edit page
@@ -153,7 +153,7 @@ newsletter_queue_edit:
             fieldsets:
                 -
                     queue_edit_form:
-                        xpath: //form [@id='queue_edit_form']
+                        xpath: //form[@id='queue_edit_form']
                         fields:
                             newsletter_queue_data: //*[@id='date']
                             newsletter_template_subject: //input[@id='subject']

@@ -113,6 +113,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function verifyScopeOneRole($testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         // Verify that navigation menu has only one element
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
@@ -144,6 +145,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createOrderOneRole($testAdminUser, $orderData)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->navigate('manage_sales_orders');
         $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
@@ -176,6 +178,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createInvoiceTestOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
@@ -201,6 +204,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function holdOrderOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->saveForm('hold');
@@ -229,6 +233,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function unHoldOrderOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->saveForm('unhold');
@@ -257,6 +262,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createShippingOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
@@ -284,6 +290,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createCreditMemoOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
@@ -312,6 +319,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function reorderOrderOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->clickButton('reorder');
@@ -344,6 +352,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editOrderOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
@@ -375,6 +384,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function cancelOrderOneRole($orderId, $testAdminUser)
     {
+        $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
