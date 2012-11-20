@@ -19,9 +19,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategoryTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_urlModel = $this->getMock('Mage_Core_Model_Url', array('getUrl'));
-        $this->_object = new Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory(array(
-            'urlModel' => $this->_urlModel,
+        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+
+        $this->_urlModel = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $this->_object = $objectManager->getBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory', array(
+            'urlBuilder' => $this->_urlModel,
         ));
     }
 
@@ -34,14 +36,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategoryTest extends PHPUnit_
      */
     public function testGetUrlMethods($expectedUrl, $executedMethod)
     {
-        $stringReverseCallback = function ($string)
-        {
-            return strrev($string);
-        };
         $this->_urlModel->expects($this->once())
             ->method('getUrl')
             ->with($expectedUrl)
-            ->will($this->returnCallback($stringReverseCallback));
+            ->will($this->returnCallback(
+                function ($string) {
+                    return strrev($string);
+                }
+            ));
         $this->assertEquals(
             strrev($expectedUrl),
             call_user_func_array(array($this->_object, $executedMethod), array($expectedUrl))
