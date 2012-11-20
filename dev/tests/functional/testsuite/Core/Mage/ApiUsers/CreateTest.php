@@ -47,11 +47,11 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
+        $windowQty = $this->windowHandles();
+        if (count($windowQty) > 1 && end($windowQty) != '') {
+            $this->window(end($windowQty));
+            $this->closeLastWindow();
+            $this->window('');
         }
     }
 
@@ -95,7 +95,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('search', false);
         $this->waitForAjax();
         $this->addParameter('roleName', $userData['role_name']);
-        $this->click($this->_getControlXpath('radiobutton', 'select_role'));
+        $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
         $this->clickButton('save', true);
@@ -105,7 +105,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('email', $userData['api_user_contact_email']);
         $this->addParameter('role', $userData['role_name']);
         $xpath = $this->_getControlXpath('link', 'check_user');
-        $this->assertTrue($this->isElementPresent($xpath));
+        $this->assertTrue($this->elementIsPresent($xpath));
 
         return $userData;
     }

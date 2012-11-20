@@ -46,7 +46,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->addParameter('defaultValue', $defaultValue);
         $xpath = $this->_getControlXpath('pageelement', 'default_code_length');
         //Verification
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->elementIsPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Length field');
         }
     }
@@ -72,7 +72,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->addParameter('defaultValue', $defaultValue);
         $xpath = $this->_getControlXpath('pageelement', 'default_code_format');
         //Verification
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->elementIsPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Format dropdown');
         }
     }
@@ -99,7 +99,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->addParameter('defaultValue', $defaultValue);
         $xpath = $this->_getControlXpath('pageelement', 'default_code_prefix');
         //Verification
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->elementIsPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Prefix field');
         }
     }
@@ -126,7 +126,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->addParameter('defaultValue', $defaultValue);
         $xpath = $this->_getControlXpath('pageelement', 'default_code_suffix');
         //Verification
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->elementIsPresent($xpath)) {
             $this->fail('Wrong specified default value in Code Suffix field');
         }
     }
@@ -164,7 +164,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->addParameter('defaultValue', $defaultValue);
         $xpath = $this->_getControlXpath('pageelement', 'default_dash_every_x_characters');
         //Verification
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->elementIsPresent($xpath)) {
             $this->fail('Wrong specified default value in Dash Every X Characters field');
         }
     }

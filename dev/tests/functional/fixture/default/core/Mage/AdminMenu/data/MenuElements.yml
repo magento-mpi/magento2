@@ -45,7 +45,7 @@ menu:
         google_content:
             google_content_manage_attributes:
             google_content_manage_items:
-        google_sitemap:
+        catalog_google_sitemap:
 
     mobile:
         manage_apps:
