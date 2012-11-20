@@ -27,6 +27,8 @@ class Mage_Core_Model_Theme_Registration
 
     /**
      * Init theme model
+     *
+     * @param Mage_Core_Model_Theme $model
      */
     public function __construct(Mage_Core_Model_Theme $model)
     {
@@ -75,6 +77,8 @@ class Mage_Core_Model_Theme_Registration
             $this->_registerThemeRecursively($theme);
         }
 
+        $this->_setSelectedThemes($this->_getDefaultThemes());
+
         /** @var $dbCollection Mage_Core_Model_Resource_Theme_Collection */
         $dbCollection = $this->getThemeModel()->getResourceCollection();
         $dbCollection->checkParentInThemes();
@@ -98,14 +102,13 @@ class Mage_Core_Model_Theme_Registration
         }
         $themeModel = $this->getThemeFromDb($theme->getFullPath());
         if ($themeModel->getId()) {
-            $theme = $themeModel;
             return $this;
         }
 
         $tempId = $theme->getFullPath();
         if (in_array($tempId, $inheritanceChain)) {
             Mage::throwException(Mage::helper('Mage_Core_Helper_Data')
-                    ->__('Circular-reference in theme inheritance detected for "%s"', $tempId));
+                ->__('Circular-reference in theme inheritance detected for "%s"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();
@@ -117,6 +120,52 @@ class Mage_Core_Model_Theme_Registration
 
         $theme->savePreviewImage()->save();
         return $this;
+    }
+
+    /**
+     * Get default theme design paths specified in configuration
+     *
+     * @return array
+     */
+    protected function _getDefaultThemes()
+    {
+        $themesByArea = array();
+        $themeItems = $this->_collection->getItems();
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeItems as $theme) {
+            $area = $theme->getArea();
+            if (!isset($themesByArea[$area])) {
+                $themePath = $this->_getDesign()->getConfigurationDesignTheme($area, false);
+                $fullPath = $area . '/' . $themePath;
+                $themesByArea[$area] = isset($themeItems[$fullPath]) ? $themeItems[$fullPath] : null;
+            }
+        }
+        return $themesByArea;
+    }
+
+    /**
+     * Set default themes stored in configuration
+     *
+     * @param array $themesByArea
+     * @return Mage_Core_Model_Theme_Registration
+     */
+    protected function _setSelectedThemes(array $themesByArea)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themesByArea as $area => $theme) {
+            Mage::app()->getConfig()->saveConfig($this->_getDesign()->getConfigPathByArea($area), $theme->getId());
+        }
+        return $this;
+    }
+
+    /**
+     * Get current design model
+     *
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _getDesign()
+    {
+        return Mage::getDesign();
     }
 
     /**

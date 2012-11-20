@@ -55,10 +55,12 @@ class Mage_Core_Model_Design_Package
      */
     const PUBLIC_CACHE_TAG = 'design_public';
 
-    /**
+    /**#@+
      * Common node path to theme design configuration
      */
-    const XML_PATH_THEME = 'design/theme/full_name';
+    const XML_PATH_THEME    = 'design/theme/full_name';
+    const XML_PATH_THEME_ID = 'design/theme/theme_id';
+    /**#@-*/
 
     /**
      * Path to configuration node for file duplication
@@ -203,19 +205,36 @@ class Mage_Core_Model_Design_Package
      * Get default theme which declared in configuration
      *
      * @param string $area
-     * @return Mage_Core_Model_Theme
+     * @param bool $useId
+     * @return string|int
      */
-    public function getConfigurationDesignTheme($area = null)
+    public function getConfigurationDesignTheme($area = null, $useId = true)
     {
         if (!$area) {
             $area = $this->getArea();
         }
-
-        $designTheme = $area == self::DEFAULT_AREA
-            ? (string)Mage::getStoreConfig(self::XML_PATH_THEME)
-            : (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
-
+        $designTheme = (string)Mage::getStoreConfig($this->getConfigPathByArea($area, $useId));
+        if (empty($designTheme)) {
+            $designTheme = (string)Mage::getConfig()->getNode($this->getConfigPathByArea($area, $useId));
+        }
         return $designTheme;
+    }
+
+
+    /**
+     * Get configuration xml path to current theme for area
+     *
+     * @param string $area
+     * @param bool $useId
+     * @return string
+     */
+    public function getConfigPathByArea($area, $useId = true)
+    {
+        $xmlPath = $useId ? self::XML_PATH_THEME_ID : self::XML_PATH_THEME;
+        if ($area !== self::DEFAULT_AREA) {
+            $xmlPath = $area . '/' . $xmlPath;
+        }
+        return $xmlPath;
     }
 
     /**
