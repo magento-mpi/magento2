@@ -38,7 +38,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
 
     public function testInterpretInvalidArgumentException()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Invalid data type "boolean". String expected.');
+        $this->setExpectedException('InvalidArgumentException', 'Invalid data type "boolean". String is expected.');
         $this->_jsonInterpreter->interpret(false);
     }
 
@@ -78,7 +78,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     {
         return array(
             'Test mixed json array value.' => array('{"0":"assoc_item1","1":"assoc_item2","assoc:test001":'
-                . '"<some01>text<\\/some01>","assoc.test002":"1 >0","assoc_test003.":"chars ]]>","assoc_test004"'
+                . '"<some01>text<\\/some01>","assoc.test002":"1 > 0","assoc_test003.":"chars ]]>","assoc_test004"'
                 . ':"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ","key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()'
                 . '_+":"chars"}',
                 array(

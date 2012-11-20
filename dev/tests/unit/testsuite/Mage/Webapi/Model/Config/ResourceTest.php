@@ -53,7 +53,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetResourceNameByOperationPositive($operation, $resourceVersion, $expectedResourceName,
+    public function testGetResourceNameByOperationPositive(
+        $operation,
+        $resourceVersion,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
         $actualResourceName = $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
@@ -64,14 +67,30 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('vendorModuleResourceCreate', 'v1', 'vendorModuleResource'),
-            array('vendorModuleResourceCreate', '1', 'vendorModuleResource',
-                "Resource was identified incorrectly by version without 'v' prefix"),
-            array('vendorModuleResourceMultiUpdate', 'v2', 'vendorModuleResource',
-                'Compound method names or version seem to be identified incorrectly.'),
-            array('vendorModuleResourceSubresourceUpdate', 'v1', 'vendorModuleResourceSubresource',
-                'Compound resource name is identified incorrectly.'),
-            array('vendorModuleResourceSubresourceMultiDelete', null, 'vendorModuleResourceSubresource',
-                "If version is not set - no check must be performed for operation existence in resource."),
+            array(
+                'vendorModuleResourceCreate',
+                '1',
+                'vendorModuleResource',
+                "Resource was identified incorrectly by version without 'v' prefix"
+            ),
+            array(
+                'vendorModuleResourceMultiUpdate',
+                'v2',
+                'vendorModuleResource',
+                'Compound method names or version seem to be identified incorrectly.'
+            ),
+            array(
+                'vendorModuleResourceSubresourceUpdate',
+                'v1',
+                'vendorModuleResourceSubresource',
+                'Compound resource name is identified incorrectly.'
+            ),
+            array(
+                'vendorModuleResourceSubresourceMultiDelete',
+                null,
+                'vendorModuleResourceSubresource',
+                "If version is not set - no check must be performed for operation existence in resource."
+            ),
         );
     }
 
@@ -82,7 +101,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetResourceNameByOperationNegative($operation, $resourceVersion, $expectedResourceName,
+    public function testGetResourceNameByOperationNegative(
+        $operation,
+        $resourceVersion,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
         $actualResourceName = $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
@@ -104,8 +126,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceNameByOperationException($operation, $resourceVersion)
     {
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" is not a valid API resource operation name.', $operation)
+        );
         $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
     }
 
@@ -124,7 +148,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetMethodNameByOperation($operation, $resourceVersion, $expectedResourceName,
+    public function testGetMethodNameByOperation(
+        $operation,
+        $resourceVersion,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
         $actualResourceName = $this->_getModel()->getMethodNameByOperation($operation, $resourceVersion);
@@ -135,10 +162,18 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('vendorModuleResourceCreate', 'v1', 'create'),
-            array('vendorModuleResourceMultiUpdate', 'v2', 'multiUpdate',
-                'Compound method names seem be be identified incorrectly or version processing is broken.'),
-            array('vendorModuleResourceSubresourceMultiDelete', null, 'multiDelete',
-                "If version is not set - no check must be performed for operation existence in resource."),
+            array(
+                'vendorModuleResourceMultiUpdate',
+                'v2',
+                'multiUpdate',
+                'Compound method names seem be be identified incorrectly or version processing is broken.'
+            ),
+            array(
+                'vendorModuleResourceSubresourceMultiDelete',
+                null,
+                'multiDelete',
+                "If version is not set - no check must be performed for operation existence in resource."
+            ),
             array('vendorModuleResourceUpdate', 'v100', false, "In case when version not found 'false' is expected."),
         );
     }
@@ -150,8 +185,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMethodNameByOperationException($operation, $resourceVersion)
     {
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" is not a valid API resource operation name.', $operation)
+        );
         $this->_getModel()->getMethodNameByOperation($operation, $resourceVersion);
     }
 
@@ -176,8 +213,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetControllerClassByOperationNameNegative($operation)
     {
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('The "%s" is not valid API resource operation name.', $operation));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" is not a valid API resource operation name.', $operation)
+        );
         $this->_getModel()->getControllerClassByOperationName($operation);
     }
 
@@ -191,8 +230,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetControllerClassByOperationNameWithException()
     {
-        $this->setExpectedException('LogicException',
-            'Resource "resourceWithoutControllerAndModule" must have associated controller class.');
+        $this->setExpectedException(
+            'LogicException',
+            'Resource "resourceWithoutControllerAndModule" must have associated controller class.'
+        );
         $this->_getModel()->getControllerClassByOperationName('resourceWithoutControllerAndModuleGet');
     }
 
@@ -203,8 +244,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceMaxVersion($resourceName, $expectedMaxVersion)
     {
-        $this->assertEquals($expectedMaxVersion, $this->_getModel()->getResourceMaxVersion($resourceName),
-            "Resource Maximum available version was identified incorrectly.");
+        $this->assertEquals(
+            $expectedMaxVersion,
+            $this->_getModel()->getResourceMaxVersion($resourceName),
+            "Resource Maximum available version was identified incorrectly."
+        );
     }
 
     public function dataProviderForTestGetResourceMaxVersion()
@@ -218,8 +262,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetResourceMaxVersionException()
     {
         $resourceName = 'InvalidResource';
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('Resource "%s" does not exist.', $resourceName));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('Resource "%s" does not exist.', $resourceName)
+        );
         $this->_getModel()->getResourceMaxVersion($resourceName);
     }
 
@@ -232,7 +278,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGenerateRestRoutesTopLevelResource($className, $methodName, $expectedRoutes)
     {
         $actualRoutes = $this->_getModel()->generateRestRoutes($this->_createMethodReflection($className, $methodName));
-        $this->assertRoutesEqual($expectedRoutes,$actualRoutes);
+        $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
 
     public static function dataProviderTestGenerateRestRoutesTopLevelResource()
@@ -248,19 +294,23 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField" => array(
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/"
+                        . ":optionalField" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/:secondOptional" => array(
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/"
+                        . ":secondOptional" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/:optionalField/secondOptional/:secondOptional" => array(
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/"
+                        . ":optionalField/secondOptional/:secondOptional" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/:secondOptional/optionalField/:optionalField" => array(
+                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/"
+                        . ":secondOptional/optionalField/:optionalField" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     )
@@ -342,7 +392,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGenerateRestRoutesSubresource($className, $methodName, $expectedRoutes)
     {
         $actualRoutes = $this->_getModel()->generateRestRoutes($this->_createMethodReflection($className, $methodName));
-        $this->assertRoutesEqual($expectedRoutes,$actualRoutes);
+        $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
 
     public static function dataProviderTestGenerateRestRoutesSubresource()
@@ -381,37 +431,59 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function assertRoutesEqual($expectedRoutes, $actualRoutes)
     {
-        $this->assertInternalType('array', $actualRoutes,
-            "Mage_Webapi_Model_Config::generateRestRoutes() must return value of 'array' type.");
+        $this->assertInternalType(
+            'array',
+            $actualRoutes,
+            "Mage_Webapi_Model_Config::generateRestRoutes() must return value of 'array' type."
+        );
 
         foreach ($expectedRoutes as $expectedRoute => $expectedRouteMetadata) {
-            $this->assertArrayHasKey($expectedRoute, $actualRoutes,
-                "'$expectedRoute' route was expected to be present in results.");
+            $this->assertArrayHasKey(
+                $expectedRoute,
+                $actualRoutes,
+                "'$expectedRoute' route was expected to be present in results."
+            );
         }
         foreach ($actualRoutes as $actualRoute => $actualRouteMetadata) {
-            $this->assertArrayHasKey($actualRoute, $expectedRoutes,
-                "'$actualRoute' route was not expected to be present in results.");
-            $this->assertEquals($expectedRoutes[$actualRoute], $actualRouteMetadata,
-                "'$actualRoute' route metadata is invalid.");
+            $this->assertArrayHasKey(
+                $actualRoute,
+                $expectedRoutes,
+                "'$actualRoute' route was not expected to be present in results."
+            );
+            $this->assertEquals(
+                $expectedRoutes[$actualRoute],
+                $actualRouteMetadata,
+                "'$actualRoute' route metadata is invalid."
+            );
         }
     }
 
     public function testGenerateRestRoutesInvalidMethod()
     {
-        $this->setExpectedException('InvalidArgumentException',
-            '"invalidMethodNameV2" is invalid API resource method.');
-        $this->_getModel()->generateRestRoutes($this->_createMethodReflection(
-            'Vendor_Module_Webapi_Resource_InvalidController', 'invalidMethodNameV2'));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            '"invalidMethodNameV2" is an invalid API resource method.'
+        );
+        $this->_getModel()->generateRestRoutes(
+            $this->_createMethodReflection(
+                'Vendor_Module_Webapi_Resource_InvalidController',
+                'invalidMethodNameV2'
+            )
+        );
     }
 
     public function testGetResource()
     {
         $resourceData = $this->_getModel()->getResourceDataMerged('vendorModuleResource', 'v1');
         $this->assertTrue(isset($resourceData['methods']['create']), "Information about methods is not available.");
-        $this->assertTrue(isset($resourceData['methods']['create']['interface']['in']['parameters']['requiredField']),
-            "Data structure seems to be missing method input parameters.");
-        $this->assertTrue(isset($resourceData['methods']['create']['interface']['out']['parameters']['result']['type']),
-            "Data structure seems to be missing method output parameters.");
+        $this->assertTrue(
+            isset($resourceData['methods']['create']['interface']['in']['parameters']['requiredField']),
+            "Data structure seems to be missing method input parameters."
+        );
+        $this->assertTrue(
+            isset($resourceData['methods']['create']['interface']['out']['parameters']['result']['type']),
+            "Data structure seems to be missing method output parameters."
+        );
     }
 
     public function testGetResourceInvalidResourceName()
@@ -457,8 +529,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetDataTypeInvalidName()
     {
-        $this->setExpectedException('InvalidArgumentException',
-            'Data type "InvalidDataTypeName" was not found in config.');
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Data type "InvalidDataTypeName" was not found in config.'
+        );
         $this->_getModel()->getDataType('InvalidDataTypeName');
     }
 
@@ -466,23 +540,41 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         $methodName = 'updateV1';
         $bodyPosition = 2;
-        $this->setExpectedException('LogicException', sprintf('Method "%s" must have parameter for passing request body. '
-            . 'Its position must be "%s" in method interface.', $methodName, $bodyPosition));
-        $this->_getModel()->getBodyParamName($this->_createMethodReflection(
-            'Vendor_Module_Webapi_Resource_InvalidController', $methodName));
+        $this->setExpectedException(
+            'LogicException',
+            sprintf(
+                'Method "%s" must have parameter for passing request body. '
+                    . 'Its position must be "%s" in method interface.',
+                $methodName,
+                $bodyPosition
+            )
+        );
+        $this->_getModel()->getBodyParamName(
+            $this->_createMethodReflection(
+                'Vendor_Module_Webapi_Resource_InvalidController',
+                $methodName
+            )
+        );
     }
 
     public function testGetIdParamNameEmptyMethodInterface()
     {
         $this->setExpectedException('LogicException', 'must have at least one parameter: resource ID.');
-        $this->_getModel()->getIdParamName($this->_createMethodReflection(
-            'Vendor_Module_Webapi_Resource_InvalidController', 'emptyInterfaceV2'));
+        $this->_getModel()->getIdParamName(
+            $this->_createMethodReflection(
+                'Vendor_Module_Webapi_Resource_InvalidController',
+                'emptyInterfaceV2'
+            )
+        );
     }
 
     public function testGetResourceNamePartsException()
     {
         $className = 'Vendor_Module_Webapi_Resource_Invalid';
-        $this->setExpectedException('InvalidArgumentException', sprintf('Invalid controller class name "%s".', $className));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The controller class name "%s" is invalid.', $className)
+        );
         $this->_getModel()->getResourceNameParts($className);
     }
 
@@ -493,8 +585,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceNameParts($className, $expectedResourceParts)
     {
-        $this->assertEquals($expectedResourceParts, $this->_getModel()->getResourceNameParts($className),
-            "Resource parts for rest route were identified incorrectly.");
+        $this->assertEquals(
+            $expectedResourceParts,
+            $this->_getModel()->getResourceNameParts($className),
+            "Resource parts for rest route were identified incorrectly."
+        );
     }
 
     public static function dataProviderForTestGetResourceNameParts()
@@ -509,14 +604,14 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetIdParamException()
     {
         $className = 'Vendor_Module_Webapi_Resource_Invalid';
-        $this->setExpectedException('LogicException', sprintf('"%s" is not valid resource class.', $className));
+        $this->setExpectedException('LogicException', sprintf('"%s" is not a valid resource class.', $className));
         $this->_getModel()->getIdParamName($this->_createMethodReflection($className, 'updateV1'));
     }
 
     public function testGetAllResourcesVersions()
     {
         $expectedResult = array(
-            'vendorModuleResource' =>array('V1', 'V2', 'V3', 'V4', 'V5'),
+            'vendorModuleResource' => array('V1', 'V2', 'V3', 'V4', 'V5'),
             'vendorModuleResourceSubresource' => array('V1', 'V2', 'V4')
         );
         $allResourcesVersions = $this->_getModel()->getAllResourcesVersions();
@@ -525,10 +620,16 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethodMetadataDataNotAvailable()
     {
-        $this->setExpectedException('InvalidArgumentException',
-            '"update" method of "vendorModuleResourceInvalid" resource in version "V2" is not registered.');
-        $this->_getModel()->getMethodMetadata($this->_createMethodReflection(
-            'Vendor_Module_Webapi_Resource_InvalidController', 'updateV2'));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            '"update" method of "vendorModuleResourceInvalid" resource in version "V2" is not registered.'
+        );
+        $this->_getModel()->getMethodMetadata(
+            $this->_createMethodReflection(
+                'Vendor_Module_Webapi_Resource_InvalidController',
+                'updateV2'
+            )
+        );
     }
 
     public function testGetRestRoutes()
@@ -543,8 +644,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
          * it will be impossible to identify which route should be used as they both will match the same requests.
          * E.g. DELETE /resource/:deleteId and GET /resource/:getId will match same requests.
          */
-        $this->assertNotCount($expectedRoutesCount + 1, $actualRoutes,
-            "Some resource methods seem to have different routes, in case when should have the same ones.");
+        $this->assertNotCount(
+            $expectedRoutesCount + 1,
+            $actualRoutes,
+            "Some resource methods seem to have different routes, in case when should have the same ones."
+        );
 
         $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity does not equal to expected one.");
         /** @var $actualRoute Mage_Webapi_Controller_Router_Route_Rest */
@@ -562,8 +666,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetRestRouteToItemInvalidArguments()
     {
         $resourceName = 'vendorModuleResources';
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('No route was found to the item of "%s" resource.', $resourceName));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('No route to the item of "%s" resource was found.', $resourceName)
+        );
         $this->_getModel()->getRestRouteToItem($resourceName);
     }
 
@@ -574,8 +680,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslateArrayTypeName($typeToBeTranslated, $expectedResult)
     {
-        $this->assertEquals($expectedResult, $this->_getModel()->translateArrayTypeName($typeToBeTranslated),
-            "Array type was translated incorrectly.");
+        $this->assertEquals(
+            $expectedResult,
+            $this->_getModel()->translateArrayTypeName($typeToBeTranslated),
+            "Array type was translated incorrectly."
+        );
     }
 
     public static function dataProviderTestTranslateArrayTypeName()
@@ -595,8 +704,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslateTypeName($typeName, $expectedResult)
     {
-        $this->assertEquals($expectedResult, $this->_getModel()->translateTypeName($typeName),
-            "Type translation was performed incorrectly.");
+        $this->assertEquals(
+            $expectedResult,
+            $this->_getModel()->translateTypeName($typeName),
+            "Type translation was performed incorrectly."
+        );
     }
 
     public static function dataProviderForTestTranslateTypeName()
@@ -623,8 +735,11 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetActionTypeByMethod($methodName, $expectedActionType)
     {
-        $this->assertEquals($expectedActionType, $this->_getModel()->getActionTypeByMethod($methodName),
-            "Action type was identified incorrectly by method name.");
+        $this->assertEquals(
+            $expectedActionType,
+            $this->_getModel()->getActionTypeByMethod($methodName),
+            "Action type was identified incorrectly by method name."
+        );
     }
 
     public static function dataProviderTestGetActionTypeByMethod()
@@ -632,7 +747,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-                Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION),
+                Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION
+            ),
             array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
                 Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM
@@ -643,33 +759,37 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetActionTypeException()
     {
         $methodName = 'invalidMethodV1';
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('"%s" method is not valid resource method.', $methodName));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" method is not a valid resource method.', $methodName)
+        );
         $this->_getModel()->getActionTypeByMethod($methodName);
     }
 
     public function testExtractDataPopulateClassException()
     {
-        $this->setExpectedException('LogicException', 'There can be only one class in controller file ');
+        $this->setExpectedException('LogicException', 'There can be only one class in');
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/several_classes_in_one_file');
     }
 
     public function testExtractDataEmptyResult()
     {
-        $this->setExpectedException('LogicException', 'Can not populate config - no action controllers were found.');
+        $this->setExpectedException('LogicException', 'Cannot populate config - no action controllers were found.');
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/no_resources');
     }
 
     public function testExtractDataInvalidTypeOfArgument()
     {
-        $this->setExpectedException('InvalidArgumentException', 'Could not load class ');
+        $this->setExpectedException('InvalidArgumentException', 'Could not load the ');
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/reference_to_invalid_type');
     }
 
     public function testExtractDataUndocumentedProperty()
     {
-        $this->setExpectedException('InvalidArgumentException',
-            'Each property must have description with @var annotation.');
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Each property must have description with @var annotation.'
+        );
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_property_description');
     }
 
@@ -681,9 +801,12 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testExtractDataInvalidDeprecationPolicy()
     {
-        $this->setExpectedException('LogicException', '"Invalid_Deprecation_Webapi_PolicyController::getV1" '
-            . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
-            . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.');
+        $this->setExpectedException(
+            'LogicException',
+            '"Invalid_Deprecation_Webapi_PolicyController::getV1" '
+                . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
+                . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.'
+        );
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/invalid_deprecation_policy');
     }
 
@@ -700,8 +823,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         $resourceName = 'vendorModuleResourceSubresource';
         $methodName = 'multiUpdate';
-        $this->setExpectedException('InvalidArgumentException',
-            sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName)
+        );
         $this->_getModel()->getMethodRestRoutes($resourceName, $methodName, 'v1');
     }
 
@@ -716,14 +841,20 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetDeprecationPolicy($resource, $method, $version, $expectedResult, $deprecationFormat)
     {
         $actualResult = $this->_getModel()->getDeprecationPolicy($resource, $method, $version);
-        $this->assertEquals($expectedResult, $actualResult,
-            "Deprecation policy was defined incorrectly. The following definition was used: '$deprecationFormat'");
+        $this->assertEquals(
+            $expectedResult,
+            $actualResult,
+            "Deprecation policy was defined incorrectly. The following definition was used: '$deprecationFormat'"
+        );
     }
 
     public static function dataProviderForTestGetDeprecationPolicy()
     {
         return array(
-            array('vendorModuleResource', 'list', 2,
+            array(
+                'vendorModuleResource',
+                'list',
+                2,
                 array(
                     'deprecated' => true,
                     'use_resource' => 'vendorModuleResource',
@@ -733,7 +864,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 '@apiDeprecated vendorModuleResource::listV3'
             ),
             array('vendorModuleResource', 'list', 3, false, 'No policy defined.'),
-            array('vendorModuleResource', 'delete', 'V1',
+            array(
+                'vendorModuleResource',
+                'delete',
+                'V1',
                 array(
                     'removed' => true,
                     'use_resource' => 'vendorModuleResource',
@@ -743,7 +877,9 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 '@apiRemoved deleteV3'
             ),
             array(
-                'vendorModuleResource', 'delete', 2,
+                'vendorModuleResource',
+                'delete',
+                2,
                 array(
                     'deprecated' => true,
                     'use_resource' => 'vendorModuleResourceSubresource',
@@ -753,14 +889,18 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                 '@apiDeprecated Vendor_Module_Webapi_Resource_SubresourceController::deleteV3'
             ),
             array(
-                'vendorModuleResource', 'delete', 'v3',
+                'vendorModuleResource',
+                'delete',
+                'v3',
                 array(
                     'removed' => true,
                 ),
                 '@apiDeprecated \n @apiRemoved'
             ),
             array(
-                'vendorModuleResource', 'delete', 'v4',
+                'vendorModuleResource',
+                'delete',
+                'v4',
                 array(
                     'deprecated' => true,
                 ),
@@ -787,8 +927,12 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         return array(
             array('invalidResource', 'delete', 1, 'Unknown resource "%s".'),
             array('vendorModuleResource', 'update', 10, 'Unknown version "%s" for resource "%s".'),
-            array('vendorModuleResource', 'update', 1,
-                'Method "update" does not exist in "1" version of resource "vendorModuleResource".'),
+            array(
+                'vendorModuleResource',
+                'update',
+                1,
+                'Method "update" does not exist in "1" version of resource "vendorModuleResource".'
+            ),
         );
     }
 
