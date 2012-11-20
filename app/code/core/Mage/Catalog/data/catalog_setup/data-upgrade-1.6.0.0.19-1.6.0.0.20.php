@@ -1,7 +1,7 @@
 <?php
 $applyTo = array_merge(
     explode(',', $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight', 'apply_to')),
-    array('virtual', 'downloadable')
+    array('virtual', 'downloadable', 'configurable')
 );
 
 $this->updateAttribute(
