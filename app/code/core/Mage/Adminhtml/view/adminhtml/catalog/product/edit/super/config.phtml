@@ -37,7 +37,7 @@ if (count($this->getSelectedAttributes())) {
         <ul class="messages">
             <li class="notice-msg">
                 <ul><li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price values for options should be specified in system base currency.')?></li></ul>
-                <ul><li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Attrribute names can be specified per store.')?></li></ul>
+                <ul><li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute names can be specified per store.')?></li></ul>
             </li>
         </ul>
         <ul id="<?php echo $this->getHtmlId() ?>_attributes" class="super-attributes">
@@ -114,6 +114,119 @@ if (count($this->getSelectedAttributes())) {
 <div class="template no-display" id="<?php echo $this->getHtmlId() ?>_simple_pricing_view">
     &nbsp;<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?> <strong>'{{value}}'</strong>
 </div>
+
+<div id="product-variations-matrix" class="grid" style="margin:20px 0">
+<?php
+
+$attributesCount = 0;
+$variationalAttributes = array();
+$usedProductAttributes = $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct());
+foreach ($usedProductAttributes as $attribute) {
+    /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+    $variationalAttributes[] = array(
+        'id'     => $attribute->getId(),
+        'values' => $attribute->getSource()->getAllOptions(false),
+    );
+    $attributesCount++;
+}
+
+$variations = array();
+$currentVariation = array_fill(0, $attributesCount, 0);
+$variationalAttributes = array_reverse($variationalAttributes);
+$lastAttribute = $attributesCount - 1;
+do {
+    for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
+        if ($currentVariation[$attributeIndex] >= count($variationalAttributes[$attributeIndex]['values'])) {
+            $currentVariation[$attributeIndex] = 0;
+            ++$currentVariation[$attributeIndex + 1];
+        }
+    }
+    if ($currentVariation[$lastAttribute] >= count($variationalAttributes[$lastAttribute]['values'])) {
+        break;
+    }
+
+    $filledVariation = array();
+    for ($attributeIndex = $attributesCount; $attributeIndex--; ) {
+        $currentAttribute = $variationalAttributes[$attributeIndex];
+        $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariation[$attributeIndex]];
+    }
+
+    $variations[] = $filledVariation;
+    $currentVariation[0]++;
+} while (1);
+?>
+    <table cellspacing="0">
+        <thead>
+        <tr class="headings">
+            <th width="180">Product Name</th>
+            <th width="180">Price</th>
+            <th width="220">SKU</th>
+            <th width="180">Quantity</th>
+<?php
+    foreach ($usedProductAttributes as $attribute) {
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        echo '<th>', $attribute->getStoreLabel(), '</th>', PHP_EOL;
+    }
+?>
+            <th class="a-center" width="55">Include</th>
+        </tr>
+        </thead>
+        <tbody>
+<?php
+    $isEven = true;
+
+    $productByUsedAttributes = array();
+    foreach ($this->_getProduct()->getTypeInstance()->getUsedProducts($this->_getProduct()) as $product) {
+       $key = '';
+       foreach ($usedProductAttributes as $attribute) {
+           /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+           $key .= $product->getData($attribute->getAttributeCode());
+           $key .= '-';
+       }
+       $productByUsedAttributes[rtrim($key, '-')] = $product;
+    }
+
+    foreach ($variations as $variation) {
+        $variationalLabels = array();
+        $key = '';
+        foreach ($usedProductAttributes as $attribute) {
+            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            $variationalLabels[] = $variation[$attribute->getId()]['label'];
+            $key .= $variation[$attribute->getId()]['value'];
+            $key .= '-';
+        }
+        $key = rtrim($key, '-');
+        if (isset($productByUsedAttributes[$key])) {
+            $product = $productByUsedAttributes[$key];
+?>
+        <tr class="<?php echo $isEven ? 'even' : '' ?>">
+            <td><?php echo $product->getName()?></td>
+            <td><?php echo $product->getPrice()?></td>
+            <td><?php echo $product->getSku()?><button style="float:right">Choose</button></td>
+            <td><?php echo $product->getStockItem()->getQty()?></td>
+            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td class="a-center"><input type="checkbox" name="" value="" class="checkbox" checked="checked"></td>
+        </tr>
+<?php
+        } else {
+?>
+        <tr class="<?php echo $isEven ? 'even' : '' ?>">
+            <td><input value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
+            <td><input value=""></td>
+            <td><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>"><button style="float:right">Choose</button></td>
+            <td><input value=""></td>
+            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td class="a-center"><input type="checkbox" name="" value="" class="checkbox"></td>
+        </tr>
+<?php
+        }
+        $isEven = !$isEven;
+    }
+?>
+        </tbody>
+    </table>
+</div>
+
 <?php echo $this->getGridHtml() ?>
 <script type="text/javascript">
 var superProduct = new Product.Configurable(<?php echo $this->getAttributesJson() ?>,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
