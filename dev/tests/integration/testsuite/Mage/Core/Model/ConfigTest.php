@@ -64,9 +64,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      * @param array $configOptions
      * @param string $expectedNode
      * @param string $expectedValue
-     * @dataProvider loadBaseExtraConfigDataProvider
+     * @dataProvider loadBaseLocalConfigDataProvider
      */
-    public function testLoadBaseExtraConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
+    public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
     {
         $configOptions['etc_dir'] = __DIR__ . "/_files/local_config/{$etcDir}";
         /** @var $model Mage_Core_Model_Config */
@@ -80,7 +80,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function loadBaseExtraConfigDataProvider()
+    public function loadBaseLocalConfigDataProvider()
     {
         return array(
             'no local config file & no custom config file' => array(
@@ -98,7 +98,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             'no local config file & custom config data' => array(
                 'no_local_config_no_custom_config',
                 array(
-                    Mage_Core_Model_Config::OPTION_BASE_CONFIG_EXTRA_DATA
+                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
                         => '<root><a><value>overridden</value></a></root>'
                 ),
                 'a/value',
@@ -126,7 +126,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 'local_config_custom_config',
                 array(
                     Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml',
-                    Mage_Core_Model_Config::OPTION_BASE_CONFIG_EXTRA_DATA  => '<root><value>overridden</value></root>',
+                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA => '<root><value>overridden</value></root>',
                 ),
                 'value',
                 'overridden',
@@ -158,7 +158,26 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model->loadBase();
         $this->assertFalse($model->getNode('modules'));
         $model->loadModules();
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode('modules'));
+        $moduleNode = $model->getNode('modules/Mage_Core');
+        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $moduleNode);
+        $this->assertTrue($moduleNode->is('active'));
+    }
+
+    public function testLoadModulesLocalConfigPrevails()
+    {
+        $options = self::$_options;
+        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '
+            <config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>
+        ';
+
+        $model = $this->_createModel();
+        $model->setOptions($options);
+        $model->loadBase();
+        $model->loadModules();
+
+        $moduleNode = $model->getNode('modules/Mage_Core');
+        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $moduleNode);
+        $this->assertFalse($moduleNode->is('active'), 'Local configuration must prevail over modules configuration.');
     }
 
     public function testIsLocalConfigLoaded()

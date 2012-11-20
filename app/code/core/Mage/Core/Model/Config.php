@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Core configuration class
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
@@ -24,8 +19,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Option key names
      */
     const OPTION_LOCAL_CONFIG_EXTRA_FILE = 'local_config';
-    const OPTION_BASE_CONFIG_EXTRA_DATA  = 'local_config_extra_data';
+    const OPTION_LOCAL_CONFIG_EXTRA_DATA = 'local_config_extra_data';
     /**@-*/
+
+    /**
+     * Local configuration file
+     */
+    const LOCAL_CONFIG_FILE = 'local.xml';
 
     /**
      * Flag which allow use cache logic
@@ -76,7 +76,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Storage for generated block class names
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_blockClassNameCache = array();
 
@@ -138,18 +138,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_cachePartsForSave = array();
 
     /**
-     * Empty configuration object for loading and megring configuration parts
+     * Empty configuration object for loading and merging configuration parts
      *
      * @var Mage_Core_Model_Config_Base
      */
     protected $_prototype;
 
     /**
-     * Flag which identify what local configuration is loaded
+     * Local configuration instance
      *
-     * @var bool
+     * @var Varien_Simplexml_Config
      */
-    protected $_isLocalConfigLoaded = false;
+    protected $_localConfig;
 
     /**
      * Active modules array per namespace
@@ -216,6 +216,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         $this->_options = $this->_objectManager->create('Mage_Core_Model_Config_Options', array('data' => $options));
         $this->_prototype = $this->_objectManager->create('Mage_Core_Model_Config_Base');
+        $this->_prototype->loadString('<config/>');
         $this->_cacheChecksum = null;
         parent::__construct($sourceData);
     }
@@ -281,55 +282,77 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Load base system configuration (config.xml and local.xml files)
+     * Load base configuration
      *
      * @return Mage_Core_Model_Config
      */
     public function loadBase()
     {
         $etcDir = $this->getOptions()->getEtcDir();
-        $files = array();
-        $deferred = array();
+        if (!$this->getNode()) {
+            $this->loadString('<config/>');
+        }
+        // 1. app/etc/*.xml (except local config)
         foreach (scandir($etcDir) as $filename) {
-            if ('.' == $filename || '..' == $filename || '.xml' != substr($filename, -4)) {
+            if ('.' == $filename || '..' == $filename || '.xml' != substr($filename, -4)
+                || self::LOCAL_CONFIG_FILE == $filename
+            ) {
                 continue;
             }
-            $file = "{$etcDir}/{$filename}";
-            if ('local.xml' === $filename) {
-                $deferred[] = $file;
-                $this->_isLocalConfigLoaded = true;
-                $localConfig = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
-                if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfig)) {
-                    $deferred[] = "{$etcDir}/$localConfig";
-                }
-            } else {
-                $files[] = $file;
-            }
+            $baseConfigFile = $etcDir . DIRECTORY_SEPARATOR . $filename;
+            $baseConfig = clone $this->_prototype;
+            $baseConfig->loadFile($baseConfigFile);
+            $this->extend($baseConfig);
         }
-        $files = array_merge($files, $deferred);
-
-        $this->loadFile(current($files));
-        array_shift($files);
-        foreach ($files as $file) {
-            $merge = clone $this->_prototype;
-            $merge->loadFile($file);
-            $this->extend($merge);
-        }
-
-        $this->_appendExtraBaseConfig();
+        // 2. local configuration
+        $this->_loadLocalConfig();
         return $this;
     }
 
     /**
-     * Append extra base configuration to the current config data
+     * Load local configuration (part of the base configuration)
      */
-    protected function _appendExtraBaseConfig()
+    protected function _loadLocalConfig()
     {
-        $extraBaseConfigData = $this->getOptions()->getData(self::OPTION_BASE_CONFIG_EXTRA_DATA);
-        if ($extraBaseConfigData) {
-            $extraBaseConfig = clone $this->_prototype;
-            $extraBaseConfig->loadString($extraBaseConfigData);
-            $this->extend($extraBaseConfig);
+        if ($this->_localConfig === null) {
+            $this->_localConfig = false; // do not attempt to load local configuration anymore
+            $etcDir = $this->getOptions()->getEtcDir();
+            $localConfigParts = array();
+
+            $localConfigFile = $etcDir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
+            if (file_exists($localConfigFile)) {
+                // 1. app/etc/local.xml
+                $localConfig = clone $this->_prototype;
+                $localConfig->loadFile($localConfigFile);
+                $localConfigParts[] = $localConfig;
+
+                // 2. app/etc/<dir>/<file>.xml
+                $localConfigExtraFile = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
+                if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfigExtraFile)) {
+                    $localConfigExtraFile = $etcDir . DIRECTORY_SEPARATOR . $localConfigExtraFile;
+                    $localConfig = clone $this->_prototype;
+                    $localConfig->loadFile($localConfigExtraFile);
+                    $localConfigParts[] = $localConfig;
+                }
+            }
+
+            // 3. extra local configuration string
+            $localConfigExtraData = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_DATA);
+            if ($localConfigExtraData) {
+                $localConfig = clone $this->_prototype;
+                $localConfig->loadString($localConfigExtraData);
+                $localConfigParts[] = $localConfig;
+            }
+
+            if ($localConfigParts) {
+                $this->_localConfig = clone $this->_prototype;
+                foreach ($localConfigParts as $oneConfigPart) {
+                    $this->_localConfig->extend($oneConfigPart);
+                }
+            }
+        }
+        if ($this->_localConfig) {
+            $this->extend($this->_localConfig);
         }
     }
 
@@ -390,14 +413,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
         Magento_Profiler::stop('load_modules_configuration');
 
-        /**
-         * Prevent local.xml directives overwriting
-         */
-        $mergeConfig = clone $this->_prototype;
-        $this->_isLocalConfigLoaded = $mergeConfig->loadFile($this->getOptions()->getEtcDir() . DS . 'local.xml');
-        if ($this->_isLocalConfigLoaded) {
-            $this->extend($mergeConfig);
-        }
+        // Prevent local configuration overriding
+        $this->_loadLocalConfig();
 
         $this->applyExtends();
         Magento_Profiler::stop('load_modules');
@@ -412,7 +429,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function isLocalConfigLoaded()
     {
-        return $this->_isLocalConfigLoaded;
+        return (bool)$this->_localConfig;
     }
 
     /**
@@ -423,7 +440,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function loadDb()
     {
         Magento_Profiler::start('config');
-        if ($this->_isLocalConfigLoaded && Mage::isInstalled()) {
+        if ($this->isLocalConfigLoaded() && Mage::isInstalled()) {
             Magento_Profiler::start('load_db');
             $dbConf = $this->getResourceModel();
             $dbConf->loadToXml($this);
@@ -910,7 +927,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if ($mergeToObject === null) {
             $mergeToObject = clone $this->_prototype;
-            $mergeToObject->loadString('<config/>');
         }
         if ($mergeModel === null) {
             $mergeModel = clone $this->_prototype;
