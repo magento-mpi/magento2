@@ -39,6 +39,7 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->_config = new Mage_Webapi_Model_Config($helperFactory, $appConfig, $cache, $routeFactory);
         $this->_config->setDirectoryScanner($directoryScanner);
+        $this->_config->init();
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
     }
 
@@ -60,13 +61,19 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResourceA, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v1'),
             'Version 1 resource_a data does not match');
 
-        $expectedResourceAV2 = include __DIR__ . '/../_files/config/resource_a_fixture_v2.php';
-        $this->assertEquals($expectedResourceAV2, $this->_config->getResourceDataMerged('namespaceAModuleA', 'v2'),
-            'Version 2 resource_a data does not match.');
+        $expectedResourceASecondVersion = include __DIR__ . '/../_files/config/resource_a_fixture_v2.php';
+        $this->assertEquals(
+            $expectedResourceASecondVersion,
+            $this->_config->getResourceDataMerged('namespaceAModuleA', 'v2'),
+            'Version 2 resource_a data does not match.'
+        );
 
         $expectedSubresourceB = include __DIR__ . '/../_files/config/resource_a_subresource_b_fixture.php';
-        $this->assertEquals($expectedSubresourceB, $this->_config->getResourceDataMerged('namespaceAModuleASubresourceB', 'v1'),
-            'Version 1 resource_a_subresource_b data does no match.');
+        $this->assertEquals(
+            $expectedSubresourceB,
+            $this->_config->getResourceDataMerged('namespaceAModuleASubresourceB', 'v1'),
+            'Version 1 resource_a_subresource_b data does no match.'
+        );
     }
 
     /**
