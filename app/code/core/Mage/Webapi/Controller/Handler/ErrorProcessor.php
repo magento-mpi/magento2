@@ -18,13 +18,6 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     const DATA_FORMAT_URL_ENCODED_QUERY = 'url_encoded_query';
     /**#@-*/
 
-    /**
-     * Directory for API related reports.
-     *
-     * @var string
-     */
-    protected $_reportDir;
-
     /** @var Mage_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
@@ -38,8 +31,6 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     {
         $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
-        /** @see Error_Processor::__construct() */
-        $this->_reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
     }
 
     /**
@@ -50,11 +41,14 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      */
     public function saveReport($reportData)
     {
-        if (!file_exists($this->_reportDir)) {
-            @mkdir($this->_reportDir, 0777, true);
+        /** Directory for API related reports. */
+        /** @see Error_Processor::__construct() */
+        $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
+        if (!file_exists($reportDir)) {
+            @mkdir($reportDir, 0777, true);
         }
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
-        $reportFile = $this->_reportDir . DS . $reportId;
+        $reportFile = $reportDir . DS . $reportId;
         @file_put_contents($reportFile, serialize($reportData));
         @chmod($reportFile, 0777);
         return $this;
