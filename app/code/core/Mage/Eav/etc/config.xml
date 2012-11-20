@@ -42,6 +42,18 @@
         </eav_frontendclasses>
         <eav_attributes>
         </eav_attributes>
+        <di>
+            <Mage_Eav_Model_Resource_Setup_Migration>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Mage_Eav_Model_Resource_Setup_Migration>
+        </di>
+        <migration>
+            <eav>
+                <path_to_aliases_map_file>etc/aliases_to_classes_map.json</path_to_aliases_map_file>
+            </eav>
+        </migration>
     </global>
     <adminhtml>
         <translate>

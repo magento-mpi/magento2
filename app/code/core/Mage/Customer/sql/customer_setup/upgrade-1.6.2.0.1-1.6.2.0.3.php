@@ -11,4 +11,7 @@
 /** @var $installer Mage_Customer_Model_Resource_Setup */
 $installer = $this;
 
-$installer->installEntities();
+$entities = $installer->getDefaultEntities();
+foreach ($entities as $entityName=>$entity) {
+    $installer->addEntityType($entityName, $entity);
+}
