@@ -70,22 +70,17 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     }
 
     /**
-     * Provides data for testing successful flow
+     * Provide data for testing successful flow
      *
      * @return array
      */
     public function dataProviderSuccess()
     {
         return array(
-            'Test mixed json array value.' => array(
-                '{
-                "0":"assoc_item1",
-                "1":"assoc_item2",
-                "assoc:test001":"<some01>text<\\/some01>",
-                "assoc.test002":"1 > 0",
-                "assoc_test003.":"chars ]]>","assoc_test004":"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ",
-                "key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()_+":"chars"
-                }',
+            'Test mixed json array value.' => array('{"0":"assoc_item1","1":"assoc_item2","assoc:test001":'
+                . '"<some01>text<\\/some01>","assoc.test002":"1 >0","assoc_test003.":"chars ]]>","assoc_test004"'
+                . ':"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ","key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()'
+                . '_+":"chars"}',
                 array(
                     'assoc_item1',
                     'assoc_item2',
