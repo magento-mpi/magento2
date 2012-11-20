@@ -95,7 +95,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
             'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Theme'),
-            'values'    => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(),
+            'values'    => Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(
+                Mage::helper('Mage_Cms_Helper_Data')->__('-- Please Select --')
+            ),
             'disabled'  => $isElementDisabled
         ));
 

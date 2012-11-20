@@ -21,6 +21,7 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
      */
     public function getAllOptions($withEmpty = true)
     {
-        return $this->_options = Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection($withEmpty);
+        $label = $withEmpty ? Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --') : $withEmpty;
+        return $this->_options = Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection($label);
     }
 }

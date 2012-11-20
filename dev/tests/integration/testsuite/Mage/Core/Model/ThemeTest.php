@@ -181,13 +181,13 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $themeModel = Mage::getModel('Mage_Core_Model_Theme');
         $labelCollection = $this->_getLabelCollection();
 
-        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection(false));
+        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection());
 
         array_unshift($labelCollection, array(
             'value' => '',
             'label' => '-- Please Select --'
         ));
-        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection());
+        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection('-- Please Select --'));
     }
 
     /**

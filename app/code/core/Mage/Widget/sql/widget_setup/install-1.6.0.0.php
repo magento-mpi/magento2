@@ -107,10 +107,8 @@ $table = $installer->getConnection()
         ), 'Instance Id')
     ->addColumn('instance_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Instance Type')
-    ->addColumn('theme_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false
-        ), 'Theme id')
+    ->addColumn('package_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+         ), 'Package Theme')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Widget Title')
     ->addColumn('store_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -124,9 +122,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort order')
-    ->addForeignKey($installer->getFkName('widget_instance', 'theme_id', 'core_theme', 'theme_id'),
-        'theme_id', $installer->getTable('core_theme'), 'theme_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Instances of Widget for Package Theme');
 $installer->getConnection()->createTable($table);
 
