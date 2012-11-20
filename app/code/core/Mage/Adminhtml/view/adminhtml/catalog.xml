@@ -47,7 +47,7 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
-            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.configurable-product.css</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
@@ -85,7 +85,7 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
-            <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.configurable-product.css</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">

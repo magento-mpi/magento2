@@ -213,9 +213,9 @@ do {
         } else {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td><input class = 'associated-matrix-product-name' value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
-            <td><input value=""></td>
-            <td><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>">
+            <td><input class="associated-matrix-product-name" value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
+            <td><input class="associated-matrix-product-price" value=""></td>
+            <td><input class="associated-matrix-product-sku" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>">
                     <button class="add-product"
                         data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
                         style="float:right">
@@ -291,7 +291,23 @@ jQuery(function ($) {
         });
 
         grid.rowClickCallback = function() {
-            var $row = $button.parents('tr');
+            if (!this.rows || !this.rows.length) {
+                return;
+            }
+            var $matrixRow = $button.parents('tr');
+            var $gridRow = $(this.rows[0]);
+
+            console.log($gridRow.find('.associated-product-name'));
+
+            $matrixRow.find('.associated-matrix-product-name').val($gridRow.find('.associated-product-name')[0].getInnerText());
+            $matrixRow.find('.associated-matrix-product-sku').val($gridRow.find('.associated-product-sku')[0].getInnerText());
+            $matrixRow.find('.associated-matrix-product-price').val($gridRow.find('.associated-product-price')[0].getInnerText());
+
+            console.log($gridRow.find('.associated-product-id')[0].getInnerText());
+
+            $matrixRow.find('.checkbox').val($gridRow.find('.associated-product-id')[0].getInnerText());
+            $matrixRow.find('.checkbox').attr('checked', true);
+
             $gridDialog.dialog('close');
         };
     });

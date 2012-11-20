@@ -171,18 +171,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id',
-            'filter'    => false
+            'filter'    => false,
+            'column_css_class' => 'associated-product-id'
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name',
-            'filter'    => false
+            'filter'    => false,
+            'column_css_class' => 'associated-product-name'
         ));
 
         $this->addColumn('sku', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'index'     => 'sku',
-            'filter'    => false
+            'filter'    => false,
+            'column_css_class' => 'associated-product-sku'
         ));
 
         $this->addColumn('price', array(
@@ -190,7 +193,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price',
-            'filter'    => false
+            'filter'    => false,
+            'column_css_class' => 'associated-product-price'
+        ));
+
+        $this->addColumn('qty', array(
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
+            'index'     => 'qty',
+            'filter'    => false,
+            'column_css_class' => 'associated-product-qty'
         ));
 
         $this->addColumn('is_saleable', array(
