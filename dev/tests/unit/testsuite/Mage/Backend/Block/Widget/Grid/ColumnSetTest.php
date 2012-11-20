@@ -98,6 +98,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         unset($this->_columnMock);
         unset($this->_helperMock);
         unset($this->_factoryMock);
+        unset($this->_totalsMock);
+        unset($this->_subtotalsMock);
     }
 
     public function testSetSortablePropagatesSortabilityToChildren()
@@ -186,32 +188,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testShouldRenderTotalWithNotEmptyCollection()
     {
-        // prepare collection
-        $collection = new Varien_Data_Collection();
-        $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2'))
-        );
-        foreach ($items as $item) {
-            $collection->addItem($item);
-        }
-
-        // prepare block grid
-        $gridMock = $this->getMock('Mage_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
-        $gridMock->expects($this->any())
-            ->method('getCollection')
-            ->will($this->returnValue($collection));
-
-        // get parent block - grid
-        $this->_layoutMock->expects($this->any())
-            ->method('getParentName')
-            ->with('grid.columnSet')
-            ->will($this->returnValue('grid'));
-        $this->_layoutMock->expects($this->any())
-            ->method('getBlock')
-            ->with('grid')
-            ->will($this->returnValue($gridMock));
+        $this->_prepareLayoutWithGrid($this->_prepareGridMock($this->_getTestCollection()));
 
         $this->_block->setCountTotals(true);
         $this->assertTrue($this->_block->shouldRenderTotal());
@@ -219,22 +196,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testShouldRenderTotalWithEmptyCollection()
     {
-        // prepare collection
-        $collection = new Varien_Data_Collection();
-        $gridMock = $this->getMock('Mage_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
-        $gridMock->expects($this->any())
-            ->method('getCollection')
-            ->will($this->returnValue($collection));
-
-        // get parent block - grid
-        $this->_layoutMock->expects($this->any())
-            ->method('getParentName')
-            ->with('grid.columnSet')
-            ->will($this->returnValue('grid'));
-        $this->_layoutMock->expects($this->any())
-            ->method('getBlock')
-            ->with('grid')
-            ->will($this->returnValue($gridMock));
+        $this->_prepareLayoutWithGrid($this->_prepareGridMock(new Varien_Data_Collection()));
 
         $this->_block->setCountTotals(true);
         $this->assertFalse($this->_block->shouldRenderTotal());
@@ -312,32 +274,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testGetTotals()
     {
-        // prepare collection
-        $collection = new Varien_Data_Collection();
-        $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2'))
-        );
-        foreach ($items as $item) {
-            $collection->addItem($item);
-        }
-
-        // prepare block grid
-        $gridMock = $this->getMock('Mage_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
-        $gridMock->expects($this->any())
-            ->method('getCollection')
-            ->will($this->returnValue($collection));
-
-        // get parent block - grid
-        $this->_layoutMock->expects($this->any())
-            ->method('getParentName')
-            ->with('grid.columnSet')
-            ->will($this->returnValue('grid'));
-        $this->_layoutMock->expects($this->any())
-            ->method('getBlock')
-            ->with('grid')
-            ->will($this->returnValue($gridMock));
+        $collection = $this->_getTestCollection();
+        $this->_prepareLayoutWithGrid($this->_prepareGridMock($collection));
 
         $this->_totalsMock->expects($this->once())
             ->method('countTotals')
@@ -348,5 +286,59 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             new Varien_Object(array('test1' => '3', 'test2' => '2')),
             $this->_block->getTotals()
         );
+    }
+
+    /**
+     * Retrieve prepared mock for Mage_Backend_Model_Widget_Grid with collection
+     *
+     * @param Varien_Data_Collection $collection
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _prepareGridMock($collection)
+    {
+        // prepare block grid
+        $gridMock = $this->getMock('Mage_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
+        $gridMock->expects($this->any())
+            ->method('getCollection')
+            ->will($this->returnValue($collection));
+
+        return $gridMock;
+    }
+
+    /**
+     * Retrieve test collection
+     *
+     * @return Varien_Data_Collection
+     */
+    protected function _getTestCollection()
+    {
+        $collection = new Varien_Data_Collection();
+        $items = array(
+            new Varien_Object(array('test1' => '1', 'test2' => '2')),
+            new Varien_Object(array('test1' => '1', 'test2' => '2')),
+            new Varien_Object(array('test1' => '1', 'test2' => '2'))
+        );
+        foreach ($items as $item) {
+            $collection->addItem($item);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Prepare layout for receiving grid block
+     *
+     * @param PHPUnit_Framework_MockObject_MockObject $gridMock
+     */
+    protected function _prepareLayoutWithGrid($gridMock)
+    {
+        $this->_layoutMock->expects($this->any())
+            ->method('getParentName')
+            ->with('grid.columnSet')
+            ->will($this->returnValue('grid'));
+        $this->_layoutMock->expects($this->any())
+            ->method('getBlock')
+            ->with('grid')
+            ->will($this->returnValue($gridMock));
     }
 }
