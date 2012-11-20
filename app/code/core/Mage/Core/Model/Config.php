@@ -460,6 +460,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_allowCacheForInit = false;
         $this->_useCache = false;
+        $this->_localConfig = null;
         return $this->init($options);
     }
 
@@ -1651,7 +1652,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function __destruct()
     {
         $this->_cacheLoadedSections = array();
-
+        $this->_localConfig = null;
+        $this->_prototype = null;
         parent::__destruct();
     }
 }

@@ -14,6 +14,8 @@
  * - general behaviour is tested
  *
  * @see Mage_Core_Model_ConfigFactoryTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -211,6 +213,21 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $configResource->deleteConfig($samplePath, 'default', 0);
             throw $e;
         }
+    }
+
+    public function testReinitBaseConfig()
+    {
+        $model = $this->_createModel();
+        $options = self::$_options;
+        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '<config><test>old_value</test></config>';
+        $model->setOptions($options);
+        $model->loadBase();
+        $this->assertEquals('old_value', $model->getNode('test'));
+
+        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '<config><test>new_value</test></config>';
+        $model->setOptions($options);
+        $model->reinit();
+        $this->assertEquals('new_value', $model->getNode('test'));
     }
 
     public function testGetCache()
