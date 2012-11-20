@@ -465,6 +465,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith('http://localhost/pub/media/theme/frontend/', $this->_block->getViewFileUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
+
+        /**
+         * File is not exist
+         */
+        $this->assertStringEndsWith(
+            '/core/index/notfound', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.xyz')
+        );
     }
 
     public function testGetSetMessagesBlock()

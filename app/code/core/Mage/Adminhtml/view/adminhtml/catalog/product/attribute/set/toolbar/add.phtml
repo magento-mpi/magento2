@@ -21,5 +21,5 @@
 </div>
 <?php echo $this->getFormHtml() ?>
 <script type="text/javascript">
-    jQuery('#set-prop-form').form().validation();
+    jQuery('#<?php echo $this->getFormId();?>').form().validation();
 </script>
