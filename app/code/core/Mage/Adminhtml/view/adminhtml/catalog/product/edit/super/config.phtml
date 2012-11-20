@@ -189,10 +189,12 @@ do {
     foreach ($variations as $variation) {
         $variationalLabels = array();
         $key = '';
+        $attributesInfo = array();
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $variationalLabels[] = $variation[$attribute->getId()]['label'];
             $key .= $variation[$attribute->getId()]['value'];
+            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
             $key .= '-';
         }
         $key = rtrim($key, '-');
@@ -211,9 +213,15 @@ do {
         } else {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td><input value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
+            <td><input class = 'associated-matrix-product-name' value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
             <td><input value=""></td>
-            <td><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>"><button style="float:right">Choose</button></td>
+            <td><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>">
+                    <button class="add-product"
+                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                        style="float:right">
+                        Choose
+                    </button>
+            </td>
             <td><input value=""></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
             <td class="a-center"><input type="checkbox" name="" value="" class="checkbox"></td>
@@ -227,7 +235,7 @@ do {
     </table>
 </div>
 
-<?php echo $this->getGridHtml() ?>
+<div id="associated-products-container" style="display: none;"><?php echo $this->getGridHtml(); ?></div>
 <script type="text/javascript">
 var superProduct = new Product.Configurable(<?php echo $this->getAttributesJson() ?>,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
 superProduct.createEmptyUrl = '<?php echo $this->getNewEmptyProductUrl() ?>';
@@ -257,5 +265,35 @@ jQuery(function($) {
             $fieldset.hide();
         }
     }).trigger('change');
+});
+
+jQuery(function ($) {
+    var $gridDialog = $('#associated-products-container').dialog({
+        title:'Select Associated Product',
+        autoOpen:false,
+        minWidth:980,
+        modal:true,
+        resizable:true
+    });
+
+    $('#product-variations-matrix').on('click', '.add-product', function(event) {
+        event.preventDefault();
+        var grid = window.<?php echo $this->getGridJsObject() ?>;
+        var $button = $(this);
+        grid.reloadParams = {
+            'filter': $button.data('attributes'),
+            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; }),
+            'products[]' : superProduct.links.keys().size() ? this.links.keys() : [ 0 ],
+            'new_products[]' : superProduct.newProducts
+        };
+        grid.reload(null, function() {
+            $gridDialog.dialog('open')
+        });
+
+        grid.rowClickCallback = function() {
+            var $row = $button.parents('tr');
+            $gridDialog.dialog('close');
+        };
+    });
 });
 </script>

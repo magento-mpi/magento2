@@ -1,0 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage_Catalog
+ * @package
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+#super_product_links button,
+.filter th {
+    display: none;
+}

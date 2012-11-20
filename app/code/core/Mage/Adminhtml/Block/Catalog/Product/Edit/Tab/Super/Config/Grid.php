@@ -166,48 +166,39 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         $product = $this->_getProduct();
         $attributes = $this->getProductType()->getConfigurableAttributes($product);
 
-        if (!$this->isReadonly()) {
-            $this->addColumn('in_products', array(
-                'header_css_class' => 'a-center',
-                'type'      => 'checkbox',
-                'name'      => 'in_products',
-                'values'    => $this->_getSelectedProducts(),
-                'align'     => 'center',
-                'index'     => 'entity_id',
-                'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox',
-                'attributes' => $attributes
-            ));
-        }
-
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
-            'index'     => 'entity_id'
+            'index'     => 'entity_id',
+            'filter'    => false
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
-            'index'     => 'name'
+            'index'     => 'name',
+            'filter'    => false
         ));
 
         $this->addColumn('sku', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
-            'width'     => '80px',
-            'index'     => 'sku'
+            'index'     => 'sku',
+            'filter'    => false
         ));
 
         $this->addColumn('price', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'      => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'price'
+            'index'     => 'price',
+            'filter'    => false
         ));
 
         $this->addColumn('is_saleable', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory'),
             'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory',
             'filter'    => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Filter_Inventory',
-            'index'     => 'is_saleable'
+            'index'     => 'is_saleable',
+            'filter'    => false
         ));
 
         foreach ($attributes as $attribute) {
@@ -217,26 +208,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
                 'header'    => $productAttribute->getFrontend()->getLabel(),
                 'index'     => $productAttribute->getAttributeCode(),
                 'type'      => $productAttribute->getSourceModel() ? 'options' : 'number',
-                'options'   => $productAttribute->getSourceModel() ? $this->getOptions($attribute) : ''
+                'options'   => $productAttribute->getSourceModel() ? $this->getOptions($attribute) : '',
+                'sortable'  => false
             ));
         }
-
-         $this->addColumn('action',
-            array(
-                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
-                'type'      => 'action',
-                'getter'     => 'getId',
-                'actions'   => array(
-                    array(
-                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Edit'),
-                        'url'     => $this->getEditParamsForAssociated(),
-                        'field'   => 'id',
-                        'onclick'  => 'superProduct.createPopup(this.href);return false;'
-                    )
-                ),
-                'filter'    => false,
-                'sortable'  => false
-        ));
 
         return parent::_prepareColumns();
     }
