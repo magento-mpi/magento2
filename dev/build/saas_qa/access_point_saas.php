@@ -9,7 +9,7 @@
  */
 
 // Determine application source code location for a tenant
-$appBaseDir = '{{app_base_dir}}';
+$appBaseDir = __DIR__ . '/../../../';
 
 // Determine application configuration string for a tenant
 $appConfigString = '';
