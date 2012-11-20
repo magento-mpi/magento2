@@ -134,6 +134,13 @@ class Mage_Core_Model_Design_Package
     protected $_fallback = array();
 
     /**
+     * Array of theme model used for fallback mechanism
+     *
+     * @var array
+     */
+    protected $_themes = array();
+
+    /**
      * Set package area
      *
      * @param string $area
@@ -162,20 +169,26 @@ class Mage_Core_Model_Design_Package
     /**
      * Load design theme
      *
-     * @param int|string $theme
+     * @param int|string $themeId
      * @param string|null $area
      * @return Mage_Core_Model_Theme
      */
-    protected function _getLoadDesignTheme($theme, $area)
+    protected function _getLoadDesignTheme($themeId, $area = self::DEFAULT_AREA)
     {
-        $themeModel = clone $this->getDesignTheme();
-        if (is_numeric($theme)) {
-            $themeModel->load($theme);
+        if (isset($this->_themes[$themeId])) {
+            return $this->_themes[$themeId];
+        }
+
+        if (is_numeric($themeId)) {
+            $themeModel = clone $this->getDesignTheme();
+            $themeModel->load($themeId);
         } else {
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $themeModel->getCollection();
-            $themeModel = $collection->getThemeByFullPath($area . '/' . $theme);
+            $collection = $this->getDesignTheme()->getCollection();
+            $themeModel = $collection->getThemeByFullPath($area . '/' . $themeId);
         }
+        $this->_themes[$themeId] = $themeModel;
+
         return $themeModel;
     }
 
@@ -269,22 +282,19 @@ class Mage_Core_Model_Design_Package
      */
     protected function _updateParamDefaults(array &$params)
     {
-        if (!empty($params['area']) && $params['area'] !== $this->getArea()
-            && (empty($params['package']) || !array_key_exists('theme', $params))
-        ) {
+        if (empty($params['area'])) {
+            $params['area'] = $this->getArea();
+        }
+
+        if (isset($params['themeId'])) {
+            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId']);
+        } elseif (!empty($params['package']) && isset($params['theme'])) {
+            $themePath = $params['package'] . '/' . $params['theme'];
+            $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
+        } elseif ($params['area'] !== $this->getArea()) {
             $params['themeModel'] = $this->_getLoadDesignTheme($this->getConfigurationDesignTheme(), $params['area']);
-        } else {
-            if (empty($params['area'])) {
-                $params['area'] = $this->getArea();
-            }
-            if (isset($params['themeId'])) {
-                $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId'], $params['area']);
-            } elseif (empty($params['package']) || !array_key_exists('theme', $params)) {
-                $params['themeModel'] = $this->getDesignTheme();
-            } else {
-                $themePath = $params['package'] . '/' . $params['theme'];
-                $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
-            }
+        } elseif (!isset($params['themeModel'])) {
+            $params['themeModel'] = $this->getDesignTheme();
         }
 
         if (!array_key_exists('module', $params)) {
