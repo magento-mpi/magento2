@@ -568,10 +568,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Return labels collection array
      *
-     * @param bool $withEmpty add empty (please select) values to result
+     * @param bool|string $label add empty values to result with specific label
      * @return array
      */
-    public function getLabelsCollection($withEmpty = true)
+    public function getLabelsCollection($label = false)
     {
         if (!$this->_labelsCollection) {
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
@@ -582,12 +582,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $this->_labelsCollection = $themeCollection->toOptionArray();
         }
         $options = $this->_labelsCollection;
-        if ($withEmpty) {
-            array_unshift($options, array(
-                'value' => '',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --')
-            ));
+        if ($label) {
+            array_unshift($options, array('value' => '', 'label' => $label));
         }
         return $options;
+    }
+
+    /**
+     * Return labels collection for backend system configuration with empty value "No Theme"
+     *
+     * @return array
+     */
+    public function getLabelsCollectionForSystemConfiguration()
+    {
+        return $this->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- No Theme --'));
     }
 }

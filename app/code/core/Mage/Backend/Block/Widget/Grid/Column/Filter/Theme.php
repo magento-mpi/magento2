@@ -50,7 +50,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Theme
     {
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
-            $options = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(false);
+            $options = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection();
         }
         return $options;
     }

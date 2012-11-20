@@ -50,7 +50,7 @@ class Mage_Backend_Block_System_Config_Form_Field_Regexceptions
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))
                 ->setHtmlId($this->_getCellInputElementId('#{_id}', $columnName))
-                ->setValues(Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection(false));
+                ->setValues(Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection($this->__('-- No Theme --')));
             return str_replace("\n", '', $element->getElementHtml());
         }
 

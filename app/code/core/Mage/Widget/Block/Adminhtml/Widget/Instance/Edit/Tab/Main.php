@@ -119,7 +119,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'title' => Mage::helper('Mage_Widget_Helper_Data')->__('Design Package/Theme'),
             'required' => false,
-            'values'   => Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection(),
+            'values'   => Mage::getSingleton('Mage_Core_Model_Theme')->getLabelsCollection(
+                $this->__('-- Please Select --')
+            ),
             'disabled' => true
         ));
 
