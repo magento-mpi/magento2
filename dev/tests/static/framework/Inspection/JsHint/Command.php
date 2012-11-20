@@ -72,6 +72,7 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
      * @param array $whiteList
      * @param array $blackList
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _buildShellCmd($whiteList, $blackList)
     {
