@@ -33,9 +33,9 @@
             self.element.trigger('mage.setUpRmaOptions', self);
             $(this.options.trackInfoTable).decorate('table');
             $(this.options.addTrackNumberBtnId).on('click', $.proxy(self._addTrackNumber, self));
-            $(this.options.trackInfoTbody).on('click', 'a[data-entityid]', function(e) {
+            $(this.options.trackInfoTbody).on('click', 'a[data-entity-id]', function(e) {
                 e.preventDefault();
-                self._deleteTrackNumber.call(self, $(this).data("entityid"));
+                self._deleteTrackNumber.call(self, $(this).data("entity-id"));
             });
         },
 

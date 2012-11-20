@@ -32,7 +32,7 @@
     </td>
     <td>
         <?php if(!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
-            <a href="#" data-entityid="<?php echo $number->getEntityId()?>">
+            <a href="#" data-entity-id="<?php echo $number->getEntityId()?>">
                 <?php echo $this->__('Delete') ?>
             </a>
         <?php endif; ?>
