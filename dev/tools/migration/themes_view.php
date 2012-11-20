@@ -31,12 +31,12 @@ Mage::setIsDeveloperMode(true);
 try {
     Mage::getConfig()->cleanCache();
     Mage::getConfig()->reinit();
-    $config = array(
-        'enterprise_cms_page_revision' => 'content',
-        'enterprise_banner_content' => 'banner_content',
-        'cms_page' => 'content',
-        'cms_block' => 'content',
-    );
+    $config = array();
+
+    foreach (glob(dirname(__FILE__) . '/aliases_map/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
+        $config = array_merge($config, include($configFile));
+    }
+
     foreach ($config as $table => $field) {
         updateFieldForTable($table, $field);
     }
