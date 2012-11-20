@@ -228,8 +228,8 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
      * Test for method _getSortedBySortOrder
      *
      * @dataProvider getSortedBySortOrderDataProvider
-     * @param $originArray
-     * @param $sortedArray
+     * @param array $originArray
+     * @param array $sortedArray
      */
     public function testGetSortedBySortOrder($originArray, $sortedArray)
     {
