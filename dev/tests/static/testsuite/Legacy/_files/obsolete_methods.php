@@ -240,6 +240,7 @@ return array(
     $this->_getRule('getStoreCurrency', 'Mage_Sales_Model_Order'),
     $this->_getRule('getSuggestedZeroDate'),
     $this->_getRule('getSuggestionsByQuery'),
+    $this->_getRule('getSysTmpDir'),
     $this->_getRule('getTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     $this->_getRule('getTaxRatesByProductClass', null, '_getAllRatesByProductClass'),
     $this->_getRule('getTemplateFilename', null, 'getFilename'),

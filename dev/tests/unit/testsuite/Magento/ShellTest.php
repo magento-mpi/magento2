@@ -90,4 +90,12 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(42, $e->getPrevious()->getCode());
         }
     }
+
+    public function testOutput()
+    {
+        $fixture = uniqid();
+        $this->expectOutputString($fixture . PHP_EOL);
+        $shell = new Magento_Shell;
+        $shell->output($fixture);
+    }
 }

@@ -65,17 +65,27 @@ class Magento_Shell
         $arguments = array_map('escapeshellarg', $arguments);
         $command = vsprintf("$command 2>&1", $arguments); // Output errors to STDOUT instead of STDERR
         if ($this->_isVerbose) {
-            echo $command . PHP_EOL;
+            $this->output($command);
         }
         exec($command, $output, $exitCode);
         $output = implode(PHP_EOL, $output);
         if ($this->_isVerbose) {
-            echo $output . PHP_EOL;
+            $this->output($output);
         }
         if ($exitCode) {
             $commandError = new Exception($output, $exitCode);
             throw new Magento_Exception("Command `$command` returned non-zero exit code.", 0, $commandError);
         }
         return $output;
+    }
+
+    /**
+     * Echo the specified message
+     *
+     * @param string $message
+     */
+    public function output($message)
+    {
+        echo $message . PHP_EOL;
     }
 }
