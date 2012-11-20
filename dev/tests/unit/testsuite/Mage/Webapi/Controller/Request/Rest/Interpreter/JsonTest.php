@@ -42,34 +42,19 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         $this->_jsonInterpreter->interpret(false);
     }
 
-    public function testInterpret()
+    /**
+     * Test for json Interpret() method
+     *
+     * @dataProvider dataProviderSuccess
+     * @param $inputEncodedJson
+     * @param $expectedDecodedJson
+     */
+    public function testInterpret($inputEncodedJson, $expectedDecodedJson)
     {
-        $expectedArray = array(
-            'optionOne' => 'test',
-            array(
-                'subOptionOne' => '1',
-                'subOptionTwo' => '2',
-            ),
-            array(
-                'subOptionThree' => '3',
-            )
-        );
-        $inputValidJson = '{
-           "optionOne":"test",
-           "0":{
-              "subOptionOne":"1",
-              "subOptionTwo":"2"
-           },
-           "1":{
-              "subOptionThree":"3"
-           }
-        }';
         $this->assertEquals(
-            $expectedArray,
-            $this->_jsonInterpreter->interpret(
-                $inputValidJson,
-                'Invalid interpretation from json to array.'
-            )
+            $expectedDecodedJson,
+            $this->_jsonInterpreter->interpret($inputEncodedJson),
+            'Invalid interpretation from json to array.'
         );
     }
 
@@ -82,6 +67,51 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         );
         $inputInvalidJson = 'invalid';
         $this->_jsonInterpreter->interpret($inputInvalidJson);
+    }
+
+    /**
+     * Provides data for testing successful flow
+     *
+     * @return array
+     */
+    public function dataProviderSuccess()
+    {
+        return array(
+            'Test mixed json array value.' => array(
+                '{
+                "0":"assoc_item1",
+                "1":"assoc_item2",
+                "assoc:test001":"<some01>text<\\/some01>",
+                "assoc.test002":"1 > 0",
+                "assoc_test003.":"chars ]]>","assoc_test004":"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ",
+                "key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()_+":"chars"
+                }',
+                array(
+                    'assoc_item1',
+                    'assoc_item2',
+                    'assoc:test001' => '<some01>text</some01>',
+                    'assoc.test002' => '1 > 0',
+                    'assoc_test003.' => 'chars ]]>',
+                    'assoc_test004' => 'chars  !"#$%&\'()*+,/;<=>?@[\]^`{|}~  chars ',
+                    'key chars `\/;:][{}"|\'.,~!@#$%^&*()_+' => 'chars',
+                )
+            ),
+            'Test associative json array value.' => array(
+                '{"key1":"test1","key2":"test2","array":{"test01":"some1","test02":"some2"}}',
+                array(
+                    'key1' => 'test1',
+                    'key2' => 'test2',
+                    'array' => array(
+                        'test01' => 'some1',
+                        'test02' => 'some2',
+                    )
+                )
+            ),
+            'Test null value.' => array('null', null),
+            'Test "true" value.' => array('true', true),
+            'Test numeric value.' => array('1', 1),
+            'Test float value.' => array('1.234', 1.234),
+        );
     }
 }
 
