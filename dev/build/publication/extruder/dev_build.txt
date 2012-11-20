@@ -2,3 +2,4 @@
 # because it is used in infrastructure for running tests
 dev/build
 dev/tools/license_placeholder
+entry_point_saas.php

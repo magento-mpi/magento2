@@ -20,6 +20,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
     const CACHE_TAG         = 'CONFIG';
 
+    /**@+
+     * Option key names
+     */
+    const OPTION_LOCAL_CONFIG_EXTRA_FILE = 'local_config';
+    const OPTION_BASE_CONFIG_EXTRA_DATA  = 'local_config_extra_data';
+    /**@-*/
+
     /**
      * Flag which allow use cache logic
      *
@@ -291,7 +298,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             if ('local.xml' === $filename) {
                 $deferred[] = $file;
                 $this->_isLocalConfigLoaded = true;
-                $localConfig = $this->getOptions()->getData('local_config');
+                $localConfig = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
                 if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfig)) {
                     $deferred[] = "{$etcDir}/$localConfig";
                 }
@@ -308,7 +315,22 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $merge->loadFile($file);
             $this->extend($merge);
         }
+
+        $this->_appendExtraBaseConfig();
         return $this;
+    }
+
+    /**
+     * Append extra base configuration to the current config data
+     */
+    protected function _appendExtraBaseConfig()
+    {
+        $extraBaseConfigData = $this->getOptions()->getData(self::OPTION_BASE_CONFIG_EXTRA_DATA);
+        if ($extraBaseConfigData) {
+            $extraBaseConfig = clone $this->_prototype;
+            $extraBaseConfig->loadString($extraBaseConfigData);
+            $this->extend($extraBaseConfig);
+        }
     }
 
     /**

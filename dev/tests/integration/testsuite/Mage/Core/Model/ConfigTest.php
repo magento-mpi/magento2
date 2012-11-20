@@ -61,15 +61,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $etcDir
-     * @param string $option
+     * @param array $configOptions
      * @param string $expectedNode
      * @param string $expectedValue
-     * @dataProvider loadBaseLocalConfigDataProvider
+     * @dataProvider loadBaseExtraConfigDataProvider
      */
-    public function testLoadBaseLocalConfig($etcDir, $option, $expectedNode, $expectedValue)
+    public function testLoadBaseExtraConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
     {
+        $configOptions['etc_dir'] = __DIR__ . "/_files/local_config/{$etcDir}";
+        /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config');
-        $model->setOptions(array('etc_dir' => __DIR__ . "/_files/local_config/{$etcDir}", 'local_config' => $option));
+        $model->setOptions($configOptions);
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
         $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
@@ -78,14 +80,57 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function loadBaseLocalConfigDataProvider()
+    public function loadBaseExtraConfigDataProvider()
     {
         return array(
-            array('no_local_config_no_custom_config', '', 'a/value', 'b'),
-            array('no_local_config_custom_config', 'custom/local.xml', 'a', ''),
-            array('local_config_no_custom_config', '', 'value', 'local'),
-            array('local_config_custom_config', 'custom/local.xml', 'value', 'custom'),
-            array('local_config_custom_config', 'custom/invalid.pattern.xml', 'value', 'local'),
+            'no local config file & no custom config file' => array(
+                'no_local_config_no_custom_config',
+                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => ''),
+                'a/value',
+                'b',
+            ),
+            'no local config file & custom config file' => array(
+                'no_local_config_custom_config',
+                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml'),
+                'a',
+                '',
+            ),
+            'no local config file & custom config data' => array(
+                'no_local_config_no_custom_config',
+                array(
+                    Mage_Core_Model_Config::OPTION_BASE_CONFIG_EXTRA_DATA
+                        => '<root><a><value>overridden</value></a></root>'
+                ),
+                'a/value',
+                'overridden',
+            ),
+            'local config file & no custom config file' => array(
+                'local_config_no_custom_config',
+                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => ''),
+                'value',
+                'local',
+            ),
+            'local config file & custom config file' => array(
+                'local_config_custom_config',
+                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml'),
+                'value',
+                'custom',
+            ),
+            'local config file & invalid custom config file' => array(
+                'local_config_custom_config',
+                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/invalid.pattern.xml'),
+                'value',
+                'local',
+            ),
+            'local config file & custom config data' => array(
+                'local_config_custom_config',
+                array(
+                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml',
+                    Mage_Core_Model_Config::OPTION_BASE_CONFIG_EXTRA_DATA  => '<root><value>overridden</value></root>',
+                ),
+                'value',
+                'overridden',
+            ),
         );
     }
 
