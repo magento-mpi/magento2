@@ -208,10 +208,6 @@ addressesModel.prototype = {
             $('_item'+this.itemCount+'firstname').value = $('_accountfirstname').value;
             $('_item'+this.itemCount+'lastname').value = $('_accountlastname').value;
 
-            if ($('_accountwebsite_id').value !== '' && undefined !== this.defaultCountries[$('_accountwebsite_id').value]) {
-                $('_item'+this.itemCount+'country_id').value = this.defaultCountries[$('_accountwebsite_id').value];
-            }
-
             Element.hide(newForm);
             var template = '<li id="' + this.baseItemId+this.itemCount + '">';
             deleteButtonId ++;
@@ -229,6 +225,13 @@ addressesModel.prototype = {
             this.addItemObservers(newItem);
             this.setActiveItem(newItem);
             this.bindCountryRegionRelation(newForm.id);
+
+            if ($('_accountwebsite_id').value !== ''
+                && undefined !== this.defaultCountries[$('_accountwebsite_id').value]
+            ) {
+                $('_item' + this.itemCount + 'country_id').value = this.defaultCountries[$('_accountwebsite_id').value];
+                fireEvent($('_item' + this.itemCount + 'country_id'), 'change');
+            }
 
             if( $('_item'+this.itemCount+'firstname').value ) this.syncFormData($('_item'+this.itemCount+'firstname'));
             if( $('_item'+this.itemCount+'lastname').value ) this.syncFormData($('_item'+this.itemCount+'lastname'));
