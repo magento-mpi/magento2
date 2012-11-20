@@ -7,7 +7,7 @@
 class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
 {
     /**#@+
-     * Name of query ($_GET) parameters to use in navigation and so on
+     * Name of query ($_GET) parameters to use in navigation and so on.
      */
     const QUERY_PARAM_REQ_ATTRS = 'attrs';
     const QUERY_PARAM_PAGE_NUM = 'page';
@@ -53,7 +53,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get filter settings passed by API user
+     * Get filter settings passed by API user.
      *
      * @return mixed
      */
@@ -63,7 +63,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get sort order direction requested by API user
+     * Get sort order direction requested by API user.
      *
      * @return mixed
      */
@@ -73,7 +73,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get sort order field requested by API user
+     * Get sort order field requested by API user.
      *
      * @return mixed
      */
@@ -83,7 +83,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Retrieve page number requested by API user
+     * Retrieve page number requested by API user.
      *
      * @return mixed
      */
@@ -93,7 +93,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Retrieve page size requested by API user
+     * Retrieve page size requested by API user.
      *
      * @return mixed
      */
@@ -103,7 +103,7 @@ class Mage_Webapi_Controller_Request extends Zend_Controller_Request_Http
     }
 
     /**
-     * Get an array of attribute codes requested by API user
+     * Get an array of attribute codes requested by API user.
      *
      * @return array
      */

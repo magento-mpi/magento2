@@ -1,6 +1,6 @@
 <?php
 /**
- * Api Acl Config model
+ * API ACL Config model
  *
  * @copyright {}
  */
@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Retrieve list of acl files from each module
+     * Retrieve list of ACL files from each module.
      *
      * @return array
      */
@@ -49,7 +49,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Reader object initialization
+     * Reader object initialization.
      *
      * @return Magento_Acl_Config_Reader
      */
@@ -63,7 +63,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Get DOMXPath with loaded resources inside
+     * Get DOMXPath with loaded resources inside.
      *
      * @return DOMXPath
      */
@@ -74,7 +74,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Return ACL Resources
+     * Return ACL Resources.
      *
      * @return DOMNodeList
      */
@@ -84,9 +84,9 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Return array representation of ACL resources
+     * Return array representation of ACL resources.
      *
-     * @param bool $includeRoot If FALSE then only children on root element will be returned
+     * @param bool $includeRoot If FALSE then only children of root element will be returned
      * @return array
      */
     public function getAclResourcesAsArray($includeRoot = true)
@@ -112,7 +112,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Parse DOMElement of ACL resource in config and return it's array representation
+     * Parse DOMElement of ACL resource in config and return its array representation.
      *
      * @param DOMElement $node
      * @return array
@@ -172,9 +172,9 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Return ACL Virtual Resources
+     * Return ACL Virtual Resources.
      *
-     * Virtual resources are not shown in resource list, they use existing resource to check permission
+     * Virtual resources are not shown in resource list, they use existing resource to check permission.
      *
      * @return DOMNodeList
      */

@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_Router_Rest
     }
 
     /**
-     * Set routes
+     * Set routes.
      *
      * @param array $routes
      * @return Mage_Webapi_Controller_Router_Rest
@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_Router_Rest
     }
 
     /**
-     * Get routes
+     * Get routes.
      *
      * @return array
      */
@@ -47,8 +47,8 @@ class Mage_Webapi_Controller_Router_Rest
     }
 
     /**
-     * Route the Request, the only responsibility of the class
-     * Find route that match current URL, set parameters of the route to Request object
+     * Route the Request, the only responsibility of the class.
+     * Find route that matches current URL, set parameters of the route to Request object.
      *
      * @param Mage_Webapi_Controller_Request $request
      * @return Mage_Webapi_Controller_Router_Route_Rest

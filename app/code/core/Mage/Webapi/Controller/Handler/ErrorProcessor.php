@@ -63,7 +63,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     /**
      * Process API exception.
      *
-     * Create report if not in developer mode and render error to send correct api response.
+     * Create report if not in developer mode and render error to send correct API response.
      *
      * @param Exception $exception
      * @param int $httpCode

@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API ACL Rules
+ * Web API ACL Rules.
  *
  * @copyright {}
  *
@@ -16,17 +16,17 @@
 class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
 {
     /**
-     * Web API ACL config's resources root ID
+     * Web API ACL config's resources root ID.
      */
     const API_ACL_RESOURCES_ROOT_ID = 'Mage_Webapi';
 
     /**
-     * Web API ACL resource separator
+     * Web API ACL resource separator.
      */
     const RESOURCE_SEPARATOR = '/';
 
     /**
-     * Constructor
+     * Constructor.
      */
     protected function _construct()
     {
@@ -34,7 +34,7 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Save role resources
+     * Save role resources.
      *
      * @return Mage_Webapi_Model_Acl_Rule
      */

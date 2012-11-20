@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API Adminhtml role block
+ * Web API Adminhtml role block.
  *
  * @copyright {}
  */
@@ -17,7 +17,7 @@ class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Co
     protected $_controller = 'adminhtml_role';
 
     /**
-     * Internal constructor
+     * Internal constructor.
      */
     protected function _construct()
     {
@@ -28,7 +28,7 @@ class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Co
     }
 
     /**
-     * Get create URL
+     * Get create URL.
      *
      * @return string
      */

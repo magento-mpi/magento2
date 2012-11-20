@@ -1,6 +1,6 @@
 <?php
 /**
- * User role in role grid items updater
+ * User role in role grid items updater.
  *
  * @copyright {}
  */
@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Acl_User_RoleUpdater implements Mage_Core_Model_Layout_A
     protected $_userFactory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Acl_User_RoleUpdater implements Mage_Core_Model_Layout_A
     }
 
     /**
-     * Init value with role assigned to user
+     * Initialize value with role assigned to user.
      *
      * @param int|null $value
      * @return int|null

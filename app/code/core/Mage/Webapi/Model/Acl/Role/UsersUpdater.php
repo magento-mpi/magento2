@@ -1,18 +1,18 @@
 <?php
 /**
- * Users in role grid items updater
+ * Users in role grid items updater.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
-     * Filter name for users by role
+     * Filter name for users by role.
      */
     const IN_ROLE_USERS_PARAMETER = 'in_role_users';
 
     /**#@+
-     * Supported values of filtering users by role
+     * Supported values of filtering users by role.
      */
     const IN_ROLE_USERS_ANY = 1;
     const IN_ROLE_USERS_YES = 2;
@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     protected $_inRoleUsersFilter;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Backend_Helper_Data $backendHelper
@@ -63,7 +63,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     }
 
     /**
-     * Add filtering users by role
+     * Add filtering users by role.
      *
      * @param Mage_Webapi_Model_Resource_Acl_User_Collection $collection
      * @return Mage_Webapi_Model_Resource_Acl_User_Collection

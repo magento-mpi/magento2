@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Query implements
     public function interpret($body)
     {
         if (!is_string($body)) {
-            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String expected.', gettype($body)));
+            throw new InvalidArgumentException(sprintf('Invalid data type "%s". String is expected.', gettype($body)));
         }
         if (!$this->_validateQuery($body)) {
             throw new Mage_Webapi_Exception($this->_helper->__('Invalid data type. Check Content-Type.'),

@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API role resource tab
+ * Web API role resource tab.
  *
  * @copyright {}
  *
@@ -75,7 +75,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
-     * Prepare Form
+     * Prepare Form.
      *
      * @return Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
      */
@@ -100,7 +100,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
-     * Check resource access is set to "All"
+     * Check whether resource access is set to "All".
      *
      * @return bool
      */
@@ -110,7 +110,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
-     * Get ACL resources tree
+     * Get ACL resources tree.
      *
      * @return string
      */
@@ -120,7 +120,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     }
 
     /**
-     * Get selected ACL resources of given api role
+     * Get selected ACL resources of given API role.
      *
      * @return array
      */

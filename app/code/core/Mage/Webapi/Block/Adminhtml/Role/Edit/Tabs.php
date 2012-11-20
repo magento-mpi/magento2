@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API Role edit page tabs
+ * Web API Role edit page tabs.
  *
  * @copyright {}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
     /**
-     * Internal Constructor
+     * Internal Constructor.
      */
     protected function _construct()
     {
@@ -22,7 +22,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widg
     }
 
     /**
-     * Prepare child blocks
+     * Prepare child blocks.
      *
      * @return Mage_Core_Block_Abstract
      */

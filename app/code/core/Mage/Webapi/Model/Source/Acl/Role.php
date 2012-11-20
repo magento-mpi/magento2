@@ -9,7 +9,7 @@
  */
 
 /**
- * Web API Role source model
+ * Web API Role source model.
  *
  * @category    Mage
  * @package     Mage_Webapi
@@ -23,7 +23,7 @@ class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayI
     protected $_resource = null;
 
     /**
-     * Prepare required models
+     * Prepare required models.
      *
      * @param array $data
      */
@@ -37,7 +37,7 @@ class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayI
     }
 
     /**
-     * Retrieve option hash of Web API Roles
+     * Retrieve option hash of Web API Roles.
      *
      * @param bool $addEmpty
      * @return array
@@ -52,7 +52,7 @@ class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayI
     }
 
     /**
-     * Get roles resource model
+     * Get roles resource model.
      *
      * @return Mage_Webapi_Model_Resource_Acl_Role
      */
@@ -62,7 +62,7 @@ class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayI
     }
 
     /**
-     * Return option array
+     * Return option array.
      *
      * @return array
      */

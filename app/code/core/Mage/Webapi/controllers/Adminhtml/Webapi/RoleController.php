@@ -32,7 +32,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Init
+     * Init.
      *
      * @return Mage_Webapi_Adminhtml_Webapi_RoleController
      */
@@ -52,7 +52,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Web API Roles grid
+     * Web API roles grid.
      */
     public function indexAction()
     {
@@ -64,7 +64,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * AJAX Web API Roles grid
+     * AJAX Web API roles grid.
      */
     public function rolegridAction()
     {
@@ -73,7 +73,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Grid in edit role form
+     * Grid in edit role form.
      */
     public function usersgridAction()
     {
@@ -82,7 +82,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Edit Web API role
+     * Edit Web API role.
      */
     public function editAction()
     {
@@ -99,7 +99,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
             $role->load($roleId);
             if (!$role->getId()) {
                 $this->_getSession()->addError(
-                    $this->_webapiHelperData->__('This API Role no longer exists.')
+                    $this->_webapiHelperData->__('This API role no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -139,7 +139,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Remove role
+     * Remove role.
      */
     public function deleteAction()
     {
@@ -160,7 +160,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Save role
+     * Save role.
      */
     public function saveAction()
     {
@@ -171,7 +171,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
             $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role')->load($roleId);
             if (!$role->getId() && $roleId) {
                 $this->_getSession()->addError(
-                    $this->_webapiHelperData->__('This Role no longer exists')
+                    $this->_webapiHelperData->__('This role no longer exists.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -205,7 +205,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Validate Web API Role data
+     * Validate Web API role data.
      *
      * @param Mage_Webapi_Model_Acl_Role $role
      * @throws Magento_Validator_Exception
@@ -221,7 +221,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Save Role resources
+     * Save role resources.
      *
      * @param integer $roleId
      * @param boolean $isNewRole
@@ -260,7 +260,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Save linked users
+     * Save linked users.
      *
      * @param integer $roleId
      */
@@ -284,7 +284,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Parse request string with users
+     * Parse request string with users.
      *
      * @param string $roleUsers
      * @return array
@@ -300,7 +300,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Check access rights
+     * Check access rights.
      *
      * @return boolean
      */

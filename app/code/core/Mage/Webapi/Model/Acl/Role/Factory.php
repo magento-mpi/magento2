@@ -1,6 +1,6 @@
 <?php
 /**
- * Acl Role factory
+ * ACL Role factory.
  *
  * @copyright {}
  */
@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Acl_Role_Factory
     }
 
     /**
-     * Create ACL role model
+     * Create ACL role model.
      *
      * @param array $arguments
      * @return Mage_Webapi_Model_Acl_Role

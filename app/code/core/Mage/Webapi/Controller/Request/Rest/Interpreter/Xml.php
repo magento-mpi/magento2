@@ -41,7 +41,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     /**
      * Convert XML document into array.
      *
-     * @param string $xmlRequestBody Xml document
+     * @param string $xmlRequestBody XML document
      * @return array Data converted from XML document to array. Root node is excluded from response.
      * @throws InvalidArgumentException In case of invalid argument type.
      * @throws Mage_Webapi_Exception If decoding error occurs.
@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     }
 
     /**
-     * Handle any errors during xml loading.
+     * Handle any errors during XML loading.
      *
      * @param integer $errorNumber
      * @param string $errorMessage

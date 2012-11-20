@@ -1,6 +1,6 @@
 <?php
 /**
- * Users in role grid "In Role User" column with checkbox updater
+ * Users in role grid "In Role User" column with checkbox updater.
  *
  * @copyright {}
  */
@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Mage_Core_Model_La
     protected $_userResource;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Webapi_Model_Resource_Acl_User $userResource
@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Mage_Core_Model_La
     }
 
     /**
-     * Init values with users assigned to role
+     * Init values with users assigned to role.
      *
      * @param array|null $values
      * @return array|null

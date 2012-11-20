@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
     const XML_ROOT_NODE = 'response';
 
     /**
-     * This value is used to replace numeric keys while formatting data for xml output.
+     * This value is used to replace numeric keys while formatting data for XML output.
      */
     const DEFAULT_ENTITY_ITEM_NAME = 'item';
 

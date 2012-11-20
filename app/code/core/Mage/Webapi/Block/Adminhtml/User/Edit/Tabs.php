@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API User edit page tabs
+ * Web API user edit page tabs.
  *
  * @copyright {}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
     /**
-     * Internal constructor
+     * Internal constructor.
      */
     protected function _construct()
     {
@@ -22,7 +22,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widg
     }
 
     /**
-     * Before to HTML
+     * Before to HTML.
      *
      * @return Mage_Core_Block_Abstract
      */

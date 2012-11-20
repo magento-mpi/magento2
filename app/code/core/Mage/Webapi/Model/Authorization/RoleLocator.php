@@ -1,6 +1,6 @@
 <?php
 /**
- * Api Acl RoleLocator
+ * API ACL RoleLocator
  *
  * @copyright {}
  */
@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorizati
     protected $_roleId = null;
 
     /**
-     * Initialize role id
+     * Initialize role ID.
      *
      * @param array $data
      */
@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorizati
     }
 
     /**
-     * Set role id into role locator
+     * Set role ID into role locator.
      *
      * @param string $roleId
      */
@@ -32,7 +32,7 @@ class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorizati
     }
 
     /**
-     * Retrieve current role
+     * Retrieve current role.
      *
      * @return string|null
      */

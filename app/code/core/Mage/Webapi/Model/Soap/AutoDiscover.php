@@ -219,7 +219,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     }
 
     /**
-     * Get name for resource service
+     * Get name for resource service.
      *
      * @param string $resourceName
      * @return string

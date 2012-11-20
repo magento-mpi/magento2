@@ -3,7 +3,7 @@ use Zend\Soap\Wsdl,
     Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
 
 /**
- * Magneto-specific WSDL builder.
+ * Magento-specific WSDL builder.
  *
  * @copyright {}
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API ACL role resource
+ * Web API ACL role resource.
  *
  * @copyright {}
  */
@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     protected $_helper;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Webapi_Helper_Data $helper
@@ -24,7 +24,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Resource initialization
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Initialize unique fields
+     * Initialize unique fields.
      *
      * @return Mage_Webapi_Model_Resource_Acl_Role
      */
@@ -48,7 +48,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get roles list for selects
+     * Get roles list for selects.
      *
      * @return array
      */
@@ -62,7 +62,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get all roles ids
+     * Get all roles IDs.
      *
      * @return array
      */

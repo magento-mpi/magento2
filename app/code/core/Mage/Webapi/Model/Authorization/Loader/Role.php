@@ -1,6 +1,6 @@
 <?php
 /**
- * Api Acl Role Loader
+ * API ACL Role Loader
  *
  * @copyright {}
  */
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Authorization_Loader_Role implements Magento_Acl_Loader
     }
 
     /**
-     * Populate ACL with roles from external storage
+     * Populate ACL with roles from external storage.
      *
      * @param Magento_Acl $acl
      */

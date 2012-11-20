@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API User model
+ * Web API User model.
  *
  * @copyright {}
  *
@@ -16,14 +16,14 @@
 class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
-     * Prefix of model events names
+     * Prefix of model events names.
      *
      * @var string
      */
     protected $_eventPrefix = 'webapi_user';
 
     /**
-     * Initialize resource model
+     * Initialize resource model.
      */
     protected function _construct()
     {
@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mag
     }
 
     /**
-     * Get role users
+     * Get role users.
      *
      * @param integer $roleId
      * @return array

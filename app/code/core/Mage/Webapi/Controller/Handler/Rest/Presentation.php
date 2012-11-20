@@ -122,7 +122,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
                 $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
             case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
-                // break intentionally omitted
+                // break is intentionally omitted
             case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
                 break;
         }
@@ -197,7 +197,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
     }
 
     /**
-     * Render data using registered Renderer
+     * Render data using registered Renderer.
      *
      * @param mixed $data
      */
@@ -209,7 +209,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
     }
 
     /**
-     * Get renderer if not exists create.
+     * Get renderer or create if it does not exist.
      *
      * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
      */

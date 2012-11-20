@@ -7,7 +7,7 @@
 class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_RouteAbstract
 {
     /**#@+
-     * Names of special parameters in routes
+     * Names of special parameters in routes.
      */
     const PARAM_VERSION = 'resourceVersion';
     const PARAM_ID = 'id';
@@ -21,7 +21,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     protected $_resourceType;
 
     /**
-     * Set route resource
+     * Set route resource.
      *
      * @param string $resourceName
      * @return Mage_Webapi_Controller_Router_Route_Rest
@@ -33,7 +33,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     }
 
     /**
-     * Get route resource
+     * Get route resource.
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     }
 
     /**
-     * Set route resource type
+     * Set route resource type.
      *
      * @param string $resourceType
      * @return Mage_Webapi_Controller_Router_Route_Rest
@@ -55,7 +55,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     }
 
     /**
-     * Get route resource type
+     * Get route resource type.
      *
      * @return string
      */

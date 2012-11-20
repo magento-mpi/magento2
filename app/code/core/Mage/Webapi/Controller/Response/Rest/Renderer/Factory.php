@@ -7,7 +7,7 @@
 class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
 {
     /**
-     * Response render adapters
+     * Response render adapters.
      */
     const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
 
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
     }
 
     /**
-     * Get Renderer of given type
+     * Get Renderer of given type.
      *
      * @param array|string $acceptTypes
      * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
@@ -68,7 +68,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
         if (!isset($rendererClass) || empty($rendererClass)) {
             /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Server can not understand Accept HTTP header media type.'),
+                $this->_helper->__('Server cannot understand Accept HTTP header media type.'),
                 Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
             );
         }

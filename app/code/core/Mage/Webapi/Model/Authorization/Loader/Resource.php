@@ -1,13 +1,13 @@
 <?php
 /**
- * Api Acl Resource Loader
+ * API ACL Resource Loader.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract
 {
     /**
-     * Deny each resource for all roles
+     * Deny each resource for all roles.
      *
      * @param Magento_Acl $acl
      */
@@ -19,7 +19,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
     }
 
     /**
-     * Load virtual resources as sub-resources of existing
+     * Load virtual resources as sub-resources of existing one.
      *
      * @param Magento_Acl $acl
      */
@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
     }
 
     /**
-     * Populate ACL with resources from external storage
+     * Populate ACL with resources from external storage.
      *
      * @param Magento_Acl $acl
      * @throws Mage_Core_Exception

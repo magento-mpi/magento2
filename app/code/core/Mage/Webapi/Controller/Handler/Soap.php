@@ -114,7 +114,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Handler for all SOAP operations
+     * Handler for all SOAP operations.
      *
      * @param string $operation
      * @param array $arguments
@@ -129,7 +129,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             $resourceVersion = $this->_getOperationVersion($operation);
             $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
             if (!$resourceName) {
-                $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
+                $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
             }
             $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_getActionControllerInstance($controllerClass);
@@ -208,13 +208,13 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Authenticate user
+     * Authenticate user.
      */
     protected function _authenticate()
     {
         if (is_null($this->_usernameToken)) {
             $this->_soapFault(
-                $this->_helper->__('No WS-Security UsernameToken found in SOAP-request.'),
+                $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
                 self::FAULT_CODE_SENDER
             );
         }
@@ -359,7 +359,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Initialize Soap Server.
+     * Initialize SOAP Server.
      *
      * @throws SoapFault
      */
@@ -391,7 +391,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Set content type to response object
+     * Set content type to response object.
      *
      * @param string $contentType
      * @return Mage_Webapi_Controller_Handler_Soap
@@ -404,7 +404,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Set body to response object
+     * Set body to response object.
      *
      * @param string $responseBody
      * @return Mage_Webapi_Controller_Handler_Soap
@@ -422,7 +422,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Retrieve charset used in API
+     * Retrieve charset used in API.
      *
      * @return string
      */
@@ -433,7 +433,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Enable or disable SOAP extension WSDL cache depending on Magento configuration
+     * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
      */
     protected function _initWsdlCache()
     {
@@ -446,7 +446,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Get WSDL file URL
+     * Get WSDL file URL.
      *
      * @return string
      */
@@ -456,7 +456,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Get SOAP endpoint URL
+     * Get SOAP endpoint URL.
      *
      * @param bool $isWsdl
      * @return string
@@ -487,7 +487,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Generate SOAP fault
+     * Generate SOAP fault.
      *
      *
      * @param string $reason Human-readable explanation of the fault
@@ -524,7 +524,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Generate SOAP fault message in xml format
+     * Generate SOAP fault message in XML format.
      *
      * @param string $reason Human-readable explanation of the fault
      * @param string $code SOAP fault code
@@ -566,7 +566,7 @@ FAULT_MESSAGE;
     }
 
     /**
-     * Recursively convert details array into xml structure.
+     * Recursively convert details array into XML structure.
      *
      * @param array $details
      * @return string
@@ -589,7 +589,7 @@ FAULT_MESSAGE;
     }
 
     /**
-     * Check whether SOAP extension is loaded or not
+     * Check whether SOAP extension is loaded or not.
      *
      * @return boolean
      */
@@ -601,7 +601,7 @@ FAULT_MESSAGE;
     /**
      * Identify version of requested operation.
      *
-     * This method required when there are two or more resource versions specified in request:
+     * This method is required when there are two or more resource versions specified in request:
      * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
      * In this case it is not obvious what version of requested operation should be used.
      *
@@ -639,13 +639,13 @@ FAULT_MESSAGE;
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
             $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $this->_helper->__('Please, use only "%s" and "%s".', $wsdlParam, $resourcesParam);
+                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam);
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $requestedResources = $this->getRequest()->getParam($resourcesParam);
         if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
-            $message = $this->_helper->__('Missing requested resources.');
+            $message = $this->_helper->__('Requested resources are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedResources;

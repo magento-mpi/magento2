@@ -1,3 +1,15 @@
+    /**
+     * Constructor.
+    /**
+     * Add column to filter.
+    /**
+     * Prepare grid collection.
+    /**
+     * Prepare grid columns.
+    /**
+     * Get grid url.
+    /**
+     * Users list accessor.
 <?php
 /**
  * {license_notice}
@@ -9,7 +21,7 @@
  */
 
 /**
- * Acl role user grid
+ * Acl role user grid.
  *
  * @category   Mage
  * @package    Mage_User

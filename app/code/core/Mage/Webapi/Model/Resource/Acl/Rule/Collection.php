@@ -9,7 +9,7 @@
  */
 
 /**
- * Web API Rules Resource Collection
+ * Web API Rules Resource Collection.
  *
  * @category    Mage
  * @package     Mage_Webpi
@@ -18,7 +18,7 @@
 class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Resource collection initialization
+     * Resource collection initialization.
      */
     protected function _construct()
     {
@@ -26,7 +26,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Res
     }
 
     /**
-     * Retrieve rules by role
+     * Retrieve rules by role.
      *
      * @param int $id
      * @return Mage_Webapi_Model_Resource_Acl_Rule_Collection

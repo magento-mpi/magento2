@@ -7,7 +7,7 @@
 class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
 {
     /**
-     * Character set which must be used in request
+     * Character set which must be used in request.
      */
     const REQUEST_CHARSET = 'utf-8';
 
@@ -69,7 +69,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Retrieve accept types understandable by requester in a form of array sorted by quality descending.
+     * Retrieve accept types understandable by requester in a form of array sorted by quality in descending order.
      *
      * @return array
      */
@@ -146,7 +146,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Retrieve one of CRUD operation dependent on HTTP method.
+     * Retrieve one of CRUD operations depending on HTTP method.
      *
      * @return string
      * @throws Mage_Webapi_Exception

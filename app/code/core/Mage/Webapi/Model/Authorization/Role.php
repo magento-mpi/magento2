@@ -1,6 +1,6 @@
 <?php
 /**
- * Api Acl Role
+ * API ACL Role
  *
  * @copyright {}
  */

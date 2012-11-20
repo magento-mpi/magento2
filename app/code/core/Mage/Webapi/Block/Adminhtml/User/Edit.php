@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API User edit page
+ * Web API user edit page.
  *
  * @copyright {}
  *
@@ -25,7 +25,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     protected $_objectId = 'user_id';
 
     /**
-     * Internal constructor
+     * Internal constructor.
      */
     protected function _construct()
     {
@@ -46,7 +46,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Set Web API User to child form block
+     * Set Web API user to child form block.
      *
      * @return Mage_Webapi_Block_Adminhtml_User_Edit
      */
@@ -59,7 +59,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Get header text
+     * Get header text.
      *
      * @return string
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Two legged oAuth server.
+ * Two-legged OAuth server.
  *
  * @copyright {}
  */

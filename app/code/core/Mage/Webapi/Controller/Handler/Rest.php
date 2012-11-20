@@ -16,14 +16,14 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /**#@-*/
 
     /**#@+
-     * Resource types
+     * Resource types.
      */
     const ACTION_TYPE_ITEM = 'item';
     const ACTION_TYPE_COLLECTION = 'collection';
     /**#@-*/
 
     /**#@+
-     * HTTP methods supported by REST
+     * HTTP methods supported by REST.
      */
     const HTTP_METHOD_CREATE = 'create';
     const HTTP_METHOD_GET = 'get';
@@ -32,21 +32,21 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /**#@-*/
 
     /**#@+
-     *  Default error messages
+     *  Default error messages.
      */
-    const RESOURCE_FORBIDDEN = 'Access to resource forbidden.';
-    const RESOURCE_NOT_FOUND = 'Resource not found.';
+    const RESOURCE_FORBIDDEN = 'Access to resource is forbidden.';
+    const RESOURCE_NOT_FOUND = 'Resource is not found.';
     const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
-    const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
+    const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method is not implemented yet.';
     const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
     const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
-    const RESOURCE_DATA_INVALID = 'Resource data invalid.';
+    const RESOURCE_DATA_INVALID = 'Resource data is invalid.';
     const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
     const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
     /**#@-*/
 
     /**#@+
-     *  Default collection resources error messages
+     *  Default collection resources error messages.
      */
     const RESOURCE_COLLECTION_PAGING_ERROR = 'Resource collection paging error.';
     const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
@@ -56,9 +56,9 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /**#@-*/
 
     /**#@+
-     *  Default success messages
+     *  Default success messages.
      */
-    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
+    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource is updated successfully.';
     /**#@-*/
 
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
@@ -186,7 +186,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Check whether current request match any route of specified method or not. Method version is taken into account.
+     * Check whether current request matches any route of specified method or not. Method version is taken into account.
      *
      * @param string $methodName
      * @param string $version
@@ -206,8 +206,8 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Set all routes of the given api type to Route object
-     * Find route that matches current URL, set parameters of the route to Request object
+     * Set all routes of the given API type to Route object.
+     * Find route that matches current URL, set parameters of the route to Request object.
      *
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
@@ -265,7 +265,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Authenticate user
+     * Authenticate user.
      *
      * @throws Mage_Webapi_Exception
      */
@@ -281,7 +281,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Redeclare custom shutdown function
+     * Redeclare custom shutdown function.
      *
      * @param   string $handler
      * @return  Mage_Webapi_Controller_Handler_Rest
@@ -293,7 +293,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Send response to the client, render exceptions if present
+     * Send response to the client, render exceptions if they are present.
      */
     protected function _sendResponse()
     {
@@ -314,7 +314,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Generate and set HTTP response code, error messages to Response object
+     * Generate and set HTTP response code, error messages to Response object.
      */
     protected function _renderMessages()
     {
@@ -343,7 +343,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Get renderer object according to request accepted mime type
+     * Get renderer object according to request accepted mime type.
      *
      * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
      */

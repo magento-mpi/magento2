@@ -176,7 +176,7 @@ class Mage_Webapi_Model_Config
     }
 
     /**
-     * Check if specified version of resource exist. If not - exception is thrown.
+     * Check if specified version of resource exists. If not - exception is thrown.
      *
      * @param string $resourceName
      * @param string $resourceVersion
@@ -294,7 +294,7 @@ class Mage_Webapi_Model_Config
             return $result;
         }
         throw new InvalidArgumentException(sprintf(
-            'The "%s" is not valid API resource operation name.',
+            'The "%s" is not a valid API resource operation name.',
             $operationName
         ));
     }
@@ -405,7 +405,7 @@ class Mage_Webapi_Model_Config
             $this->_data['rest_routes'] = $allRestRoutes;
 
             if (!isset($this->_data['resources'])) {
-                throw new LogicException('Can not populate config - no action controllers were found.');
+                throw new LogicException('Cannot populate config - no action controllers were found.');
             }
 
             if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
@@ -455,7 +455,7 @@ class Mage_Webapi_Model_Config
             $methodName = $methodMatches[1];
             return $methodName;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is invalid API resource method.', $methodNameWithSuffix));
+        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
     }
 
     /**
@@ -532,7 +532,7 @@ class Mage_Webapi_Model_Config
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $collection,
         );
         if (!isset($methodToActionTypeMap[$methodName])) {
-            throw new InvalidArgumentException(sprintf('"%s" method is not valid resource method.', $methodName));
+            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $methodName));
         }
         return $methodToActionTypeMap[$methodName];
     }
@@ -581,7 +581,7 @@ class Mage_Webapi_Model_Config
     {
         $optionalParamNames = array();
         $methodInterfaces = $methodReflection->getPrototypes();
-        /** Take the most full interface, that includes optional parameters also. */
+        /** Take the fullest interface that includes optional parameters also. */
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
         $methodInterface = end($methodInterfaces);
         $methodParams = $methodInterface->getParameters();
@@ -604,7 +604,7 @@ class Mage_Webapi_Model_Config
     {
         $paramNames = array();
         $methodInterfaces = $methodReflection->getPrototypes();
-        /** Take the most full interface, that includes optional parameters also. */
+        /** Take the fullest interface that includes optional parameters also. */
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
         $methodInterface = end($methodInterfaces);
         $methodParams = $methodInterface->getParameters();
@@ -716,7 +716,7 @@ class Mage_Webapi_Model_Config
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
                 throw new LogicException(sprintf(
-                    'Method "%s" must have at least one parameter: resource ID.',
+                    'The "%s" method must have at least one parameter: resource ID.',
                     $methodReflection->getName()
                 ));
             }
@@ -785,7 +785,7 @@ class Mage_Webapi_Model_Config
         $className = $methodReflection->getDeclaringClass()->getName();
         preg_match('/.*_Webapi_(.*)Controller*/', $className, $matches);
         if (!isset($matches[1])) {
-            throw new InvalidArgumentException(sprintf('"%s" is not valid resource class.', $className));
+            throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
         }
         return count(explode('_', $matches[1])) > 1;
     }
@@ -805,7 +805,7 @@ class Mage_Webapi_Model_Config
 
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
             throw new InvalidArgumentException(sprintf(
-                '"%s" method of "%s" resource in version "%s" is not registered.',
+                'The "%s" method of "%s" resource in version "%s" is not registered.',
                 $methodName,
                 $resourceName,
                 $resourceVersion
@@ -861,7 +861,7 @@ class Mage_Webapi_Model_Config
             $filename = $file->getFile();
             $classes = $file->getClasses();
             if (count($classes) > 1) {
-                throw new LogicException(sprintf('There can be only one class in controller file "%s".', $filename));
+                throw new LogicException(sprintf('There can be only one class in the "%s" controller file .', $filename));
             }
             /** @var \Zend\Code\Scanner\ClassScanner $class */
             $class = reset($classes);
@@ -885,7 +885,7 @@ class Mage_Webapi_Model_Config
     {
         $methodData = array('documentation' => $method->getDescription());
         $prototypes = $method->getPrototypes();
-        /** Take the most full interface, that also includes optional parameters. */
+        /** Take the fullest interface that also includes optional parameters. */
         /** @var \Zend\Server\Reflection\Prototype $prototype */
         $prototype = end($prototypes);
         /** @var \Zend\Server\Reflection\ReflectionParameter $parameter */
@@ -950,7 +950,7 @@ class Mage_Webapi_Model_Config
 
             if (isset($useMethod) && is_string($useMethod) && !empty($useMethod)) {
                 $invalidFormatMessage = sprintf(
-                    '"%s" method has invalid format of Deprecation policy. '
+                    'The "%s" method has invalid format of Deprecation policy. '
                         . 'Accepted formats are createV1, catalogProduct::createV1 '
                         . 'and Mage_Catalog_Webapi_ProductController::createV1.',
                     $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName()
@@ -1001,7 +1001,7 @@ class Mage_Webapi_Model_Config
 
     /**
      * Process type name.
-     * In case parameter type is a complex type (class) - process it's properties.
+     * In case parameter type is a complex type (class) - process its properties.
      *
      * @param string $type
      * @return string
@@ -1037,7 +1037,7 @@ class Mage_Webapi_Model_Config
             $this->_processType($this->getArrayItemType($class));
         } else {
             if (!$this->_autoloader->classExists($class)) {
-                throw new InvalidArgumentException(sprintf('Could not load class "%s" as parameter type.', $class));
+                throw new InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
             $docBlock = $reflection->getDocBlock();
@@ -1142,7 +1142,7 @@ class Mage_Webapi_Model_Config
             array_unshift($resourceNameParts, $parentResourceName);
             return $resourceNameParts;
         }
-        throw new InvalidArgumentException(sprintf('Invalid controller class name "%s".', $className));
+        throw new InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
     }
 
     /**
@@ -1300,7 +1300,7 @@ class Mage_Webapi_Model_Config
                 return $routePath;
             }
         }
-        throw new InvalidArgumentException(sprintf('No route was found to the item of "%s" resource.', $resourceName));
+        throw new InvalidArgumentException(sprintf('No route to the item of "%s" resource was found.', $resourceName));
     }
 
     /**
@@ -1332,7 +1332,7 @@ class Mage_Webapi_Model_Config
         $resourceData = $this->_getResourceData($resourceName, $version);
         if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
             throw new InvalidArgumentException(
-                sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
+                sprintf('The "%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
         }
         $routes = array();
         foreach ($resourceData['methods'][$methodName]['rest_routes'] as $routePath) {

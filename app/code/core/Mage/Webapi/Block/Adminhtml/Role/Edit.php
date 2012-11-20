@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API role edit page
+ * Web API role edit page.
  *
  * @copyright {}
  *
@@ -25,7 +25,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     protected $_objectId = 'role_id';
 
     /**
-     * Internal Constructor
+     * Internal Constructor.
      */
     protected function _construct()
     {
@@ -45,7 +45,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Retrieve role SaveAndContinue URL
+     * Retrieve role SaveAndContinue URL.
      *
      * @return string
      */
@@ -55,7 +55,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Get header text
+     * Get header text.
      *
      * @return string
      */

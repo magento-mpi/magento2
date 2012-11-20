@@ -1,6 +1,6 @@
 <?php
 /**
- * Acl User factory
+ * ACL User factory.
  *
  * @copyright {}
  */
@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Acl_User_Factory extends Mage_Oauth_Model_Consumer_Facto
     }
 
     /**
-     * Create ACL user model
+     * Create ACL user model.
      *
      * @param array $arguments
      * @return Mage_Webapi_Model_Acl_User

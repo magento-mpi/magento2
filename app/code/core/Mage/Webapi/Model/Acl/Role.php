@@ -1,13 +1,13 @@
 <?php
 /**
- * Role item model
+ * Role item model.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
 {
     /**
-     * Initialize resource
+     * Initialize resource.
      */
     protected function _construct()
     {

@@ -1,13 +1,13 @@
 <?php
 /**
- * Api Acl Config Reader model
+ * API ACL Config Reader model.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Config_Reader extends Magento_Acl_Config_Reader
 {
     /**
-     * Get absolute path to the XML-schema file
+     * Get absolute path to the XML-schema file.
      *
      * @return string
      */
@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Authorization_Config_Reader extends Magento_Acl_Config_R
     }
 
     /**
-     * Get XML-contents, initial for merging
+     * Get XML-contents, initial for merging.
      *
      * @return string
      */

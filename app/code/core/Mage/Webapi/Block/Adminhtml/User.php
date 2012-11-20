@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API adminhtml user block
+ * Web API adminhtml user block.
  *
  * @copyright {}
  */
@@ -17,7 +17,7 @@ class Mage_Webapi_Block_Adminhtml_User extends Mage_Backend_Block_Widget_Grid_Co
     protected $_controller = 'adminhtml_user';
 
     /**
-     * Internal constructor
+     * Internal constructor.
      */
     protected function _construct()
     {

@@ -1,13 +1,13 @@
 <?php
 /**
- * Web Api Role Resource Collection
+ * Web API Role Resource Collection.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Resource collection initialization
+     * Resource collection initialization.
      */
     protected function _construct()
     {

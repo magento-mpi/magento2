@@ -1,6 +1,6 @@
 <?php
 /**
- * Web API user edit form
+ * Web API user edit form.
  *
  * @copyright {}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Prepare Form
+     * Prepare Form.
      *
      * @return Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main
      */

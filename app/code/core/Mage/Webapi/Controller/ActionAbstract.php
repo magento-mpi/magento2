@@ -121,7 +121,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     }
 
     /**
-     * Check if specified action is defined in current controller
+     * Check if specified action is defined in current controller.
      *
      * @param string $actionName
      * @return bool

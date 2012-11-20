@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
  /**
- * Structure description for acl.xml ACL resource files
+ * Structure description for acl.xml ACL resource files.
  *
  * @copyright {}
  */
@@ -23,7 +23,7 @@
                                 <xs:unique name="uniqueResourceId">
                                     <xs:annotation>
                                         <xs:documentation>
-                                            Attribute id is unique under all ACL resources
+                                            Attribute ID is unique under all ACL resources
                                         </xs:documentation>
                                     </xs:annotation>
                                     <xs:selector xpath=".//*"/>
@@ -41,7 +41,7 @@
                                 <xs:unique name="uniqueMappedResourceId">
                                     <xs:annotation>
                                         <xs:documentation>
-                                            Attribute id is unique under all mapped ACL resources
+                                            Attribute ID is unique under all mapped ACL resources
                                         </xs:documentation>
                                     </xs:annotation>
                                     <xs:selector xpath=".//*"/>
@@ -86,7 +86,7 @@
     <xs:simpleType name="typeId">
         <xs:annotation>
             <xs:documentation>
-                Item id attribute can has only [A-Za-z0-9_]/[A-Za-z0-9_]. Minimal length 3 symbol. Case insensitive.
+                Item ID attribute can have only [A-Za-z0-9_]/[A-Za-z0-9_]. Minimal length is 3 symbols. Case insensitive.
             </xs:documentation>
         </xs:annotation>
 
@@ -98,7 +98,7 @@
     <xs:simpleType name="typeTitle">
         <xs:annotation>
             <xs:documentation>
-                Item title attribute minimal length 3 symbol
+                Item title attribute minimal length is 3 symbols
             </xs:documentation>
         </xs:annotation>
 
@@ -111,7 +111,7 @@
     <xs:simpleType name="typeModule">
         <xs:annotation>
             <xs:documentation>
-                Item module attribute can has only [a-z0-9_]. Minimal length 3 symbol. Case insensitive.
+                Item module attribute can have only [a-z0-9_]. Minimal length is 3 symbols. Case insensitive.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">

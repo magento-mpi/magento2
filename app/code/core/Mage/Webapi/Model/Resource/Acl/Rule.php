@@ -1,6 +1,6 @@
 <?php
 /**
- * Resource model for ACL rule
+ * Resource model for ACL rule.
  *
  * @copyright {}
  *
@@ -12,7 +12,7 @@
 class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Resource initialization
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get all rules from DB
+     * Get all rules from DB.
      *
      * @return array
      */
@@ -32,7 +32,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get resource IDs assigned to role
+     * Get resource IDs assigned to role.
      *
      * @param integer $roleId Web api user role ID
      * @return array
@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Save resources
+     * Save resources.
      *
      * @param Mage_Webapi_Model_Acl_Rule $rule
      * @throws Exception

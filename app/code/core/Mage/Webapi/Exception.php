@@ -32,7 +32,7 @@ class Mage_Webapi_Exception extends RuntimeException
     {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
         if ($code < 400 || $code > 599) {
-            throw new InvalidArgumentException(sprintf('Invalid code specified "%d".', $code));
+            throw new InvalidArgumentException(sprintf('The specified code "%d" is invalid.', $code));
         }
         parent::__construct($message, $code);
     }

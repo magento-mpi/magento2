@@ -242,7 +242,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     }
 
     /**
-     * Check if there is given annotation in documentation, and if not - create and empty one.
+     * Check if there is given annotation in documentation, and if not - create an empty one.
      *
      * @param $annotation
      * @param $documentation

@@ -32,7 +32,7 @@ class Mage_Webapi_Controller_Action_Factory
         $actionController = $this->_objectManager->create($className, array('request' => $request));
         if (!$actionController instanceof Mage_Webapi_Controller_ActionAbstract) {
             throw new InvalidArgumentException(
-                'The specified class is not valid API action controller.');
+                'The specified class is not a valid API action controller.');
         }
         return $actionController;
     }

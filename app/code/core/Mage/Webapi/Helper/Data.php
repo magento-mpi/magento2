@@ -7,7 +7,7 @@
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Web API ACL resources tree root ID
+     * Web API ACL resources tree root ID.
      */
     const RESOURCES_TREE_ROOT_ID = '__root__';
 
@@ -64,7 +64,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Webapi_Model_Config $apiConfig
      * @return mixed
      * @throws LogicException If specified $dataType is invalid
-     * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
+     * @throws Mage_Webapi_Exception If required fields do not have values specified in $data
      */
     protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig)
     {
@@ -85,7 +85,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
             }
             $complexTypeClass = $typeToClassMap[$dataType];
             if (is_object($data) && (get_class($data) == $complexTypeClass)) {
-                /** In case of SOAP the object creation is performed by soap server. */
+                /** In case of SOAP the object creation is performed by SOAP server. */
                 return $data;
             }
             $complexDataObject = new $complexTypeClass();

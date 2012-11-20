@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Authorization_Role_Factory
     }
 
     /**
-     * Return new ACL role model
+     * Return new ACL role model.
      *
      * @param array $arguments
      * @return Mage_Webapi_Model_Authorization_Role

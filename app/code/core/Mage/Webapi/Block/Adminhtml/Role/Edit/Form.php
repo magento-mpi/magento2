@@ -1,13 +1,13 @@
 <?php
 /**
- * Web API Role edit form
+ * Web API Role edit form.
  *
  * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Prepare form container
+     * Prepare form container.
      *
      * @return Mage_Webapi_Block_Adminhtml_Role_Edit_Form
      */

@@ -96,8 +96,8 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     }
 
     /**
-     * Retrieve config describing resources available in all APIs
-     * The same resource config must be used in all API types
+     * Retrieve config describing resources available in all APIs.
+     * The same resource config must be used in all API types.
      *
      * @return Mage_Webapi_Model_Config
      */
@@ -122,13 +122,13 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
                 && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)
             ) {
                 throw new Mage_Webapi_Exception(
-                    $this->_helper->__('Access to resource forbidden.'),
+                    $this->_helper->__('Access to resource is forbidden.'),
                     Mage_Webapi_Exception::HTTP_FORBIDDEN
                 );
             }
         } catch (Zend_Acl_Exception $e) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Resource not found.'),
+                $this->_helper->__('Resource is not found.'),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
@@ -157,7 +157,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     }
 
     /**
-     * Instantiate and validate action controller
+     * Instantiate and validate action controller.
      *
      * @param string $className
      * @return Mage_Webapi_Controller_ActionAbstract
@@ -176,7 +176,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     }
 
     /**
-     * Identify controller file name by its class name
+     * Identify controller file name by its class name.
      *
      * @param string $controllerClassName
      * @return string
@@ -246,7 +246,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
                 && isset($deprecationPolicy['use_version'])
             ) {
                 $messageUseMethod = $this->getHelper()
-                    ->__('Please, use version "%s" of "%s" method in "%s" resource instead.',
+                    ->__('Please use version "%s" of "%s" method in "%s" resource instead.',
                     $deprecationPolicy['use_version'],
                     $deprecationPolicy['use_method'],
                     $deprecationPolicy['use_resource']

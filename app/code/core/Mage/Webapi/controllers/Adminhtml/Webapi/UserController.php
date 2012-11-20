@@ -32,7 +32,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Initialize breadcrumbs
+     * Initialize breadcrumbs.
      *
      * @return Mage_Webapi_Adminhtml_Webapi_UserController
      */
@@ -54,7 +54,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Show web API users grid
+     * Show web API users grid.
      */
     public function indexAction()
     {
@@ -67,7 +67,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Create New Web API User
+     * Create New Web API user.
      */
     public function newAction()
     {
@@ -76,7 +76,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Edit Web API User
+     * Edit Web API user.
      */
     public function editAction()
     {
@@ -91,14 +91,14 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             return;
         }
 
-        // Update title and breadcrumb record
+        // Update title and breadcrumb record.
         $actionTitle = $user->getId()
             ? $this->_webapiHelperData->escapeHtml($user->getApiKey())
             : $this->_webapiHelperData->__('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
 
-        // Restore previously entered form data from session
+        // Restore previously entered form data from session.
         $data = $this->_getSession()->getWebapiUserData(true);
         if (!empty($data)) {
             $user->setData($data);
@@ -119,7 +119,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Save Web API User
+     * Save Web API user.
      */
     public function saveAction()
     {
@@ -163,7 +163,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Delete User
+     * Delete user.
      */
     public function deleteAction()
     {
@@ -188,13 +188,13 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             }
         }
         $this->_getSession()->addError(
-            $this->_webapiHelperData->__('Unable to find a user to delete.')
+            $this->_webapiHelperData->__('Unable to find a user to be deleted.')
         );
         $this->_redirect('*/*/');
     }
 
     /**
-     * AJAX Web API Users grid
+     * AJAX Web API users grid.
      */
     public function gridAction()
     {
@@ -203,7 +203,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Web API User Roles grid
+     * Web API user roles grid.
      */
     public function rolesgridAction()
     {
@@ -212,7 +212,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Check ACL
+     * Check ACL.
      *
      * @return boolean
      */
@@ -222,7 +222,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Validate Web API User data
+     * Validate Web API user data.
      *
      * @param Mage_Webapi_Model_Acl_User $user
      * @throws Magento_Validator_Exception
@@ -238,7 +238,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     }
 
     /**
-     * Load Web API User
+     * Load Web API user.
      *
      * @param int $userId
      * @return bool|Mage_Webapi_Model_Acl_User
