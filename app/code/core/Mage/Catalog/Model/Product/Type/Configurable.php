@@ -849,4 +849,15 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         return false;
     }
+
+    /**
+     * Delete data specific for current product type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function deleteProductSpecificData($product)
+    {
+        return $this;
+    }
 }

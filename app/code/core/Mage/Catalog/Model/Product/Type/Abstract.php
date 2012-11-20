@@ -96,6 +96,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     const OPTION_PREFIX = 'option_';
 
     /**
+     * Delete data specific for current product type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    abstract public function deleteProductSpecificData($product);
+
+    /**
      * Initialize data
      *
      * @param array $data

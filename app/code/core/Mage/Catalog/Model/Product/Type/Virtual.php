@@ -37,4 +37,15 @@ class Mage_Catalog_Model_Product_Type_Virtual extends Mage_Catalog_Model_Product
     {
         return false;
     }
+
+    /**
+     * Delete data specific for current product type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Virtual
+     */
+    public function deleteProductSpecificData($product)
+    {
+        return $this;
+    }
 }

@@ -464,4 +464,28 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     {
         return false;
     }
+
+    /**
+     * Delete data specific for current product type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Downloadable_Model_Product_Type
+     */
+    public function deleteProductSpecificData($product)
+    {
+        $downloadableData = $product->getDownloadableData();
+        if (!$product->hasDataChanges('type_id')
+            || $product->getOrigData('type_id') !== Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+        ) {
+            return $this;
+        }
+        foreach ($downloadableData as &$links) {
+            foreach ($links as &$linkDataArray) {
+                $linkDataArray['is_delete'] = '1';
+            }
+        }
+        $product->setDownloadableData($downloadableData);
+        $this->save($product);
+        return $this;
+    }
 }

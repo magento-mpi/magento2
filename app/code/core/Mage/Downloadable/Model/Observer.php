@@ -72,30 +72,10 @@ class Mage_Downloadable_Model_Observer
                     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
                 }
             } else {
-                $this->_deleteDownloadableData($product);
+                Mage::getSingleton('Mage_Downloadable_Model_Product_Type')->deleteProductSpecificData($product);
                 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * Delete downloadable product data during transition to another type
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Downloadable_Model_Observer
-     */
-    protected function _deleteDownloadableData($product)
-    {
-        $downloadableData = $product->getDownloadableData();
-        foreach ($downloadableData as &$links) {
-            foreach ($links as &$linkDataArray) {
-                $linkDataArray['is_delete'] = '1';
-            }
-        }
-        $product->setDownloadableData($downloadableData);
-        $product->getTypeInstance()->save($product);
         return $this;
     }
 
