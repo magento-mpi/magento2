@@ -233,7 +233,7 @@
                 <h3 class="box-title"><?php echo $this->__('Leave Comment') ?></h3>
                 <p class="box-content">
                     <?php echo $this->__('Comment Text') ?>
-                    <textarea id="rma_comment_text" style="height:6em;width:99%;" cols="5" rows="3" name="comment" class="required-entry"></textarea>
+                    <textarea id="rma_comment_text" style="height:6em;width:99%;" cols="5" rows="3" name="comment" data-validate="{required:true}"></textarea>
                 </p>
                 <div class="box-content buttons-set">
                     <button type="submit" class="button" id="submit.save"><span><span><?php echo $this->__('Submit Comment')?></span></span></button>
@@ -270,7 +270,20 @@
     </div>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var dataForm = new VarienForm('rma_comment', true);
-//]]>
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                $('#rma_comment').validation();
+                /**
+                 * Add focus on first form field
+                 * TODO : Not the ideal approach. Need to move below logic to a widget that
+                 * captures VarienForm's overall functionality.
+                 */
+                $(function() {
+                    $("#rma_comment :input:visible:enabled:first").focus();
+                });
+            });
+    })(jQuery);
 </script>
