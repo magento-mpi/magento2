@@ -718,9 +718,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 array('product' => $product, 'request' => $this->getRequest())
             );
 
-            $this->_transitionProductType($product, $data);
-            $product = $this->_initProductSave($product);
-
             try {
                 $originalSku = $product->getSku();
                 $product->save();
@@ -771,29 +768,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ));
         } else {
             $this->_redirect('*/*/', array('store'=>$storeId));
-        }
-    }
-
-    /**
-     * Change product type on the fly depending on selected options
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param array $data
-     */
-    protected function _transitionProductType($product, $data)
-    {
-        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-        $configurableType = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable');
-        $attributes = $configurableType->getUsedProductAttributeIds($product);
-        if (!empty($attributes)) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
-            return;
-        }
-
-        if (isset($data['product']['is_virtual'])) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
-        } else {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
     }
 
