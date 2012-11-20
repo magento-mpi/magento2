@@ -60,7 +60,7 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
     {
         $this->_blockMock->setData($data);
         $attributes = $this->_blockMock->getAttributesHtml();
-        //$this->assertRegExp($expect, $attributes);
+        $this->assertRegExp($expect, $attributes);
     }
 
     public function getAttributesHtmlDataProvider()
