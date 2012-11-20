@@ -140,36 +140,35 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         }
 
         if (!empty($result['children'])) {
-            usort($result['children'], array($this, 'compareBySortOrder'));
+            $result['children'] = $this->_getSortedBySortOrder($result['children']);
         }
 
         return $result;
     }
 
     /**
-     * Compare two arrays by "sortOrder" element
+     * Get array elements sorted by sortOrder key
      *
-     * @param array $firstItem
-     * @param array $secondItem
-     * @return int
+     * @param array $elements
+     * @return array
      */
-    public function compareBySortOrder($firstItem, $secondItem)
+    protected function _getSortedBySortOrder(array $elements)
     {
-        if (!isset($firstItem['sortOrder'])) {
-            return 1;
+        $sortable = array();
+        $unsortable = array();
+        foreach ($elements as $element) {
+            if (isset($element['sortOrder'])) {
+                $sortable[] = $element;
+            } else {
+                $unsortable[] = $element;
+            }
         }
-
-        if (!isset($secondItem['sortOrder'])) {
-            return -1;
-        }
-
-        if ($firstItem['sortOrder'] == $secondItem['sortOrder']) {
-            return 0;
-        } elseif ($firstItem['sortOrder'] < $secondItem['sortOrder']) {
-            return -1;
-        } else {
-            return 1;
-        }
+        usort($sortable, function ($firstItem, $secondItem) {
+            // To preserve the original order in the array, return 1 when $firstItem == $secondItem instead of 0
+            return $firstItem['sortOrder'] < $secondItem['sortOrder'] ? -1 : 1;
+        });
+        // Move un-sortable elements to the end of array to preserve their original order between each other
+        return array_merge($sortable, $unsortable);
     }
 
     /**

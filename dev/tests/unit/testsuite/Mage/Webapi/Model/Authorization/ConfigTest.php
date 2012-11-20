@@ -225,54 +225,59 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for method compareBySortOrder
+     * Test for method _getSortedBySortOrder
      *
-     * @dataProvider compareBySortOrderDataProvider
-     * @param array $itemOne
-     * @param array $itemTwo
-     * @param int $expectedResult
+     * @dataProvider getSortedBySortOrderDataProvider
+     * @param $originArray
+     * @param $sortedArray
      */
-    public function testCompareBySortOrder($itemOne, $itemTwo, $expectedResult)
+    public function testGetSortedBySortOrder($originArray, $sortedArray)
     {
-        $this->assertEquals($expectedResult, $this->_model->compareBySortOrder($itemOne, $itemTwo));
+        $methodReflection = new ReflectionMethod($this->_model, '_getSortedBySortOrder');
+        $methodReflection->setAccessible(true);
+        $this->assertEquals($sortedArray, $methodReflection->invoke($this->_model, $originArray));
     }
 
     /**
      * @return array
      */
-    public function compareBySortOrderDataProvider()
+    public function getSortedBySortOrderDataProvider()
     {
         return array(
-            '(1,1)=0' => array(
-                array('sortOrder' => 1),
-                array('sortOrder' => 1),
-                0
+            array(
+                array(
+                    array('name' => 'A', 'sortOrder' => 2),
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D', 'sortOrder' => 1),
+                    array('name' => 'E', 'sortOrder' => 0)
+                ),
+                array(
+                    array('name' => 'E', 'sortOrder' => 0),
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D', 'sortOrder' => 1),
+                    array('name' => 'A', 'sortOrder' => 2),
+                )
             ),
-            '(1,2)=-1' => array(
-                array('sortOrder' => 1),
-                array('sortOrder' => 2),
-                -1
-            ),
-            '(2,1)=1' => array(
-                array('sortOrder' => 2),
-                array('sortOrder' => 1),
-                1
-            ),
-            '(empty,1)=1' => array(
-                array(),
-                array('sortOrder' => 1),
-                1
-            ),
-            '(1,empty)=-1' => array(
-                array('sortOrder' => 1),
-                array(),
-                -1
-            ),
-            '(empty,empty)=1' => array(
-                array(),
-                array(),
-                1
-            ),
+            array(
+                array(
+                    array('name' => 'A'),
+                    array('name' => 'B'),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D'),
+                    array('name' => 'E'),
+                    array('name' => 'F', 'sortOrder' => -1)
+                ),
+                array(
+                    array('name' => 'F', 'sortOrder' => -1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'A'),
+                    array('name' => 'B'),
+                    array('name' => 'D'),
+                    array('name' => 'E'),
+                )
+            )
         );
     }
 }
