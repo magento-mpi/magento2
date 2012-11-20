@@ -7,4 +7,3 @@ app/code/core/Enterprise/Invitation/Model/Resource/Report
 app/code/core/Enterprise/Invitation/controllers/Adminhtml/Report
 app/code/core/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/core/Enterprise/SalesArchive/Model/Order
-
