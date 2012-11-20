@@ -3,19 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_ImportExport
+ * @package     Mage_ImportExport
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Mage_ImportExport_Model_Import_Entity_CustomerComposite
- *
- * This test is placed in Enterprise scope because it uses enterprise set of customer attributes,
- * and there is no simple solution to run this test separately for EE and CE
- */
-class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Attributes used in test assertions
@@ -23,6 +17,20 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
     const ATTRIBUTE_CODE_FIRST_NAME = 'firstname';
     const ATTRIBUTE_CODE_LAST_NAME  = 'lastname';
     /**#@-*/
+
+    /**#@+
+     * Source *.csv file names for different behaviors
+     */
+    const UPDATE_FILE_PATTERN = 'customer_composite_update.*?\.csv';
+    const DELETE_FILE_NAME    = 'customer_composite_delete.csv';
+    /**#@-*/
+
+    /**
+     * Object Manager instance
+     *
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
 
     /**
      * Composite customer entity adapter instance
@@ -76,11 +84,14 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
 
     protected function setUp()
     {
-        $this->_entityAdapter = Mage::getModel('Mage_ImportExport_Model_Import_Entity_CustomerComposite');
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_entityAdapter = $this->_objectManager
+            ->create('Mage_ImportExport_Model_Import_Entity_CustomerComposite');
     }
 
     protected function tearDown()
     {
+        unset($this->_objectManager);
         unset($this->_entityAdapter);
     }
 
@@ -92,7 +103,7 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
     protected function _assertCustomerData(array $expectedData)
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        $collection = $this->_objectManager->create('Mage_Customer_Model_Resource_Customer_Collection');
         $collection->addAttributeToSelect($this->_customerAttributes);
         $customers = $collection->getItems();
 
@@ -171,20 +182,39 @@ class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends 
      */
     public function importDataDataProvider()
     {
-        return array(
-            'add_update_behavior' => array(
-                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
-                '$sourceFile' => __DIR__ . '/_files/customer_composite_update.csv',
-                '$dataBefore' => $this->_beforeImport,
-                '$dataAfter'  => $this->_afterImport,
-                '$errors'     => array(array(6)),     // row #6 has no website
-            ),
+        $filesDirectory    = __DIR__ . '/_files/';
+        $sourceData = array(
             'delete_behavior' => array(
                 '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
-                '$sourceFile' => __DIR__ . '/_files/customer_composite_delete.csv',
+                '$sourceFile' => $filesDirectory. self::DELETE_FILE_NAME,
                 '$dataBefore' => $this->_beforeImport,
                 '$dataAfter'  => array(),
             ),
         );
+
+        $directoryIterator = new DirectoryIterator($filesDirectory);
+        $iteratorIterator  = new IteratorIterator($directoryIterator);
+        $regexIterator     = new RegexIterator(
+            $iteratorIterator, '/' . self::UPDATE_FILE_PATTERN . '/i', RegexIterator::GET_MATCH
+        );
+
+        // get last matched update file
+        $updateFiles = array();
+        foreach ($regexIterator as $fileInfo) {
+            $updateFiles[] = $fileInfo[0];
+        }
+        if ($updateFiles) {
+            sort($updateFiles);
+            $updateFileName = end($updateFiles);
+            $sourceData['add_update_behavior'] = array(
+                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$sourceFile' => $filesDirectory . $updateFileName,
+                '$dataBefore' => $this->_beforeImport,
+                '$dataAfter'  => $this->_afterImport,
+                '$errors'     => array(array(6)),     // row #6 has no website
+            );
+        }
+
+        return $sourceData;
     }
 }

@@ -7,7 +7,6 @@
 * Dependency injection:
   * Reduced memory leaks of integration tests caused by introduction of object manager
   * Added compiler for dependency injection definitions and ability to run Magento application with the compiled definitions
-  * Implemented CLI tool that generates class proxies and factories for DI
 * `Mage_Adminhtml` breakdown:
   * Implemented XML-schema for system configuration form declaration files (`etc/system.xml` in each module), refactored them to comply with schema and relocated to `etc/adminhtml/system.xml`
   * Removed remnants of `Mage_Admin` module (replaced with `Mage_Backend` and others)
@@ -19,10 +18,11 @@
   * Fatal error on Product Tags and Customers Tagged Product (on product editing page in backend)
   * Trailing space in date caused by new "date picker" JavaScript component
   * Impossibility to add product to an order in backend in IE8
-  * Not picking a template in customer "Shopping Cart" page at the backend
+  * Not picking a template on customer "Shopping Cart" page at the backend
   * "Use Default" checkbox is checked again after saving multiselect attribute config if option does not contain value
   * "Single Store Mode" UI fixes
   * Runtime error when previewing transactional email template
+  * Incorrect redirect after applying filter in grids
   * Various asynchronous placement of profiler keys
   * Various fixes in Taxes backend UI
   * Various fixes in translation literals

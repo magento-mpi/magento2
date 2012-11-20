@@ -36,6 +36,7 @@ dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
+dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update_reward.csv
 dev/tests/integration/testsuite/Theme
 dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
