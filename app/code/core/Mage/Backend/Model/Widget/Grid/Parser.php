@@ -29,8 +29,8 @@ class Mage_Backend_Model_Widget_Grid_Parser
 
         foreach ($this->_operations as $operation) {
             if (strpos($expression, $operation) !== false) {
-                list($operand1, $operand2) = explode($operation, $expression);
-                $stack = array($operand1, $operand2, $operation);
+                list($firstOperand, $secondOperand) = explode($operation, $expression);
+                $stack = array($firstOperand, $secondOperand, $operation);
                 break;
             }
         }

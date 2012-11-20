@@ -15,7 +15,7 @@ class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget
      *
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _countSum($index, $collection)
     {
@@ -31,10 +31,11 @@ class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget
      *
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _countAverage($index, $collection)
     {
-        return $this->_countSum($index, $collection) / count($collection);
+        $numItems = count($collection);
+        return ($numItems)? $this->_countSum($index, $collection) / $numItems : $numItems;
     }
 }

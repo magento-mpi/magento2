@@ -39,9 +39,9 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
     /**
      * @param Mage_Backend_Model_Widget_Grid_Parser $parser
      */
-    public function __construct(Mage_Backend_Model_Widget_Grid_Parser $parser = null)
+    public function __construct(Mage_Backend_Model_Widget_Grid_Parser $parser)
     {
-        $this->_parser = ($parser)? $parser : new Mage_Backend_Model_Widget_Grid_Parser();
+        $this->_parser = $parser;
     }
 
     /**
@@ -49,10 +49,12 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      *
      * @param $index
      * @param $totalExpr
+     * @return Mage_Backend_Model_Widget_Grid_Totals_Abstract
      */
     public function setColumn($index, $totalExpr)
     {
         $this->_columns[$index] = $totalExpr;
+        return $this;
     }
 
     /**
@@ -67,6 +69,16 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
             $this->_count($index, $expr, $collection);
         }
 
+        return $this->getTotals();
+    }
+
+    /**
+     * Get totals as object
+     *
+     * @return Varien_Object
+     */
+    public function getTotals()
+    {
         return new Varien_Object($this->_totals);
     }
 
@@ -76,7 +88,7 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      * @param $index
      * @param $expr
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _count($index, $expr, $collection)
     {
@@ -102,7 +114,7 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      * @abstract
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     abstract protected function _countSum($index, $collection);
 
@@ -112,7 +124,7 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      * @abstract
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     abstract protected function _countAverage($index, $collection);
 
@@ -121,32 +133,28 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      *
      * @param $expr
      * @param $collection Varien_Data_Collection
-     * @return float|int|mixed
+     * @return float|int
      */
     protected function _countExpr($expr, $collection)
     {
-        list ($t1, $t2, $t3) = $this->_parser->parseExpression($expr);
+        list ($firstOperand, $secondOperand, $operation) = $this->_parser->parseExpression($expr);
 
-        $t1 = $this->_checkOperand($t1, $collection);
-        $t2 = $this->_checkOperand($t2, $collection);
+        $firstOperand = $this->_checkOperand($firstOperand, $collection);
+        $secondOperand = $this->_checkOperand($secondOperand, $collection);
 
         $result = 0;
-        switch ($t3) {
+        switch ($operation) {
             case '+':
-                $result = $t1 + $t2;
+                $result = $firstOperand + $secondOperand;
                 break;
             case '-':
-                $result = $t1 - $t2;
+                $result = $firstOperand - $secondOperand;
                 break;
             case '*':
-                $result = $t1 * $t2;
+                $result = $firstOperand * $secondOperand;
                 break;
             case '/':
-                if ($t2 == 0) {
-                    $result = 0;
-                } else {
-                    $result = $t1 / $t2;
-                }
+                $result = ($secondOperand) ? $firstOperand / $secondOperand : $secondOperand;
                 break;
         }
 
@@ -158,7 +166,7 @@ abstract class Mage_Backend_Model_Widget_Grid_Totals_Abstract
      *
      * @param $operand
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _checkOperand($operand, $collection)
     {

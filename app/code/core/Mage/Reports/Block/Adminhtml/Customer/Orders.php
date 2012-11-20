@@ -18,6 +18,11 @@
 
 class Mage_Reports_Block_Adminhtml_Customer_Orders extends Mage_Backend_Block_Widget_Grid_Container
 {
+    /**
+     * Define children block group
+     *
+     * @var string
+     */
     protected $_blockGroup = 'Mage_Reports';
 
     protected function _construct()

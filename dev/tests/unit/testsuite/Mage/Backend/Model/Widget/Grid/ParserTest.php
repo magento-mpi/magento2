@@ -39,19 +39,19 @@ class Mage_Backend_Model_Widget_Grid_ParserTest extends PHPUnit_Framework_TestCa
         return array(
             array(
                 '1+2',
-                array( '1', '2', '+')
+                array('1', '2', '+')
             ),
             array(
                 '1-2',
-                array( '1', '2', '-')
+                array('1', '2', '-')
             ),
             array(
                 '1*2',
-                array( '1', '2', '*')
+                array('1', '2', '*')
             ),
             array(
                 '1/2',
-                array( '1', '2', '/')
+                array('1', '2', '/')
             )
         );
     }

@@ -19,5 +19,10 @@
 class Mage_Reports_Model_Resource_Customer_Orders_Collection_Initial
     extends Mage_Reports_Model_Resource_Report_Collection
 {
+    /**
+     * Set the resource report collection class
+     *
+     * @var string
+     */
     protected $_reportCollection = 'Mage_Reports_Model_Resource_Customer_Orders_Collection';
 }

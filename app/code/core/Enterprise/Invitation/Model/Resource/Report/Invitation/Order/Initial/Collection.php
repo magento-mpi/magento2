@@ -19,5 +19,9 @@
 class Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection
     extends Mage_Reports_Model_Resource_Report_Collection
 {
+    /*
+     * Report sub-collection class name
+     * @var string
+     */
     protected $_reportCollection = 'Enterprise_Invitation_Model_Resource_Report_Invitation_Order_Collection';
 }

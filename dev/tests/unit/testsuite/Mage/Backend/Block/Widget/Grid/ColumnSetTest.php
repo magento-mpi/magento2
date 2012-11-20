@@ -59,7 +59,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         $this->_layoutMock
             ->expects($this->any())
             ->method('getChildBlocks')
-            ->will($this->returnValue(array($this->_columnMock)));
+            ->will($this->returnValue(array('column' => $this->_columnMock)));
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $this->_helperMock
             ->expects($this->any())
@@ -84,8 +84,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             'totals' => $this->_totalsMock,
             'subtotals' => $this->_subtotalsMock
         );
-
-
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_ColumnSet', $arguments);
@@ -288,5 +286,67 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
         $this->_block->updateItemByFirstMultiRow($item);
         $this->assertEquals($expectedItem, $item);
+    }
+
+    public function testGetSubTotals()
+    {
+        // prepare sub-collection
+        $subCollection = new Varien_Data_Collection();
+        $subCollection->addItem(new Varien_Object(array('column' => '1')));
+        $subCollection->addItem(new Varien_Object(array('column' => '1')));
+
+        $this->_subtotalsMock->expects($this->once())
+            ->method('countTotals')
+            ->with($subCollection)
+            ->will($this->returnValue(new Varien_Object(array('column' => '2'))));
+
+        // prepare item
+        $item =  new Varien_Object(array('test1' => '1'));
+        $item->setChildren($subCollection);
+
+        $this->assertEquals(
+            new Varien_Object(array('column' => '2')),
+            $this->_block->getSubTotals($item)
+        );
+    }
+
+    public function testGetTotals()
+    {
+        // prepare collection
+        $collection = new Varien_Data_Collection();
+        $items = array(
+            new Varien_Object(array('test1' => '1', 'test2' => '2')),
+            new Varien_Object(array('test1' => '1', 'test2' => '2')),
+            new Varien_Object(array('test1' => '1', 'test2' => '2'))
+        );
+        foreach ($items as $item) {
+            $collection->addItem($item);
+        }
+
+        // prepare block grid
+        $gridMock = $this->getMock('Mage_Backend_Model_Widget_Grid', array('getCollection'), array(), '', true);
+        $gridMock->expects($this->any())
+            ->method('getCollection')
+            ->will($this->returnValue($collection));
+
+        // get parent block - grid
+        $this->_layoutMock->expects($this->any())
+            ->method('getParentName')
+            ->with('grid.columnSet')
+            ->will($this->returnValue('grid'));
+        $this->_layoutMock->expects($this->any())
+            ->method('getBlock')
+            ->with('grid')
+            ->will($this->returnValue($gridMock));
+
+        $this->_totalsMock->expects($this->once())
+            ->method('countTotals')
+            ->with($collection)
+            ->will($this->returnValue(new Varien_Object(array('test1' => '3', 'test2' => '2'))));
+
+        $this->assertEquals(
+            new Varien_Object(array('test1' => '3', 'test2' => '2')),
+            $this->_block->getTotals()
+        );
     }
 }

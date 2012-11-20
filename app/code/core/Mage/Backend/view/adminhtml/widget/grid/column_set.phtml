@@ -72,7 +72,7 @@ $numColumns = sizeof($this->getColumns());
 
                 <?php if ($this->shouldRenderSubTotal($_item)): ?>
                     <tr class="subtotals">
-                        <?php $i = 0; foreach ($this->getSubTotalColumns() as $_column): ?>
+                        <?php $i = 0; foreach ($this->getMultipleRowColumns() as $_column): ?>
                             <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
                                 <?php echo ($_column->hasSubtotalsLabel() ? $_column->getSubtotalsLabel() :
                                 $_column->getRowField($this->getSubTotals($_item))

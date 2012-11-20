@@ -49,17 +49,6 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
         unset($this->_parserMock);
     }
 
-    public function testColumns()
-    {
-        $expected = array(
-            'sub_test1' => 'sum',
-            'sub_test2' => 'avg',
-            'sub_test3' => 'sub_test1+sub_test2'
-        );
-
-        $this->assertEquals($expected, $this->_model->getColumns());
-    }
-
     public function testCountTotals()
     {
         // prepare collection

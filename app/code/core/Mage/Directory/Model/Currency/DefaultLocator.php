@@ -38,10 +38,10 @@ class Mage_Directory_Model_Currency_DefaultLocator
         if ($request->getParam('store')) {
             $store = $request->getParam('store');
             $currencyCode = $this->_app->getStore($store)->getBaseCurrencyCode();
-        } else if ($request->getParam('website')){
+        } else if ($request->getParam('website')) {
             $website = $request->getParam('website');
             $currencyCode = $this->_app->getWebsite($website)->getBaseCurrencyCode();
-        } else if ($request->getParam('group')){
+        } else if ($request->getParam('group')) {
             $group = $request->getParam('group');
             $currencyCode =  $this->_app->getGroup($group)->getWebsite()->getBaseCurrencyCode();
         } else {

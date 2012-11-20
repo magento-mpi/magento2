@@ -89,14 +89,14 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
     /**
      * Set interval
      *
-     * @param int $from
-     * @param int $to
+     * @param int $fromDate
+     * @param int $toDate
      * @return Mage_Reports_Model_Resource_Report_Collection
      */
-    public function setInterval($from, $to)
+    public function setInterval($fromDate, $toDate)
     {
-        $this->_from = $from;
-        $this->_to   = $to;
+        $this->_from = $fromDate;
+        $this->_to   = $toDate;
 
         return $this;
     }
@@ -116,60 +116,104 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
             $dateStart  = new Zend_Date($this->_from);
             $dateEnd    = new Zend_Date($this->_to);
 
-
-            $t = array();
+            $interval = array();
             $firstInterval = true;
             while ($dateStart->compare($dateEnd) <= 0) {
 
                 switch ($this->_period) {
                     case 'day':
-                        $t['period'] = $dateStart->toString(Mage::app()->getLocale()->getDateFormat());
-                        $t['start'] = $dateStart->toString('yyyy-MM-dd HH:mm:ss');
-                        $t['end'] = $dateStart->toString('yyyy-MM-dd 23:59:59');
+                        $interval = $this->_getDayInterval($dateStart);
                         $dateStart->addDay(1);
                         break;
                     case 'month':
-                        $t['period'] =  $dateStart->toString('MM/yyyy');
-                        $t['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
-                            : $dateStart->toString('yyyy-MM-01 00:00:00');
-
-                        $lastInterval = ($dateStart->compareMonth($dateEnd->getMonth()) == 0);
-
-                        $t['end'] = ($lastInterval) ? $dateStart->setDay($dateEnd->getDay())
-                            ->toString('yyyy-MM-dd 23:59:59')
-                            : $dateStart->toString('yyyy-MM-'.date('t', $dateStart->getTimestamp()).' 23:59:59');
-
-                        $dateStart->addMonth(1);
-
-                        if ($dateStart->compareMonth($dateEnd->getMonth()) == 0) {
-                            $dateStart->setDay(1);
-                        }
-
+                        $interval = $this->_getMonthInterval($dateStart, $dateEnd, $firstInterval);
                         $firstInterval = false;
                         break;
                     case 'year':
-                        $t['period'] =  $dateStart->toString('yyyy');
-                        $t['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
-                            : $dateStart->toString('yyyy-01-01 00:00:00');
-
-                        $lastInterval = ($dateStart->compareYear($dateEnd->getYear()) == 0);
-
-                        $t['end'] = ($lastInterval) ? $dateStart->setMonth($dateEnd->getMonth())
-                            ->setDay($dateEnd->getDay())->toString('yyyy-MM-dd 23:59:59')
-                            : $dateStart->toString('yyyy-12-31 23:59:59');
-                        $dateStart->addYear(1);
-
-                        if ($dateStart->compareYear($dateEnd->getYear()) == 0) {
-                            $dateStart->setMonth(1)->setDay(1);
-                        }
-
+                        $interval = $this->_getYearInterval($dateStart, $dateEnd, $firstInterval);
                         $firstInterval = false;
                         break;
                 }
-                $this->_intervals[$t['period']] = new Varien_Object($t);
+                $this->_intervals[$interval['period']] = new Varien_Object($interval);
             }
         }
         return  $this->_intervals;
+    }
+
+    /**
+     * Get interval for a day
+     *
+     * @param Zend_Date $dateStart
+     * @return array
+     */
+    protected function _getDayInterval(Zend_Date $dateStart)
+    {
+        $interval = array(
+                'period' => $dateStart->toString(Mage::app()->getLocale()->getDateFormat()),
+                'start'  => $dateStart->toString('yyyy-MM-dd HH:mm:ss'),
+                'end'    => $dateStart->toString('yyyy-MM-dd 23:59:59')
+            );
+        $dateStart->addDay(1);
+        return $interval;
+    }
+
+    /**
+     * Get interval for a month
+     *
+     * @param Zend_Date $dateStart
+     * @param Zend_Date $dateEnd
+     * @param bool $firstInterval
+     * @return array
+     */
+    protected function _getMonthInterval(Zend_Date $dateStart, Zend_Date $dateEnd, $firstInterval)
+    {
+        $interval = array();
+        $interval['period'] =  $dateStart->toString('MM/yyyy');
+        $interval['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
+            : $dateStart->toString('yyyy-MM-01 00:00:00');
+
+        $lastInterval = ($dateStart->compareMonth($dateEnd->getMonth()) == 0);
+
+        $interval['end'] = ($lastInterval) ? $dateStart->setDay($dateEnd->getDay())
+            ->toString('yyyy-MM-dd 23:59:59')
+            : $dateStart->toString('yyyy-MM-'.date('t', $dateStart->getTimestamp()).' 23:59:59');
+
+        $dateStart->addMonth(1);
+
+        if ($dateStart->compareMonth($dateEnd->getMonth()) == 0) {
+            $dateStart->setDay(1);
+        }
+
+        return $interval;
+    }
+
+    /**
+     * Get Interval for a year
+     *
+     * @param Zend_Date $dateStart
+     * @param Zend_Date $dateEnd
+     * @param bool $firstInterval
+     * @return array
+     */
+    protected function _getYearInterval(Zend_Date $dateStart, Zend_Date $dateEnd, $firstInterval)
+    {
+        $interval = array();
+        $interval['period'] =  $dateStart->toString('yyyy');
+        $interval['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
+            : $dateStart->toString('yyyy-01-01 00:00:00');
+
+        $lastInterval = ($dateStart->compareYear($dateEnd->getYear()) == 0);
+
+        $interval['end'] = ($lastInterval) ? $dateStart->setMonth($dateEnd->getMonth())
+            ->setDay($dateEnd->getDay())->toString('yyyy-MM-dd 23:59:59')
+            : $dateStart->toString('yyyy-12-31 23:59:59');
+        $dateStart->addYear(1);
+
+        if ($dateStart->compareYear($dateEnd->getYear()) == 0) {
+            $dateStart->setMonth(1)->setDay(1);
+        }
+
+        return $interval;
     }
 
     /**
@@ -243,23 +287,23 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
     /**
      * get report full
      *
-     * @param int $from
-     * @param int $to
+     * @param int $fromDate
+     * @param int $toDate
      * @return unknown
      */
-    public function getReportFull($from, $to)
+    public function getReportFull($fromDate, $toDate)
     {
-        return $this->_model->getReportFull($this->timeShift($from), $this->timeShift($to));
+        return $this->_model->getReportFull($this->timeShift($fromDate), $this->timeShift($toDate));
     }
 
     /**
      * Get report for some interval
      *
-     * @param int $from
-     * @param int $to
+     * @param int $fromDate
+     * @param int $toDate
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    protected function _getReport($from, $to)
+    protected function _getReport($fromDate, $toDate)
     {
         if ($this->_reportCollection === null) {
             return array();
@@ -267,7 +311,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
         $collectionClass = $this->_reportCollection;
         $reportResource = new $collectionClass();
         $reportResource
-            ->setDateRange($this->timeShift($from), $this->timeShift($to))
+            ->setDateRange($this->timeShift($fromDate), $this->timeShift($toDate))
             ->setStoreIds($this->getStoreIds());
         return $reportResource;
 
@@ -315,6 +359,8 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      * @param bool $printQuery
      * @param bool $logQuery
      * @return Mage_Reports_Model_Resource_Report_Collection|Varien_Data_Collection
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

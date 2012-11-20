@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Report
+ * @package     Mage_Reports
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Report_WidgetTest extends PHPUnit_Framework_TestCase
+class Mage_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
 {
     public function testViewedProductsWidget()
     {

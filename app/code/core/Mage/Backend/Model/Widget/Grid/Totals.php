@@ -15,7 +15,7 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
      *
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _countSum($index, $collection)
     {
@@ -36,7 +36,7 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
      *
      * @param $index
      * @param $collection
-     * @return mixed
+     * @return float|int
      */
     protected function _countAverage($index, $collection)
     {
@@ -49,7 +49,7 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
             }
         }
 
-        return $this->_countSum($index, $collection) / $numRows;
+        return ($numRows)? $this->_countSum($index, $collection) / $numRows : $numRows;
     }
 
 }

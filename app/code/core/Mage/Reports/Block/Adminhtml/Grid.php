@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,26 +13,61 @@
  *
  * @category   Mage
  * @package    Mage_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 {
+    /**
+     * Should Store Switcher block be visible
+     *
+     * @var bool
+     */
     protected $_storeSwitcherVisibility = true;
 
+    /**
+     * Should Date Filter block be visible
+     *
+     * @var bool
+     */
     protected $_dateFilterVisibility = true;
 
+    /**
+     * Filters array
+     *
+     * @var array
+     */
     protected $_filters = array();
 
+    /**
+     * Default filters values
+     *
+     * @var array
+     */
     protected $_defaultFilters = array(
             'report_from' => '',
             'report_to' => '',
             'report_period' => 'day'
         );
 
+    /**
+     * Sub-report rows count
+     *
+     * @var int
+     */
     protected $_subReportSize = 5;
 
+    /**
+     * Errors messages aggregated array
+     *
+     * @var array
+     */
     protected $_errors = array();
 
+    /**
+     * Block template file name
+     *
+     * @var string
+     */
     protected $_template = 'Mage_Reports::grid.phtml';
 
     /**
@@ -49,6 +84,11 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected $_locale;
 
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return Mage_Backend_Block_Widget_Grid|Mage_Reports_Block_Adminhtml_Grid
+     */
     protected function _prepareCollection()
     {
         $filter = $this->getParam($this->getVarNameFilter(), null);
@@ -64,7 +104,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
 
             if (!isset($data['report_from'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date(mktime(0,0,0,1,1,2001));
+                $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
                 $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
             }
 
@@ -116,6 +156,8 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     }
 
     /**
+     * Get allowed stores
+     *
      * @return array
      */
     protected function _getAllowedStoreIds()
@@ -146,6 +188,12 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $storeIds;
     }
 
+    /**
+     * Set filter values
+     *
+     * @param mixed $data
+     * @return Mage_Backend_Block_Widget_Grid|Mage_Reports_Block_Adminhtml_Grid
+     */
     protected function _setFilterValues($data)
     {
         foreach ($data as $name => $value) {
@@ -214,11 +262,21 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->getChildHtml('date_filter');
     }
 
+    /**
+     * Get periods
+     *
+     * @return mixed
+     */
     public function getPeriods()
     {
         return $this->getCollection()->getPeriods();
     }
 
+    /**
+     * Get date format according the locale
+     *
+     * @return string
+     */
     public function getDateFormat()
     {
         return $this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
@@ -232,6 +290,12 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         return $this->getChildHtml('refresh_button');
     }
 
+    /**
+     * Set filter
+     *
+     * @param $name
+     * @param $value
+     */
     public function setFilter($name, $value)
     {
         if ($name) {
@@ -239,6 +303,12 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         }
     }
 
+    /**
+     * Get filter by key
+     *
+     * @param $name
+     * @return string
+     */
     public function getFilter($name)
     {
         if (isset($this->_filters[$name])) {
@@ -249,11 +319,21 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
         }
     }
 
+    /**
+     * Set sub-report rows count
+     *
+     * @param $size
+     */
     public function setSubReportSize($size)
     {
         $this->_subReportSize = $size;
     }
 
+    /**
+     * Return sub-report rows count
+     *
+     * @return int
+     */
     public function getSubReportSize()
     {
         return $this->_subReportSize;
@@ -293,5 +373,4 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
             'class'     => 'task'
         ));
     }
-
 }

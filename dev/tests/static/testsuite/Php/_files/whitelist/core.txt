@@ -18,6 +18,7 @@ app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
 app/code/core/Mage/Backend/controllers/Adminhtml/SystemController.php
 app/code/core/Mage/Backend/controllers/Adminhtml/System/SystemController.php
+app/code/core/Mage/Backend/Model/Widget/Grid
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Form/Element/Image.php
 app/code/core/Mage/Core/Block/Adminhtml/System/Design/Theme/Edit/Tab/General.php
@@ -44,6 +45,7 @@ app/code/core/Mage/Core/Model/Resource/Theme.php
 app/code/core/Mage/Core/Model/Theme/Validator.php
 app/code/core/Mage/Core/Model/Theme.php
 app/code/core/Mage/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
+app/code/core/Mage/Directory/Model/Currency/DefaultLocator.php
 app/code/core/Mage/DesignEditor
 app/code/core/Mage/Core/Model/Layout/Argument
 app/code/core/Mage/ImportExport/Model/Import/Entity/CustomerComposite.php
@@ -59,6 +61,7 @@ app/code/core/Mage/Reports/Block/Adminhtml/Customer
 app/code/core/Mage/Reports/Block/Adminhtml/Product
 app/code/core/Mage/Reports/Model/Resource/Accounts
 app/code/core/Mage/Reports/Model/Resource/Customer
+app/code/core/Mage/Reports/Model/Resource/Report/Collection.php
 app/code/core/Mage/Rss/Controller/AdminhtmlAbstract.php
 app/code/core/Mage/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
 app/code/core/Mage/Tag/Block/Catalog/Product/Rss/Link.php

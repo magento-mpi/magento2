@@ -17,5 +17,5 @@ interface Mage_Backend_Model_Widget_Grid_Totals_Interface
      * @param $collection
      * @return Varien_Object
      */
-    function countTotals($collection);
+    public function countTotals($collection);
 }

@@ -401,16 +401,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve columns to render
-     *
-     * @return array
-     */
-    public function getSubTotalColumns()
-    {
-        return $this->getMultipleRowColumns();
-    }
-
-    /**
      * Check whether should render cell
      *
      * @param Varien_Object $item
