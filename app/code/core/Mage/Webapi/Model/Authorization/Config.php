@@ -155,16 +155,12 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
      */
     public function compareBySortOrder($firstItem, $secondItem)
     {
-        if (!isset($firstItem['sortOrder']) && isset($secondItem['sortOrder'])) {
+        if (!isset($firstItem['sortOrder'])) {
             return 1;
         }
 
-        if (isset($firstItem['sortOrder']) && !isset($secondItem['sortOrder'])) {
+        if (!isset($secondItem['sortOrder'])) {
             return -1;
-        }
-
-        if (!isset($secondItem['sortOrder']) && !isset($firstItem['sortOrder'])) {
-            return 1;
         }
 
         if ($firstItem['sortOrder'] == $secondItem['sortOrder']) {
