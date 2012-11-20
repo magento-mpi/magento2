@@ -77,7 +77,7 @@ class Mage_Core_Model_Theme_Registration
             $this->_registerThemeRecursively($theme);
         }
 
-        $this->_setSelectedThemes($this->_getDefaultThemes());
+        $this->registerDefaultThemes();
 
         /** @var $dbCollection Mage_Core_Model_Resource_Theme_Collection */
         $dbCollection = $this->getThemeModel()->getResourceCollection();
@@ -115,7 +115,6 @@ class Mage_Core_Model_Theme_Registration
         if ($parentTheme) {
             $this->_registerThemeRecursively($parentTheme, $inheritanceChain);
             $theme->setParentId($parentTheme->getId());
-
         }
 
         $theme->savePreviewImage()->save();
@@ -146,14 +145,15 @@ class Mage_Core_Model_Theme_Registration
     /**
      * Set default themes stored in configuration
      *
-     * @param array $themesByArea
      * @return Mage_Core_Model_Theme_Registration
      */
-    protected function _setSelectedThemes(array $themesByArea)
+    public function registerDefaultThemes()
     {
         /** @var $theme Mage_Core_Model_Theme */
-        foreach ($themesByArea as $area => $theme) {
-            Mage::app()->getConfig()->saveConfig($this->_getDesign()->getConfigPathByArea($area), $theme->getId());
+        foreach ($this->_getDefaultThemes() as $area => $theme) {
+            if ($theme->getId()) {
+                Mage::app()->getConfig()->saveConfig($this->_getDesign()->getConfigPathByArea($area), $theme->getId());
+            }
         }
         return $this;
     }
