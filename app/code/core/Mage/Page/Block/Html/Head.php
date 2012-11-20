@@ -209,7 +209,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= sprintf($pattern, $params, $url);
             }
         } catch (Magento_Exception $e) {
-            $html .= sprintf($pattern, $params, $this->_getFileMissedUrl());
+            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
         }
         return $html;
     }
@@ -230,7 +230,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= sprintf($pattern, $params, $url);
             }
         } catch (Magento_Exception $e) {
-            $html .= sprintf($pattern, $params, $this->_getFileMissedUrl());
+            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
         }
         return $html;
     }
@@ -350,7 +350,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
-     * Get miscellanious scripts/styles to be included in head before head closing tag
+     * Get miscellaneous scripts/styles to be included in head before head closing tag
      *
      * @return string
      */

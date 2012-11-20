@@ -11,10 +11,10 @@
 
 class Mage_Core_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testFileMissedAction()
+    public function testNotFoundAction()
     {
-        $this->dispatch('core/index/fileMissed');
+        $this->dispatch('core/index/notfound');
         $this->assertEquals('404', $this->getResponse()->getHttpResponseCode());
-        $this->assertEquals('Requested view file not found', $this->getResponse()->getBody());
+        $this->assertEquals('Requested resource not found', $this->getResponse()->getBody());
     }
 }

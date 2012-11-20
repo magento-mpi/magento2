@@ -628,7 +628,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
          * Check framing options
          */
         if ($this->_frameOpenTag) {
-            $html = '<'.$this->_frameOpenTag.'>'.$html.'<'.$this->_frameCloseTag.'>';
+            $html = '<' . $this->_frameOpenTag . '>' . $html . '<' . $this->_frameCloseTag . '>';
         }
 
         return $html;
@@ -663,7 +663,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUiId()
     {
-        return ' data-ui-id="' . call_user_func_array(array($this, 'getJsId'), func_get_args()). '" ';
+        return ' data-ui-id="' . call_user_func_array(array($this, 'getJsId'), func_get_args()) . '" ';
     }
 
     /**
@@ -728,18 +728,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             return Mage::getDesign()->getViewFileUrl($file, $params);
         } catch (Magento_Exception $e) {
             Mage::logException($e);
-            return $this->_getFileMissedUrl();
+            return $this->_getNotFoundUrl();
         }
     }
 
     /**
-     * Get 404 file missed url
+     * Get 404 file not found url
      *
      * @param string $route
      * @param array $params
      * @return string
      */
-    protected function _getFileMissedUrl($route = '', $params = array('_direct' => 'core/index/filemissed'))
+    protected function _getNotFoundUrl($route = '', $params = array('_direct' => 'core/index/notfound'))
     {
         return $this->getUrl($route, $params);
     }

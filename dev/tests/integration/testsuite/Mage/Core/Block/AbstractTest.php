@@ -470,7 +470,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
          * File is not exist
          */
         $this->assertStringEndsWith(
-            '/core/index/filemissed', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.lol')
+            '/core/index/notfound', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.xyz')
         );
     }
 
