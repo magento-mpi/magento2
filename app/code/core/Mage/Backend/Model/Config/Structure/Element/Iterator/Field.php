@@ -25,6 +25,10 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator_Field
      */
     protected $_fieldFlyweight;
 
+    /**
+     * @param Mage_Backend_Model_Config_Structure_Element_Group $groupFlyweight
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $fieldFlyweight
+     */
     public function __construct(
         Mage_Backend_Model_Config_Structure_Element_Group $groupFlyweight,
         Mage_Backend_Model_Config_Structure_Element_Field $fieldFlyweight
@@ -41,10 +45,10 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator_Field
      */
     protected function _initFlyweight(array $element)
     {
-        if (!isset($element['_elementType'])) {
+        if (!isset($element[Mage_Backend_Model_Config_Structure::TYPE_KEY])) {
             throw new LogicException('System config structure element must contain "type" attribute');
         }
-        switch($element['_elementType']) {
+        switch($element[Mage_Backend_Model_Config_Structure::TYPE_KEY]) {
             case 'group':
                 $this->_flyweight = $this->_groupFlyweight;
                 break;

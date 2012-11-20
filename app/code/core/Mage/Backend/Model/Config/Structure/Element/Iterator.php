@@ -13,7 +13,7 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     /**
      * List of element data
      *
-     * @var array
+     * @var Mage_Backend_Model_Config_Structure_ElementInterface[]
      */
     protected $_elements;
 
@@ -116,27 +116,5 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
                 $this->next();
             }
         }
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Returns if an iterator can be created for the current entry.
-     * @link http://php.net/manual/en/recursiveiterator.haschildren.php
-     * @return bool true if the current entry can be iterated over, otherwise returns false.
-     */
-    public function hasChildren()
-    {
-        return $this->current()->hasChildren();
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Returns an iterator for the current entry.
-     * @link http://php.net/manual/en/recursiveiterator.getchildren.php
-     * @return RecursiveIterator An iterator for the current entry.
-     */
-    public function getChildren()
-    {
-        return $this->current()->getChildren();
     }
 }
