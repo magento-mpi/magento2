@@ -13,7 +13,7 @@ DaterangeTest.prototype.testInit = function() {
      */
     var dateRange = jQuery('#date-range').dateRange();
     assertEquals(true, dateRange.is(':mage-dateRange'));
-    dateRange.calendar('destroy');
+    dateRange.dateRange('destroy');
 };
 DaterangeTest.prototype.testInitDateRangeDatepickers = function() {
     /*:DOC +=
