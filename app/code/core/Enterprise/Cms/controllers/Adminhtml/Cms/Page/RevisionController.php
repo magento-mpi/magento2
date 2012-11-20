@@ -315,6 +315,9 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 Mage::getDesign()->setDesignTheme($designChange->getDesign());
             }
 
+            // add handles used to render cms page on frontend
+            $this->getLayout()->getUpdate()->addHandle('default');
+            $this->getLayout()->getUpdate()->addHandle('cms_page_view');
             Mage::helper('Mage_Cms_Helper_Page')->renderPageExtended($this);
             Mage::app()->getLocale()->revert();
 

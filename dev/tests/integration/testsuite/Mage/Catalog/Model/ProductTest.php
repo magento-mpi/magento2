@@ -50,6 +50,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
     public function testCRUD()

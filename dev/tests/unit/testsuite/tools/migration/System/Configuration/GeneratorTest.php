@@ -59,12 +59,12 @@ class Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framewo
     {
         $dom = new DOMDocument();
         $dom->loadXML(
-            preg_replace('/\n|\s{4}/', '',
-                preg_replace('/\/\*[^\/]*\*\//', 'comment',
-                    file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml')
-                )
-            )
+            preg_replace('/\n|\s{4}/', '', file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
         );
+        $stripComments = new DOMXPath($dom);
+        foreach ($stripComments->query('//comment()') as $comment) {
+            $comment->parentNode->removeChild($comment);
+        }
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
         $expectedXml = $dom->saveXML();
