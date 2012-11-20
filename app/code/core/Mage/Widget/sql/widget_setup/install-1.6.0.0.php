@@ -108,7 +108,7 @@ $table = $installer->getConnection()
     ->addColumn('instance_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Instance Type')
     ->addColumn('theme_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned' => true,
+        'unsigned'  => true,
         'nullable'  => false
         ), 'Theme id')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(

@@ -19,6 +19,8 @@
  * @method Mage_Widget_Model_Widget_Instance setWidgetParameters(string $value)
  * @method int getSortOrder()
  * @method Mage_Widget_Model_Widget_Instance setSortOrder(int $value)
+ * @method Mage_Widget_Model_Widget_Instance setThemeId(int $value)
+ * @method int getThemeId()
  *
  * @category    Mage
  * @package     Mage_Widget
@@ -185,28 +187,6 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getType()
     {
         return $this->_getData('instance_type');
-    }
-
-    /**
-     * Setter
-     *
-     * @param int $themeId
-     * @return Mage_Widget_Model_Widget_Instance
-     */
-    public function setThemeId($themeId)
-    {
-        $this->setData('theme_id', $themeId);
-        return $this;
-    }
-
-    /**
-     * Getter
-     *
-     * @return string
-     */
-    public function getThemeId()
-    {
-        return $this->_getData('theme_id');
     }
 
     /**
