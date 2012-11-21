@@ -25,17 +25,9 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $accordionXpath = $this->_getControlXpath('link', 'countries_options_link');
-        $this->addParameter('tabName', 'general');
-        $this->addParameter('webSite', 'base');
-        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
-        if (!$this->elementIsPresent($accordionXpath . "[@class='open']")) {
-            $this->clickControl('link', 'countries_options_link', false);
-        }
-        $xpathUseDefault = $this->_getControlXpath('checkbox', 'default_country_use_default');
-        if ($this->elementIsPresent($xpathUseDefault . "[@checked='checked']")) {
-            $this->clickControl('checkbox', 'default_country_use_default', false);
-        }
+        $this->systemConfigurationHelper()->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
+        $this->systemConfigurationHelper()->expandFieldSet('countries_options');
+        $this->fillCheckbox('default_country_use_default', 'No');
         $this->fillDropdown('default_country', 'Thailand');
         $this->clickButton('save_config');
         $this->navigate('manage_customers');

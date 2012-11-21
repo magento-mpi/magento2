@@ -108,7 +108,7 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         list($customer, $products) = $testData;
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenet');
         $orderData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
-            array('payment_data'  => $paymentData));
+            array('payment_data' => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
@@ -182,7 +182,7 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         list($customer, $products) = $testData;
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenet');
         $orderData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
-            array('payment_data'  => $paymentData));
+            array('payment_data' => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,

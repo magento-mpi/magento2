@@ -39,7 +39,6 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         //Steps
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $tableXpath = $this->_getControlXpath('pageelement', 'stores_table');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array());
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');

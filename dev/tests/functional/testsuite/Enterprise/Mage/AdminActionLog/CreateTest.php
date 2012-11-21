@@ -208,7 +208,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
-        $this->clickButton('save', true);
+        $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_user_saved');
         $userId = $this->defineParameterFromUrl('user_id');
 
@@ -223,7 +223,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
             $this->title(), 'Wrong page');
 
-        return ($userData);
+        return $userData;
     }
 
     /**

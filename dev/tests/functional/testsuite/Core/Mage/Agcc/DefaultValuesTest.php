@@ -44,9 +44,8 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
-        $xpath = $this->_getControlXpath('pageelement', 'default_code_length');
         //Verification
-        if (!$this->elementIsPresent($xpath)) {
+        if (!$this->controlIsPresent('pageelement', 'default_code_length')) {
             $this->fail('Wrong specified default value in Code Length field');
         }
     }
@@ -70,9 +69,8 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
-        $xpath = $this->_getControlXpath('pageelement', 'default_code_format');
         //Verification
-        if (!$this->elementIsPresent($xpath)) {
+        if (!$this->controlIsPresent('pageelement', 'default_code_format')) {
             $this->fail('Wrong specified default value in Code Format dropdown');
         }
     }
@@ -97,9 +95,8 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
-        $xpath = $this->_getControlXpath('pageelement', 'default_code_prefix');
         //Verification
-        if (!$this->elementIsPresent($xpath)) {
+        if (!$this->controlIsPresent('pageelement', 'default_code_prefix')) {
             $this->fail('Wrong specified default value in Code Prefix field');
         }
     }
@@ -124,9 +121,8 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
-        $xpath = $this->_getControlXpath('pageelement', 'default_code_suffix');
         //Verification
-        if (!$this->elementIsPresent($xpath)) {
+        if (!$this->controlIsPresent('pageelement', 'default_code_suffix')) {
             $this->fail('Wrong specified default value in Code Suffix field');
         }
     }
@@ -162,9 +158,8 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         $this->openTab('manage_coupon_codes');
         $this->addParameter('defaultValue', $defaultValue);
-        $xpath = $this->_getControlXpath('pageelement', 'default_dash_every_x_characters');
         //Verification
-        if (!$this->elementIsPresent($xpath)) {
+        if (!$this->controlIsPresent('pageelement', 'default_dash_every_x_characters')) {
             $this->fail('Wrong specified default value in Dash Every X Characters field');
         }
     }

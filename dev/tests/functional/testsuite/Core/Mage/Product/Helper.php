@@ -81,7 +81,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $productData
      * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
-     * |design|gift_options|inventory|websites|categories|related|up_sells
+     * |design|gift_options|inventory|websites|related|up_sells
      * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      *
      * @return bool
@@ -109,7 +109,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             return true;
         }
 
-        $this->openTab($tabName);
+        if ($tabName != 'categories') {
+            $this->openTab($tabName);
+        }
 
         switch ($tabName) {
             case 'prices':
@@ -130,11 +132,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 break;
             case 'categories':
-                $categories = explode(',', $tabData[$tabName]);
-                $categories = array_map('trim', $categories);
-                foreach ($categories as $value) {
-                    $this->categoryHelper()->selectCategory($value);
-                }
+                $this->openTab('general');
+                $this->selectProductCategories($tabData[$tabName]);
                 break;
             case 'related':
             case 'up_sells':
@@ -411,7 +410,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
-        $this->selectTypeProduct($productData, $productType);
+        $this->selectTypeProduct($productType);
         if ($productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
@@ -433,6 +432,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function fillProductInfo(array $productData, $productType = 'simple')
     {
         $this->fillProductTab($productData);
+        $this->fillProductTab($productData, 'categories');
         $this->fillProductTab($productData, 'prices');
         $this->fillProductTab($productData, 'meta_information');
         //@TODO Fill in Images Tab
@@ -443,7 +443,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillProductTab($productData, 'gift_options');
         $this->fillProductTab($productData, 'inventory');
         $this->fillProductTab($productData, 'websites');
-        $this->fillProductTab($productData, 'categories');
         $this->fillProductTab($productData, 'related');
         $this->fillProductTab($productData, 'up_sells');
         $this->fillProductTab($productData, 'cross_sells');
@@ -549,12 +548,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Verify selected categories
         if (array_key_exists('categories', $nestedArrays)) {
-            $categories = explode(',', $nestedArrays['categories']);
-            $categories = array_map('trim', $categories);
-            $this->openTab('categories');
-            foreach ($categories as $value) {
-                $this->isSelectedCategory($value);
-            }
+            $this->openTab('general');
+            $this->isSelectedCategory($nestedArrays['categories']);
         }
         //Verify assigned products for 'Related Products', 'Up-sells', 'Cross-sells' tabs
         if (array_key_exists('related_data', $nestedArrays)) {
@@ -664,28 +659,29 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isSelectedCategory($categoryPath)
     {
-        $nodes = explode('/', $categoryPath);
-        $rootCat = array_shift($nodes);
-
-        $correctRoot = $this->categoryHelper()->defineCorrectCategory($rootCat);
-
-        foreach ($nodes as $value) {
-            $correctSubCat = array();
-
-            for ($i = 0; $i < count($correctRoot); $i++) {
-                $correctSubCat = array_merge($correctSubCat,
-                    $this->categoryHelper()->defineCorrectCategory($value, $correctRoot[$i]));
-            }
-            $correctRoot = $correctSubCat;
+        if (is_string($categoryPath)) {
+            $categoryPath = explode(',', $categoryPath);
+            $categoryPath = array_map('trim', $categoryPath);
         }
-
-        if ($correctRoot) {
-            $this->addParameter('categoryId', array_shift($correctRoot));
-            if ($this->getControlAttribute('checkbox', 'category_by_id', 'value') == 'off') {
-                $this->addVerificationMessage('Category with path: "' . $categoryPath . '" is not selected');
+        $selectedNames = array();
+        $expectedNames = array();
+        $isSelected = $this->elementIsPresent($this->_getControlXpath('fieldset', 'chosen_category'));
+        if ($isSelected) {
+            foreach ($this->getChildElements($isSelected, 'div') as $el) {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
+                $selectedNames[] = trim($el->text());
             }
-        } else {
-            $this->addVerificationMessage("Category with path='$categoryPath' not found");
+        }
+        foreach ($categoryPath as $category) {
+            $explodeCategory = explode('/', $category);
+            $categoryName = end($explodeCategory);
+            $expectedNames[] = $categoryName;
+            if (!in_array($categoryName, $selectedNames)) {
+                $this->addVerificationMessage("'$categoryName' category is not selected");
+            }
+        }
+        if (count($selectedNames) != count($expectedNames)) {
+            $this->addVerificationMessage("Added wrong qty of categories");
         }
     }
 
@@ -1518,10 +1514,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Select product type
      *
-     * @param array $productData
      * @param string $productType
      */
-    public function selectTypeProduct(array $productData, $productType)
+    public function selectTypeProduct($productType)
     {
         $this->clickButton('add_new_product_split_select', false);
         $this->addParameter('productType', $productType);
@@ -1529,6 +1524,38 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForPageToLoad();
         $this->addParameter('setId', $this->defineParameterFromUrl('set'));
         $this->validatePage();
+    }
+
+    /**
+     * @param string|array $categoryPath
+     */
+    public function selectProductCategories($categoryPath)
+    {
+        if (is_string($categoryPath)) {
+            $categoryPath = explode(',', $categoryPath);
+            $categoryPath = array_map('trim', $categoryPath);
+        }
+        $selectedNames = array();
+        $locator = $this->_getControlXpath('field', 'categories');
+        $element = $this->waitForElementEditable($locator, 10);
+        $isSelected = $this->elementIsPresent($this->_getControlXpath('fieldset', 'chosen_category'));
+        if ($isSelected) {
+            foreach ($this->getChildElements($isSelected, 'div') as $el) {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
+                $selectedNames[] = trim($el->text());
+            }
+        }
+        foreach ($categoryPath as $category) {
+            $explodeCategory = explode('/', $category);
+            $categoryName = end($explodeCategory);
+            if (!in_array($categoryName, $selectedNames)) {
+                $this->addParameter('categoryPath', $category);
+                $element->value($categoryName);
+                $this->waitForElementEditable($this->_getControlXpath('link', 'category'))->click();
+            }
+            $this->addParameter('categoryName', $categoryName);
+            $this->assertTrue($this->controlIsVisible('link', 'delete_category'), 'Category is not selected');
+        }
     }
 
     /**
@@ -1559,11 +1586,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         $this->createProduct($productData, $productType, $isSave);
-        //$this->openTab('general');
-        //$this->keyUp($this->_getControlXpath('field', $keyUp), ' ');
-        //    if ($isSave) {
-        //        $this->saveForm('save');
-        //    }
     }
 
     /**
@@ -1594,9 +1616,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->openTab('custom_options');
         $customOptions = $this->getControlElements('fieldset', 'custom_option_set');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $customOption
-         */
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $customOption */
         foreach ($customOptions as $customOption) {
             $optionId = '';
             $elementId = explode('_', $customOption->attribute('id'));
@@ -1622,9 +1642,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionSetElement = $this->getControlElement('fieldset', 'custom_option_set');
         $optionElements = $this->getChildElements($optionSetElement, "//input[@value='{$optionTitle}']", false);
         if (!empty($optionElements)) {
-            /**
-             * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-             */
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
             list($element) = $optionElements;
             $elementId = $element->attribute('id');
             foreach (explode('_', $elementId) as $id) {
@@ -1688,7 +1706,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function addGroupPrice(array $groupPriceData)
     {
-        $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'group_price_row'));
+        $rowNumber = $this->getControlCount('fieldset', 'group_price_row');
         $this->addParameter('groupPriceId', $rowNumber);
         $this->clickButton('add_group_price', false);
         $this->fillForm($groupPriceData, 'prices');

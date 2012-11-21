@@ -62,7 +62,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
-        $this->productHelper()->selectTypeProduct($productData, 'simple');
+        $this->productHelper()->selectTypeProduct('simple');
         $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
         $code = ($attributeType != 'product_attribute_fpt')

@@ -99,8 +99,7 @@ class Enterprise_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         // Check that user was saved with role
         $this->addParameter('email', $userData['api_user_contact_email']);
         $this->addParameter('role', $userData['role_name']);
-        $xpath = $this->_getControlXpath('link', 'check_user');
-        $this->assertTrue($this->elementIsPresent($xpath));
+        $this->assertTrue($this->controlIsPresent('link', 'check_user'));;
 
         return $userData;
     }
