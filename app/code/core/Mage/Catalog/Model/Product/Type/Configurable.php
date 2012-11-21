@@ -858,6 +858,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function deleteProductSpecificData($product)
     {
+        if (!$product->hasDataChanges('type_id')
+            || $product->getOrigData('type_id') !== Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
+        ) {
+            return $this;
+        }
+        $this->save($product);
         return $this;
     }
 }
