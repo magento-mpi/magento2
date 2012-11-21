@@ -380,10 +380,10 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function save($product)
     {
         parent::save($product);
-        /**
-         * Save Attributes Information
-         */
-        if ($data = $product->getConfigurableAttributesData()) {
+
+        /* Save attributes information */
+        $data = $product->getConfigurableAttributesData();
+        if ($data) {
             foreach ($data as $attributeData) {
                 /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
                 $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
@@ -404,12 +404,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             }
         }
 
-        /**
-         * Save product relations
-         */
-        $data = $product->getConfigurableProductsData();
-        if (is_array($data)) {
-            $productIds = array_keys($data);
+        /* Save product relations */
+        $productIds = $product->getAssociatedProductIds();
+        if (is_array($productIds)) {
             Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable')
                 ->saveProducts($product, $productIds);
         }

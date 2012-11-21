@@ -31,7 +31,6 @@ if (count($this->getSelectedAttributes())) {
     </div>
     <fieldset id="<?php echo $this->getHtmlId() ?>">
         <legend><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></legend>
-        <input type="hidden" id="<?php echo $this->getHtmlId() ?>_save_links" name="configurable_products_data" value=""/>
         <input type="hidden" id="<?php echo $this->getHtmlId() ?>_save_attributes" name="configurable_attributes_data" />
 
         <ul class="messages">
@@ -207,7 +206,7 @@ do {
             <td><?php echo $product->getSku()?><button style="float:right">Choose</button></td>
             <td><?php echo $product->getStockItem()->getQty()?></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="" value="" class="checkbox" checked="checked"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox" checked="checked"></td>
         </tr>
 <?php
         } else {
@@ -224,7 +223,7 @@ do {
             </td>
             <td><input value=""></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="" value="" class="checkbox"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox"></td>
         </tr>
 <?php
         }
