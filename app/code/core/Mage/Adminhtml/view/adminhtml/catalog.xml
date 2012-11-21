@@ -44,7 +44,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
@@ -82,7 +82,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.category-selector.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/jquery.base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
