@@ -1,62 +1,98 @@
 <?php
 /**
- * {license_notice}
+ * Customer REST API controller
  *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Customer REST API controller.
- *
- * @category   Mage
- * @package    Mage_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_ActionAbstract
 {
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_ObjectManager $objectManager
     ) {
         parent::__construct($requestFactory, $response, $helperFactory);
         $this->_translationHelper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
+        $this->_objectManager = $objectManager;
     }
 
     /**
      * Create customer.
      *
      * @param Mage_Customer_Model_Webapi_CustomerData $data Customer create data.
-     * @param string $optional {maxLength:255 chars.}May be not passed.
-     * @param int $int {min:10}{max:100} Optional integer parameter.
-     * @param bool $bool optional boolean
      * @return int ID of created customer
      * @throws Mage_Webapi_Exception
      */
-    public function createV1(Mage_Customer_Model_Webapi_CustomerData $data, $optional = 'default', $int = null, $bool = true)
+    public function createV1(Mage_Customer_Model_Webapi_CustomerData $data)
     {
         try {
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer');
-            $customer->setData(get_object_vars($data));
-            $customer->save();
-        } catch (Mage_Customer_Exception $e) {
-            $this->_processException($e);
-        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $beforeSaveCallback = $this->_getBeforeSaveCallback();
+            $afterSaveCallback = $this->_getAfterSaveCallback();
+            /** @var Mage_Customer_Service_Customer $customerService */
+            $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
+            $customerService->setIsAdminStore(true);
+            $customerService->setBeforeSaveCallback($beforeSaveCallback);
+            $customerService->setAfterSaveCallback($afterSaveCallback);
+            return $customerService->create(get_object_vars($data), array());
+        } catch (Magento_Validator_Exception $e) {
             $this->_processException($e);
         }
+    }
 
-        return $customer;
+    /**
+     * Get closure of dispatcher before customer save
+     *
+     * There is event 'adminhtml_customer_prepare_save' in adminhtml customer controller.
+     * In Webapi this method added in analogy but with different name.
+     *
+     * @return closure
+     */
+    protected function _getBeforeSaveCallback()
+    {
+        $request = $this->getRequest();
+        /** @var Mage_Core_Model_Event_Manager $eventManager */
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        return function ($customer) use ($request, $eventManager) {
+            $eventManager->dispatch('webapi_customer_prepare_save', array(
+                'customer'  => $customer,
+                'request'   => $request
+            ));
+        };
+    }
+
+    /**
+     * Get closure of dispatcher after customer save
+     *
+     * There is event 'adminhtml_customer_save_after' in adminhtml customer controller.
+     * In Webapi this method added in analogy but with different name.
+     *
+     * @return closure
+     */
+    protected function _getAfterSaveCallback()
+    {
+        $request = $this->getRequest();
+        /** @var Mage_Core_Model_Event_Manager $eventManager */
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        return function ($customer) use ($request, $eventManager) {
+            $eventManager->dispatch('webapi_customer_save_after', array(
+                'customer' => $customer,
+                'request'  => $request
+            ));
+        };
     }
 
     /**
@@ -70,7 +106,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customersData = $this->_getCollectionForRetrieve()->load()->toArray();
         $customersData = isset($customersData['items']) ? $customersData['items'] : $customersData;
         foreach ($customersData as $customerData) {
-            $customerData['balance'] = rand(0,100);
+            $customerData['balance'] = rand(0, 100);
             $result[] = $this->_createCustomerDataObject($customerData);
         }
         return $result;
@@ -86,10 +122,16 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     public function updateV1($id, Mage_Customer_Model_Webapi_CustomerData $data)
     {
         try {
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->_loadCustomerById($id);
-            $customer->addData(get_object_vars($data));
-            $customer->save();
+            $beforeSaveCallback = $this->_getBeforeSaveCallback();
+            $afterSaveCallback = $this->_getAfterSaveCallback();
+            /** @var Mage_Customer_Service_Customer $customerService */
+            $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
+            $customerService->setIsAdminStore(true);
+            $customerService->setBeforeSaveCallback($beforeSaveCallback);
+            $customerService->setAfterSaveCallback($afterSaveCallback);
+            // todo: drop next string as soon as front controller of webapi will be able to return routers
+            $customerService->setSendRemainderEmail(false);
+            $customerService->update($id, get_object_vars($data), array());
         } catch (Mage_Customer_Exception $e) {
             $this->_processException($e);
         }
@@ -168,7 +210,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
         $customer = $this->_loadCustomerById($id);
         $data = $customer->getData();
         $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
-        $data['balance'] = rand(0,100);
+        $data['balance'] = rand(0, 100);
         return $data;
     }
 

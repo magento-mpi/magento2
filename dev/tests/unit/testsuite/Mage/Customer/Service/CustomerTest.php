@@ -93,6 +93,17 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for setSendRemainderEmail
+     */
+    public function testSetSendRemainderEmail()
+    {
+        $this->_service->setSendRemainderEmail(true);
+        $this->assertAttributeEquals(true, '_sendRemainderEmail', $this->_service);
+        $this->_service->setSendRemainderEmail(false);
+        $this->assertAttributeEquals(false, '_sendRemainderEmail', $this->_service);
+    }
+
+    /**
      * Test beforeSave and afterSave callback are set correctly
      */
     public function testSetBeforeSaveCallback()

@@ -37,6 +37,11 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     protected $_isAdminStore = true;
 
     /**
+     * @var bool
+     */
+    protected $_sendRemainderEmail = true;
+
+    /**
      * Constructor
      *
      * @param Mage_Customer_Helper_Data $helper
@@ -65,6 +70,18 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     public function setIsAdminStore($isAdminStore)
     {
         $this->_isAdminStore = $isAdminStore;
+        return $this;
+    }
+
+    /**
+     * Set flag if send remainder email
+     *
+     * @param bool $flag
+     * @return Mage_Customer_Service_Customer
+     */
+    public function setSendRemainderEmail($flag)
+    {
+        $this->_sendRemainderEmail = (bool)$flag;
         return $this;
     }
 
@@ -235,8 +252,10 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     {
         if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
             $newPassword = $this->_getCustomerPassword($customer, $customerData);
-            $customer->changePassword($newPassword)
-                ->sendPasswordReminderEmail();
+            $customer->changePassword($newPassword);
+            if ($this->_sendRemainderEmail) {
+                $customer->sendPasswordReminderEmail();
+            }
         }
 
         return $this;
