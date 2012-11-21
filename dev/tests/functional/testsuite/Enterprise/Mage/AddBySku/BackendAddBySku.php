@@ -31,7 +31,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
             $this->navigate('manage_customers');
             $this->customerHelper()->openCustomer(self::$customer);
             $this->addBySkuHelper()->openShoppingCart();
-            $this->addBySkuHelper()->clearShoppingCart();
+            $this->addBySkuHelper()->clearShoppingCartAndErrorTable();
         }
     }
 

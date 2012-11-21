@@ -45,11 +45,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
+        $windowQty = $this->windowHandles();
+        if (count($windowQty) > 1 && end($windowQty) != '') {
+            $this->window(end($windowQty));
+            $this->closeLastWindow();
+            $this->window('');
         }
     }
 
@@ -90,10 +90,10 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         //Use filter with Role data and open it
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Save');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
 
         return ($fieldData);
     }
@@ -120,17 +120,17 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('api_roles_management');
         //Open created role from the role grid
         $userSearch = array('filter_role_name' => $fieldData['role_name']);
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'api_roles_grid');
         $this->refresh();
         $roleId = $this->defineParameterFromUrl('role_id');
         //Open Admin Actions Logs page
         $this->navigate('admin_action_log_report');
         //Use filter with Role data and open it
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Edit');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
     }
 
     /**
@@ -155,7 +155,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('api_roles_management');
         //Open created role from the role grid
         $userSearch = array('filter_role_name' => $fieldData['role_name']);
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'api_roles_grid');
         $roleId = $this->defineParameterFromUrl('role_id');
         //Click Delete API Role button
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
@@ -165,10 +165,10 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         //Use filter with Role data and open it
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Delete');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
     }
 
     /**
@@ -210,7 +210,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('search', false);
         $this->waitForAjax();
         $this->addParameter('roleName', $userData['role_name']);
-        $this->click($this->_getControlXpath('radiobutton', 'select_role'));
+        $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
         $this->clickButton('save', true);
@@ -221,12 +221,12 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('admin_action_log_report');
         $this->validatePage();
         $userSearch = array('filter_user_id' => $userId, 'action_name' => 'adminhtml_webapi_user_save');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         $this->validatePage();
 
         //Check page title
-        $this->assertSame($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
 
         return ($userData);
     }
@@ -261,12 +261,12 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         //Open Admin Action Log Page
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Edit');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         $this->validatePage();
 
         //Check page title
-        $this->assertSame($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
     }
 
     /**
@@ -300,12 +300,12 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         //Open Admin Action Log Page
         $this->navigate('admin_action_log_report');
         $userSearch = array('filter_user_id' => $userId, 'action' => 'Delete');
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'action_logs_grid');
         $this->validatePage();
 
         //Check page title
-        $this->assertSame($this->getTitle(),
-            'View Entry / Report / Admin Actions Logs / System / Magento Admin', 'Wrong page');
+        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+            $this->title(), 'Wrong page');
     }
 }
 

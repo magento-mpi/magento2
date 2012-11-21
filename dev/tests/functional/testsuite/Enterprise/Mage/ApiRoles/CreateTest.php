@@ -45,11 +45,11 @@ class Enterprise_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
+        $windowQty = $this->windowHandles();
+        if (count($windowQty) > 1 && end($windowQty) != '') {
+            $this->window(end($windowQty));
+            $this->closeLastWindow();
+            $this->window('');
         }
     }
 
@@ -190,7 +190,7 @@ class Enterprise_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('save');
         //Open created role from the role grid
         $userSearch =array('filter_role_name' => $fieldData['role_name']);
-        $this->searchAndOpen($userSearch);
+        $this->searchAndOpen($userSearch, 'api_roles_grid');
         //Click Delete API Role button
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
         //Verify that message "The role has been deleted." is displayed

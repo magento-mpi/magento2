@@ -88,9 +88,9 @@ class Enterprise_Mage_PageCache_BreadcrumbsTest extends Mage_Selenium_TestCase
         for ($i = 0; $i < 3; $i++) {
             $this->categoryHelper()->frontOpenCategory($category['name']);
             // verifying
-            $this->isElementPresent($this->isElementPresent("//*[@class='breadcrumbs']"));
+            $this->assertTrue($this->elementIsPresent("//*[@class='breadcrumbs']"));
             $categoryId = $this->categoryHelper()->defineIdFromUrl();
-            $this->isElementPresent("//*[@class='category" .$categoryId . "']");
+            $this->elementIsPresent("//*[@class='category" .$categoryId . "']");
         }
     }
 }

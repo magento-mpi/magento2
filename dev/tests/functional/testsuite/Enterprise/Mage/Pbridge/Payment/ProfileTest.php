@@ -88,15 +88,15 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
         );
 
         $page = 'my_credit_cards';
-        $pageUrl = $this->_uimapHelper->getPageUrl('frontend', $page);
+        $pageUrl = $this->getPageUrl('frontend', $page);
         if (substr($pageUrl, 0, 5) === 'https') {
             $pageUrl = str_replace('https://', 'http://', $pageUrl);
         }
-        $this->open($pageUrl);
+        $this->url($pageUrl);
         $this->validatePage($page);
         $this->assertTrue($this->controlIsPresent('pageelement', 'account_title'));
 
-        $this->assertStringStartsWith('https://', $this->getLocation(), 'Url must be secure');
+        $this->assertStringStartsWith('https://', $this->url(), 'Url must be secure');
     }
 
     /**

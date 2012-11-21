@@ -32,21 +32,9 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStore
         //Steps
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $tableXpath = $this->_getControlXpath('pageelement', 'stores_table');
-        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
-        $columnId = $this->getColumnIdByName('Store View Name') - 1;
-        $storeViews = array();
-        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
-            $storeView = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
-            if (!in_array($storeView, array('Default Store View'))) {
-                $storeViews[] = $storeView;
-            }
-        }
-        $isEmpty = array_filter($storeViews);
-        if (empty($isEmpty)){
-            $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
-            $this->storeHelper()->createStore($storeViewData, 'store_view');
-        }
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array());
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
