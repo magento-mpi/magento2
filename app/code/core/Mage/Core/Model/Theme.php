@@ -126,8 +126,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             'theme_directory'      => dirname($configPath),
             'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
         ));
-        $this->getArea();
-        $this->_updateDefaultParams();
+        $this->_initArea()->_updateDefaultParams();
 
         return $this;
     }
@@ -471,7 +470,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get theme area by theme path
+     * Get theme area
      *
      * @throws Mage_Core_Exception
      * @return string
@@ -479,22 +478,34 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getArea()
     {
         if (!$this->getData('area')) {
-            $themeDirectory = $this->getThemeDirectory();
-            $baseDesignDirectory = Mage::getBaseDir('design');
-            if (substr($themeDirectory, 0, strlen($baseDesignDirectory)) != $baseDesignDirectory) {
-                Mage::throwException(
-                    Mage::helper('Mage_Core_Helper_Data')->__('Invalid theme directory "%s"', $themeDirectory)
-                );
-            }
-            $themeDirectory = substr($themeDirectory, strlen($baseDesignDirectory));
-            if (substr($themeDirectory, 0, 1) == DS) {
-                $themeDirectory = substr($themeDirectory, 1);
-            }
-            list($area,) = explode(DS, $themeDirectory, 2);
-            $this->setData('area', $area);
+            $this->_initArea();
         }
 
         return $this->getData('area');
+    }
+
+    /**
+     * Init area by theme path
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _initArea()
+    {
+        $themeDirectory = $this->getThemeDirectory();
+        $baseDesignDirectory = Mage::getBaseDir('design');
+        if (substr($themeDirectory, 0, strlen($baseDesignDirectory)) != $baseDesignDirectory) {
+            Mage::throwException(
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid theme directory "%s"', $themeDirectory)
+            );
+        }
+        $themeDirectory = substr($themeDirectory, strlen($baseDesignDirectory));
+        if (substr($themeDirectory, 0, 1) == DS) {
+            $themeDirectory = substr($themeDirectory, 1);
+        }
+        list($area,) = explode(DS, $themeDirectory, 2);
+        $this->setData('area', $area);
+
+        return $this;
     }
 
     /**
