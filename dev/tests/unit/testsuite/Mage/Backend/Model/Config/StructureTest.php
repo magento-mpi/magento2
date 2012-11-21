@@ -31,6 +31,9 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
      */
     protected $_readerMock;
 
+    /**
+     * @var array
+     */
     protected $_structureData;
 
     public function setUp()
@@ -83,8 +86,6 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     public function testGetElementReturnsNullIfNotExistingElementIsRequested()
     {
         $this->_flyweightPoolMock->expects($this->never())->method('getFlyweight');
-        $this->assertEquals(null, $this->_model->getElement('section_1/group_2/nonexisting_field'));
+        $this->assertNull($this->_model->getElement('section_1/group_2/nonexisting_field'));
     }
-
-
 }

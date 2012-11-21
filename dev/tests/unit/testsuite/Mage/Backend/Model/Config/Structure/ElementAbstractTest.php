@@ -33,5 +33,4 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
         $this->assertEquals('Custom attribute value', $this->_model->getAttribute('customAttribute'));
         $this->assertNull($this->_model->getAttribute('nonexistingAttribute'));
     }
-
 }

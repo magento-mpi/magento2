@@ -74,7 +74,7 @@ class Mage_Backend_Model_Config_Structure
      * Find element by path
      *
      * @param string $path
-     * @return Mage_Backend_Model_Config_Structure_ElementInterface
+     * @return Mage_Backend_Model_Config_Structure_ElementInterface|null
      */
     public function getElement($path)
     {

@@ -52,13 +52,13 @@ class Mage_Backend_Model_Config_Structure_Element_CompositeAbstractTest extends 
         $this->assertEquals($this->_iteratorMock, $this->_model->getChildren());
     }
 
-    public function testGetChildrenReturnsFalseIfThereAreNoChildren()
+    public function testHasChildrenReturnsFalseIfThereAreNoChildren()
     {
         $this->_iteratorMock->expects($this->once())->method('setElements')->with(array('someGroup' => array()));
         $this->assertFalse($this->_model->hasChildren());
     }
 
-    public function testGetChildrenReturnsTrueIfThereAreVisibleChildren()
+    public function testHasChildrenReturnsTrueIfThereAreVisibleChildren()
     {
         $this->_iteratorMock->expects($this->once())->method('current')->will($this->returnValue(true));
         $this->_iteratorMock->expects($this->at(2))->method('valid')->will($this->returnValue(true));
