@@ -68,7 +68,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/Structure/system.xsd';
+        return __DIR__ . '/system.xsd';
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getPerFileSchemaFile()
     {
-        return __DIR__ . '/Structure/system_file.xsd';
+        return __DIR__ . '/system_file.xsd';
     }
 
     /**
