@@ -23,8 +23,8 @@ $connection->changeColumn($table, 'package_theme', 'theme_id', array(
 ));
 
 $connection->addForeignKey(
-    $table,
     $installer->getFkName('widget_instance', 'theme_id', 'core_theme', 'theme_id'),
+    $table,
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
