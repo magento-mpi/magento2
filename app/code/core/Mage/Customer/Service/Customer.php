@@ -40,6 +40,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      * @var bool
      */
     protected $_sendRemainderEmail = true;
+    // todo: drop the parameter as soon as front controller of webapi will be able to return routers
 
     /**
      * Constructor
@@ -81,6 +82,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function setSendRemainderEmail($flag)
     {
+        // todo: drop next string as soon as front controller of webapi will be able to return routers
         $this->_sendRemainderEmail = (bool)$flag;
         return $this;
     }

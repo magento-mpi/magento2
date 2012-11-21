@@ -34,19 +34,13 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Create customer.
      *
      * @param Mage_Customer_Model_Webapi_CustomerData $data Customer create data.
-     * @return int ID of created customer
+     * @return Mage_Customer_Model_Customer created customer
      * @throws Mage_Webapi_Exception
      */
     public function createV1(Mage_Customer_Model_Webapi_CustomerData $data)
     {
         try {
-            $beforeSaveCallback = $this->_getBeforeSaveCallback();
-            $afterSaveCallback = $this->_getAfterSaveCallback();
-            /** @var Mage_Customer_Service_Customer $customerService */
-            $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
-            $customerService->setIsAdminStore(true);
-            $customerService->setBeforeSaveCallback($beforeSaveCallback);
-            $customerService->setAfterSaveCallback($afterSaveCallback);
+            $customerService = $this->_prepareService();
             return $customerService->create(get_object_vars($data), array());
         } catch (Magento_Validator_Exception $e) {
             $this->_processException($e);
@@ -54,10 +48,22 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     }
 
     /**
-     * Get closure of dispatcher before customer save
+     * Get customer service layer with initialized parameters
      *
-     * There is event 'adminhtml_customer_prepare_save' in adminhtml customer controller.
-     * In Webapi this method added in analogy but with different name.
+     * @return Mage_Customer_Service_Customer|mixed
+     */
+    protected function _prepareService()
+    {
+        /** @var Mage_Customer_Service_Customer $customerService */
+        $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
+        $customerService->setIsAdminStore(true);
+        $customerService->setBeforeSaveCallback($this->_getBeforeSaveCallback());
+        $customerService->setAfterSaveCallback($this->_getAfterSaveCallback());
+        return $customerService;
+    }
+
+    /**
+     * Get closure of dispatcher before customer save
      *
      * @return closure
      */
@@ -76,9 +82,6 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
 
     /**
      * Get closure of dispatcher after customer save
-     *
-     * There is event 'adminhtml_customer_save_after' in adminhtml customer controller.
-     * In Webapi this method added in analogy but with different name.
      *
      * @return closure
      */
@@ -115,23 +118,17 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     /**
      * Update customer.
      *
-     * @param int $id
+     * @param int $customerId
      * @param Mage_Customer_Model_Webapi_CustomerData $data
      * @throws Mage_Webapi_Exception
      */
-    public function updateV1($id, Mage_Customer_Model_Webapi_CustomerData $data)
+    public function updateV1($customerId, Mage_Customer_Model_Webapi_CustomerData $data)
     {
         try {
-            $beforeSaveCallback = $this->_getBeforeSaveCallback();
-            $afterSaveCallback = $this->_getAfterSaveCallback();
-            /** @var Mage_Customer_Service_Customer $customerService */
-            $customerService = $this->_objectManager->get('Mage_Customer_Service_Customer');
-            $customerService->setIsAdminStore(true);
-            $customerService->setBeforeSaveCallback($beforeSaveCallback);
-            $customerService->setAfterSaveCallback($afterSaveCallback);
+            $customerService = $this->_prepareService();
             // todo: drop next string as soon as front controller of webapi will be able to return routers
             $customerService->setSendRemainderEmail(false);
-            $customerService->update($id, get_object_vars($data), array());
+            $customerService->update($customerId, get_object_vars($data), array());
         } catch (Mage_Customer_Exception $e) {
             $this->_processException($e);
         }
