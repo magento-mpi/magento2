@@ -84,13 +84,13 @@ applications:
             password: '123123q'
         areas:
             admin:
-                url: 'https://tc.varien.com/artem.shugayev/mergece/index.php/backend/admin/'
+                url: 'http://www.localhost.com/magento2_community/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'https://tc.varien.com/artem.shugayev/mergece/index.php/'
+                url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
