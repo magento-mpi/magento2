@@ -151,7 +151,7 @@ class Mage_Core_Model_Theme_Registration
     {
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this->_getDefaultThemes() as $area => $theme) {
-            if ($theme->getId()) {
+            if ($theme && $theme->getId()) {
                 Mage::app()->getConfig()->saveConfig($this->_getDesign()->getConfigPathByArea($area), $theme->getId());
             }
         }

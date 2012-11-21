@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -27,6 +30,11 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         Mage::getConfig()->setOptions(array(
             'design_dir' => realpath( __DIR__ . '/../../_files/design'),
         ));
+
+        /** @var $themeRegistration Mage_Core_Model_Theme_Registration */
+        $themeRegistration = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Registration');
+        $themeRegistration->register();
+
         Mage::getDesign()->setDesignTheme('test/default', 'adminhtml');
 
         /* Disable loading and saving layout cache */
