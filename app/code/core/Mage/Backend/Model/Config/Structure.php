@@ -78,7 +78,17 @@ class Mage_Backend_Model_Config_Structure
      */
     public function getElement($path)
     {
-        $pathParts = explode('/', $path);
+        return $this->getElementByPathParts(explode('/', $path));
+    }
+
+    /**
+     * Find element by path parts
+     *
+     * @param array $pathParts
+     * @return Mage_Backend_Model_Config_Structure_ElementInterface|null
+     */
+    public function getElementByPathParts(array $pathParts)
+    {
         $children = $this->_data['sections'];
         $child = array();
         foreach ($pathParts as $id) {

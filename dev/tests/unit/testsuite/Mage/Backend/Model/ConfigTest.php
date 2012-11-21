@@ -63,14 +63,13 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_Application', array(), array(), '', false);
 
-        $this->_model = new Mage_Backend_Model_Config(array(
-            'eventManager' => $this->_eventManagerMock,
-            'structureReader' => $this->_structureReaderMock,
-            'transactionFactory' => $this->_transFactoryMock,
-            'objectFactory' => $this->_objectFactoryMock,
-            'applicationConfig' => $this->_appConfigMock,
-            'application' => $this->_appConfigMock
-        ));
+        $this->_model = new Mage_Backend_Model_Config(
+            $this->_applicationMock,
+            $this->_appConfigMock,
+            $this->_eventManagerMock,
+            $structureMock,
+            $this->_transFactoryMock
+        );
     }
 
     public function testSaveDoesNotDoAnythingIfGroupsAreNotPassed()
