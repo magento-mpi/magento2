@@ -30,18 +30,22 @@ class Magento_Autoload_IncludePath
     }
 
     /**
-     * Append specified path(s) to include_path
+     * Add specified path(s) to the current include_path
      *
      * @param string|array $path
+     * @param bool $prepend Whether to prepend paths or to append them
      */
-    public static function addIncludePath($path)
+    public static function addIncludePath($path, $prepend = true)
     {
-        $result = implode(PATH_SEPARATOR, (array)$path);
+        $includePathExtra = implode(PATH_SEPARATOR, (array)$path);
         $includePath = get_include_path();
-        if ($includePath) {
-            $result = $includePath . PATH_SEPARATOR . $result;
+        $pathSeparator = $includePath && $includePathExtra ? PATH_SEPARATOR : '';
+        if ($prepend) {
+            $includePath = $includePathExtra . $pathSeparator . $includePath;
+        } else {
+            $includePath = $includePath . $pathSeparator . $includePathExtra;
         }
-        set_include_path($result);
+        set_include_path($includePath);
     }
 
     /**
