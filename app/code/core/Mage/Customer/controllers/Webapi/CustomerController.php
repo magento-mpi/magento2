@@ -34,7 +34,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
      * Create customer.
      *
      * @param Mage_Customer_Model_Webapi_CustomerData $data Customer create data.
-     * @return Mage_Customer_Model_Customer created customer
+     * @return Mage_Customer_Model_Webapi_CustomerData created customer
      * @throws Mage_Webapi_Exception
      */
     public function createV1(Mage_Customer_Model_Webapi_CustomerData $data)
