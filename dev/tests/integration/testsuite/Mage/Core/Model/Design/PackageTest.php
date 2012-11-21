@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -20,8 +23,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $fixtureDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files';
-        Mage::app()->getConfig()->getOptions()->setDesignDir($fixtureDir . DIRECTORY_SEPARATOR . 'design');
         Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getMediaDir() . '/theme');
 
         $ioAdapter = new Varien_Io_File();
@@ -41,8 +42,13 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
-        $this->_model->setDesignTheme('test/default', 'frontend');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
+            Mage::getModel('Mage_Core_Model_Design_Package')
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');;
+        $this->_model = $themeUtility->getDesign();
     }
 
     protected function tearDown()
@@ -57,34 +63,21 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->_model->getArea());
     }
 
-    public function testGetPackageName()
-    {
-        $this->assertEquals('test', $this->_model->getPackageName());
-    }
-
     public function testGetTheme()
     {
-        $this->assertEquals('default', $this->_model->getTheme());
+        $this->assertEquals('test/default', $this->_model->getDesignTheme()->getThemePath());
     }
 
     public function testSetDesignTheme()
     {
         $this->_model->setDesignTheme('test/test', 'test');
         $this->assertEquals('test', $this->_model->getArea());
-        $this->assertEquals('test', $this->_model->getPackageName());
-    }
-
-    /**
-     * @expectedException Mage_Core_Exception
-     */
-    public function testSetDesignThemeException()
-    {
-        $this->_model->setDesignTheme('test/test/test');
+        $this->assertEquals(null, $this->_model->getDesignTheme()->getThemePath());
     }
 
     public function testGetDesignTheme()
     {
-        $this->assertEquals('test/default', $this->_model->getDesignTheme());
+        $this->assertInstanceOf('Mage_Core_Model_Theme', $this->_model->getDesignTheme());
     }
 
     /**
@@ -206,21 +199,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 array('http://localhost/pub/lib/mage/calendar.js',)
             ),
         );
-    }
-
-    public function testGetDesignEntitiesStructure()
-    {
-        $expectedResult = array(
-            'package_one' => array('theme_one')
-        );
-        $this->assertSame($expectedResult, $this->_model->getDesignEntitiesStructure('design_area'));
-    }
-
-    public function testGetThemeConfig()
-    {
-        $frontend = $this->_model->getThemeConfig('frontend');
-        $this->assertInstanceOf('Magento_Config_Theme', $frontend);
-        $this->assertSame($frontend, $this->_model->getThemeConfig('frontend'));
     }
 
     public function testGetViewConfig()
