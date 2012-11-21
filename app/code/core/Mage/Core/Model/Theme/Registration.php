@@ -95,13 +95,14 @@ class Mage_Core_Model_Theme_Registration
      * @return Mage_Core_Model_Theme_Collection
      * @throws Mage_Core_Exception
      */
-    protected function _registerThemeRecursively($theme, $inheritanceChain = array())
+    protected function _registerThemeRecursively(&$theme, $inheritanceChain = array())
     {
         if ($theme->getId()) {
             return $this;
         }
         $themeModel = $this->getThemeFromDb($theme->getFullPath());
         if ($themeModel->getId()) {
+            $theme = $themeModel;
             return $this;
         }
 
