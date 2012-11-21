@@ -52,6 +52,13 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Button', $arguments);
     }
 
+    public function tearDown()
+    {
+        unset($this->_layoutMock);
+        unset($this->_helperMock);
+        unset($this->_buttonMock);
+    }
+
     /**
      * @covers Mage_Backend_Block_Widget_Button::getAttributesHtml
      * @dataProvider getAttributesHtmlDataProvider
@@ -92,12 +99,5 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
                 '/data-mage-init="[^"]*" data-widget-button="[^"]*" /'
             ),
         );
-    }
-
-    public function tearDown()
-    {
-        unset($this->_layoutMock);
-        unset($this->_helperMock);
-        unset($this->_buttonMock);
     }
 }
