@@ -54,13 +54,13 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
             );
         }
         /** Disable external entity loading to prevent possible vulnerability */
-        $previousEntityLoaderState = libxml_disable_entity_loader(true);
+        $previousLoaderState = libxml_disable_entity_loader(true);
         set_error_handler(array($this, 'handleErrors'));
 
         $this->_xmlParser->loadXML($xmlRequestBody);
 
         restore_error_handler();
-        libxml_disable_entity_loader($previousEntityLoaderState);
+        libxml_disable_entity_loader($previousLoaderState);
 
         /** Process errors during XML parsing. */
         if ($this->_errorMessage !== null) {
@@ -83,6 +83,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
      * @param string $errorMessage
      * @param string $errorFile
      * @param integer $errorLine
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function handleErrors($errorNumber, $errorMessage, $errorFile, $errorLine)
     {

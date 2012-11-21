@@ -158,6 +158,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      * @param string $documentation parameter documentation string
      * @param string|null $default
      * @param array $callInfo
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function addAnnotation(DOMElement $element, $documentation, $default = null, $callInfo = array())
     {

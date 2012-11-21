@@ -20,19 +20,19 @@ class Mage_Webapi_Controller_Request_Factory
     protected $_objectManager;
 
     /** @var Mage_Webapi_Controller_Front */
-    protected $_webApiFrontController;
+    protected $_apiFrontController;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Controller_Front $webApiFrontController
+     * @param Mage_Webapi_Controller_Front $apiFrontController
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Webapi_Controller_Front $webApiFrontController,
+        Mage_Webapi_Controller_Front $apiFrontController,
         Magento_ObjectManager $objectManager
     ) {
-        $this->_webApiFrontController = $webApiFrontController;
+        $this->_apiFrontController = $apiFrontController;
         $this->_objectManager = $objectManager;
     }
 
@@ -46,7 +46,7 @@ class Mage_Webapi_Controller_Request_Factory
      */
     public function get()
     {
-        $apiType = $this->_webApiFrontController->determineApiType();
+        $apiType = $this->_apiFrontController->determineApiType();
         if (!isset($this->_apiTypeToRequestMap[$apiType])) {
             throw new LogicException('There is no corresponding request class for the "%s" API type.', $apiType);
         }

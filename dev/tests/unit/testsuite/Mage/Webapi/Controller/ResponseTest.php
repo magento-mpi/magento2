@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Webapi Response Controller.
+ * Test for Webapi Response model.
  *
  * @copyright {}
  */

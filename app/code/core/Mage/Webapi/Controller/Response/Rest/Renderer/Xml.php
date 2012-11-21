@@ -78,8 +78,11 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
             } else {
                 throw new InvalidArgumentException('Data must be an object or an array.');
             }
+        } elseif ($data instanceof Varien_Object) {
+            $data = $data->toArray();
+        } else {
+            $data = (array)$data;
         }
-        $data = $data instanceof Varien_Object ? $data->toArray() : (array)$data;
         $isAssoc = !preg_match('/^\d+$/', implode(array_keys($data), ''));
 
         $formattedData = array();
@@ -125,8 +128,8 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
         );
         $key = str_replace(array_keys($replacementMap), array_values($replacementMap), $key);
         $key = trim($key, '_');
-        $prohibitedTagNamePattern = '/^[0-9,.-]/';
-        if (preg_match($prohibitedTagNamePattern, $key)) {
+        $prohibitedTagPattern = '/^[0-9,.-]/';
+        if (preg_match($prohibitedTagPattern, $key)) {
             $key = self::DEFAULT_ENTITY_ITEM_NAME . '_' . $key;
         }
         return $key;

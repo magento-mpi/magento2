@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Test for Webapi Request.
  *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test Webapi Request model
+ * @copyright {}
  */
 class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
 {

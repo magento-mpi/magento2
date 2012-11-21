@@ -102,9 +102,6 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
                 $createdItem = $outputData;
                 $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
-                break;
             case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
@@ -116,8 +113,9 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
                 $this->_render($filteredData);
                 break;
             case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
-                break;
+                // break is intentionally omitted
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+                // break is intentionally omitted
             case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
                 $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
                 break;
@@ -126,6 +124,14 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
             case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
                 break;
         }
+        $this->_renderMessages();
+    }
+
+    /**
+     * Render error and success messages.
+     */
+    protected function _renderMessages()
+    {
         if ($this->_response->getMessages()) {
             $this->_render(array('messages' => $this->_response->getMessages()));
         }

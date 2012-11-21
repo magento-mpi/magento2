@@ -65,7 +65,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
                 }
             }
         }
-        if (!isset($rendererClass) || empty($rendererClass)) {
+        if (!isset($rendererClass)) {
             /** If server does not have renderer for any of the accepted types it SHOULD send 406 (not acceptable). */
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Server cannot understand Accept HTTP header media type.'),

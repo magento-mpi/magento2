@@ -69,43 +69,85 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig)
     {
         if ($apiConfig->isTypeSimple($dataType) || is_null($data)) {
-            return $data;
+            $formattedData = $data;
         } elseif ($apiConfig->isArrayType($dataType)) {
-            $itemDataType = $apiConfig->getArrayItemType($dataType);
-            $formattedData = array();
-            foreach ($data as $itemData) {
-                $formattedData[] = $this->_formatParamData($itemData, $itemDataType, $apiConfig);
-            }
-            return $formattedData;
+            $formattedData = $this->_formatArrayData($data, $dataType, $apiConfig);
         } else {
-            $dataTypeMetadata = $apiConfig->getDataType($dataType);
-            $typeToClassMap = $apiConfig->getTypeToClassMap();
-            if (!isset($typeToClassMap[$dataType])) {
-                throw new LogicException(sprintf('Specified data type "%s" does not match any class.', $dataType));
-            }
-            $complexTypeClass = $typeToClassMap[$dataType];
-            if (is_object($data) && (get_class($data) == $complexTypeClass)) {
-                /** In case of SOAP the object creation is performed by SOAP server. */
-                return $data;
-            }
-            $complexDataObject = new $complexTypeClass();
-            foreach ($dataTypeMetadata['parameters'] as $fieldName => $fieldMetadata) {
-                if (isset($data[$fieldName])) {
-                    $fieldValue = $data[$fieldName];
-                } elseif (($fieldMetadata['required'] == false)) {
-                    $fieldValue = $fieldMetadata['default'];
-                } else {
-                    throw new Mage_Webapi_Exception($this->__('Value of "%s" attribute is required.', $fieldName),
-                        Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-                }
-                $complexDataObject->$fieldName = $this->_formatParamData(
-                    $fieldValue,
-                    $fieldMetadata['type'],
-                    $apiConfig
-                );
-            }
-            return $complexDataObject;
+            $formattedData = $this->_formatComplexObjectData($data, $dataType, $apiConfig);
         }
+        return $formattedData;
+    }
+
+    /**
+     * Format data of array type.
+     *
+     * @param array $data
+     * @param string $dataType
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @return array
+     * @throws Mage_Webapi_Exception If passed data is not an array
+     */
+    protected function _formatArrayData($data, $dataType, $apiConfig)
+    {
+        $itemDataType = $apiConfig->getArrayItemType($dataType);
+        $formattedData = array();
+        if (!is_array($data)) {
+            throw new Mage_Webapi_Exception(
+                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        }
+        foreach ($data as $itemData) {
+            $formattedData[] = $this->_formatParamData($itemData, $itemDataType, $apiConfig);
+        }
+        return $formattedData;
+    }
+
+    /**
+     * Format data as object of the specified class.
+     *
+     * @param array|object $data
+     * @param string $dataType
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @return object Object of required data type
+     * @throws LogicException If specified $dataType is invalid
+     * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
+     */
+    protected function _formatComplexObjectData($data, $dataType, $apiConfig)
+    {
+        $dataTypeMetadata = $apiConfig->getDataType($dataType);
+        $typeToClassMap = $apiConfig->getTypeToClassMap();
+        if (!isset($typeToClassMap[$dataType])) {
+            throw new LogicException(sprintf('Specified data type "%s" does not match any class.', $dataType));
+        }
+        $complexTypeClass = $typeToClassMap[$dataType];
+        if (is_object($data) && (get_class($data) == $complexTypeClass)) {
+            /** In case of SOAP the object creation is performed by soap server. */
+            return $data;
+        }
+        $complexDataObject = new $complexTypeClass();
+        if (!is_array($data)) {
+            throw new Mage_Webapi_Exception(
+                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        }
+        foreach ($dataTypeMetadata['parameters'] as $fieldName => $fieldMetadata) {
+            if (isset($data[$fieldName])) {
+                $fieldValue = $data[$fieldName];
+            } elseif (($fieldMetadata['required'] == false)) {
+                $fieldValue = $fieldMetadata['default'];
+            } else {
+                throw new Mage_Webapi_Exception($this->__('Value of "%s" attribute is required.', $fieldName),
+                    Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+            }
+            $complexDataObject->$fieldName = $this->_formatParamData(
+                $fieldValue,
+                $fieldMetadata['type'],
+                $apiConfig
+            );
+        }
+        return $complexDataObject;
     }
 
     /**

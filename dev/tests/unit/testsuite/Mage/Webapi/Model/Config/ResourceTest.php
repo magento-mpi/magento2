@@ -344,7 +344,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/additionalRequired/:additionalRequired/optional/:optional" => array(
+                    "/:$versionParam/vendorModuleResources/additionalRequired/:additionalRequired/"
+                        . "optional/:optional" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),

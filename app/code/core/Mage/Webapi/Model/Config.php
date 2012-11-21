@@ -305,6 +305,7 @@ class Mage_Webapi_Model_Config
      * @param string $operationName
      * @return string Resource name on success
      * @throws LogicException
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getControllerClassByOperationName($operationName)
     {
@@ -359,18 +360,15 @@ class Mage_Webapi_Model_Config
      * @throws InvalidArgumentException
      * @throws LogicException
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _extractData()
     {
         if (is_null($this->_data)) {
             $this->_populateClassMap();
 
-            if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
-                $cachedData = $this->_cache->load(self::CONFIG_CACHE_ID);
-                if ($cachedData !== false) {
-                    $this->_data = unserialize($cachedData);
-                    return;
-                }
+            if ($this->_loadDataFromCache()) {
+                return $this;
             }
 
             $allRestRoutes = array();
@@ -407,14 +405,39 @@ class Mage_Webapi_Model_Config
             if (!isset($this->_data['resources'])) {
                 throw new LogicException('Cannot populate config - no action controllers were found.');
             }
+            $this->_saveDataToCache();
+        }
+    }
 
-            if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
-                $this->_cache->save(
-                    serialize($this->_data),
-                    self::CONFIG_CACHE_ID,
-                    array(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_TAG)
-                );
+    /**
+     * Load config data from cache.
+     *
+     * @return bool Return true on successful load; false otherwise
+     */
+    protected function _loadDataFromCache()
+    {
+        $isLoaded = false;
+        if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
+            $cachedData = $this->_cache->load(self::CONFIG_CACHE_ID);
+            if ($cachedData !== false) {
+                $this->_data = unserialize($cachedData);
+                $isLoaded = true;
             }
+        }
+        return $isLoaded;
+    }
+
+    /**
+     * Save data to cache if it is enabled.
+     */
+    protected function _saveDataToCache()
+    {
+        if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save(
+                serialize($this->_data),
+                self::CONFIG_CACHE_ID,
+                array(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_TAG)
+            );
         }
     }
 
@@ -496,8 +519,8 @@ class Mage_Webapi_Model_Config
             $routePath .= "/:" . Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
         }
 
-        foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequiredParam) {
-            $routePath .= "/$additionalRequiredParam/:$additionalRequiredParam";
+        foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequired) {
+            $routePath .= "/$additionalRequired/:$additionalRequired";
         }
 
         $actionType = $this->getActionTypeByMethod($this->getMethodNameWithoutVersionSuffix($methodReflection));
@@ -521,7 +544,7 @@ class Mage_Webapi_Model_Config
     {
         $collection = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION;
         $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
-        $methodToActionTypeMap = array(
+        $actionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_GET => $item,
@@ -531,10 +554,10 @@ class Mage_Webapi_Model_Config
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => $item,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $collection,
         );
-        if (!isset($methodToActionTypeMap[$methodName])) {
+        if (!isset($actionTypeMap[$methodName])) {
             throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $methodName));
         }
-        return $methodToActionTypeMap[$methodName];
+        return $actionTypeMap[$methodName];
     }
 
     /**
@@ -557,13 +580,13 @@ class Mage_Webapi_Model_Config
         $pathCombinations[] = $basePath;
         foreach ($optionalParams as $key => $paramName) {
             /** Add current param name to the route path and make recursive call. */
-            $optionalParamsWithoutCurrent = $optionalParams;
-            unset($optionalParamsWithoutCurrent[$key]);
+            $paramsWithoutCurrent = $optionalParams;
+            unset($paramsWithoutCurrent[$key]);
             $currentPath = "$basePath/$paramName/:$paramName";
             $pathCombinations = array_merge(
                 $pathCombinations,
                 $this->_getPathCombinations(
-                    $optionalParamsWithoutCurrent,
+                    $paramsWithoutCurrent,
                     $currentPath
                 )
             );
@@ -635,18 +658,18 @@ class Mage_Webapi_Model_Config
         /**#@+
          * Body param position in case of top level resources.
          */
-        $bodyPositionCreate = 1;
-        $bodyPositionMultiCreate = 1;
-        $bodyPositionUpdate = 2;
-        $bodyPositionMultiUpdate = 1;
-        $bodyPositionMultiDelete = 1;
+        $bodyPosCreate = 1;
+        $bodyPosMultiCreate = 1;
+        $bodyPosUpdate = 2;
+        $bodyPosMultiUpdate = 1;
+        $bodyPosMultiDelete = 1;
         /**#@-*/
         $bodyParamPositions = array(
-            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPositionCreate,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $bodyPositionMultiCreate,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPositionUpdate,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPositionMultiUpdate,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPositionMultiDelete
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPosCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $bodyPosMultiCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPosUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
         );
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
@@ -691,13 +714,13 @@ class Mage_Webapi_Model_Config
         $isIdFieldExpected = false;
         if (!$this->_isSubresource($methodReflection)) {
             /** Top level resource, not subresource */
-            $methodsWithIdExpected = array(
+            $methodsWithId = array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             );
             $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
-            if (in_array($methodName, $methodsWithIdExpected)) {
+            if (in_array($methodName, $methodsWithId)) {
                 $isIdFieldExpected = true;
             }
         } else {
@@ -737,7 +760,7 @@ class Mage_Webapi_Model_Config
     {
         $isIdFieldExpected = false;
         if ($this->_isSubresource($methodReflection)) {
-            $methodsWithParentIdExpected = array(
+            $methodsWithParentId = array(
                 Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
@@ -745,7 +768,7 @@ class Mage_Webapi_Model_Config
                 Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE,
             );
             $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
-            if (in_array($methodName, $methodsWithParentIdExpected)) {
+            if (in_array($methodName, $methodsWithParentId)) {
                 $isIdFieldExpected = true;
             }
         }
@@ -761,13 +784,13 @@ class Mage_Webapi_Model_Config
     protected function _isResourceIdExpected(ReflectionMethod $methodReflection)
     {
         $isIdFieldExpected = false;
-        $methodsWithIdExpected = array(
+        $methodsWithId = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
             Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
             Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
-        if (in_array($methodName, $methodsWithIdExpected)) {
+        if (in_array($methodName, $methodsWithId)) {
             $isIdFieldExpected = true;
         }
         return $isIdFieldExpected;
@@ -861,7 +884,10 @@ class Mage_Webapi_Model_Config
             $filename = $file->getFile();
             $classes = $file->getClasses();
             if (count($classes) > 1) {
-                throw new LogicException(sprintf('There can be only one class in the "%s" controller file .', $filename));
+                throw new LogicException(sprintf(
+                    'There can be only one class in the "%s" controller file .',
+                    $filename
+                ));
             }
             /** @var \Zend\Code\Scanner\ClassScanner $class */
             $class = reset($classes);
@@ -987,12 +1013,12 @@ class Mage_Webapi_Model_Config
                         break;
                 }
                 try {
-                    $methodNameWithoutVersionSuffix = $this->getMethodNameWithoutVersionSuffix($methodName);
+                    $methodWithoutVersion = $this->getMethodNameWithoutVersionSuffix($methodName);
                 } catch (Exception $e) {
                     throw new LogicException($invalidFormatMessage);
                 }
-                $deprecationPolicy['use_method'] = $methodNameWithoutVersionSuffix;
-                $methodVersion = str_replace($methodNameWithoutVersionSuffix, '', $methodName);
+                $deprecationPolicy['use_method'] = $methodWithoutVersion;
+                $methodVersion = str_replace($methodWithoutVersion, '', $methodName);
                 $deprecationPolicy['use_version'] = ucfirst($methodVersion);
             }
         }
@@ -1332,7 +1358,11 @@ class Mage_Webapi_Model_Config
         $resourceData = $this->_getResourceData($resourceName, $version);
         if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
             throw new InvalidArgumentException(
-                sprintf('The "%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName));
+                sprintf(
+                    'The "%s" resource does not have any REST routes for "%s" method.',
+                    $resourceName,
+                    $methodName
+                ));
         }
         $routes = array();
         foreach ($resourceData['methods'][$methodName]['rest_routes'] as $routePath) {
