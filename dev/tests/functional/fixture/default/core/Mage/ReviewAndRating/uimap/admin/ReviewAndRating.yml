@@ -43,7 +43,7 @@ new_rating:
     mca: rating/new/
     title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
     uimap: &newRating
-        form:
+        form: &new_rating-form
             tabs:
                 -
                     rating_information:
@@ -77,7 +77,7 @@ edit_rating:
     mca: rating/edit/id/%id%/
     title: %elementTitle% / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
     uimap:
-        form: *newRating
+        form: *new_rating-form
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

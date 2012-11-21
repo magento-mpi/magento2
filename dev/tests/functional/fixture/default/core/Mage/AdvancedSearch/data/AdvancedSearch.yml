@@ -36,7 +36,6 @@ product_create:
     general_news_to: %currentDate%
     general_status: Enabled
     general_visibility: Catalog, Search
-#    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%

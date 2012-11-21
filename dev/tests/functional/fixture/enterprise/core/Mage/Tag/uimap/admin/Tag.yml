@@ -18,12 +18,3 @@ edit_tag_more_options:
                         xpath: //dl[@id='tab_content_tag_assigned_grid']
                         links:
                             prod_tag_admin_expand: //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
-
-pending_tags:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    pending_tags_grid:
-                        dropdowns:
-                            filter_visible_in: //select[@name='visible_in']

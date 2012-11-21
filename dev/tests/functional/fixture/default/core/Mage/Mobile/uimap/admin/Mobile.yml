@@ -13,17 +13,18 @@ manage_apps:
     mca: mobile/
     click_xpath: //div[@class='nav-bar']//a[span='Manage Apps']
     title: Magento Admin
-    form:
-                fieldsets:
-                    -
-                        mobile_apps_grid:
-                            xpath: .//div[@id='mobile_apps_grid']
-                            buttons:
-                                reset_filter: //button[span='Reset Filter']
-                                search: //button[span='Search']
-                            dropdowns:
-                                device: //*[@id='mobile_apps_grid_filter_type']
-                                status: //*[@id='mobile_apps_grid_filter_status']
+    uimap:
+        form:
+            fieldsets:
+                -
+                    mobile_apps_grid:
+                        xpath: //div[@id='mobile_apps_grid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            device: //*[@id='mobile_apps_grid_filter_type']
+                            status: //*[@id='mobile_apps_grid_filter_status']
 
 submission_history:
     mca: mobile/history/

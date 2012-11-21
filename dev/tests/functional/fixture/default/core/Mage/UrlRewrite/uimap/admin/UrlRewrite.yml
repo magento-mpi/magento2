@@ -62,11 +62,11 @@ add_new_urlrewrite_category:
 #                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             sub_category: //ul[@class='x-tree-node-ct']/li/div/a[contains(span,'%subName%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-            dropdowns:
-                create_url_rewrite_dropdown: //select[@class='select']
-            buttons:
-                back: //button[span='Back']
-            messages: *pageMessages
+        dropdowns:
+            create_url_rewrite_dropdown: //select[@class='select']
+        buttons:
+            back: //button[span='Back']
+        messages: *pageMessages
 
 add_new_urlrewrite_product:
     mca: urlrewrite/edit/product
@@ -83,6 +83,7 @@ add_new_urlrewrite_product:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_status: //select[@name='status']
+                            create_url_rewrite_dropdown: //select[@class='select']
                         fields:
                             page: //input[@name='page']
                             filter_product_id: //input[@name='entity_id']
@@ -90,10 +91,9 @@ add_new_urlrewrite_product:
                             filter_sku: //input[@name='sku']
                         pageelements:
                             page_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
-            create_url_rewrite_dropdown: //select[@class='select']
-            buttons:
-                back: //button[span='Back']
-            messages: *pageMessages
+        buttons:
+            back: //button[span='Back']
+        messages: *pageMessages
 
 urlrewrite_product_category_selection:
     mca: urlrewrite/edit/product/%id%/category
@@ -108,8 +108,8 @@ urlrewrite_product_category_selection:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
                             sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-            buttons:
-                skip_category_selection: //button[span='Skip Category Selection']
+        buttons:
+            skip_category_selection: //button[span='Skip Category Selection']
 
 urlrewrite_custom:
     mca: urlrewrite/edit/id/
@@ -124,16 +124,16 @@ urlrewrite_custom:
                             request_store: //select[@name='store_id']
                             target-store: //select[@name='target_store_id']
                             redirect: //select[@name='options']
+                            create_url_rewrite_dropdown: //select[@class='select']
                         fields:
                             id_path: //input[@id='id_path']
                             request_path: //input[@name='request_path']
                             target_path: //input[@name='target_path']
                             description: //textarea[@id='description']
-            create_url_rewrite_dropdown: //select[@class='select']
-            buttons:
-                save: //button[span='Save']
-                back: //button[span='Back']
-            messages: *pageMessages
+        buttons:
+            save: //button[span='Save']
+            back: //button[span='Back']
+        messages: *pageMessages
 
 edit_urlrewrite_product:
     mca: urlrewrite/edit/product/%id%/category/%categoryId%/

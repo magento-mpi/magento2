@@ -16,9 +16,6 @@ system_configuration:
         form:
             tabs:
                 -
-                    all_tabs:
-                        xpath: //*[@id='system_config_tabs']/li/dl/dd
-                -
                     general_general:
                         fieldsets:
                             -
@@ -47,7 +44,6 @@ system_configuration:
                                         website_restriction_link: //parent::div//a[@id='general_restriction-head']
                             -
                                 single_store_mode:
-                                    xpath: //fieldset[@id='general_single_store_mode']
                                     dropdowns:
                                         enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
                                     links:
@@ -56,21 +52,7 @@ system_configuration:
                     general_design:
                         fieldsets:
                             -
-                                search_engine_robots:
-                                    xpath: //fieldset[@id='design_search_engine_robots']
-                                    fields:
-                                        edit_custom_instruction: //textarea[@name='groups[search_engine_robots][fields][custom_instructions][value]']
-                                    dropdowns:
-                                        default_robots: //select[@name='groups[search_engine_robots][fields][default_robots][value]']
-                                    checkboxes:
-                                        display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
-                                    buttons:
-                                        reset_to_default_robots: //button[span='Reset to Default']
-                                    links:
-                                        search_engine_robots_link: //parent::div//a[@id='design_search_engine_robots-head']
-                            -
                                 transaction_emails:
-                                    xpath: //fieldset[@id='design_email']
                                     links:
                                         transaction_emails_link: //parent::div//a[@id='design_email-head']
                 -
@@ -87,59 +69,21 @@ system_configuration:
                                     links:
                                         general_cms_versioning_link: //parent::div//a[@id='cms_content-head']
                 -
-                    general_reports:
-                        fieldsets:
-                            -
-                                dashboard_report:
-                                    xpath: //fieldset[@id='reports_dashboard']
-                                    links:
-                                        dashboard_report_link: //parent::div//a[@id='reports_dashboard-head']
-                -
-                    catalog_rss_feeds:
-                        fieldsets:
-                            -
-                                order_rss:
-                                    xpath: //fieldset[@id='rss_order']
-                                    links:
-                                        order_rss_link: //parent::div//a[@id='rss_order-head']
-                -
                     services_oauth:
                         xpath: //a[contains(@href, 'edit/section/oauth/')]
                         fieldsets:
                             -
                                 email:
-                                    xpath: //fieldset[@id='oauth_email']
                                     links:
                                         email_link: //parent::div//a[@id='oauth_email-head']
                             -
                                 cleanup_settings:
-                                    xpath: //fieldset[@id='oauth_cleanup']
                                     links:
                                         cleanup_settings_link: //parent::div//a[@id='oauth_cleanup-head']
-                -
-                    catalog_google_sitemap:
-                        fieldsets:
-                            -
-                                search_engine_submission_settings:
-                                    xpath: //fieldset[@id='sitemap_search_engines']
-                                    links:
-                                        search_engine_submission_settings_link: //parent::div//a[@id='sitemap_search_engines-head']
-                                    dropdowns:
-                                        enable_submission_to_robots: //select[@name='groups[search_engines][fields][submission_robots][value]']
                 -
                     catalog_catalog:
                         xpath: //a[contains(@href, 'edit/section/catalog/')]
                         fieldsets:
-                            -
-                                product_creation:
-                                    xpath: //fieldset[@id='catalog_fields_masks']
-                                    links:
-                                        product_creation_link: //parent::div//a[@id='catalog_fields_masks-head']
-                                    fields:
-                                        sku_mask: //*[@id='catalog_fields_masks_sku']
-                                        meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
-                                        meta_description_mask: //*[@id='catalog_fields_masks_meta_description']
-                                        meta_keyword_mask: //*[@id='catalog_fields_masks_meta_keyword']
                             -
                                 category_permissions:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
@@ -166,14 +110,6 @@ system_configuration:
                                     xpath: //fieldset[@id='catalog_enterprise_targetrule']
                                     links:
                                         catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
-                -
-                    customers_wishlist:
-                        fieldsets:
-                            -
-                                general_options_wishlist:
-                                    xpath: //fieldset[@id='wishlist_general']
-                                    links:
-                                        general_options_wishlist_link: //parent::div//a[@id='wishlist_general-head']
                 -
                     customer_invitations:
                         xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]
@@ -265,24 +201,8 @@ system_configuration:
                                     links:
                                         gift_registry_update_link: //parent::div//a[@id='enterprise_giftregistry_update_email-head']
                 -
-                    customers_persistent_shopping_cart:
-                        fieldsets:
-                            -
-                                general_options_shopping_cart:
-                                    xpath: //fieldset[@id='persistent_options']
-                                    links:
-                                        general_options_shopping_cart_link: //parent::div//a[@id='persistent_options-head']
-                -
                     customers_customer_configuration:
                         fieldsets:
-                            -
-                                password_options:
-                                    dropdowns:
-                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
-                                    fields:
-                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
-                                    links:
-
                             -
                                 captcha:
                                     fields:
@@ -297,14 +217,8 @@ system_configuration:
                         fieldsets:
                             -
                                 general:
-                                    xpath: //fieldset[@id='sales_general']
                                     links:
                                         general_link: //parent::div//a[@id='sales_general-head']
-                            -
-                                dashboard_sales:
-                                    xpath: //fieldset[@id='sales_dashboard']
-                                    links:
-                                        dashboard_sales_link: //parent::div//a[@id='sales_dashboard-head']
                             -
                                 gift_options:
                                     dropdowns:
@@ -329,16 +243,6 @@ system_configuration:
                                         sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]']
                                     multiselects:
                                         sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
-                            -
-                                general:
-                                    xpath: //fieldset[@id='sales_general']
-                                    links:
-                                        general_link: //parent::div//a[@id='sales_general-head']
-                            -
-                                dashboard_sales:
-                                    xpath: //fieldset[@id='sales_dashboard']
-                                    links:
-                                        dashboard_sales_link: //parent::div//a[@id='sales_dashboard-head']
                             -
                                 orders_invoices_shipments_archiving:
                                     xpath: //fieldset[@id='sales_enterprise_salesarchive']
@@ -377,42 +281,6 @@ system_configuration:
                                         oic_display_gift_wrapping_prices_use_default: //input[@id='tax_sales_display_gift_wrapping_inherit']
                                         oic_display_printed_card_prices_use_default: //input[@id='tax_sales_display_printed_card_inherit']
                 -
-                    sales_shipping_methods:
-                        fieldsets:
-                            -
-                                dhl:
-                                    xpath: //fieldset[@id='carriers_dhlint']
-                                    links:
-                                        dhl_link: //parent::div//a[@id='carriers_dhlint-head']
-                                    fields:
-                                        dhl_title: //input[@id='carriers_dhlint_title']
-                                        dhl_gateway_url: //input[@id='carriers_dhlint_gateway_url']
-                                        dhl_access_id: //input[@id='carriers_dhlint_id']
-                                        dhl_password: //input[@id='carriers_dhlint_password']
-                                        dhl_account_number: //input[@id='carriers_dhlint_account']
-                                        dhl_handling_fee: //input[@id='carriers_dhlint_handling_fee']
-                                        dhl_ready_time: //input[@id='carriers_dhlint_ready_time']
-                                        dhl_displayed_error_message: //textarea[@id='carriers_dhlint_specificerrmsg']
-                                        dhl_min_order_amount_for_free_shipping: //input[@id='carriers_dhlint_free_shipping_subtotal']
-                                        dhl_sort_order: //input[@id='carriers_dhlint_sort_order']
-                                    dropdowns:
-                                        dhl_enabled: //select[@id='carriers_dhlint_active']
-                                        dhl_content_type: //select[@id='carriers_dhlint_content_type']
-                                        dhl_calculate_handling_fee: //select[@id='carriers_dhlint_handling_type']
-                                        dhl_handling_applied: //select[@id='carriers_dhlint_handling_action']
-                                        dhl_divide_order_weight: //select[@id='carriers_dhlint_divide_order_weight']
-                                        dhl_weight_unit: //select[@id='carriers_dhlint_unit_of_measure']
-                                        dhl_size: //select[@id='carriers_dhlint_size']
-                                        dhl_free_method: //select[@id='carriers_dhlint_free_method_doc']
-                                        dhl_free_shipping_with_min_order_amount: //select[@id='carriers_dhlint_free_shipping_enable']
-                                        dhl_ship_to_applicable_countries: //select[@id='carriers_dhlint_sallowspecific']
-                                        dhl_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
-                                        dhl_debug: //select[@id='carriers_dhlint_debug']
-                                    multiselects:
-                                        dhl_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods']
-                                        dhl_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods']
-                                        dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
-                -
                     sales_gift_card:
                         xpath:  //a[contains(@href, 'edit/section/giftcard/')]
                         fieldsets:
@@ -441,7 +309,6 @@ system_configuration:
                         fieldsets:
                             -
                                 google_shopping:
-                                    xpath: //fieldset[@id='google_googleshopping']
                                     links:
                                         google_shopping_link: //parent::div//a[@id='google_googleshopping-head']
                 -
@@ -452,11 +319,23 @@ system_configuration:
                                     xpath: //fieldset[@id='payment_pbridge_authorizenet']
                                     links:
                                         authorize_net_payment_bridge_link: //parent::div//a[@id='payment_pbridge_authorizenet-head']
+                                    dropdowns:
+                                        anpb_enabled: //select[@name='groups[pbridge_authorizenet][fields][active][value]']
+                                        anpb_enable_cim: //select[@name='groups[pbridge_authorizenet][fields][payment_profiles_enabled][value]']
                             -
                                 payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge']
                                     links:
                                         payment_bridge_link: //parent::div//a[@id='payment_pbridge-head']
+                                    fields:
+                                        pb_merchant_code: //input[@name='groups[pbridge][fields][merchantcode][value]']
+                                        pb_merchant_key: //input[@name='groups[pbridge][fields][merchantkey][value]']
+                                        pb_gateway_url: //input[@name='groups[pbridge][fields][gatewayurl][value]']
+                                        pb_data_transfer_key: //input[@name='groups[pbridge][fields][transferkey][value]']
+                                        pb_unique_identifier: //input[@name='groups[pbridge][fields][uniquekey][value]']
+                                    dropdowns:
+                                        pb_enabled: //select[@name='groups[pbridge][fields][active][value]']
+                                        pb_debug: //select[@name='groups[pbridge][fields][debug][value]']
                             -
                                 ogone_direct_payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge_ogone_direct']
@@ -497,66 +376,17 @@ system_configuration:
                                     xpath: //fieldset[@id='payment_dibs']
                                     links:
                                         dibs_link: //parent::div//a[@id='payment_dibs-head']
-                            -
-                                banktransfer_payment:
-                                    xpath: //fieldset[@id='payment_banktransfer']
-                                    links:
-                                        banktransfer_payment_link: //parent::div//a[@id='payment_banktransfer-head']
-                            -
-                                cash_on_delivery_payment:
-                                    xpath: //fieldset[@id='payment_cashondelivery']
-                                    links:
-                                        cash_on_delivery_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
                 -
                     social_facebook:
                         xpath: //a[contains(@href, 'edit/section/facebook/')]
                         fieldsets:
                             -
                                 facebook_config:
-                                    xpath: //fieldset[@id='facebook_config']
                                     links:
                                         facebook_config_link: //parent::div//a[@id='facebook_config-head']
                 -
-                    sales_pdf_print_outs:
-                        fieldsets:
-                            -
-                                invoice_pdf:
-                                    xpath: //fieldset[@id='sales_pdf_invoice']
-                                    links:
-                                        invoice_pdf_link: //parent::div//a[@id='sales_pdf_invoice-head']
-                            -
-                                shipment_pdf:
-                                    xpath: //fieldset[@id='sales_pdf_shipment']
-                                    links:
-                                        shipment_pdf_link: //parent::div//a[@id='sales_pdf_shipment-head']
-                            -
-                                credit_memo_pdf:
-                                    xpath: //fieldset[@id='sales_pdf_creditmemo']
-                                    links:
-                                        credit_memo_pdf_link: //parent::div//a[@id='sales_pdf_creditmemo-head']
-                -
                     sales_sales_emails:
                         fieldsets:
-                            -
-                                order_sales:
-                                    xpath: //fieldset[@id='sales_email_order']
-                                    links:
-                                        order_sales_link: //parent::div//a[@id='sales_email_order-head']
-                            -
-                                invoice_sales:
-                                    xpath: //fieldset[@id='sales_email_invoice']
-                                    links:
-                                        invoice_sales_link: //parent::div//a[@id='sales_email_invoice-head']
-                            -
-                                shipment_sales:
-                                    xpath: //fieldset[@id='sales_email_shipment']
-                                    links:
-                                        shipment_sales_link: //parent::div//a[@id='sales_email_shipment-head']
-                            -
-                                credit_memo_sales:
-                                    xpath: //fieldset[@id='sales_email_creditmemo']
-                                    links:
-                                        credit_memo_sales_link: //parent::div//a[@id='sales_email_creditmemo-head']
                             -
                                 rma_sales:
                                     xpath: //fieldset[@id='sales_email_enterprise_rma']
@@ -582,35 +412,19 @@ system_configuration:
                         fieldsets:
                             -
                                 image_processing_settings:
-                                    xpath: //fieldset[@id='dev_image']
                                     links:
                                         image_processing_settings_link: //parent::div//a[@id='dev_image-head']
                             -
                                 static_files_settings:
-                                    xpath: //fieldset[@id='dev_static']
                                     links:
                                         static_files_settings_link: //parent::div//a[@id='dev_static-head']
                 -
                     advanced_admin:
                         fieldsets:
                             -
-                                dashboard_admin:
-                                    xpath: //fieldset[@id='admin_dashboard']
-                                    links:
-                                        dashboard_admin_link: //parent::div//a[@id='admin_dashboard-head']
-                            -
-                                captcha_admin:
-                                    xpath: //fieldset[@id='admin_captcha']
-                                    links:
-                                        captcha_admin_link: //parent::div//a[@id='admin_captcha-head']
-                            -
                                 security:
                                     fields:
                                         maximum_login_failures: //input[@name="groups[security][fields][lockout_failures][value]"]
-                            -
-                                admin_user_emails:
-                                    fields:
-                                        recovery_link_exp_period: //input[@name='groups[emails][fields][password_reset_link_expiration_period][value]']
                 -
                     advanced_system:
                         fieldsets:

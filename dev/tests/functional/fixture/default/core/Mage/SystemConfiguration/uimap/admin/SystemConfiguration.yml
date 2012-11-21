@@ -119,7 +119,7 @@ system_configuration:
                                         unsecure_base_skin_url: //input[@name='groups[unsecure][fields][base_skin_url][value]']
                                         unsecure_base_media_url: //input[@name='groups[unsecure][fields][base_media_url][value]']
                                         unsecure_base_javasript_url: //input[@name='groups[unsecure][fields][base_js_url][value]']
-                                    checboxes:
+                                    checkboxes:
                                         unsecure_base_url_use_default: //input[@name='groups[unsecure][fields][base_url][inherit]']
                                         unsecure_base_link_url_use_default: //input[@name='groups[unsecure][fields][base_link_url][inherit]']
                                         unsecure_base_skin_url_use_default: //input[@name='groups[unsecure][fields][base_skin_url][inherit]']
@@ -223,6 +223,8 @@ system_configuration:
                             -
                                 search_engine_robots:
                                     xpath: //fieldset[@id='design_search_engine_robots']
+                                    links:
+                                        search_engine_robots_link: //parent::div//a[@id='design_search_engine_robots-head']
                                     fields:
                                         edit_custom_instruction: //textarea[@name='groups[search_engine_robots][fields][custom_instructions][value]']
                                     dropdowns:
@@ -509,7 +511,7 @@ system_configuration:
                                 dashboard_report:
                                     xpath: //fieldset[@id='reports_dashboard']
                                     links:
-                                        dashboard_link: //parent::div//a[@id='reports_dashboard-head']
+                                        dashboard_report_link: //parent::div//a[@id='reports_dashboard-head']
                                     dropdowns:
                                         year_to_date_starts_month: //select[@name='groups[dashboard][fields][ytd_start][value][]'][1]
                                         year_to_date_starts_day: //select[@name='groups[dashboard][fields][ytd_start][value][]'][2]
@@ -536,7 +538,7 @@ system_configuration:
                                 product_creation:
                                     xpath: //fieldset[@id='catalog_fields_masks']
                                     links:
-                                        product_creation_link: /parent::div//a[@id='catalog_fields_masks-head']
+                                        product_creation_link: //parent::div//a[@id='catalog_fields_masks-head']
                                     fields:
                                         sku_mask: //*[@id='catalog_fields_masks_sku']
                                         meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
@@ -910,7 +912,7 @@ system_configuration:
                                 order_rss:
                                     xpath: //fieldset[@id='rss_order']
                                     links:
-                                        order_link: //parent::div//a[@id='rss_order-head']
+                                        order_rss_link: //parent::div//a[@id='rss_order-head']
                                     dropdowns:
                                         customer_order_status_notification: //select[@name='groups[order][fields][status_notified][value]']
                                     checkboxes:
@@ -1132,7 +1134,7 @@ system_configuration:
                                 general_options_wishlist:
                                     xpath: //fieldset[@id='wishlist_general']
                                     links:
-                                        general_options_link: //parent::div//a[@id='wishlist_general-head']
+                                        general_options_wishlist_link: //parent::div//a[@id='wishlist_general-head']
                                     dropdowns:
                                         enabled: //select[@name='groups[general][fields][active][value]']
                                     checkboxes:
@@ -1181,7 +1183,7 @@ system_configuration:
                                 general_options_shopping_cart:
                                     xpath: //fieldset[@id='persistent_options']
                                     links:
-                                        general_options_link: //parent::div//a[@id='persistent_options-head']
+                                        general_options_shopping_cart_link: //parent::div//a[@id='persistent_options-head']
                                     fields:
                                         persistence_lifetime_seconds: //input[@name='groups[options][fields][lifetime][value]']
                                     dropdowns:
@@ -1271,7 +1273,7 @@ system_configuration:
                                 dashboard_sales:
                                     xpath: //fieldset[@id='sales_dashboard']
                                     links:
-                                        dashboard_link: //parent::div//a[@id='sales_dashboard-head']
+                                        dashboard_sales_link: //parent::div//a[@id='sales_dashboard-head']
                                     dropdowns:
                                         use_aggregated_data: //select[@name='groups[dashboard][fields][use_aggregated_data][value]']
                             -
@@ -1302,6 +1304,7 @@ system_configuration:
                                         default_whats_this_text_message_use_default: //input[@name='groups[msrp][fields][explanation_message_whats_this][inherit]']
                                         enable_map_use_default: //input[@name='groups[msrp][fields][enabled][inherit]']
                                         apply_map_use_default: //input[@name='groups[msrp][fields][apply_for_all][inherit]']
+                                        apply_map_use_default: //input[@name='groups[msrp][fields][apply_for_all][inherit]']
                                         display_actual_prise_use_default: //input[@name='groups[msrp][fields][display_price_type][inherit]']
                 -
                     sales_sales_emails:
@@ -1311,7 +1314,7 @@ system_configuration:
                                 order_sales:
                                     xpath: //fieldset[@id='sales_email_order']
                                     links:
-                                        order_link: //parent::div//a[@id='sales_email_order-head']
+                                        order_sales_link: //parent::div//a[@id='sales_email_order-head']
                                     fields:
                                         send_order_email_copy_to: //input[@name='groups[order][fields][copy_to][value]']
                                     dropdowns:
@@ -1351,7 +1354,7 @@ system_configuration:
                                 invoice_sales:
                                     xpath: //fieldset[@id='sales_email_invoice']
                                     links:
-                                        invoice_link: //parent::div//a[@id='sales_email_invoice-head']
+                                        invoice_sales_link: //parent::div//a[@id='sales_email_invoice-head']
                                     fields:
                                         send_invoice_email_copy_to: //input[@name='groups[invoice][fields][copy_to][value]']
                                     dropdowns:
@@ -1391,7 +1394,7 @@ system_configuration:
                                 shipment_sales:
                                     xpath: //fieldset[@id='sales_email_shipment']
                                     links:
-                                        shipment_link: //parent::div//a[@id='sales_email_shipment-head']
+                                        shipment_sales_link: //parent::div//a[@id='sales_email_shipment-head']
                                     fields:
                                         send_shipment_email_copy_to: //input[@name='groups[shipment][fields][copy_to][value]']
                                     dropdowns:
@@ -1431,7 +1434,7 @@ system_configuration:
                                 credit_memo_sales:
                                     xpath: //fieldset[@id='sales_email_creditmemo']
                                     links:
-                                        credit_memo_link: //parent::div//a[@id='sales_email_creditmemo-head']
+                                        credit_memo_sales_link: //parent::div//a[@id='sales_email_creditmemo-head']
                                     fields:
                                         send_credit_memo_email_copy_to: //input[@name='groups[creditmemo][fields][copy_to][value]']
                                     dropdowns:
@@ -1475,7 +1478,7 @@ system_configuration:
                                 invoice_pdf:
                                     xpath: //fieldset[@id='sales_pdf_invoice']
                                     links:
-                                        invoice_link: //parent::div//a[@id='sales_pdf_invoice-head']
+                                        invoice_pdf_link: //parent::div//a[@id='sales_pdf_invoice-head']
                                     dropdowns:
                                         invoice_display_order_id_in_header: //select[@name='groups[invoice][fields][put_order_id][value]']
                                     checkboxes:
@@ -1484,7 +1487,7 @@ system_configuration:
                                 shipment_pdf:
                                     xpath: //fieldset[@id='sales_pdf_shipment']
                                     links:
-                                        shipment_link: //parent::div//a[@id='sales_pdf_shipment-head']
+                                        shipment_pdf_link: //parent::div//a[@id='sales_pdf_shipment-head']
                                     dropdowns:
                                         shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]']
                                     checkboxes:
@@ -1493,7 +1496,7 @@ system_configuration:
                                 credit_memo_pdf:
                                     xpath: //fieldset[@id='sales_pdf_creditmemo']
                                     links:
-                                        credit_memo_link: //parent::div//a[@id='sales_pdf_creditmemo-head']
+                                        credit_memo_pdf_link: //parent::div//a[@id='sales_pdf_creditmemo-head']
                                     dropdowns:
                                         credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
                                     checkboxes:
@@ -4066,14 +4069,14 @@ system_configuration:
                                 dashboard_admin:
                                     xpath: //fieldset[@id='admin_dashboard']
                                     links:
-                                        dashboard_link: //parent::div//a[@id='admin_dashboard-head']
+                                        dashboard_admin_link: //parent::div//a[@id='admin_dashboard-head']
                                     dropdowns:
                                         enable_charts: //select[@name='groups[dashboard][fields][enable_charts][value]']
                             -
                                 captcha_admin:
                                     xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        captcha_link: //parent::div//a[@id='admin_captcha-head']
+                                        captcha_admin_link: //parent::div//a[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']

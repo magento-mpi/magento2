@@ -85,7 +85,7 @@ edit_store_view:
     title: %elementTitle% / Stores / System / Magento Admin
     uimap:
         form:
-            fieldset:
+            fieldsets:
                 -
                     store_view_info:
                         xpath: //form[@id='edit_form']

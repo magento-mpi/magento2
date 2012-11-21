@@ -60,9 +60,9 @@ add_new_xml_sitemap:
                         fields:
                             xml_sitemap_create_filename: //input[@id='sitemap_filename']
                             xml_sitemap_create_path: //input[@id='sitemap_path']
-            buttons:
-                back: //button[@title='Back']
-                reset: //button[@title='Reset']
-                save_and_generate: //button[@title='Save & Generate']
-                save: //button[@title='Save']
-            messages: *pageMessages
+        buttons:
+            back: //button[@title='Back']
+            reset: //button[@title='Reset']
+            save_and_generate: //button[@title='Save & Generate']
+            save: //button[@title='Save']
+        messages: *pageMessages

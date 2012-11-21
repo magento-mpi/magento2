@@ -61,7 +61,7 @@ create_condition:
                         dropdowns:
                             status: //select[@name='is_active']
                             show_content_as: //select[@name='is_html']
-                        multiselect:
+                        multiselects:
                             store_view: //select[@name='stores[]']
                         required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
         buttons:

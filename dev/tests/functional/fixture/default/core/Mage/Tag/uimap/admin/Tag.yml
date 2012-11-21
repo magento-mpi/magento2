@@ -75,6 +75,7 @@ edit_tag:
                         xpath: //p[@class='switcher']
                         dropdowns:
                             switch_store: //select[@id='store_switcher']
+                -
                     general_info:
                         xpath: //div[@class='entry-edit']
                         dropdowns:
@@ -161,6 +162,7 @@ new_tag:
                         xpath: //p[@class='switcher']
                         dropdowns:
                             switch_store: //select[@id='store_switcher']
+                -
                     general_info:
                         xpath: //form[@id='edit_form']
                         dropdowns:
@@ -209,7 +211,7 @@ pending_tags:
                         pageelements:
                             tags_grid_head: //table[@id='pending_grid_table']//thead/tr[@class='headings']
                             tags_grid: //table[@id='pending_grid_table']
-            messages: *tagsMesssages
+        messages: *tagsMesssages
 
 product_tags:
     mca: tag/edit/tag_id/%id%/product_id/%prodId%

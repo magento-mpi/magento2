@@ -216,34 +216,34 @@ onepage_checkout:
                         links:
                             what_is_this: //a[contains(.,'What is this?')]
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number]
-            links:
-                order_number: //a[contains(@href, '/sales/order/view/order_id/')]
-            messages: &checkoutMessages
-                empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
-                please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
-                different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
-                invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
-                invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
-                exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
-                long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
-                #not verified
-                invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
-                invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
-                incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
-                empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
-                success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
-                payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
-                no_shipping: //*[@id='checkout-shipping-method-load']/p[text()='Sorry, no quotes are available for this order at this time.']
-                ship_method_unavailable: //dt[text()='%shipService%']/following::dd[1]//li[@class='error-msg'][.//text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
-                paypal_alert: There was an error processing your order. Please contact us or try again later.
-                shipping_alert: Please specify shipping method.
-                payment_alert: Please specify payment method.
-                success_checkout: //h1[contains(.,'Your order has been received')]
-                zero_payment: //dt[contains(label,'No Payment Information Required')]
-                empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
-                empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
-                incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-                captcha_alert: Incorrect CAPTCHA.
+        links:
+            order_number: //a[contains(@href, '/sales/order/view/order_id/')]
+        messages: &checkoutMessages
+            empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
+            please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
+            different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
+            invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"
+            invalid_email_address: "//*[@id='advice-validate-email-%fieldId%'][not(contains(@style,'display: none;'))]"
+            exist_email_alert: There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.
+            long_value_alert: '"%fieldName%" length must be equal or less than 255 characters.'
+            #not verified
+            invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
+            invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
+            incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
+            empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
+            success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
+            payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
+            no_shipping: //*[@id='checkout-shipping-method-load']/p[text()='Sorry, no quotes are available for this order at this time.']
+            ship_method_unavailable: //dt[text()='%shipService%']/following::dd[1]//li[@class='error-msg'][.//text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+            paypal_alert: There was an error processing your order. Please contact us or try again later.
+            shipping_alert: Please specify shipping method.
+            payment_alert: Please specify payment method.
+            success_checkout: //h1[contains(.,'Your order has been received')]
+            zero_payment: //dt[contains(label,'No Payment Information Required')]
+            empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
+            empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            captcha_alert: Incorrect CAPTCHA.
 
 onepage_checkout_success:
     mca: checkout/onepage/success/

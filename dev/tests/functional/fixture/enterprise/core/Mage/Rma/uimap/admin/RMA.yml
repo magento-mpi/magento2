@@ -33,7 +33,7 @@ manage_rma_items_attribute:
                             filter_attribute_code: //*[@id='rmaItemAttributeGrid_filter_attribute_code']
                             filter_attribute_label: //*[@id='rmaItemAttributeGrid_filter_frontend_label']
                             filter_sort_order: //*[@id='rmaItemAttributeGrid_filter_sort_order']
-                        dropdown:
+                        dropdowns:
                             filter_required: //*[@id='rmaItemAttributeGrid_filter_is_required']
                             filter_system: //*[@id='rmaItemAttributeGrid_filter_is_user_defined']
                             filter_visible_on_frontend: //*[@id='rmaItemAttributeGrid_filter_is_visible']

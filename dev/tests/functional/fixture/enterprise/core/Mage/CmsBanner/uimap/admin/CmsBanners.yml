@@ -70,7 +70,7 @@ create_cms_banner:
                                         specified_customer_segments: //select[@name='customer_segment_ids[]']
                 -
                     content:
-                        xpath: //a[@title='Content']/span
+                        xpath: //a[@title='Content']
                         fieldsets:
                             -
                                 default_content:

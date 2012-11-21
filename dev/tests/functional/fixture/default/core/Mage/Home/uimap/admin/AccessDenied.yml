@@ -11,5 +11,4 @@
 ---
 access_denied:
     mca: index/denied
-    click_xpath:
     title: Magento Admin
