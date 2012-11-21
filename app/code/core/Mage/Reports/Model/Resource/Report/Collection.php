@@ -119,7 +119,6 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
             $interval = array();
             $firstInterval = true;
             while ($dateStart->compare($dateEnd) <= 0) {
-
                 switch ($this->_period) {
                     case 'day':
                         $interval = $this->_getDayInterval($dateStart);

@@ -293,8 +293,8 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Set filter
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function setFilter($name, $value)
     {
@@ -306,7 +306,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Get filter by key
      *
-     * @param $name
+     * @param string $name
      * @return string
      */
     public function getFilter($name)
@@ -322,7 +322,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Set sub-report rows count
      *
-     * @param $size
+     * @param int $size
      */
     public function setSubReportSize($size)
     {
