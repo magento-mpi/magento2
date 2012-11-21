@@ -16,7 +16,7 @@ class Mage_Backend_Model_Config_Structure
     /**
      * Key that contains field type in structure array
      */
-    const TYPE_KEY = '_fieldType';
+    const TYPE_KEY = '_elementType';
 
     /**
      * Configuration structure represented as tree

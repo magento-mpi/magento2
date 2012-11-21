@@ -47,8 +47,8 @@ class Mage_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUnit_F
 
     public function testIteratorInitializesFlyweight()
     {
-        $this->_flyweightMock->expects($this->at(2))->method('setData')->with(array('id' => 1));
-        $this->_flyweightMock->expects($this->at(5))->method('setData')->with(array('id' => 2));
+        $this->_flyweightMock->expects($this->at(0))->method('setData')->with(array('id' => 1));
+        $this->_flyweightMock->expects($this->at(2))->method('setData')->with(array('id' => 2));
         $this->_flyweightMock->expects($this->any())->method('isVisible')->will($this->returnValue(true));
         $counter = 0;
         foreach ($this->_model as $item) {
