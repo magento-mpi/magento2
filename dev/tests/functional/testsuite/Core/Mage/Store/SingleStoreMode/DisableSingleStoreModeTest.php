@@ -32,7 +32,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -96,7 +96,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
     function systemConfigurationVerificationTableRatesExport($diffScope)
     {
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('sales_shipping_methods');
         $button = 'table_rates_export_csv';
         if ($diffScope == 'Main Website') {
@@ -134,7 +134,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
     function systemConfigurationVerificationAccountSharingOptions($diffScope)
     {
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('customers_customer_configuration');
         $fieldset = 'account_sharing_options';
         if ($diffScope == 'Default Config') {
@@ -172,7 +172,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
     function systemConfigurationVerificationCatalogPrice($diffScope)
     {
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
         $fieldset = 'price';
         if ($diffScope == 'Default Config') {
@@ -213,7 +213,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
     function systemConfigurationVerificationDebugOptions($diffScope)
     {
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->systemConfigurationHelper()->openConfigurationTab('advanced_developer');
         $fieldset = 'debug';
         if (($diffScope == 'Main Website') || ($diffScope == 'Default Store View')) {
@@ -246,27 +246,11 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
         //Skip
         $this->markTestIncomplete('MAGETWO-3502');
         //Steps
-        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
-        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
-        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
         $this->admin('system_configuration');
         $tabs = $this->getCurrentUimapPage()->getMainForm()->getAllTabs();
-        foreach ($tabs as $tab => $value) {
-            $uimapFields = array();
-            $this->openTab($tab);
-            $uimapFields[self::FIELD_TYPE_MULTISELECT] = $value->getAllMultiselects();
-            $uimapFields[self::FIELD_TYPE_DROPDOWN] = $value->getAllDropdowns();
-            $uimapFields[self::FIELD_TYPE_INPUT] = $value->getAllFields();
-            foreach ($uimapFields as $element) {
-                foreach ($element as $name => $xpath) {
-                    if ((!$this->isElementPresent($xpath . $storeView)) && (!$this->isElementPresent($xpath . $globalView)) &&
-                        (!$this->isElementPresent($xpath . $websiteView))) {
-                        $this->addVerificationMessage("Element $name is not on the page");
-                    }
-                }
-            }
+        foreach ($tabs as $tabName => $tabUimap) {
+            $this->systemConfigurationHelper()->verifyTabFieldsAvailability($tabName);
         }
-        $this->assertEmptyVerificationErrors();
     }
 
     /**

@@ -111,8 +111,8 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             array('payment_data' => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
-            array('conditions' => '%noValue%'));
+        $ruleData =
+            $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions' => '%noValue%'));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->priceRulesHelper()->createRule($ruleData);
@@ -185,8 +185,8 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             array('payment_data' => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
-            array('conditions' => '%noValue%'));
+        $ruleData =
+            $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions' => '%noValue%'));
         //prepare all necessary data to place order
         foreach ($products['name'] as $key => $productName) {
             $orderData['products_to_add']['product_' . $key]['filter_name'] = $productName;

@@ -32,7 +32,7 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStore
         //Steps
         $this->loginAdminUser();
         $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array());
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->navigate('manage_customers');

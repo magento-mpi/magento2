@@ -1,16 +1,13 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterpise_Pbridge
+ * @package     Magento
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
 {
     /**
@@ -31,43 +28,10 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->useHttps('frontend');
 
-        $this->_toggleAuthorizePBConfiguration();
-        $this->_togglePaymentBridgeConfiguration();
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_pb_enable');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/payment_bridge_disable');
 
         return $userData;
-    }
-
-    /**
-     * Enable/Disable Authorize.net (Payment Bridge only) configuration
-     *
-     * @param bool $enable
-     */
-    protected function _toggleAuthorizePBConfiguration($enable = true)
-    {
-        $key = 'enable';
-        if (!$enable) {
-            $key = 'disable';
-        }
-
-        $paymentConfiguration = $this->loadDataSet('PaymentMethod', 'authorizenetpb_' . $key);
-        $this->systemConfigurationHelper()->configure($paymentConfiguration);
-    }
-
-    /**
-     * Enable/Disable Payment Bridge configuration
-     *
-     * @param bool $enable
-     */
-    protected function _togglePaymentBridgeConfiguration($enable = true)
-    {
-        $key = 'enable';
-        if (!$enable) {
-            $key = 'disable';
-        }
-
-        $paymentConfiguration = $this->loadDataSet('PaymentMethod', 'payment_bridge_' . $key);
-        unset($paymentConfiguration['configuration_scope']);
-        $this->systemConfigurationHelper()->configure($paymentConfiguration);
     }
 
     /**
@@ -80,13 +44,8 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
      */
     public function isProfilePageSecure(array $userData)
     {
-        $this->customerHelper()->frontLoginCustomer(
-            array(
-                'email'    => $userData['email'],
-                'password' => $userData['password']
-            )
-        );
-
+        $this->customerHelper()->frontLoginCustomer(array('email'    => $userData['email'],
+                                                          'password' => $userData['password']));
         $page = 'my_credit_cards';
         $pageUrl = $this->getPageUrl('frontend', $page);
         if (substr($pageUrl, 0, 5) === 'https') {
@@ -95,7 +54,6 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
         $this->url($pageUrl);
         $this->validatePage($page);
         $this->assertTrue($this->controlIsPresent('pageelement', 'account_title'));
-
         $this->assertStringStartsWith('https://', $this->url(), 'Url must be secure');
     }
 
@@ -108,8 +66,7 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->useHttps('frontend', 'No');
-
-        $this->_toggleAuthorizePBConfiguration(false);
-        $this->_togglePaymentBridgeConfiguration(false);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_pb_disable');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/payment_bridge_disable');
     }
 }

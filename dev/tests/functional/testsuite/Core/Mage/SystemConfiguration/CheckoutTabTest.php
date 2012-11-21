@@ -38,7 +38,7 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
      */
     function verificationCheckoutTab($diffScope)
     {
-        $this->systemConfigurationHelper()->changeConfigurationScope('current_configuration_scope', $diffScope);
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->assertTrue($this->controlIsPresent('tab', 'sales_checkout'),
             "'Checkout' tab is not present on the page if Scope is $diffScope");
     }

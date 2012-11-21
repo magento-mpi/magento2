@@ -272,7 +272,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      * @param string $captureType
      * @param string $refundType
      * @param array $orderData
-     * @param string $sku
      *
      * @test
      * @dataProvider refundDataProvider
@@ -280,7 +279,7 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6101
      */
-    public function partialRefund($captureType, $refundType, $orderData, $sku)
+    public function partialRefund($captureType, $refundType, $orderData)
     {
         $this->markTestIncomplete('MAGETWO-2856');
         //Data

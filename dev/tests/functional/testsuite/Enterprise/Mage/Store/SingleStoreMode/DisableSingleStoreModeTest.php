@@ -32,7 +32,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');

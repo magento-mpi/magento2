@@ -25,7 +25,7 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
         $this->systemConfigurationHelper()->expandFieldSet('countries_options');
         $this->fillCheckbox('default_country_use_default', 'No');
         $this->fillDropdown('default_country', 'Thailand');

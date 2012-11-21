@@ -144,11 +144,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->openTab('inventory');
-        $this->assertEquals($productData['general_qty'],
-            $this->getValue($this->_getControlXpath('field', 'inventory_qty')),
+        $this->assertEquals($productData['general_qty'], $this->getControlAttribute('field', 'inventory_qty', 'value'),
             'Inventory Qty data is not equal to entered on General tab data');
-        $this->assertEquals($productData['general_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"),
+        $this->assertEquals($productData['general_stock_availability'],
+            $this->select($this->getControlElement('dropdown', 'inventory_stock_availability'))->selectedLabel(),
             'Selected value for Stock Availability is not equal to entered on General tab data');
     }
 
@@ -192,11 +191,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals($productData['inventory_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"),
+        $this->assertEquals($productData['inventory_stock_availability'],
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel(),
             'Stock Availability Dropdown on General tab is not the same as entered data');
-        $fieldXpath = $this->_getControlXpath('field', 'general_qty');
-        $this->assertTrue($this->isElementPresent($fieldXpath) && !$this->isEditable($fieldXpath),
+        $this->assertFalse($this->controlIsEditable('field', 'general_qty'),
             'Quantity field is absent or is editable for this product type');
     }
 
@@ -250,11 +248,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
         $this->openTab('general');
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'general_stock_availability');
-        $this->assertTrue($this->isElementPresent($dropdownXpath) && !$this->isEditable($dropdownXpath),
+        $this->assertFalse($this->controlIsEditable('dropdown', 'general_stock_availability'),
             'Stock Availability dropdown on Product Details tab is editable but should not');
-        $this->assertEquals($defaultValue['default_stock_status'], $this->getText(
-                $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"),
+        $this->assertEquals($defaultValue['default_stock_status'],
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel(),
             'Selected value for Stock Availability is not equal to default value of attribute');
     }
 
@@ -340,15 +337,14 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals($productData['inventory_qty'],
-            $this->getValue($this->_getControlXpath('field', 'general_qty')));
-        $this->assertEquals($productData['inventory_stock_availability'], $this->getText(
-            $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"));
+        $this->assertEquals($productData['inventory_qty'], $this->getControlAttribute('field', 'general_qty', 'value'));
+        $this->assertEquals($productData['inventory_stock_availability'],
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel());
         $this->openTab('inventory');
         $this->assertEquals($productData['inventory_qty'],
-            $this->getValue($this->_getControlXpath('field', 'inventory_qty')));
-        $this->assertEquals($productData['inventory_stock_availability'], $this->getText(
-            $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"));
+            $this->getControlAttribute('field', 'inventory_qty', 'value'));
+        $this->assertEquals($productData['inventory_stock_availability'],
+            $this->select($this->getControlElement('dropdown', 'inventory_stock_availability'))->selectedLabel());
     }
 
     /**
@@ -395,13 +391,13 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals($qty, $this->getValue($this->_getControlXpath('field', 'general_qty')));
-        $this->assertEquals($stock, $this->getText(
-            $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"));
+        $this->assertEquals($qty, $this->getControlAttribute('field', 'general_qty', 'value'));
+        $this->assertEquals($stock,
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel());
         $this->openTab('inventory');
-        $this->assertEquals($qty, $this->getValue($this->_getControlXpath('field', 'inventory_qty')));
-        $this->assertEquals($stock, $this->getText(
-            $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"));
+        $this->assertEquals($qty, $this->getControlAttribute('field', 'inventory_qty', 'value'));
+        $this->assertEquals($stock,
+            $this->select($this->getControlElement('dropdown', 'inventory_stock_availability'))->selectedLabel());
     }
 
     /**
@@ -436,22 +432,21 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
         $this->openTab('inventory');
-        $selectedStock = $this->getText(
-            $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']");
+        $selectedStock =
+            $this->select($this->getControlElement('dropdown', 'inventory_stock_availability'))->selectedLabel();
         $this->assertEquals($productData['general_stock_availability'], $selectedStock,
             'Stock Availability is not synchronized for Inventory tab');
-        $this->assertEquals($productData['general_qty'],
-            $this->getValue($this->_getControlXpath('field', 'inventory_qty'),
-                'Qty is not synchronized for Inventory tab'));
+        $this->assertEquals($productData['general_qty'], $this->getControlAttribute('field', 'inventory_qty', 'value'),
+            'Qty is not synchronized for Inventory tab');
         //Steps
         $this->fillDropdown('inventory_stock_availability', $newStockData);
         $this->fillField('inventory_qty', $qty);
         $this->openTab('general');
         //Verifying
-        $this->assertEquals($qty, $this->getValue($this->_getControlXpath('field', 'general_qty')),
+        $this->assertEquals($qty, $this->getControlAttribute('field', 'general_qty', 'value'),
             'Qty is not synchronized for General tab');
-        $this->assertEquals($newStockData, $this->getText(
-                $this->_getControlXpath('dropdown', 'general_stock_availability') . "//option[@selected='selected']"),
+        $this->assertEquals($newStockData,
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel(),
             'Stock Availability is not synchronized for General tab');
     }
 
@@ -489,16 +484,14 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->changeAttributeSet($attributeSet['set_name']);
         //Verifications
         $this->openTab('general');
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'general_stock_availability');
-        $this->assertTrue($this->isElementPresent($dropdownXpath) && $this->isEditable($dropdownXpath),
+        $this->assertTrue($this->controlIsEditable('dropdown', 'general_stock_availability'),
             'General Stock Availability control is disabled or is absent');
-        $fieldXpath = $this->_getControlXpath('field', 'general_qty');
-        $this->assertTrue($this->isElementPresent($fieldXpath) && $this->isEditable($fieldXpath),
+        $this->assertTrue($this->controlIsEditable('field', 'general_qty'),
             'General Qty control is disabled or is absent');
-        $this->assertEquals($productData['inventory_qty'], $this->getValue($fieldXpath),
+        $this->assertEquals($productData['inventory_qty'], $this->getControlAttribute('field', 'general_qty', 'value'),
             'Qty is not saved after Attribute Set has been changed');
         $this->assertEquals($productData['inventory_stock_availability'],
-            $this->getText($dropdownXpath . "//option[@selected='selected']"),
+            $this->select($this->getControlElement('dropdown', 'general_stock_availability'))->selectedLabel(),
             'Stock Availability is not saved after Attribute Set has been changed');
     }
 
@@ -531,13 +524,12 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->openTab('inventory');
-        $this->assertEquals($productData['general_qty'],
-            $this->getValue($this->_getControlXpath('field', 'inventory_qty')),
+        $this->assertEquals($productData['general_qty'], $this->getControlAttribute('field', 'inventory_qty', 'value'),
             'Qty is not saved after product duplication');
-        $this->assertEquals($productData['general_stock_availability'], $this->getText(
-                $this->_getControlXpath('dropdown', 'inventory_stock_availability') . "//option[@selected='selected']"),
+        $this->assertEquals($productData['general_stock_availability'],
+            $this->select($this->getControlElement('dropdown', 'inventory_stock_availability'))->selectedLabel(),
             'Stock Availability is not saved after product duplication');
-        $this->productHelper()->verifyProductInfo(array('general_sku' =>
-        $this->productHelper()->getGeneratedSku($productData['general_sku'])));
+        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()
+            ->getGeneratedSku($productData['general_sku'])));
     }
 }

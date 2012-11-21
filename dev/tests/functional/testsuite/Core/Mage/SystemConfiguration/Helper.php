@@ -163,4 +163,38 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->configure($parameters);
     }
 
+    public function verifyTabFieldsAvailability($tabName)
+    {
+        $needFieldTypes = array('multiselect', 'dropdown', 'field');
+        $tabUimap = $this->_findUimapElement('tab', $tabName);
+        $this->systemConfigurationHelper()->openConfigurationTab($tabName);
+        $uimapFields = $tabUimap->getTabElements($this->getParamsHelper());
+        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
+        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
+        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
+        foreach ($uimapFields as $fieldType => $fieldTypeData) {
+            if (!in_array($fieldType, $needFieldTypes)) {
+                continue;
+            }
+            foreach ($fieldTypeData as $fieldName => $fieldLocator) {
+                if (!$this->elementIsPresent($fieldLocator)) {
+                    $this->addVerificationMessage("Element $fieldName with locator $fieldLocator is not on the page");
+                    continue;
+                }
+                if (!$this->elementIsPresent($fieldLocator . $globalView)) {
+                    $locator = $fieldLocator . $globalView;
+                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
+                }
+                if (!$this->elementIsPresent($fieldLocator . $websiteView)) {
+                    $locator = $fieldLocator . $websiteView;
+                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
+                }
+                if (!$this->elementIsPresent($fieldLocator . $storeView)) {
+                    $locator = $fieldLocator . $storeView;
+                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
+                }
+            }
+        }
+        $this->assertEmptyVerificationErrors();
+    }
 }

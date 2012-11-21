@@ -163,7 +163,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
             array('country'    => 'United Kingdom',
                   'billing_vat_number' => '584451913',
                   'default_billing_address' => '%noValue%'));
-        $userDataParam = $userRegisterData['first_name'] . ' ' . $userRegisterData['last_name'];
         //Creating customer on front-end
         $this->goToArea('frontend');
         $this->navigate('customer_login');
@@ -176,7 +175,9 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->clickButton('save_address');
         $this->assertMessagePresent('success', 'success_validate_intraunion_vat');
         //Verifying Customer Group on back-end
-        $this->ValidationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
+        $this->navigate('manage_customers');
+        $this->customerHelper()->openCustomer($userRegisterData);
+        $this->openTab('account_information');
         $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']),'account_information');
     }
 

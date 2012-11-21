@@ -59,7 +59,6 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     public function onProductPageWithRequiredFieldsOnly($attributeType)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
         $this->productHelper()->selectTypeProduct('simple');

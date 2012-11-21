@@ -343,7 +343,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
     public function searchNonexistentCategory()
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
         $selectedCategory = $this->generate('string', 20, ':alnum:');
         //Steps
         $this->navigate('manage_products');
@@ -392,7 +391,7 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals('', $this->getValue($this->_getControlXpath('field', 'categories')),
+        $this->assertEquals('', $this->getControlAttribute('field', 'categories', 'value'),
             'Category was not unassigned from product.');
     }
 

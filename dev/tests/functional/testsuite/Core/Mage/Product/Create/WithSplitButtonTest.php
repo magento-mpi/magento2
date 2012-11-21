@@ -14,7 +14,7 @@
 /**
  * Product creation tests
  */
-class Core_Mage_Product_Create_WithSplitButtontTest extends Mage_Selenium_TestCase
+class Core_Mage_Product_Create_WithSplitButtonTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

@@ -42,7 +42,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $config = $this->loadDataSet('SingleStoreMode', 'enable_single_store_mode');
         //Steps
         $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -178,33 +178,12 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->markTestIncomplete('MAGETWO-3502');
         //Steps
         $this->admin('system_configuration');
-        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
-        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
-        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
         $tabs = $this->getCurrentUimapPage()->getMainForm()->getAllTabs();
-        foreach ($tabs as $tab => $value) {
-            $uimapFields = array();
-            $this->openTab($tab);
-            $uimapFields[self::FIELD_TYPE_MULTISELECT] = $value->getAllMultiselects();
-            $uimapFields[self::FIELD_TYPE_DROPDOWN] = $value->getAllDropdowns();
-            $uimapFields[self::FIELD_TYPE_INPUT] = $value->getAllFields();
-            foreach ($uimapFields as $element) {
-                foreach ($element as $name => $xpath) {
-                    if ($this->isElementPresent($xpath . $storeView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
-                    }
-                    if ($this->isElementPresent($xpath . $globalView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
-                    }
-                    if ($this->isElementPresent($xpath . $websiteView)) {
-                        $this->addVerificationMessage("Element $name is on the page");
-                    }
-                }
-            }
+        foreach ($tabs as $tabName => $tabUimap) {
+            $this->systemConfigurationHelper()->verifyTabFieldsAvailability($tabName);
         }
-        $this->assertEmptyVerificationErrors();
-
     }
+
     /**
      * <p> Manage Product page </p>
      * <p> 1. Go to Catalog - Manage Products </p>
