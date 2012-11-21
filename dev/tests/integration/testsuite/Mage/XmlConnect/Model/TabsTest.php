@@ -23,6 +23,7 @@ class Mage_XmlConnect_Model_TabsTest extends PHPUnit_Framework_TestCase
 
     public function testGetRenderTabs()
     {
+        $this->markTestIncomplete('MAGETWO-4738');
         $model = Mage::getModel('Mage_XmlConnect_Model_Tabs', array('data' => false));
         $tabs = $model->getRenderTabs();
         $this->assertInternalType('array', $tabs);
