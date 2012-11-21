@@ -72,7 +72,8 @@ try {
         __DIR__ . '/../extruder.php',
         $targetDir,
         "$listsDir/common.txt",
-        "$listsDir/ce.txt",
+        "$listsDir/ee.txt",
+        "$listsDir/saas.txt",
         "$listsDir/dev_build.txt"
     );
 

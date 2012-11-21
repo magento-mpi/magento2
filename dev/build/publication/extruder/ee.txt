@@ -1,1 +1,34 @@
-# Magento Enterprise Edition publishing is not implemented yet
+# Files or directories that are part of Magento EE and may be not included in other edition
+# See also common.txt and dev_build.txt for items that are not part of any edition
+#
+LICENSE_EE.html
+LICENSE_EE.txt
+app/code/core/Enterprise
+app/design/adminhtml/default/enterprise
+app/design/frontend/enterprise
+app/design/install/default/enterprise
+app/etc/enterprise.xml
+app/etc/modules
+dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
+dev/tests/integration/testsuite/Enterprise
+dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
+dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
+dev/tests/integration/testsuite/Theme
+dev/tests/static/testsuite/Integrity/Enterprise
+dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
+dev/tests/static/testsuite/Legacy/_files/sanity_ee.xml
+dev/tests/static/testsuite/Legacy/Enterprise
+dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/ee.txt
+dev/tests/unit/testsuite/Enterprise
+dev/tools/migration/factory_table_names/replace_ee.php
+dev/tools/migration/aliases_map/composite_modules_ee.php
+dev/tools/migration/System/log/report_ee.log
+downloader/Maged/Model/Config/Enterprise.php
+downloader/skin/install/images/enterprise.gif
+downloader/template/enterprise
+lib/Apache
+pub/errors/enterprise
