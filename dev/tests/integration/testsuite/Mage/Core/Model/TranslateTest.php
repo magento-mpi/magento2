@@ -19,28 +19,19 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public static function setUpBeforeClass()
-    {
-        //Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__));
-
-        $localeDir = dirname(__FILE__) . '/_files/locale';
-        $designDir = dirname(__FILE__) . '/_files/design';
-
-        Mage::getConfig()->setOptions(array(
-            'locale_dir' => $localeDir,
-            'design_dir' => $designDir,
-        ));
-
-        $pattern = implode(DS, array($designDir, 'frontend', 'test', 'default', 'theme.xml'));
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $theme->loadFromConfiguration($pattern)->save();
-
-        Mage::getDesign()->setArea('frontend')->setDesignTheme($theme);
-    }
-
     public function setUp()
     {
+        Mage::getConfig()->setOptions(array(
+            'locale_dir' => dirname(__FILE__) . '/_files/locale',
+        ));
+
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__FILE__) . '/_files/design',
+            Mage::getDesign()
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
+
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
@@ -79,13 +70,11 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $themeId = Mage::getDesign()->getDesignTheme()->getId();
-
         $this->assertEquals('frontend', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_AREA));
         $this->assertEquals('en_US', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
         $this->assertEquals(1, $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_STORE));
-        $this->assertEquals($themeId, $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
-
+        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getId(),
+            $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }
 
