@@ -45,12 +45,7 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->windowHandles();
-        if (count($windowQty) > 1 && end($windowQty) != '') {
-            $this->window(end($windowQty));
-            $this->closeLastWindow();
-            $this->window('');
-        }
+        $this->closeLastWindow();
     }
 
     /**
