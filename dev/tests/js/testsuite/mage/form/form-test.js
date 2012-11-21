@@ -9,16 +9,10 @@
 FormTest = TestCase('FormTest');
 FormTest.prototype.testInit = function() {
     /*:DOC += <form id="form" action="action/url/" ></form>*/
-    var form = jQuery('#form').form(),
-        templateData = {
-            base: 'action/url/',
-            args: {arg: 'val'}
-        },
-        testActionTemplate = form.form('option', 'actionTemplate');
-    jQuery.template('testActionTemplate', testActionTemplate);
+    var form = jQuery('#form').form();
 
-    assertEquals($.tmpl('actionTemplate', templateData).text(), $.tmpl('testActionTemplate', templateData).text());
-    assertEquals(true, form.is(':mage-form'));
+    assertNotUndefined(jQuery.template['actionTemplate']);
+    assertTrue(form.is(':mage-form'));
 };
 FormTest.prototype.testRollback = function() {
     /*:DOC += <form id="form" action="action/url" method="GET", target="_self" ></form>*/
@@ -52,7 +46,7 @@ FormTest.prototype.testGetHandlers = function() {
     $.each(handlersData, function(key) {
         handlers.push(key);
     });
-    assertEquals(true, handlers.join(' ') === form.data("form")._getHandlers().join(' '));
+    assertEquals(handlers.join(' '), form.data("form")._getHandlers().join(' '));
 };
 FormTest.prototype.testStoreAttribute = function() {
     /*:DOC += <form id="form" action="action/url" method="GET", target="_self" ></form>*/
@@ -82,7 +76,7 @@ FormTest.prototype.testBind = function() {
     });
     $.each(handlersData, function(key) {
         form.trigger(key);
-        assertEquals(true, submitted);
+        assertTrue(submitted);
         submitted = false;
     });
 };
@@ -159,7 +153,7 @@ FormTest.prototype.testBeforeSubmit = function() {
                     arg2: 'value2'
                 }
             },
-            tagret: '_blank'
+            target: '_blank'
         },
         eventData = {
             method: 'POST'
@@ -214,5 +208,5 @@ FormTest.prototype.testSubmit = function() {
     assertEquals(form.prop('action'), form.data("form").oldAttributes.action);
     assertEquals(form.prop('target'), form.data("form").oldAttributes.target);
     assertEquals(form.prop('method'), form.data("form").oldAttributes.method);
-    assertEquals(true, formSubmitted);
+    assertTrue(formSubmitted);
 };

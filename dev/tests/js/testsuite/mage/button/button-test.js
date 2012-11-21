@@ -9,8 +9,7 @@
 ButtonTest = TestCase('ButtonTest');
 ButtonTest.prototype.testInit = function() {
     /*:DOC += <button id="test-button"></button><div id="event-target"></div>*/
-    var button = jQuery('#test-button').button();
-    assertEquals(true, button.is(':ui-button'));
+    assertTrue(jQuery('#test-button').button().is(':ui-button'));
 };
 ButtonTest.prototype.testProcessDataAttr = function() {
     /*:DOC += <button id="test-button" data-widget-button="{&quot;event&quot;:&quot;testEvent&quot;,&quot;related&quot;:&quot;#event-target&quot;}"></button>
@@ -22,12 +21,11 @@ ButtonTest.prototype.testProcessDataAttr = function() {
 ButtonTest.prototype.testBind = function() {
     /*:DOC += <button id="test-button" data-widget-button="{&quot;event&quot;:&quot;testEvent&quot;,&quot;related&quot;:&quot;#event-target&quot;}"></button>
         <div id="event-target"></div>*/
-    var button = jQuery('#test-button').button(),
-        testEventTriggered = false;
+    var testEventTriggered = false;
     jQuery('#event-target').on('testEvent', function(e) {
         testEventTriggered = true;
     });
-    button.click();
+    jQuery('#test-button').button().click();
 
-    assertEquals(true, testEventTriggered);
+    assertTrue(testEventTriggered);
 };
