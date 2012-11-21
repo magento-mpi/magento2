@@ -237,7 +237,8 @@ do {
 
 <div id="associated-products-container" style="display: none;"><?php echo $this->getGridHtml(); ?></div>
 <script type="text/javascript">
-var superProduct = new Product.Configurable(<?php echo $this->getAttributesJson() ?>,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
+var usedAttributes = <?php echo $this->getAttributesJson() ?>;
+var superProduct = new Product.Configurable(usedAttributes,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
 superProduct.createEmptyUrl = '<?php echo $this->getNewEmptyProductUrl() ?>';
 superProduct.createNormalUrl = '<?php echo $this->getNewProductUrl() ?>';
 superProduct.createQuickUrl = '<?php echo $this->getQuickCreationUrl() ?>';
@@ -255,7 +256,7 @@ Validation.add(
 </div>
 <script type="text/javascript">
 jQuery(function($) {
-    $("#<?php echo $this->getId()?>-checkbox").bind('click change', function() {
+    $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).attr('checked')) {
             $fieldset.show();
@@ -282,9 +283,7 @@ jQuery(function ($) {
         var $button = $(this);
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; }),
-            'products[]' : superProduct.links.keys().size() ? this.links.keys() : [ 0 ],
-            'new_products[]' : superProduct.newProducts
+            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; })
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')

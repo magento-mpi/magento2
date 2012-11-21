@@ -21,6 +21,9 @@
  * @method int getPosition()
  * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute setPosition(int $value)
  *
+ * @method Mage_Catalog_Model_Product_Type_Configurable_Attribute setProductAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $value)
+ * @method Mage_Eav_Model_Entity_Attribute_Abstract getProductAttribute()
+ *
  * @category    Mage
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>

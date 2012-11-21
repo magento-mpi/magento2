@@ -169,6 +169,11 @@ jQuery(function() {
     })(jQuery);
 });
 
+jQuery(function($) {
+    var data = <?php echo $this->getTypeSwitcherData();?>;
+    new TypeSwitcher(data).bindAll();
+});
+
 Validation.addAllThese([
     ['validate-super-product-attributes', '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please select one or more attributes.') ?>', function(v) {
         return (v != "no-attributes");
