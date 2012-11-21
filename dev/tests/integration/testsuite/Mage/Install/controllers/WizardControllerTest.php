@@ -32,7 +32,9 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
     public function setUp()
     {
         parent::setUp();
-        $this->_runOptions['is_installed'] = false;
+        // emulate non-installed application
+        $this->_runOptions[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA]
+            = '<config><global><install><date>invalid</date></install></global></config>';
     }
 
     public function tearDown()

@@ -18,6 +18,23 @@ class Mage_Core_Model_App_Options
     const OPTION_LOCAL_CONFIG_EXTRA_FILE = 'MAGE_LOCAL_CONFIG';
     /**@-*/
 
+    /**@+
+     * Supported application run types
+     */
+    const APP_RUN_TYPE_STORE    = 'store';
+    const APP_RUN_TYPE_GROUP    = 'group';
+    const APP_RUN_TYPE_WEBSITE  = 'website';
+    /**@-*/
+
+    /**
+     * Shorthand for the list of supported application run types
+     *
+     * @var array
+     */
+    protected $_supportedRunTypes = array(
+        self::APP_RUN_TYPE_STORE, self::APP_RUN_TYPE_GROUP, self::APP_RUN_TYPE_WEBSITE
+    );
+
     /**
      * Store or website code
      *
@@ -53,10 +70,12 @@ class Mage_Core_Model_App_Options
 
         if (isset($options[self::OPTION_APP_RUN_TYPE])) {
             $this->_runType = $options[self::OPTION_APP_RUN_TYPE];
-            if (!in_array($this->_runType, array('store', 'website'))) {
-                throw new InvalidArgumentException(
-                    "Application run type can be either 'store' or 'website', '{$this->_runType}' is given."
-                );
+            if (!in_array($this->_runType, $this->_supportedRunTypes)) {
+                throw new InvalidArgumentException(sprintf(
+                    'Application run type "%s" is not recognized, supported values: "%s".',
+                    $this->_runType,
+                    implode('", "', $this->_supportedRunTypes)
+                ));
             }
         }
 

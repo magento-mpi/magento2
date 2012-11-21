@@ -1,5 +1,7 @@
 <?php
 /**
+ * SaaS application entry point, requires SaaS access point to delegate execution to it
+ *
  * {license_notice}
  *
  * @category   Mage

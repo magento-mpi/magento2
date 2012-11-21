@@ -1,5 +1,7 @@
 <?php
 /**
+ * Application entry point
+ *
  * {license_notice}
  *
  * @category   Mage

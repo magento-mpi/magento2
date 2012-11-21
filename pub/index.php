@@ -1,5 +1,7 @@
 <?php
 /**
+ * Public alias for the application entry point
+ *
  * {license_notice}
  *
  * @category   Mage

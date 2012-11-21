@@ -149,6 +149,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadModulesCache()
     {
         $model = $this->_createModel();
+        $model->setOptions(array(
+            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                => sprintf('<config><global><install><date>%s</date></install></global></config>', date('r'))
+        ));
+        $model->loadBase();
         $this->assertTrue($model->loadModulesCache());
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
     }
@@ -167,13 +172,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testLoadModulesLocalConfigPrevails()
     {
-        $options = self::$_options;
-        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '
-            <config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>
-        ';
-
         $model = $this->_createModel();
-        $model->setOptions($options);
+        $model->setOptions(array(
+            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
+        ));
         $model->loadBase();
         $model->loadModules();
 

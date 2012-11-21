@@ -1,6 +1,7 @@
 <?php
-
 /**
+ * Public media files entry point
+ *
  * {license_notice}
  *
  * @category   Mage
@@ -8,6 +9,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+
 require_once __DIR__ . '/../app/bootstrap.php';
 
 $varDirectory = BP . DS . Mage_Core_Model_Config_Options::VAR_DIRECTORY;
@@ -50,6 +52,7 @@ if (empty($mediaDirectory)) {
     $appRunOptions = array_merge($appOptions->getRunOptions(), array('cache' => array('disallow_save' => true)));
     Mage::init($appOptions->getRunCode(), $appOptions->getRunType(), $appRunOptions, array('Mage_Core'));
 }
+Mage::app()->requireInstalledInstance();
 
 if (!$mediaDirectory) {
     $config = Mage_Core_Model_File_Storage::getScriptConfig();

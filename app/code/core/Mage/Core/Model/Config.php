@@ -28,6 +28,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     const LOCAL_CONFIG_FILE = 'local.xml';
 
     /**
+     * Application installation date
+     */
+    const XML_PATH_INSTALL_DATE = 'global/install/date';
+
+    /**
      * Flag which allow use cache logic
      *
      * @var bool
@@ -145,11 +150,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_prototype;
 
     /**
-     * Local configuration instance
+     * Whether local configuration is loaded or not
      *
-     * @var Varien_Simplexml_Config
+     * @var bool
      */
-    protected $_localConfig;
+    protected $_isLocalConfigLoaded = false;
 
     /**
      * Active modules array per namespace
@@ -199,6 +204,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
+
+    /**
+     * Application installation timestamp
+     *
+     * @var int|null
+     */
+    protected $_installDate;
 
     /**
      * Class construct
@@ -314,46 +326,62 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _loadLocalConfig()
     {
-        if ($this->_localConfig === null) {
-            $this->_localConfig = false; // do not attempt to load local configuration anymore
-            $etcDir = $this->getOptions()->getEtcDir();
-            $localConfigParts = array();
+        $etcDir = $this->getOptions()->getEtcDir();
+        $localConfigParts = array();
 
-            $localConfigFile = $etcDir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
-            if (file_exists($localConfigFile)) {
-                // 1. app/etc/local.xml
+        $localConfigFile = $etcDir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
+        if (file_exists($localConfigFile)) {
+            // 1. app/etc/local.xml
+            $localConfig = clone $this->_prototype;
+            $localConfig->loadFile($localConfigFile);
+            $localConfigParts[] = $localConfig;
+
+            // 2. app/etc/<dir>/<file>.xml
+            $localConfigExtraFile = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
+            if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfigExtraFile)) {
+                $localConfigExtraFile = $etcDir . DIRECTORY_SEPARATOR . $localConfigExtraFile;
                 $localConfig = clone $this->_prototype;
-                $localConfig->loadFile($localConfigFile);
-                $localConfigParts[] = $localConfig;
-
-                // 2. app/etc/<dir>/<file>.xml
-                $localConfigExtraFile = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
-                if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfigExtraFile)) {
-                    $localConfigExtraFile = $etcDir . DIRECTORY_SEPARATOR . $localConfigExtraFile;
-                    $localConfig = clone $this->_prototype;
-                    $localConfig->loadFile($localConfigExtraFile);
-                    $localConfigParts[] = $localConfig;
-                }
-            }
-
-            // 3. extra local configuration string
-            $localConfigExtraData = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_DATA);
-            if ($localConfigExtraData) {
-                $localConfig = clone $this->_prototype;
-                $localConfig->loadString($localConfigExtraData);
+                $localConfig->loadFile($localConfigExtraFile);
                 $localConfigParts[] = $localConfig;
             }
+        }
 
-            if ($localConfigParts) {
-                $this->_localConfig = clone $this->_prototype;
-                foreach ($localConfigParts as $oneConfigPart) {
-                    $this->_localConfig->extend($oneConfigPart);
-                }
+        // 3. extra local configuration string
+        $localConfigExtraData = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_DATA);
+        if ($localConfigExtraData) {
+            $localConfig = clone $this->_prototype;
+            $localConfig->loadString($localConfigExtraData);
+            $localConfigParts[] = $localConfig;
+        }
+
+        if ($localConfigParts) {
+            foreach ($localConfigParts as $oneConfigPart) {
+                $this->extend($oneConfigPart);
             }
+            $this->_isLocalConfigLoaded = true;
+            $this->_loadInstallDate();
         }
-        if ($this->_localConfig) {
-            $this->extend($this->_localConfig);
+    }
+
+    /**
+     * Load application installation date
+     */
+    protected function _loadInstallDate()
+    {
+        $installDateNode = $this->getNode(self::XML_PATH_INSTALL_DATE);
+        if ($installDateNode) {
+            $this->_installDate = strtotime((string)$installDateNode);
         }
+    }
+
+    /**
+     * Retrieve application installation date as a timestamp or NULL, if it has not been installed yet
+     *
+     * @return int|null
+     */
+    public function getInstallDate()
+    {
+        return $this->_installDate;
     }
 
     /**
@@ -383,7 +411,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadModulesCache()
     {
-        if (Mage::isInstalled(array('etc_dir' => $this->getOptions()->getEtcDir()))) {
+        if ($this->getInstallDate()) {
             if ($this->_canUseCacheForInit()) {
                 Magento_Profiler::start('init_modules_config_cache');
                 $loaded = $this->loadCache();
@@ -429,7 +457,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function isLocalConfigLoaded()
     {
-        return (bool)$this->_localConfig;
+        return $this->_isLocalConfigLoaded;
     }
 
     /**
@@ -440,7 +468,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function loadDb()
     {
         Magento_Profiler::start('config');
-        if ($this->isLocalConfigLoaded() && Mage::isInstalled()) {
+        if ($this->getInstallDate()) {
             Magento_Profiler::start('load_db');
             $dbConf = $this->getResourceModel();
             $dbConf->loadToXml($this);
@@ -460,7 +488,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_allowCacheForInit = false;
         $this->_useCache = false;
-        $this->_localConfig = null;
         return $this->init($options);
     }
 
@@ -1652,7 +1679,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function __destruct()
     {
         $this->_cacheLoadedSections = array();
-        $this->_localConfig = null;
         $this->_prototype = null;
         parent::__destruct();
     }

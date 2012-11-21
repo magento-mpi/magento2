@@ -31,7 +31,7 @@ class Mage_Core_Model_App_OptionsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Application run type can be either 'store' or 'website', 'invalid' is given.
+     * @expectedExceptionMessage run type "invalid" is not recognized, supported values: "store", "group", "website"
      */
     public function testGetRunTypeException()
     {

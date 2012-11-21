@@ -1,5 +1,7 @@
 <?php
 /**
+ * SaaS access point
+ *
  * {license_notice}
  *
  * @category   dev

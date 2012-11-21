@@ -373,6 +373,28 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Whether the application has been installed or not
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return (bool)$this->_config->getInstallDate();
+    }
+
+    /**
+     * Throw an exception, if the application has not been installed yet
+     *
+     * @throws Magento_Exception
+     */
+    public function requireInstalledInstance()
+    {
+        if (!$this->isInstalled()) {
+            throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
+        }
+    }
+
+    /**
      * Initialize PHP environment
      *
      * @return Mage_Core_Model_App
@@ -489,7 +511,7 @@ class Mage_Core_Model_App
      *
      * @param string $scopeCode code of default scope (website/store_group/store code)
      * @param string $scopeType type of default scope (website/group/store)
-     * @return unknown_type
+     * @return Mage_Core_Model_App
      */
     protected function _initCurrentStore($scopeCode, $scopeType)
     {
@@ -502,13 +524,13 @@ class Mage_Core_Model_App
             $scopeType = 'website';
         }
         switch ($scopeType) {
-            case 'store':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_STORE:
                 $this->_currentStore = $scopeCode;
                 break;
-            case 'group':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_GROUP:
                 $this->_currentStore = $this->_getStoreByGroup($scopeCode);
                 break;
-            case 'website':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_WEBSITE:
                 $this->_currentStore = $this->_getStoreByWebsite($scopeCode);
                 break;
             default:

@@ -42,18 +42,20 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
     public function clearCache()
     {
         foreach ($this->_classesToDestruct as $className) {
-            $object = $this->get($className);
-            if ($object) {
+            if ($this->_di->instanceManager()->hasSharedInstance($className)) {
+                /** @var $object object */
+                $object = $this->_di->instanceManager()->getSharedInstance($className);
                 // force to cleanup circular references
                 $object->__destruct();
             }
         }
-
-        $resource = $this->get('Mage_Core_Model_Resource');
-        $this->_di->setInstanceManager(new Magento_Test_Di_InstanceManager());
-        $this->addSharedInstance($this, 'Magento_ObjectManager');
-        $this->addSharedInstance($resource, 'Mage_Core_Model_Resource');
-
+        $instanceManagerNew = new Magento_Test_Di_InstanceManager();
+        $instanceManagerNew->addSharedInstance($this, 'Magento_ObjectManager');
+        if ($this->_di->instanceManager()->hasSharedInstance('Mage_Core_Model_Resource')) {
+            $resource = $this->_di->instanceManager()->getSharedInstance('Mage_Core_Model_Resource');
+            $instanceManagerNew->addSharedInstance($resource, 'Mage_Core_Model_Resource');
+        }
+        $this->_di->setInstanceManager($instanceManagerNew);
         return $this;
     }
 
