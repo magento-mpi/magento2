@@ -629,9 +629,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
         Mage::getDesign()->setDesignTheme('test/default');
 
-        $theme = Mage::getDesign()->getDesignTheme();
-
-
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
         $this->_block->setModuleName('Namespace_Module');

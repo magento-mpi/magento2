@@ -64,20 +64,20 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
      */
     public function testAddAreaFilter()
     {
-        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollectionWithAreaFilter->addAreaFilter('test_area');
-        $this->assertEquals(1, count($themeCollectionWithAreaFilter));
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter('test_area');
+        $this->assertEquals(1, count($themeCollection));
 
-        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollectionWithAreaFilter->addAreaFilter('test_area2');
-        $this->assertEquals(1, count($themeCollectionWithAreaFilter));
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter('test_area2');
+        $this->assertEquals(1, count($themeCollection));
 
-        /** @var $themeCollectionWithAreaFilter Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollectionWithAreaFilter = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollectionWithAreaFilter->addAreaFilter('test_area3');
-        $this->assertEquals(0, count($themeCollectionWithAreaFilter));
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter('test_area3');
+        $this->assertEquals(0, count($themeCollection));
     }
 
     public function getThemeByFullPathDataProvider()
