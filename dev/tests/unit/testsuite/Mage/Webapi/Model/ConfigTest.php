@@ -8,10 +8,10 @@
 /**#@+
  * API resources must be available without auto loader as the file name cannot be calculated from class name.
  */
-require_once __DIR__ . '/../../_files/autodiscovery/resource_class_fixture.php';
-require_once __DIR__ . '/../../_files/autodiscovery/subresource_class_fixture.php';
-require_once __DIR__ . '/../../_files/data_types/CustomerData.php';
-require_once __DIR__ . '/../../_files/data_types/Customer/AddressData.php';
+require_once __DIR__ . '/../_files/autodiscovery/resource_class_fixture.php';
+require_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
+require_once __DIR__ . '/../_files/data_types/CustomerData.php';
+require_once __DIR__ . '/../_files/data_types/Customer/AddressData.php';
 require_once __DIR__ . '/_files/resource_with_invalid_interface.php';
 require_once __DIR__ . '/_files/resource_with_invalid_name.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_var_tags/data_type.php';
@@ -40,7 +40,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     protected function _getModel()
     {
         if (!self::$_apiConfig) {
-            $pathToResourceFixtures = __DIR__ . '/../../_files/autodiscovery';
+            $pathToResourceFixtures = __DIR__ . '/../_files/autodiscovery';
             self::$_apiConfig = $this->_createResourceConfig($pathToResourceFixtures);
         }
         return self::$_apiConfig;
@@ -948,7 +948,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         /** Prepare arguments for SUT constructor. */
         $objectManager = new Magento_ObjectManager_Zend();
         $appConfig = new Mage_Core_Model_Config($objectManager);
-        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "/../../../../../../../..")));
+        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "/../../../../../../..")));
         /** Prepare mocks for SUT constructor. */
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
