@@ -43,6 +43,7 @@
     <frontend>
         <secure_url>
             <enterprise_pbridge_pbridge>/enterprise_pbridge/pbridge/</enterprise_pbridge_pbridge>
+            <enterprise_pbridge_payment_profile>/enterprise_pbridge/payment_profile/</enterprise_pbridge_payment_profile>
         </secure_url>
         <routers>
             <enterprise_pbridge>

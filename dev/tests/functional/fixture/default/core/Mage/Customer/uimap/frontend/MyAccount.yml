@@ -181,3 +181,14 @@ product_review_details:
                             review_rate_value: //tr[th='%rateName%']//div[@class='rating']
                             average_customer_rating: //div[@class='ratings']//div[@class='rating']
         messages: *myAccountMessages
+
+my_credit_cards:
+    mca: enterprise_pbridge/payment_profile/
+    title: Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_elements:
+                        pageelements:
+                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
