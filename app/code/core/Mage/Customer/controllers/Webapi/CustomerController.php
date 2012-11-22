@@ -41,6 +41,7 @@ class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_Act
     {
         try {
             $customerService = $this->_prepareService();
+            //todo: This method should return only customer id. And abstract class shouldn't call ->getId() to it.
             return $customerService->create(get_object_vars($data), array());
         } catch (Magento_Validator_Exception $e) {
             $this->_processException($e);
