@@ -260,8 +260,14 @@ jQuery(function($) {
         if ($(this).attr('checked')) {
             $fieldset.show();
             $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('disabled');
+            $.each(usedAttributes, function() {
+                $('#attribute-' + this.attribute_code + '-container select').attr('disabled', 'disabled');
+            });
         } else {
             $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', 'disabled');
+            $.each(usedAttributes, function() {
+                $('#attribute-' + this.attribute_code + '-container select').removeAttr('disabled', 'disabled');
+            });
             $fieldset.hide();
         }
     }).trigger('change');
