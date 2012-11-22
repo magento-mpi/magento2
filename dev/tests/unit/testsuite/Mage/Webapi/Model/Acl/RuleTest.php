@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Mage_Webapi_Model_Acl_Rule_Factory
+ * Test class for Mage_Webapi_Model_Acl_Rule
  *
  * @copyright {}
  */

@@ -55,7 +55,8 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         $this->_adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
-            ->setMethods(array('select', 'fetchCol', 'fetchAll', 'beginTransaction', 'commit', 'rollback', 'delete'))
+            ->setMethods(array('select', 'fetchCol', 'fetchAll',
+                'beginTransaction', 'commit', 'rollback', 'insertArray', 'delete'))
             ->getMock();
 
         $this->_adapter->expects($this->any())
@@ -151,9 +152,10 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveResources()
     {
+        // init rule resource
         $ruleResource = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_Rule')
             ->disableOriginalConstructor()
-            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection'))
+            ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources'))
             ->getMock();
 
         $ruleResource->expects($this->any())
@@ -167,20 +169,53 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
 
         /** @var Mage_Webapi_Model_Acl_Rule $rule */
+        /*
         $rule = $this->_helper->getModel('Mage_Webapi_Model_Acl_Rule', array(
             'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             'resource' => $ruleResource
         ));
+        */
 
-        $rule->setRoleId(1);
+        // init rule
+        $rule = $this->getMockBuilder('Mage_Webapi_Model_Acl_Rule')
+            ->setConstructorArgs(array(
+                'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+                'cacheManager' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+                'resource' => $ruleResource
+            ))
+            ->setMethods(array('getResources'))
+            ->getMock();
 
-        $this->_adapter->expects($this->once())
+        $rule->expects($this->once())
+            ->method('getResources')
+            ->withAnyParameters()
+            ->will($this->returnValue(array('ResourceName')));
+
+        // init adapter
+        $this->_adapter->expects($this->any())
             ->method('delete')
             ->withAnyParameters()
             ->will($this->returnValue(array()));
 
+        $this->_adapter->expects($this->once())
+            ->method('insertArray')
+            ->with('webapi_rule', array('role_id', 'resource_id'),
+                array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
+            ->will($this->returnValue(1));
+
         $model = $this->_createModel();
-        $result = $model->saveResources($rule);
+        $rule->setRoleId(1);
+        $model->saveResources($rule);
+
+
+        // init adapter
+        $this->_adapter->expects($this->any())
+            ->method('delete')
+            ->withAnyParameters()
+            ->will($this->throwException(new Zend_Db_Adapter_Exception('DB Exception')));
+
+        $this->setExpectedException('Zend_Db_Adapter_Exception', 'DB Exception');
+        $model->saveResources($rule);
     }
 }
