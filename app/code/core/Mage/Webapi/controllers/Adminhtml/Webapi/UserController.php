@@ -7,39 +7,6 @@
 class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
-     * @var Mage_Webapi_Helper_Data
-     */
-    protected $_webapiHelperData;
-
-    /** @var Mage_Core_Model_Logger */
-    protected $_logger;
-
-    /**
-     * Constructor
-     *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param Zend_Controller_Response_Abstract $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Webapi_Helper_Data $helper
-     * @param array $invokeArgs
-     */
-    public function __construct(Zend_Controller_Request_Abstract $request,
-        Zend_Controller_Response_Abstract $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Logger $logger,
-        Mage_Webapi_Helper_Data $helper,
-        array $invokeArgs = array()
-    ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $invokeArgs);
-
-        $this->_logger = $logger;
-        $this->_webapiHelperData = $helper;
-    }
-
-    /**
      * Initialize breadcrumbs.
      *
      * @return Mage_Webapi_Adminhtml_Webapi_UserController
@@ -100,7 +67,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_webapiHelperData->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Mage_Webapi_Helper_Data')->escapeHtml($user->getApiKey())
             : $this->__('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
@@ -155,7 +122,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_logger->logException($e);
+                $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());

@@ -207,7 +207,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $this->_adapter->expects($this->once())
             ->method('insertArray')
             ->with('webapi_rule', array('role_id', 'resource_id'),
-            array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
+                array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
             ->will($this->returnValue(1));
 
         $rule->setRoleId(1);
