@@ -1,4 +1,14 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Catalog_Model_Resource_Setup */
 $applyTo = array_merge(
     explode(',', $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight', 'apply_to')),
     array('virtual', 'downloadable', 'configurable')

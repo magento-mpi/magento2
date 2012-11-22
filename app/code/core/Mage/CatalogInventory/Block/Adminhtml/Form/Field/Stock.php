@@ -86,10 +86,10 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     public function setValue($value)
     {
-        if (isset($value['qty'])) {
+        if (is_array($value) && isset($value['qty'])) {
             $this->_qty->setValue($value['qty']);
         }
-        if (isset($value['is_in_stock'])) {
+        if (is_array($value) && isset($value['is_in_stock'])) {
             parent::setValue($value['is_in_stock']);
         }
         return $this;
@@ -113,7 +113,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     protected function _isProductComposite()
     {
-        if (null === $this->_isProductComposite) {
+        if ($this->_isProductComposite === null) {
             $this->_isProductComposite = $this->_qty->getForm()->getDataObject()->isComposite();
         }
         return $this->_isProductComposite;
@@ -126,7 +126,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
      */
     protected function _disableFields()
     {
-        if (!$this->_isProductComposite() && null === $this->_qty->getValue()) {
+        if (!$this->_isProductComposite() && $this->_qty->getValue() === null) {
             $this->setDisabled('disabled');
         }
         if ($this->_isProductComposite()) {

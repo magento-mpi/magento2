@@ -120,19 +120,18 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Checkin attribute availability for create superproduct
+     * Check attribute availability for super product creation
      *
      * @param   Mage_Eav_Model_Entity_Attribute $attribute
      * @return  bool
      */
     public function canUseAttribute(Mage_Eav_Model_Entity_Attribute $attribute)
     {
-        $allow = $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
+        return $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
             && $attribute->getIsVisible()
+            && $attribute->getIsConfigurable()
             && $attribute->usesSource()
             && $attribute->getIsUserDefined();
-
-        return $allow;
     }
 
     /**

@@ -28,6 +28,7 @@ class Mage_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testTransitionProductTypeSimple()
     {
+        $this->markTestIncomplete('MAGETWO-4796');
         $product = new Varien_Object(array('type_id' => 'simple'));
         $this->_observer = new Varien_Event_Observer(array('product' => $product));
         $this->_model->transitionProductType($this->_observer);
@@ -36,6 +37,7 @@ class Mage_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testTransitionProductTypeVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4796');
         $product = new Varien_Object(array('type_id' => 'virtual', 'is_virtual' => ''));
         $this->_observer = new Varien_Event_Observer(array('product' => $product));
         $this->_model->transitionProductType($this->_observer);
@@ -44,6 +46,7 @@ class Mage_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testTransitionProductTypeSimpleToVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4796');
         $product = new Varien_Object(array('type_id' => 'simple', 'is_virtual' => ''));
         $this->_observer = new Varien_Event_Observer(array('product' => $product));
         $this->_model->transitionProductType($this->_observer);
@@ -52,6 +55,7 @@ class Mage_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testTransitionProductTypeVirtualToSimple()
     {
+        $this->markTestIncomplete('MAGETWO-4796');
         $product = new Varien_Object(array('type_id' => 'virtual'));
         $this->_observer = new Varien_Event_Observer(array('product' => $product));
         $this->_model->transitionProductType($this->_observer);
