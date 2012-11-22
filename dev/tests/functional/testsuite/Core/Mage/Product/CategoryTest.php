@@ -197,7 +197,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->fillField('categories', $categories['newRoot']['category']);
-        $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
         $this->waitForElementVisible($this->_getControlXpath('fieldset', 'category_search'));
         //Verifying
         $this->assertTrue($this->controlIsPresent('link', 'selected_category'),
@@ -333,7 +332,7 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      *  <p>5. Enter nonexistent category name into the category control field.</p>
      *
      * <p>Expected results:</p>
-     *  <p>1. List with proposed categories is empty.</p>
+     * <p>1. List with proposed categories is empty.</p>
      *
      * @test
      * @depends selectCategory
@@ -348,7 +347,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->fillField('categories', $selectedCategory);
-        $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
         $this->waitForAjax();
         //Verifying
         $this->assertFalse($this->controlIsVisible('fieldset', 'category_search'), 'Category list is not empty.');
