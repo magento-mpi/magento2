@@ -16,7 +16,6 @@
   * Exception on "Coupons Usage Report" page after upgrade from Magento 1.x
   * Exception on "Most Viewed Products" page after upgrade from Magento 1.x
   * Quick search produces error, if searching for a product with an attribute that has "Use In Search Results Layered Navigation" option set to "Yes"
-  * Can't create simple product with "Stock Availability" option set to "In Stock"
   * Exception on "Add/Edit Customer" page when Magento profiler with html output is enabled
   * Can't duplicate downloadable product with sample file attached
   * Product Type dropdown on "Add Product" page doesn't work in IE9
