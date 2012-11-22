@@ -60,9 +60,9 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     }
 
     // testGetParentIdsByChild is after testGetConfigurableAttributesAsArray, because depends on it.
-
     public function testGetEditableAttributes()
     {
+        $this->markTestIncomplete('MAGETWO-4604');
         $attributes = $this->_model->getEditableAttributes($this->_product);
 
         // applicable to all types

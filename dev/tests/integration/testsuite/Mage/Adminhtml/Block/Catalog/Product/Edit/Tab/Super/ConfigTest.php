@@ -16,6 +16,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends PHP
      */
     public function testGetGridJsObject()
     {
+        $this->markTestIncomplete('MAGETWO-4604');
         Mage::register('current_product', new Varien_Object);
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
@@ -29,6 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends PHP
      */
     public function testGetSelectedAttributes()
     {
+        $this->markTestIncomplete('MAGETWO-4604');
         $productType = $this->getMock('stdClass', array('getUsedProductAttributes'));
         $product = $this->getMock('Varien_Object', array('getTypeInstance'));
 

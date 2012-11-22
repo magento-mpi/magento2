@@ -17,6 +17,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extends P
      */
     public function testGetContinueUrl($productId, $expectedUrl)
     {
+        $this->markTestIncomplete('MAGETWO-4604');
         $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
